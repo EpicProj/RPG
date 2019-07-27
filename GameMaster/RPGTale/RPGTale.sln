@@ -1,14 +1,24 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 11.00
 # Visual Studio 2010
-
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RPGTale", "Assembly-CSharp.csproj", "{ACEE7F92-A8F3-9E44-80D1-DB7827F73BEB}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RPGTale", "Assembly-CSharp-Editor.csproj", "{4E6C234B-6FA3-1059-72B8-5573D40AE05F}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-
+		{ACEE7F92-A8F3-9E44-80D1-DB7827F73BEB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{ACEE7F92-A8F3-9E44-80D1-DB7827F73BEB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{ACEE7F92-A8F3-9E44-80D1-DB7827F73BEB}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{ACEE7F92-A8F3-9E44-80D1-DB7827F73BEB}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4E6C234B-6FA3-1059-72B8-5573D40AE05F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4E6C234B-6FA3-1059-72B8-5573D40AE05F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4E6C234B-6FA3-1059-72B8-5573D40AE05F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4E6C234B-6FA3-1059-72B8-5573D40AE05F}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
