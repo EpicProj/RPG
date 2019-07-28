@@ -16,6 +16,8 @@ namespace Sim_FrameWork
         public bool EnableTimeout;
 
         private bool FlaggedToRemove;
+        //区块生成时长
+        public float LifeTime;
 
         //区块大小
         public int SideLength;
@@ -38,10 +40,67 @@ namespace Sim_FrameWork
             NearbyChunks = new Chunk[6];
 
             MeshCreator = GetComponent<ChunkMeshCreator>();
-
+            Fresh = true;
             ChunkManager.RegisterChunk(this);
+
+            BlockData = new ushort[SideLength * SideLength * SideLength];
+            transform.position = ChunkIndex.ToVector3() * SideLength;
+            //Scale
+            transform.position = new Vector3(transform.position.x * transform.localScale.x, transform.position.y * transform.localScale.y, transform.position.z * transform.localScale.z);
+
+            //GEN Block
+            GenerateBlockData();
+
+
+        }
+        public void GenerateBlockData()
+        {
+            GetComponent<BaseTerrainGenerator>().Init();
         }
 
+        public void Update()
+        {
+            ChunkManager.SavesThisFrame = 0;
+        }
+        public void LateUpdate()
+        {
+            if (MapGenerator.EnableChunkTimeout && EnableTimeout)
+            {
+                LifeTime += Time.deltaTime;
+                if (LifeTime > MapGenerator.ChunkTimeout)
+                {
+                    FlaggedToRemove = true;
+                }
+            }
+
+            if(FlaggedToUpdate && BlockDown && !DisableMesh && MapGenerator.GenerateMeshs)
+            {
+                FlaggedToUpdate = false;
+                RebuildMesh();
+            }
+            if (FlaggedToRemove)
+            {
+                if (MapGenerator.SaveBlockData)
+                {
+                    if (ChunkDataFile.SavingChunks == false)
+                    {
+                        //如果区块最近未被存储，销毁
+                        if (ChunkManager.SavesThisFrame < MapGenerator.MaxChunkSaves)
+                        {
+                            ChunkManager.SavesThisFrame++;
+                            SaveData();
+                            Destroy(this.gameObject);
+                        }
+                    }
+                }
+                else
+                {
+                    //存储禁用则直接销毁
+                    Destroy(this.gameObject);
+                }
+            }
+        }
+        
 
         public void FlagToRemove()
         {
@@ -55,6 +114,7 @@ namespace Sim_FrameWork
         public void RebuildMesh()
         {
             MeshCreator.RebuildMesh();
+            ConnectNearbyChunks();
         }
 
         public void SetBlock(int x,int y,int z,ushort data,bool updateMesh)
@@ -245,7 +305,7 @@ namespace Sim_FrameWork
         {
             return BlockData[(index.z * SquaredSideLength) + (index.y * SideLength) + index.x];
         }
-
+        #region NearbyChunk
         //获取周边区块信息
         public void GetNearbyChunks()
         {
@@ -266,15 +326,73 @@ namespace Sim_FrameWork
                 NearbyChunks[5] = ChunkManager.GetChunkComponent(x, y, z - 1);
 
         }
+        public Index GetNearbyChunkIndex(Index index,Direction direction)
+        {
+            return GetNearbyChunkIndex(index.x, index.y, index.z, direction);
+        }
+
+        public Index GetNearbyChunkIndex(int x, int y, int z, Direction direction)
+        {
+            if (direction == Direction.down)
+                return new Index(x, y - 1, z);
+            else if (direction == Direction.up)
+                return new Index(x, y + 1, z);
+            else if (direction == Direction.left)
+                return new Index(x - 1, y, z);
+            else if (direction == Direction.right)
+                return new Index(x + 1, y, z);
+            else if (direction == Direction.back)
+                return new Index(x, y, z - 1);
+            else if (direction == Direction.forward)
+                return new Index(x, y, z + 1);
+            else
+            {
+                Debug.LogError("Get Nearby Chunk Error");
+                return new Index(x, y, z);
+            }
+        }
+
+        public void ConnectNearbyChunks()
+        {
+            int loop = 0;
+            int i = loop;
+            while (loop < 6)
+            {
+                if(loop % 2 == 0)
+                {
+                    i = loop + 1;
+                }
+                else
+                {
+                    i = loop - 1;
+                }
+
+                if(NearbyChunks[loop]!=null && NearbyChunks[loop].gameObject.GetComponent<MeshFilter>().sharedMesh != null)
+                {
+                    if (NearbyChunks[loop].NearbyChunks[i] == null)
+                    {
+                        NearbyChunks[loop].AddToQueueWhenReady();
+                        NearbyChunks[loop].NearbyChunks[i] = this;
+                    }
+                }
+                loop++;
+            }
+        }
 
 
-
+        #endregion
         #region Data
         public int GetDataLength()
         {
             return BlockData.Length;
         }
 
+        private void SaveData()
+        {
+            if (MapGenerator.SaveBlockData == false)
+                return;
+            GetComponent<ChunkDataFile>().SaveData();
+        }
         #endregion
     }
 }

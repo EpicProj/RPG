@@ -53,28 +53,55 @@ namespace Sim_FrameWork
         public GameObject[] m_Blocks;
 
         //生成设置
-        public static int HeightRange, SpawnDistance, SideLegth;
-        //区块大小
-        public static int ChunkSideLegth;
+        public static int HeightRange, SpawnDistance, ChunkSideLegth, DespewnDistance;
+        public int m_HeightRange, m_SpawnDistance, m_ChunkSideLegth, m_DespewnDistance;
 
         //Setting
         public static bool SaveBlockData;
 
-        public static int MaxChunkSaves;
-        public static int TargetFPS;
+        //performace
+        public static int MaxChunkSaves, TargetFPS;
+        public int m_MaxChunkSaves, m_TargetFPS;
+
+        //Textrue
+        public static float TextureUnit, TexturePadding;
+        public float m_TextureUnit, m_TexturePadding;
+
+        //General Setting
+        public static bool GenerateColliders,GenerateMeshs,ShowBorderFaces;
+        public bool m_GenerateColliders, m_GenerateMeshs, m_ShowBorderFaces;
+
+        public static bool EnableChunkTimeout;
+        public static float ChunkTimeout;
+        public float m_ChunkTimeout;
 
         public static ChunkManager ChunkManagerInstance;
         public static Vector3 ChunkScale;
+        public static int SquaredSideLength;
 
 
         public static bool Inited;
         public void Awake()
         {
             ChunkManagerInstance = GetComponent<ChunkManager>();
-            Blocks = m_Blocks;
 
-            WorldName = m_WorldName;
+            InitData();
 
+            ChunkDataFile.LoadedRegions = new Dictionary<string, string[]>();
+            ChunkDataFile.TempChunkData = new Dictionary<string, string>();
+
+            //Set layer
+            if(LayerMask.LayerToName(26)!=""&&LayerMask.LayerToName(26)!= "UniblocksNoCollide")
+            {
+                Debug.LogWarning("Layer 26 is reservd for uniblocks");
+            }
+            for(int i = 0; i < 31; i++)
+            {
+                Physics.IgnoreLayerCollision(i, 26);
+            }
+            //Check TODO
+
+            //Check Materia;
             GameObject chunkPrefab = GetComponent<ChunkManager>().ChunkObject;
             int materialCount = chunkPrefab.GetComponent<Renderer>().sharedMaterials.Length - 1;
 
@@ -83,7 +110,16 @@ namespace Sim_FrameWork
                 if (Blocks[i] != null)
                 {
                     BaseBlock block = Blocks[i].GetComponent<BaseBlock>();
-                  //TODO
+                    if (block.m_submeshIndex < 0)
+                    {
+                        Debug.LogError("Block " + i + "material index <0");
+                        Debug.Break();
+                    }
+                    if (block.m_submeshIndex > materialCount)
+                    {
+                        Debug.LogError("Block " + i +"material index >count");
+                        Debug.Break();
+                    }
                 }
             }
 
@@ -92,6 +128,32 @@ namespace Sim_FrameWork
 
         }
 
+        private void InitData()
+        {
+            WorldName = m_WorldName;
+            GenWorldPath();
+
+            Blocks = m_Blocks;
+            BlocksPath = m_BlockPath;
+
+            TargetFPS = m_TargetFPS;
+            MaxChunkSaves = m_MaxChunkSaves;
+
+            SpawnDistance = m_SpawnDistance;
+            HeightRange = m_HeightRange;
+            DespewnDistance = m_DespewnDistance;
+            ChunkSideLegth = m_ChunkSideLegth;
+
+            TextureUnit = m_TextureUnit;
+            TexturePadding = m_TexturePadding;
+
+            SquaredSideLength = m_ChunkSideLegth * m_ChunkSideLegth;
+
+            GenerateColliders = m_GenerateColliders;
+            GenerateMeshs = m_GenerateMeshs;
+            ShowBorderFaces = m_ShowBorderFaces;
+            ChunkTimeout = m_ChunkTimeout;
+        }
 
         public static GameObject GetBlockGameObj(ushort BlockID)
         {
@@ -157,9 +219,6 @@ namespace Sim_FrameWork
 
         #endregion
 
-
-
-
         #region World Data
         private static void GenWorldPath()
         {
@@ -201,6 +260,27 @@ namespace Sim_FrameWork
         }
         #endregion
 
+        //Mesh
+        public static Vector2 GetTextureOffset(ushort block,Facing facing)
+        {
+            BaseBlock blockType = GetBlockType(block);
+            Vector2[] TextureArray = blockType.m_Texture;
+            if (TextureArray.Length == 0)
+            {
+                //default texture
+                return new Vector2(0, 0);
+            }else if (blockType.m_CuntonSides == false)
+            {
+                return TextureArray[0];
+            }else if ((int)facing > TextureArray.Length - 1)
+            {
+                return TextureArray[TextureArray.Length - 1];
+            }
+            else
+            {
+                return TextureArray[(int)facing];
+            }
+        }
 
     }
 }

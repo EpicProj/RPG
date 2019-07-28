@@ -2,15 +2,15 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class BaseBlockEvents : MonoBehaviour {
+namespace Sim_FrameWork {
+    public class BaseBlockEvents : BlockEvents {
 
-	// Use this for initialization
-	void Start () {
-		
-	}
-	
-	// Update is called once per frame
-	void Update () {
-		
-	}
+        public override void OnMouseDown(int btn, BlockInfo info)
+        {
+            if (btn == 0)
+            {
+                BaseBlock.DestoryBlock(info);
+            }
+        }
+    }
 }

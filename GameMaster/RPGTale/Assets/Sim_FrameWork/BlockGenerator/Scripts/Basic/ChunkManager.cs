@@ -17,7 +17,8 @@ namespace Sim_FrameWork
         public static bool isSpawningChunks;
         public static bool StopSpawning;
         public static bool Inited;
-     
+
+        public static int SavesThisFrame;
 
         //local
         private bool isFinish;
@@ -32,6 +33,7 @@ namespace Sim_FrameWork
             Chunks = new Dictionary<string, Chunk>();
             ChunkUpdateList = new List<Chunk>();
             FrameDuration = 1f / MapGenerator.TargetFPS;
+            stopWatch = new Stopwatch();
 
             MapGenerator.ChunkScale = ChunkObject.transform.localScale;
             ChunkObject.GetComponent<Chunk>().MeshContainer.transform.localScale = ChunkObject.transform.localScale;

@@ -4,19 +4,22 @@ using UnityEngine;
 
 namespace Sim_FrameWork
 {
-    public class BlockGrass : MonoBehaviour
+    public class BlockGrass : BaseBlockEvents
     {
-
-        // Use this for initialization
-        void Start()
+        public override void OnBlockPlace(BlockInfo info)
         {
+            Index nearbyIndex = info.chunk.GetNearbyChunkIndex(info.index, Direction.up);
+            if (info.chunk.GetBlock(nearbyIndex) != 0)
+            {
+                info.chunk.SetBlock(info.index, 1, true);
+            }
 
+            Index below = new Index(info.index.x, info.index.y - 1, info.index.z);
+            if (info.GetBlockType().m_Transparency == Transparency.solid && info.chunk.GetBlock(below) == 2)
+            {
+                info.chunk.SetBlock(below, 1, true);
+            }
         }
 
-        // Update is called once per frame
-        void Update()
-        {
-
-        }
     }
 }

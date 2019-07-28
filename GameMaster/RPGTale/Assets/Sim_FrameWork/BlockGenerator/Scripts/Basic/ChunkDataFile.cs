@@ -8,7 +8,8 @@ namespace Sim_FrameWork
     public class ChunkDataFile : MonoBehaviour
     {
         public static bool SavingChunks;
-
+        public static Dictionary<string, string> TempChunkData;
+        public static Dictionary<string, string[]> LoadedRegions;
 
 
         public void SaveData()
