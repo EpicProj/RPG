@@ -7,6 +7,7 @@ namespace Sim_FrameWork
     public class Chunk : MonoBehaviour
     {
         public ushort[] BlockData;
+
         public Index ChunkIndex;
         public Chunk[] NearbyChunks;
         public bool isEmpty;
@@ -305,6 +306,36 @@ namespace Sim_FrameWork
         {
             return BlockData[(index.z * SquaredSideLength) + (index.y * SideLength) + index.x];
         }
+
+        //set Block
+        public void SetBlockSimple(int rawIndex,ushort data)
+        {
+            BlockData[rawIndex] = data;
+        }
+
+        public void SetBlockSimple(int x,int y,int z,ushort data)
+        {
+            BlockData[(z * SquaredSideLength) + (y * SideLength) + x] = data;
+        }
+        public void SetBlockSimple(Index index,ushort data)
+        {
+            BlockData[(index.z * SquaredSideLength) + (index.y * SideLength) + index.x] = data;
+        }
+
+        //Pos
+
+        public Vector3 BlockIndexToPosition(Index index)
+        {
+            Vector3 localPos = index.ToVector3();
+            return transform.TransformPoint(localPos);
+        }
+
+        public Vector3 BlockIndexToPosition(int x,int y,int z)
+        {
+            Vector3 localPos = new Vector3(x, y, z);
+            return transform.TransformPoint(localPos);
+        }
+
         #region NearbyChunk
         //获取周边区块信息
         public void GetNearbyChunks()
@@ -381,6 +412,8 @@ namespace Sim_FrameWork
 
 
         #endregion
+
+
         #region Data
         public int GetDataLength()
         {

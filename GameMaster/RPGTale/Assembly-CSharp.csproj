@@ -67,8 +67,10 @@
      <Compile Include="Assets\Sim_FrameWork\BlockGenerator\Scripts\Block\BaseBlockEvents.cs" />
      <Compile Include="Assets\Sim_FrameWork\BlockGenerator\Scripts\Block\BlockGrass.cs" />
      <Compile Include="Assets\Sim_FrameWork\BlockGenerator\Scripts\Function\BaseTerrainGenerator.cs" />
+     <Compile Include="Assets\Sim_FrameWork\BlockGenerator\Scripts\Function\BlockEditor.cs" />
      <Compile Include="Assets\Sim_FrameWork\BlockGenerator\Scripts\Function\ChunkLoader.cs" />
      <Compile Include="Assets\Sim_FrameWork\BlockGenerator\Scripts\Function\GenerateTest.cs" />
+     <Compile Include="Assets\Sim_FrameWork\BlockGenerator\Scripts\Function\MouseLook.cs" />
      <Compile Include="Assets\Sim_FrameWork\Mono\MonoSingleton.cs" />
      <Compile Include="Assets\Sim_FrameWork\Mono\Singleton.cs" />
  <Reference Include="UnityEngine.UI">

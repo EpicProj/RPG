@@ -9,31 +9,30 @@ Prefab:
     m_Modifications: []
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 0}
-  m_RootGameObject: {fileID: 1468675324725752}
+  m_RootGameObject: {fileID: 1351540055673560}
   m_IsPrefabParent: 1
---- !u!1 &1468675324725752
+--- !u!1 &1351540055673560
 GameObject:
   m_ObjectHideFlags: 0
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   serializedVersion: 5
   m_Component:
-  - component: {fileID: 4267152517625772}
-  - component: {fileID: 114427221072392262}
-  - component: {fileID: 114745089749314948}
+  - component: {fileID: 4784996007473298}
+  - component: {fileID: 114325810366433170}
   m_Layer: 0
-  m_Name: Block_Grass
+  m_Name: Block_0
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!4 &4267152517625772
+--- !u!4 &4784996007473298
 Transform:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1468675324725752}
+  m_GameObject: {fileID: 1351540055673560}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
@@ -41,21 +40,21 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &114427221072392262
+--- !u!114 &114325810366433170
 MonoBehaviour:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1468675324725752}
+  m_GameObject: {fileID: 1351540055673560}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: e151d4652e4b5f049959a14e4071b02d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  BlockName: Grass
+  BlockName: Empty
   mesh: {fileID: 0}
   m_CustomMesh: 0
-  m_CuntonSides: 0
+  m_CuntomSides: 0
   m_Texture:
   - {x: 0, y: 2}
   - {x: 0, y: 0}
@@ -63,18 +62,7 @@ MonoBehaviour:
   - {x: 0, y: 1}
   - {x: 0, y: 1}
   - {x: 0, y: 1}
-  m_Transparency: 0
-  m_ColliderType: 0
+  m_Transparency: 1
+  m_ColliderType: 2
   m_submeshIndex: 0
   m_Rotation: 0
---- !u!114 &114745089749314948
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1468675324725752}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e9e6de7b79166ee408d8887350975e58, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 

@@ -56,8 +56,6 @@ namespace Sim_FrameWork
         public static int HeightRange, SpawnDistance, ChunkSideLegth, DespewnDistance;
         public int m_HeightRange, m_SpawnDistance, m_ChunkSideLegth, m_DespewnDistance;
 
-        //Setting
-        public static bool SaveBlockData;
 
         //performace
         public static int MaxChunkSaves, TargetFPS;
@@ -68,8 +66,8 @@ namespace Sim_FrameWork
         public float m_TextureUnit, m_TexturePadding;
 
         //General Setting
-        public static bool GenerateColliders,GenerateMeshs,ShowBorderFaces;
-        public bool m_GenerateColliders, m_GenerateMeshs, m_ShowBorderFaces;
+        public static bool GenerateColliders,GenerateMeshs,ShowBorderFaces, SaveBlockData;
+        public bool m_GenerateColliders, m_GenerateMeshs, m_ShowBorderFaces, m_SaveBlockData;
 
         public static bool EnableChunkTimeout;
         public static float ChunkTimeout;
@@ -148,6 +146,7 @@ namespace Sim_FrameWork
             TexturePadding = m_TexturePadding;
 
             SquaredSideLength = m_ChunkSideLegth * m_ChunkSideLegth;
+            SaveBlockData = m_SaveBlockData;
 
             GenerateColliders = m_GenerateColliders;
             GenerateMeshs = m_GenerateMeshs;
@@ -269,7 +268,7 @@ namespace Sim_FrameWork
             {
                 //default texture
                 return new Vector2(0, 0);
-            }else if (blockType.m_CuntonSides == false)
+            }else if (blockType.m_CuntomSides == false)
             {
                 return TextureArray[0];
             }else if ((int)facing > TextureArray.Length - 1)

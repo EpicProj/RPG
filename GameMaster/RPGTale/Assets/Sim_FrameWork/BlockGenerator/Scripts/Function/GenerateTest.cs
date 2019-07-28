@@ -19,7 +19,32 @@ namespace Sim_FrameWork
                 {
                     for(int z = 0; z < sideLength; z++)
                     {
-                        //TODO
+                        Vector3 blockPos = chunk.BlockIndexToPosition(x, y, z);
+                        blockPos = new Vector3(blockPos.x + seed, blockPos.y, blockPos.z + seed);
+
+                        float major = Mathf.PerlinNoise(blockPos.x * 0.010f, blockPos.z * 0.010f) * 70.1f;
+                        float minor = Mathf.PerlinNoise(blockPos.x * 0.085f, blockPos.z * 0.085f) * 9.1f;
+
+                        int currentHeight = y + (sideLength * chunky);
+
+                        //grass
+                        if (major > currentHeight)
+                        {
+                            if (major > minor + currentHeight)
+                            {
+                                chunk.SetBlockSimple(x, y, z, 2);
+                            }
+                        }
+
+                        //dirt
+                        currentHeight = currentHeight + 1;
+                        if (major > currentHeight)
+                        {
+                            if (major > minor + currentHeight)
+                            {
+                                chunk.SetBlockSimple(x, y, z, 1);
+                            }
+                        }
                     }
                 }
             }

@@ -12,7 +12,7 @@ namespace Sim_FrameWork
         public string BlockName;
         public Mesh mesh;
         public bool m_CustomMesh;
-        public bool m_CuntonSides;
+        public bool m_CuntomSides;
         public Vector2[] m_Texture;
 
         public Transparency m_Transparency;
@@ -54,6 +54,16 @@ namespace Sim_FrameWork
             Destroy(blockObj);
         }
         
+
+        //Editor
+        public ushort GetID()
+        {
+            return ushort.Parse(gameObject.name.Split('_')[1]);
+        }
+        public void SetID(ushort id)
+        {
+            gameObject.name = "Block_" + id.ToString();
+        }
         
     }
 }
