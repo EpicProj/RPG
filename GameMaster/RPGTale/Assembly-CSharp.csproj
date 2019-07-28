@@ -59,10 +59,14 @@
      <Compile Include="Assets\Sim_FrameWork\BlockGenerator\Scripts\Basic\BlockInfo.cs" />
      <Compile Include="Assets\Sim_FrameWork\BlockGenerator\Scripts\Basic\Chunk.cs" />
      <Compile Include="Assets\Sim_FrameWork\BlockGenerator\Scripts\Basic\ChunkDataFile.cs" />
+     <Compile Include="Assets\Sim_FrameWork\BlockGenerator\Scripts\Basic\ChunkExtention.cs" />
      <Compile Include="Assets\Sim_FrameWork\BlockGenerator\Scripts\Basic\ChunkManager.cs" />
      <Compile Include="Assets\Sim_FrameWork\BlockGenerator\Scripts\Basic\ChunkMeshCreator.cs" />
      <Compile Include="Assets\Sim_FrameWork\BlockGenerator\Scripts\Basic\Index.cs" />
      <Compile Include="Assets\Sim_FrameWork\BlockGenerator\Scripts\Basic\MapGenerator.cs" />
+     <Compile Include="Assets\Sim_FrameWork\BlockGenerator\Scripts\Block\BaseBlockEvents.cs" />
+     <Compile Include="Assets\Sim_FrameWork\BlockGenerator\Scripts\Block\BlockGrass.cs" />
+     <Compile Include="Assets\Sim_FrameWork\BlockGenerator\Scripts\Function\ChunkLoader.cs" />
      <Compile Include="Assets\Sim_FrameWork\Mono\MonoSingleton.cs" />
      <Compile Include="Assets\Sim_FrameWork\Mono\Singleton.cs" />
  <Reference Include="UnityEngine.UI">

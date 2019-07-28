@@ -12,6 +12,8 @@ namespace Sim_FrameWork
         public bool isEmpty;
 
         public bool DisableMesh;
+        public bool Fresh = true;
+        public bool EnableTimeout;
 
         private bool FlaggedToRemove;
 
@@ -19,7 +21,13 @@ namespace Sim_FrameWork
         public int SideLength;
         private int SquaredSideLength;
 
+        //Queue
+        public bool BlockDown;
+        public bool FlaggedToUpdate;
+
         private ChunkMeshCreator MeshCreator;
+        public GameObject MeshContainer;
+        public GameObject ChunkCollider;
 
         public void Awake()
         {
@@ -38,6 +46,10 @@ namespace Sim_FrameWork
         public void FlagToRemove()
         {
             FlaggedToRemove = true;
+        }
+        public void FlagToUpdate()
+        {
+            FlaggedToUpdate = true;
         }
 
         public void RebuildMesh()
@@ -99,10 +111,70 @@ namespace Sim_FrameWork
             }
 
         }
+        public void SetBlock(Index index,ushort data,bool updateMesh)
+        {
+            SetBlock(index.x, index.y, index.z, data, updateMesh);
+        }
 
         public void UpdateNearbyIfNeeded(int x,int y,int z)
         {
-            //TODO
+            if(x==0 && NearbyChunks[(int)Direction.left] != null)
+            {
+                NearbyChunks[(int)Direction.left].GetComponent<Chunk>().FlagToUpdate();
+            }
+            else if (x == SideLength-1 && NearbyChunks[(int)Direction.right] != null)
+            {
+                NearbyChunks[(int)Direction.right].GetComponent<Chunk>().FlagToUpdate();
+            }
+            else if (y == 0 && NearbyChunks[(int)Direction.down] != null)
+            {
+                NearbyChunks[(int)Direction.down].GetComponent<Chunk>().FlagToUpdate();
+            }
+            else if (y == SideLength - 1 && NearbyChunks[(int)Direction.up] != null)
+            {
+                NearbyChunks[(int)Direction.up].GetComponent<Chunk>().FlagToUpdate();
+            }
+            else if (z == 0 && NearbyChunks[(int)Direction.back] != null)
+            {
+                NearbyChunks[(int)Direction.back].GetComponent<Chunk>().FlagToUpdate();
+            }
+            else if (z == SideLength - 1 && NearbyChunks[(int)Direction.forward] != null)
+            {
+                NearbyChunks[(int)Direction.forward].GetComponent<Chunk>().FlagToUpdate();
+            }
+        }
+
+        /// <summary>
+        /// 数据好了之后增加到序列
+        /// </summary>
+        public void AddToQueueWhenReady()
+        {
+            StartCoroutine(DoAddToQueueWhenReady());
+        }
+        public IEnumerator DoAddToQueueWhenReady()
+        {
+            while (BlockDown == false || AllNearbyChunksHaveData() == false)
+            {
+                if (ChunkManager.StopSpawning)
+                {
+                    yield break;
+                }
+                yield return new WaitForEndOfFrame();
+            }
+            ChunkManager.AddChunkToUpdateList(this);
+        }
+
+        private bool AllNearbyChunksHaveData()
+        {
+            foreach (var chunk in NearbyChunks)
+            {
+                if (NearbyChunks != null)
+                {
+                    if (chunk.BlockDown == false)
+                        return false;
+                }
+            }
+            return true;
         }
 
         //根据坐标获取方块所处的区块
@@ -161,6 +233,18 @@ namespace Sim_FrameWork
         {
             return GetBlock(index.x, index.y, index.z);
         }
+        public ushort GetBlockSimpleData(int index)
+        {
+            return BlockData[index];
+        }
+        public ushort GetBlockSimpleData(int x,int y , int z)
+        {
+            return BlockData[(z * SquaredSideLength) + (y * SideLength) + x];
+        }
+        public ushort GetBlockSimpleData(Index index)
+        {
+            return BlockData[(index.z * SquaredSideLength) + (index.y * SideLength) + index.x];
+        }
 
         //获取周边区块信息
         public void GetNearbyChunks()
@@ -182,5 +266,15 @@ namespace Sim_FrameWork
                 NearbyChunks[5] = ChunkManager.GetChunkComponent(x, y, z - 1);
 
         }
+
+
+
+        #region Data
+        public int GetDataLength()
+        {
+            return BlockData.Length;
+        }
+
+        #endregion
     }
 }

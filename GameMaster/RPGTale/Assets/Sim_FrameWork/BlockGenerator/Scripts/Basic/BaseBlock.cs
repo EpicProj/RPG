@@ -17,10 +17,43 @@ namespace Sim_FrameWork
 
         public Transparency m_Transparency;
         public ColliderType m_ColliderType;
+        public int m_submeshIndex;
+        public MeshRotation m_Rotation;
 
         public static void DestoryBlock(BlockInfo blockInfo)
         {
             GameObject blockObj = Instantiate(MapGenerator.GetBlockGameObj(blockInfo.GetBlock())) as GameObject;
+            if (blockObj.GetComponent<BlockEvents>() != null)
+            {
+                blockObj.GetComponent<BlockEvents>().OnBlockDestory(blockInfo);
+            }
+            blockInfo.chunk.SetBlock(blockInfo.index, 0, true);
+            Destroy(blockObj);
+
         }
+
+        public static void PlaceBlock(BlockInfo info,ushort data)
+        {
+            info.chunk.SetBlock(info.index, data, true);
+            GameObject blockObj = Instantiate(MapGenerator.GetBlockGameObj(data)) as GameObject;
+            if (blockObj.GetComponent<BlockEvents>() != null)
+            {
+                blockObj.GetComponent<BlockEvents>().OnBlockPlace(info);
+            }
+            Destroy(blockObj);
+        }
+
+        public static void ChangeBlock(BlockInfo info ,ushort data)
+        {
+            info.chunk.SetBlock(info.index, data, true);
+            GameObject blockObj = Instantiate(MapGenerator.GetBlockGameObj(data)) as GameObject;
+            if (blockObj.GetComponent<BlockEvents>() != null)
+            {
+                blockObj.GetComponent<BlockEvents>().OnBlockChange(info);
+            }
+            Destroy(blockObj);
+        }
+        
+        
     }
 }

@@ -32,6 +32,24 @@ namespace Sim_FrameWork
             return (x.ToString() + "," + y.ToString() + "," + z.ToString());
         }
 
+        //Get nearby Index
+        public Index GetNearbyChunkIndex(Direction direction)
+        {
+            if (direction == Direction.down)
+                return new Index(x, y - 1, z);
+            else if (direction == Direction.up)
+                return new Index(x, y + 1, z);
+            else if (direction == Direction.left)
+                return new Index(x - 1, y, z);
+            else if (direction == Direction.right)
+                return new Index(x + 1, y, z);
+            else if (direction == Direction.back)
+                return new Index(x, y, z - 1);
+            else if (direction == Direction.forward)
+                return new Index(x, y, z + 1);
+            else return null;
+   
+        }
         public static Index FromString(string index)
         {
             string[] splitString = index.Split(',');
@@ -44,6 +62,15 @@ namespace Sim_FrameWork
                 Debug.LogError("Blocks:Formate Fail, index="+index);
                 return null;
             }
+        }
+
+        public bool IsEqual(Index index)
+        {
+            if (index == null)
+                return false;
+            if (this.x == index.x && this.y == index.y && this.z == index.z)
+                return true;
+            else return false;
         }
     }
 }
