@@ -2,7 +2,7 @@
 using System;
 using System.Collections;
 
-namespace RPG_FrameWork
+namespace Sim_FrameWork
 {
     public partial class MonoBehaviourSimplify : MonoBehaviour
     {
