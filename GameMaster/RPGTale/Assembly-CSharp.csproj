@@ -75,6 +75,7 @@
      <Compile Include="Assets\Sim_FrameWork\Data\Config\ConfigManager.cs" />
      <Compile Include="Assets\Sim_FrameWork\Data\Config\ConfigPath.cs" />
      <Compile Include="Assets\Sim_FrameWork\Data\Config\ExcelBase.cs" />
+     <Compile Include="Assets\Sim_FrameWork\Data\MetaData\FactoryMetaData.cs" />
      <Compile Include="Assets\Sim_FrameWork\Mono\MonoSingleton.cs" />
      <Compile Include="Assets\Sim_FrameWork\Mono\Singleton.cs" />
      <Compile Include="Assets\Sim_FrameWork\Project\Basic\ConfigUtility.cs" />
@@ -127,6 +128,9 @@
  </Reference>
  <Reference Include="UnityEngine.StandardEvents">
  <HintPath>C:/ProgramData/Unity/cache/packages/packages.unity.com/com.unity.standardevents@1.0.10/UnityEngine.StandardEvents.dll</HintPath>
+ </Reference>
+ <Reference Include="EPPlus">
+ <HintPath>D:/Project/GameMaster/RPGTale/Assets/Sim_FrameWork/PlugIn/EPPlus.dll</HintPath>
  </Reference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
