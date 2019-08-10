@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<data name ="MaterialMetaData" from="MaterialMetaData.xlsx" to = "MaterialMetaData.xml">
+	<variable  name="AllMaterialList" type="list">
+		<list name = "Material" sheetname="Material" mainKey = "MaterialID">
+			<variable  name="MaterialID" col = "MaterialID" type="int"/>
+			<variable  name="MaterialName" col = "MaterialName" type="string"/>
+			<variable  name="MaterialDesc" col = "MaterialDesc" type="string"/>
+			<variable  name="Type" col = "Type" type="ushort"/>
+			<variable  name="TypeIndex" col = "TypeIndex" type="int"/>
+			<variable  name="MaterialIcon" col = "MaterialIcon" type="string"/>
+			<variable  name="Rarity" col = "Rarity" type="ushort"/>
+			<variable  name="ModelPath" col = "ModelPath" type="string"/>
+		</list>
+	</variable>
+	<variable  name="AllMaterial_ArtifactList" type="list">
+		<list name = "Material_Artifact" sheetname="Material_Artifact" mainKey = "ArtifactID">
+			<variable  name="ArtifactID" col = "ArtifactID" type="int"/>
+			<variable  name="ArtifactQuality" col = "ArtifactQuality" type="ushort"/>
+			<variable  name="ProcessingTime" col = "ProcessingTime" type="float"/>
+			<variable  name="ProcessingRawList" col = "ProcessingRawList" type="string"/>
+		</list>
+	</variable>
+
+	<variable  name="AllMaterial_FluidList" type="list">
+		<list name = "Material_Fluid" sheetname="Material_Fluid" mainKey = "FluidID">
+			<variable  name="FluidID" col = "FluidID" type="int"/>
+			<variable  name="Comment" col = "Comment" type="string"/>
+		</list>
+	</variable>
+</data>

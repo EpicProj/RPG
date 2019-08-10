@@ -94,6 +94,12 @@ public class FactoryMetaData : ExcelBase {
     {
         AllFactoryDic.Clear();
         AllTextData_FactoryDic.Clear();
+        AllFactoryTypeDataDic.Clear();
+        AllFactory_EnergyDic.Clear();
+        AllFactory_ManufactureDic.Clear();
+        AllFactory_RawDic.Clear();
+        AllFactory_ScienceDic.Clear();
+
         foreach(var data in AllFactoryList)
         {
             if (AllFactoryDic.ContainsKey(data.FactoryID))

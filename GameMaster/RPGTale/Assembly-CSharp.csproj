@@ -54,6 +54,12 @@
      <Compile Include="Assets\Sim_FrameWork\Basic\BasicMiscsTool.cs" />
      <Compile Include="Assets\Sim_FrameWork\Basic\MonoBehaviourSimplify.cs" />
      <Compile Include="Assets\Sim_FrameWork\Basic\MsgDisPatcher.cs" />
+     <Compile Include="Assets\Sim_FrameWork\Basic\Resources\AssetBundleConfig.cs" />
+     <Compile Include="Assets\Sim_FrameWork\Basic\Resources\AssetBundleManager.cs" />
+     <Compile Include="Assets\Sim_FrameWork\Basic\Resources\ClassObjectPool.cs" />
+     <Compile Include="Assets\Sim_FrameWork\Basic\Resources\CRC32.cs" />
+     <Compile Include="Assets\Sim_FrameWork\Basic\Resources\ObjectManager.cs" />
+     <Compile Include="Assets\Sim_FrameWork\Basic\Resources\ResourceManager.cs" />
      <Compile Include="Assets\Sim_FrameWork\BlockGenerator\Scripts\Basic\BaseBlock.cs" />
      <Compile Include="Assets\Sim_FrameWork\BlockGenerator\Scripts\Basic\BlockEvents.cs" />
      <Compile Include="Assets\Sim_FrameWork\BlockGenerator\Scripts\Basic\BlockInfo.cs" />
@@ -76,18 +82,22 @@
      <Compile Include="Assets\Sim_FrameWork\Data\Config\ExcelBase.cs" />
      <Compile Include="Assets\Sim_FrameWork\Data\MetaData\FactoryMetaData.cs" />
      <Compile Include="Assets\Sim_FrameWork\Data\MetaData\FactoryMetaDataReader.cs" />
+     <Compile Include="Assets\Sim_FrameWork\Data\MetaData\MaterialMetaData.cs" />
+     <Compile Include="Assets\Sim_FrameWork\Data\MetaData\MaterialMetaDataReader.cs" />
+     <Compile Include="Assets\Sim_FrameWork\Data\MetaData\TalentsMetaData.cs" />
+     <Compile Include="Assets\Sim_FrameWork\Data\MetaData\TalentsMetaDataReader.cs" />
+     <Compile Include="Assets\Sim_FrameWork\Data\MetaData\TechnologyMetaData.cs" />
+     <Compile Include="Assets\Sim_FrameWork\Data\MetaData\TechnologyMetaDataReader.cs" />
      <Compile Include="Assets\Sim_FrameWork\Mono\MonoSingleton.cs" />
      <Compile Include="Assets\Sim_FrameWork\Mono\Singleton.cs" />
      <Compile Include="Assets\Sim_FrameWork\Project\Basic\ConfigUtility.cs" />
      <Compile Include="Assets\Sim_FrameWork\Project\GamePlay\Factory\FactoryBase.cs" />
+     <Compile Include="Assets\Sim_FrameWork\Project\GamePlay\Factory\FactoryModule.cs" />
+     <Compile Include="Assets\Sim_FrameWork\Project\GamePlay\Talents\TalentsModule.cs" />
      <Compile Include="Assets\Sim_FrameWork\Project\GamePlay\Technology\TechnologyBase.cs" />
-     <Compile Include="Assets\Sim_FrameWork\Resources\AssetBundleConfig.cs" />
-     <Compile Include="Assets\Sim_FrameWork\Resources\AssetBundleManager.cs" />
-     <Compile Include="Assets\Sim_FrameWork\Resources\ClassObjectPool.cs" />
-     <Compile Include="Assets\Sim_FrameWork\Resources\CRC32.cs" />
-     <Compile Include="Assets\Sim_FrameWork\Resources\ObjectManager.cs" />
-     <Compile Include="Assets\Sim_FrameWork\Resources\ResourceManager.cs" />
+     <Compile Include="Assets\Sim_FrameWork\Project\GamePlay\Technology\TechnologyModule.cs" />
      <None Include="Assets\Resources\Data\DataFormat\Xml\FactoryMetaData.xml" />
+     <None Include="Assets\Resources\Data\DataFormat\Xml\MaterialMetaData.xml" />
  <Reference Include="UnityEngine.UI">
  <HintPath>F:/Unity/Editor/Data/UnityExtensions/Unity/GUISystem/UnityEngine.UI.dll</HintPath>
  </Reference>
