@@ -74,4 +74,9 @@ namespace Sim_FrameWork {
             return (T)excelBase;
         }
     }
+
+    public class ConfigPath
+    {
+        public const string TABLE_FACTORY_METADATA_PATH = "Resources/Data/DataFormat/Binary/FactoryMetaData";
+    }
 }

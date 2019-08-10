@@ -13,11 +13,26 @@ namespace Sim_FrameWork
 {
     public class DataEditor 
     {
-        public static string XmlPath = "Assets/Resources/Data/DataFormat/Xml";
-        public static string BinaryPath = "Assets/Resources/Data/DataFormat/Binary";
+        public static string XmlPath = "Assets/Resources/Data/DataFormat/Xml/";
+        public static string BinaryPath = "Assets/Resources/Data/DataFormat/Binary/";
         public static string ScriptsPath = "";
         public static string ExcelPath = Application.dataPath + "/../Data/Data_Excel/";
         public static string RegPath = Application.dataPath + "/../Data/Data_Reg/";
+
+
+
+        [MenuItem("SimPro/DataTool/类转xml")]
+        public static void AssetsClassToXml()
+        {
+            UnityEngine.Object[] objs = Selection.objects;
+            for (int i = 0; i < objs.Length; i++)
+            {
+                EditorUtility.DisplayProgressBar("文件下的类转成xml", "正在扫描" + objs[i].name + "... ...", 1.0f / objs.Length * i);
+                ClassToXml(objs[i].name);
+            }
+            AssetDatabase.Refresh();
+            EditorUtility.ClearProgressBar();
+        }
 
 
         [MenuItem("SimPro/DataTool/Xml转Excel")]
@@ -324,7 +339,7 @@ namespace Sim_FrameWork
                         string value = GetSplitStrList(item, varList[j], tempSheetClass);
                         rowData.RowDataDic.Add(varList[j].Col, value);
                     }
-                    else if (varList[j].Type == "listStr" || varList[j].Type == "listFloat" || varList[j].Type == "listInt" || varList[j].Type == "listBool")
+                    else if (varList[j].Type == "listStr" || varList[j].Type == "listFloat" || varList[j].Type == "listInt" || varList[j].Type == "listBool" || varList[j].Type == "listUshort")
                     {
                         string value = GetSpliteBaseList(item, varList[j]);
                         rowData.RowDataDic.Add(varList[j].Col, value);
@@ -417,7 +432,7 @@ namespace Sim_FrameWork
                         string value = sheetData.AllData[i].RowDataDic[sheetData.AllName[j]];
                         SetSplitClass(addItem, allSheetClassDic[varClass.ListSheetName], value);
                     }
-                    else if (varClass.Type == "listStr" || varClass.Type == "listFloat" || varClass.Type == "listInt" || varClass.Type == "listBool")
+                    else if (varClass.Type == "listStr" || varClass.Type == "listFloat" || varClass.Type == "listInt" || varClass.Type == "listBool" || varClass.Type=="listUshort")
                     {
                         string value = sheetData.AllData[i].RowDataDic[sheetData.AllName[j]];
                         SetSplitBaseClass(addItem, varClass, value);
@@ -466,6 +481,9 @@ namespace Sim_FrameWork
             else if (varClass.Type == "listBool")
             {
                 type = typeof(bool);
+            }else if (varClass.Type == "listUshort")
+            {
+                type = typeof(ushort);
             }
             object list = CreateList(type);
             string[] rowArray = value.Split(new string[] { varClass.SplitStr }, StringSplitOptions.None);
@@ -698,6 +716,12 @@ namespace Sim_FrameWork
             else if (type == "enum")
             {
                 val = TypeDescriptor.GetConverter(info.PropertyType).ConvertFromInvariantString(val.ToString());
+            }else if(type == "ushort")
+            {
+                val = System.Convert.ToUInt16(val);
+            }else if(type == "string")
+            {
+                val = System.Convert.ToString(val);
             }
 
             info.SetValue(var, val);

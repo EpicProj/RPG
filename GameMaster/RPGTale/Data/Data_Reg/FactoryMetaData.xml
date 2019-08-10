@@ -3,9 +3,12 @@
 	<variable  name="AllFactoryList" type="list">
 		<list name = "Factory" sheetname="Factory" mainKey = "FactoryID">
 			<variable  name="FactoryID" col = "FactoryID" type="int"/>
+			<variable  name="Comment" col = "Comment" type="string"/>
 			<variable  name="FactoryName" col = "FactoryName" type="string"/>
+			<variable  name="FactoryIcon" col = "FactoryIcon" type="string"/>
 			<variable  name="FactoryDesc" col = "FactoryDesc" type="string"/>
 			<variable  name="FactoryType" col = "FactoryType" type="string"/>
+			<variable  name="FactoryTypeIndex" col = "FactoryTypeIndex" type="ushort"/>
 			<variable  name="Level" col = "Level" type="ushort"/>
 			<variable  name="Area" col = "Area" type="string"/>
 			<variable  name="InputSlotNumBase" col = "InputSlotNumBase" type="ushort"/>
@@ -20,4 +23,47 @@
 			<variable  name="Value_CN" col = "Value_CN" type="string"/>
 		</list>
 	</variable>
+
+	<variable  name="AllFactory_RawList" type="list">
+		<list name = "Factory_Raw" sheetname="Factory_Raw" mainKey = "RawID">
+			<variable  name="RawID" col = "RawID" type="int"/>
+			<variable  name="RawType" col = "RawType" type="ushort"/>
+		</list>
+	</variable>
+
+	<variable  name="AllFactory_ManufactureList" type="list">
+		<list name = "Factory_Manufacture" sheetname="Factory_Manufacture" mainKey = "ManufactureID">
+			<variable  name="ManufactureID" col = "ManufactureID" type="int"/>
+			<variable  name="SpeedBase" col = "SpeedBase" type="float"/>
+			<variable  name="InputMaterialList" col = "InputMaterialList" type="string"/>
+			<variable  name="OutputMaterialList" col = "OutputMaterialList" type="string"/>
+			<variable  name="MaintenanceBase" col = "MaintenanceBase" type="string"/>
+			<variable  name="EnergyConsumptionBase" col = "EnergyConsumptionBase" type="string"/>
+			<variable  name="ByProductList" col = "ByProductList" type="string"/>
+		</list>
+	</variable>
+
+	<variable  name="AllFactory_ScienceList" type="list">
+		<list name = "Factory_Science" sheetname="Factory_Science" mainKey = "ScienceID">
+			<variable  name="ScienceID" col = "ScienceID" type="int"/>
+			<variable  name="Comment" col = "Comment" type="string"/>
+		</list>
+	</variable>
+
+	<variable  name="AllFactory_EnergyList" type="list">
+		<list name = "Factory_Energy" sheetname="Factory_Energy" mainKey = "EnergyID">
+			<variable  name="EnergyID" col = "EnergyID" type="int"/>
+			<variable  name="EnergyType" col = "EnergyType" type="ushort"/>
+		</list>
+	</variable>
+
+	<variable  name="AllFactoryTypeDataList" type="list">
+		<list name = "FactoryTypeData" sheetname="FactoryTypeData" mainKey = "Type">
+			<variable  name="Type" col = "Type" type="string"/>
+			<variable  name="TypeName" col = "TypeName" type="string"/>
+			<variable  name="TypeDesc" col = "TypeDesc" type="string"/>
+			<variable  name="TypeIcon" col = "TypeIcon" type="string"/>
+		</list>
+	</variable>
+	
 </data>

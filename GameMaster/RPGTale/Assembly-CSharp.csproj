@@ -73,9 +73,9 @@
      <Compile Include="Assets\Sim_FrameWork\BlockGenerator\Scripts\Function\MouseLook.cs" />
      <Compile Include="Assets\Sim_FrameWork\Data\Config\BinarySerializeOpt.cs" />
      <Compile Include="Assets\Sim_FrameWork\Data\Config\ConfigManager.cs" />
-     <Compile Include="Assets\Sim_FrameWork\Data\Config\ConfigPath.cs" />
      <Compile Include="Assets\Sim_FrameWork\Data\Config\ExcelBase.cs" />
      <Compile Include="Assets\Sim_FrameWork\Data\MetaData\FactoryMetaData.cs" />
+     <Compile Include="Assets\Sim_FrameWork\Data\MetaData\FactoryMetaDataReader.cs" />
      <Compile Include="Assets\Sim_FrameWork\Mono\MonoSingleton.cs" />
      <Compile Include="Assets\Sim_FrameWork\Mono\Singleton.cs" />
      <Compile Include="Assets\Sim_FrameWork\Project\Basic\ConfigUtility.cs" />
@@ -87,6 +87,7 @@
      <Compile Include="Assets\Sim_FrameWork\Resources\CRC32.cs" />
      <Compile Include="Assets\Sim_FrameWork\Resources\ObjectManager.cs" />
      <Compile Include="Assets\Sim_FrameWork\Resources\ResourceManager.cs" />
+     <None Include="Assets\Resources\Data\DataFormat\Xml\FactoryMetaData.xml" />
  <Reference Include="UnityEngine.UI">
  <HintPath>F:/Unity/Editor/Data/UnityExtensions/Unity/GUISystem/UnityEngine.UI.dll</HintPath>
  </Reference>
@@ -117,6 +118,9 @@
  <Reference Include="LitJson">
  <HintPath>D:/Project/GameMaster/RPGTale/Assets/Plugins/LitJson.dll</HintPath>
  </Reference>
+ <Reference Include="EPPlus">
+ <HintPath>D:/Project/GameMaster/RPGTale/Assets/Sim_FrameWork/PlugIn/EPPlus.dll</HintPath>
+ </Reference>
  <Reference Include="UnityEngine.Advertisements">
  <HintPath>C:/ProgramData/Unity/cache/packages/packages.unity.com/com.unity.ads@2.0.4/UnityEngine.Advertisements.dll</HintPath>
  </Reference>
@@ -128,9 +132,6 @@
  </Reference>
  <Reference Include="UnityEngine.StandardEvents">
  <HintPath>C:/ProgramData/Unity/cache/packages/packages.unity.com/com.unity.standardevents@1.0.10/UnityEngine.StandardEvents.dll</HintPath>
- </Reference>
- <Reference Include="EPPlus">
- <HintPath>D:/Project/GameMaster/RPGTale/Assets/Sim_FrameWork/PlugIn/EPPlus.dll</HintPath>
  </Reference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
