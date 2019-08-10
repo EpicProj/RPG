@@ -10,6 +10,12 @@ namespace Sim_FrameWork
         public static List<Factory> FactoryDataList;
         public static Dictionary<int, Factory> FactoryDataDic;
 
+        public static List<Factory_Raw> Factory_RowList;
+        public static Dictionary<int, Factory_Raw> Factory_RowDic;
+
+        public static List<FactoryTypeData> FactoryTypeDataList;
+        public static Dictionary<string,FactoryTypeData> FactoryTypeDataDic;
+
         public static void LoadData()
         {
             var config = ConfigManager.Instance.LoadData<FactoryMetaData>(ConfigPath.TABLE_FACTORY_METADATA_PATH);
@@ -20,6 +26,10 @@ namespace Sim_FrameWork
             }
             FactoryDataList = config.AllFactoryList;
             FactoryDataDic = config.AllFactoryDic;
+            Factory_RowList = config.AllFactory_RawList;
+            Factory_RowDic = config.AllFactory_RawDic;
+            FactoryTypeDataList = config.AllFactoryTypeDataList;
+            FactoryTypeDataDic = config.AllFactoryTypeDataDic;
         }
 
 
@@ -28,11 +38,24 @@ namespace Sim_FrameWork
             LoadData();
             return FactoryDataList;
         }
+        public static List<Factory_Raw> GetFactoryRowData()
+        {
+            LoadData();
+            return Factory_RowList;
+        }
+        public static List<FactoryTypeData> GetFactoryTypeData()
+        {
+            LoadData();
+            return FactoryTypeDataList;
+        }
+
+
         public static Dictionary<int, Factory> GetFactoryDataDic()
         {
             LoadData();
             return FactoryDataDic;
         }
+      
 
 
         public static Factory GetFactoryDataByKey(int key)

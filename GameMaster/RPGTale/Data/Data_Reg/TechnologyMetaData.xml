@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<data name ="TechnologyMetaData" from="TechnologyMetaData.xlsx" to = "TechnologyMetaData.xml">
+	<variable  name="AllTechnologyList" type="list">
+		<list name = "Technology" sheetname="Technology" mainKey = "TechnologyID">
+			<variable  name="TechnologyID" col = "TechnologyID" type="int"/>
+			<variable  name="TechType" col = "TechType" type="string"/>
+			<variable  name="TechGetType" col = "TechGetType" type="string"/>
+			<variable  name="TechName" col = "TechName" type="string"/>
+			<variable  name="TechDesc" col = "TechDesc" type="string"/>
+			<variable  name="TechIcon" col = "TechIcon" type="string"/>
+			<variable  name="TechCostMaterialList" col = "TechCostMaterialList" type="string"/>
+			<variable  name="TechCostUnitMin" col = "TechCostUnitMin" type="string"/>
+			<variable  name="ResearchTime" col = "ResearchTime" type="float"/>
+			<variable  name="PreTechList" col = "PreTechList" type="string"/>
+		</list>
+	</variable>
+
+	<variable  name="AllTechnologyTypeDataList" type="list">
+		<list name = "TechnologyTypeData" sheetname="TechnologyTypeData" mainKey = "Type">
+			<variable  name="Type" col = "Type" type="string"/>
+			<variable  name="TypeName" col = "TypeName" type="string"/>
+			<variable  name="TypeDesc" col = "TypeDesc" type="string"/>
+			<variable  name="TypeIcon" col = "TypeIcon" type="string"/>
+		</list>
+	</variable>
+
+</data>

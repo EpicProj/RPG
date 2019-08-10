@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<data name ="TalentsMetaData" from="TalentsMetaData.xlsx" to = "TalentsMetaData.xml">
+	<variable  name="AllTalentsList" type="list">
+		<list name = "Talents" sheetname="Talents" mainKey = "TalentID">
+			<variable  name="TalentID" col = "TalentID" type="int"/>
+			<variable  name="TalentType" col = "TalentType" type="ushort"/>
+			<variable  name="TalentName" col = "TalentName" type="string"/>
+			<variable  name="TalentDesc" col = "TalentDesc" type="string"/>
+			<variable  name="TalentIcon" col = "TalentIcon" type="string"/>
+			<variable  name="LevelBase" col = "LevelBase" type="ushort"/>
+			<variable  name="LevelMax" col = "LevelMax" type="ushort"/>
+			<variable  name="TalentRarity" col = "TalentRarity" type="ushort"/>
+			<variable  name="SkillBaseList" col = "SkillBaseList" type="string"/>
+			<variable  name="SkillExtendParam" col = "SkillExtendParam" type="string"/>
+			<variable  name="TalentTagList" col = "TalentTagList" type="string"/>
+		</list>
+	</variable>
+
+	<variable  name="AllTalentTraitDataList" type="list">
+		<list name = "TalentTraitData" sheetname="TalentTraitData" mainKey = "TraitID">
+			<variable  name="TraitID" col = "TraitID" type="int"/>
+			<variable  name="TraitName" col = "TraitName" type="string"/>
+			<variable  name="TraitDesc" col = "TraitDesc" type="string"/>
+			<variable  name="TraitIcon" col = "TraitIcon" type="string"/>
+			<variable  name="TraitEffect" col = "TraitEffect" type="string"/>
+		</list>
+	</variable>
+
+	<variable  name="AllTalentSkillDataList" type="list">
+		<list name = "TalentSkillData" sheetname="TalentSkillData" mainKey = "SkillID">
+			<variable  name="SkillID" col = "SkillID" type="int"/>
+			<variable  name="MaxLevel" col = "MaxLevel" type="ushort"/>
+			<variable  name="SkillRarity" col = "SkillRarity" type="ushort"/>
+			<variable  name="SkillName" col = "SkillName" type="string"/>
+			<variable  name="SkillDesc" col = "SkillDesc" type="string"/>
+			<variable  name="SkillIcon" col = "SkillIcon" type="string"/>
+			<variable  name="SkillEffect" col = "SkillEffect" type="string"/>
+			<variable  name="SkillGrowth" col = "SkillGrowth" type="float"/>
+		</list>
+	</variable>
+
+		<variable  name="AllTalentTypeDataList" type="list">
+		<list name = "TalentTypeData" sheetname="TalentTypeData" mainKey = "Type">
+			<variable  name="Type" col = "Type" type="string"/>
+			<variable  name="TypeName" col = "TypeName" type="string"/>
+			<variable  name="TypeDesc" col = "TypeDesc" type="string"/>
+			<variable  name="TypeIcon" col = "TypeIcon" type="string"/>
+		</list>
+	</variable>
+</data>
