@@ -14,6 +14,13 @@ namespace Sim_FrameWork {
             Science,
             Energy
         }
+        //Slot类型
+        public enum FactoryManuMaterialType
+        {
+            Input,
+            Output,
+            Byproduct
+        }
 
 
         public List<Factory> FactoryList=new List<Factory> ();
@@ -284,29 +291,51 @@ namespace Sim_FrameWork {
         }
 
         //Manufacture
-        public Dictionary<int,ushort> GetManufactureInputMaterialList(int factoryID)
+
+        //获取原料，产出或副产物列表
+        public Dictionary<int,ushort> GetManufactureMaterialList(int factoryID,FactoryManuMaterialType Gettype)
         {
             Factory_Manufacture fm = FetchFactoryTypeIndex<Factory_Manufacture>(factoryID);
-            if (string.IsNullOrEmpty(fm.InputMaterialList))
+            if (string.IsNullOrEmpty(fm.InputMaterialList)|| string.IsNullOrEmpty(fm.OutputMaterialList) || string.IsNullOrEmpty(fm.ByProductList))
             {
-                Debug.LogError("Manufacture Input List is null , factory ID = " + factoryID);
+                Debug.LogError("Manufacture List is null , factory ID = " + factoryID);
             }
+            switch (Gettype)
+            {
+                case FactoryManuMaterialType.Byproduct:
+                    return TryParseMaterialList(fm.ByProductList);
+                case FactoryManuMaterialType.Input:
+                    return TryParseMaterialList(fm.InputMaterialList);
+                case FactoryManuMaterialType.Output:
+                    return TryParseMaterialList(fm.OutputMaterialList);
+                default:
+                    Debug.LogError("GetManufactureMaterialList Type Error !");
+                    return null;
+            }
+        }
+
+        public Dictionary<int,ushort> TryParseMaterialList(string s)
+        {
             Dictionary<int, ushort> materialDic = new Dictionary<int, ushort>();
             try
             {
-                string[] info = fm.InputMaterialList.Split(',');
+                string[] info = s.Split(',');
                 for (int i = 0; i < info.Length; i++)
                 {
                     materialDic.Add(Convert.ToInt32(info[i].Split(':')[0]), Convert.ToUInt16(info[i].Split(':')[1]));
                 }
-            }catch(Exception e)
+            }
+            catch (Exception e)
             {
                 Debug.LogError(e);
             }
             return materialDic;
         }
 
-
+        public float GetManufactureSpeed(int factoryID)
+        {
+            return FetchFactoryTypeIndex<Factory_Manufacture>(factoryID).SpeedBase;
+        }
 
         #endregion
     }
