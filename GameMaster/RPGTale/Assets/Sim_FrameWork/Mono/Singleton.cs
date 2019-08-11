@@ -5,7 +5,7 @@ namespace Sim_FrameWork
 {
     public abstract class Singleton<T> where T:Singleton<T>
     {
-        private static T m_instance;
+        private static T m_instance=null;
         public static T Instance
         {
             get

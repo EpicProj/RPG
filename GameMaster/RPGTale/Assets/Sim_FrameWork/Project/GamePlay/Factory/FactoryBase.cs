@@ -17,7 +17,7 @@ namespace Sim_FrameWork
 
         public virtual void InitData()
         {
-            
+            FactoryModule.Instance.InitData();
         }
 
         //Action

@@ -48,8 +48,10 @@ namespace Sim_FrameWork {
 
 
         #region Data
-        private void InitData()
+        public void InitData()
         {
+            if (HasInit)
+                return;
             FactoryList = FactoryMetaDataReader.GetFactoryData();
             FactoryDic = FactoryMetaDataReader.GetFactoryDataDic();
             Factory_RawList = FactoryMetaDataReader.GetFactoryRowData();
@@ -91,8 +93,7 @@ namespace Sim_FrameWork {
         //Get Name
         public string GetFactoryName(int factoryID)
         {
-            Factory factory = GetFactoryByFacotryID(factoryID);
-            return GetFactoryTextByKey(factory.FactoryDesc);
+            return GetFactoryTextByKey(GetFactoryByFacotryID(factoryID).FactoryDesc);
         }
         public string GetFactoryName(Factory factory)
         {
@@ -102,8 +103,7 @@ namespace Sim_FrameWork {
         //Get Desc
         public string GetFactoryDesc(int factoryID)
         {
-            Factory factory = GetFactoryByFacotryID(factoryID);
-            return GetFactoryTextByKey(factory.FactoryName);
+            return GetFactoryTextByKey(GetFactoryByFacotryID(factoryID).FactoryName);
         }
         public string GetFacotryDesc(Factory factory)
         {
@@ -273,10 +273,7 @@ namespace Sim_FrameWork {
             Factory factory = null;
             FactoryDic.TryGetValue(factoryID, out factory);
             if (factory == null)
-            {
                 Debug.LogError("Get FactoryDesc Error , ID=" + factoryID);
-                return null;
-            }
             return factory;
         }
         #endregion

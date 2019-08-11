@@ -78,5 +78,6 @@ namespace Sim_FrameWork {
     public class ConfigPath
     {
         public const string TABLE_FACTORY_METADATA_PATH = "Resources/Data/DataFormat/Binary/FactoryMetaData";
+        public const string TABLE_MATERIAL_METADATA_PATH= "Resources/Data/DataFormat/Binary/MaterialMetaData";
     }
 }

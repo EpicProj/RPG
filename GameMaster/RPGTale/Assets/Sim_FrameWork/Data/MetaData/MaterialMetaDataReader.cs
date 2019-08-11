@@ -2,15 +2,83 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class MaterialMetaDataReader : MonoBehaviour {
+namespace Sim_FrameWork
+{
+    public class MaterialMetaDataReader 
+    {
+        public static List<Material> MaterialList = new List<Material>();
+        public static Dictionary<int, Material> MaterialDic = new Dictionary<int, Material>();
 
-	// Use this for initialization
-	void Start () {
-		
-	}
-	
-	// Update is called once per frame
-	void Update () {
-		
-	}
+        public static List<Material_Artifact> Material_ArtifactList = new List<Material_Artifact>();
+        public static Dictionary<int, Material_Artifact> Material_ArtifactDic = new Dictionary<int, Material_Artifact>();
+
+        public static List<Material_Fluid> Material_FluidList = new List<Material_Fluid>();
+        public static Dictionary<int, Material_Fluid> Material_FluidDic = new Dictionary<int, Material_Fluid>();
+
+        public static List<TextMap_Material> TextMap_MaterialList = new List<TextMap_Material>();
+        public static Dictionary<string, TextMap_Material> TextMap_MaterialDic = new Dictionary<string, TextMap_Material>();
+
+        public static void LoadData()
+        {
+            var config = ConfigManager.Instance.LoadData<MaterialMetaData>(ConfigPath.TABLE_MATERIAL_METADATA_PATH);
+            if (config == null)
+            {
+                Debug.LogError("MaterialMetaData Read Error");
+                return;
+            }
+
+            MaterialList = config.AllMaterialList;
+            MaterialDic = config.AllMaterialDic;
+            Material_ArtifactList = config.AllMaterial_ArtifactList;
+            Material_ArtifactDic = config.AllMaterial_ArtifactDic;
+            Material_FluidList = config.AllMaterial_FluidList;
+            Material_FluidDic = config.AllMaterial_FluidDic;
+            TextMap_MaterialList = config.AllTextMap_MaterialList;
+            TextMap_MaterialDic = config.AllTextMap_MaterialDic;
+        }
+
+
+        public static List<Material> GetMaterialListData()
+        {
+            LoadData();
+            return MaterialList;
+        }
+        public static List<Material_Artifact> GetMaterial_ArtifactListData()
+        {
+            LoadData();
+            return Material_ArtifactList;
+        }
+        public static List<Material_Fluid> GetMaterial_FluidListData()
+        {
+            LoadData();
+            return Material_FluidList;
+        }
+        public static List<TextMap_Material> GetTextMap_MaterialListData()
+        {
+            LoadData();
+            return TextMap_MaterialList;
+        }
+
+        public static Dictionary<int,Material> GetMaterialDic()
+        {
+            LoadData();
+            return MaterialDic;
+        }
+        public static Dictionary<int,Material_Artifact> GetMaterial_ArtifactDic()
+        {
+            LoadData();
+            return Material_ArtifactDic;
+        }
+        public static Dictionary<int,Material_Fluid> GetMaterial_FluidDic()
+        {
+            LoadData();
+            return Material_FluidDic;
+        }
+        public static Dictionary<string,TextMap_Material> GetTextMap_MaterialDic()
+        {
+            LoadData();
+            return TextMap_MaterialDic;
+        }
+
+    }
 }
