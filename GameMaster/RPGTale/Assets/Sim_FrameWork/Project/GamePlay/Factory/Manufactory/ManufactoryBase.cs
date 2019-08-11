@@ -17,9 +17,9 @@ namespace Sim_FrameWork
         public override void InitData()
         {
             Manufacturingspeed = FactoryModule.Instance.GetManufactureSpeed(factoryID);
-            InputMaterialDic = FactoryModule.Instance.GetManufactureMaterialList(factoryID, FactoryModule.FactoryManuMaterialType.Input);
-            OutputMaterialDic = FactoryModule.Instance.GetManufactureMaterialList(factoryID, FactoryModule.FactoryManuMaterialType.Output);
-            ByProductMaterialDic = FactoryModule.Instance.GetManufactureMaterialList(factoryID, FactoryModule.FactoryManuMaterialType.Byproduct);
+            //InputMaterialDic = FactoryModule.Instance.GetManufactureMaterialList(factoryID, FactoryModule.FactoryManuMaterialType.Input);
+            //OutputMaterialDic = FactoryModule.Instance.GetManufactureMaterialList(factoryID, FactoryModule.FactoryManuMaterialType.Output);
+            //ByProductMaterialDic = FactoryModule.Instance.GetManufactureMaterialList(factoryID, FactoryModule.FactoryManuMaterialType.Byproduct);
         }
 
     }
