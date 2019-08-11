@@ -11,6 +11,13 @@ namespace Sim_FrameWork {
             Artifact,
             Fluid
         }
+        public enum MaterialRarity
+        {
+            Normal,
+            Rare,
+            Epic,
+            Legend
+        }
 
         public List<Material> MaterialList = new List<Material>();
         public Dictionary<int, Material> MaterialDic = new Dictionary<int, Material>();
@@ -161,4 +168,12 @@ namespace Sim_FrameWork {
 
         #endregion
     }
+
+    public class MaterialRarityData
+    {
+        public string RarityLevel;
+        public string RarityColor;
+        public string RarityName;
+    }
+
 }

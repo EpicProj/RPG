@@ -51,6 +51,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+     <Compile Include="Assets\Scripts\Test.cs" />
      <Compile Include="Assets\Sim_FrameWork\Basic\BasicMiscsTool.cs" />
      <Compile Include="Assets\Sim_FrameWork\Basic\MonoBehaviourSimplify.cs" />
      <Compile Include="Assets\Sim_FrameWork\Basic\MsgDisPatcher.cs" />
@@ -81,6 +82,8 @@
      <Compile Include="Assets\Sim_FrameWork\Data\Config\ConfigManager.cs" />
      <Compile Include="Assets\Sim_FrameWork\Data\Config\ExcelBase.cs" />
      <Compile Include="Assets\Sim_FrameWork\Data\Config\JsonReader.cs" />
+     <Compile Include="Assets\Sim_FrameWork\Data\MetaData\FactoryFormulaMetaData.cs" />
+     <Compile Include="Assets\Sim_FrameWork\Data\MetaData\FactoryFormulaMetaDataReader.cs" />
      <Compile Include="Assets\Sim_FrameWork\Data\MetaData\FactoryMetaData.cs" />
      <Compile Include="Assets\Sim_FrameWork\Data\MetaData\FactoryMetaDataReader.cs" />
      <Compile Include="Assets\Sim_FrameWork\Data\MetaData\MaterialMetaData.cs" />
@@ -113,6 +116,7 @@
      <Compile Include="Assets\Sim_FrameWork\Project\UI\Base\UIManager.cs" />
      <Compile Include="Assets\Sim_FrameWork\Project\UI\Base\WindowBase.cs" />
      <None Include="Assets\Resources\Data\DataFormat\Xml\TalentsMetaData.xml" />
+     <None Include="Assets\Resources\Data\DataFormat\Xml\FactoryFormulaMetaData.xml" />
      <None Include="Assets\Resources\Data\DataFormat\Xml\FactoryMetaData.xml" />
      <None Include="Assets\Resources\Data\DataFormat\Xml\TechnologyMetaData.xml" />
      <None Include="Assets\Resources\Data\DataFormat\Xml\MaterialMetaData.xml" />

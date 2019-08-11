@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<data name ="FactoryFormulaMetaData" from="FactoryFormulaMetaData.xlsx" to = "FactoryFormulaMetaData.xml">
+	<variable  name="AllFormulaDataList" type="list">
+		<list name = "FormulaData" sheetname="FormulaData" mainKey = "FormulaID">
+			<variable  name="FormulaID" col = "FormulaID" type="int"/>
+			<variable  name="FormulaName" col = "FormulaName" type="string"/>
+			<variable  name="FormulaDesc" col = "FormulaDesc" type="string"/>
+			<variable  name="ProductSpeed" col = "ProductSpeed" type="float"/>
+			<variable  name="InputMaterialList" col = "InputMaterialList" type="string"/>
+			<variable  name="OutputMaterialList" col = "OutputMaterialList" type="string"/>
+			<variable  name="ByProductList" col = "ByProductList" type="string"/>
+		</list>
+	</variable>
+
+	<variable  name="AllTextMap_FormulaList" type="list">
+		<list name = "TextMap_Formula" sheetname="TextMap_Formula" mainKey = "TextID">
+			<variable  name="TextID" col = "TextID" type="string"/>
+			<variable  name="Value_CN" col = "Value_CN" type="string"/>
+		</list>
+	</variable>
+
+</data>
