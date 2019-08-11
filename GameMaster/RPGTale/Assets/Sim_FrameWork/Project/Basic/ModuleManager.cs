@@ -2,15 +2,14 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class ModuleManager : MonoBehaviour {
+namespace Sim_FrameWork {
+    public class ModuleManager : Singleton<ModuleManager> {
 
-	// Use this for initialization
-	void Start () {
-		
-	}
-	
-	// Update is called once per frame
-	void Update () {
-		
-	}
+        public Dictionary<string, System.Type> m_RegisterModuleDic = new Dictionary<string, System.Type>();
+        public Dictionary<string, BaseModule> m_ModuleDic = new Dictionary<string, BaseModule>();
+        private List<BaseModule> m_ModuleList = new List<BaseModule>();
+
+
+
+    }
 }

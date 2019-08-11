@@ -1,8 +1,9 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System;
 
-namespace RPG_FrameWork
+namespace Sim_FrameWork
 {
     public class BasicMiscsTool : MonoBehaviour
     {
@@ -10,9 +11,8 @@ namespace RPG_FrameWork
         //PercentTool Random
         public static bool Percent(int percent)
         {
-            return Random.Range(0, 100) <= percent;
+            return UnityEngine.Random.Range(0, 100) <= percent;
         }
-        
         
     }
 }
