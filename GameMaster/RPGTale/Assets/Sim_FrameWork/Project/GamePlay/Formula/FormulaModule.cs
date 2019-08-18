@@ -13,9 +13,18 @@ namespace Sim_FrameWork
             Output,
             Byproduct
         }
+        public enum FormulaInfoType
+        {
+            //可选的
+            OPtional,
+            //自动适配
+            Automatic
+        }
 
         public List<FormulaData> FormulaDataList = new List<FormulaData>();
         public Dictionary<int, FormulaData> FormulaDataDic = new Dictionary<int, FormulaData>();
+        public List<FormulaInfo> FormulaInfoList = new List<FormulaInfo>();
+        public Dictionary<int, FormulaInfo> FormulaInfoDic = new Dictionary<int, FormulaInfo>();
 
         public List<TextMap_Formula> TextMap_FormulaList = new List<TextMap_Formula>();
         public Dictionary<string, TextMap_Formula> TextMap_FormulaDic = new Dictionary<string, TextMap_Formula>();
@@ -29,6 +38,8 @@ namespace Sim_FrameWork
                 return;
             FormulaDataList = FactoryFormulaMetaDataReader.GetFormulaDataList();
             FormulaDataDic = FactoryFormulaMetaDataReader.GetFormulaDataDic();
+            FormulaInfoDic = FactoryFormulaMetaDataReader.GetFormulaInfoDic();
+            FormulaInfoList = FactoryFormulaMetaDataReader.GetFormulaInfoList();
             TextMap_FormulaList = FactoryFormulaMetaDataReader.GetTextMap_FormulaList();
             TextMap_FormulaDic = FactoryFormulaMetaDataReader.GetTextMap_FormulaDic();
 
@@ -125,10 +136,38 @@ namespace Sim_FrameWork
             return data;
         }
 
+        //Info
+        public FormulaInfo GetFormulaInfoByID(int infoID)
+        {
+            FormulaInfo info = null;
+            FormulaInfoDic.TryGetValue(infoID, out info);
+            if (info == null)
+            {
+                Debug.LogError("Can not Get FormulaInfoData  ID=" + infoID);
+            }
+            return info;
+        }
+        public FormulaInfoType GetFormulaInfoType(int infoID)
+        {
+            switch (GetFormulaInfoByID(infoID).InfoType)
+            {
+                case 1:
+                    return FormulaInfoType.Automatic;
+                case 2:
+                    return FormulaInfoType.OPtional;
+                default:
+                    Debug.LogError("FormulaInfo Type Error ,info ID=" + infoID);
+                    return FormulaInfoType.Automatic;
+            }
+        }
+
         #endregion
 
         #region Method
 
         #endregion
     }
+
+
+
 }

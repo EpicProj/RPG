@@ -53,6 +53,7 @@ public class FactoryMetaData : ExcelBase {
             Factory_Manufacture manu = new Factory_Manufacture();
             manu.ManufactureID = i;
             manu.SpeedBase = i;
+            manu.FormulaInfoID = i;
             manu.MaintenanceBase = "";
             manu.EnergyConsumptionBase = "";
             AllFactory_ManufactureList.Add(manu);
@@ -271,6 +272,8 @@ public class Factory_Manufacture
     public int ManufactureID { get; set; }
     [XmlAttribute]
     public float SpeedBase { get; set; }
+    [XmlAttribute]
+    public int FormulaInfoID { get; set; }
     [XmlAttribute]
     //维护成本
     public string MaintenanceBase { get; set; }

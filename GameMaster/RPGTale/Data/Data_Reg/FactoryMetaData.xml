@@ -35,6 +35,7 @@
 		<list name = "Factory_Manufacture" sheetname="Factory_Manufacture" mainKey = "ManufactureID">
 			<variable  name="ManufactureID" col = "ManufactureID" type="int"/>
 			<variable  name="SpeedBase" col = "SpeedBase" type="float"/>
+			<variable  name="FormulaInfoID" col = "FormulaInfoID" type="int"/>
 			<variable  name="MaintenanceBase" col = "MaintenanceBase" type="string"/>
 			<variable  name="EnergyConsumptionBase" col = "EnergyConsumptionBase" type="string"/>
 		</list>

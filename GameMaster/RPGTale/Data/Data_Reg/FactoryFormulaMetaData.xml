@@ -12,6 +12,14 @@
 		</list>
 	</variable>
 
+	<variable  name="AllFormulaInfoList" type="list">
+		<list name = "FormulaInfo" sheetname="FormulaInfo" mainKey = "InfoID">
+			<variable  name="InfoID" col = "InfoID" type="int"/>
+			<variable  name="InfoType" col = "InfoType" type="ushort"/>
+			<variable  name="FormulaList" col = "FormulaList" type="string"/>
+		</list>
+	</variable>
+
 	<variable  name="AllTextMap_FormulaList" type="list">
 		<list name = "TextMap_Formula" sheetname="TextMap_Formula" mainKey = "TextID">
 			<variable  name="TextID" col = "TextID" type="string"/>

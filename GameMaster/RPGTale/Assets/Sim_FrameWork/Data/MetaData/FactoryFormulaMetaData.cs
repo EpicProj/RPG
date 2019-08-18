@@ -22,6 +22,15 @@ public class FactoryFormulaMetaData : ExcelBase
             data.ByProductList = "";
             AllFormulaDataList.Add(data);
         }
+        AllFormulaInfoList = new List<FormulaInfo>();
+        for(int i = 0; i < 2; i++)
+        {
+            FormulaInfo info = new FormulaInfo();
+            info.InfoID = i;
+            info.InfoType = (ushort)i;
+            info.FormulaList = "";
+            AllFormulaInfoList.Add(info);
+        }
 
         AllTextMap_FormulaList = new List<TextMap_Formula>();
         for (int i = 0; i < 2; i++)
@@ -37,6 +46,7 @@ public class FactoryFormulaMetaData : ExcelBase
     {
         AllFormulaDataDic.Clear();
         AllTextMap_FormulaDic.Clear();
+        AllFormulaInfoDic.Clear();
 
         foreach (var data in AllFormulaDataList)
         {
@@ -60,16 +70,31 @@ public class FactoryFormulaMetaData : ExcelBase
                 AllTextMap_FormulaDic.Add(data.TextID, data);
             }
         }
+        foreach (var data in AllFormulaInfoList)
+        {
+            if (AllFormulaInfoDic.ContainsKey(data.InfoID))
+            {
+                Debug.LogError("Find Same InfoID , InfoID  = " + data.InfoID);
+            }
+            else
+            {
+                AllFormulaInfoDic.Add(data.InfoID, data);
+            }
+        }
 
     }
 
     [XmlIgnore]
     public Dictionary<int, FormulaData> AllFormulaDataDic = new Dictionary<int, FormulaData>();
     [XmlIgnore]
+    public Dictionary<int, FormulaInfo> AllFormulaInfoDic = new Dictionary<int, FormulaInfo>();
+    [XmlIgnore]
     public Dictionary<string, TextMap_Formula> AllTextMap_FormulaDic = new Dictionary<string, TextMap_Formula>();
 
     [XmlElement]
     public List<FormulaData> AllFormulaDataList { get; set; }
+    [XmlElement]
+    public List<FormulaInfo> AllFormulaInfoList { get; set; }
     [XmlElement]
     public List<TextMap_Formula> AllTextMap_FormulaList { get; set; }
 }
@@ -93,7 +118,16 @@ public class FormulaData
     public string ByProductList { get; set; }
 
 }
-
+[System.Serializable]
+public class FormulaInfo
+{
+    [XmlElement]
+    public int InfoID { get; set; }
+    [XmlElement]
+    public ushort InfoType { get; set; }
+    [XmlElement]
+    public string FormulaList { get; set; }
+}
 [System.Serializable] 
 public class TextMap_Formula
 {
