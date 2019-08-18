@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace Sim_FrameWork
 {
-    public class ManufactoryBase : FactoryBase
+    public class ManufactoryBase : FunctionBlockBase
     {
         //基础制造速度
         public float ManufacturingspeedBase = 0f;
@@ -22,10 +22,10 @@ namespace Sim_FrameWork
 
         public override void InitData()
         {
-            ManufacturingspeedBase = FactoryModule.Instance.GetManufactureSpeed(factoryID);
-            //InputMaterialDic = FactoryModule.Instance.GetManufactureMaterialList(factoryID, FactoryModule.FactoryManuMaterialType.Input);
-            //OutputMaterialDic = FactoryModule.Instance.GetManufactureMaterialList(factoryID, FactoryModule.FactoryManuMaterialType.Output);
-            //ByProductMaterialDic = FactoryModule.Instance.GetManufactureMaterialList(factoryID, FactoryModule.FactoryManuMaterialType.Byproduct);
+            ManufacturingspeedBase = FunctionBlockModule.Instance.GetManufactureSpeed(functionBlockID);
+            //InputMaterialDic = FunctionBlockModule.Instance.GetManufactureMaterialList(functionBlockID, FunctionBlockModule.FunctionBlockManuMaterialType.Input);
+            //OutputMaterialDic = FunctionBlockModule.Instance.GetManufactureMaterialList(functionBlockID, FunctionBlockModule.FunctionBlockManuMaterialType.Output);
+            //ByProductMaterialDic = FunctionBlockModule.Instance.GetManufactureMaterialList(functionBlockID, FunctionBlockModule.FunctionBlockManuMaterialType.Byproduct);
         }
 
         public void GetCurrentFormulaData()

@@ -68,6 +68,7 @@ namespace Sim_FrameWork.Config
         }
 
 
+        //ModifierData
         public GeneralModifier LoadModifierData()
         {
             GeneralModifier data = new GeneralModifier();

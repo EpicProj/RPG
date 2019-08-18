@@ -36,12 +36,12 @@ namespace Sim_FrameWork
         {
             if (HasInit)
                 return;
-            FormulaDataList = FactoryFormulaMetaDataReader.GetFormulaDataList();
-            FormulaDataDic = FactoryFormulaMetaDataReader.GetFormulaDataDic();
-            FormulaInfoDic = FactoryFormulaMetaDataReader.GetFormulaInfoDic();
-            FormulaInfoList = FactoryFormulaMetaDataReader.GetFormulaInfoList();
-            TextMap_FormulaList = FactoryFormulaMetaDataReader.GetTextMap_FormulaList();
-            TextMap_FormulaDic = FactoryFormulaMetaDataReader.GetTextMap_FormulaDic();
+            FormulaDataList = FunctionBlockFormulaMetaDataReader.GetFormulaDataList();
+            FormulaDataDic = FunctionBlockFormulaMetaDataReader.GetFormulaDataDic();
+            FormulaInfoDic = FunctionBlockFormulaMetaDataReader.GetFormulaInfoDic();
+            FormulaInfoList = FunctionBlockFormulaMetaDataReader.GetFormulaInfoList();
+            TextMap_FormulaList = FunctionBlockFormulaMetaDataReader.GetTextMap_FormulaList();
+            TextMap_FormulaDic = FunctionBlockFormulaMetaDataReader.GetTextMap_FormulaDic();
 
             HasInit = true;
         }

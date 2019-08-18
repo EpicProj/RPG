@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace Sim_FrameWork
 {
-    public class FactoryFormulaMetaDataReader 
+    public class FunctionBlockFormulaMetaDataReader 
     {
         public static List<FormulaData> FormulaDataList = new List<FormulaData>();
         public static Dictionary<int, FormulaData> FormulaDataDic = new Dictionary<int, FormulaData>();
@@ -17,7 +17,7 @@ namespace Sim_FrameWork
 
         public static void LoadData()
         {
-            var config = ConfigManager.Instance.LoadData<FactoryFormulaMetaData>(ConfigPath.TABLE_FORMULA_METADATA_PATH);
+            var config = ConfigManager.Instance.LoadData<FunctionBlockFormulaMetaData>(ConfigPath.TABLE_FORMULA_METADATA_PATH);
             if (config == null)
             {
                 Debug.LogError("MaterialMetaData Read Error");

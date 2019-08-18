@@ -2,17 +2,26 @@
 	"ModifierData":
 	[{
 		"ModifierName":"AddCurrency",
-		"ActionType":0,
 		"Effects":[{
+			"ActionType":0,
+			"AttributeType":"BaseResource",
 			"AttributeName":"Currency",
 			"AddValue":500,
 			"paramList":[]
+			},{
+			"ActionType":0,
+			"AttributeType":"Material",
+			"MaterialID":100,
+			"AddValue":500,
+			"paramList":[]
+
 			}]
 	},
 	{
 		"ModifierName":"AddCurrencyPassive",
-		"ActionType":1,
 		"Effects":[{
+			"ActionType":1,
+			"AttributeType":"BaseResource",
 			"AttributeName":"Currency",
 			"AddValue":500,
 			"paramList":[]

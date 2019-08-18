@@ -79,14 +79,14 @@ namespace Sim_FrameWork
     public class PlayerConfig
     {
         public List<HardLevelData> hardlevelData;
-
-
+        public TimeDataConfig timeConfig;
 
         public void ReadPlayerConfigData()
         {
             Config.JsonReader reader = new Config.JsonReader();
             PlayerConfig config = reader.LoadPlayerConfig();
             hardlevelData = config.hardlevelData;
+            timeConfig = config.timeConfig;
         }
     }
 

@@ -4,7 +4,7 @@ using UnityEngine;
 using System.Xml.Serialization;
 
 [System.Serializable]
-public class FactoryFormulaMetaData : ExcelBase
+public class FunctionBlockFormulaMetaData : ExcelBase
 {
 
     public override void Construction()
