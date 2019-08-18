@@ -219,16 +219,8 @@ namespace Sim_FrameWork {
         public Sprite GetFactoryIcon(int factoryID)
         {
             string path = GetFactoryByFacotryID(factoryID).FactoryIcon;
-            Sprite sprite = null;
-            try
-            {
-                sprite=ResourceManager.Instance.LoadResource<Sprite>(path);
-            }
-            catch (Exception e)
-            {
-                Debug.LogError(e);
-            }
-            return sprite;
+            return Utility.LoadSprite(path);
+         
         }
 
         public ushort GetFactoryLevel(int factoryID)

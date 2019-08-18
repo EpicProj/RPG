@@ -6,38 +6,23 @@ namespace Sim_FrameWork
 {
     public abstract class MonoSingleton<T> : MonoBehaviour  where T:MonoSingleton<T>
     {
-        protected static T m_instance = null;
-        
+        protected static T instance;
+
         public static T Instance
         {
-            get
-            {
-                if (m_instance == null)
-                {
-                    m_instance = FindObjectOfType<T>();
-                    if (FindObjectsOfType<T>().Length > 1)
-                    {
-                        Debug.LogWarning("MonoInstance More than 1");
-                        return m_instance;
-                    }
-                    if (m_instance == null)
-                    {
-                        var instanceName = typeof(T).Name;
-                        var instanceObj = GameObject.Find(instanceName);
-                        if (!instanceObj)
-                            instanceObj = new GameObject(instanceName);
-
-                        m_instance = instanceObj.AddComponent<T>();
-                        DontDestroyOnLoad(instanceObj);
-                    }
-                }
-                return m_instance;
-            }
+            get { return instance; }
         }
 
-        protected virtual void OnDestory()
+        protected virtual void Awake()
         {
-            m_instance = null;
+            if (instance == null)
+            {
+                instance = (T)this;
+            }
+            else
+            {
+                Debug.LogError("Get a second instance of this class" + this.GetType());
+            }
         }
 
 

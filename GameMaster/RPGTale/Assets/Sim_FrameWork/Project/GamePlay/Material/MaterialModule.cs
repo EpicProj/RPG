@@ -155,15 +155,7 @@ namespace Sim_FrameWork {
         public Sprite GetMaterialSprite(int materialID)
         {
             string path = GetMaterialByMaterialID(materialID).MaterialIcon;
-            Sprite result = null;
-            try
-            {
-                result=ResourceManager.Instance.LoadResource<Sprite>(path);
-            }catch(Exception e)
-            {
-                Debug.LogError(e);
-            }
-            return result;
+            return Utility.LoadSprite(path);
         }
 
         #endregion

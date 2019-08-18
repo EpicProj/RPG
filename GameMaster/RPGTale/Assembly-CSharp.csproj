@@ -52,7 +52,6 @@
   </ItemGroup>
   <ItemGroup>
      <Compile Include="Assets\Scripts\Test.cs" />
-     <Compile Include="Assets\Sim_FrameWork\Basic\BasicMiscsTool.cs" />
      <Compile Include="Assets\Sim_FrameWork\Basic\MonoBehaviourSimplify.cs" />
      <Compile Include="Assets\Sim_FrameWork\Basic\MsgDisPatcher.cs" />
      <Compile Include="Assets\Sim_FrameWork\Basic\Resources\AssetBundleConfig.cs" />
@@ -96,8 +95,10 @@
      <Compile Include="Assets\Sim_FrameWork\Mono\Singleton.cs" />
      <Compile Include="Assets\Sim_FrameWork\Project\Audio\AudioManager.cs" />
      <Compile Include="Assets\Sim_FrameWork\Project\Basic\BaseModule.cs" />
+     <Compile Include="Assets\Sim_FrameWork\Project\Basic\BasicMiscsTool.cs" />
      <Compile Include="Assets\Sim_FrameWork\Project\Basic\ConfigUtility.cs" />
      <Compile Include="Assets\Sim_FrameWork\Project\Basic\ModuleManager.cs" />
+     <Compile Include="Assets\Sim_FrameWork\Project\Basic\Utility.cs" />
      <Compile Include="Assets\Sim_FrameWork\Project\GamePlay\Factory\Energy\EnergyFactoryBase.cs" />
      <Compile Include="Assets\Sim_FrameWork\Project\GamePlay\Factory\FactoryBase.cs" />
      <Compile Include="Assets\Sim_FrameWork\Project\GamePlay\Factory\FactoryModule.cs" />
@@ -109,8 +110,11 @@
      <Compile Include="Assets\Sim_FrameWork\Project\GamePlay\Material\Material_Artifact\Ma_ArtifactBase.cs" />
      <Compile Include="Assets\Sim_FrameWork\Project\GamePlay\Material\MaterialBase.cs" />
      <Compile Include="Assets\Sim_FrameWork\Project\GamePlay\Material\MaterialModule.cs" />
+     <Compile Include="Assets\Sim_FrameWork\Project\GamePlay\Modifier\ModifierModule.cs" />
+     <Compile Include="Assets\Sim_FrameWork\Project\GamePlay\Modifier\ModifierReader.cs" />
      <Compile Include="Assets\Sim_FrameWork\Project\GamePlay\PlayerData\BaseResourcesData.cs" />
      <Compile Include="Assets\Sim_FrameWork\Project\GamePlay\PlayerData\PlayerData.cs" />
+     <Compile Include="Assets\Sim_FrameWork\Project\GamePlay\PlayerData\PlayerModule.cs" />
      <Compile Include="Assets\Sim_FrameWork\Project\GamePlay\Talents\TalentsBase.cs" />
      <Compile Include="Assets\Sim_FrameWork\Project\GamePlay\Talents\TalentsModule.cs" />
      <Compile Include="Assets\Sim_FrameWork\Project\GamePlay\Technology\TechnologyBase.cs" />

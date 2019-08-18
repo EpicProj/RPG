@@ -3,10 +3,8 @@ using System.Collections.Generic;
 using UnityEngine;
 
 namespace Sim_FrameWork {
-    public class BaseModule {
+    public class BaseModule :Singleton<BaseModule> {
 
-
-        public virtual void InitData() { }
 
     }
 }

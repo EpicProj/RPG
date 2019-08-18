@@ -1,0 +1,21 @@
+{
+	"ModifierData":
+	[{
+		"ModifierName":"AddCurrency",
+		"ActionType":0,
+		"Effects":[{
+			"AttributeName":"Currency",
+			"AddValue":500,
+			"paramList":[]
+			}]
+	},
+	{
+		"ModifierName":"AddCurrencyPassive",
+		"ActionType":1,
+		"Effects":[{
+			"AttributeName":"Currency",
+			"AddValue":500,
+			"paramList":[]
+				}]
+	}]
+}

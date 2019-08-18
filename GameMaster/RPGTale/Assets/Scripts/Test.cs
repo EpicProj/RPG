@@ -10,9 +10,12 @@ namespace Sim_FrameWork
         // Use this for initialization
         void Start()
         {
-            Config.JsonReader reader = new Config.JsonReader();
-            reader.LoadMaterialRarityDataConfig();
-            
+            PlayerModule.Instance.InitData();
+            PlayerModule.Instance.Food = PlayerModule.Instance.Food+300;
+            Debug.Log(PlayerModule.Instance.Food);
+
+            ModifierModule.Instance.InitData();
+
         }
 
 
