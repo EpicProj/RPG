@@ -5,7 +5,7 @@ using UnityEngine;
 using UnityEngine.UI;
 
 namespace Sim_FrameWork {
-    public class FunctionBlockModule : MonoSingleton<FunctionBlockModule> {
+    public class FunctionBlockModule : Singleton<FunctionBlockModule> {
 
         public enum FunctionBlockType
         {
@@ -301,5 +301,12 @@ namespace Sim_FrameWork {
             this.FunctionBlockGUID = guid;
         }
 
+    }
+
+    //BlockLevelData
+    public class BlockLevelData
+    {
+        public int LevelIndex;
+        public int NeedEXP;
     }
 }

@@ -103,8 +103,9 @@
      <Compile Include="Assets\Sim_FrameWork\Project\GamePlay\FunctionBlock\Energy\EnergyFactoryBase.cs" />
      <Compile Include="Assets\Sim_FrameWork\Project\GamePlay\FunctionBlock\FunctionBlockBase.cs" />
      <Compile Include="Assets\Sim_FrameWork\Project\GamePlay\FunctionBlock\FunctionBlockModule.cs" />
-     <Compile Include="Assets\Sim_FrameWork\Project\GamePlay\FunctionBlock\Manufactory\Facoty_StellWorks.cs" />
+     <Compile Include="Assets\Sim_FrameWork\Project\GamePlay\FunctionBlock\Manufactory\FunctionBlock_Smelt.cs" />
      <Compile Include="Assets\Sim_FrameWork\Project\GamePlay\FunctionBlock\Manufactory\ManufactoryBase.cs" />
+     <Compile Include="Assets\Sim_FrameWork\Project\GamePlay\FunctionBlock\Manufactory\ManufactoryConfigReader.cs" />
      <Compile Include="Assets\Sim_FrameWork\Project\GamePlay\FunctionBlock\Raw\RawFactoryBase.cs" />
      <Compile Include="Assets\Sim_FrameWork\Project\GamePlay\FunctionBlock\Science\ScienceFactoryBase.cs" />
      <Compile Include="Assets\Sim_FrameWork\Project\GamePlay\FunctionBlock\Warehouse\WarehouseBase.cs" />
@@ -125,9 +126,12 @@
      <Compile Include="Assets\Sim_FrameWork\Project\Scene\SceneManager.cs" />
      <Compile Include="Assets\Sim_FrameWork\Project\UI\Base\UIManager.cs" />
      <Compile Include="Assets\Sim_FrameWork\Project\UI\Base\WindowBase.cs" />
+     <Compile Include="Assets\Sim_FrameWork\Project\UI\Dialog\FactoryInfoDialogContent.cs" />
      <None Include="Assets\Resources\Data\DataFormat\Xml\TalentsMetaData.xml" />
      <None Include="Assets\Resources\Data\DataFormat\Xml\FactoryFormulaMetaData.xml" />
+     <None Include="Assets\Resources\Data\DataFormat\Xml\FunctionBlockMetaData.xml" />
      <None Include="Assets\Resources\Data\DataFormat\Xml\FactoryMetaData.xml" />
+     <None Include="Assets\Resources\Data\DataFormat\Xml\FunctionBlockormulaMetaData.xml" />
      <None Include="Assets\Resources\Data\DataFormat\Xml\TechnologyMetaData.xml" />
      <None Include="Assets\Resources\Data\DataFormat\Xml\MaterialMetaData.xml" />
  <Reference Include="UnityEngine.UI">

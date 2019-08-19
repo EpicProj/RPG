@@ -9,7 +9,7 @@ using OfficeOpenXml;
 using System.Reflection;
 using System.ComponentModel;
 
-namespace Sim_FrameWork
+namespace Sim_FrameWork.Editor
 {
     public class DataEditor 
     {

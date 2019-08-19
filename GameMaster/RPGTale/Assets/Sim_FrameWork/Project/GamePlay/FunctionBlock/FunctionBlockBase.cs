@@ -12,7 +12,10 @@ namespace Sim_FrameWork
 
 
         public virtual void Update() { }
-        public virtual void Awake() { }
+        public virtual void Awake()
+        {
+            InitData();
+        }
         
 
         public virtual void InitData()

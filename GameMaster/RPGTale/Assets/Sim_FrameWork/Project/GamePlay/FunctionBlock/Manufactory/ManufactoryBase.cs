@@ -23,9 +23,6 @@ namespace Sim_FrameWork
         public override void InitData()
         {
             ManufacturingspeedBase = FunctionBlockModule.Instance.GetManufactureSpeed(functionBlockID);
-            //InputMaterialDic = FunctionBlockModule.Instance.GetManufactureMaterialList(functionBlockID, FunctionBlockModule.FunctionBlockManuMaterialType.Input);
-            //OutputMaterialDic = FunctionBlockModule.Instance.GetManufactureMaterialList(functionBlockID, FunctionBlockModule.FunctionBlockManuMaterialType.Output);
-            //ByProductMaterialDic = FunctionBlockModule.Instance.GetManufactureMaterialList(functionBlockID, FunctionBlockModule.FunctionBlockManuMaterialType.Byproduct);
         }
 
         public void GetCurrentFormulaData()

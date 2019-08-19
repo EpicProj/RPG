@@ -52,6 +52,10 @@
   </ItemGroup>
   <ItemGroup>
      <Compile Include="Assets\Sim_FrameWork\Editor\DataEditor.cs" />
+     <Compile Include="Assets\Sim_FrameWork\Editor\Resources\ABConfig.cs" />
+     <Compile Include="Assets\Sim_FrameWork\Editor\Resources\BuildApp.cs" />
+     <Compile Include="Assets\Sim_FrameWork\Editor\Resources\BundleEditor.cs" />
+     <Compile Include="Assets\Sim_FrameWork\Editor\SimFrameConfig.cs" />
  <Reference Include="UnityEngine.UI">
  <HintPath>F:/Unity/Editor/Data/UnityExtensions/Unity/GUISystem/UnityEngine.UI.dll</HintPath>
  </Reference>

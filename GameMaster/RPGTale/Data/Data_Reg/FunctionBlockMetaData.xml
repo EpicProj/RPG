@@ -25,7 +25,7 @@
 	</variable>
 
 	<variable  name="AllFunctionBlock_RawList" type="list">
-		<list name = "FunctionBlock_Raw" sheetname="FFunctionBlock_Raw" mainKey = "RawID">
+		<list name = "FunctionBlock_Raw" sheetname="FunctionBlock_Raw" mainKey = "RawID">
 			<variable  name="RawID" col = "RawID" type="int"/>
 			<variable  name="RawType" col = "RawType" type="ushort"/>
 		</list>
