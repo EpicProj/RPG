@@ -19,24 +19,12 @@ public class FunctionBlockMetaData : ExcelBase {
             fac.FunctionBlockName = "";
             fac.FunctionBlockIcon = "";
             fac.FunctionBlockDesc = "";
+            fac.PreLevelBlock = i;
             fac.FunctionBlockType = "";
             fac.FunctionBlockTypeIndex = (ushort)i;
             fac.Level = (ushort)i;
-            fac.Area = "";
-            fac.InputSlotNumBase = (ushort)i;
-            fac.OutputSlotNumBase = (ushort)i;
-            fac.PlugSlotNumBase = (ushort)i;
-            fac.StaffSlotNumBase = (ushort)i;
+            fac.EXPDataJsonIndex = "";
             AllFunctionBlockList.Add(fac);
-        }
-
-        AllTextData_FunctionBlockList = new List<TextData_FunctionBlock>();
-        for(int i = 0; i < 2; i++)
-        {
-            TextData_FunctionBlock text = new TextData_FunctionBlock();
-            text.TextID = "";
-            text.Value_CN = "";
-            AllTextData_FunctionBlockList.Add(text);
         }
 
         AllFunctionBlock_RawList = new List<FunctionBlock_Raw>();
@@ -45,6 +33,10 @@ public class FunctionBlockMetaData : ExcelBase {
             FunctionBlock_Raw row = new FunctionBlock_Raw();
             row.RawID = i;
             row.RawType = (ushort)i;
+            row.InherentLevel = "";
+            row.CollectMaterialList = "";
+            row.AreaDetailDefault = "";
+            row.AreaMax = "";
             AllFunctionBlock_RawList.Add(row);
         }
 
@@ -53,10 +45,13 @@ public class FunctionBlockMetaData : ExcelBase {
         {
             FunctionBlock_Manufacture manu = new FunctionBlock_Manufacture();
             manu.ManufactureID = i;
+            manu.InherentLevel = "";
             manu.SpeedBase = i;
             manu.FormulaInfoID = i;
             manu.MaintenanceBase = "";
             manu.EnergyConsumptionBase = "";
+            manu.AreaDetailDefault = "";
+            manu.AreaMax = "";
             AllFunctionBlock_ManufactureList.Add(manu);
         }
 
@@ -65,7 +60,10 @@ public class FunctionBlockMetaData : ExcelBase {
         {
             FunctionBlock_Science science = new FunctionBlock_Science();
             science.ScienceID = i;
+            science.InherentLevel = "";
             science.Comment = "";
+            science.AreaDetailDefault = "";
+            science.AreaMax = "";
             AllFunctionBlock_ScienceList.Add(science);
         }
 
@@ -74,7 +72,10 @@ public class FunctionBlockMetaData : ExcelBase {
         {
             FunctionBlock_Energy energy = new FunctionBlock_Energy();
             energy.EnergyID = i;
+            energy.InherentLevel = "";
             energy.EnergyType = (ushort)i;
+            energy.AreaDetailDefault = "";
+            energy.AreaMax = "";
             AllFunctionBlock_EnergyList.Add(energy);
         }
 
@@ -93,7 +94,6 @@ public class FunctionBlockMetaData : ExcelBase {
     public override void Init()
     {
         AllFunctionBlockDic.Clear();
-        AllTextData_FunctionBlockDic.Clear();
         AllFunctionBlockTypeDataDic.Clear();
         AllFunctionBlock_EnergyDic.Clear();
         AllFunctionBlock_ManufactureDic.Clear();
@@ -109,17 +109,6 @@ public class FunctionBlockMetaData : ExcelBase {
             else
             {
                 AllFunctionBlockDic.Add(data.FunctionBlockID, data);
-            }
-        }
-        foreach (var data in AllTextData_FunctionBlockList)
-        {
-            if (AllTextData_FunctionBlockDic.ContainsKey(data.TextID))
-            {
-                Debug.LogError("Find Same FunctionBlockID , FunctionBlock ID = " + data.TextID);
-            }
-            else
-            {
-                AllTextData_FunctionBlockDic.Add(data.TextID, data);
             }
         }
         foreach (var data in AllFunctionBlock_RawList)
@@ -184,8 +173,6 @@ public class FunctionBlockMetaData : ExcelBase {
     [XmlIgnore]
     public Dictionary<int, FunctionBlock> AllFunctionBlockDic = new Dictionary<int, FunctionBlock>();
     [XmlIgnore]
-    public Dictionary<string, TextData_FunctionBlock> AllTextData_FunctionBlockDic = new Dictionary<string, TextData_FunctionBlock>();
-    [XmlIgnore]
     public Dictionary<int, FunctionBlock_Raw> AllFunctionBlock_RawDic = new Dictionary<int, FunctionBlock_Raw>();
     [XmlIgnore]
     public Dictionary<int, FunctionBlock_Manufacture> AllFunctionBlock_ManufactureDic = new Dictionary<int, FunctionBlock_Manufacture>();
@@ -198,8 +185,6 @@ public class FunctionBlockMetaData : ExcelBase {
 
     [XmlElement]
     public List<FunctionBlock> AllFunctionBlockList { get; set; }
-    [XmlElement]
-    public List<TextData_FunctionBlock> AllTextData_FunctionBlockList { get; set; }
     [XmlElement]
     public List<FunctionBlock_Raw> AllFunctionBlock_RawList { get; set; }
     [XmlElement]
@@ -228,31 +213,15 @@ public class FunctionBlock
     [XmlAttribute]
     public string FunctionBlockDesc { get; set; }
     [XmlAttribute]
+    public int PreLevelBlock { get; set; }
+    [XmlAttribute]
     public string FunctionBlockType { get; set; }
     [XmlAttribute]
     public ushort FunctionBlockTypeIndex { get; set; }
     [XmlAttribute]
     public ushort Level { get; set; }
     [XmlAttribute]
-    public string Area { get; set; }
-    [XmlAttribute]
-    public ushort InputSlotNumBase { get; set; }
-    [XmlAttribute]
-    public ushort OutputSlotNumBase { get; set; }
-    [XmlAttribute]
-    public ushort PlugSlotNumBase { get; set; }
-    [XmlAttribute]
-    public ushort StaffSlotNumBase { get; set; }
-
-}
-
-[System.Serializable] 
-public class TextData_FunctionBlock
-{
-    [XmlAttribute]
-    public string TextID { get; set; }
-    [XmlAttribute]
-    public string Value_CN { get; set; }
+    public string EXPDataJsonIndex { get; set; }
 
 }
 
@@ -264,6 +233,14 @@ public class FunctionBlock_Raw
     public int RawID { get; set; }
     [XmlAttribute]
     public ushort RawType { get; set; }
+    [XmlAttribute]
+    public string InherentLevel { get; set; }
+    [XmlAttribute]
+    public string CollectMaterialList { get; set; }
+    [XmlAttribute]
+    public string AreaDetailDefault { get; set; }
+    [XmlAttribute]
+    public string AreaMax { get; set; }
 }
 
 [System.Serializable] 
@@ -273,6 +250,8 @@ public class FunctionBlock_Manufacture
     [XmlAttribute]
     public int ManufactureID { get; set; }
     [XmlAttribute]
+    public string InherentLevel { get; set; }
+    [XmlAttribute]
     public float SpeedBase { get; set; }
     [XmlAttribute]
     public int FormulaInfoID { get; set; }
@@ -281,7 +260,10 @@ public class FunctionBlock_Manufacture
     public string MaintenanceBase { get; set; }
     [XmlAttribute]
     public string EnergyConsumptionBase { get; set; }
-
+    [XmlAttribute]
+    public string AreaDetailDefault { get; set; }
+    [XmlAttribute]
+    public string AreaMax { get; set; }
 }
 
 [System.Serializable] 
@@ -291,7 +273,13 @@ public class FunctionBlock_Science
     [XmlAttribute]
     public int ScienceID { get; set; }
     [XmlAttribute]
+    public string InherentLevel { get; set; }
+    [XmlAttribute]
     public string Comment { get; set; }
+    [XmlAttribute]
+    public string AreaDetailDefault { get; set; }
+    [XmlAttribute]
+    public string AreaMax { get; set; }
 }
 
 [System.Serializable]
@@ -301,7 +289,13 @@ public class FunctionBlock_Energy
     [XmlAttribute]
     public int EnergyID { get; set; }
     [XmlAttribute]
+    public string InherentLevel { get; set; }
+    [XmlAttribute]
     public ushort EnergyType { get; set; }
+    [XmlAttribute]
+    public string AreaDetailDefault { get; set; }
+    [XmlAttribute]
+    public string AreaMax { get; set; }
 
 }
 

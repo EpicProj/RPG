@@ -1,9 +1,9 @@
 ManifestFileVersion: 0
-CRC: 3635660886
+CRC: 3205213066
 Hashes:
   AssetFileHash:
     serializedVersion: 2
-    Hash: a152d3a089c0c8955a59a637384316e3
+    Hash: 4176910478637e016f5e0b65846b91f8
   TypeTreeHash:
     serializedVersion: 2
     Hash: 5ad585dd02dfb5016c0dad519eab8f49
@@ -12,6 +12,7 @@ ClassTypes:
 - Class: 49
   Script: {instanceID: 0}
 Assets:
+- Assets/Resources/Data/DataFormat/Binary/DistrictMetaData.bytes
 - Assets/Resources/Data/DataFormat/Binary/TalentsMetaData.bytes
 - Assets/Resources/Data/DataFormat/Binary/MaterialMetaData.bytes
 - Assets/Resources/Data/DataFormat/Binary/FunctionBlockMetaData.bytes

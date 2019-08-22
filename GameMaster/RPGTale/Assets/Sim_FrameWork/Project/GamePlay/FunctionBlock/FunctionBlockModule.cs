@@ -37,9 +37,6 @@ namespace Sim_FrameWork {
 
         public List<FunctionBlockTypeData> FunctionBlockTypeDataList=new List<FunctionBlockTypeData> ();
         public Dictionary<string, FunctionBlockTypeData> FunctionBlockTypeDataDic = new Dictionary<string, FunctionBlockTypeData>();
-        public List<TextData_FunctionBlock> TextData_FunctionBlockList=new List<TextData_FunctionBlock> ();
-        public Dictionary<string, TextData_FunctionBlock> TextData_FunctionBlockDic=new Dictionary<string, TextData_FunctionBlock> ();
-
         private bool HasInit = false;
 
         public string FacotryGUID;
@@ -85,26 +82,6 @@ namespace Sim_FrameWork {
 
         #endregion
         #region Method Data
-
-        //Get Name
-        public string GetFunctionBlockName(int functionBlockID)
-        {
-            return GetFunctionBlockTextByKey(GetFunctionBlockByFacotryID(functionBlockID).FunctionBlockDesc);
-        }
-        public string GetFunctionBlockName(FunctionBlock functionBlock)
-        {
-            return GetFunctionBlockTextByKey(functionBlock.FunctionBlockName);
-        }
-
-        //Get Desc
-        public string GetFunctionBlockDesc(int functionBlockID)
-        {
-            return GetFunctionBlockTextByKey(GetFunctionBlockByFacotryID(functionBlockID).FunctionBlockName);
-        }
-        public string GetFacotryDesc(FunctionBlock functionBlock)
-        {
-            return GetFunctionBlockTextByKey(functionBlock.FunctionBlockDesc);
-        }
 
         //Get FunctionBlockType
         public FunctionBlockType GetFacotryType(int facotryID)
@@ -204,7 +181,7 @@ namespace Sim_FrameWork {
         public Sprite GetFunctionBlockIcon(int functionBlockID)
         {
             string path = GetFunctionBlockByFacotryID(functionBlockID).FunctionBlockIcon;
-            return Utility.LoadSprite(path);
+            return Utility.LoadSprite(path,Utility.SpriteType.png);
          
         }
 
@@ -212,45 +189,13 @@ namespace Sim_FrameWork {
         {
             return GetFunctionBlockByFacotryID(functionBlockID).Level;
         }
-        public ushort GetFacotryInputSlotNum(int functionBlockID)
-        {
-            return GetFunctionBlockByFacotryID(functionBlockID).InputSlotNumBase;
-        }
-        public ushort GetFunctionBlockOutputSlotNum(int functionBlockID)
-        {
-            return GetFunctionBlockByFacotryID(functionBlockID).OutputSlotNumBase;
-        }
-        public ushort GetFacotryPlugSlotNum(int functionBlockID)
-        {
-            return GetFunctionBlockByFacotryID(functionBlockID).PlugSlotNumBase;
-        }
-        public ushort GetFunctionBlockStaffSlotNum(int functionBlockID)
-        {
-            return GetFunctionBlockByFacotryID(functionBlockID).StaffSlotNumBase;
-        }
-
-        //Get Text By Key
-        public string GetFunctionBlockTextByKey(string key)
-        {
-            TextData_FunctionBlock text = null;
-            TextData_FunctionBlockDic.TryGetValue(key, out text);
-            if (text != null)
-            {
-                return text.Value_CN;
-            }
-            else
-            {
-                Debug.LogError("GetFunctionBlockText Error TextID=" + key);
-                return string.Empty;
-            }
-        }
 
         public FunctionBlock GetFunctionBlockByFacotryID(int functionBlockID)
         {
             FunctionBlock functionBlock = null;
             FunctionBlockDic.TryGetValue(functionBlockID, out functionBlock);
             if (functionBlock == null)
-                Debug.LogError("Get FunctionBlockDesc Error , ID=" + functionBlockID);
+                Debug.LogError("Get FunctionBlock Error , ID=" + functionBlockID);
             return functionBlock;
         }
         #endregion

@@ -1,5 +1,5 @@
 ManifestFileVersion: 0
-CRC: 3563238370
+CRC: 2974788103
 AssetBundleManifest:
   AssetBundleInfos:
     Info_0:
@@ -34,10 +34,13 @@ AssetBundleManifest:
       Name: factorytest
       Dependencies: {}
     Info_9:
+      Name: material
+      Dependencies: {}
+    Info_10:
       Name: blockgrid
       Dependencies:
         Dependency_0: sprite
-    Info_10:
+    Info_11:
       Name: factoryinfodialog
       Dependencies:
         Dependency_0: sprite

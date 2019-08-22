@@ -7,13 +7,19 @@ namespace Sim_FrameWork
 {
     public class Utility : MonoBehaviour
     {
-
-        public static Sprite LoadSprite(string SpritePath)
+        public enum SpriteType
         {
+            png,
+            jpg
+        }
+
+        public static Sprite LoadSprite(string SpritePath,SpriteType type)
+        {
+            string TargetPath = "Assets/" + SpritePath +"."+type.ToString();
             Sprite sprite = null;
             try
             {
-                sprite = ResourceManager.Instance.LoadResource<Sprite>(SpritePath);
+                sprite = ResourceManager.Instance.LoadResource<Sprite>(TargetPath);
             }
             catch (Exception e)
             {

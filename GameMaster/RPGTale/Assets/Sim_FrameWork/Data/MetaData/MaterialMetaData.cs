@@ -44,14 +44,6 @@ public class MaterialMetaData : ExcelBase {
             AllMaterial_FluidList.Add(mf);
         }
 
-        AllTextMap_MaterialList = new List<TextMap_Material>();
-        for(int i = 0; i < 2; i++)
-        {
-            TextMap_Material tm = new TextMap_Material();
-            tm.TextID = "";
-            tm.Value_CN = "";
-            AllTextMap_MaterialList.Add(tm);
-        }
     }
 
 #endif
@@ -60,7 +52,6 @@ public class MaterialMetaData : ExcelBase {
         AllMaterialDic.Clear();
         AllMaterial_ArtifactDic.Clear();
         AllMaterial_FluidDic.Clear();
-        AllTextMap_MaterialDic.Clear();
 
         foreach (var data in AllMaterialList)
         {
@@ -95,18 +86,6 @@ public class MaterialMetaData : ExcelBase {
                 AllMaterial_FluidDic.Add(data.FluidID, data);
             }
         }
-        foreach (var data in AllTextMap_MaterialList)
-        {
-            if (AllTextMap_MaterialDic.ContainsKey(data.TextID))
-            {
-                Debug.LogError("Find Same TextID , TextID= " + data.TextID);
-            }
-            else
-            {
-                AllTextMap_MaterialDic.Add(data.TextID, data);
-            }
-        }
-
     }
 
 
@@ -117,8 +96,6 @@ public class MaterialMetaData : ExcelBase {
     public Dictionary<int, Material_Artifact> AllMaterial_ArtifactDic = new Dictionary<int, Material_Artifact>();
     [XmlIgnore]
     public Dictionary<int, Material_Fluid> AllMaterial_FluidDic = new Dictionary<int, Material_Fluid>();
-    [XmlIgnore]
-    public Dictionary<string, TextMap_Material> AllTextMap_MaterialDic = new Dictionary<string, TextMap_Material>();
 
 
     [XmlElement]
@@ -127,8 +104,6 @@ public class MaterialMetaData : ExcelBase {
     public List<Material_Artifact> AllMaterial_ArtifactList { get; set; }
     [XmlElement]
     public List<Material_Fluid> AllMaterial_FluidList { get; set; }
-    [XmlElement]
-    public List<TextMap_Material> AllTextMap_MaterialList { get; set; }
 }
 
 [System.Serializable]
@@ -172,13 +147,4 @@ public class Material_Fluid
     public int FluidID { get; set; }
     [XmlAttribute]
     public string Comment { get; set; }
-}
-
-[System.Serializable]
-public class TextMap_Material
-{
-    [XmlAttribute]
-    public string TextID { get; set; }
-    [XmlAttribute]
-    public string Value_CN { get; set; }
 }

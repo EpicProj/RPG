@@ -24,7 +24,7 @@ namespace Sim_FrameWork
             Config.JsonReader reader= new Config.JsonReader();
             BaseResourcesConfig config = reader.LoadBaseResourcesConfig();
             CurrencyName = config.CurrencyName;
-            CurrencyIcon = Utility.LoadSprite(config.CurrencyIconPath);
+            CurrencyIcon = Utility.LoadSprite(config.CurrencyIconPath,Utility.SpriteType.png);
             
         }
 

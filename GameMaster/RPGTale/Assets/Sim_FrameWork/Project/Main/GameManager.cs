@@ -9,11 +9,11 @@ namespace Sim_FrameWork
 
 
 
-        public void Awale()
+        public void Awake()
         {
             AssetBundleManager.Instance.LoadAssetBundleConfig();
             ResourceManager.Instance.Init(this);
-            //ObjectManager.Instance.Init(transform.Find("RecyclePoolTrs"), transform.Find("SceneTrs"));
+            ObjectManager.Instance.Init(transform.Find("RecyclePoolTrs"), transform.Find("SceneTrs"));
         }
     }
 }

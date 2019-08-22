@@ -2,9 +2,10 @@
 using System.Collections.Generic;
 using UnityEngine;
 using System;
+using UnityEngine.UI;
 
 namespace Sim_FrameWork {
-    public class MaterialModule : MonoSingleton<MaterialModule> {
+    public class MaterialModule : Singleton<MaterialModule> {
 
         public enum MaterialType
         {
@@ -25,11 +26,12 @@ namespace Sim_FrameWork {
         public Dictionary<int, Material_Artifact> Material_ArtifactDic = new Dictionary<int, Material_Artifact>();
         public List<Material_Fluid> Material_FluidList = new List<Material_Fluid>();
         public Dictionary<int, Material_Fluid> Material_FluidDic = new Dictionary<int, Material_Fluid>();
-        public List<TextMap_Material> TextMap_MaterialList = new List<TextMap_Material>();
-        public Dictionary<string, TextMap_Material> TextMap_MaterialDic = new Dictionary<string, TextMap_Material>();
 
 
         private bool HasInit = false;
+
+        private const string MaterialPrefabPath = "Assets/Prefabs/Object/Material.prefab";
+
         #region data
         public void InitData()
         {
@@ -41,27 +43,25 @@ namespace Sim_FrameWork {
             Material_ArtifactDic = MaterialMetaDataReader.GetMaterial_ArtifactDic();
             Material_FluidList = MaterialMetaDataReader.GetMaterial_FluidListData();
             Material_FluidDic = MaterialMetaDataReader.GetMaterial_FluidDic();
-            TextMap_MaterialList = MaterialMetaDataReader.GetTextMap_MaterialListData();
-            TextMap_MaterialDic = MaterialMetaDataReader.GetTextMap_MaterialDic();
 
             HasInit = true;
         }
 
         public string GetMaterialName(int materialID)
         {
-            return GetTextByKey(GetMaterialByMaterialID(materialID).MaterialName);
+            return MultiLanguage.Instance.GetTextValue(GetMaterialByMaterialID(materialID).MaterialName);
         }
         public string GetMaterialName(Material ma)
         {
-            return GetTextByKey(ma.MaterialName);
+            return MultiLanguage.Instance.GetTextValue(ma.MaterialName);
         }
         public string GetMaterialDesc(int materialID)
         {
-            return GetTextByKey(GetMaterialByMaterialID(materialID).MaterialDesc);
+            return MultiLanguage.Instance.GetTextValue(GetMaterialByMaterialID(materialID).MaterialDesc);
         }
         public string GetmaterialDesc(Material ma)
         {
-            return GetTextByKey(ma.MaterialDesc);
+            return MultiLanguage.Instance.GetTextValue(ma.MaterialDesc);
         }
         public ushort GetMaterialRarity(int materialID)
         {
@@ -127,14 +127,6 @@ namespace Sim_FrameWork {
                 Debug.LogError("Get Material_Fluid  Error , ID = " + fluidID);
             return mf;
         }
-        public string GetTextByKey(string key)
-        {
-            TextMap_Material text = null;
-            TextMap_MaterialDic.TryGetValue(key, out text);
-            if (text == null || string.IsNullOrEmpty(text.Value_CN))
-                Debug.LogWarning("Text is null , TextID=" + key);
-            return text.Value_CN;
-        }
 
         //Artifact
         public float GetMaterialArtifactProcessingTime(int materialID)
@@ -155,10 +147,16 @@ namespace Sim_FrameWork {
         public Sprite GetMaterialSprite(int materialID)
         {
             string path = GetMaterialByMaterialID(materialID).MaterialIcon;
-            return Utility.LoadSprite(path);
+            return Utility.LoadSprite(path,Utility.SpriteType.png);
         }
 
-
+        public GameObject InitMaterialObj(int materialID)
+        {
+            GameObject MaterialObj = ObjectManager.Instance.InstantiateObject(MaterialPrefabPath);
+            MaterialObj.transform.Find("Image").GetComponent<Image>().sprite = GetMaterialSprite(materialID);
+            MaterialObj.transform.Find("Name").GetComponent<Text>().text = GetMaterialName(materialID);
+            return MaterialObj;
+        }
         #endregion
     }
 

@@ -25,9 +25,6 @@ namespace Sim_FrameWork
         public static List<FunctionBlockTypeData> FunctionBlockTypeDataList=new List<FunctionBlockTypeData> ();
         public static Dictionary<string,FunctionBlockTypeData> FunctionBlockTypeDataDic=new Dictionary<string, FunctionBlockTypeData> ();
 
-        public static List<TextData_FunctionBlock> TextData_FunctionBlockList=new List<TextData_FunctionBlock> ();
-        public static Dictionary<string, TextData_FunctionBlock> TextData_FunctionBlockDic=new Dictionary<string, TextData_FunctionBlock> ();
-
         public static void LoadData()
         {
             var config = ConfigManager.Instance.LoadData<FunctionBlockMetaData>(ConfigPath.TABLE_FUNCTIONBLOCK_METADATA_PATH);
@@ -49,8 +46,6 @@ namespace Sim_FrameWork
 
             FunctionBlockTypeDataList = config.AllFunctionBlockTypeDataList;
             FunctionBlockTypeDataDic = config.AllFunctionBlockTypeDataDic;
-            TextData_FunctionBlockList = config.AllTextData_FunctionBlockList;
-            TextData_FunctionBlockDic = config.AllTextData_FunctionBlockDic;
         }
 
 
@@ -84,12 +79,6 @@ namespace Sim_FrameWork
             LoadData();
             return FunctionBlockTypeDataList;
         }
-        public static List<TextData_FunctionBlock> GetTextData_FunctionBlockData()
-        {
-            LoadData();
-            return TextData_FunctionBlockList;
-        }
-       
 
         public static Dictionary<int, FunctionBlock> GetFunctionBlockDataDic()
         {
@@ -136,20 +125,6 @@ namespace Sim_FrameWork
                 return null;
             }
             return factory;
-        }
-        public static TextData_FunctionBlock GetTextData_FunctionBlockByKey(string key)
-        {
-            LoadData();
-            TextData_FunctionBlock text = null;
-            if (FunctionBlockDataDic == null)
-                return null;
-            TextData_FunctionBlockDic.TryGetValue(key, out text);
-            if (text == null)
-            {
-                Debug.LogError("Can not Find FunctionBlocktext , Key = " + key);
-                return null;
-            }
-            return text;
         }
 
     }

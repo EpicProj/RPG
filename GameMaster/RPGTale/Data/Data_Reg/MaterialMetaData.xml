@@ -27,11 +27,4 @@
 			<variable  name="Comment" col = "Comment" type="string"/>
 		</list>
 	</variable>
-
-		<variable  name="AllTextMap_MaterialList" type="list">
-		<list name = "TextMap_Material" sheetname="TextMap_Material" mainKey = "TextID">
-			<variable  name="TextID" col = "TextID" type="string"/>
-			<variable  name="Value_CN" col = "Value_CN" type="string"/>
-		</list>
-	</variable>
 </data>

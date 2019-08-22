@@ -22,10 +22,14 @@ namespace Sim_FrameWork
         public override void Awake()
         {
             FunctionBlockModule.Instance.InitData();
+            MaterialModule.Instance.InitData();
             functionBlockID = 100;
             base.Awake();
             factoryCollider = gameObject.GetComponent<BoxCollider>();
-            
+
+            Debug.LogError(MultiLanguage.Instance.GetTextValue("BlockName_100"));
+            GameObject obj = MaterialModule.Instance.InitMaterialObj(100);
+            obj.transform.SetParent(GameObject.Find("Canvas").transform,false);
         }
 
         public override void Update()
@@ -44,6 +48,7 @@ namespace Sim_FrameWork
             OutputIconPath = config.OutputIconPath;
             ByproductDesc = config.ByproductDesc;
             ByproductIconPath = config.ByproductIconPath;
+
         }
 
         public void Product()

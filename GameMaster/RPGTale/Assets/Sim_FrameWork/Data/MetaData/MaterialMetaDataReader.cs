@@ -15,9 +15,6 @@ namespace Sim_FrameWork
         public static List<Material_Fluid> Material_FluidList = new List<Material_Fluid>();
         public static Dictionary<int, Material_Fluid> Material_FluidDic = new Dictionary<int, Material_Fluid>();
 
-        public static List<TextMap_Material> TextMap_MaterialList = new List<TextMap_Material>();
-        public static Dictionary<string, TextMap_Material> TextMap_MaterialDic = new Dictionary<string, TextMap_Material>();
-
         public static void LoadData()
         {
             var config = ConfigManager.Instance.LoadData<MaterialMetaData>(ConfigPath.TABLE_MATERIAL_METADATA_PATH);
@@ -33,8 +30,6 @@ namespace Sim_FrameWork
             Material_ArtifactDic = config.AllMaterial_ArtifactDic;
             Material_FluidList = config.AllMaterial_FluidList;
             Material_FluidDic = config.AllMaterial_FluidDic;
-            TextMap_MaterialList = config.AllTextMap_MaterialList;
-            TextMap_MaterialDic = config.AllTextMap_MaterialDic;
         }
 
 
@@ -53,11 +48,7 @@ namespace Sim_FrameWork
             LoadData();
             return Material_FluidList;
         }
-        public static List<TextMap_Material> GetTextMap_MaterialListData()
-        {
-            LoadData();
-            return TextMap_MaterialList;
-        }
+
 
         public static Dictionary<int,Material> GetMaterialDic()
         {
@@ -74,11 +65,7 @@ namespace Sim_FrameWork
             LoadData();
             return Material_FluidDic;
         }
-        public static Dictionary<string,TextMap_Material> GetTextMap_MaterialDic()
-        {
-            LoadData();
-            return TextMap_MaterialDic;
-        }
+
 
     }
 }
