@@ -6,9 +6,17 @@ namespace Sim_FrameWork
 {
     public class FunctionBlockBase : MonoBehaviour
     {
+
         public int functionBlockID;
         public string functionBlockUID;
         public FunctionBlock functionBlock;
+
+        public int currentBlockLevel;
+        public int currentBlockExp;
+         
+
+        //Base Info
+        public Vector3 BlockPos;
 
 
         public virtual void Update() { }
@@ -27,17 +35,18 @@ namespace Sim_FrameWork
         //Action
         public virtual void OnPlaceFunctionBlock()
         {
-            functionBlockUID = FunctionBlockModule.Instance.GenerateGUID();
-            OnAddFacotry();
+            FunctionBlockModule.Instance.PlaceFunctionBlock(functionBlockID, BlockPos);
         }
         public virtual void OnHoldFunctionBlock() { }
         public virtual void OnDestoryFunctionBlock() { }
-        public virtual void OnSelectFunctionBlock() { }
-
-        public virtual void OnAddFacotry()
+        public virtual void OnSelectFunctionBlock()
         {
-            FunctionBlockModule.Instance.AddFunctionBlock(functionBlockUID, functionBlock);
+
+
+
         }
+
+
         
     }
 }

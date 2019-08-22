@@ -1,0 +1,43 @@
+ManifestFileVersion: 0
+CRC: 3563238370
+AssetBundleManifest:
+  AssetBundleInfos:
+    Info_0:
+      Name: byte
+      Dependencies: {}
+    Info_1:
+      Name: sprite
+      Dependencies: {}
+    Info_2:
+      Name: block_0
+      Dependencies: {}
+    Info_3:
+      Name: block_1
+      Dependencies: {}
+    Info_4:
+      Name: block_2
+      Dependencies: {}
+    Info_5:
+      Name: chunk
+      Dependencies: {}
+    Info_6:
+      Name: generator
+      Dependencies:
+        Dependency_0: block_0
+        Dependency_1: block_1
+        Dependency_2: block_2
+        Dependency_3: chunk
+    Info_7:
+      Name: simplesun
+      Dependencies: {}
+    Info_8:
+      Name: factorytest
+      Dependencies: {}
+    Info_9:
+      Name: blockgrid
+      Dependencies:
+        Dependency_0: sprite
+    Info_10:
+      Name: factoryinfodialog
+      Dependencies:
+        Dependency_0: sprite

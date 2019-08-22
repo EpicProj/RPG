@@ -6,6 +6,7 @@ using System.Xml.Serialization;
 [System.Serializable]
 public class FunctionBlockMetaData : ExcelBase {
 
+#if UNITY_EDITOR
     public override void Construction()
     {
 
@@ -88,6 +89,7 @@ public class FunctionBlockMetaData : ExcelBase {
             AllFunctionBlockTypeDataList.Add(type);
         }
     }
+#endif
     public override void Init()
     {
         AllFunctionBlockDic.Clear();

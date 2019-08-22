@@ -6,6 +6,7 @@ using System.Xml.Serialization;
 [System.Serializable]
 public class TalentsMetaData : ExcelBase {
 
+#if UNITY_EDITOR
     public override void Construction()
     {
         AllTalentsList = new List<Talents>();
@@ -65,7 +66,7 @@ public class TalentsMetaData : ExcelBase {
         }
     }
 
-
+#endif
     public override void Init()
     {
         AllTalentSkillDataDic.Clear();

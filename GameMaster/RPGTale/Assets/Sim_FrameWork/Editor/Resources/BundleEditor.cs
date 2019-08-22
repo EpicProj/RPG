@@ -12,8 +12,8 @@ namespace Sim_FrameWork.Editor
     public class BundleEditor
     {
         private static string m_BunleTargetPath = Application.dataPath + "/../AssetBundle/" + EditorUserBuildSettings.activeBuildTarget.ToString();
-        private static string ABCONFIGPATH = "Assets/RealFram/Editor/Resource/ABConfig.asset";
-        private static string ABBYTEPATH = SimConfig.GetRealFram().m_ABBytePath;
+        private static string ABCONFIGPATH = "Assets/Resources/Data/Config/ABConfig.asset";
+        private static string ABBYTEPATH = SimConfig.GetSimFram().m_ABBytePath;
         //key是ab包名，value是路径，所有文件夹ab包dic
         private static Dictionary<string, string> m_AllFileDir = new Dictionary<string, string>();
         //过滤的list
@@ -23,7 +23,7 @@ namespace Sim_FrameWork.Editor
         //储存所有有效路径
         private static List<string> m_ConfigFil = new List<string>();
 
-        [MenuItem("Tools/打包")]
+        [MenuItem("SimPro/打包")]
         public static void Build()
         {
             DataEditor.AllXmlToBinary();
@@ -198,7 +198,11 @@ namespace Sim_FrameWork.Editor
 
             //写入xml
             string xmlPath = Application.dataPath + "/AssetBundleConfig.xml";
-            if (File.Exists(xmlPath)) File.Delete(xmlPath);
+            if (File.Exists(xmlPath))
+            {
+                File.Delete(xmlPath);
+            }
+            
             FileStream fileStream = new FileStream(xmlPath, FileMode.Create, FileAccess.ReadWrite, FileShare.ReadWrite);
             StreamWriter sw = new StreamWriter(fileStream, System.Text.Encoding.UTF8);
             XmlSerializer xs = new XmlSerializer(config.GetType());

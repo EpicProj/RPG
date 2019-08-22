@@ -1,0 +1,22 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3bdf3253eef7d314090c57a569eecc23, type: 3}
+  m_Name: ABConfig
+  m_EditorClassIdentifier: 
+  m_AllPrefabPath:
+  - Assets/Prefabs
+  m_AllFileDirAB:
+  - ABName: Byte
+    Path: Assets/Resources/Data/DataFormat/Binary
+  - ABName: Sprite
+    Path: Assets/Resources/Sprite
+  - ABName: Music
+    Path: Assets/Resources/Music

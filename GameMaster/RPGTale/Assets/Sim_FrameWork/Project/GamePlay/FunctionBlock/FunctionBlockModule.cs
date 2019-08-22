@@ -256,12 +256,28 @@ namespace Sim_FrameWork {
         #endregion
 
         #region Main Function
-        public void PlaceFunctionBlock(int functionBlockID)
+
+        //Place Block
+        public void PlaceFunctionBlock(int functionBlockID,Vector3 checkpos)
         {
             FunctionBlock currentFunctionBlock = GetFunctionBlockByFacotryID(functionBlockID);
-            FunctionBlockHistory history = new FunctionBlockHistory(1, functionBlockID);
+            if (currentFunctionBlock == null)
+                return;
+            if (CheckBlockCanPlace(currentFunctionBlock,checkpos) )
+            {
+                string tempUID=GenerateGUID();
+                AddFunctionBlock(tempUID, currentFunctionBlock);
+            }
+            else
+            {
+                Debug.Log("Can not place factory ");
+            }
+           
 
-            FunctionBlockHistoryDic.Add(functionBlockID, history);
+
+            //FunctionBlockHistory history = new FunctionBlockHistory(1, functionBlockID);
+
+            //FunctionBlockHistoryDic.Add(functionBlockID, history);
         }
 
         public void AddFunctionBlock(string functionBlockUID,FunctionBlock functionBlock)
@@ -273,11 +289,18 @@ namespace Sim_FrameWork {
             CurrentFunctionBlockDataDic.Add(functionBlockUID, functionBlock);
             FunctionBlockGUIDList.Add(functionBlockUID);
         }
+
         public string GenerateGUID()
         {
             return Guid.NewGuid().ToString(); 
         }
 
+
+        public bool CheckBlockCanPlace(FunctionBlock block,Vector3 checkPos)
+        {
+            //TODO
+            return true;
+        }
         //Manufacture
 
 

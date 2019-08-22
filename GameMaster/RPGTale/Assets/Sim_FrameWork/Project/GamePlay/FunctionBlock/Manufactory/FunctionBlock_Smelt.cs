@@ -52,6 +52,11 @@ namespace Sim_FrameWork
         }
 
 
+        public override void OnPlaceFunctionBlock()
+        {
+            base.OnPlaceFunctionBlock();
+        }
+
         private void CheckMouseButtonDown()
         {
             if (Input.GetMouseButtonDown(0))

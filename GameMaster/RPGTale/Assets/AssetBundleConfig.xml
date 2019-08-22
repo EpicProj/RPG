@@ -1,0 +1,43 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<AssetBundleConfig xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <ABList Path="Assets/Prefabs/Map/Block/Block_0.prefab" Crc="1556416649" ABName="block_0" AssetName="Block_0.prefab" />
+  <ABList Path="Assets/Prefabs/Map/Block/Block_1.prefab" Crc="2423195671" ABName="block_1" AssetName="Block_1.prefab" />
+  <ABList Path="Assets/Prefabs/Map/Block/Block_2.prefab" Crc="518000628" ABName="block_2" AssetName="Block_2.prefab" />
+  <ABList Path="Assets/Prefabs/UI/Dialog/Factory/BlockGrid.prefab" Crc="2957190906" ABName="blockgrid" AssetName="BlockGrid.prefab">
+    <ABDependce>sprite</ABDependce>
+  </ABList>
+  <ABList Path="Assets/Resources/Data/DataFormat/Binary/FunctionBlockFormulaMetaData.bytes" Crc="1764439641" ABName="byte" AssetName="FunctionBlockFormulaMetaData.bytes" />
+  <ABList Path="Assets/Resources/Data/DataFormat/Binary/FunctionBlockMetaData.bytes" Crc="1928669167" ABName="byte" AssetName="FunctionBlockMetaData.bytes" />
+  <ABList Path="Assets/Resources/Data/DataFormat/Binary/MaterialMetaData.bytes" Crc="134689317" ABName="byte" AssetName="MaterialMetaData.bytes" />
+  <ABList Path="Assets/Resources/Data/DataFormat/Binary/TalentsMetaData.bytes" Crc="3589273257" ABName="byte" AssetName="TalentsMetaData.bytes" />
+  <ABList Path="Assets/Resources/Data/DataFormat/Binary/TechnologyMetaData.bytes" Crc="3118175188" ABName="byte" AssetName="TechnologyMetaData.bytes" />
+  <ABList Path="Assets/Prefabs/Map/Chunk/Chunk.prefab" Crc="3827161952" ABName="chunk" AssetName="Chunk.prefab" />
+  <ABList Path="Assets/Prefabs/Map/Chunk/ChunkAdditionalMesh.prefab" Crc="2551667754" ABName="chunk" AssetName="ChunkAdditionalMesh.prefab" />
+  <ABList Path="Assets/Prefabs/Map/Chunk/ChunkCollider.prefab" Crc="1421911425" ABName="chunk" AssetName="ChunkCollider.prefab" />
+  <ABList Path="Assets/Prefabs/UI/Dialog/Factory/FactoryInfoDialog.prefab" Crc="2178173471" ABName="factoryinfodialog" AssetName="FactoryInfoDialog.prefab">
+    <ABDependce>sprite</ABDependce>
+  </ABList>
+  <ABList Path="Assets/Prefabs/Object/Factorytest.prefab" Crc="2417927083" ABName="factorytest" AssetName="Factorytest.prefab" />
+  <ABList Path="Assets/Prefabs/Map/Chunk/Generator.prefab" Crc="2477043363" ABName="generator" AssetName="Generator.prefab">
+    <ABDependce>chunk</ABDependce>
+    <ABDependce>block_0</ABDependce>
+    <ABDependce>block_2</ABDependce>
+    <ABDependce>block_1</ABDependce>
+  </ABList>
+  <ABList Path="Assets/Prefabs/Map/SimpleSun.prefab" Crc="2371428080" ABName="simplesun" AssetName="SimpleSun.prefab" />
+  <ABList Path="Assets/Resources/Sprite/UI/Facotry/BlockInfoBG.png" Crc="514406836" ABName="sprite" AssetName="BlockInfoBG.png" />
+  <ABList Path="Assets/Resources/Sprite/UI/Facotry/FactoryDesc_BG.png" Crc="2764969152" ABName="sprite" AssetName="FactoryDesc_BG.png" />
+  <ABList Path="Assets/Resources/Sprite/UI/Facotry/FBG.png" Crc="4284778372" ABName="sprite" AssetName="FBG.png" />
+  <ABList Path="Assets/Resources/Sprite/UI/Facotry/Grid.png" Crc="1283126280" ABName="sprite" AssetName="Grid.png" />
+  <ABList Path="Assets/Resources/Sprite/UI/Facotry/Icon01.png" Crc="36151240" ABName="sprite" AssetName="Icon01.png" />
+  <ABList Path="Assets/Resources/Sprite/UI/Facotry/Icon02.png" Crc="1166533912" ABName="sprite" AssetName="Icon02.png" />
+  <ABList Path="Assets/Resources/Sprite/UI/Facotry/Icon03.png" Crc="2028457128" ABName="sprite" AssetName="Icon03.png" />
+  <ABList Path="Assets/Resources/Sprite/UI/Facotry/InfoBG1.png" Crc="2836015409" ABName="sprite" AssetName="InfoBG1.png" />
+  <ABList Path="Assets/Resources/Sprite/UI/Facotry/InfoBG2.png" Crc="4004140001" ABName="sprite" AssetName="InfoBG2.png" />
+  <ABList Path="Assets/Resources/Sprite/UI/Facotry/LevelInfo.png" Crc="823484961" ABName="sprite" AssetName="LevelInfo.png" />
+  <ABList Path="Assets/Resources/Sprite/UI/Facotry/M1.png" Crc="1034146316" ABName="sprite" AssetName="M1.png" />
+  <ABList Path="Assets/Resources/Sprite/UI/Facotry/MainBG.png" Crc="3542984470" ABName="sprite" AssetName="MainBG.png" />
+  <ABList Path="Assets/Resources/Sprite/UI/Facotry/ModeInfo.png" Crc="2618280820" ABName="sprite" AssetName="ModeInfo.png" />
+  <ABList Path="Assets/Resources/Sprite/UI/Facotry/TitleBG.png" Crc="239621470" ABName="sprite" AssetName="TitleBG.png" />
+  <ABList Path="Assets/Resources/Sprite/UI/Facotry/TitleBG2.png" Crc="3299940593" ABName="sprite" AssetName="TitleBG2.png" />
+</AssetBundleConfig>

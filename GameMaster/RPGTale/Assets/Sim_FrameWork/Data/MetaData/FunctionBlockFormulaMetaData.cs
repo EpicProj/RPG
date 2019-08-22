@@ -7,6 +7,7 @@ using System.Xml.Serialization;
 public class FunctionBlockFormulaMetaData : ExcelBase
 {
 
+#if UNITY_EDITOR
     public override void Construction()
     {
         AllFormulaDataList = new List<FormulaData>();
@@ -42,6 +43,7 @@ public class FunctionBlockFormulaMetaData : ExcelBase
         }
 
     }
+#endif
     public override void Init()
     {
         AllFormulaDataDic.Clear();

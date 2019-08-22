@@ -28,9 +28,13 @@ public class RealFramConfigInspector : Editor
         m_ABBytePath = serializedObject.FindProperty("m_ABBytePath");
         m_XmlPath = serializedObject.FindProperty("m_XmlPath");
         m_BinaryPath = serializedObject.FindProperty("m_BinaryPath");
-        m_ScriptsPath = serializedObject.FindProperty("m_BinaryPath");
+        m_ScriptsPath = serializedObject.FindProperty("m_ScriptsPath");
     }
-
+    [MenuItem("SimPro/Create Assets")]
+    public static void CreateAssets()
+    {
+        ConfigFile.CreateFile<SimFrameConfig>();
+    }
     public override void OnInspectorGUI()
     {
         serializedObject.Update();
@@ -48,11 +52,11 @@ public class RealFramConfigInspector : Editor
 
 public class SimConfig
 {
-    private const string RealFramPath = "Assets/Sim_FrameWork/Editor/Sim_FrameWork_Config.asset";
+    private const string SimFramePath = "Assets/Resources/Data/Config/SimFrameConfig.asset";
 
-    public static SimFrameConfig GetRealFram()
+    public static SimFrameConfig GetSimFram()
     {
-        SimFrameConfig config = AssetDatabase.LoadAssetAtPath<SimFrameConfig>(RealFramPath);
+        SimFrameConfig config = AssetDatabase.LoadAssetAtPath<SimFrameConfig>(SimFramePath);
         return config;
     }
 }

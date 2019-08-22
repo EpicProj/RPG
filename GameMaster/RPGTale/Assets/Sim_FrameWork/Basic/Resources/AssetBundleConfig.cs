@@ -5,7 +5,8 @@ using System.Xml.Serialization;
 
 namespace Sim_FrameWork
 {
-    public class AssetBundleConfig : MonoBehaviour
+    [System.Serializable]
+    public class AssetBundleConfig
     {
         [XmlElement("ABList")]
         public List<ABBase> ABList { get; set; }

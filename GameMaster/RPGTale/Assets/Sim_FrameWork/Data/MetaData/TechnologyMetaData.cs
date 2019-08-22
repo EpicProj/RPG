@@ -6,6 +6,7 @@ using System.Xml.Serialization;
 [System.Serializable]
 public class TechnologyMetaData : ExcelBase {
 
+#if UNITY_EDITOR
     public override void Construction()
     {
         AllTechnologyList = new List<Technology>();
@@ -37,6 +38,7 @@ public class TechnologyMetaData : ExcelBase {
         }
     }
 
+#endif
     public override void Init()
     {
         AllTechnologyDic.Clear();

@@ -6,6 +6,7 @@ using System.Xml.Serialization;
 [System.Serializable]
 public class MaterialMetaData : ExcelBase {
 
+#if UNITY_EDITOR
     public override void Construction()
     {
         AllMaterialList = new List<Material>();
@@ -53,6 +54,7 @@ public class MaterialMetaData : ExcelBase {
         }
     }
 
+#endif
     public override void Init()
     {
         AllMaterialDic.Clear();
