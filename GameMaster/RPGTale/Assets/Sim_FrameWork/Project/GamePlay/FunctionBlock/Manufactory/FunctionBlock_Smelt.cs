@@ -27,9 +27,8 @@ namespace Sim_FrameWork
             base.Awake();
             factoryCollider = gameObject.GetComponent<BoxCollider>();
 
-            Debug.LogError(MultiLanguage.Instance.GetTextValue("BlockName_100"));
-            GameObject obj = MaterialModule.Instance.InitMaterialObj(100);
-            obj.transform.SetParent(GameObject.Find("Canvas").transform,false);
+            //GameObject obj = MaterialModule.Instance.InitMaterialObj(100);
+            //obj.transform.SetParent(GameObject.Find("Canvas").transform,false);
         }
 
         public override void Update()

@@ -102,6 +102,10 @@
      <Compile Include="Assets\Sim_FrameWork\Project\Basic\ConfigUtility.cs" />
      <Compile Include="Assets\Sim_FrameWork\Project\Basic\ModuleManager.cs" />
      <Compile Include="Assets\Sim_FrameWork\Project\Basic\Utility.cs" />
+     <Compile Include="Assets\Sim_FrameWork\Project\GamePlay\Core\Inventory\ConstructSlotPanel.cs" />
+     <Compile Include="Assets\Sim_FrameWork\Project\GamePlay\Core\Inventory\Inventory.cs" />
+     <Compile Include="Assets\Sim_FrameWork\Project\GamePlay\Core\Inventory\Slot.cs" />
+     <Compile Include="Assets\Sim_FrameWork\Project\GamePlay\Core\Inventory\SlotItem.cs" />
      <Compile Include="Assets\Sim_FrameWork\Project\GamePlay\District\DistrictModule.cs" />
      <Compile Include="Assets\Sim_FrameWork\Project\GamePlay\Formula\FormulaModule.cs" />
      <Compile Include="Assets\Sim_FrameWork\Project\GamePlay\FunctionBlock\Energy\EnergyFactoryBase.cs" />
@@ -134,12 +138,14 @@
      <Compile Include="Assets\Sim_FrameWork\Project\UI\Base\UIManager.cs" />
      <Compile Include="Assets\Sim_FrameWork\Project\UI\Base\WindowBase.cs" />
      <Compile Include="Assets\Sim_FrameWork\Project\UI\Dialog\FactoryInfoDialogContent.cs" />
+     <Compile Include="Assets\Sim_FrameWork\Project\UI\Item\ItemUI.cs" />
      <None Include="Assets\StreamingAssets\Data\Language\Language_CN\Terrain.txt" />
      <None Include="Assets\StreamingAssets\Data\Language\Language_CN\Technology.txt" />
      <None Include="Assets\StreamingAssets\Data\Language\Language_CN\Formula.txt" />
      <None Include="Assets\StreamingAssets\Data\Language\Language_CN\Main.txt" />
      <None Include="Assets\StreamingAssets\Data\Language\Language_CN\District.txt" />
      <None Include="Assets\AssetBundleConfig.xml" />
+     <None Include="Assets\Resources\Data\DataFormat\Xml\TerrainMetaData.xml" />
      <None Include="Assets\Resources\Data\DataFormat\Xml\TalentsMetaData.xml" />
      <None Include="Assets\StreamingAssets\Data\Language\Language_CN\FunctionBlock.txt" />
      <None Include="Assets\Resources\Data\DataFormat\Xml\FunctionBlockFormulaMetaData.xml" />

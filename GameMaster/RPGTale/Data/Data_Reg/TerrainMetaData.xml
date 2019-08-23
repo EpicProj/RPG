@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<data name ="TerrainMetaData" from="TerrainMetaData.xlsx" to = "TerrainMetaData.xml">
+	<variable  name="AllTerrainDataList" type="list">
+		<list name = "TerrainData" sheetname="TerrainData" mainKey = "TerrainID">
+			<variable  name="TerrainID" col = "TerrainID" type="int"/>
+			<variable  name="TerrainName" col = "TerrainName" type="string"/>
+			<variable  name="TerrainDesc" col = "TerrainDesc" type="string"/>
+			<variable  name="TerrainIcon" col = "TerrainIcon" type="string"/>
+			<variable  name="TerrainModelPath" col = "TerrainModelPath" type="string"/>
+			<variable  name="TerrainType" col = "TerrainType" type="string"/>
+			<variable  name="CanBuild" col = "CanBuild" type="bool"/>
+		</list>
+	</variable>
+</data>

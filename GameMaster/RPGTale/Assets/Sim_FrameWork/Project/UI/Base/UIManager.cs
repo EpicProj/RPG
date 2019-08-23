@@ -24,7 +24,7 @@ namespace Sim_FrameWork {
         //屏幕的宽高比
         private float m_CanvasRate = 0;
 
-        private string m_UIPrefabPath = "Assets/GameData/Prefabs/UGUI/Panel/";
+        private string m_UIPrefabPath = "Assets/Prefabs/UI/";
         //注册的字典
         private Dictionary<string, System.Type> m_RegisterDic = new Dictionary<string, System.Type>();
         //所有打开的窗口

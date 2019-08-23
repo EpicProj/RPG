@@ -29,7 +29,7 @@ namespace Sim_FrameWork
         public virtual void InitData()
         {
             FunctionBlockModule.Instance.InitData();
-            functionBlock = FunctionBlockModule.Instance.GetFunctionBlockByFacotryID(functionBlockID);
+            functionBlock = FunctionBlockModule.Instance.GetFunctionBlockByBlockID(functionBlockID);
         }
 
         //Action

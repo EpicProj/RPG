@@ -3,8 +3,8 @@ using System.Collections.Generic;
 using UnityEngine;
 
 namespace Sim_FrameWork {
-    public class BaseModule  {
+    public class ItemUI : WindowBase {
 
-
+       
     }
 }

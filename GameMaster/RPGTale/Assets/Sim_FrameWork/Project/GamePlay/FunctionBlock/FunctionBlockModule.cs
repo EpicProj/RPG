@@ -86,7 +86,7 @@ namespace Sim_FrameWork {
         //Get FunctionBlockType
         public FunctionBlockType GetFacotryType(int facotryID)
         {
-            FunctionBlock functionBlock = GetFunctionBlockByFacotryID(facotryID);
+            FunctionBlock functionBlock = GetFunctionBlockByBlockID(facotryID);
             if (CheckTypeValid(functionBlock.FunctionBlockType) == false)
                 return FunctionBlockType.Energy;
             return (FunctionBlockType)Enum.Parse(typeof(FunctionBlockType), functionBlock.FunctionBlockType);
@@ -117,13 +117,13 @@ namespace Sim_FrameWork {
             switch (GetFacotryType(functionBlockID))
             {
                 case FunctionBlockType.Manufacture:
-                    return GetFunctionBlock_ManufactureData(GetFunctionBlockByFacotryID(functionBlockID).FunctionBlockTypeIndex) as T;
+                    return GetFunctionBlock_ManufactureData(GetFunctionBlockByBlockID(functionBlockID).FunctionBlockTypeIndex) as T;
                 case FunctionBlockType.Raw:
-                    return GetFacotryRawData(GetFunctionBlockByFacotryID(functionBlockID).FunctionBlockTypeIndex) as T;
+                    return GetFacotryRawData(GetFunctionBlockByBlockID(functionBlockID).FunctionBlockTypeIndex) as T;
                 case FunctionBlockType.Science:
-                    return GetFunctionBlock_ScienceData(GetFunctionBlockByFacotryID(functionBlockID).FunctionBlockTypeIndex) as T;
+                    return GetFunctionBlock_ScienceData(GetFunctionBlockByBlockID(functionBlockID).FunctionBlockTypeIndex) as T;
                 case FunctionBlockType.Energy:
-                    return GetFunctionBlock_EnergyData(GetFunctionBlockByFacotryID(functionBlockID).FunctionBlockTypeIndex) as T;
+                    return GetFunctionBlock_EnergyData(GetFunctionBlockByBlockID(functionBlockID).FunctionBlockTypeIndex) as T;
                 default:
                     Debug.LogError("Fetch FacotryType Error facotryID=" + functionBlockID);
                     return null;
@@ -180,17 +180,17 @@ namespace Sim_FrameWork {
 
         public Sprite GetFunctionBlockIcon(int functionBlockID)
         {
-            string path = GetFunctionBlockByFacotryID(functionBlockID).FunctionBlockIcon;
+            string path = GetFunctionBlockByBlockID(functionBlockID).FunctionBlockIcon;
             return Utility.LoadSprite(path,Utility.SpriteType.png);
          
         }
 
         public ushort GetFunctionBlockLevel(int functionBlockID)
         {
-            return GetFunctionBlockByFacotryID(functionBlockID).Level;
+            return GetFunctionBlockByBlockID(functionBlockID).Level;
         }
 
-        public FunctionBlock GetFunctionBlockByFacotryID(int functionBlockID)
+        public FunctionBlock GetFunctionBlockByBlockID(int functionBlockID)
         {
             FunctionBlock functionBlock = null;
             FunctionBlockDic.TryGetValue(functionBlockID, out functionBlock);
@@ -205,7 +205,7 @@ namespace Sim_FrameWork {
         //Place Block
         public void PlaceFunctionBlock(int functionBlockID,Vector3 checkpos)
         {
-            FunctionBlock currentFunctionBlock = GetFunctionBlockByFacotryID(functionBlockID);
+            FunctionBlock currentFunctionBlock = GetFunctionBlockByBlockID(functionBlockID);
             if (currentFunctionBlock == null)
                 return;
             if (CheckBlockCanPlace(currentFunctionBlock,checkpos) )

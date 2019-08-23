@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<data name ="DistrictMetaData" from="DistrictMetaData.xlsx" to = "DistrictMetaData.xml">
+	<variable  name="AllDistrictDataList" type="list">
+		<list name = "DistrictData" sheetname="DistrictData" mainKey = "DistrictID">
+			<variable  name="DistrictID" col = "DistrictID" type="int"/>
+			<variable  name="DistrictName" col = "DistrictName" type="string"/>
+			<variable  name="DistrictDesc" col = "DistrictDesc" type="string"/>
+			<variable  name="DistrictIcon" col = "DistrictIcon" type="string"/>
+			<variable  name="ModelPath" col = "ModelPath" type="string"/>
+			<variable  name="Level" col = "Level" type="ushort"/>
+			<variable  name="CurrencyCost" col = "CurrencyCost" type="int"/>
+			<variable  name="MaterialCostList" col = "MaterialCostList" type="string"/>
+			<variable  name="TimeCost" col = "TimeCost" type="int"/>
+			<variable  name="Area" col = "Area" type="string"/>
+			<variable  name="ParentList" col = "ParentList" type="string"/>
+			<variable  name="EffectList" col = "EffectList" type="string"/>
+		</list>
+	</variable>
+</data>

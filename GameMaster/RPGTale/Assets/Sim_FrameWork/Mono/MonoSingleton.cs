@@ -4,9 +4,9 @@ using UnityEngine;
 
 namespace Sim_FrameWork
 {
-    public abstract class MonoSingleton<T> : MonoBehaviour  where T:MonoSingleton<T>
+    public  class MonoSingleton<T> : MonoBehaviour  where T:MonoBehaviour
     {
-        protected static T instance;
+        private static T instance;
 
         public static T Instance
         {
@@ -17,11 +17,11 @@ namespace Sim_FrameWork
         {
             if (instance == null)
             {
-                instance = (T)this;
+                instance = this as T;
             }
             else
             {
-                Debug.LogError("Get a second instance of this class" + this.GetType());
+                Debug.LogWarning("Get a second instance of this class" + this.GetType());
             }
         }
 

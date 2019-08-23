@@ -30,7 +30,7 @@ namespace Sim_FrameWork {
 
         private bool HasInit = false;
 
-        private const string MaterialPrefabPath = "Assets/Prefabs/Object/Material.prefab";
+        private const string MaterialPrefabPath = "Assets/Prefabs/Object/ItemUIPrefab.prefab";
 
         #region data
         public void InitData()
