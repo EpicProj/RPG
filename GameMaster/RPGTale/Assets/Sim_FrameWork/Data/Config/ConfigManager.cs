@@ -80,6 +80,7 @@ namespace Sim_FrameWork {
         public const string TABLE_FUNCTIONBLOCK_METADATA_PATH = "Assets/Resources/Data/DataFormat/Binary/FunctionBlockMetaData.bytes";
         public const string TABLE_MATERIAL_METADATA_PATH= "Assets/Resources/Data/DataFormat/Binary/MaterialMetaData.bytes";
         public const string TABLE_FORMULA_METADATA_PATH= "Assets/Resources/Data/DataFormat/Binary/FunctionBlockFormulaMetaData.bytes";
+        public const string TABLE_DISTRICT_METADATA_PATH= "Assets/Resources/Data/DataFormat/Binary/DistrictMetaData.bytes";
 
 
 

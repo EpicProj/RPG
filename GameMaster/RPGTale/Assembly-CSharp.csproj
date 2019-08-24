@@ -52,6 +52,7 @@
   </ItemGroup>
   <ItemGroup>
      <Compile Include="Assets\Scripts\Test.cs" />
+     <Compile Include="Assets\Sim_FrameWork\Basic\Camera\CameraFollow.cs" />
      <Compile Include="Assets\Sim_FrameWork\Basic\MonoBehaviourSimplify.cs" />
      <Compile Include="Assets\Sim_FrameWork\Basic\MsgDisPatcher.cs" />
      <Compile Include="Assets\Sim_FrameWork\Basic\Resources\AssetBundleConfig.cs" />
@@ -75,7 +76,6 @@
      <Compile Include="Assets\Sim_FrameWork\BlockGenerator\Scripts\Function\BaseTerrainGenerator.cs" />
      <Compile Include="Assets\Sim_FrameWork\BlockGenerator\Scripts\Function\ChunkLoader.cs" />
      <Compile Include="Assets\Sim_FrameWork\BlockGenerator\Scripts\Function\GenerateTest.cs" />
-     <Compile Include="Assets\Sim_FrameWork\BlockGenerator\Scripts\Function\MouseLook.cs" />
      <Compile Include="Assets\Sim_FrameWork\Data\Config\BinarySerializeOpt.cs" />
      <Compile Include="Assets\Sim_FrameWork\Data\Config\ConfigManager.cs" />
      <Compile Include="Assets\Sim_FrameWork\Data\Config\ExcelBase.cs" />
@@ -100,7 +100,6 @@
      <Compile Include="Assets\Sim_FrameWork\Project\Basic\BaseModule.cs" />
      <Compile Include="Assets\Sim_FrameWork\Project\Basic\BasicMiscsTool.cs" />
      <Compile Include="Assets\Sim_FrameWork\Project\Basic\ConfigUtility.cs" />
-     <Compile Include="Assets\Sim_FrameWork\Project\Basic\ModuleManager.cs" />
      <Compile Include="Assets\Sim_FrameWork\Project\Basic\Utility.cs" />
      <Compile Include="Assets\Sim_FrameWork\Project\GamePlay\Core\Inventory\ConstructSlotPanel.cs" />
      <Compile Include="Assets\Sim_FrameWork\Project\GamePlay\Core\Inventory\Inventory.cs" />
@@ -108,13 +107,13 @@
      <Compile Include="Assets\Sim_FrameWork\Project\GamePlay\Core\Inventory\SlotItem.cs" />
      <Compile Include="Assets\Sim_FrameWork\Project\GamePlay\District\DistrictModule.cs" />
      <Compile Include="Assets\Sim_FrameWork\Project\GamePlay\Formula\FormulaModule.cs" />
-     <Compile Include="Assets\Sim_FrameWork\Project\GamePlay\FunctionBlock\Energy\EnergyFactoryBase.cs" />
      <Compile Include="Assets\Sim_FrameWork\Project\GamePlay\FunctionBlock\FunctionBlockBase.cs" />
      <Compile Include="Assets\Sim_FrameWork\Project\GamePlay\FunctionBlock\FunctionBlockModule.cs" />
-     <Compile Include="Assets\Sim_FrameWork\Project\GamePlay\FunctionBlock\Manufactory\FunctionBlock_Smelt.cs" />
-     <Compile Include="Assets\Sim_FrameWork\Project\GamePlay\FunctionBlock\Manufactory\ManufactoryBase.cs" />
-     <Compile Include="Assets\Sim_FrameWork\Project\GamePlay\FunctionBlock\Manufactory\ManufactoryConfigReader.cs" />
-     <Compile Include="Assets\Sim_FrameWork\Project\GamePlay\FunctionBlock\Raw\RawFactoryBase.cs" />
+     <Compile Include="Assets\Sim_FrameWork\Project\GamePlay\FunctionBlock\Industrial\Energy\EnergyFactoryBase.cs" />
+     <Compile Include="Assets\Sim_FrameWork\Project\GamePlay\FunctionBlock\Industrial\Manufactory\FunctionBlock_Smelt.cs" />
+     <Compile Include="Assets\Sim_FrameWork\Project\GamePlay\FunctionBlock\Industrial\Manufactory\ManufactoryBase.cs" />
+     <Compile Include="Assets\Sim_FrameWork\Project\GamePlay\FunctionBlock\Industrial\Manufactory\ManufactoryConfigReader.cs" />
+     <Compile Include="Assets\Sim_FrameWork\Project\GamePlay\FunctionBlock\Industrial\Raw\RawFactoryBase.cs" />
      <Compile Include="Assets\Sim_FrameWork\Project\GamePlay\FunctionBlock\Science\ScienceFactoryBase.cs" />
      <Compile Include="Assets\Sim_FrameWork\Project\GamePlay\FunctionBlock\Warehouse\WarehouseBase.cs" />
      <Compile Include="Assets\Sim_FrameWork\Project\GamePlay\FunctionBlock\Warehouse\WarehouseBlock.cs" />
@@ -137,8 +136,15 @@
      <Compile Include="Assets\Sim_FrameWork\Project\Scene\SceneManager.cs" />
      <Compile Include="Assets\Sim_FrameWork\Project\UI\Base\UIManager.cs" />
      <Compile Include="Assets\Sim_FrameWork\Project\UI\Base\WindowBase.cs" />
+     <Compile Include="Assets\Sim_FrameWork\Project\UI\Dialog\FactoryInfoDialog.cs" />
      <Compile Include="Assets\Sim_FrameWork\Project\UI\Dialog\FactoryInfoDialogContent.cs" />
      <Compile Include="Assets\Sim_FrameWork\Project\UI\Item\ItemUI.cs" />
+     <Compile Include="Assets\Sim_FrameWork\Project\UI\Page\MainMenuPage.cs" />
+     <Compile Include="Assets\Sim_FrameWork\Project\UI\Page\MainMenuPageContext.cs" />
+     <Compile Include="Assets\Sim_FrameWork\Project\UI\Text\SpriteItem.cs" />
+     <Compile Include="Assets\Sim_FrameWork\Project\UI\Text\TextAndGraphics.cs" />
+     <Compile Include="Assets\Sim_FrameWork\Project\UI\Text\TGConfig.cs" />
+     <Compile Include="Assets\Sim_FrameWork\Project\UI\Text\VideoItem.cs" />
      <None Include="Assets\StreamingAssets\Data\Language\Language_CN\Terrain.txt" />
      <None Include="Assets\StreamingAssets\Data\Language\Language_CN\Technology.txt" />
      <None Include="Assets\StreamingAssets\Data\Language\Language_CN\Formula.txt" />

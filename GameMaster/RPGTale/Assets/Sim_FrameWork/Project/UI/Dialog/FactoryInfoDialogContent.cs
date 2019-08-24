@@ -2,15 +2,11 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class FactoryInfoDialogContent : MonoBehaviour {
+namespace Sim_FrameWork
+{
+    public class FactoryInfoDialogContent : WindowBase
+    {
 
-	// Use this for initialization
-	void Start () {
-		
-	}
-	
-	// Update is called once per frame
-	void Update () {
-		
-	}
+
+    }
 }

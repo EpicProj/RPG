@@ -14,6 +14,8 @@ namespace Sim_FrameWork
         public bool IsPickedItem { get { return isPickedItem; } }
         private SlotItem pickedItem;
         public SlotItem PickedItem { get { return pickedItem; } }
+
+
         private Canvas MainCanvas;
 
         protected override void Awake()
@@ -39,8 +41,6 @@ namespace Sim_FrameWork
 
 
         }
-
-
 
         #region Inventory
 

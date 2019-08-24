@@ -18,6 +18,7 @@ public class MaterialMetaData : ExcelBase {
             mat.MaterialDesc = "";
             mat.Type = (ushort)i;
             mat.TypeIndex = i;
+            mat.BlockCapacity = i;
             mat.MaterialIcon = "";
             mat.Rarity = (ushort)i;
             mat.ModelPath = "";
@@ -119,6 +120,8 @@ public class Material
     public ushort Type { get; set; }
     [XmlAttribute]
     public int TypeIndex { get; set; }
+    [XmlAttribute]
+    public int BlockCapacity { get; set; }
     [XmlAttribute]
     public string MaterialIcon { get; set; }
     [XmlAttribute]

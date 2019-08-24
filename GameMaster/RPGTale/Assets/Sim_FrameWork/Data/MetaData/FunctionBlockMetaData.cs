@@ -226,7 +226,7 @@ public class FunctionBlock
 }
 
 [System.Serializable]
-public class FunctionBlock_Raw
+public class FunctionBlock_Raw 
 {
     //原料生产
     [XmlAttribute]

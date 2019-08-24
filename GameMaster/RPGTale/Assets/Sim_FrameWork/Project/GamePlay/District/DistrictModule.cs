@@ -2,15 +2,11 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class DistrictModule : MonoBehaviour {
+namespace Sim_FrameWork {
+    public class DistrictModule : Singleton<DistrictModule> {
 
-	// Use this for initialization
-	void Start () {
-		
-	}
-	
-	// Update is called once per frame
-	void Update () {
-		
-	}
+
+
+
+    }
 }

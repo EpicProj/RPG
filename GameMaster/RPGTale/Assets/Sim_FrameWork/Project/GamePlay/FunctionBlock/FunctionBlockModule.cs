@@ -5,7 +5,7 @@ using UnityEngine;
 using UnityEngine.UI;
 
 namespace Sim_FrameWork {
-    public class FunctionBlockModule : Singleton<FunctionBlockModule> {
+    public class FunctionBlockModule : BaseModule<FunctionBlockModule> {
 
         public enum FunctionBlockType
         {
@@ -37,8 +37,9 @@ namespace Sim_FrameWork {
 
         public List<FunctionBlockTypeData> FunctionBlockTypeDataList=new List<FunctionBlockTypeData> ();
         public Dictionary<string, FunctionBlockTypeData> FunctionBlockTypeDataDic = new Dictionary<string, FunctionBlockTypeData>();
-        private bool HasInit = false;
 
+
+        private bool HasInit = false;
         public string FacotryGUID;
         public List<string> FunctionBlockGUIDList = new List<string>();
         public Dictionary<int, FunctionBlockHistory> FunctionBlockHistoryDic = new Dictionary<int, FunctionBlockHistory>();
@@ -47,7 +48,7 @@ namespace Sim_FrameWork {
 
 
         #region Data
-        public void InitData()
+        public override void InitData()
         {
             if (HasInit)
                 return;
