@@ -41,6 +41,7 @@ namespace Sim_FrameWork
 
         public override void InitData()
         {
+            base.InitData();
             ManufacturingspeedBase = FunctionBlockModule.Instance.GetManufactureSpeed(functionBlockID);
             _currentManuSpeed = ManufacturingspeedBase;
         }
@@ -50,7 +51,7 @@ namespace Sim_FrameWork
             _currentFormulaData = FormulaModule.Instance.GetFormulaDataByID(_currentFormulaID);
         }
 
-
+     
     }
 
     [System.Serializable]

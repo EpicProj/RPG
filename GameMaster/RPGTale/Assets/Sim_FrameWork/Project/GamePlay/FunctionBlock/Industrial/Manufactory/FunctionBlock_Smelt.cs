@@ -21,14 +21,10 @@ namespace Sim_FrameWork
 
         public override void Awake()
         {
-            FunctionBlockModule.Instance.InitData();
-            MaterialModule.Instance.InitData();
             functionBlockID = 100;
             base.Awake();
             factoryCollider = gameObject.GetComponent<BoxCollider>();
 
-            //GameObject obj = MaterialModule.Instance.InitMaterialObj(100);
-            //obj.transform.SetParent(GameObject.Find("Canvas").transform,false);
         }
 
         public override void Update()
@@ -69,6 +65,7 @@ namespace Sim_FrameWork
                 if(Physics.Raycast(ray,out hit))
                 {
                     Debug.Log(hit.collider.gameObject.name);
+                    UIManager.Instance.PopUpWnd(UIPath.FUCNTIONBLOCK_INFO_DIALOG,true, functionBlockID,_currentDistrictDataList);
                 }
             }
         }

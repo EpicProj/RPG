@@ -5,13 +5,14 @@ using System;
 
 namespace Sim_FrameWork
 {
-    public class Utility : MonoBehaviour
+    public class Utility 
     {
         public enum SpriteType
         {
             png,
             jpg
         }
+
 
         public static Sprite LoadSprite(string SpritePath,SpriteType type)
         {
@@ -27,6 +28,69 @@ namespace Sim_FrameWork
                 return sprite;
             }
             return sprite;
+        }
+
+        public static List<int> TryParseIntList(string str,char split)
+        {
+            List<int> result = new List<int> ();
+            if (string.IsNullOrEmpty(str))
+            {
+                Debug.LogWarning("Parse Int List Error");
+                return result;
+            }
+           
+            string[] s = str.Split(split);
+            for(int i = 0; i < s.Length; i++)
+            {
+                int n;
+                if( int.TryParse(s[i], out n))
+                {
+                    result.Add(n);
+                }
+                else
+                {
+                    Debug.LogError("parse int error, string=" + s[i]);
+                    continue;
+                }
+            }
+            return result;
+        }
+        public static List<string> TryParseStringList(string str, char split)
+        {
+            List<string> result = new List<string> ();
+            if (string.IsNullOrEmpty(str))
+            {
+                Debug.LogWarning("Parse string List Error");
+                return result;
+            }
+
+            string[] s = str.Split(split);
+            for (int i = 0; i < s.Length; i++)
+            {
+                result.Add(s[i]);
+            }
+            return result;
+        }
+
+        public static Vector2 TryParseIntVector2(string str,char split)
+        {
+            Vector2 result = new Vector2 ();
+            string[] s = str.Split(split);
+            if (string.IsNullOrEmpty(str) || s.Length != 2)
+            {
+                Debug.LogWarning("Parse IntVector2 Error");
+                return result;
+            }
+            int x, y;     
+            if(int.TryParse(s[0],out x) && int.TryParse(s[1],out y))
+            {
+                result = new Vector2(x, y);
+            }
+            else
+            {
+                Debug.LogWarning("Parse IntVector2 Error, s="+s);
+            }
+            return result;
         }
 
     }

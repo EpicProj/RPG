@@ -1,12 +1,12 @@
 ManifestFileVersion: 0
-CRC: 1271942191
+CRC: 497918859
 Hashes:
   AssetFileHash:
     serializedVersion: 2
-    Hash: f89a8ceba2c26654f71e822fd71f0881
+    Hash: e45d94c932fb38a18f780caa25ea01ae
   TypeTreeHash:
     serializedVersion: 2
-    Hash: 155f9dad797ee6f40084379502929c36
+    Hash: 729acdb1f4f7413a2489d7e569e1fb41
 HashAppended: 0
 ClassTypes:
 - Class: 1
@@ -33,6 +33,8 @@ ClassTypes:
   Script: {fileID: 708705254, guid: f70555f144d8491a825f0804e09c671c, type: 3}
 - Class: 114
   Script: {fileID: 1297475563, guid: f70555f144d8491a825f0804e09c671c, type: 3}
+- Class: 114
+  Script: {fileID: 11500000, guid: 6385a44df6b81794dbd7da69305b40d6, type: 3}
 - Class: 115
   Script: {instanceID: 0}
 - Class: 128
@@ -43,7 +45,10 @@ ClassTypes:
   Script: {instanceID: 0}
 - Class: 224
   Script: {instanceID: 0}
+- Class: 225
+  Script: {instanceID: 0}
 Assets:
-- Assets/Prefabs/UI/Dialog/Factory/FactoryInfoDialog.prefab
+- Assets/SpriteOutput/SpriteItem/Sprite/M1.png
+- Assets/Prefabs/UI/Dialog/FunctionBlock/BlockInfoDialog.prefab
 Dependencies:
 - D:/Project/GameMaster/RPGTale/Assets/../AssetBundle/StandaloneWindows64/sprite

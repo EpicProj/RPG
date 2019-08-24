@@ -3,7 +3,7 @@
   <AllFunctionBlockList FunctionBlockID="100" Comment="jhihi" FunctionBlockName="FunctionBlockName_100" FunctionBlockIcon="SpriteOutput/Material/apple" FunctionBlockDesc="FunctionBlockDesc_100" PreLevelBlock="0" FunctionBlockType="Manufacture" FunctionBlockTypeIndex="100" Level="1" EXPDataJsonIndex="111" />
   <AllFunctionBlockList FunctionBlockID="101" Comment="jhihi" FunctionBlockName="FunctionBlockName_101" FunctionBlockIcon="SpriteOutput/Material/apple" FunctionBlockDesc="FunctionBlockDesc_101" PreLevelBlock="100" FunctionBlockType="Manufacture" FunctionBlockTypeIndex="100" Level="1" EXPDataJsonIndex="111" />
   <AllFunctionBlock_RawList RawID="100" RawType="100" InherentLevel="sss" CollectMaterialList="1,1,1" AreaDetailDefault="1,1" AreaMax="5,6" />
-  <AllFunctionBlock_ManufactureList ManufactureID="100" InherentLevel="sss" SpeedBase="10" FormulaInfoID="100" MaintenanceBase="sss" EnergyConsumptionBase="sss" AreaDetailDefault="1,1" AreaMax="5,6" />
+  <AllFunctionBlock_ManufactureList ManufactureID="100" InherentLevel="sss" SpeedBase="10" FormulaInfoID="100" MaintenanceBase="sss" EnergyConsumptionBase="sss" AreaDetailDefault="-2,-2,-2,-2,-2,-2;-2,100,100,100,-1,-1;-2,100,-1,-1,-1,-1;-2,100,-1,-1,-1,-1;-2,-2,-2,-2,-2,-2" AreaMax="5,6" />
   <AllFunctionBlock_ScienceList ScienceID="100" InherentLevel="sss" Comment="sss" AreaDetailDefault="1,1" AreaMax="5,6" />
   <AllFunctionBlock_EnergyList EnergyID="100" InherentLevel="sss" EnergyType="100" AreaDetailDefault="1,1" AreaMax="5,6" />
   <AllFunctionBlockTypeDataList Type="Manufacture" TypeName="sss" TypeDesc="ssss" TypeIcon="ssss" />

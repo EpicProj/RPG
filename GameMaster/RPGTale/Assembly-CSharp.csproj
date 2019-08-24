@@ -135,9 +135,10 @@
      <Compile Include="Assets\Sim_FrameWork\Project\Main\GameManager.cs" />
      <Compile Include="Assets\Sim_FrameWork\Project\Scene\SceneManager.cs" />
      <Compile Include="Assets\Sim_FrameWork\Project\UI\Base\UIManager.cs" />
+     <Compile Include="Assets\Sim_FrameWork\Project\UI\Base\UIPath.cs" />
      <Compile Include="Assets\Sim_FrameWork\Project\UI\Base\WindowBase.cs" />
-     <Compile Include="Assets\Sim_FrameWork\Project\UI\Dialog\FactoryInfoDialog.cs" />
-     <Compile Include="Assets\Sim_FrameWork\Project\UI\Dialog\FactoryInfoDialogContent.cs" />
+     <Compile Include="Assets\Sim_FrameWork\Project\UI\Dialog\BlockInfoDialog.cs" />
+     <Compile Include="Assets\Sim_FrameWork\Project\UI\Dialog\BlockInfoDialogContent.cs" />
      <Compile Include="Assets\Sim_FrameWork\Project\UI\Item\ItemUI.cs" />
      <Compile Include="Assets\Sim_FrameWork\Project\UI\Page\MainMenuPage.cs" />
      <Compile Include="Assets\Sim_FrameWork\Project\UI\Page\MainMenuPageContext.cs" />

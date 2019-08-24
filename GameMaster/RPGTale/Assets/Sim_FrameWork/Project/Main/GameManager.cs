@@ -26,6 +26,7 @@ namespace Sim_FrameWork
             ObjectManager.Instance.Init(transform.Find("RecyclePoolTrs"), transform.Find("SceneTrs"));
             UIManager.Instance.Init(GameObject.Find("MainCanvas").transform as RectTransform, GameObject.Find("MainCanvas/Window").transform as RectTransform, GameObject.Find("MainCanvas/UICamera").GetComponent<Camera>(), GameObject.Find("MainCanvas/EventSystem").GetComponent<EventSystem>());
             MainCanvas = GameObject.Find("MainCanvas").GetComponent<Canvas>();
+            RegisterUI();
         }
 
 
@@ -38,7 +39,7 @@ namespace Sim_FrameWork
 
         public void RegisterUI()
         {
-
+            UIManager.Instance.Register<BlockInfoDialogContent>(UIPath.FUCNTIONBLOCK_INFO_DIALOG);
 
         }
 

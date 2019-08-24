@@ -3,9 +3,112 @@ using System.Collections.Generic;
 using UnityEngine;
 
 namespace Sim_FrameWork {
-    public class DistrictModule : Singleton<DistrictModule> {
+    public class DistrictModule : BaseModule<DistrictModule> {
+
+        #region Row Data
+        public static List<DistrictData> DistrictDataList = new List<DistrictData>();
+        public static Dictionary<int, DistrictData> DistrictDataDic = new Dictionary<int, DistrictData>();
+
+        private bool HasInit = false;
+        public override void InitData()
+        {
+            if (HasInit)
+                return;
+            DistrictDataList = DistrictMetaDataReader.GetDistrictData();
+            DistrictDataDic = DistrictMetaDataReader.GetDistrictDic();
+            HasInit = true;
+        }
+
+        public DistrictData GetDistrictDataByKey(int districtID)
+        {
+            DistrictData data = null;
+            DistrictDataDic.TryGetValue(districtID, out data);
+            if (data == null)
+                Debug.LogError("Can not Find DistrictData ,ID=" + districtID);
+            return data;
+        }
+        public string GetDistrictName(int districtID)
+        {
+            return MultiLanguage.Instance.GetTextValue(GetDistrictDataByKey(districtID).DistrictName);
+        }
+        public string GetDistrictName(DistrictData data)
+        {
+            return MultiLanguage.Instance.GetTextValue(data.DistrictName);
+        }
+        public string GetDistrictDesc(int districtID)
+        {
+            return MultiLanguage.Instance.GetTextValue(GetDistrictDataByKey(districtID).DistrictDesc);
+        }
+        public string GetDistrictDesc(DistrictData data)
+        {
+            return MultiLanguage.Instance.GetTextValue(data.DistrictDesc);
+        }
+
+        public Sprite GetDistrictIcon(DistrictData data)
+        {
+            string path = data.DistrictIcon;
+            return Utility.LoadSprite(path, Utility.SpriteType.png);
+        }
+
+        public List<int> GetDistrictArea(DistrictData data)
+        {
+            return Utility.TryParseIntList(data.Area, ',');
+        }
+
+        public Dictionary<int, int> GetDistrictMaterialCostDic(DistrictData data)
+        {
+            Dictionary<int, int> result = null;
+            List<string> materialList = Utility.TryParseStringList(data.MaterialCostList, ',');
+            if (materialList == null)
+                return result;
+            for (int i = 0; i < materialList.Count; i++)
+            {
+                int materialID;
+                int num;
+                if(int.TryParse(materialList[i].Split(':')[0], out materialID))
+                {
+                    if (result.ContainsKey(materialID))
+                    {
+                        Debug.LogWarning("Find Same Material Cost ID ,ID=" + materialID);
+                        continue;
+                    }
+                    else
+                    {
+                        if(int.TryParse(materialList[i].Split(':')[1], out num))
+                        {
+                            result.Add(materialID, num);
+                        }
+                        else
+                        {
+                            Debug.LogError("Parse MaterialCost Num Error string=" + materialList[i]);
+                            continue;
+                        }
+                    }
+                }
+            }
+            return result;
+        }
+
+        #endregion
+        #region Function
+
+        public Dictionary<Material,int> GetMaterialCost(DistrictData data)
+        {
+            Dictionary<Material, int> MaterialCostDic = null;
+            Dictionary<int, int> cost = GetDistrictMaterialCostDic(data);
+            foreach(KeyValuePair<int,int> kvp in cost)
+            {
+                Material ma= MaterialModule.Instance.GetMaterialByMaterialID(kvp.Key);
+                if (ma != null)
+                {
+                    MaterialCostDic.Add(ma, kvp.Value);
+                }
+            }
+            return MaterialCostDic;
+        }
 
 
+        #endregion
 
 
     }

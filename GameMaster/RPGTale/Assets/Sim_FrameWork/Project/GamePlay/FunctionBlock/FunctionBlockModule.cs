@@ -85,7 +85,7 @@ namespace Sim_FrameWork {
         #region Method Data
 
         //Get FunctionBlockType
-        public FunctionBlockType GetFacotryType(int facotryID)
+        public FunctionBlockType GetFunctionBlockType(int facotryID)
         {
             FunctionBlock functionBlock = GetFunctionBlockByBlockID(facotryID);
             if (CheckTypeValid(functionBlock.FunctionBlockType) == false)
@@ -110,12 +110,12 @@ namespace Sim_FrameWork {
         }
         public FunctionBlockTypeData GetFacotryTypeData(int functionBlockID)
         {
-            return GetFacotryTypeData(GetFacotryType(functionBlockID));
+            return GetFacotryTypeData(GetFunctionBlockType(functionBlockID));
         }
 
         public T FetchFunctionBlockTypeIndex<T>(int functionBlockID) where T:class
         {
-            switch (GetFacotryType(functionBlockID))
+            switch (GetFunctionBlockType(functionBlockID))
             {
                 case FunctionBlockType.Manufacture:
                     return GetFunctionBlock_ManufactureData(GetFunctionBlockByBlockID(functionBlockID).FunctionBlockTypeIndex) as T;
@@ -199,6 +199,124 @@ namespace Sim_FrameWork {
                 Debug.LogError("Get FunctionBlock Error , ID=" + functionBlockID);
             return functionBlock;
         }
+
+        public string GetFunctionBlockName(int functionBlockID)
+        {
+            return MultiLanguage.Instance.GetTextValue(GetFunctionBlockByBlockID(functionBlockID).FunctionBlockName);
+        }
+        public string GetFunctionBlockName(FunctionBlock block)
+        {
+            return MultiLanguage.Instance.GetTextValue(block.FunctionBlockName);
+        }
+        public string GetFunctionBlockDesc(int functionBlockID)
+        {
+            return MultiLanguage.Instance.GetTextValue(GetFunctionBlockByBlockID(functionBlockID).FunctionBlockDesc);
+        }
+        public string GetFunctionBlockDesc(FunctionBlock block)
+        {
+            return MultiLanguage.Instance.GetTextValue(block.FunctionBlockDesc);
+        }
+
+        public Vector2 GetFunctionBlockAreaMax<T>(FunctionBlock block) where T:class
+        {
+            int id = block.FunctionBlockID;
+            switch (GetFunctionBlockType(id))
+            {
+                case FunctionBlockType.Manufacture:
+                    return Utility.TryParseIntVector2(GetFunctionBlock_ManufactureData(GetFunctionBlockByBlockID(id).FunctionBlockTypeIndex).AreaMax,',');
+                case FunctionBlockType.Raw:
+                    return Utility.TryParseIntVector2(GetFacotryRawData(GetFunctionBlockByBlockID(id).FunctionBlockTypeIndex).AreaMax,',');
+                case FunctionBlockType.Science:
+                    return Utility.TryParseIntVector2(GetFunctionBlock_ScienceData(GetFunctionBlockByBlockID(id).FunctionBlockTypeIndex).AreaMax,',');
+                case FunctionBlockType.Energy:
+                    return Utility.TryParseIntVector2(GetFunctionBlock_EnergyData(GetFunctionBlockByBlockID(id).FunctionBlockTypeIndex).AreaMax,',');
+                default:
+                    Debug.LogError("Fetch AreaMax Error BlockID=" + id);
+                    return Vector2.zero;
+            }
+        }
+
+        /// <summary>
+        /// ID=-1  Empty  ;  ID=-2   UnLock;
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="block"></param>
+        /// <returns></returns>
+        public List<List<DistrictData>> GetFuntionBlockAreaDetailDefaultData<T>(FunctionBlock block) where T : class
+        {
+            return GetFuntionBlockAreaDetailDefaultData(GetFuntionBlockAreaDetailDefault<T>(block));
+        }
+
+        private List<List<DistrictData>> GetFuntionBlockAreaDetailDefaultData(List<List<int>> list)
+        {
+          
+            List<List<DistrictData>> result = new List<List<DistrictData>> ();
+            if (list == null)
+                return null;
+            for (int i = 0; i < list.Count; i++)
+            {
+                List<DistrictData> dList = new List<DistrictData>();
+                List<int> data = list[i];
+                for (int j = 0; j < data.Count; j++)
+                {
+                    if (data[j] == -1)
+                    {
+                        //AddEmptySlot
+                        dList.Add(new DistrictData { DistrictID=-1});
+                        continue;
+                    }else if (data[j] == -2)
+                    {
+                        //Add UnLockSlot
+                        dList.Add(new DistrictData { DistrictID = -2 });
+                        continue;
+                    }
+                    DistrictData dd = DistrictModule.Instance.GetDistrictDataByKey(data[j]);
+                    if (dd == null)
+                        continue;
+                    dList.Add(dd);
+                }
+                result.Add(dList);
+            }
+            return result;
+        }
+
+        private List<List<int>> GetFuntionBlockAreaDetailDefault<T>(FunctionBlock block) where T : class
+        {
+            int id = block.FunctionBlockID;
+            switch (GetFunctionBlockType(id))
+            {
+                case FunctionBlockType.Manufacture:
+                    return TryParseAreaDetailDefault(GetFunctionBlock_ManufactureData(GetFunctionBlockByBlockID(id).FunctionBlockTypeIndex).AreaDetailDefault);
+                case FunctionBlockType.Energy:
+                    return TryParseAreaDetailDefault(GetFunctionBlock_EnergyData(GetFunctionBlockByBlockID(id).FunctionBlockTypeIndex).AreaDetailDefault);
+                default:
+                    Debug.LogError("Fetch AreaDetailDefault Error   id="+id);
+                    return null;
+            }
+        }
+
+        private List<List<int>> TryParseAreaDetailDefault(string content)
+        {
+            List<List<int>> result = new List<List<int>> ();
+            List<string> ls = Utility.TryParseStringList(content, ';');
+            if(string.IsNullOrEmpty(content) || ls.Count == 0)
+            {
+                Debug.LogWarning("Parse AreaDetailFail!");
+                return result;
+            }
+            for(int i = 0; i < ls.Count; i++)
+            {
+                List<int> li = Utility.TryParseIntList(ls[i], ',');
+                if (li.Count == 0)
+                {
+                    Debug.LogWarning("Parse AreaDetail Fail, string=" + ls[i]);
+                }
+                result.Add(li);
+            }
+            return result;
+        }
+
+
         #endregion
 
         #region Main Function
@@ -216,7 +334,7 @@ namespace Sim_FrameWork {
             }
             else
             {
-                Debug.Log("Can not place factory ");
+                Debug.Log("Can not place functionBlock ");
             }
            
 

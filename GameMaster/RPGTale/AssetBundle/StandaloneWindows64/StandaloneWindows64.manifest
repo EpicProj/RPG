@@ -1,5 +1,5 @@
 ManifestFileVersion: 0
-CRC: 2599811685
+CRC: 747326427
 AssetBundleManifest:
   AssetBundleInfos:
     Info_0:
@@ -31,16 +31,16 @@ AssetBundleManifest:
       Name: simplesun
       Dependencies: {}
     Info_8:
-      Name: factorytest
-      Dependencies: {}
-    Info_9:
-      Name: itemuiprefab
-      Dependencies: {}
-    Info_10:
       Name: blockgrid
       Dependencies:
         Dependency_0: sprite
+    Info_9:
+      Name: factorytest
+      Dependencies: {}
+    Info_10:
+      Name: itemuiprefab
+      Dependencies: {}
     Info_11:
-      Name: factoryinfodialog
+      Name: blockinfodialog
       Dependencies:
         Dependency_0: sprite
