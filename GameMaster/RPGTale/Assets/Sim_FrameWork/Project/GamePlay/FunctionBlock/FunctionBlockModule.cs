@@ -190,6 +190,10 @@ namespace Sim_FrameWork {
         {
             return GetFunctionBlockByBlockID(functionBlockID).Level;
         }
+        public float GetManufactureSpeed(int functionBlockID)
+        {
+            return FetchFunctionBlockTypeIndex<FunctionBlock_Manufacture>(functionBlockID).SpeedBase;
+        }
 
         public FunctionBlock GetFunctionBlockByBlockID(int functionBlockID)
         {
@@ -242,76 +246,142 @@ namespace Sim_FrameWork {
         /// <typeparam name="T"></typeparam>
         /// <param name="block"></param>
         /// <returns></returns>
-        public List<List<DistrictData>> GetFuntionBlockAreaDetailDefaultData<T>(FunctionBlock block) where T : class
+        public Dictionary<Vector2, DistrictAreaInfo> GetFuntionBlockAreaDetailDefaultData<T>(FunctionBlock block) where T : class
         {
-            return GetFuntionBlockAreaDetailDefaultData(GetFuntionBlockAreaDetailDefault<T>(block));
-        }
-
-        private List<List<DistrictData>> GetFuntionBlockAreaDetailDefaultData(List<List<int>> list)
-        {
-          
-            List<List<DistrictData>> result = new List<List<DistrictData>> ();
-            if (list == null)
-                return null;
-            for (int i = 0; i < list.Count; i++)
+            Dictionary<Vector2, DistrictAreaInfo> result = new Dictionary<Vector2, DistrictAreaInfo>();
+            Dictionary<Vector2, DistrictData> inPutDic = GetFuntionBlockAreaDetailDefaultData(GetFuntionBlockAreaDetailDefault<T>(block));
+            //Check Area
+            foreach(KeyValuePair<Vector2,DistrictData> kvp in inPutDic)
             {
-                List<DistrictData> dList = new List<DistrictData>();
-                List<int> data = list[i];
-                for (int j = 0; j < data.Count; j++)
+                if (kvp.Value == null || kvp.Value.DistrictID == -1 || kvp.Value.DistrictID == -2)
                 {
-                    if (data[j] == -1)
+                    //empty 
+                    DistrictAreaInfo info = new DistrictAreaInfo
                     {
-                        //AddEmptySlot
-                        dList.Add(new DistrictData { DistrictID=-1});
-                        continue;
-                    }else if (data[j] == -2)
-                    {
-                        //Add UnLockSlot
-                        dList.Add(new DistrictData { DistrictID = -2 });
-                        continue;
-                    }
-                    DistrictData dd = DistrictModule.Instance.GetDistrictDataByKey(data[j]);
-                    if (dd == null)
-                        continue;
-                    dList.Add(dd);
+                        data = kvp.Value,
+                        isLargeDistrict = false
+                    };
+                    result.Add(kvp.Key,info);
+                    continue;
                 }
-                result.Add(dList);
+
+                DistrictData dd = DistrictModule.Instance.GetDistrictDataByKey(kvp.Value.DistrictID);
+                //District Larger than 1X1
+
+                Vector2 area = DistrictModule.Instance.GetDistrictArea(dd);
+                if (area.x == 1 && area.y == 1)
+                {
+                    DistrictAreaInfo info = new DistrictAreaInfo
+                    {
+                        data = dd,
+                        isLargeDistrict = false
+                    };
+                    result.Add(kvp.Key, info);
+                    continue;
+                }
+                else if (area.x != 1 && area.y != 1 && area.y + kvp.Key.y < GetFunctionBlockAreaMax<T>(block).y && kvp.Key.x+area.x<GetFunctionBlockAreaMax<T>(block).x) //Loop 
+                {
+                    //Add Area List
+                    List<Vector2> districtArea = new List<Vector2>();
+                    for(int i = 0; i < area.x; i++)
+                    {
+                        Vector2 index = new Vector2(kvp.Key.x + i, kvp.Key.y);
+                        districtArea.Add(index);
+                        for (int j = 0; j < area.y; j++)
+                        {
+                            Vector2 index2 = new Vector2(kvp.Key.x, kvp.Key.y+1);
+                            if (districtArea.Contains(index2))
+                                continue;
+                            districtArea.Add(index2);
+                        }
+                    }
+                    DistrictAreaInfo info = new DistrictAreaInfo
+                    {
+                        data = dd,
+                        isLargeDistrict = true,
+                        largeDistrictIndex = districtArea
+                    };
+                    result.Add(kvp.Key, info);
+                }
+                else
+                {
+                    Debug.LogError("DistrictData Area Error ,ID=" + dd.DistrictID);
+                    continue;
+                }
             }
             return result;
+
         }
 
-        private List<List<int>> GetFuntionBlockAreaDetailDefault<T>(FunctionBlock block) where T : class
+        private Dictionary<Vector2, DistrictData> GetFuntionBlockAreaDetailDefaultData(Dictionary<Vector2, int> dic)
+        {
+
+            Dictionary<Vector2, DistrictData> result = new Dictionary<Vector2, DistrictData>();
+            if (dic == null)
+                return result;
+            foreach(KeyValuePair<Vector2, int> kvp in dic)
+            {
+                if(kvp.Value == -1)
+                {
+                    //AddEmptySlot
+                    result.Add( kvp.Key,new DistrictData { DistrictID = -1 });
+                    continue;
+                }else if(kvp.Value == -2)
+                {
+                    //Add UnLockSlot
+                    result.Add(kvp.Key, new DistrictData { DistrictID = -2 });
+                    continue;
+                }
+                DistrictData dd = DistrictModule.Instance.GetDistrictDataByKey(kvp.Value);
+                if (dd == null)
+                    continue;
+                result.Add(kvp.Key, dd);
+            }
+            return result;
+
+        }
+
+
+        private Dictionary<Vector2, int> GetFuntionBlockAreaDetailDefault<T>(FunctionBlock block) where T : class
         {
             int id = block.FunctionBlockID;
             switch (GetFunctionBlockType(id))
             {
                 case FunctionBlockType.Manufacture:
-                    return TryParseAreaDetailDefault(GetFunctionBlock_ManufactureData(GetFunctionBlockByBlockID(id).FunctionBlockTypeIndex).AreaDetailDefault);
+                    return TryParseAreaDetailDefault(GetFunctionBlock_ManufactureData(GetFunctionBlockByBlockID(id).FunctionBlockTypeIndex).AreaDetailDefault, GetFunctionBlockAreaMax<T>(block));
                 case FunctionBlockType.Energy:
-                    return TryParseAreaDetailDefault(GetFunctionBlock_EnergyData(GetFunctionBlockByBlockID(id).FunctionBlockTypeIndex).AreaDetailDefault);
+                    return TryParseAreaDetailDefault(GetFunctionBlock_EnergyData(GetFunctionBlockByBlockID(id).FunctionBlockTypeIndex).AreaDetailDefault, GetFunctionBlockAreaMax<T>(block));
                 default:
                     Debug.LogError("Fetch AreaDetailDefault Error   id="+id);
                     return null;
             }
         }
 
-        private List<List<int>> TryParseAreaDetailDefault(string content)
+        private Dictionary<Vector2, int> TryParseAreaDetailDefault(string content ,Vector2 areaMax)
         {
-            List<List<int>> result = new List<List<int>> ();
+            Dictionary<Vector2, int> result = new Dictionary<Vector2, int> ();
             List<string> ls = Utility.TryParseStringList(content, ';');
             if(string.IsNullOrEmpty(content) || ls.Count == 0)
             {
                 Debug.LogWarning("Parse AreaDetailFail!");
                 return result;
             }
-            for(int i = 0; i < ls.Count; i++)
+            if (ls.Count != (int)areaMax.y)
+            {
+                Debug.LogError("District Area Not Match content=" + content + "AreaMax=" + areaMax);
+            }
+            for (int i = 0; i < ls.Count; i++)
             {
                 List<int> li = Utility.TryParseIntList(ls[i], ',');
-                if (li.Count == 0)
+                if (li.Count != (int)areaMax.x)
                 {
-                    Debug.LogWarning("Parse AreaDetail Fail, string=" + ls[i]);
+                    Debug.LogError("District Area Not Match content=" + content + "AreaMax=" + areaMax);
                 }
-                result.Add(li);
+                for(int j = 0; j < li.Count; j++)
+                {
+                    Vector2 pos = new Vector2(i, j);
+                    result.Add(pos, li[j]);
+                }
             }
             return result;
         }
@@ -362,17 +432,51 @@ namespace Sim_FrameWork {
 
         public bool CheckBlockCanPlace(FunctionBlock block,Vector3 checkPos)
         {
-            //TODO
+            //Todo
             return true;
         }
-        //Manufacture
 
 
-
-        public float GetManufactureSpeed(int functionBlockID)
+        public void InitDistrictBlockModel<T>(FunctionBlock block) where T:class
         {
-            return FetchFunctionBlockTypeIndex<FunctionBlock_Manufacture>(functionBlockID).SpeedBase;
+            Dictionary<Vector2, DistrictAreaInfo> districtDic = GetFuntionBlockAreaDetailDefaultData<T>(block);
+            if (districtDic == null)
+                return;
+            
+            foreach(KeyValuePair<Vector2, DistrictAreaInfo> kvp in districtDic)
+            {
+                var data = kvp.Value.data;
+                if(data==null || data.DistrictID == -1 || data.DistrictID == -2)
+                {
+                    //empty Model
+                    continue;
+                }
+
+
+                Vector2 districtArea = DistrictModule.Instance.GetDistrictArea(data);
+                if(districtArea.x==1 && districtArea.y == 1)
+                {
+                    //Init Block 1X1
+                    string ModelPath = "Assets/Prefabs/District/" + data.ModelPath;
+                    GameObject DistrictModel = ObjectManager.Instance.InstantiateObject(ModelPath);
+                }
+            }
+
+          
         }
+
+        /// <summary>
+        /// Init Block Box Collider
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="block"></param>
+        /// <returns></returns>
+        public Vector3 InitFunctionBlockBoxCollider<T>(FunctionBlock block) where T:class
+        {
+            Vector2 area = GetFunctionBlockAreaMax<T>(block);
+            return new Vector3(area.x, 3.0f, area.y);
+        }
+   
 
         #endregion
     }
@@ -396,4 +500,6 @@ namespace Sim_FrameWork {
         public int LevelIndex;
         public int NeedEXP;
     }
+
+
 }

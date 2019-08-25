@@ -13,8 +13,7 @@ namespace Sim_FrameWork
 
         private BlockInfoDialog m_dialog;
         private Button clostBtn;
-        FunctionBlock currentBlock;
-        List<List<DistrictData>> currentDistrictData=new List<List<DistrictData>> ();
+        FunctionBlock_Info blockInfo;
 
         /// <summary>
         /// [0] currentBlockid   [1] currentDistrictData
@@ -22,8 +21,7 @@ namespace Sim_FrameWork
         /// <param name="paralist"></param>
         public override void Awake(params object[] paralist)
         {
-            currentBlock = FunctionBlockModule.Instance.GetFunctionBlockByBlockID((int)paralist[0]);
-            currentDistrictData = (List<List<DistrictData>>)paralist[1];
+            blockInfo = (FunctionBlock_Info)paralist[0];
 
             EmptyDistrictSlotSprite = Utility.LoadSprite(DISTRICTSLOT_EMPTY_IMAGE, Utility.SpriteType.png);
             m_dialog = GameObject.GetComponent<BlockInfoDialog>();
@@ -37,61 +35,58 @@ namespace Sim_FrameWork
         public override void OnShow(params object[] paralist)
         {
             //Init Text
-            m_dialog.Title.transform.Find("BG2/Desc/FacotryName").GetComponent<Text>().text = FunctionBlockModule.Instance.GetFunctionBlockName(currentBlock);
-            m_dialog.BlockInfoDesc.text = FunctionBlockModule.Instance.GetFunctionBlockDesc(currentBlock);
-            currentBlock = FunctionBlockModule.Instance.GetFunctionBlockByBlockID((int)paralist[0]);
+            m_dialog.Title.transform.Find("BG2/Desc/FacotryName").GetComponent<Text>().text = FunctionBlockModule.Instance.GetFunctionBlockName(blockInfo.block);
+            m_dialog.BlockInfoDesc.text = FunctionBlockModule.Instance.GetFunctionBlockDesc(blockInfo.block);
+            blockInfo = (FunctionBlock_Info)paralist[0];
             //Init Sprite
             //m_dialog.FactoryBG.GetComponent<Image>().sprite = FunctionBlockModule.Instance.GetFunctionBlockIcon(currentBlock.FunctionBlockID);
         }
 
+        //生成初始区划格
         private void InitDistrictDataSlot()
         {
-            if (currentDistrictData == null)
+            if (blockInfo.currentDistrictDataDic == null)
                 return;
             //Calculate Slot
-            int line = currentDistrictData[0].Count;
+            int line = (int)blockInfo.districtAreaMax.x;
             float width = 370f;
             float size =Mathf.Floor((width - m_dialog.DistrictSlotContent.GetComponent<GridLayoutGroup>().spacing.x * line) / line);
             m_dialog.DistrictSlotContent.GetComponent<GridLayoutGroup>().cellSize = new Vector2(size, size);
 
-            for (int i = 0; i < currentDistrictData.Count; i++)
+            foreach(KeyValuePair<Vector2, DistrictAreaInfo> kvp in blockInfo.currentDistrictDataDic)
             {
-                //生成行
-                for(int j = 0; j < currentDistrictData[i].Count; j++)
+                var data = kvp.Value.data;
+                if (data.DistrictID == -1)
                 {
-                    DistrictData data = currentDistrictData[i][j];
-                    if (data.DistrictID == -1)
-                    {
-                        //Init EmptySlot
-                        GameObject EmptySlot= ObjectManager.Instance.InstantiateObject(DISTRICTSLOT_PREFAB_PATH);
-                        EmptySlot.GetComponent<Image>().sprite = EmptyDistrictSlotSprite;
-                        EmptySlot.transform.Find("EmptyInfo").gameObject.SetActive(true);
-                        EmptySlot.transform.SetParent(m_dialog.DistrictSlotContent.transform,false);
-                    }else if (data.DistrictID == -2)
-                    {
-                        GameObject UnlockSlot = ObjectManager.Instance.InstantiateObject(DISTRICTSLOT_PREFAB_PATH);
-                        UnlockSlot.transform.SetParent(m_dialog.DistrictSlotContent.transform, false);
-                        UnlockSlot.GetComponent<Button>().interactable = false;
-                    }else if (data == null)
-                    {
-                        Debug.LogError("Init District Slot Error!  Row=" + i + "line=" + j);
-                        continue;
-                    }
-                    else
-                    {
-                        GameObject Slot = ObjectManager.Instance.InstantiateObject(DISTRICTSLOT_PREFAB_PATH);
-                        GameObject district = Slot.transform.Find("District").gameObject;
-                        district.gameObject.SetActive(true);
-                        district.GetComponent<Image>().sprite = Utility.LoadSprite(data.DistrictIcon,Utility.SpriteType.png);
-                        Slot.transform.SetParent(m_dialog.DistrictSlotContent.transform, false);
-                    }
+                    //Init EmptySlot
+                    GameObject EmptySlot = ObjectManager.Instance.InstantiateObject(DISTRICTSLOT_PREFAB_PATH);
+                    EmptySlot.GetComponent<Image>().sprite = EmptyDistrictSlotSprite;
+                    EmptySlot.transform.Find("EmptyInfo").gameObject.SetActive(true);
+                    EmptySlot.transform.SetParent(m_dialog.DistrictSlotContent.transform, false);
+                }else if(data.DistrictID == -2)
+                {
+                    //Init UnlockSlot
+                    GameObject UnlockSlot = ObjectManager.Instance.InstantiateObject(DISTRICTSLOT_PREFAB_PATH);
+                    UnlockSlot.transform.SetParent(m_dialog.DistrictSlotContent.transform, false);
+                    UnlockSlot.GetComponent<Button>().interactable = false;
+                }else if (kvp.Value == null)
+                {
+                    Debug.LogError("Init District Slot Error! key=" + kvp.Key);
+                    continue;
+                }
+                else
+                {
+                    GameObject Slot = ObjectManager.Instance.InstantiateObject(DISTRICTSLOT_PREFAB_PATH);
+                    GameObject district = Slot.transform.Find("District").gameObject;
+                    district.gameObject.SetActive(true);
+                    district.GetComponent<Image>().sprite = Utility.LoadSprite(data.DistrictIcon, Utility.SpriteType.png);
+                    Slot.transform.SetParent(m_dialog.DistrictSlotContent.transform, false);
                 }
             }
-
         }
 
 
-        //Btn
+        //Button
         private void AddBtnListener()
         {
             AddButtonClickListener(clostBtn, delegate () { HideInfoDialog();});

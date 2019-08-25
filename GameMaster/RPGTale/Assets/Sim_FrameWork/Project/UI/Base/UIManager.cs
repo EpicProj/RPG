@@ -200,7 +200,7 @@ namespace Sim_FrameWork {
             }
             else
             {
-                ShowWnd(wndName, bTop);
+                ShowWnd(wndName, bTop ,paralist);
             }
 
             return wnd;

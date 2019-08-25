@@ -44,6 +44,8 @@ namespace Sim_FrameWork
             base.InitData();
             ManufacturingspeedBase = FunctionBlockModule.Instance.GetManufactureSpeed(functionBlockID);
             _currentManuSpeed = ManufacturingspeedBase;
+
+            SetBlockColliderSize(FunctionBlockModule.Instance.InitFunctionBlockBoxCollider<FunctionBlock_Manufacture>(functionBlock));
         }
 
         public void GetCurrentFormulaData()

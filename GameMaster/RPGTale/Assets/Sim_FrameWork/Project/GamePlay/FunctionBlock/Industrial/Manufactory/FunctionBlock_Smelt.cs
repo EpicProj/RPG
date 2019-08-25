@@ -16,20 +16,17 @@ namespace Sim_FrameWork
 
         //Factory
 
-        private BoxCollider factoryCollider;
-        RaycastHit hit;
-
         public override void Awake()
         {
             functionBlockID = 100;
             base.Awake();
-            factoryCollider = gameObject.GetComponent<BoxCollider>();
+           
 
         }
 
         public override void Update()
         {
-            CheckMouseButtonDown();
+            CheckMouseButtonDown(UIPath.FUCNTIONBLOCK_INFO_DIALOG, GenerateFunctionBlock_SmeltInfo());
         }
         public override void InitData()
         {
@@ -57,19 +54,16 @@ namespace Sim_FrameWork
             base.OnPlaceFunctionBlock();
         }
 
-        private void CheckMouseButtonDown()
+        private FunctionBlock_Info GenerateFunctionBlock_SmeltInfo()
         {
-            if (Input.GetMouseButtonDown(0))
-            {
-                Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
-                if(Physics.Raycast(ray,out hit))
-                {
-                    Debug.Log(hit.collider.gameObject.name);
-                    UIManager.Instance.PopUpWnd(UIPath.FUCNTIONBLOCK_INFO_DIALOG,true, functionBlockID,_currentDistrictDataList);
-                }
-            }
+            FunctionBlock_Info info = new FunctionBlock_Info();
+            info.block = functionBlock;
+            info.districtAreaMax = FunctionBlockModule.Instance.GetFunctionBlockAreaMax<FunctionBlock_Manufacture>(functionBlock);
+            info.currentDistrictDataDic = _currentDistrictDataDic;
+            return info;
         }
-     
+
+
     }
 
     public class FunctionBlock_Smelt_Config
@@ -81,5 +75,12 @@ namespace Sim_FrameWork
         public string OutputIconPath;
         public string ByproductDesc;
         public string ByproductIconPath;
+    }
+
+    public class FunctionBlock_Info
+    {
+        public FunctionBlock block;
+        public Vector2 districtAreaMax;
+        public Dictionary<Vector2, DistrictAreaInfo> currentDistrictDataDic;
     }
 }

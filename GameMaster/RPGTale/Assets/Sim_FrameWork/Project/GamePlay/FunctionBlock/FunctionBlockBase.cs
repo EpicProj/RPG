@@ -10,11 +10,13 @@ namespace Sim_FrameWork
         public int functionBlockID;
         public string functionBlockUID;
         public FunctionBlock functionBlock;
-        public List<List<DistrictData>> _currentDistrictDataList =new List<List<DistrictData>> ();
+        public Dictionary<Vector2, DistrictAreaInfo> _currentDistrictDataDic = new Dictionary<Vector2, DistrictAreaInfo>();
 
         public int currentBlockLevel;
         public int currentBlockExp;
-         
+
+        private BoxCollider BlockCollider;
+        RaycastHit hit;
 
         //Base Info
         public Vector3 BlockPos;
@@ -34,6 +36,7 @@ namespace Sim_FrameWork
             DistrictModule.Instance.InitData();
             functionBlock = FunctionBlockModule.Instance.GetFunctionBlockByBlockID(functionBlockID);
             InitAreaDetail();
+            BlockCollider = gameObject.GetComponent<BoxCollider>();
         }
 
         //Action
@@ -49,11 +52,26 @@ namespace Sim_FrameWork
 
         public void InitAreaDetail()
         {
-            _currentDistrictDataList = FunctionBlockModule.Instance.GetFuntionBlockAreaDetailDefaultData<FunctionBlock_Manufacture>(functionBlock);
+            _currentDistrictDataDic = FunctionBlockModule.Instance.GetFuntionBlockAreaDetailDefaultData<FunctionBlock_Manufacture>(functionBlock);
 
         }
 
-
+        public void CheckMouseButtonDown(string UIPath, params object[] param )
+        {
+            if (Input.GetMouseButtonDown(0))
+            {
+                Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+                if (Physics.Raycast(ray, out hit))
+                {
+                    Debug.Log(hit.collider.gameObject.name);
+                    UIManager.Instance.PopUpWnd( UIPath, true, param);
+                }
+            }
+        }
+        public void SetBlockColliderSize(Vector3 size)
+        {
+            BlockCollider.size = size;
+        }
 
 
     }

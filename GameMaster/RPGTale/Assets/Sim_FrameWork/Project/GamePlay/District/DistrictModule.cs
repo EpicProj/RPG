@@ -50,9 +50,13 @@ namespace Sim_FrameWork {
             return Utility.LoadSprite(path, Utility.SpriteType.png);
         }
 
-        public List<int> GetDistrictArea(DistrictData data)
+        public Vector2 GetDistrictArea(DistrictData data)
         {
-            return Utility.TryParseIntList(data.Area, ',');
+            return Utility.TryParseIntVector2(data.Area, ',');
+        }
+        public Vector2 GetDistrictArea(int DistrictID)
+        {
+            return Utility.TryParseIntVector2(GetDistrictDataByKey(DistrictID).Area, ',');
         }
 
         public Dictionary<int, int> GetDistrictMaterialCostDic(DistrictData data)
@@ -111,5 +115,13 @@ namespace Sim_FrameWork {
         #endregion
 
 
+    }
+
+
+    public class DistrictAreaInfo
+    {
+        public DistrictData data;
+        public bool isLargeDistrict;
+        public List<Vector2> largeDistrictIndex;
     }
 }
