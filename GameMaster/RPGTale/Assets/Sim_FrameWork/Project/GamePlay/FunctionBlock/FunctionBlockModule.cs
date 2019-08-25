@@ -251,8 +251,11 @@ namespace Sim_FrameWork {
             Dictionary<Vector2, DistrictAreaInfo> result = new Dictionary<Vector2, DistrictAreaInfo>();
             Dictionary<Vector2, DistrictData> inPutDic = GetFuntionBlockAreaDetailDefaultData(GetFuntionBlockAreaDetailDefault<T>(block));
             //Check Area
-            foreach(KeyValuePair<Vector2,DistrictData> kvp in inPutDic)
+            int largeDistrictindex = 0;
+            Dictionary<int, List<Vector2>> largeDistrictDic = new Dictionary<int, List<Vector2>>();
+            foreach (KeyValuePair<Vector2, DistrictData> kvp in inPutDic)
             {
+                bool b = false;
                 if (kvp.Value == null || kvp.Value.DistrictID == -1 || kvp.Value.DistrictID == -2)
                 {
                     //empty 
@@ -261,43 +264,59 @@ namespace Sim_FrameWork {
                         data = kvp.Value,
                         isLargeDistrict = false
                     };
-                    result.Add(kvp.Key,info);
+                    result.Add(kvp.Key, info);
                     continue;
                 }
+                //Check exists District
+                foreach (KeyValuePair<int,List<Vector2>> value in largeDistrictDic)
+                {
+                    if (value.Value.Contains(kvp.Key))
+                    {
+                        //Skip
+                        DistrictAreaInfo info = new DistrictAreaInfo
+                        {
+                            data = kvp.Value,
+                            isLargeDistrict = true,
+                            largeDistrictIndex = value.Value
+                        };
+                        result.Add(kvp.Key, info);
+                        b = true;
+                        break;
+                    }
+                }
+                if (b)
+                    continue;
 
-                DistrictData dd = DistrictModule.Instance.GetDistrictDataByKey(kvp.Value.DistrictID);
                 //District Larger than 1X1
-
-                Vector2 area = DistrictModule.Instance.GetDistrictArea(dd);
+                Vector2 area = DistrictModule.Instance.GetDistrictArea(kvp.Value);
                 if (area.x == 1 && area.y == 1)
                 {
                     DistrictAreaInfo info = new DistrictAreaInfo
                     {
-                        data = dd,
+                        data = kvp.Value,
                         isLargeDistrict = false
                     };
                     result.Add(kvp.Key, info);
                     continue;
                 }
-                else if (area.x != 1 && area.y != 1 && area.y + kvp.Key.y < GetFunctionBlockAreaMax<T>(block).y && kvp.Key.x+area.x<GetFunctionBlockAreaMax<T>(block).x) //Loop 
+                else if ((area.x != 1 || area.y != 1) && area.y + kvp.Key.y < GetFunctionBlockAreaMax<T>(block).y && kvp.Key.x+area.x<GetFunctionBlockAreaMax<T>(block).x) //Loop 
                 {
                     //Add Area List
                     List<Vector2> districtArea = new List<Vector2>();
-                    for(int i = 0; i < area.x; i++)
+                    for (int i = 0; i < area.x; i++)
                     {
-                        Vector2 index = new Vector2(kvp.Key.x + i, kvp.Key.y);
-                        districtArea.Add(index);
                         for (int j = 0; j < area.y; j++)
                         {
-                            Vector2 index2 = new Vector2(kvp.Key.x, kvp.Key.y+1);
-                            if (districtArea.Contains(index2))
-                                continue;
-                            districtArea.Add(index2);
+                            Vector2 index = new Vector2(kvp.Key.x + i, kvp.Key.y + j);
+                            districtArea.Add(index);
+                           
                         }
                     }
+                    largeDistrictDic.Add(largeDistrictindex, districtArea);
+                    largeDistrictindex++;
                     DistrictAreaInfo info = new DistrictAreaInfo
                     {
-                        data = dd,
+                        data = kvp.Value,
                         isLargeDistrict = true,
                         largeDistrictIndex = districtArea
                     };
@@ -305,7 +324,7 @@ namespace Sim_FrameWork {
                 }
                 else
                 {
-                    Debug.LogError("DistrictData Area Error ,ID=" + dd.DistrictID);
+                    Debug.LogError("DistrictData Area Error ,ID=" + kvp.Value.DistrictID);
                     continue;
                 }
             }
@@ -476,6 +495,9 @@ namespace Sim_FrameWork {
             Vector2 area = GetFunctionBlockAreaMax<T>(block);
             return new Vector3(area.x, 3.0f, area.y);
         }
+
+
+   
    
 
         #endregion

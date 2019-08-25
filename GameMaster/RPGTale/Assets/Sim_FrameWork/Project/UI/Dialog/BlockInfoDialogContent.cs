@@ -50,39 +50,92 @@ namespace Sim_FrameWork
             //Calculate Slot
             int line = (int)blockInfo.districtAreaMax.x;
             float width = 370f;
-            float size =Mathf.Floor((width - m_dialog.DistrictSlotContent.GetComponent<GridLayoutGroup>().spacing.x * line) / line);
+            float size = Mathf.Floor((width - m_dialog.DistrictSlotContent.GetComponent<GridLayoutGroup>().spacing.x * line) / line);
             m_dialog.DistrictSlotContent.GetComponent<GridLayoutGroup>().cellSize = new Vector2(size, size);
 
-            foreach(KeyValuePair<Vector2, DistrictAreaInfo> kvp in blockInfo.currentDistrictDataDic)
+            foreach (KeyValuePair<Vector2, DistrictAreaInfo> kvp in blockInfo.currentDistrictDataDic)
             {
                 var data = kvp.Value.data;
                 if (data.DistrictID == -1)
                 {
                     //Init EmptySlot
-                    GameObject EmptySlot = ObjectManager.Instance.InstantiateObject(DISTRICTSLOT_PREFAB_PATH);
-                    EmptySlot.GetComponent<Image>().sprite = EmptyDistrictSlotSprite;
-                    EmptySlot.transform.Find("EmptyInfo").gameObject.SetActive(true);
-                    EmptySlot.transform.SetParent(m_dialog.DistrictSlotContent.transform, false);
-                }else if(data.DistrictID == -2)
+                    InitEmptyDisBlock();
+                }
+                else if (data.DistrictID == -2)
                 {
                     //Init UnlockSlot
-                    GameObject UnlockSlot = ObjectManager.Instance.InstantiateObject(DISTRICTSLOT_PREFAB_PATH);
-                    UnlockSlot.transform.SetParent(m_dialog.DistrictSlotContent.transform, false);
-                    UnlockSlot.GetComponent<Button>().interactable = false;
-                }else if (kvp.Value == null)
+                    InitUnlockDisBlock();
+                }
+                else if (kvp.Value.isLargeDistrict == true )
+                {
+                    List<Vector2> areaList = kvp.Value.largeDistrictIndex;
+                    Vector2 maxArea = DistrictModule.Instance.FindMaxDistrictBlockVector(kvp.Value);
+
+                    if (areaList.Contains(kvp.Key) && !kvp.Key.Equals(maxArea))
+                    {
+                        //Skip Slot
+                        InitEmptyDisBlock();
+
+                    }else if (areaList.Contains(kvp.Key) && kvp.Key.Equals(maxArea))
+                    {
+                        //Init LargeBlock
+                        InitLargeDisBlock(data,(int)size);
+                    }
+                }
+                else if (kvp.Value.isLargeDistrict == false)
+                {
+                    InitSmallDisBlock(data);
+                }
+                else
                 {
                     Debug.LogError("Init District Slot Error! key=" + kvp.Key);
                     continue;
                 }
-                else
-                {
-                    GameObject Slot = ObjectManager.Instance.InstantiateObject(DISTRICTSLOT_PREFAB_PATH);
-                    GameObject district = Slot.transform.Find("District").gameObject;
-                    district.gameObject.SetActive(true);
-                    district.GetComponent<Image>().sprite = Utility.LoadSprite(data.DistrictIcon, Utility.SpriteType.png);
-                    Slot.transform.SetParent(m_dialog.DistrictSlotContent.transform, false);
-                }
             }
+        }
+
+        private void UpdateDistrictSlot()
+        {
+
+        }
+
+
+        public void InitLargeDisBlock(DistrictData data ,int size)
+        {
+            GameObject Slot = ObjectManager.Instance.InstantiateObject(DISTRICTSLOT_PREFAB_PATH);
+            GameObject district = Slot.transform.Find("District").gameObject;
+            district.gameObject.SetActive(true);
+            district.GetComponent<Image>().sprite = Utility.LoadSprite(data.DistrictIcon, Utility.SpriteType.png);
+            //Set Size
+            Vector2 v = DistrictModule.Instance.GetDistrictArea(data);
+            district.GetComponent<RectTransform>().sizeDelta = new Vector2(v.y * size, v.x * size);
+            district.transform.Find("Name").GetComponent<Text>().text = DistrictModule.Instance.GetDistrictName(data);
+            Slot.transform.SetParent(m_dialog.DistrictSlotContent.transform, false);
+        }
+
+
+        public void InitSmallDisBlock(DistrictData data)
+        {
+            GameObject Slot = ObjectManager.Instance.InstantiateObject(DISTRICTSLOT_PREFAB_PATH);
+            GameObject district = Slot.transform.Find("District").gameObject;
+            district.gameObject.SetActive(true);
+            district.GetComponent<Image>().sprite = Utility.LoadSprite(data.DistrictIcon, Utility.SpriteType.png);
+            district.transform.Find("Name").GetComponent<Text>().text = DistrictModule.Instance.GetDistrictName(data);
+
+            Slot.transform.SetParent(m_dialog.DistrictSlotContent.transform, false);
+        }
+        public void InitEmptyDisBlock()
+        {
+            GameObject EmptySlot = ObjectManager.Instance.InstantiateObject(DISTRICTSLOT_PREFAB_PATH);
+            EmptySlot.GetComponent<Image>().sprite = EmptyDistrictSlotSprite;
+            EmptySlot.transform.Find("EmptyInfo").gameObject.SetActive(true);
+            EmptySlot.transform.SetParent(m_dialog.DistrictSlotContent.transform, false);
+        }
+        public void InitUnlockDisBlock()
+        {
+            GameObject UnlockSlot = ObjectManager.Instance.InstantiateObject(DISTRICTSLOT_PREFAB_PATH);
+            UnlockSlot.transform.SetParent(m_dialog.DistrictSlotContent.transform, false);
+            UnlockSlot.GetComponent<Button>().interactable = false;
         }
 
 
