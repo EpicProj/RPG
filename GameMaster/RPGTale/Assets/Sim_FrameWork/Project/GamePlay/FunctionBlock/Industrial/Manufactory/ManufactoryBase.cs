@@ -30,9 +30,16 @@ namespace Sim_FrameWork
             set { _currentManuSpeed = value; }
         }
 
-        public int _currentFormulaID=-1;
-        public FormulaData _currentFormulaData = null;
+        private int _currentFormulaID=-1;
+        public int currentFormulaID
+        {
+            get { return _currentFormulaID; }
+            set { _currentFormulaID = value; }
+        }
 
+        public List<Dictionary<Material, ushort>> InputMaterialFormulaList = new List<Dictionary<Material, ushort>>();
+        public List<Dictionary<Material, ushort>> OutputMaterialFormulaList = new List<Dictionary<Material, ushort>>();
+        public List<Dictionary<Material, ushort>> BypruductMaterialFormulaList = new List<Dictionary<Material, ushort>>();
 
         public Dictionary<int, ushort> InputMaterialDic = new Dictionary<int, ushort>();
         public Dictionary<int, ushort> OutputMaterialDic = new Dictionary<int, ushort>();
@@ -46,27 +53,17 @@ namespace Sim_FrameWork
             _currentManuSpeed = ManufacturingspeedBase;
 
             SetBlockColliderSize(FunctionBlockModule.Instance.InitFunctionBlockBoxCollider<FunctionBlock_Manufacture>(functionBlock));
+            GetFormulaData();
         }
 
-        public void GetCurrentFormulaData()
+        public void GetFormulaData()
         {
-            _currentFormulaData = FormulaModule.Instance.GetFormulaDataByID(_currentFormulaID);
+            InputMaterialFormulaList = FunctionBlockModule.Instance.GetFunctionBlockFormulaDataList(functionBlock, FormulaModule.MaterialProductType.Input);
+            OutputMaterialFormulaList = FunctionBlockModule.Instance.GetFunctionBlockFormulaDataList(functionBlock, FormulaModule.MaterialProductType.Output);
+            BypruductMaterialFormulaList = FunctionBlockModule.Instance.GetFunctionBlockFormulaDataList(functionBlock, FormulaModule.MaterialProductType.Byproduct);
         }
 
      
     }
 
-    [System.Serializable]
-    public class ManufactoryBaseInfoData
-    {
-        //BaseInfo
-        public Vector3 BlockPos;
-
-        public string BlockUID;
-        public int BlockID;
-
-        public int CurrentFormulaID;
-
-
-    }
 }

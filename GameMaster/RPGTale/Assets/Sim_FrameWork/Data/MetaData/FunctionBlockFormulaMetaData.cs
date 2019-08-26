@@ -32,22 +32,11 @@ public class FunctionBlockFormulaMetaData : ExcelBase
             info.FormulaList = "";
             AllFormulaInfoList.Add(info);
         }
-
-        AllTextMap_FormulaList = new List<TextMap_Formula>();
-        for (int i = 0; i < 2; i++)
-        {
-            TextMap_Formula tf = new TextMap_Formula();
-            tf.TextID = "";
-            tf.Value_CN = "";
-            AllTextMap_FormulaList.Add(tf);
-        }
-
     }
 #endif
     public override void Init()
     {
         AllFormulaDataDic.Clear();
-        AllTextMap_FormulaDic.Clear();
         AllFormulaInfoDic.Clear();
 
         foreach (var data in AllFormulaDataList)
@@ -59,17 +48,6 @@ public class FunctionBlockFormulaMetaData : ExcelBase
             else
             {
                 AllFormulaDataDic.Add(data.FormulaID, data);
-            }
-        }
-        foreach (var data in AllTextMap_FormulaList)
-        {
-            if (AllTextMap_FormulaDic.ContainsKey(data.TextID))
-            {
-                Debug.LogError("Find Same TextID , TextID  = " + data.TextID);
-            }
-            else
-            {
-                AllTextMap_FormulaDic.Add(data.TextID, data);
             }
         }
         foreach (var data in AllFormulaInfoList)
@@ -90,15 +68,11 @@ public class FunctionBlockFormulaMetaData : ExcelBase
     public Dictionary<int, FormulaData> AllFormulaDataDic = new Dictionary<int, FormulaData>();
     [XmlIgnore]
     public Dictionary<int, FormulaInfo> AllFormulaInfoDic = new Dictionary<int, FormulaInfo>();
-    [XmlIgnore]
-    public Dictionary<string, TextMap_Formula> AllTextMap_FormulaDic = new Dictionary<string, TextMap_Formula>();
 
     [XmlElement]
     public List<FormulaData> AllFormulaDataList { get; set; }
     [XmlElement]
     public List<FormulaInfo> AllFormulaInfoList { get; set; }
-    [XmlElement]
-    public List<TextMap_Formula> AllTextMap_FormulaList { get; set; }
 }
 
 [System.Serializable]
@@ -129,14 +103,4 @@ public class FormulaInfo
     public ushort InfoType { get; set; }
     [XmlElement]
     public string FormulaList { get; set; }
-}
-[System.Serializable] 
-public class TextMap_Formula
-{
-    [XmlElement]
-    public string TextID { get; set; }
-    [XmlElement]
-    public string Value_CN { get; set; }
-
-
 }

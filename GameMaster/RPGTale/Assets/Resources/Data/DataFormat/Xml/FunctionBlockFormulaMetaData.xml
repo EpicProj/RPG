@@ -2,20 +2,25 @@
 <FunctionBlockFormulaMetaData xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
   <AllFormulaDataList>
     <FormulaID>100</FormulaID>
-    <FormulaName>as</FormulaName>
-    <FormulaDesc>ss</FormulaDesc>
+    <FormulaName>FormulaName_100</FormulaName>
+    <FormulaDesc>FormulaDesc_100</FormulaDesc>
     <ProductSpeed>10</ProductSpeed>
-    <InputMaterialList>ss</InputMaterialList>
-    <OutputMaterialList>ss</OutputMaterialList>
-    <ByProductList>ss</ByProductList>
+    <InputMaterialList>100:10</InputMaterialList>
+    <OutputMaterialList>102:10</OutputMaterialList>
+    <ByProductList>102:5</ByProductList>
+  </AllFormulaDataList>
+  <AllFormulaDataList>
+    <FormulaID>101</FormulaID>
+    <FormulaName>FormulaName_101</FormulaName>
+    <FormulaDesc>FormulaDesc_101</FormulaDesc>
+    <ProductSpeed>10</ProductSpeed>
+    <InputMaterialList>100:10,101:10</InputMaterialList>
+    <OutputMaterialList>102:10</OutputMaterialList>
+    <ByProductList>102:5</ByProductList>
   </AllFormulaDataList>
   <AllFormulaInfoList>
     <InfoID>100</InfoID>
     <InfoType>1</InfoType>
-    <FormulaList>dd</FormulaList>
+    <FormulaList>100,101</FormulaList>
   </AllFormulaInfoList>
-  <AllTextMap_FormulaList>
-    <TextID>ss</TextID>
-    <Value_CN>ss</Value_CN>
-  </AllTextMap_FormulaList>
 </FunctionBlockFormulaMetaData>

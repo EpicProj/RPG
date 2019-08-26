@@ -496,6 +496,20 @@ namespace Sim_FrameWork {
             return new Vector3(area.x, 3.0f, area.y);
         }
 
+        //Formula
+        public List<Dictionary<Material,ushort>> GetFunctionBlockFormulaDataList(FunctionBlock block,FormulaModule.MaterialProductType GetType)
+        {
+            List<Dictionary<Material, ushort>> result = new List<Dictionary<Material, ushort>>();
+
+            List<FormulaData> data= FormulaModule.Instance.GetFormulaDataList(FetchFunctionBlockTypeIndex<FunctionBlock_Manufacture>(block.FunctionBlockID).FormulaInfoID);
+            for(int i = 0; i < data.Count; i++)
+            {
+                Dictionary<Material, ushort> maDic = FormulaModule.Instance.GetFormulaMaterialDic(data[i].FormulaID, GetType);
+                result.Add(maDic);
+            }
+            return result;
+        }
+
 
    
    

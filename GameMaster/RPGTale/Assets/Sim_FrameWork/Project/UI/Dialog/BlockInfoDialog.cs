@@ -12,4 +12,6 @@ public class BlockInfoDialog : MonoBehaviour {
 
     public GameObject DistrictSlotContent;
     public GameObject DistrictContent;
+    public GameObject InfoData;
+    public GameObject Processbar;
 }

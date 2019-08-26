@@ -5,7 +5,7 @@ using System;
 
 namespace Sim_FrameWork
 {
-    public class FormulaModule : MonoSingleton<FormulaModule>
+    public class FormulaModule : BaseModule<FormulaModule>
     {
         public enum MaterialProductType
         {
@@ -26,13 +26,11 @@ namespace Sim_FrameWork
         public List<FormulaInfo> FormulaInfoList = new List<FormulaInfo>();
         public Dictionary<int, FormulaInfo> FormulaInfoDic = new Dictionary<int, FormulaInfo>();
 
-        public List<TextMap_Formula> TextMap_FormulaList = new List<TextMap_Formula>();
-        public Dictionary<string, TextMap_Formula> TextMap_FormulaDic = new Dictionary<string, TextMap_Formula>();
 
         private bool HasInit = false;
 
         #region Data
-        public void InitData()
+        public override void InitData()
         {
             if (HasInit)
                 return;
@@ -40,27 +38,25 @@ namespace Sim_FrameWork
             FormulaDataDic = FunctionBlockFormulaMetaDataReader.GetFormulaDataDic();
             FormulaInfoDic = FunctionBlockFormulaMetaDataReader.GetFormulaInfoDic();
             FormulaInfoList = FunctionBlockFormulaMetaDataReader.GetFormulaInfoList();
-            TextMap_FormulaList = FunctionBlockFormulaMetaDataReader.GetTextMap_FormulaList();
-            TextMap_FormulaDic = FunctionBlockFormulaMetaDataReader.GetTextMap_FormulaDic();
 
             HasInit = true;
         }
 
         public string GetFormulaName(FormulaData data)
         {
-            return GetFormulaTextByKey(data.FormulaName);
+            return MultiLanguage.Instance.GetTextValue(data.FormulaName);
         }
         public string GetFormulaName(int formulaID)
         {
-            return GetFormulaTextByKey(GetFormulaDataByID(formulaID).FormulaName);
+            return MultiLanguage.Instance.GetTextValue(GetFormulaDataByID(formulaID).FormulaName);
         }
         public string GetFormulaDesc(FormulaData data)
         {
-            return GetFormulaTextByKey(data.FormulaDesc);
+            return MultiLanguage.Instance.GetTextValue(data.FormulaDesc);
         }
         public string GetFormulaDesc(int formulaID)
         {
-            return GetFormulaTextByKey(GetFormulaDataByID(formulaID).FormulaDesc);
+            return MultiLanguage.Instance.GetTextValue(GetFormulaDataByID(formulaID).FormulaDesc);
         }
         //Speed Base
         public float GetProductSpeed(int formulaID)
@@ -71,6 +67,21 @@ namespace Sim_FrameWork
 
 
         //获取原料，产出或副产物列表
+        public Dictionary<Material,ushort> GetFormulaMaterialDic(int formulaID, MaterialProductType Gettype)
+        {
+            Dictionary<Material, ushort> result = new Dictionary<Material, ushort>();
+            Dictionary<int, ushort> infoDic = GetFormulaMaterialList(formulaID, Gettype);
+            if (infoDic != null)
+            {
+                foreach(KeyValuePair<int,ushort> kvp in infoDic)
+                {
+                    Material ma = MaterialModule.Instance.GetMaterialByMaterialID(kvp.Key);
+                    result.Add(ma, kvp.Value);
+                }
+            }
+            return result;
+        }
+
         public Dictionary<int, ushort> GetFormulaMaterialList(int formulaID, MaterialProductType Gettype)
         {
             FormulaData fm = GetFormulaDataByID(formulaID);
@@ -110,20 +121,6 @@ namespace Sim_FrameWork
             return materialDic;
         }
 
-        public string GetFormulaTextByKey(string key)
-        {
-            TextMap_Formula text = null;
-            TextMap_FormulaDic.TryGetValue(key, out text);
-            if (text != null)
-            {
-                return text.Value_CN;
-            }
-            else
-            {
-                Debug.LogError("GetFormulaText Error TextID=" + key);
-                return string.Empty;
-            }
-        }
 
         public FormulaData GetFormulaDataByID(int formulaID)
         {
@@ -160,6 +157,29 @@ namespace Sim_FrameWork
                     return FormulaInfoType.Automatic;
             }
         }
+
+        public List<FormulaData> GetFormulaDataList(int infoID)
+        {
+            List<FormulaData> result = new List<FormulaData>();
+            List<int> info = Utility.TryParseIntList(GetFormulaInfoByID(infoID).FormulaList,',');
+            if (info.Count == 0)
+            {
+                Debug.LogError("Parse FormulaData List Error  infoID=" + infoID);
+            }
+            else
+            {
+                for(int i = 0; i < info.Count; i++)
+                {
+                    FormulaData data = GetFormulaDataByID(info[i]);
+                    if (data != null)
+                    {
+                        result.Add(data);
+                    }
+                }
+            }
+            return result;
+        }
+
 
         #endregion
 

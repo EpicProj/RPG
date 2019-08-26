@@ -9,11 +9,30 @@ namespace Sim_FrameWork
     {
         private const string DISTRICTSLOT_PREFAB_PATH = "Assets/Prefabs/Object/BlockGrid.prefab";
         private const string DISTRICTSLOT_EMPTY_IMAGE = "SpriteOutput/District/District_Empty";
+
+
+        private const string INFOPANEL_MANUSPEED_TITLE = "FuntionBlockInfoDialog_Info_Manufact_Speed_Title";
+        private const string INFOPANEL_ENERGY_TITLE = "FuntionBlockInfoDialog_Info_Energy_Title";
+        private const string INFOPANEL_MAINTAIN_TITLE = "FuntionBlockInfoDialog_Info_Maintain_Title";
+        private const string INFOPANEL_WOEKER_TITLE = "FuntionBlockInfoDialog_Info_Worker_Title";
         private Sprite EmptyDistrictSlotSprite;
+
+        private Text SpeedText;
+        private Text EnergyText;
+        private Text MaintianText;
+        private Text WorkerText;
+
+        private Text ProcessIndicator;
+        private Image ProgressImage;
 
         private BlockInfoDialog m_dialog;
         private Button clostBtn;
-        FunctionBlock_Info blockInfo;
+        FuntionBlockInfoData blockInfo;
+        private float currentManuSpeed;
+
+        private float currentProcess;
+        private float targetProcess = 100;
+      
 
         /// <summary>
         /// [0] currentBlockid   [1] currentDistrictData
@@ -21,13 +40,17 @@ namespace Sim_FrameWork
         /// <param name="paralist"></param>
         public override void Awake(params object[] paralist)
         {
-            blockInfo = (FunctionBlock_Info)paralist[0];
+            blockInfo = (FuntionBlockInfoData)paralist[0];
 
             EmptyDistrictSlotSprite = Utility.LoadSprite(DISTRICTSLOT_EMPTY_IMAGE, Utility.SpriteType.png);
             m_dialog = GameObject.GetComponent<BlockInfoDialog>();
             clostBtn = GameObject.Find("MainBG").GetComponent<Button>();
+            ProgressImage = m_dialog.Processbar.transform.Find("Progress").GetComponent<Image>();
+            ProcessIndicator = m_dialog.Processbar.transform.Find("Indicator").GetComponent<Text>();
             AddBtnListener();
             InitDistrictDataSlot();
+            InitInfoPanel();
+            currentManuSpeed = blockInfo.CurrentSpeed;
         }
 
 
@@ -37,10 +60,18 @@ namespace Sim_FrameWork
             //Init Text
             m_dialog.Title.transform.Find("BG2/Desc/FacotryName").GetComponent<Text>().text = FunctionBlockModule.Instance.GetFunctionBlockName(blockInfo.block);
             m_dialog.BlockInfoDesc.text = FunctionBlockModule.Instance.GetFunctionBlockDesc(blockInfo.block);
-            blockInfo = (FunctionBlock_Info)paralist[0];
+            blockInfo = (FuntionBlockInfoData)paralist[0];
             //Init Sprite
             //m_dialog.FactoryBG.GetComponent<Image>().sprite = FunctionBlockModule.Instance.GetFunctionBlockIcon(currentBlock.FunctionBlockID);
         }
+
+        public override void OnUpdate(params object[] paralist)
+        {
+            UpdateProgress(currentManuSpeed);
+        }
+
+
+
 
         //生成初始区划格
         private void InitDistrictDataSlot()
@@ -139,6 +170,20 @@ namespace Sim_FrameWork
         }
 
 
+        private void InitInfoPanel()
+        {
+            m_dialog.InfoData.transform.Find("Speed/Info/Item/Text").GetComponent<Text>().text = MultiLanguage.Instance.GetTextValue(INFOPANEL_MANUSPEED_TITLE);
+            SpeedText = m_dialog.InfoData.transform.Find("Speed/Value/Value").GetComponent<Text>();
+            m_dialog.InfoData.transform.Find("Energy/Info/Item/Text").GetComponent<Text>().text = MultiLanguage.Instance.GetTextValue(INFOPANEL_ENERGY_TITLE);
+            EnergyText = m_dialog.InfoData.transform.Find("Energy/Value/Value").GetComponent<Text>();
+            m_dialog.InfoData.transform.Find("Maintain/Info/Item/Text").GetComponent<Text>().text = MultiLanguage.Instance.GetTextValue(INFOPANEL_MAINTAIN_TITLE);
+            MaintianText= m_dialog.InfoData.transform.Find("Maintain/Value/Value").GetComponent<Text>();
+            m_dialog.InfoData.transform.Find("Worker/Info/Item/Text").GetComponent<Text>().text = MultiLanguage.Instance.GetTextValue(INFOPANEL_WOEKER_TITLE);
+            WorkerText = m_dialog.InfoData.transform.Find("Worker/Value/Value").GetComponent<Text>();
+
+        }
+
+
         //Button
         private void AddBtnListener()
         {
@@ -148,6 +193,22 @@ namespace Sim_FrameWork
         private void HideInfoDialog()
         {
             UIManager.Instance.HideWnd(UIPath.FUCNTIONBLOCK_INFO_DIALOG);
+        }
+
+
+        //Progress
+        public void UpdateProgress(float speed)
+        {
+            if (currentProcess < targetProcess)
+            {
+                currentProcess += speed;
+                if (currentProcess > targetProcess)
+                {
+                    currentProcess = targetProcess;
+                }
+                ProcessIndicator.text = ((int)currentProcess).ToString()+"%";
+                ProgressImage.fillAmount = currentProcess / 100.0f;
+            }
         }
     }
 }

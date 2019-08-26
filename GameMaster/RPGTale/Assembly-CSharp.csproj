@@ -124,13 +124,16 @@
      <Compile Include="Assets\Sim_FrameWork\Project\GamePlay\Material\Material_Artifact\Ma_ArtifactBase.cs" />
      <Compile Include="Assets\Sim_FrameWork\Project\GamePlay\Material\MaterialBase.cs" />
      <Compile Include="Assets\Sim_FrameWork\Project\GamePlay\Material\MaterialModule.cs" />
-     <Compile Include="Assets\Sim_FrameWork\Project\GamePlay\Modifier\ModifierModule.cs" />
+     <Compile Include="Assets\Sim_FrameWork\Project\GamePlay\Modifier\FunctionBlockModifier.cs" />
+     <Compile Include="Assets\Sim_FrameWork\Project\GamePlay\Modifier\ModifierBase.cs" />
+     <Compile Include="Assets\Sim_FrameWork\Project\GamePlay\Modifier\ModifierManager.cs" />
      <Compile Include="Assets\Sim_FrameWork\Project\GamePlay\Modifier\ModifierReader.cs" />
      <Compile Include="Assets\Sim_FrameWork\Project\GamePlay\Talents\TalentsBase.cs" />
      <Compile Include="Assets\Sim_FrameWork\Project\GamePlay\Talents\TalentsModule.cs" />
      <Compile Include="Assets\Sim_FrameWork\Project\GamePlay\Technology\TechnologyBase.cs" />
      <Compile Include="Assets\Sim_FrameWork\Project\GamePlay\Technology\TechnologyModule.cs" />
      <Compile Include="Assets\Sim_FrameWork\Project\GamePlay\Terrain\TerrainModule.cs" />
+     <Compile Include="Assets\Sim_FrameWork\Project\Language\GetTextByID.cs" />
      <Compile Include="Assets\Sim_FrameWork\Project\Language\MultiLanguage.cs" />
      <Compile Include="Assets\Sim_FrameWork\Project\Main\GameManager.cs" />
      <Compile Include="Assets\Sim_FrameWork\Project\Scene\SceneManager.cs" />

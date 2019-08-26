@@ -54,9 +54,11 @@ namespace Sim_FrameWork
             base.OnPlaceFunctionBlock();
         }
 
-        private FunctionBlock_Info GenerateFunctionBlock_SmeltInfo()
+        private FuntionBlockInfoData GenerateFunctionBlock_SmeltInfo()
         {
-            FunctionBlock_Info info = new FunctionBlock_Info();
+            FuntionBlockInfoData info = new FuntionBlockInfoData();
+            info.CurrentFormulaID = currentFormulaID;
+            info.CurrentSpeed = currentManuSpeed;
             info.block = functionBlock;
             info.districtAreaMax = FunctionBlockModule.Instance.GetFunctionBlockAreaMax<FunctionBlock_Manufacture>(functionBlock);
             info.currentDistrictDataDic = _currentDistrictDataDic;
@@ -77,10 +79,4 @@ namespace Sim_FrameWork
         public string ByproductIconPath;
     }
 
-    public class FunctionBlock_Info
-    {
-        public FunctionBlock block;
-        public Vector2 districtAreaMax;
-        public Dictionary<Vector2, DistrictAreaInfo> currentDistrictDataDic;
-    }
 }

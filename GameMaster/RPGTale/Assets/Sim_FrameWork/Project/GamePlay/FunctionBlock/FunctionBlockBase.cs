@@ -12,6 +12,8 @@ namespace Sim_FrameWork
         public FunctionBlock functionBlock;
         public Dictionary<Vector2, DistrictAreaInfo> _currentDistrictDataDic = new Dictionary<Vector2, DistrictAreaInfo>();
 
+        public FuntionBlockInfoData info;
+
         public int currentBlockLevel;
         public int currentBlockExp;
 
@@ -23,6 +25,7 @@ namespace Sim_FrameWork
 
 
         public virtual void Update() { }
+        public virtual void FixedUpdate() { }
         public virtual void Awake()
         {
             InitData();
@@ -34,6 +37,7 @@ namespace Sim_FrameWork
             FunctionBlockModule.Instance.InitData();
             MaterialModule.Instance.InitData();
             DistrictModule.Instance.InitData();
+            FormulaModule.Instance.InitData();
             functionBlock = FunctionBlockModule.Instance.GetFunctionBlockByBlockID(functionBlockID);
             InitAreaDetail();
             BlockCollider = gameObject.GetComponent<BoxCollider>();
@@ -73,6 +77,46 @@ namespace Sim_FrameWork
         public void SetBlockColliderSize(Vector3 size)
         {
             BlockCollider.size = size;
+        }
+    }
+
+
+
+    [System.Serializable]
+    public class FuntionBlockInfoData
+    {
+        //BaseInfo
+        public Vector3 BlockPos;
+
+        public string BlockUID;
+        public int BlockID;
+
+        public FunctionBlock block;
+        public Vector2 districtAreaMax;
+        public Dictionary<Vector2, DistrictAreaInfo> currentDistrictDataDic;
+
+        public FunctionBlockModifier blockModifierList;
+
+
+        //Manufactory
+        public int CurrentFormulaID;
+        /// <summary>
+        /// current Manu Speed
+        /// </summary>
+        private float _currentSpeed;
+        public float CurrentSpeed;
+
+
+        public List<Dictionary<Material, ushort>> InputMaterialFormulaList;
+        public List<Dictionary<Material, ushort>> OutputMaterialFormulaList;
+        public List<Dictionary<Material, ushort>> BypruductMaterialFormulaList;
+
+
+        public void AddCurrentSpeed(float speed)
+        {
+            _currentSpeed += speed;
+            if (_currentSpeed <= 0)
+                _currentSpeed = 0;
         }
 
 

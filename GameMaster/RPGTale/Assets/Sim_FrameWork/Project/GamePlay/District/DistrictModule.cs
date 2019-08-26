@@ -94,6 +94,7 @@ namespace Sim_FrameWork {
         }
 
         #endregion
+
         #region Function
 
         public Dictionary<Material,int> GetMaterialCost(DistrictData data)
@@ -122,27 +123,13 @@ namespace Sim_FrameWork {
             return list[list.Count-1];
         }
 
-        //public List<Vector2> FindMaxDistrictAreaVectorList(DistrictData data,Vector2 first)
-        //{
-        //    List<Vector2> result = new List<Vector2>();
-        //    Vector2 max = FindMaxDistrictBlockVector(data, first);
-        //    float x = max.x - first.x + 1;
-        //    float y = max.y - first.y + 1;
-        //    for(int i=0;i<x; i++)
-        //    {
-        //        Vector2 v = new Vector2(first.x + i, first.y);
-        //        result.Add(v);
-        //        for(int j = 0; j < y; j++)
-        //        {
-        //            Vector2 v1 = new Vector2(first.x, first.y+j);
-        //            if (result.Contains(v1))
-        //                continue;
-        //            result.Add(v1);
-        //        }
-        //    }
-        //    return result;
-        //}
+        public List<string> GetDistrictEffectStrList(DistrictData data)
+        {
+            return Utility.TryParseStringList(data.EffectList, ',');
 
+        }
+
+  
         #endregion
 
 
