@@ -4,10 +4,12 @@ using UnityEngine;
 
 namespace Sim_FrameWork
 {
-    public class FunctionBlockModifier : FunctionBlockBase
+    public class FunctionBlockModifier :MonoBehaviour
     {
         [SerializeField]
         private List<ModifierData> modifierList = new List<ModifierData>();
+
+
 
         public virtual void Init()
         {
@@ -20,9 +22,8 @@ namespace Sim_FrameWork
 
         }
 
-        public override void FixedUpdate()
+        void FixedUpdate()
         {
-            base.FixedUpdate();
             for(int i = modifierList.Count - 1; i >= 0; i--)
             {
                 modifierList[i].OnTick(Time.deltaTime);
@@ -35,7 +36,7 @@ namespace Sim_FrameWork
         }
 
 
-        public void DoModifier(string modifierName)
+        public void DoModifier(FunctionBlockInfoData info, string modifierName)
         {
             ModifierManager.Instance.DoFunctionBlockModifier(info, modifierName);
         }

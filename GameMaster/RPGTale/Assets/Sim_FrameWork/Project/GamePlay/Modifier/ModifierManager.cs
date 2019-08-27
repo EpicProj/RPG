@@ -13,11 +13,11 @@ namespace Sim_FrameWork {
             base.Awake();
 
             generalModifier.ReadModifierData();
-            //modifierBaseList = generalModifier.ModifierData;
+            modifierBaseList = generalModifier.ModifierBase;
         }
 
 
-        public void DoFunctionBlockModifier(FuntionBlockInfoData info,string modifierName)
+        public void DoFunctionBlockModifier(FunctionBlockInfoData info,string modifierName)
         {
             DoFunctionBlockModifier(info, GetModifierBase(modifierName));
         }
@@ -27,7 +27,7 @@ namespace Sim_FrameWork {
         /// </summary>
         /// <param name="infoData"></param>
         /// <param name="modifierBase"></param>
-        public void DoFunctionBlockModifier(FuntionBlockInfoData info,ModifierBase modifierBase)
+        public void DoFunctionBlockModifier(FunctionBlockInfoData info,ModifierBase modifierBase)
         {
             if (modifierBase == null)
             {
@@ -54,12 +54,30 @@ namespace Sim_FrameWork {
                          });
                     }
                     break;
+                case ModifierFunctionBlockType.EnergyCostNormal:
+                    //Modifier EnergyCost
+                    if (!IsAddFcuntionBlockModifier(info, modifierBase))
+                    {
+                        data = ModifierData.Create(modifierBase, delegate
+                         {
+                             info.AddEnergyCostNormal(modifierBase.Num);
+                         });
+                    }
+                    break;
+                case ModifierFunctionBlockType.EnergyCostMagic:
+                    if (!IsAddFcuntionBlockModifier(info, modifierBase)){
+                        data = ModifierData.Create(modifierBase, delegate
+                         {
+                             info.AddEnergyCostMagic(modifierBase.Num);
+                         });
+                    }
+                    break;
 
             }
 
             if (data != null)
             {
-                info.blockModifierList.OnAddModifier(data);
+                info.blockModifier.OnAddModifier(data);
             }
         }
 
@@ -70,9 +88,9 @@ namespace Sim_FrameWork {
         /// <param name="info"></param>
         /// <param name="modifier"></param>
         /// <returns></returns>
-        private bool IsAddFcuntionBlockModifier(FuntionBlockInfoData info,ModifierBase modifier)
+        private bool IsAddFcuntionBlockModifier(FunctionBlockInfoData info,ModifierBase modifier)
         {
-            ModifierData oldData = info.blockModifierList.GetModifierByID(modifier.ModifierName);
+            ModifierData oldData = info.blockModifier.GetModifierByID(modifier.ModifierName);
             if(oldData != null)
             {
                 switch (modifier.OverlapType)
@@ -103,25 +121,5 @@ namespace Sim_FrameWork {
  
     }
 
-    public class GeneralModifier
-    {
-        public List<ModifierData> ModifierData;
-        public void ReadModifierData()
-        {
-            Config.JsonReader reader = new Config.JsonReader();
-            GeneralModifier modifer = reader.LoadModifierData();
-            ModifierData = modifer.ModifierData;
-        }
-    }
-
-    public class ModifierEffect
-    {
-        public int ActionType;
-        public string AttributeName;
-        public string AttributeType;
-        public int MaterialID;
-        public float AddValue;
-        public List<string> paramList;
-    }
-
+  
 }

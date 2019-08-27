@@ -5,6 +5,19 @@ using System;
 
 namespace Sim_FrameWork
 {
+
+    public class GeneralModifier
+    {
+        public List<ModifierBase> ModifierBase;
+        public void ReadModifierData()
+        {
+            Config.JsonReader reader = new Config.JsonReader();
+            GeneralModifier modifer = reader.LoadModifierData();
+            ModifierBase = modifer.ModifierBase;
+        }
+    }
+
+
     [Serializable]
     public class ModifierBase 
     {
@@ -385,15 +398,28 @@ namespace Sim_FrameWork
         /// </summary>
         FunctionBlock,
         /// <summary>
-        /// 区划作用
+        /// 地形
         /// </summary>
-        District
+        Terrian,
+        /// <summary>
+        /// 订单
+        /// </summary>
+        Order
     }
 
     public enum ModifierFunctionBlockType
     {
         ManuSpeed,
-
+        Maintain,
+        /// <summary>
+        /// 能源消耗
+        /// </summary>
+        EnergyCostNormal,
+        /// <summary>
+        /// 炼金能源消耗
+        /// </summary>
+        EnergyCostMagic,
+        Worker
 
     }
 

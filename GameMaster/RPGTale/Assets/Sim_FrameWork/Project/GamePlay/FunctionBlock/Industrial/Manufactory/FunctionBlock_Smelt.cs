@@ -18,8 +18,8 @@ namespace Sim_FrameWork
 
         public override void Awake()
         {
-            functionBlockID = 100;
             base.Awake();
+            
            
 
         }
@@ -27,20 +27,14 @@ namespace Sim_FrameWork
         public override void Update()
         {
             CheckMouseButtonDown(UIPath.FUCNTIONBLOCK_INFO_DIALOG, GenerateFunctionBlock_SmeltInfo());
+            if (Input.GetKeyDown(KeyCode.Space))
+            {
+                info.blockModifier.DoModifier(info,"AddManuSpeed");
+            }
         }
         public override void InitData()
         {
             base.InitData();
-            Config.ManufactoryConfigReader reader= new Config.ManufactoryConfigReader();
-            FunctionBlock_Smelt_Config config = new FunctionBlock_Smelt_Config();
-            leveldata = config.leveldata;
-            InputDesc = config.InputDesc;
-            InputIconPath = config.InputIconPath;
-            OutputDesc = config.OutputDesc;
-            OutputIconPath = config.OutputIconPath;
-            ByproductDesc = config.ByproductDesc;
-            ByproductIconPath = config.ByproductIconPath;
-
         }
 
         public void Product()
@@ -54,9 +48,9 @@ namespace Sim_FrameWork
             base.OnPlaceFunctionBlock();
         }
 
-        private FuntionBlockInfoData GenerateFunctionBlock_SmeltInfo()
+        private FunctionBlockInfoData GenerateFunctionBlock_SmeltInfo()
         {
-            FuntionBlockInfoData info = new FuntionBlockInfoData();
+            FunctionBlockInfoData info = new FunctionBlockInfoData();
             info.CurrentFormulaID = currentFormulaID;
             info.CurrentSpeed = currentManuSpeed;
             info.block = functionBlock;
@@ -70,7 +64,7 @@ namespace Sim_FrameWork
 
     public class FunctionBlock_Smelt_Config
     {
-        public List<BlockLevelData> leveldata;
+       
         public string InputDesc;
         public string InputIconPath;
         public string OutputDesc;

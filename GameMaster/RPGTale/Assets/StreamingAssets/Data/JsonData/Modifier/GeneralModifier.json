@@ -1,40 +1,15 @@
 {
-	"ModifierData":
+	"ModifierBase":
 	[{
-		"ModifierName":"AddCurrency",
-		"Effects":[{
-			"ActionType":0,
-			"AttributeType":"BaseResource",
-			"AttributeName":"Currency",
-			"AddValue":500,
-			"paramList":[]
-			},{
-			"ActionType":0,
-			"AttributeType":"Material",
-			"MaterialID":100,
-			"AddValue":500,
-			"paramList":[]
-
-			}]
-	},
-	{
-		"ModifierName":"AddCurrencyPassive",
-		"Effects":[{
-			"ActionType":1,
-			"AttributeType":"BaseResource",
-			"AttributeName":"Currency",
-			"AddValue":500,
-			"paramList":[]
-				}]
-	},{
-		"ModifierName":"District_Effect_100",
-		"Effects":[{
-			"ActionType":0,
-			"AttributeType":"FunctionalBlock",
-			"AttributeName":"Speed",
-			"AddValue":5,
-			"paramList":[]
-			}]
-
+		"ModifierName":"AddManuSpeed",
+		"Target":1,
+		"functionBlockType":0,
+		"OverlapType":0,
+		"RemoveType":1,
+		"AddType":0,
+		"MaxLimit":0,
+		"Time":100,
+		"CallFrequency":1,
+		"Num":500
 	}]
 }

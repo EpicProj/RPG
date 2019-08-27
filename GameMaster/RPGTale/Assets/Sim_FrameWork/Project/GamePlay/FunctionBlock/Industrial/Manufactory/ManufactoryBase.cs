@@ -49,10 +49,8 @@ namespace Sim_FrameWork
         public override void InitData()
         {
             base.InitData();
-            ManufacturingspeedBase = FunctionBlockModule.Instance.GetManufactureSpeed(functionBlockID);
+            ManufacturingspeedBase = FunctionBlockModule.Instance.GetManufactureSpeed(info.BlockID);
             _currentManuSpeed = ManufacturingspeedBase;
-
-            SetBlockColliderSize(FunctionBlockModule.Instance.InitFunctionBlockBoxCollider<FunctionBlock_Manufacture>(functionBlock));
             GetFormulaData();
         }
 

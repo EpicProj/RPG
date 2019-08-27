@@ -46,6 +46,8 @@ namespace Sim_FrameWork {
 
         public Dictionary<string, FunctionBlock> CurrentFunctionBlockDataDic = new Dictionary<string, FunctionBlock>();
 
+        //EXP Data
+        public List<BlockLevelData> leveldata;
 
         #region Data
         public override void InitData()
@@ -511,6 +513,10 @@ namespace Sim_FrameWork {
         }
 
 
+
+
+
+
    
    
 
@@ -530,8 +536,14 @@ namespace Sim_FrameWork {
 
     }
 
-    //BlockLevelData
     public class BlockLevelData
+    {
+        public string ID;
+        public List<BlockEXP> EXPMap;
+    }
+
+    //BlockLevelData
+    public class BlockEXP
     {
         public int LevelIndex;
         public int NeedEXP;

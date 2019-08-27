@@ -27,7 +27,7 @@ namespace Sim_FrameWork
 
         private BlockInfoDialog m_dialog;
         private Button clostBtn;
-        FuntionBlockInfoData blockInfo;
+        FunctionBlockInfoData blockInfo;
         private float currentManuSpeed;
 
         private float currentProcess;
@@ -40,7 +40,7 @@ namespace Sim_FrameWork
         /// <param name="paralist"></param>
         public override void Awake(params object[] paralist)
         {
-            blockInfo = (FuntionBlockInfoData)paralist[0];
+            blockInfo = (FunctionBlockInfoData)paralist[0];
 
             EmptyDistrictSlotSprite = Utility.LoadSprite(DISTRICTSLOT_EMPTY_IMAGE, Utility.SpriteType.png);
             m_dialog = GameObject.GetComponent<BlockInfoDialog>();
@@ -60,7 +60,7 @@ namespace Sim_FrameWork
             //Init Text
             m_dialog.Title.transform.Find("BG2/Desc/FacotryName").GetComponent<Text>().text = FunctionBlockModule.Instance.GetFunctionBlockName(blockInfo.block);
             m_dialog.BlockInfoDesc.text = FunctionBlockModule.Instance.GetFunctionBlockDesc(blockInfo.block);
-            blockInfo = (FuntionBlockInfoData)paralist[0];
+            blockInfo = (FunctionBlockInfoData)paralist[0];
             //Init Sprite
             //m_dialog.FactoryBG.GetComponent<Image>().sprite = FunctionBlockModule.Instance.GetFunctionBlockIcon(currentBlock.FunctionBlockID);
         }
