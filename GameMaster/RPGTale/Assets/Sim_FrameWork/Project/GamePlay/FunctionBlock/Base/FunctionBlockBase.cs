@@ -16,8 +16,6 @@ namespace Sim_FrameWork
         private FunctionBlockModifier blockModifier;
         RaycastHit hit;
 
-        //Base Info
-        public Vector3 BlockPos;
 
 
         public virtual void Update() { }
@@ -38,7 +36,7 @@ namespace Sim_FrameWork
             functionBlock = FunctionBlockModule.Instance.GetFunctionBlockByBlockID(100);
             //TODO
             blockModifier = GetComponent<FunctionBlockModifier>();
-            info = FunctionBlockInfoData.Create(GetBlockPos(),functionBlock,blockModifier);
+            info = FunctionBlockInfoData.CreateBaseInfo(GetBlockPos(),functionBlock,blockModifier);
             InitAreaDetail();
 
             InitBaseInfo();
@@ -50,18 +48,21 @@ namespace Sim_FrameWork
             //Set Collider
             BlockCollider = gameObject.GetComponent<BoxCollider>();
             SetBlockColliderSize(FunctionBlockModule.Instance.InitFunctionBlockBoxCollider<FunctionBlock_Manufacture>(functionBlock));
+
         }
 
         //Action
         public virtual void OnPlaceFunctionBlock()
         {
-            FunctionBlockModule.Instance.PlaceFunctionBlock(info.BlockID, BlockPos);
+            FunctionBlockModule.Instance.PlaceFunctionBlock(info.BlockID, info.BlockPos);
         }
         public virtual void OnHoldFunctionBlock() { }
         public virtual void OnDestoryFunctionBlock() { }
         public virtual void OnSelectFunctionBlock()
         {
         }
+
+
 
         #region InitBaseInfo
 
@@ -96,6 +97,8 @@ namespace Sim_FrameWork
         }
 
 
+
+
        
     }
 
@@ -106,20 +109,29 @@ namespace Sim_FrameWork
     {
         //BaseInfo
         private static Stack<FunctionBlockInfoData> functionBlockInfoCache = new Stack<FunctionBlockInfoData>();
-       
-        public string BlockUID { get; set; }
-        public int BlockID { get; set; }
+
+        public string BlockUID;
+        public int BlockID;
         public Vector3 BlockPos;
-        public int currentBlockLevel;
+        
+       
 
         /// <summary>
         /// Block EXP
         /// </summary>
         [SerializeField]
-        private int _currentBlockExp;
-        public int CurrentBlockExp { get { return _currentBlockExp; } set { AddCurrentBlockEXP(value); } }
+        private int _currentBlockExp=0;
+        public int CurrentBlockExp { get { return _currentBlockExp; } protected set { } }
         private float _baseEXPRatio = 1;
-        public float BaseEXPRatio { get { return _baseEXPRatio; } set { AddBaseEXPRatio(value); } }
+        public float BaseEXPRatio { get { return _baseEXPRatio; } protected set { } }
+        // CurrentLevel
+        public int currentBlockLevel =1;
+        //EXPMap
+        public List<int> BlockEXPMap;
+        //InhertLevel
+        public string InherentLevel;
+
+
 
         public FunctionBlock block;
         public Vector2 districtAreaMax;
@@ -132,19 +144,20 @@ namespace Sim_FrameWork
         /// </summary>
         [SerializeField]
         private int _workerNum;
-        public int WorkerNum { get { return _workerNum; } set { AddWorkerNum(value); } }
+        public int WorkerNum { get { return _workerNum; }  set {  } }
 
         private int _maintain;
-        public int Maintain { get { return _maintain; } set { } }
+        public int Maintain { get { return _maintain; }  set { } }
 
         /// <summary>
         /// 基础电力消耗
         /// </summary>
+        [SerializeField]
         private float _energyCostNormal;
-        public float EnergyCostNormal { get { return _energyCostNormal; } set { AddEnergyCostNormal(value); } }
-
+        public float EnergyCostNormal { get { return _energyCostNormal; }  set { } }
+        [SerializeField]
         private float _energyCostMagic;
-        public float EnergyCostMagic { get { return _energyCostNormal; } set { AddEnergyCostMagic(value); } }
+        public float EnergyCostMagic { get { return _energyCostNormal; }  set { } }
 
         //Manufactory
         public int CurrentFormulaID;
@@ -153,7 +166,7 @@ namespace Sim_FrameWork
         /// </summary>
         [SerializeField]
         private float _currentSpeed;
-        public float CurrentSpeed { get { return _currentSpeed; } set { AddCurrentSpeed(value); } }
+        public float CurrentSpeed { get { return _currentSpeed; }  set {  } }
 
 
         public List<Dictionary<Material, ushort>> InputMaterialFormulaList;
@@ -170,7 +183,7 @@ namespace Sim_FrameWork
             FunctionBlockInfoData info = functionBlockInfoCache.Pop();
             return info;
         }
-        public static FunctionBlockInfoData Create(Vector3 blockPos, FunctionBlock blockBase , FunctionBlockModifier modifier)
+        public static FunctionBlockInfoData CreateBaseInfo(Vector3 blockPos, FunctionBlock blockBase , FunctionBlockModifier modifier)
         {
 
             FunctionBlockInfoData info = new FunctionBlockInfoData();
@@ -178,6 +191,7 @@ namespace Sim_FrameWork
             info.block = blockBase;
             info.BlockPos = blockPos;
             info.blockModifier = modifier;
+            info.BlockUID = FunctionBlockModule.Instance.GenerateGUID(blockBase);
             //TODO
             return info;
         }
@@ -220,7 +234,13 @@ namespace Sim_FrameWork
 
         public void AddCurrentBlockEXP(int value)
         {
-
+            _currentBlockExp += (int)(value* _baseEXPRatio);
+            int currentMaxEXP= FunctionBlockModule.Instance.GetCurrentLevelEXP(BlockEXPMap, currentBlockLevel);
+            if (_currentBlockExp > currentMaxEXP)
+            {
+                currentBlockLevel++;
+                _currentBlockExp -= currentMaxEXP;
+            }
         }
 
         public void AddBaseEXPRatio(float num)

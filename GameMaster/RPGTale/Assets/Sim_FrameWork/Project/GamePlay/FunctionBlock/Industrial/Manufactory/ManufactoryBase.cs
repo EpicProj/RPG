@@ -20,22 +20,7 @@ namespace Sim_FrameWork
             Advanced
         }
 
-        //基础制造速度
-        public float ManufacturingspeedBase = 0f;
-        //当前制造速度
-        private float _currentManuSpeed = 0f;
-        public float currentManuSpeed
-        {
-            get { return _currentManuSpeed; }
-            set { _currentManuSpeed = value; }
-        }
-
-        private int _currentFormulaID=-1;
-        public int currentFormulaID
-        {
-            get { return _currentFormulaID; }
-            set { _currentFormulaID = value; }
-        }
+        public FunctionBlock_Manufacture manufactoryData;
 
         public List<Dictionary<Material, ushort>> InputMaterialFormulaList = new List<Dictionary<Material, ushort>>();
         public List<Dictionary<Material, ushort>> OutputMaterialFormulaList = new List<Dictionary<Material, ushort>>();
@@ -49,9 +34,29 @@ namespace Sim_FrameWork
         public override void InitData()
         {
             base.InitData();
-            ManufacturingspeedBase = FunctionBlockModule.Instance.GetManufactureSpeed(info.BlockID);
-            _currentManuSpeed = ManufacturingspeedBase;
             GetFormulaData();
+            InitFunctionBlock_ManuInfo();
+        }
+
+        public FunctionBlockInfoData InitFunctionBlock_ManuInfo()
+        {
+            manufactoryData = FunctionBlockModule.Instance.FetchFunctionBlockTypeIndex<FunctionBlock_Manufacture>(functionBlock.FunctionBlockID);
+            info.AddWorkerNum (int.Parse(manufactoryData.MaintenanceBase));
+            info.AddEnergyCostNormal (Utility.TryParseIntList(manufactoryData.EnergyConsumptionBase,',')[0]);
+            info.AddEnergyCostMagic  (Utility.TryParseIntList(manufactoryData.EnergyConsumptionBase, ',')[1]);
+
+
+            info.CurrentSpeed = FunctionBlockModule.Instance.GetManufactureSpeed(functionBlock.FunctionBlockID);
+            info.districtAreaMax = FunctionBlockModule.Instance.GetFunctionBlockAreaMax<FunctionBlock_Manufacture>(functionBlock);
+            info.currentDistrictDataDic = _currentDistrictDataDic;
+            info.BlockEXPMap = FunctionBlockModule.Instance.GetManuBlockEXPMapData(info.block.FunctionBlockID);
+            return info;
+        }
+
+        public FunctionBlockInfoData GenerateFunctionBlock_ManuInfo()
+        {
+            FunctionBlockInfoData infoData = new FunctionBlockInfoData();
+            return infoData;
         }
 
         public void GetFormulaData()
@@ -60,6 +65,9 @@ namespace Sim_FrameWork
             OutputMaterialFormulaList = FunctionBlockModule.Instance.GetFunctionBlockFormulaDataList(functionBlock, FormulaModule.MaterialProductType.Output);
             BypruductMaterialFormulaList = FunctionBlockModule.Instance.GetFunctionBlockFormulaDataList(functionBlock, FormulaModule.MaterialProductType.Byproduct);
         }
+
+
+
 
      
     }

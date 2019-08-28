@@ -46,8 +46,8 @@ namespace Sim_FrameWork {
 
         public Dictionary<string, FunctionBlock> CurrentFunctionBlockDataDic = new Dictionary<string, FunctionBlock>();
 
-        //EXP Data
-        public List<BlockLevelData> leveldata;
+        //info Data
+        public BlockBaseInfoData infoData;
 
         #region Data
         public override void InitData()
@@ -68,6 +68,7 @@ namespace Sim_FrameWork {
             FunctionBlockTypeDataList = FunctionBlockMetaDataReader.GetFunctionBlockTypeData();
             FunctionBlockTypeDataDic = FunctionBlockMetaDataReader.GetFunctionBlockTypeDataDic();
 
+            infoData = new BlockBaseInfoData();
             HasInit = true;
         }
 
@@ -417,15 +418,15 @@ namespace Sim_FrameWork {
         {
             FunctionBlock currentFunctionBlock = GetFunctionBlockByBlockID(functionBlockID);
             if (currentFunctionBlock == null)
-                return;
+                return ;
             if (CheckBlockCanPlace(currentFunctionBlock,checkpos) )
             {
-                string tempUID=GenerateGUID();
-                AddFunctionBlock(tempUID, currentFunctionBlock);
+                
             }
             else
             {
                 Debug.Log("Can not place functionBlock ");
+                return ;
             }
            
 
@@ -435,19 +436,17 @@ namespace Sim_FrameWork {
             //FunctionBlockHistoryDic.Add(functionBlockID, history);
         }
 
-        public void AddFunctionBlock(string functionBlockUID,FunctionBlock functionBlock)
-        {
-            if (FunctionBlockGUIDList.Contains(functionBlockUID))
-            {
-                GenerateGUID();
-            }
-            CurrentFunctionBlockDataDic.Add(functionBlockUID, functionBlock);
-            FunctionBlockGUIDList.Add(functionBlockUID);
-        }
 
-        public string GenerateGUID()
+        public string GenerateGUID(FunctionBlock functionBlock)
         {
-            return Guid.NewGuid().ToString(); 
+            string GUID= Guid.NewGuid().ToString();
+            if (FunctionBlockGUIDList.Contains(GUID))
+            {
+                GenerateGUID(functionBlock);
+            }
+            CurrentFunctionBlockDataDic.Add(GUID, functionBlock);
+            FunctionBlockGUIDList.Add(GUID);
+            return GUID;
         }
 
 
@@ -498,6 +497,74 @@ namespace Sim_FrameWork {
             return new Vector3(area.x, 3.0f, area.y);
         }
 
+        #region BlockInfoData
+
+
+        public List<int> GetManuBlockEXPMapData(string id)
+        {
+            List<int> result = new List<int>();
+            List<BlockLevelData> manuData = infoData.ManufactoryBlockLevelDataList;
+            if (manuData == null)
+            {
+                Debug.LogError("Can not Find ManuBlockEXP Map  id=" + id);
+                return result;
+            }
+                
+            for(int i = 0; i < manuData.Count;i++)
+            {
+                if (manuData[i].ID == id)
+                {
+                    result= manuData[i].EXPMap;
+                }
+                else
+                {
+                    Debug.LogError("Can not Find ManuBlockEXP Map  id=" + id);
+                    return result;
+                }
+            }
+            return result;
+        }
+
+        public List<int> GetManuBlockEXPMapData(int blockid)
+        {
+            List<int> result = new List<int>();
+            if(GetFunctionBlockType(blockid)!= FunctionBlockType.Manufacture)
+            {
+                Debug.LogError("FunctionBlock Type Error Get EXP DATA FAIL!   BlockID=" + blockid);
+                return result;
+            }
+            else
+            {
+                FunctionBlock block = GetFunctionBlockByBlockID(blockid);
+                return GetManuBlockEXPMapData(block.EXPDataJsonIndex);
+            }
+        }
+
+        public int GetCurrentLevelEXP(List<int> expMap ,int currentLevel)
+        {
+            if (expMap == null)
+            {
+                Debug.LogError("EXPMAP IS NULL");
+                return 0;
+            }
+               
+            if (currentLevel > expMap.Count)
+            {
+                Debug.LogError("EXP data not found , index out of range, currentLevel=" + currentLevel + "expMap count=" + expMap.Count);
+                return 0;
+            }
+            else
+            {
+                return expMap[currentLevel - 1];
+            }
+        }
+
+        #endregion
+
+
+
+
+
         //Formula
         public List<Dictionary<Material,ushort>> GetFunctionBlockFormulaDataList(FunctionBlock block,FormulaModule.MaterialProductType GetType)
         {
@@ -536,18 +603,9 @@ namespace Sim_FrameWork {
 
     }
 
-    public class BlockLevelData
-    {
-        public string ID;
-        public List<BlockEXP> EXPMap;
-    }
 
-    //BlockLevelData
-    public class BlockEXP
-    {
-        public int LevelIndex;
-        public int NeedEXP;
-    }
+
+
 
 
 }

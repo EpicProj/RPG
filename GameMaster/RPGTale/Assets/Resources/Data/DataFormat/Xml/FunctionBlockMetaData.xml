@@ -1,9 +1,9 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <FunctionBlockMetaData xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-  <AllFunctionBlockList FunctionBlockID="100" Comment="jhihi" FunctionBlockName="FunctionBlockName_100" FunctionBlockIcon="SpriteOutput/Material/apple" FunctionBlockDesc="FunctionBlockDesc_100" PreLevelBlock="0" FunctionBlockType="Manufacture" FunctionBlockTypeIndex="100" Level="1" EXPDataJsonIndex="111" />
-  <AllFunctionBlockList FunctionBlockID="101" Comment="jhihi" FunctionBlockName="FunctionBlockName_101" FunctionBlockIcon="SpriteOutput/Material/apple" FunctionBlockDesc="FunctionBlockDesc_101" PreLevelBlock="100" FunctionBlockType="Manufacture" FunctionBlockTypeIndex="100" Level="1" EXPDataJsonIndex="111" />
+  <AllFunctionBlockList FunctionBlockID="100" Comment="jhihi" FunctionBlockName="FunctionBlockName_100" FunctionBlockIcon="SpriteOutput/Material/apple" FunctionBlockDesc="FunctionBlockDesc_100" PreLevelBlock="0" FunctionBlockType="Manufacture" FunctionBlockTypeIndex="100" Level="1" EXPDataJsonIndex="100" />
+  <AllFunctionBlockList FunctionBlockID="101" Comment="jhihi" FunctionBlockName="FunctionBlockName_101" FunctionBlockIcon="SpriteOutput/Material/apple" FunctionBlockDesc="FunctionBlockDesc_101" PreLevelBlock="100" FunctionBlockType="Manufacture" FunctionBlockTypeIndex="100" Level="1" EXPDataJsonIndex="100" />
   <AllFunctionBlock_RawList RawID="100" RawType="100" InherentLevel="sss" CollectMaterialList="1,1,1" AreaDetailDefault="1,1" AreaMax="5,6" />
-  <AllFunctionBlock_ManufactureList ManufactureID="100" InherentLevel="sss" SpeedBase="0.5" FormulaInfoID="100" MaintenanceBase="sss" EnergyConsumptionBase="sss" AreaDetailDefault="101,101,-2,-2,-2,-2;-2,100,100,100,-1,-1;-2,100,-1,-1,-1,-1;-2,100,-1,-1,-1,-1;-2,-2,-2,-2,-2,-2" AreaMax="6,5" />
+  <AllFunctionBlock_ManufactureList ManufactureID="100" InherentLevel="sss" SpeedBase="0.5" FormulaInfoID="100" MaintenanceBase="50" EnergyConsumptionBase="100,0" AreaDetailDefault="101,101,-2,-2,-2,-2;-2,100,100,100,-1,-1;-2,100,-1,-1,-1,-1;-2,100,-1,-1,-1,-1;-2,-2,-2,-2,-2,-2" AreaMax="6,5" />
   <AllFunctionBlock_ScienceList ScienceID="100" InherentLevel="sss" Comment="sss" AreaDetailDefault="1,1" AreaMax="5,6" />
   <AllFunctionBlock_EnergyList EnergyID="100" InherentLevel="sss" EnergyType="100" AreaDetailDefault="1,1" AreaMax="5,6" />
   <AllFunctionBlockTypeDataList Type="Manufacture" TypeName="sss" TypeDesc="ssss" TypeIcon="ssss" />

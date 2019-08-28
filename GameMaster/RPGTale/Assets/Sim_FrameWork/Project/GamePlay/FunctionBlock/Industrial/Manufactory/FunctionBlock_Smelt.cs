@@ -26,10 +26,14 @@ namespace Sim_FrameWork
 
         public override void Update()
         {
-            CheckMouseButtonDown(UIPath.FUCNTIONBLOCK_INFO_DIALOG, GenerateFunctionBlock_SmeltInfo());
+            CheckMouseButtonDown(UIPath.FUCNTIONBLOCK_INFO_DIALOG, GenerateFunctionBlock_ManuInfo());
             if (Input.GetKeyDown(KeyCode.Space))
             {
                 info.blockModifier.DoModifier(info,"AddManuSpeed");
+            }
+            if (Input.GetKeyDown(KeyCode.F))
+            {
+                info.AddCurrentBlockEXP(100);
             }
         }
         public override void InitData()
@@ -48,16 +52,7 @@ namespace Sim_FrameWork
             base.OnPlaceFunctionBlock();
         }
 
-        private FunctionBlockInfoData GenerateFunctionBlock_SmeltInfo()
-        {
-            FunctionBlockInfoData info = new FunctionBlockInfoData();
-            info.CurrentFormulaID = currentFormulaID;
-            info.CurrentSpeed = currentManuSpeed;
-            info.block = functionBlock;
-            info.districtAreaMax = FunctionBlockModule.Instance.GetFunctionBlockAreaMax<FunctionBlock_Manufacture>(functionBlock);
-            info.currentDistrictDataDic = _currentDistrictDataDic;
-            return info;
-        }
+     
 
 
     }
