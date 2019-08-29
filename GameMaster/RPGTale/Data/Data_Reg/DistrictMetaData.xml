@@ -6,14 +6,20 @@
 			<variable  name="DistrictName" col = "DistrictName" type="string"/>
 			<variable  name="DistrictDesc" col = "DistrictDesc" type="string"/>
 			<variable  name="DistrictIcon" col = "DistrictIcon" type="string"/>
+			<variable  name="Type" col = "Type" type="int"/>
 			<variable  name="ModelPath" col = "ModelPath" type="string"/>
 			<variable  name="Level" col = "Level" type="ushort"/>
 			<variable  name="CurrencyCost" col = "CurrencyCost" type="int"/>
 			<variable  name="MaterialCostList" col = "MaterialCostList" type="string"/>
 			<variable  name="TimeCost" col = "TimeCost" type="int"/>
-			<variable  name="Area" col = "Area" type="string"/>
 			<variable  name="ParentList" col = "ParentList" type="string"/>
 			<variable  name="EffectList" col = "EffectList" type="string"/>
+		</list>
+	</variable>
+	<variable  name="AllDistrictTypeList" type="list">
+		<list name = "DistrictType" sheetname="DistrictType" mainKey = "TypeID">
+			<variable  name="TypeID" col = "TypeID" type="int"/>
+			<variable  name="TypeShape" col = "TypeShape" type="string"/>
 		</list>
 	</variable>
 </data>

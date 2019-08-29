@@ -87,7 +87,7 @@ namespace Sim_FrameWork
             foreach (KeyValuePair<Vector2, DistrictAreaInfo> kvp in blockInfo.currentDistrictDataDic)
             {
                 var data = kvp.Value.data;
-                if (data.DistrictID == -1)
+                if (data.DistrictID == -1 || (kvp.Value.isLargeDistrict == true && kvp.Value.OriginCoordinate != kvp.Key))
                 {
                     //Init EmptySlot
                     InitEmptyDisBlock();
@@ -97,21 +97,9 @@ namespace Sim_FrameWork
                     //Init UnlockSlot
                     InitUnlockDisBlock();
                 }
-                else if (kvp.Value.isLargeDistrict == true )
+                else if (kvp.Value.isLargeDistrict == true &&  kvp.Value.OriginCoordinate==kvp.Key )
                 {
-                    List<Vector2> areaList = kvp.Value.largeDistrictIndex;
-                    Vector2 maxArea = DistrictModule.Instance.FindMaxDistrictBlockVector(kvp.Value);
-
-                    if (areaList.Contains(kvp.Key) && !kvp.Key.Equals(maxArea))
-                    {
-                        //Skip Slot
-                        InitEmptyDisBlock();
-
-                    }else if (areaList.Contains(kvp.Key) && kvp.Key.Equals(maxArea))
-                    {
-                        //Init LargeBlock
-                        InitLargeDisBlock(data,(int)size);
-                    }
+                    InitLargeDisBlock(kvp.Value,size);
                 }
                 else if (kvp.Value.isLargeDistrict == false)
                 {
@@ -131,16 +119,18 @@ namespace Sim_FrameWork
         }
 
 
-        public void InitLargeDisBlock(DistrictData data ,int size)
+        public void InitLargeDisBlock(DistrictAreaInfo info ,float size)
         {
             GameObject Slot = ObjectManager.Instance.InstantiateObject(DISTRICTSLOT_PREFAB_PATH);
             GameObject district = Slot.transform.Find("District").gameObject;
             district.gameObject.SetActive(true);
-            district.GetComponent<Image>().sprite = Utility.LoadSprite(data.DistrictIcon, Utility.SpriteType.png);
+            district.GetComponent<Image>().sprite = Utility.LoadSprite(info.data.DistrictIcon, Utility.SpriteType.png);
             //Set Size
-            Vector2 v = DistrictModule.Instance.GetDistrictArea(data);
+
+            //TODO
+            Vector2 v = DistrictModule.Instance.GetDistrictTypeArea(info.data)[0];
             district.GetComponent<RectTransform>().sizeDelta = new Vector2(v.y * size, v.x * size);
-            district.transform.Find("Name").GetComponent<Text>().text = DistrictModule.Instance.GetDistrictName(data);
+            district.transform.Find("Name").GetComponent<Text>().text = DistrictModule.Instance.GetDistrictName(info.data);
             Slot.transform.SetParent(m_dialog.DistrictSlotContent.transform, false);
         }
 

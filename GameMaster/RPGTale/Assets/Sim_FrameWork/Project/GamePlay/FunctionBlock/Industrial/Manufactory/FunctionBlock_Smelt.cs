@@ -26,7 +26,7 @@ namespace Sim_FrameWork
 
         public override void Update()
         {
-            CheckMouseButtonDown(UIPath.FUCNTIONBLOCK_INFO_DIALOG, GenerateFunctionBlock_ManuInfo());
+            CheckMouseButtonDown(UIPath.FUCNTIONBLOCK_INFO_DIALOG, info);
             if (Input.GetKeyDown(KeyCode.Space))
             {
                 info.blockModifier.DoModifier(info,"AddManuSpeed");

@@ -8,6 +8,8 @@ namespace Sim_FrameWork {
         #region Row Data
         public static List<DistrictData> DistrictDataList = new List<DistrictData>();
         public static Dictionary<int, DistrictData> DistrictDataDic = new Dictionary<int, DistrictData>();
+        public static List<DistrictType> DistrictTypeList = new List<DistrictType>();
+        public static Dictionary<int, DistrictType> DistrictTypeDic = new Dictionary<int, DistrictType>();
 
         private bool HasInit = false;
         public override void InitData()
@@ -16,6 +18,8 @@ namespace Sim_FrameWork {
                 return;
             DistrictDataList = DistrictMetaDataReader.GetDistrictData();
             DistrictDataDic = DistrictMetaDataReader.GetDistrictDic();
+            DistrictTypeList = DistrictMetaDataReader.GetDistrictType();
+            DistrictTypeDic = DistrictMetaDataReader.GetDistrictTypeDic();
             HasInit = true;
         }
 
@@ -50,13 +54,40 @@ namespace Sim_FrameWork {
             return Utility.LoadSprite(path, Utility.SpriteType.png);
         }
 
-        public Vector2 GetDistrictArea(DistrictData data)
+        public DistrictType GetDistrictType(int districtID)
         {
-            return Utility.TryParseIntVector2(data.Area, ',');
+            return GetDistrictType(GetDistrictDataByKey(districtID));
         }
-        public Vector2 GetDistrictArea(int DistrictID)
+        public DistrictType GetDistrictType(DistrictData data)
         {
-            return Utility.TryParseIntVector2(GetDistrictDataByKey(DistrictID).Area, ',');
+            DistrictType type = null;
+            DistrictTypeDic.TryGetValue(data.Type, out type);
+            if (type == null)
+                Debug.LogError("Can not Get districtType ID=" + data.Type);
+            return type;
+        }
+
+        public List<Vector2> GetDistrictTypeArea(DistrictData data)
+        {
+            return GetDistrictTypeArea(data.DistrictID);
+        }
+        public List<Vector2> GetDistrictTypeArea(int DistrictID)
+        {
+            List<Vector2> result = new List<Vector2>();
+            DistrictType type = GetDistrictType(DistrictID);
+            List<string> vectorList = Utility.TryParseStringList(type.TypeShape, ';');
+            for (int i = 0; i < vectorList.Count; i++)
+            {
+                List<int> vector = Utility.TryParseIntList(vectorList[i], ',');
+                if (vector.Count != 2)
+                {
+                    Debug.LogError("district type parse error ,vector=" + vector);
+                    return result;
+                }
+                Vector2 v2 = new Vector2(vector[0], vector[1]);
+                result.Add(v2);
+            }
+            return result;
         }
 
         public Dictionary<int, int> GetDistrictMaterialCostDic(DistrictData data)
@@ -113,16 +144,6 @@ namespace Sim_FrameWork {
         }
 
 
-        public Vector2 FindMaxDistrictBlockVector(DistrictAreaInfo info)
-        {
-            if (info == null || info.largeDistrictIndex==null)
-            {
-                Debug.LogWarning("Parse DistrictBlockVector Error  ");
-            }
-            List<Vector2> list = info.largeDistrictIndex;
-            return list[list.Count-1];
-        }
-
         public List<string> GetDistrictEffectStrList(DistrictData data)
         {
             return Utility.TryParseStringList(data.EffectList, ',');
@@ -140,6 +161,7 @@ namespace Sim_FrameWork {
     {
         public DistrictData data;
         public bool isLargeDistrict;
-        public List<Vector2> largeDistrictIndex;
+        public int LargeDistrictIndex;
+        public Vector2 OriginCoordinate;
     }
 }

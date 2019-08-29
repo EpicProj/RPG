@@ -53,11 +53,6 @@ namespace Sim_FrameWork
             return info;
         }
 
-        public FunctionBlockInfoData GenerateFunctionBlock_ManuInfo()
-        {
-            FunctionBlockInfoData infoData = new FunctionBlockInfoData();
-            return infoData;
-        }
 
         public void GetFormulaData()
         {

@@ -253,107 +253,109 @@ namespace Sim_FrameWork {
         {
             Dictionary<Vector2, DistrictAreaInfo> result = new Dictionary<Vector2, DistrictAreaInfo>();
             Dictionary<Vector2, DistrictData> inPutDic = GetFuntionBlockAreaDetailDefaultData(GetFuntionBlockAreaDetailDefault<T>(block));
+            int largeDistrictIndex = 1;
             //Check Area
-            int largeDistrictindex = 0;
-            Dictionary<int, List<Vector2>> largeDistrictDic = new Dictionary<int, List<Vector2>>();
-            foreach (KeyValuePair<Vector2, DistrictData> kvp in inPutDic)
+            if(CheckDistrictDataOutofRange(inPutDic, GetFunctionBlockAreaMax<T>(block), true))
             {
-                bool b = false;
-                if (kvp.Value == null || kvp.Value.DistrictID == -1 || kvp.Value.DistrictID == -2)
+                foreach (KeyValuePair<Vector2, DistrictData> kvp in inPutDic)
                 {
-                    //empty 
-                    DistrictAreaInfo info = new DistrictAreaInfo
+                    if (kvp.Value == null || kvp.Value.DistrictID == -1 || kvp.Value.DistrictID == -2)
                     {
-                        data = kvp.Value,
-                        isLargeDistrict = false
-                    };
-                    result.Add(kvp.Key, info);
-                    continue;
-                }
-                //Check exists District
-                foreach (KeyValuePair<int,List<Vector2>> value in largeDistrictDic)
-                {
-                    if (value.Value.Contains(kvp.Key))
-                    {
-                        //Skip
+                        //empty 
                         DistrictAreaInfo info = new DistrictAreaInfo
                         {
                             data = kvp.Value,
-                            isLargeDistrict = true,
-                            largeDistrictIndex = value.Value
+                            isLargeDistrict = false,
+                            OriginCoordinate = kvp.Key
                         };
                         result.Add(kvp.Key, info);
-                        b = true;
-                        break;
+                        continue;
                     }
-                }
-                if (b)
-                    continue;
 
-                //District Larger than 1X1
-                Vector2 area = DistrictModule.Instance.GetDistrictArea(kvp.Value);
-                if (area.x == 1 && area.y == 1)
-                {
-                    DistrictAreaInfo info = new DistrictAreaInfo
+                    //District Larger than 1X1
+                    List<Vector2> largeArea = DistrictModule.Instance.GetDistrictTypeArea(kvp.Value);
+                    if (largeArea.Count==1)
                     {
-                        data = kvp.Value,
-                        isLargeDistrict = false
-                    };
-                    result.Add(kvp.Key, info);
-                    continue;
-                }
-                else if ((area.x != 1 || area.y != 1) && area.y + kvp.Key.y < GetFunctionBlockAreaMax<T>(block).y && kvp.Key.x+area.x<GetFunctionBlockAreaMax<T>(block).x) //Loop 
-                {
-                    //Add Area List
-                    List<Vector2> districtArea = new List<Vector2>();
-                    for (int i = 0; i < area.x; i++)
-                    {
-                        for (int j = 0; j < area.y; j++)
+                        //1x1 grid
+                        DistrictAreaInfo info = new DistrictAreaInfo
                         {
-                            Vector2 index = new Vector2(kvp.Key.x + i, kvp.Key.y + j);
-                            districtArea.Add(index);
-                           
-                        }
+                            data = kvp.Value,
+                            isLargeDistrict = false,
+                            OriginCoordinate= kvp.Key
+                        };
+                        result.Add(kvp.Key, info);
+                        continue;
                     }
-                    largeDistrictDic.Add(largeDistrictindex, districtArea);
-                    largeDistrictindex++;
-                    DistrictAreaInfo info = new DistrictAreaInfo
+                    else if (largeArea.Count>1)
                     {
-                        data = kvp.Value,
-                        isLargeDistrict = true,
-                        largeDistrictIndex = districtArea
-                    };
-                    result.Add(kvp.Key, info);
-                }
-                else
-                {
-                    Debug.LogError("DistrictData Area Error ,ID=" + kvp.Value.DistrictID);
-                    continue;
+                        //Add Area List
+                        for (int i = 0; i < largeArea.Count; i++)
+                        {
+                            Vector2 currentPos = new Vector2(largeArea[i].x + kvp.Key.x, largeArea[i].y + kvp.Key.y);
+                            DistrictAreaInfo info = new DistrictAreaInfo
+                            {
+                                data = kvp.Value,
+                                isLargeDistrict = true,
+                                LargeDistrictIndex = largeDistrictIndex,
+                                OriginCoordinate=new Vector2(largeArea[0].x + kvp.Key.x, largeArea[0].y + kvp.Key.y)
+                            };
+                            result.Add(currentPos, info);
+                        }
+                        largeDistrictIndex++;
+                    }
+                    else
+                    {
+                        Debug.LogError("DistrictData Area Error ,ID=" + kvp.Value.DistrictID);
+                        continue;
+                    }
                 }
             }
+
             return result;
 
         }
 
+        private bool CheckDistrictDataOutofRange(Dictionary<Vector2,DistrictData> dic , Vector2 areaMax ,bool initCheck)
+        {
+            List<Vector2> CheckContent = new List<Vector2>(); 
+            foreach (KeyValuePair<Vector2,DistrictData> kvp in dic)
+            {
+                //Check Area Vector
+                if (kvp.Key.x > areaMax.x )
+                {
+                    if(initCheck)
+                        Debug.LogError("DistrictDataOutofRange  area is X ,vector2=" + kvp.Key);
+                    return false;
+                }else if (kvp.Key.y > areaMax.y)
+                {
+                    if (initCheck)
+                        Debug.LogError("DistrictDataOutofRange  area is Y ,vector2=" + kvp.Key);
+                    return false;
+                }
+                //Check District
+                List<Vector2> v2 = DistrictModule.Instance.GetDistrictTypeArea(kvp.Value);
+                for(int i = 0; i < v2.Count; i++)
+                {
+                    Vector2 currentPos = new Vector2(v2[i].x + kvp.Key.x, v2[i].y + kvp.Key.y);
+                    if (CheckContent.Contains(currentPos))
+                    {
+                        if (initCheck)
+                            Debug.LogError("DistrictData  OverLap!,vector2=" + kvp.Key);
+                        return false;
+                    }
+                    CheckContent.Add(currentPos);
+                }
+            }
+            return true;
+        }
+
         private Dictionary<Vector2, DistrictData> GetFuntionBlockAreaDetailDefaultData(Dictionary<Vector2, int> dic)
         {
-
             Dictionary<Vector2, DistrictData> result = new Dictionary<Vector2, DistrictData>();
             if (dic == null)
                 return result;
             foreach(KeyValuePair<Vector2, int> kvp in dic)
             {
-                if(kvp.Value == -1)
-                {
-                    //AddEmptySlot
-                    result.Add( kvp.Key,new DistrictData { DistrictID = -1 });
-                    continue;
-                }else if(kvp.Value == -2)
-                {
-                    //Add UnLockSlot
-                    result.Add(kvp.Key, new DistrictData { DistrictID = -2 });
-                    continue;
-                }
                 DistrictData dd = DistrictModule.Instance.GetDistrictDataByKey(kvp.Value);
                 if (dd == null)
                     continue;
@@ -370,40 +372,40 @@ namespace Sim_FrameWork {
             switch (GetFunctionBlockType(id))
             {
                 case FunctionBlockType.Manufacture:
-                    return TryParseAreaDetailDefault(GetFunctionBlock_ManufactureData(GetFunctionBlockByBlockID(id).FunctionBlockTypeIndex).AreaDetailDefault, GetFunctionBlockAreaMax<T>(block));
+                    return TryParseAreaDetailDefault(GetFunctionBlock_ManufactureData(GetFunctionBlockByBlockID(id).FunctionBlockTypeIndex).AreaDetailDefault);
                 case FunctionBlockType.Energy:
-                    return TryParseAreaDetailDefault(GetFunctionBlock_EnergyData(GetFunctionBlockByBlockID(id).FunctionBlockTypeIndex).AreaDetailDefault, GetFunctionBlockAreaMax<T>(block));
+                    return TryParseAreaDetailDefault(GetFunctionBlock_EnergyData(GetFunctionBlockByBlockID(id).FunctionBlockTypeIndex).AreaDetailDefault);
                 default:
                     Debug.LogError("Fetch AreaDetailDefault Error   id="+id);
                     return null;
             }
         }
 
-        private Dictionary<Vector2, int> TryParseAreaDetailDefault(string content ,Vector2 areaMax)
+        private Dictionary<Vector2, int> TryParseAreaDetailDefault(string content)
         {
             Dictionary<Vector2, int> result = new Dictionary<Vector2, int> ();
             List<string> ls = Utility.TryParseStringList(content, ';');
-            if(string.IsNullOrEmpty(content) || ls.Count == 0)
+            if (string.IsNullOrEmpty(content) || ls.Count == 0)
             {
-                Debug.LogWarning("Parse AreaDetailFail!");
+                Debug.LogWarning("Parse AreaDetailFail!  content="+content);
                 return result;
             }
-            if (ls.Count != (int)areaMax.y)
-            {
-                Debug.LogError("District Area Not Match content=" + content + "AreaMax=" + areaMax);
-            }
+
             for (int i = 0; i < ls.Count; i++)
             {
                 List<int> li = Utility.TryParseIntList(ls[i], ',');
-                if (li.Count != (int)areaMax.x)
+                if (li.Count != 3)
                 {
-                    Debug.LogError("District Area Not Match content=" + content + "AreaMax=" + areaMax);
+                    Debug.LogError("Parse Area Detail FAIL  content=" + content);
+                    return result;
                 }
-                for(int j = 0; j < li.Count; j++)
+                Vector2 pos = new Vector2(li[0], li[1]);
+                if (result.ContainsKey(pos))
                 {
-                    Vector2 pos = new Vector2(i, j);
-                    result.Add(pos, li[j]);
+                    Debug.LogError("Find Same Vector2  vector2=" + pos);
+                    return result;
                 }
+                result.Add(pos, li[2]);
             }
             return result;
         }
@@ -472,14 +474,6 @@ namespace Sim_FrameWork {
                     continue;
                 }
 
-
-                Vector2 districtArea = DistrictModule.Instance.GetDistrictArea(data);
-                if(districtArea.x==1 && districtArea.y == 1)
-                {
-                    //Init Block 1X1
-                    string ModelPath = "Assets/Prefabs/District/" + data.ModelPath;
-                    GameObject DistrictModel = ObjectManager.Instance.InstantiateObject(ModelPath);
-                }
             }
 
           

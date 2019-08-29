@@ -252,6 +252,14 @@ namespace Sim_FrameWork
             }
         }
 
+
+        public void ClearBlockInfoData()
+        {
+
+            AddStack(this);
+        }
+
+
         private static FunctionBlockInfoData Pop()
         {
             if (functionBlockInfoCache.Count < 1)

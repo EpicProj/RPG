@@ -1,5 +1,9 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <DistrictMetaData xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-  <AllDistrictDataList DistrictID="100" DistrictName="DistrictName_100" DistrictDesc="DistrictDesc_100" DistrictIcon="SpriteOutput/District/DistriceTest01" ModelPath="sss" Level="1" CurrencyCost="1000" MaterialCostList="1,1,1" TimeCost="1" Area="1,1" ParentList="1,1" EffectList="District_Effect_100" />
-  <AllDistrictDataList DistrictID="101" DistrictName="DistrictName_101" DistrictDesc="DistrictDesc_101" DistrictIcon="SpriteOutput/District/DistriceTest02" ModelPath="sss" Level="2" CurrencyCost="1000" MaterialCostList="1,2,1" TimeCost="1" Area="1,2" ParentList="1,1" EffectList="1,1" />
+  <AllDistrictDataList DistrictID="-1" DistrictName="DistrictName_EMPTY" DistrictDesc="DistrictDesc_EMPTY" DistrictIcon="SpriteOutput/District/DistriceTest01" Type="1" ModelPath="null" Level="1" CurrencyCost="0" MaterialCostList="0" TimeCost="0" ParentList="0" EffectList="0" />
+  <AllDistrictDataList DistrictID="-2" DistrictName="DistrictName_UNLOCK" DistrictDesc="DistrictDesc_UNLOCK" DistrictIcon="SpriteOutput/District/DistriceTest01" Type="1" ModelPath="null" Level="1" CurrencyCost="0" MaterialCostList="0" TimeCost="0" ParentList="0" EffectList="0" />
+  <AllDistrictDataList DistrictID="100" DistrictName="DistrictName_100" DistrictDesc="DistrictDesc_100" DistrictIcon="SpriteOutput/District/DistriceTest01" Type="1" ModelPath="sss" Level="1" CurrencyCost="1000" MaterialCostList="1,1,1" TimeCost="1" ParentList="1,1" EffectList="District_Effect_100" />
+  <AllDistrictDataList DistrictID="101" DistrictName="DistrictName_101" DistrictDesc="DistrictDesc_101" DistrictIcon="SpriteOutput/District/DistriceTest02" Type="2" ModelPath="sss" Level="2" CurrencyCost="1000" MaterialCostList="1,2,1" TimeCost="1" ParentList="1,1" EffectList="District_Effect_101" />
+  <AllDistrictTypeList TypeID="1" TypeShape="0,0" />
+  <AllDistrictTypeList TypeID="2" TypeShape="0,0;0,1" />
 </DistrictMetaData>
