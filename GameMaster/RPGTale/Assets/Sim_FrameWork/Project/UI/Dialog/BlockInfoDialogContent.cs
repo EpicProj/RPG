@@ -124,7 +124,7 @@ namespace Sim_FrameWork
             GameObject Slot = ObjectManager.Instance.InstantiateObject(DISTRICTSLOT_PREFAB_PATH);
             GameObject district = Slot.transform.Find("District").gameObject;
             district.gameObject.SetActive(true);
-            district.GetComponent<Image>().sprite = Utility.LoadSprite(info.data.DistrictIcon, Utility.SpriteType.png);
+            //district.GetComponent<Image>().sprite = Utility.LoadSprite(info.data.DistrictIcon, Utility.SpriteType.png);
             //Set Size
 
             //TODO
@@ -140,7 +140,7 @@ namespace Sim_FrameWork
             GameObject Slot = ObjectManager.Instance.InstantiateObject(DISTRICTSLOT_PREFAB_PATH);
             GameObject district = Slot.transform.Find("District").gameObject;
             district.gameObject.SetActive(true);
-            district.GetComponent<Image>().sprite = Utility.LoadSprite(data.DistrictIcon, Utility.SpriteType.png);
+            //district.GetComponent<Image>().sprite = Utility.LoadSprite(data.DistrictIcon, Utility.SpriteType.png);
             district.transform.Find("Name").GetComponent<Text>().text = DistrictModule.Instance.GetDistrictName(data);
 
             Slot.transform.SetParent(m_dialog.DistrictSlotContent.transform, false);

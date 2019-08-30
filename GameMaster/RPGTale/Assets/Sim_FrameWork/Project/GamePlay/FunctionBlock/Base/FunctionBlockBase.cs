@@ -9,6 +9,7 @@ namespace Sim_FrameWork
 
         public FunctionBlock functionBlock;
         public Dictionary<Vector2, DistrictAreaInfo> _currentDistrictDataDic = new Dictionary<Vector2, DistrictAreaInfo>();
+        public Dictionary<Vector2, DistrictAreaBase> _currentDistrictBaseDic = new Dictionary<Vector2, DistrictAreaBase>();
 
         public FunctionBlockInfoData info;
 
@@ -37,8 +38,6 @@ namespace Sim_FrameWork
             //TODO
             blockModifier = GetComponent<FunctionBlockModifier>();
             info = FunctionBlockInfoData.CreateBaseInfo(GetBlockPos(),functionBlock,blockModifier);
-            InitAreaDetail();
-
             InitBaseInfo();
 
         }
@@ -66,9 +65,10 @@ namespace Sim_FrameWork
 
         #region InitBaseInfo
 
-        public void InitAreaDetail()
+        public virtual void InitAreaDetail<T>()where T:class
         {
-            _currentDistrictDataDic = FunctionBlockModule.Instance.GetFuntionBlockAreaDetailDefaultData<FunctionBlock_Manufacture>(functionBlock);
+            _currentDistrictDataDic = FunctionBlockModule.Instance.GetFuntionBlockOriginAreaInfo<T>(functionBlock);
+            _currentDistrictBaseDic = FunctionBlockModule.Instance.GetFuntionBlockAreaDetailDefaultDataInfo<T>(functionBlock);
 
         }
         private void SetBlockColliderSize(Vector3 size)
@@ -135,7 +135,14 @@ namespace Sim_FrameWork
 
         public FunctionBlock block;
         public Vector2 districtAreaMax;
+        /// <summary>
+        /// 当前区划信息
+        /// </summary>
         public Dictionary<Vector2, DistrictAreaInfo> currentDistrictDataDic;
+        /// <summary>
+        /// 区划底信息
+        /// </summary>
+        public Dictionary<Vector2, DistrictAreaBase> currentDistrictBaseDic;
         public FunctionBlockModifier blockModifier = new FunctionBlockModifier();
 
 

@@ -36,6 +36,11 @@ namespace Sim_FrameWork
             base.InitData();
             GetFormulaData();
             InitFunctionBlock_ManuInfo();
+            InitAreaDetail<FunctionBlock_Manufacture>();
+        }
+        public override void InitAreaDetail<FunctionBlock_Manufacture>()
+        {
+            base.InitAreaDetail<FunctionBlock_Manufacture>();
         }
 
         public FunctionBlockInfoData InitFunctionBlock_ManuInfo()
@@ -49,6 +54,7 @@ namespace Sim_FrameWork
             info.CurrentSpeed = FunctionBlockModule.Instance.GetManufactureSpeed(functionBlock.FunctionBlockID);
             info.districtAreaMax = FunctionBlockModule.Instance.GetFunctionBlockAreaMax<FunctionBlock_Manufacture>(functionBlock);
             info.currentDistrictDataDic = _currentDistrictDataDic;
+            info.currentDistrictBaseDic = _currentDistrictBaseDic;
             info.BlockEXPMap = FunctionBlockModule.Instance.GetManuBlockEXPMapData(info.block.FunctionBlockID);
             return info;
         }

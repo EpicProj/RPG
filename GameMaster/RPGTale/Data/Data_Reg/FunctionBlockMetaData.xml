@@ -22,6 +22,7 @@
 			<variable  name="InherentLevel" col = "InherentLevel" type="string"/>
 			<variable  name="CollectMaterialList" col = "CollectMaterialList" type="string"/>
 			<variable  name="AreaDetailDefault" col = "AreaDetailDefault" type="string"/>
+			<variable  name="OriginArea" col = "OriginArea" type="string"/>
 			<variable  name="AreaMax" col = "AreaMax" type="string"/>
 		</list>
 	</variable>
@@ -35,6 +36,7 @@
 			<variable  name="MaintenanceBase" col = "MaintenanceBase" type="string"/>
 			<variable  name="EnergyConsumptionBase" col = "EnergyConsumptionBase" type="string"/>
 			<variable  name="AreaDetailDefault" col = "AreaDetailDefault" type="string"/>
+			<variable  name="OriginArea" col = "OriginArea" type="string"/>
 			<variable  name="AreaMax" col = "AreaMax" type="string"/>
 		</list>
 	</variable>
@@ -45,6 +47,7 @@
 			<variable  name="InherentLevel" col = "InherentLevel" type="string"/>
 			<variable  name="Comment" col = "Comment" type="string"/>
 			<variable  name="AreaDetailDefault" col = "AreaDetailDefault" type="string"/>
+			<variable  name="OriginArea" col = "OriginArea" type="string"/>
 			<variable  name="AreaMax" col = "AreaMax" type="string"/>
 		</list>
 	</variable>
@@ -55,6 +58,7 @@
 			<variable  name="InherentLevel" col = "InherentLevel" type="string"/>
 			<variable  name="EnergyType" col = "EnergyType" type="ushort"/>
 			<variable  name="AreaDetailDefault" col = "AreaDetailDefault" type="string"/>
+			<variable  name="OriginArea" col = "OriginArea" type="string"/>
 			<variable  name="AreaMax" col = "AreaMax" type="string"/>
 		</list>
 	</variable>

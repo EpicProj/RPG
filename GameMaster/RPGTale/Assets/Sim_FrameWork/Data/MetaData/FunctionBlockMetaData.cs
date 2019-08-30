@@ -36,6 +36,7 @@ public class FunctionBlockMetaData : ExcelBase {
             row.InherentLevel = "";
             row.CollectMaterialList = "";
             row.AreaDetailDefault = "";
+            row.OriginArea = "";
             row.AreaMax = "";
             AllFunctionBlock_RawList.Add(row);
         }
@@ -51,6 +52,7 @@ public class FunctionBlockMetaData : ExcelBase {
             manu.MaintenanceBase = "";
             manu.EnergyConsumptionBase = "";
             manu.AreaDetailDefault = "";
+            manu.OriginArea = "";
             manu.AreaMax = "";
             AllFunctionBlock_ManufactureList.Add(manu);
         }
@@ -63,6 +65,7 @@ public class FunctionBlockMetaData : ExcelBase {
             science.InherentLevel = "";
             science.Comment = "";
             science.AreaDetailDefault = "";
+            science.OriginArea = "";
             science.AreaMax = "";
             AllFunctionBlock_ScienceList.Add(science);
         }
@@ -75,6 +78,7 @@ public class FunctionBlockMetaData : ExcelBase {
             energy.InherentLevel = "";
             energy.EnergyType = (ushort)i;
             energy.AreaDetailDefault = "";
+            energy.OriginArea = "";
             energy.AreaMax = "";
             AllFunctionBlock_EnergyList.Add(energy);
         }
@@ -241,6 +245,8 @@ public class FunctionBlock_Raw
     [XmlAttribute]
     public string AreaDetailDefault { get; set; }
     [XmlAttribute]
+    public string OriginArea { get; set; }
+    [XmlAttribute]
     public string AreaMax { get; set; }
 }
 
@@ -264,6 +270,8 @@ public class FunctionBlock_Manufacture
     [XmlAttribute]
     public string AreaDetailDefault { get; set; }
     [XmlAttribute]
+    public string OriginArea { get; set; }
+    [XmlAttribute]
     public string AreaMax { get; set; }
 }
 
@@ -280,6 +288,8 @@ public class FunctionBlock_Science
     [XmlAttribute]
     public string AreaDetailDefault { get; set; }
     [XmlAttribute]
+    public string OriginArea { get; set; }
+    [XmlAttribute]
     public string AreaMax { get; set; }
 }
 
@@ -295,6 +305,8 @@ public class FunctionBlock_Energy
     public ushort EnergyType { get; set; }
     [XmlAttribute]
     public string AreaDetailDefault { get; set; }
+    [XmlAttribute]
+    public string OriginArea { get; set; }
     [XmlAttribute]
     public string AreaMax { get; set; }
 

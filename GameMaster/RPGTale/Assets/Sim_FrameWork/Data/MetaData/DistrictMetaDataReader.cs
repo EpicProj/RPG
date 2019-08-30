@@ -11,6 +11,8 @@ namespace Sim_FrameWork
         public static Dictionary<int, DistrictData> DistrictDataDic = new Dictionary<int, DistrictData>();
         public static List<DistrictType> DistrictTypeList = new List<DistrictType>();
         public static Dictionary<int, DistrictType> DistrictTypeDic = new Dictionary<int, DistrictType>();
+        public static List<DistrictIcon> DistrictIconList = new List<DistrictIcon>();
+        public static Dictionary<int, DistrictIcon> DistrictIconDic = new Dictionary<int, DistrictIcon>();
 
 
         public static void LoadData()
@@ -25,6 +27,8 @@ namespace Sim_FrameWork
             DistrictDataDic = config.AllDistrictDataDic;
             DistrictTypeList = config.AllDistrictTypeList;
             DistrictTypeDic = config.AllDistrictTypeDic;
+            DistrictIconList = config.AllDistrictIconList;
+            DistrictIconDic = config.AllDistrictIconDic;
         }
 
 
@@ -49,6 +53,17 @@ namespace Sim_FrameWork
         {
             LoadData();
             return DistrictTypeDic;
+        }
+
+        public static List<DistrictIcon> GetDistrictIcon()
+        {
+            LoadData();
+            return DistrictIconList;
+        }
+        public static Dictionary<int, DistrictIcon> GetDistrictIconDic()
+        {
+            LoadData();
+            return DistrictIconDic;
         }
 
         public static DistrictData GetDistrictDataByKey(int key)
@@ -81,6 +96,20 @@ namespace Sim_FrameWork
             return data;
         }
 
+        public static DistrictIcon GetDistrictIconByKey(int key)
+        {
+            LoadData();
+            DistrictIcon icon = null;
+            if (DistrictTypeDic == null)
+                return null;
+            DistrictIconDic.TryGetValue(key, out icon);
+            if (icon == null)
+            {
+                Debug.LogError("Can not Find DistrictIcon , Key = " + key);
+                return null;
+            }
+            return icon;
+        }
 
     }
 }

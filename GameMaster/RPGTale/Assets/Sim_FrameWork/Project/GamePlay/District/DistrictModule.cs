@@ -10,6 +10,8 @@ namespace Sim_FrameWork {
         public static Dictionary<int, DistrictData> DistrictDataDic = new Dictionary<int, DistrictData>();
         public static List<DistrictType> DistrictTypeList = new List<DistrictType>();
         public static Dictionary<int, DistrictType> DistrictTypeDic = new Dictionary<int, DistrictType>();
+        public static List<DistrictIcon> DistrictIconList = new List<DistrictIcon>();
+        public static Dictionary<int, DistrictIcon> DistrictIconDic = new Dictionary<int, DistrictIcon>();
 
         private bool HasInit = false;
         public override void InitData()
@@ -20,6 +22,8 @@ namespace Sim_FrameWork {
             DistrictDataDic = DistrictMetaDataReader.GetDistrictDic();
             DistrictTypeList = DistrictMetaDataReader.GetDistrictType();
             DistrictTypeDic = DistrictMetaDataReader.GetDistrictTypeDic();
+            DistrictIconList = DistrictMetaDataReader.GetDistrictIcon();
+            DistrictIconDic = DistrictMetaDataReader.GetDistrictIconDic();
             HasInit = true;
         }
 
@@ -43,16 +47,43 @@ namespace Sim_FrameWork {
         {
             return MultiLanguage.Instance.GetTextValue(GetDistrictDataByKey(districtID).DistrictDesc);
         }
+
+        public bool CheckIconList(int districtID)
+        {
+            return GetDistrictTypeArea(districtID).Count == GetDistrictIconList(districtID).Count;
+        }
+        public List<string> GetDistrictIconList(int districtID)
+        {
+            return Utility.TryParseStringList(GetDistrictType(districtID).IconList, ',');
+        }
+
+        /// <summary>
+        /// Get Sprite List
+        /// </summary>
+        /// <param name="districtID"></param>
+        /// <returns></returns>
+        public List<Sprite> GetDistrictIconSpriteList(int districtID)
+        {
+            if (CheckIconList(districtID) == false)
+            {
+                Debug.LogError("Sprite Count Not Match ,districtID=" + districtID);
+            }
+            List<Sprite> result = new List<Sprite>();
+            List<string> iconList = GetDistrictIconList(districtID);
+            for(int i = 0; i < iconList.Count; i++)
+            {
+                Sprite sp = Utility.LoadSprite(iconList[i], Utility.SpriteType.png);
+                result.Add(sp);
+            }
+            return result;
+        }
+
+
         public string GetDistrictDesc(DistrictData data)
         {
             return MultiLanguage.Instance.GetTextValue(data.DistrictDesc);
         }
 
-        public Sprite GetDistrictIcon(DistrictData data)
-        {
-            string path = data.DistrictIcon;
-            return Utility.LoadSprite(path, Utility.SpriteType.png);
-        }
 
         public DistrictType GetDistrictType(int districtID)
         {
@@ -67,6 +98,11 @@ namespace Sim_FrameWork {
             return type;
         }
 
+        /// <summary>
+        /// Get Shape Area
+        /// </summary>
+        /// <param name="data"></param>
+        /// <returns></returns>
         public List<Vector2> GetDistrictTypeArea(DistrictData data)
         {
             return GetDistrictTypeArea(data.DistrictID);
@@ -163,5 +199,11 @@ namespace Sim_FrameWork {
         public bool isLargeDistrict;
         public int LargeDistrictIndex;
         public Vector2 OriginCoordinate;
+    }
+    public class DistrictAreaBase
+    {
+        public DistrictData data;
+        public bool Locked;
+        public Vector2 Coordinate;
     }
 }

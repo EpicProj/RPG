@@ -14,9 +14,9 @@ public class DistrictMetaData : ExcelBase {
         {
             DistrictData data = new DistrictData();
             data.DistrictID = i;
+            data.Comment = "";
             data.DistrictName = "";
             data.DistrictDesc = "";
-            data.DistrictIcon = "";
             data.Type = i;
             data.ModelPath = "";
             data.Level =(ushort) i;
@@ -33,8 +33,19 @@ public class DistrictMetaData : ExcelBase {
         {
             DistrictType type = new DistrictType();
             type.TypeID = i;
+            type.Comment = "";
             type.TypeShape = "";
+            type.IconList = "";
             AllDistrictTypeList.Add(type);
+        }
+        AllDistrictIconList = new List<DistrictIcon>();
+        for(int i = 0; i < 2; i++)
+        {
+            DistrictIcon icon = new DistrictIcon();
+            icon.IconID = i;
+            icon.IconPath = "";
+            icon.Comment = "";
+            AllDistrictIconList.Add(icon);
         }
     }
 
@@ -45,6 +56,7 @@ public class DistrictMetaData : ExcelBase {
     {
         AllDistrictDataDic.Clear();
         AllDistrictTypeDic.Clear();
+        AllDistrictIconDic.Clear();
         foreach (var data in AllDistrictDataList)
         {
             if (AllDistrictDataDic.ContainsKey(data.DistrictID))
@@ -67,17 +79,32 @@ public class DistrictMetaData : ExcelBase {
                 AllDistrictTypeDic.Add(data.TypeID, data);
             }
         }
+        foreach (var data in AllDistrictIconList)
+        {
+            if (AllDistrictIconDic.ContainsKey(data.IconID))
+            {
+                Debug.LogError("Find Same IconID , IconID  = " + data.IconID);
+            }
+            else
+            {
+                AllDistrictIconDic.Add(data.IconID, data);
+            }
+        }
     }
 
     [XmlIgnore]
     public Dictionary<int, DistrictData> AllDistrictDataDic = new Dictionary<int, DistrictData>();
     [XmlIgnore]
     public Dictionary<int, DistrictType> AllDistrictTypeDic = new Dictionary<int, DistrictType>();
+    [XmlIgnore]
+    public Dictionary<int, DistrictIcon> AllDistrictIconDic = new Dictionary<int, DistrictIcon>();
 
     [XmlElement]
     public List<DistrictData> AllDistrictDataList { get; set; }
     [XmlElement]
     public List<DistrictType> AllDistrictTypeList { get; set; }
+    [XmlElement]
+    public List<DistrictIcon> AllDistrictIconList { get; set; }
 }
 
 
@@ -87,11 +114,11 @@ public class DistrictData
     [XmlAttribute]
     public int DistrictID { get; set; }
     [XmlAttribute]
+    public string Comment { get; set; }
+    [XmlAttribute]
     public string DistrictName { get; set; }
     [XmlAttribute]
     public string DistrictDesc { get; set; }
-    [XmlAttribute]
-    public string DistrictIcon { get; set; }
     [XmlAttribute]
     public int Type { get; set; }
     [XmlAttribute]
@@ -117,5 +144,20 @@ public class DistrictType
     [XmlAttribute]
     public int TypeID { get; set; }
     [XmlAttribute]
+    public string Comment { get; set; }
+    [XmlAttribute]
     public string TypeShape { get; set; }
+    [XmlAttribute]
+    public string IconList { get; set; }
+}
+
+[System.Serializable]
+public class DistrictIcon
+{
+    [XmlAttribute]
+    public int IconID { get; set; }
+    [XmlAttribute]
+    public string IconPath { get; set; }
+    [XmlAttribute]
+    public string Comment { get; set; }
 }
