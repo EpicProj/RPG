@@ -577,6 +577,12 @@ namespace Sim_FrameWork {
 
         #region Main Function
 
+        public int GetDistrictAreaIndex(Vector2 areaMax,Vector2 currentVector)
+        {
+            return (int)(currentVector.x * areaMax.x + currentVector.y);
+        }
+
+
         //Place Block
         public void PlaceFunctionBlock(int functionBlockID,Vector3 checkpos)
         {

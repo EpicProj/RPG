@@ -35,6 +35,17 @@ namespace Sim_FrameWork {
                 Debug.LogError("Can not Find DistrictData ,ID=" + districtID);
             return data;
         }
+        public DistrictIcon GetDistrictIconByKey(int iconID)
+        {
+            DistrictIcon icon = null;
+            DistrictIconDic.TryGetValue(iconID, out icon);
+            if (icon == null)
+            {
+                Debug.LogError("Can not Find DistrictIcon  id=" + iconID);
+            }
+            return icon;
+        }
+
         public string GetDistrictName(int districtID)
         {
             return MultiLanguage.Instance.GetTextValue(GetDistrictDataByKey(districtID).DistrictName);
@@ -54,7 +65,13 @@ namespace Sim_FrameWork {
         }
         public List<string> GetDistrictIconList(int districtID)
         {
-            return Utility.TryParseStringList(GetDistrictType(districtID).IconList, ',');
+            List<string> result = new List<string>();
+            List<int> id =Utility.TryParseIntList(GetDistrictType(districtID).IconList, ',');
+            for(int i = 0; i < id.Count; i++)
+            {
+                result.Add(GetDistrictIconByKey(id[i]).IconPath);
+            }
+            return result;
         }
 
         /// <summary>

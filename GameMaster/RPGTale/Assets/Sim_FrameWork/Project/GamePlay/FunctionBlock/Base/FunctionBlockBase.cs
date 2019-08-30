@@ -8,8 +8,6 @@ namespace Sim_FrameWork
     {
 
         public FunctionBlock functionBlock;
-        public Dictionary<Vector2, DistrictAreaInfo> _currentDistrictDataDic = new Dictionary<Vector2, DistrictAreaInfo>();
-        public Dictionary<Vector2, DistrictAreaBase> _currentDistrictBaseDic = new Dictionary<Vector2, DistrictAreaBase>();
 
         public FunctionBlockInfoData info;
 
@@ -65,12 +63,6 @@ namespace Sim_FrameWork
 
         #region InitBaseInfo
 
-        public virtual void InitAreaDetail<T>()where T:class
-        {
-            _currentDistrictDataDic = FunctionBlockModule.Instance.GetFuntionBlockOriginAreaInfo<T>(functionBlock);
-            _currentDistrictBaseDic = FunctionBlockModule.Instance.GetFuntionBlockAreaDetailDefaultDataInfo<T>(functionBlock);
-
-        }
         private void SetBlockColliderSize(Vector3 size)
         {
             BlockCollider.size = size;
@@ -173,7 +165,7 @@ namespace Sim_FrameWork
         /// </summary>
         [SerializeField]
         private float _currentSpeed;
-        public float CurrentSpeed { get { return _currentSpeed; }  set {  } }
+        public float CurrentSpeed { get { return _currentSpeed; }  set { _currentSpeed = value; } }
 
 
         public List<Dictionary<Material, ushort>> InputMaterialFormulaList;
