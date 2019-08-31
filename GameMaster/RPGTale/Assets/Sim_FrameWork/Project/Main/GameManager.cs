@@ -9,11 +9,7 @@ namespace Sim_FrameWork
     {
         public const string ITEM_UI_PATH = "ItemUIPrefab.prefab";
 
-        //Inventory
-        private bool isPickedItem = false;
-        public bool IsPickedItem { get { return isPickedItem; } }
-        private SlotItem pickedItem;
-        public SlotItem PickedItem { get { return pickedItem; } }
+
 
 
         private Canvas MainCanvas;
@@ -33,7 +29,7 @@ namespace Sim_FrameWork
         public void Update()
         {
             UIManager.Instance.OnUpdate();
-            OnUpdateInventory();
+           
         }
 
 
@@ -43,36 +39,6 @@ namespace Sim_FrameWork
 
         }
 
-        #region Inventory
-
-        //Update
-        void OnUpdateInventory()
-        {
-            if (isPickedItem)
-            {
-                //Fllow  MousePos
-                pickedItem.SetLocalPosition(GetCurrentMousePos());
-            }
-        }
-
-        //Pick Item
-        public void PickUpFunctionBlock(FunctionBlock block,int amount = 1)
-        {
-            pickedItem.SetFunctionBlock(block, amount);
-            isPickedItem = true;
-            pickedItem.Show();
-            pickedItem.SetLocalPosition(GetCurrentMousePos());
-        }
-
-        //获取当前鼠标位置
-        Vector2 GetCurrentMousePos()
-        {
-            Vector2 position;
-            RectTransformUtility.ScreenPointToLocalPointInRectangle(MainCanvas.transform as RectTransform, Input.mousePosition, null, out position);
-            return position;
-        }
-
-        #endregion
 
     }
 }

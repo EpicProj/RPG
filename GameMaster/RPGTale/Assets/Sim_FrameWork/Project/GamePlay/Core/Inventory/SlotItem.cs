@@ -7,8 +7,21 @@ namespace Sim_FrameWork
 {
     public class SlotItem : MonoBehaviour
     {
-        public Image itemImage;
+        private Image itemImage;
         private FunctionBlock functionBlock;
+        private DistrictData districtData;
+
+
+        private Image ItemImage {
+            get
+            {
+                if (itemImage == null)
+                {
+                    itemImage = GetComponent<Image>();
+                }
+                return itemImage;
+            }
+        }
 
         public int Amount { get; private set; }
         private float targetScale = 1.0f;
@@ -22,9 +35,11 @@ namespace Sim_FrameWork
         {
             this.functionBlock = block;
             this.Amount = amount;
-            itemImage.sprite = FunctionBlockModule.Instance.GetFunctionBlockIcon(block.FunctionBlockID);
+            ItemImage.sprite = FunctionBlockModule.Instance.GetFunctionBlockIcon(block.FunctionBlockID);
 
         }
+
+
 
 
         public void AddAmount(int amount = 1)
@@ -42,7 +57,29 @@ namespace Sim_FrameWork
             this.Amount = amount;
         }
 
+        #region District
 
+        public void SetDistrictArea(DistrictData data,DistrictSlotType slotType,Sprite sp)
+        {
+            this.districtData = data;
+
+            ItemImage.sprite = sp;
+            transform.Find("Name").GetComponent<Text>().text = DistrictModule.Instance.GetDistrictName(data);
+
+            switch (slotType)
+            {
+                case DistrictSlotType.NormalDistrict:
+                    
+                    break;
+                case DistrictSlotType.LargeDistrict:
+                    break;
+
+                default:
+                    break;
+            }
+        }
+
+        #endregion
 
         //Action
         public void Show()

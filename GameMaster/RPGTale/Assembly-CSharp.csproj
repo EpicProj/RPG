@@ -101,8 +101,10 @@
      <Compile Include="Assets\Sim_FrameWork\Project\Basic\BasicMiscsTool.cs" />
      <Compile Include="Assets\Sim_FrameWork\Project\Basic\ConfigUtility.cs" />
      <Compile Include="Assets\Sim_FrameWork\Project\Basic\Utility.cs" />
-     <Compile Include="Assets\Sim_FrameWork\Project\GamePlay\Core\Inventory\ConstructSlotPanel.cs" />
      <Compile Include="Assets\Sim_FrameWork\Project\GamePlay\Core\Inventory\Inventory.cs" />
+     <Compile Include="Assets\Sim_FrameWork\Project\GamePlay\Core\Inventory\InventoryManager.cs" />
+     <Compile Include="Assets\Sim_FrameWork\Project\GamePlay\Core\Inventory\InventoryPanel\ConstructSlotPanel.cs" />
+     <Compile Include="Assets\Sim_FrameWork\Project\GamePlay\Core\Inventory\InventoryPanel\DistrictContentSlotPanel.cs" />
      <Compile Include="Assets\Sim_FrameWork\Project\GamePlay\Core\Inventory\Slot.cs" />
      <Compile Include="Assets\Sim_FrameWork\Project\GamePlay\Core\Inventory\SlotItem.cs" />
      <Compile Include="Assets\Sim_FrameWork\Project\GamePlay\District\DistrictModule.cs" />

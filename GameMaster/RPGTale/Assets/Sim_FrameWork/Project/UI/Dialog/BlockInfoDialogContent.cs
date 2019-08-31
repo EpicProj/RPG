@@ -7,15 +7,12 @@ namespace Sim_FrameWork
 {
     public class BlockInfoDialogContent : WindowBase
     {
-        private const string DISTRICTSLOT_PREFAB_PATH = "Assets/Prefabs/Object/BlockGrid.prefab";
-        private const string DISTRICTSLOT_EMPTY_IMAGE = "SpriteOutput/District/District_Empty";
-
 
         private const string INFOPANEL_MANUSPEED_TITLE = "FuntionBlockInfoDialog_Info_Manufact_Speed_Title";
         private const string INFOPANEL_ENERGY_TITLE = "FuntionBlockInfoDialog_Info_Energy_Title";
         private const string INFOPANEL_MAINTAIN_TITLE = "FuntionBlockInfoDialog_Info_Maintain_Title";
         private const string INFOPANEL_WOEKER_TITLE = "FuntionBlockInfoDialog_Info_Worker_Title";
-        private Sprite EmptyDistrictSlotSprite;
+  
 
         private Text SpeedText;
         private Text EnergyText;
@@ -33,8 +30,8 @@ namespace Sim_FrameWork
         private float currentProcess;
         private float targetProcess = 100;
 
-
-        private List<GameObject> districtAreaObjList = new List<GameObject>();
+        private DistrictContentSlotPanel slotPanel;
+    
       
 
         /// <summary>
@@ -45,15 +42,14 @@ namespace Sim_FrameWork
         {
             blockInfo = (FunctionBlockInfoData)paralist[0];
 
-            EmptyDistrictSlotSprite = Utility.LoadSprite(DISTRICTSLOT_EMPTY_IMAGE, Utility.SpriteType.png);
             m_dialog = GameObject.GetComponent<BlockInfoDialog>();
+            slotPanel = m_dialog.DistrictSlotContent.GetComponent<DistrictContentSlotPanel>();
             clostBtn = GameObject.Find("MainBG").GetComponent<Button>();
             ProgressImage = m_dialog.Processbar.transform.Find("Progress").GetComponent<Image>();
             ProcessIndicator = m_dialog.Processbar.transform.Find("Indicator").GetComponent<Text>();
             AddBtnListener();
-            InitDistrictDataSlot();
-            InitDistrictArea();
             InitInfoPanel();
+            InitDistrictArea();
             currentManuSpeed = blockInfo.CurrentSpeed;
         }
 
@@ -69,6 +65,13 @@ namespace Sim_FrameWork
             //m_dialog.FactoryBG.GetComponent<Image>().sprite = FunctionBlockModule.Instance.GetFunctionBlockIcon(currentBlock.FunctionBlockID);
         }
 
+        private void InitDistrictArea()
+        {
+            slotPanel.InitDistrictDataSlot(blockInfo);
+            slotPanel.InitData();
+            slotPanel.InitDistrictArea(blockInfo);
+        }
+
         public override void OnUpdate(params object[] paralist)
         {
             UpdateProgress(currentManuSpeed);
@@ -77,69 +80,8 @@ namespace Sim_FrameWork
 
 
 
-        /// <summary>
-        /// 生成区划格基底
-        /// </summary>
-        private void InitDistrictDataSlot()
-        {
-            if (blockInfo.currentDistrictBaseDic == null)
-                return;
-            //Calculate Slot
-            int line = (int)blockInfo.districtAreaMax.x;
-            float width = 370f;
-            float size = Mathf.Floor((width - m_dialog.DistrictSlotContent.GetComponent<GridLayoutGroup>().spacing.x * line) / line);
-            m_dialog.DistrictSlotContent.GetComponent<GridLayoutGroup>().cellSize = new Vector2(size, size);
 
-            foreach (KeyValuePair<Vector2, DistrictAreaBase> kvp in blockInfo.currentDistrictBaseDic)
-            {
-                var data = kvp.Value.data;
-                if (data.DistrictID == -1)
-                {
-                    //Init EmptySlot
-                    InitEmptyDisBlock();
-                }
-                else if (data.DistrictID == -2)
-                {
-                    //Init UnlockSlot
-                    InitUnlockDisBlock();
-                }
-                else
-                {
-                    Debug.LogError("Init District Slot Error! key=" + kvp.Key);
-                    continue;
-                }
-            }
-        }
-
-        /// <summary>
-        /// 生成基础区划
-        /// </summary>
-        private void InitDistrictArea()
-        {
-            if (blockInfo.currentDistrictDataDic == null)
-                return;
-            foreach(KeyValuePair<Vector2,DistrictAreaInfo> kvp in blockInfo.currentDistrictDataDic)
-            {
-                int index = FunctionBlockModule.Instance.GetDistrictAreaIndex(blockInfo.districtAreaMax, kvp.Key);
-                if (districtAreaObjList.Count < index)
-                {
-                    Debug.LogError("Area Error!");
-                    continue;
-                }
-                else
-                {
-                    if (kvp.Value.isLargeDistrict == false)
-                    {
-                        //Init Small District
-                        Sprite sp = DistrictModule.Instance.GetDistrictIconSpriteList(kvp.Value.data.DistrictID)[0];
-                        InitSmallDisBlock(districtAreaObjList[index - 1], kvp.Value.data, sp);
-                    }
-                   
-                }
-
-               
-            }
-        }
+      
 
         private void UpdateDistrictSlot()
         {
@@ -147,47 +89,12 @@ namespace Sim_FrameWork
         }
 
 
-        public void InitLargeDisBlock(DistrictAreaInfo info ,float size)
-        {
-            GameObject Slot = ObjectManager.Instance.InstantiateObject(DISTRICTSLOT_PREFAB_PATH);
-            GameObject district = Slot.transform.Find("District").gameObject;
-            district.gameObject.SetActive(true);
-            //district.GetComponent<Image>().sprite = Utility.LoadSprite(info.data.DistrictIcon, Utility.SpriteType.png);
-            //Set Size
-
-            //TODO
-            Vector2 v = DistrictModule.Instance.GetDistrictTypeArea(info.data)[0];
-            district.GetComponent<RectTransform>().sizeDelta = new Vector2(v.y * size, v.x * size);
-            district.transform.Find("Name").GetComponent<Text>().text = DistrictModule.Instance.GetDistrictName(info.data);
-            Slot.transform.SetParent(m_dialog.DistrictSlotContent.transform, false);
-        }
 
 
-        public void InitSmallDisBlock(GameObject obj, DistrictData data , Sprite icon)
-        {
-            GameObject district = obj.transform.Find("District").gameObject;
-            district.gameObject.SetActive(true);
-            district.GetComponent<Image>().sprite = icon;
-            obj.transform.Find("EmptyInfo").gameObject.SetActive(false);
-            district.transform.Find("Name").GetComponent<Text>().text = DistrictModule.Instance.GetDistrictName(data);
-        }
 
-        public void InitEmptyDisBlock()
-        {
-            GameObject EmptySlot = ObjectManager.Instance.InstantiateObject(DISTRICTSLOT_PREFAB_PATH);
-            EmptySlot.GetComponent<Image>().sprite = EmptyDistrictSlotSprite;
-            EmptySlot.transform.Find("EmptyInfo").gameObject.SetActive(true);
-            EmptySlot.transform.SetParent(m_dialog.DistrictSlotContent.transform, false);
-            districtAreaObjList.Add(EmptySlot);
-        }
-        public void InitUnlockDisBlock()
-        {
-            GameObject UnlockSlot = ObjectManager.Instance.InstantiateObject(DISTRICTSLOT_PREFAB_PATH);
-            UnlockSlot.transform.SetParent(m_dialog.DistrictSlotContent.transform, false);
-            UnlockSlot.GetComponent<Button>().interactable = false;
-            districtAreaObjList.Add(UnlockSlot);
-        }
+     
 
+    
 
         private void InitInfoPanel()
         {

@@ -9,41 +9,21 @@ namespace Sim_FrameWork
         protected Slot[] slotList;
         private CanvasGroup canvasGroup;
 
-        public virtual void Start()
+        public virtual void Awake()
+        {
+        }
+
+        public void InitData()
         {
             slotList = GetComponentsInChildren<Slot>();
+            Debug.Log(slotList.Length);
             canvasGroup = GetComponent<CanvasGroup>();
         }
 
         void Update() { }
 
-        public bool InitFunctionBlock(int blockID)
-        {
-            FunctionBlock block = FunctionBlockModule.Instance.GetFunctionBlockByBlockID(blockID);
-            return InitFunctionBlock(block);
-        }
-        public bool InitFunctionBlock(FunctionBlock block)
-        {
-            if (block == null)
-            {
-                Debug.Log("Init FunctionBlock Fail Block ID=" + block.FunctionBlockID);
-                return false;
-            }
-            Slot slot = FindEmptySlot();
-            if (slot == null)
-            {
-                Debug.Log("No Empty Slot");
-                return false;
-            }
-            else
-            {
-                slot.InitFunctionBlock(block);
-            }
-            return true;
-        }
 
-
-        private Slot FindEmptySlot()
+        public Slot FindEmptySlot()
         {
             foreach(Slot slot in slotList)
             {

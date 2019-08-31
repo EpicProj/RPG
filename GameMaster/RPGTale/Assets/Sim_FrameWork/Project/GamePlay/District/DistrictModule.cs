@@ -143,6 +143,20 @@ namespace Sim_FrameWork {
             return result;
         }
 
+        public List<Vector2> GetRealDistrictTypeArea(int DistrictID,Vector2 pos)
+        {
+            List<Vector2> result = new List<Vector2>();
+            List<Vector2> input = GetDistrictTypeArea(DistrictID);
+            for (int i=0;i< input.Count; i++)
+            {
+                result.Add(new Vector2(input[i].x + pos.x, input[i].y + pos.y));
+            }
+            return result;
+        }
+        public List<Vector2> GetRealDistrictTypeArea(DistrictData data, Vector2 pos)
+        {
+            return GetRealDistrictTypeArea(data.DistrictID, pos);
+        }
         public Dictionary<int, int> GetDistrictMaterialCostDic(DistrictData data)
         {
             Dictionary<int, int> result = null;
@@ -203,7 +217,8 @@ namespace Sim_FrameWork {
 
         }
 
-  
+
+
         #endregion
 
 
@@ -216,6 +231,7 @@ namespace Sim_FrameWork {
         public bool isLargeDistrict;
         public int LargeDistrictIndex;
         public Vector2 OriginCoordinate;
+        
     }
     public class DistrictAreaBase
     {
