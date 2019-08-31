@@ -231,12 +231,17 @@ namespace Sim_FrameWork {
         public bool isLargeDistrict;
         public int LargeDistrictIndex;
         public Vector2 OriginCoordinate;
-        
+        public DistrictSlotType slotType;
+        public Sprite sprite;
     }
     public class DistrictAreaBase
     {
         public DistrictData data;
         public bool Locked;
         public Vector2 Coordinate;
+        public DistrictSlotType slotType;
+        public Sprite sprite;
     }
+
+
 }

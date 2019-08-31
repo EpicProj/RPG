@@ -8,8 +8,10 @@ namespace Sim_FrameWork
     public class SlotItem : MonoBehaviour
     {
         private Image itemImage;
-        private FunctionBlock functionBlock;
-        private DistrictData districtData;
+        public FunctionBlock functionBlock { get; private set; }
+        public DistrictAreaInfo districtInfo { get; private set; }
+        public Material material { get; private set; }
+
 
 
         private Image ItemImage {
@@ -57,16 +59,32 @@ namespace Sim_FrameWork
             this.Amount = amount;
         }
 
+        public void SetMaterialData(Material ma,int amount=1)
+        {
+            this.material = ma;
+            this.Amount = amount;
+            if (amount == 0)
+            {
+                //destory
+                Destroy(this.gameObject);
+            }
+            ItemImage.sprite = MaterialModule.Instance.GetMaterialSprite(ma.MaterialID);
+            transform.Find("AmountBG/Amount").GetComponent<Text>().text = amount.ToString();
+
+        }
+
+
         #region District
 
-        public void SetDistrictArea(DistrictData data,DistrictSlotType slotType,Sprite sp)
+        public void SetDistrictArea(DistrictAreaInfo info, int amount=1)
         {
-            this.districtData = data;
+            this.districtInfo =info;
+            this.Amount = amount;
 
-            ItemImage.sprite = sp;
-            transform.Find("Name").GetComponent<Text>().text = DistrictModule.Instance.GetDistrictName(data);
+            ItemImage.sprite = info.sprite;
+            transform.Find("Name").GetComponent<Text>().text = DistrictModule.Instance.GetDistrictName(info.data);
 
-            switch (slotType)
+            switch (info.slotType)
             {
                 case DistrictSlotType.NormalDistrict:
                     
@@ -82,9 +100,13 @@ namespace Sim_FrameWork
         #endregion
 
         //Action
-        public void Show()
+        public void Show(bool bTop=false)
         {
             gameObject.SetActive(true);
+            if (bTop)
+            {
+                gameObject.transform.SetAsLastSibling();
+            }
         }
         public void Hide()
         {
@@ -94,6 +116,7 @@ namespace Sim_FrameWork
         {
             transform.localPosition = pos;
         }
+
 
     }
 }

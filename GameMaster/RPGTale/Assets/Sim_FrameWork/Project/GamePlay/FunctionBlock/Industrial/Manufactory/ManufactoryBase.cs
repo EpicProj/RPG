@@ -26,9 +26,8 @@ namespace Sim_FrameWork
         public List<Dictionary<Material, ushort>> OutputMaterialFormulaList = new List<Dictionary<Material, ushort>>();
         public List<Dictionary<Material, ushort>> BypruductMaterialFormulaList = new List<Dictionary<Material, ushort>>();
 
-        public Dictionary<int, ushort> InputMaterialDic = new Dictionary<int, ushort>();
-        public Dictionary<int, ushort> OutputMaterialDic = new Dictionary<int, ushort>();
-        public Dictionary<int, ushort> ByProductMaterialDic = new Dictionary<int, ushort>();
+        List<Material> inputMaList = new List<Material>();
+        List<Material> outputMaList = new List<Material>();
 
 
         public override void InitData()
@@ -37,7 +36,23 @@ namespace Sim_FrameWork
             GetFormulaData();
             InitFunctionBlock_ManuInfo();
            
+           
         }
+
+        public void InitFormulaInfo()
+        {
+            info.formulaInfo = new ManufactFormulaInfo();
+            info.formulaInfo.FormulaIDList = FunctionBlockModule.Instance.GetFormulaDataList(info.block);
+            info.formulaInfo.CurrentFormulaID = currentFormulaID;
+            info.formulaInfo.currentNeedTime = GetCurrentFormulaNeedTime();
+            info.formulaInfo.currentInputMaterialFormulaDic = FormulaModule.Instance.GetFormulaMaterialDic(currentFormulaID, FormulaModule.MaterialProductType.Input);
+            info.formulaInfo.currentOutputMaterialFormulaDic = FormulaModule.Instance.GetFormulaMaterialDic(currentFormulaID, FormulaModule.MaterialProductType.Output);
+            info.formulaInfo.currentBypruductMaterialFormulaDic = FormulaModule.Instance.GetFormulaMaterialDic(currentFormulaID, FormulaModule.MaterialProductType.Byproduct);
+            
+            InitFormula();
+        }
+
+        
 
         public FunctionBlockInfoData InitFunctionBlock_ManuInfo()
         {
@@ -46,12 +61,13 @@ namespace Sim_FrameWork
             info.AddEnergyCostNormal (Utility.TryParseIntList(manufactoryData.EnergyConsumptionBase,',')[0]);
             info.AddEnergyCostMagic  (Utility.TryParseIntList(manufactoryData.EnergyConsumptionBase, ',')[1]);
 
-
             info.CurrentSpeed = FunctionBlockModule.Instance.GetManufactureSpeed(functionBlock.FunctionBlockID);
             info.districtAreaMax = FunctionBlockModule.Instance.GetFunctionBlockAreaMax<FunctionBlock_Manufacture>(functionBlock);
             info.currentDistrictDataDic = FunctionBlockModule.Instance.GetFuntionBlockOriginAreaInfo<FunctionBlock_Manufacture>(functionBlock); ;
             info.currentDistrictBaseDic = FunctionBlockModule.Instance.GetFuntionBlockAreaDetailDefaultDataInfo<FunctionBlock_Manufacture>(functionBlock);
             info.BlockEXPMap = FunctionBlockModule.Instance.GetManuBlockEXPMapData(info.block.FunctionBlockID);
+
+            InitFormulaInfo();
             return info;
         }
 
@@ -63,10 +79,115 @@ namespace Sim_FrameWork
             BypruductMaterialFormulaList = FunctionBlockModule.Instance.GetFunctionBlockFormulaDataList(functionBlock, FormulaModule.MaterialProductType.Byproduct);
         }
 
+        public void InitFormula()
+        {
+            foreach(var material in info.formulaInfo.currentInputMaterialFormulaDic.Keys)
+            {
+                info.formulaInfo.realInputDataDic.Add(material, 0);
+            }
+            foreach(var material in info.formulaInfo.currentOutputMaterialFormulaDic.Keys)
+            {
+                info.formulaInfo.realOutputDataDic.Add(material, 0);
+            }
+            //获取材料列表
+            inputMaList = FormulaModule.Instance.GetFormulaTotalMaterialList(currentFormulaID, FormulaModule.MaterialProductType.Input);
+            outputMaList = FormulaModule.Instance.GetFormulaTotalMaterialList(currentFormulaID, FormulaModule.MaterialProductType.Output);
+
+        }
 
 
+        #region Manufact
+        /// <summary>
+        /// 增加材料到输入栏
+        /// </summary>
+        /// <param name="id"></param>
+        /// <param name="count"></param>
+        /// <param name="info"></param>
+        public void AddMaterialToInputSlot(int id,ushort count)
+        {
+            //是否有效输入
+            Material ma = MaterialModule.Instance.GetMaterialByMaterialID(id);
+            if (info.formulaInfo.currentInputMaterialFormulaDic.ContainsKey(ma))
+            {
+                if (info.formulaInfo.realInputDataDic[ma] > ma.BlockCapacity)
+                {
+                    return;
+                }
+                info.formulaInfo.realInputDataDic[ma] += count;
+                StartManufact();
+            }
+            else
+            {
+                //非配方
+                return;
+            }
+        }
 
-     
+        public void ReduceInputSlotNum()
+        {
+           for(int i = 0; i < inputMaList.Count; i++)
+           {
+               info.formulaInfo.realInputDataDic[inputMaList[i]] -= info.formulaInfo.currentInputMaterialFormulaDic[inputMaList[i]];
+           }
+
+        }
+
+        public void AddOutputSlotNum()
+        {
+            for(int i = 0; i < outputMaList.Count; i++)
+            {
+                info.formulaInfo.realOutputDataDic[outputMaList[i]] += info.formulaInfo.currentOutputMaterialFormulaDic[outputMaList[i]];
+            }
+
+          
+        }
+
+
+        public void StartManufact()
+        {
+            if (CheckCanproduce() && info.formulaInfo.inProgress == false)
+            {
+                info.formulaInfo.inProgress = true;
+                StartCoroutine(WaitManufactFinish());
+            }
+        }
+
+        public bool CheckCanproduce()
+        {
+            foreach (KeyValuePair<Material, ushort> kvp in info.formulaInfo.realInputDataDic)
+            {
+                if (kvp.Value < info.formulaInfo.currentInputMaterialFormulaDic[kvp.Key])
+                {
+                    info.formulaInfo.inProgress = false;
+                    return false;
+                }
+            }
+            return true;
+        }
+
+
+        IEnumerator WaitManufactFinish()
+        {
+            yield return new WaitForSeconds(GetCurrentFormulaNeedTime());
+            info.formulaInfo.inProgress = false;
+            //Reduce Input num
+            ReduceInputSlotNum();
+            //Add OutPut
+            AddOutputSlotNum();
+            //UpdateUI
+            UIManager.Instance.SendMessageToWnd(UIPath.FUCNTIONBLOCK_INFO_DIALOG, UIMsgID.Update, info.formulaInfo);
+            StartManufact();
+        }
+
+        public float GetCurrentFormulaNeedTime()
+        {
+            float totalTime = FormulaModule.Instance.GetFormulaDataByID(currentFormulaID).ProductSpeed;
+            float time = totalTime / info.CurrentSpeed;
+            return time;
+        }
+
+        #endregion
+
     }
 
 }

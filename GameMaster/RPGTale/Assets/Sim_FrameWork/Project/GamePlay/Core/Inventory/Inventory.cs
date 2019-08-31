@@ -16,7 +16,6 @@ namespace Sim_FrameWork
         public void InitData()
         {
             slotList = GetComponentsInChildren<Slot>();
-            Debug.Log(slotList.Length);
             canvasGroup = GetComponent<CanvasGroup>();
         }
 

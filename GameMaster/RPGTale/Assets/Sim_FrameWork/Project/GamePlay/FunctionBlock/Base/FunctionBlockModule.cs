@@ -270,7 +270,9 @@ namespace Sim_FrameWork {
                     {
                         data = kvp.Value,
                         Locked = false,
-                        Coordinate = kvp.Key
+                        slotType = DistrictSlotType.Empty,
+                        Coordinate = kvp.Key,
+                        sprite = DistrictModule.Instance.GetDistrictIconSpriteList(kvp.Value.DistrictID)[0]
                     };
                     result.Add(kvp.Key, info);
                 }
@@ -281,6 +283,7 @@ namespace Sim_FrameWork {
                     {
                         data = kvp.Value,
                         Locked = true,
+                        slotType= DistrictSlotType.UnLock,
                         Coordinate = kvp.Key
                     };
                     result.Add(kvp.Key, info);
@@ -324,8 +327,10 @@ namespace Sim_FrameWork {
                         {
                             data = kvp.Value,
                             isLargeDistrict = false,
-                            OriginCoordinate = kvp.Key
-                        };
+                            slotType = DistrictSlotType.NormalDistrict,
+                            OriginCoordinate = kvp.Key,
+                            sprite = DistrictModule.Instance.GetDistrictIconSpriteList(kvp.Value.DistrictID)[0]
+                    };
                         result.Add(kvp.Key, info);
                         continue;
                     }
@@ -340,8 +345,10 @@ namespace Sim_FrameWork {
                                 data = kvp.Value,
                                 isLargeDistrict = true,
                                 LargeDistrictIndex = largeDistrictIndex,
-                                OriginCoordinate = new Vector2(largeArea[0].x + kvp.Key.x, largeArea[0].y + kvp.Key.y)
-                            };
+                                slotType = DistrictSlotType.LargeDistrict,
+                                OriginCoordinate = new Vector2(largeArea[0].x + kvp.Key.x, largeArea[0].y + kvp.Key.y),
+                                sprite = DistrictModule.Instance.GetDistrictIconSpriteList(kvp.Value.DistrictID)[i]
+                        };
                             result.Add(currentPos, info);
                         }
                         largeDistrictIndex++;
@@ -426,7 +433,7 @@ namespace Sim_FrameWork {
         /// <param name="block"></param>
         /// <param name="initCheck"></param>
         /// <returns></returns>
-        public bool CheckTargetDistrictNoLock<T>(FunctionBlock block,bool initCheck) where T:class
+        private bool CheckTargetDistrictNoLock<T>(FunctionBlock block,bool initCheck) where T:class
         {
             Dictionary<Vector2, DistrictData> Checkdic = GetFuntionBlockDistrictData(GetFuntionBlockOriginArea<T>(block));
             List<Vector2> lockedList = GetLockedDistrictList<T>(block);
@@ -448,6 +455,7 @@ namespace Sim_FrameWork {
             return true;
         }
 
+
         private List<Vector2> GetLockedDistrictList<T>(FunctionBlock block) where T:class
         {
             List<Vector2> result = new List<Vector2>();
@@ -461,6 +469,7 @@ namespace Sim_FrameWork {
             }
             return result;
         }
+
 
         /// <summary>
         /// Get District Data
@@ -728,15 +737,19 @@ namespace Sim_FrameWork {
         {
             List<Dictionary<Material, ushort>> result = new List<Dictionary<Material, ushort>>();
 
-            List<FormulaData> data= FormulaModule.Instance.GetFormulaDataList(FetchFunctionBlockTypeIndex<FunctionBlock_Manufacture>(block.FunctionBlockID).FormulaInfoID);
-            for(int i = 0; i < data.Count; i++)
+            List<FormulaData> data = GetFormulaDataList(block);
+            for (int i = 0; i < data.Count; i++)
             {
                 Dictionary<Material, ushort> maDic = FormulaModule.Instance.GetFormulaMaterialDic(data[i].FormulaID, GetType);
                 result.Add(maDic);
             }
             return result;
         }
-   
+        public List<FormulaData> GetFormulaDataList(FunctionBlock block)
+        {
+            return FormulaModule.Instance.GetFormulaDataList(FetchFunctionBlockTypeIndex<FunctionBlock_Manufacture>(block.FunctionBlockID).FormulaInfoID);
+        }
+
 
         #endregion
     }

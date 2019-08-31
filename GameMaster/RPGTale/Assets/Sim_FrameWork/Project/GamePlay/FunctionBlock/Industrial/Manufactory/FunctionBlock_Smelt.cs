@@ -35,10 +35,17 @@ namespace Sim_FrameWork
             {
                 info.AddCurrentBlockEXP(100);
             }
+            if (Input.GetKeyDown(KeyCode.A))
+            {
+                AddMaterialToInputSlot(100, 10);
+                UIManager.Instance.SendMessageToWnd(UIPath.FUCNTIONBLOCK_INFO_DIALOG, UIMsgID.Update,info.formulaInfo);
+            }
         }
         public override void InitData()
         {
+            currentFormulaID = 100;
             base.InitData();
+           
         }
 
         public void Product()

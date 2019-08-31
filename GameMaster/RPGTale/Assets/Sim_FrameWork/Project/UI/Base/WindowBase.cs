@@ -33,7 +33,7 @@ namespace Sim_FrameWork
 
         public virtual void OnDisable() { }
 
-        public virtual void OnUpdate(params object[] paralist) { }
+        public virtual void OnUpdate() { }
 
         public virtual void OnClose()
         {

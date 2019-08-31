@@ -31,8 +31,12 @@ namespace Sim_FrameWork
         private float targetProcess = 100;
 
         private DistrictContentSlotPanel slotPanel;
-    
-      
+        private BlockManufactSlotPanel manuSlotPanel;
+        private Transform InputSlotContent;
+        private Transform OutputSlotContent;
+        private Transform ByproductSlotContent;
+
+
 
         /// <summary>
         /// [0] currentBlockid   [1] currentDistrictData
@@ -44,12 +48,17 @@ namespace Sim_FrameWork
 
             m_dialog = GameObject.GetComponent<BlockInfoDialog>();
             slotPanel = m_dialog.DistrictSlotContent.GetComponent<DistrictContentSlotPanel>();
+            manuSlotPanel = m_dialog.ManufactPanel.GetComponent<BlockManufactSlotPanel>();
+            InputSlotContent = manuSlotPanel.transform.Find("InputSlotContent");
+            OutputSlotContent = manuSlotPanel.transform.Find("Output/OutputSlotContent");
+            ByproductSlotContent = manuSlotPanel.transform.Find("Output/ByproductSlotContent");
+
             clostBtn = GameObject.Find("MainBG").GetComponent<Button>();
             ProgressImage = m_dialog.Processbar.transform.Find("Progress").GetComponent<Image>();
             ProcessIndicator = m_dialog.Processbar.transform.Find("Indicator").GetComponent<Text>();
             AddBtnListener();
             InitInfoPanel();
-            InitDistrictArea();
+            InitBaseData();
             currentManuSpeed = blockInfo.CurrentSpeed;
         }
 
@@ -65,34 +74,75 @@ namespace Sim_FrameWork
             //m_dialog.FactoryBG.GetComponent<Image>().sprite = FunctionBlockModule.Instance.GetFunctionBlockIcon(currentBlock.FunctionBlockID);
         }
 
-        private void InitDistrictArea()
+        private void InitBaseData()
         {
             slotPanel.InitDistrictDataSlot(blockInfo);
             slotPanel.InitData();
             slotPanel.InitDistrictArea(blockInfo);
+            RefreshManuSlot(blockInfo.formulaInfo);
         }
 
-        public override void OnUpdate(params object[] paralist)
+        public void RefreshManuSlot(ManufactFormulaInfo info)
         {
-            UpdateProgress(currentManuSpeed);
+            int inputSlotCount = info.currentInputMaterialFormulaDic.Count;
+            int outputSlotCount = info.currentOutputMaterialFormulaDic.Count;
+            int byproductCount = info.currentBypruductMaterialFormulaDic.Count;
+
+            //Init inputSlot
+            foreach (Transform trans in InputSlotContent.transform)
+            {
+                trans.gameObject.SetActive(false);
+            }
+            for (int i = 0; i < inputSlotCount; i++)
+            {
+                InputSlotContent.GetChild(i).gameObject.SetActive(true);
+            }
+            //Init outPutSlot
+            foreach(Transform trans in OutputSlotContent.transform)
+            {
+                trans.gameObject.SetActive(false);
+            }
+            for(int i = 0; i < outputSlotCount; i++)
+            {
+                OutputSlotContent.GetChild(i).gameObject.SetActive(true);
+            }
+            //Init Byproduct
+            foreach(Transform trans in ByproductSlotContent.transform)
+            {
+                trans.gameObject.SetActive(false);
+            }
+            for(int i = 0; i < byproductCount; i++)
+            {
+                ByproductSlotContent.GetChild(i).gameObject.SetActive(true);
+            }
         }
 
+        public override void OnUpdate()
+        {
+            UpdateProgress(blockInfo.formulaInfo);
+        }
 
+        public override bool OnMessage(UIMsgID msgID, params object[] paralist)
+        {
+            if(msgID== UIMsgID.Update)
+            {
+                ManufactFormulaInfo formulaInfo = (ManufactFormulaInfo)paralist[0];
+                //Update Info
+                blockInfo.formulaInfo = formulaInfo;
 
+                UpdateManuMaterialSlot(formulaInfo);
 
+            }
+            return true;
+        }
 
-      
 
         private void UpdateDistrictSlot()
         {
 
+            
         }
 
-
-
-
-
-     
 
     
 
@@ -121,20 +171,58 @@ namespace Sim_FrameWork
             UIManager.Instance.HideWnd(UIPath.FUCNTIONBLOCK_INFO_DIALOG);
         }
 
-
+     
         //Progress
-        public void UpdateProgress(float speed)
+        public void UpdateProgress(ManufactFormulaInfo info)
         {
-            if (currentProcess < targetProcess)
+            if (info.inProgress)
             {
-                currentProcess += speed;
-                if (currentProcess > targetProcess)
+                if (currentProcess < targetProcess)
                 {
-                    currentProcess = targetProcess;
+                    currentProcess += (100.0f * Time.deltaTime) / info.currentNeedTime;
+
+                    ProcessIndicator.text = ((int)currentProcess).ToString() + "%";
+                    ProgressImage.fillAmount = currentProcess / 100.0f;
                 }
-                ProcessIndicator.text = ((int)currentProcess).ToString()+"%";
-                ProgressImage.fillAmount = currentProcess / 100.0f;
+                else if (currentProcess > targetProcess)
+                {
+                    // Complete
+                    currentProcess=0;
+                }
             }
+            else
+            {
+                currentProcess = 0;
+                ProgressImage.fillAmount = 0;
+            }
+          
         }
+
+
+
+
+        public void UpdateManuMaterialSlot(ManufactFormulaInfo info)
+        {
+            Dictionary<Material, ushort> InputDic = info.realInputDataDic;
+            Dictionary<Material, ushort> OutputDic = info.realOutputDataDic;
+            //Update Input
+            foreach(KeyValuePair<Material,ushort> kvp in InputDic)
+            {
+                manuSlotPanel.InitManuInputMaterialSlot(kvp.Key, kvp.Value);
+            }
+            //Update Output
+            foreach(KeyValuePair<Material,ushort> kvp in OutputDic)
+            {
+                manuSlotPanel.InitManuOutputMaterialSlot(kvp.Key, kvp.Value);
+            }
+
+
+        }
+
+
+
+
+
+
     }
 }

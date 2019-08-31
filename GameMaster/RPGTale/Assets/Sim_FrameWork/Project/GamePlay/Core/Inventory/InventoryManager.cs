@@ -1,6 +1,8 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.EventSystems;
+using UnityEngine.UI;
 
 namespace Sim_FrameWork
 {
@@ -10,31 +12,32 @@ namespace Sim_FrameWork
         //Inventory
         private bool isPickedItem = false;
         public bool IsPickedItem { get { return isPickedItem; } }
+
         private SlotItem pickedItem;
         public SlotItem PickedItem { get { return pickedItem; } }
 
         private Canvas mainCanvas;
+        private Camera uiCamera;
 
 
         void Start()
         {
             mainCanvas = GameObject.Find("MainCanvas").GetComponent<Canvas>();
+            uiCamera = mainCanvas.transform.Find("UICamera").GetComponent<Camera>();
+            pickedItem = mainCanvas.transform.Find("Window/PickedDistrict").GetComponent<SlotItem>();
+            pickedItem.Hide();
         }
 
         void Update()
         {
-            OnUpdateInventory();
         }
 
-        //Update
-        void OnUpdateInventory()
+        protected override void Awake()
         {
-            if (isPickedItem)
-            {
-                //Fllow  MousePos
-                pickedItem.SetLocalPosition(GetCurrentMousePos());
-            }
+            base.Awake();
         }
+
+
 
         //Pick Item
         public void PickUpFunctionBlock(FunctionBlock block, int amount = 1)
@@ -45,13 +48,58 @@ namespace Sim_FrameWork
             pickedItem.SetLocalPosition(GetCurrentMousePos());
         }
 
+        public void PickUpDistrictArea(DistrictAreaInfo info)
+        {
+            pickedItem.SetDistrictArea(info);
+            isPickedItem = true;
+            pickedItem.Show(true);
+
+            //Hide Tip TODO
+            //Floow Mouse
+            pickedItem.SetLocalPosition(GetCurrentMousePos());
+
+        }
+
+
         //获取当前鼠标位置
         Vector2 GetCurrentMousePos()
         {
             Vector2 position;
-            RectTransformUtility.ScreenPointToLocalPointInRectangle(mainCanvas.transform as RectTransform, Input.mousePosition, null, out position);
+            RectTransformUtility.ScreenPointToLocalPointInRectangle(mainCanvas.transform as RectTransform, Input.mousePosition, uiCamera, out position);
             return position;
         }
-
+        //格子跟随
+        public void UpdatePickedItemPos()
+        {
+            pickedItem.SetLocalPosition(GetCurrentMousePos());
+        }
+        //获取当前位置SLot
+        public GameObject GetDistrictSlotItemByRay()
+        {
+            PointerEventData data = new PointerEventData(EventSystem.current);
+            data.position = Input.mousePosition;
+            GraphicRaycaster ray = mainCanvas.GetComponent<GraphicRaycaster>();
+            List<RaycastResult> results = new List<RaycastResult>();
+            ray.Raycast(data, results);
+            for (int i = 0; i < results.Count; i++)
+            {
+                if (results[i].gameObject.name == "BlockGrid(Clone)")
+                {
+                    return results[i].gameObject;
+                }
+            }
+            return null;
+        }
+ 
+        //Romove Item
+        public void RemoveItem(int amount=1)
+        {
+            pickedItem.ReduceAmount(amount);
+            if (pickedItem.Amount <= 0)
+            {
+                isPickedItem = false;
+                pickedItem.Hide();
+            }
+        }
     }
 }

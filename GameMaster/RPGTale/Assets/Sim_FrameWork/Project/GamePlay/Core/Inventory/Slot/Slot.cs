@@ -5,10 +5,10 @@ using UnityEngine;
 
 namespace Sim_FrameWork
 {
-    public class Slot : MonoBehaviour,IPointerEnterHandler,IPointerExitHandler,IPointerDownHandler
+    public class Slot : MonoBehaviour,IPointerEnterHandler,IPointerExitHandler,IPointerDownHandler,IDragHandler,IBeginDragHandler,IEndDragHandler
     {
         private const string FUNCTIONBLOCK_PREFAB_PATH= "Assets/Prefabs/Object/ItemUIPrefab.prefab";
-        private const string DISTRICT_PREFAB_PATH = "Assets/Prefabs/Object/District.prefab";
+     
 
 
 
@@ -30,29 +30,13 @@ namespace Sim_FrameWork
         }
 
 
-        public void InitDistrictAreaSlot(DistrictData data ,DistrictSlotType slotType ,Sprite sp)
-        {
-            if (transform.childCount == 1)
-            {
-                //Contain Empty Info
-                GameObject itemObj = ObjectManager.Instance.InstantiateObject(DISTRICT_PREFAB_PATH);
-                itemObj.transform.SetParent(transform, false);
-                itemObj.transform.localScale = Vector3.one;
-                itemObj.transform.localPosition = Vector3.zero;
-                itemObj.GetComponent<SlotItem>().SetDistrictArea(data, slotType, sp);
-            }
-            else
-            {
 
-            }
-        }
-
-        public void OnPointerExit(PointerEventData eventData)
+        public virtual void OnPointerExit(PointerEventData eventData)
         {
 
         }
 
-        public void OnPointerEnter(PointerEventData eventData)
+        public virtual void OnPointerEnter(PointerEventData eventData)
         {
             if (transform.childCount > 0)
             {
@@ -73,7 +57,19 @@ namespace Sim_FrameWork
             if (eventData.button != PointerEventData.InputButton.Left)
                 return;
         }
+        public virtual void OnBeginDrag(PointerEventData eventData)
+        {
 
+        }
+        public virtual void  OnDrag(PointerEventData eventData)
+        {
+
+        }
+        public virtual void OnEndDrag(PointerEventData eventData)
+        {
+
+        }
+    
 
     }
 }

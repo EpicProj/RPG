@@ -20,7 +20,7 @@ namespace Sim_FrameWork
         public override void Awake()
         {
             base.Awake();
-           
+            InitData();
         }
 
         /// <summary>
@@ -36,12 +36,12 @@ namespace Sim_FrameWork
                 if (data.DistrictID == -1)
                 {
                     //Init EmptySlot
-                    InitEmptyDisBlock(kvp.Value.data);
+                    InitEmptyDisBlock(kvp.Value);
                 }
                 else if (data.DistrictID == -2)
                 {
                     //Init UnlockSlot
-                    InitUnlockDisBlock(kvp.Value.data);
+                    InitUnlockDisBlock(kvp.Value);
                 }
                 else
                 {
@@ -71,22 +71,20 @@ namespace Sim_FrameWork
                     if (kvp.Value.isLargeDistrict == false)
                     {
                         //Init Small District
-                        Sprite sp = DistrictModule.Instance.GetDistrictIconSpriteList(kvp.Value.data.DistrictID)[0];
-                        Slot slot = slotList[index - 1];
-                        slot.InitDistrictAreaSlot(kvp.Value.data, DistrictSlotType.NormalDistrict, sp);
-                            
-                           
+                      
+                        DistrictSlot slot = (DistrictSlot)slotList[index - 1];
+                        slot.InitDistrictAreaSlot(kvp.Value); 
                     }
                     else if (kvp.Value.isLargeDistrict == true && kvp.Value.OriginCoordinate == kvp.Key)
                     {
                         //Init Large District
-                        List<Sprite> sps = DistrictModule.Instance.GetDistrictIconSpriteList(kvp.Value.data.DistrictID);
+                       
                         List<Vector2> v2 = DistrictModule.Instance.GetRealDistrictTypeArea(kvp.Value.data, kvp.Key);
                         for (int i = 0; i < v2.Count; i++)
                         {
                             int pos = FunctionBlockModule.Instance.GetDistrictAreaIndex(blockInfo.districtAreaMax, v2[i]);
-                            Slot slot = slotList[pos];
-                            slot.InitDistrictAreaSlot(kvp.Value.data, DistrictSlotType.LargeDistrict, sps[i]);
+                            DistrictSlot slot = (DistrictSlot)slotList[pos];
+                            slot.InitDistrictAreaSlot(kvp.Value);
                         }
                     }
 
@@ -95,24 +93,30 @@ namespace Sim_FrameWork
             }
         }
 
-        public void InitEmptyDisBlock(DistrictData data)
+
+
+
+        public void InitEmptyDisBlock(DistrictAreaBase info)
         {
             //ContainEmptyInfo
             GameObject EmptySlot = ObjectManager.Instance.InstantiateObject(DISTRICTSLOT_PREFAB_PATH);
-            EmptySlot.GetComponent<Image>().sprite = DistrictModule.Instance.GetDistrictIconSpriteList(data.DistrictID)[0];
+            EmptySlot.GetComponent<Image>().sprite = info.sprite;
             EmptySlot.transform.SetParent(transform, false);
             EmptySlot.transform.localScale = Vector3.one;
             EmptySlot.transform.localPosition = Vector3.zero;
             EmptySlot.transform.Find("EmptyInfo").gameObject.SetActive(true);
+            EmptySlot.GetComponent<DistrictSlot>().InitBaseInfo(info);
         }
 
 
-        public void InitUnlockDisBlock(DistrictData data)
+        public void InitUnlockDisBlock(DistrictAreaBase info)
         {
             GameObject UnlockSlot = ObjectManager.Instance.InstantiateObject(DISTRICTSLOT_PREFAB_PATH);
             UnlockSlot.transform.SetParent(transform, false);
-
+            UnlockSlot.GetComponent<DistrictSlot>().InitBaseInfo(info);
         }
+
+
 
     }
 }

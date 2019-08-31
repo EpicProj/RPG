@@ -103,10 +103,13 @@
      <Compile Include="Assets\Sim_FrameWork\Project\Basic\Utility.cs" />
      <Compile Include="Assets\Sim_FrameWork\Project\GamePlay\Core\Inventory\Inventory.cs" />
      <Compile Include="Assets\Sim_FrameWork\Project\GamePlay\Core\Inventory\InventoryManager.cs" />
+     <Compile Include="Assets\Sim_FrameWork\Project\GamePlay\Core\Inventory\InventoryPanel\BlockManufactSlotPanel.cs" />
      <Compile Include="Assets\Sim_FrameWork\Project\GamePlay\Core\Inventory\InventoryPanel\ConstructSlotPanel.cs" />
      <Compile Include="Assets\Sim_FrameWork\Project\GamePlay\Core\Inventory\InventoryPanel\DistrictContentSlotPanel.cs" />
-     <Compile Include="Assets\Sim_FrameWork\Project\GamePlay\Core\Inventory\Slot.cs" />
-     <Compile Include="Assets\Sim_FrameWork\Project\GamePlay\Core\Inventory\SlotItem.cs" />
+     <Compile Include="Assets\Sim_FrameWork\Project\GamePlay\Core\Inventory\Slot\DistrictSlot.cs" />
+     <Compile Include="Assets\Sim_FrameWork\Project\GamePlay\Core\Inventory\Slot\ManufactMaterialSlot.cs" />
+     <Compile Include="Assets\Sim_FrameWork\Project\GamePlay\Core\Inventory\Slot\Slot.cs" />
+     <Compile Include="Assets\Sim_FrameWork\Project\GamePlay\Core\Inventory\Slot\SlotItem.cs" />
      <Compile Include="Assets\Sim_FrameWork\Project\GamePlay\District\DistrictModule.cs" />
      <Compile Include="Assets\Sim_FrameWork\Project\GamePlay\Formula\FormulaModule.cs" />
      <Compile Include="Assets\Sim_FrameWork\Project\GamePlay\FunctionBlock\Base\BlockBaseInfoData.cs" />

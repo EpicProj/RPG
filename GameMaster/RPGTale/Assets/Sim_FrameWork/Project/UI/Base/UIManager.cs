@@ -8,6 +8,7 @@ namespace Sim_FrameWork {
     public enum UIMsgID
     {
         None = 0,
+        Update=1,
     }
 
     public class UIManager : Singleton<UIManager> {
@@ -145,6 +146,10 @@ namespace Sim_FrameWork {
         {
             m_WindowDic.Clear();
         }
+
+
+       
+
 
         /// <summary>
         /// 打开窗口

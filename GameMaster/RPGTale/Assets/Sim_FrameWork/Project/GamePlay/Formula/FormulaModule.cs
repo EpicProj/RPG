@@ -180,7 +180,15 @@ namespace Sim_FrameWork
             return result;
         }
 
-
+        public List<Material> GetFormulaTotalMaterialList(int formulaID, MaterialProductType Gettype)
+        {
+            List<Material> result = new List<Material>();
+            foreach( var id in  GetFormulaMaterialList(formulaID, Gettype).Keys)
+            {
+                result.Add(MaterialModule.Instance.GetMaterialByMaterialID(id));
+            }
+            return result;
+        }
         #endregion
 
         #region Method
@@ -188,6 +196,27 @@ namespace Sim_FrameWork
         #endregion
     }
 
+    public class ManufactFormulaInfo
+    {
+        //Manufactory
+        public List<FormulaData> FormulaIDList=new List<FormulaData> ();
+        public int CurrentFormulaID;
+        public bool inProgress =false;
+        public float currentNeedTime;
+
+        public Dictionary<Material, ushort> realInputDataDic = new Dictionary<Material, ushort>();
+        public Dictionary<Material, ushort> currentInputMaterialFormulaDic =new Dictionary<Material, ushort> ();
+
+        public Dictionary<Material, ushort> realOutputDataDic=new Dictionary<Material, ushort> ();
+        public Dictionary<Material, ushort> currentOutputMaterialFormulaDic=new Dictionary<Material, ushort> ();
+
+        //public List<Dictionary<Material, ushort>> BypruductMaterialFormulaList;
+        public Dictionary<Material, ushort> realBypruductDataDic=new Dictionary<Material, ushort> ();
+        public Dictionary<Material, ushort> currentBypruductMaterialFormulaDic =new Dictionary<Material, ushort> ();
+
+
+
+    }
 
 
 }

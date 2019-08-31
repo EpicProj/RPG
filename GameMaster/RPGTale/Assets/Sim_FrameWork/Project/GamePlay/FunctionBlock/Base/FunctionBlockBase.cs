@@ -15,7 +15,7 @@ namespace Sim_FrameWork
         private FunctionBlockModifier blockModifier;
         RaycastHit hit;
 
-
+        public int currentFormulaID;
 
         public virtual void Update() { }
         public virtual void FixedUpdate() { }
@@ -158,8 +158,7 @@ namespace Sim_FrameWork
         private float _energyCostMagic;
         public float EnergyCostMagic { get { return _energyCostNormal; }  set { } }
 
-        //Manufactory
-        public int CurrentFormulaID;
+    
         /// <summary>
         /// current Manu Speed
         /// </summary>
@@ -167,10 +166,7 @@ namespace Sim_FrameWork
         private float _currentSpeed;
         public float CurrentSpeed { get { return _currentSpeed; }  set { _currentSpeed = value; } }
 
-
-        public List<Dictionary<Material, ushort>> InputMaterialFormulaList;
-        public List<Dictionary<Material, ushort>> OutputMaterialFormulaList;
-        public List<Dictionary<Material, ushort>> BypruductMaterialFormulaList;
+        public ManufactFormulaInfo formulaInfo;
 
 
 

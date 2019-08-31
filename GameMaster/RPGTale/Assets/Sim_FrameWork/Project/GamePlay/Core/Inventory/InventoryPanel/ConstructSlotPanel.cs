@@ -6,6 +6,7 @@ namespace Sim_FrameWork
 {
     public class ConstructSlotPanel : InventoryBase
     {
+        private const string FUNCTIONBLOCK_PREFAB_PATH = "Assets/Prefabs/Object/ItemUIPrefab.prefab";
         public override void Awake()
         {
             base.Awake();
@@ -19,6 +20,25 @@ namespace Sim_FrameWork
             FunctionBlock block = FunctionBlockModule.Instance.GetFunctionBlockByBlockID(blockID);
             return InitFunctionBlock(block);
         }
+
+
+        public void InitFunctionBlockSlot(FunctionBlock block)
+        {
+            if (transform.childCount == 0)
+            {
+                GameObject itemObj = ObjectManager.Instance.InstantiateObject(FUNCTIONBLOCK_PREFAB_PATH);
+                itemObj.transform.SetParent(transform, false);
+                itemObj.transform.localScale = Vector3.one;
+                itemObj.transform.localPosition = Vector3.zero;
+                itemObj.GetComponent<SlotItem>().SetFunctionBlock(block);
+            }
+            else
+            {
+                transform.GetChild(0).GetComponent<SlotItem>().AddAmount();
+            }
+        }
+
+
         public bool InitFunctionBlock(FunctionBlock block)
         {
             if (block == null)
