@@ -8,13 +8,13 @@ namespace Sim_FrameWork
     {
         public FormulaModule.MaterialProductType SlotType;
 
-        private const string MATERIAL_PREFAB_PATH = "Assets/Prefabs/Object/MaterialItem.prefab";
+      
 
         public void InitManuMaterialSlot(Material ma,int amount)
         {
             if (transform.childCount == 0)
             {
-                GameObject itemObj = ObjectManager.Instance.InstantiateObject(MATERIAL_PREFAB_PATH);
+                GameObject itemObj = ObjectManager.Instance.InstantiateObject(UIPath.MATERIAL_PREFAB_PATH);
                 itemObj.transform.SetParent(transform, false);
                 itemObj.transform.localScale = Vector3.one;
                 itemObj.transform.localPosition = Vector3.zero;

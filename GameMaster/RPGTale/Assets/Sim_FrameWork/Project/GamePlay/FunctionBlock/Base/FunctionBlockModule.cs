@@ -88,9 +88,9 @@ namespace Sim_FrameWork {
         #region Method Data
 
         //Get FunctionBlockType
-        public FunctionBlockType GetFunctionBlockType(int facotryID)
+        public FunctionBlockType GetFunctionBlockType(int blockID)
         {
-            FunctionBlock functionBlock = GetFunctionBlockByBlockID(facotryID);
+            FunctionBlock functionBlock = GetFunctionBlockByBlockID(blockID);
             if (CheckTypeValid(functionBlock.FunctionBlockType) == false)
                 return FunctionBlockType.Energy;
             return (FunctionBlockType)Enum.Parse(typeof(FunctionBlockType), functionBlock.FunctionBlockType);
@@ -671,43 +671,41 @@ namespace Sim_FrameWork {
         #region BlockInfoData
 
 
-        public List<int> GetManuBlockEXPMapData(string id)
+        public List<int> GetBlockEXPMapData(string id ,FunctionBlockType type)
         {
-            List<int> result = new List<int>();
-            List<BlockLevelData> manuData = infoData.ManufactoryBlockLevelDataList;
-            if (manuData == null)
+            switch (type)
             {
-                Debug.LogError("Can not Find ManuBlockEXP Map  id=" + id);
-                return result;
+                case FunctionBlockType.Manufacture:
+                    List<BlockLevelData> manuData = infoData.ManufactoryBlockLevelDataList;
+                    if (manuData == null)
+                    {
+                        Debug.LogError("Can not Find ManuBlockEXP Map  id=" + id);
+                        return null;
+                    }
+
+                    for (int i = 0; i < manuData.Count; i++)
+                    {
+                        if (manuData[i].ID == id)
+                        {
+                            return manuData[i].EXPMap;
+                        }
+                    }
+                    return null;
+                default:
+                    return null;
             }
-                
-            for(int i = 0; i < manuData.Count;i++)
-            {
-                if (manuData[i].ID == id)
-                {
-                    result= manuData[i].EXPMap;
-                }
-                else
-                {
-                    Debug.LogError("Can not Find ManuBlockEXP Map  id=" + id);
-                    return result;
-                }
-            }
-            return result;
+           
         }
 
-        public List<int> GetManuBlockEXPMapData(int blockid)
+        public List<int> GetBlockEXPMapData(int blockid)
         {
-            List<int> result = new List<int>();
-            if(GetFunctionBlockType(blockid)!= FunctionBlockType.Manufacture)
+            FunctionBlockType type = GetFunctionBlockType(blockid);
+            switch (type)
             {
-                Debug.LogError("FunctionBlock Type Error Get EXP DATA FAIL!   BlockID=" + blockid);
-                return result;
-            }
-            else
-            {
-                FunctionBlock block = GetFunctionBlockByBlockID(blockid);
-                return GetManuBlockEXPMapData(block.EXPDataJsonIndex);
+                case FunctionBlockType.Manufacture:
+                    return GetBlockEXPMapData(GetFunctionBlockByBlockID(blockid).EXPDataJsonIndex,type);
+                default:
+                    return null;
             }
         }
 
@@ -728,6 +726,38 @@ namespace Sim_FrameWork {
             {
                 return expMap[currentLevel - 1];
             }
+        }
+
+        public List<DistrictUnlockData> GetManuBlockDistrictUnlockData(string id , FunctionBlockType type)
+        {
+            switch (type)
+            {
+                case FunctionBlockType.Manufacture:
+                    for (int i = 0; i < infoData.ManuBlockDistrictUnlockDataList.Count; i++)
+                    {
+                        if (infoData.ManuBlockDistrictUnlockDataList[i].ID == id)
+                        {
+                            return infoData.ManuBlockDistrictUnlockDataList[i].UnlockData;
+                        }
+                    }
+                    Debug.LogError("can not find unlockdata,id=" + id);
+                    return null;
+                default:
+                    return null;
+            }
+          
+          
+           
+        }
+        /// <summary>
+        /// get district unlockData
+        /// </summary>
+        /// <param name="blockid"></param>
+        /// <returns></returns>
+        public List<DistrictUnlockData> GetManuBlockDistrictUnlockData(int blockid)
+        {
+            FunctionBlockType type = GetFunctionBlockType(blockid);
+            return GetManuBlockDistrictUnlockData(GetFunctionBlockByBlockID(blockid).DistrictData,type);
         }
 
         #endregion
@@ -766,7 +796,6 @@ namespace Sim_FrameWork {
         }
 
     }
-
 
 
 

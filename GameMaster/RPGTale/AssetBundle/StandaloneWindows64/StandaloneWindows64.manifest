@@ -1,5 +1,5 @@
 ManifestFileVersion: 0
-CRC: 603308933
+CRC: 1444781997
 AssetBundleManifest:
   AssetBundleInfos:
     Info_0:
@@ -35,12 +35,38 @@ AssetBundleManifest:
       Dependencies:
         Dependency_0: sprite
     Info_9:
-      Name: factorytest
+      Name: costelement
       Dependencies: {}
     Info_10:
-      Name: itemuiprefab
+      Name: district
       Dependencies: {}
     Info_11:
+      Name: districtbuildelemet
+      Dependencies:
+        Dependency_0: costelement
+    Info_12:
+      Name: pickeddistrict
+      Dependencies: {}
+    Info_13:
+      Name: factorytagobject
+      Dependencies:
+        Dependency_0: sprite
+        Dependency_1: costelement
+    Info_14:
+      Name: factorytest
+      Dependencies: {}
+    Info_15:
+      Name: itemuiprefab
+      Dependencies: {}
+    Info_16:
+      Name: manufactslot
+      Dependencies: {}
+    Info_17:
+      Name: materialitem
+      Dependencies: {}
+    Info_18:
       Name: blockinfodialog
       Dependencies:
         Dependency_0: sprite
+        Dependency_1: costelement
+        Dependency_2: manufactslot

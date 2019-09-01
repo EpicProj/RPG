@@ -33,12 +33,13 @@ namespace Sim_FrameWork
             }
             if (Input.GetKeyDown(KeyCode.F))
             {
-                info.AddCurrentBlockEXP(100);
+                info.levelInfo.AddCurrentBlockEXP(100);
+                UIManager.Instance.SendMessageToWnd(UIPath.FUCNTIONBLOCK_INFO_DIALOG, "UpdateLevelInfo", info.levelInfo);
             }
             if (Input.GetKeyDown(KeyCode.A))
             {
-                AddMaterialToInputSlot(100, 10);
-                UIManager.Instance.SendMessageToWnd(UIPath.FUCNTIONBLOCK_INFO_DIALOG, UIMsgID.Update,info.formulaInfo);
+                AddMaterialToInputSlot(100, 2);
+                UIManager.Instance.SendMessageToWnd(UIPath.FUCNTIONBLOCK_INFO_DIALOG, "UpdateManuSlot", info.formulaInfo);
             }
         }
         public override void InitData()

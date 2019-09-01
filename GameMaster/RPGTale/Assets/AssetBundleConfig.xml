@@ -8,6 +8,8 @@
   </ABList>
   <ABList Path="Assets/Prefabs/UI/Dialog/FunctionBlock/BlockInfoDialog.prefab" Crc="9251435" ABName="blockinfodialog" AssetName="BlockInfoDialog.prefab">
     <ABDependce>sprite</ABDependce>
+    <ABDependce>costelement</ABDependce>
+    <ABDependce>manufactslot</ABDependce>
   </ABList>
   <ABList Path="Assets/Resources/Data/DataFormat/Binary/DistrictMetaData.bytes" Crc="2855342841" ABName="byte" AssetName="DistrictMetaData.bytes" />
   <ABList Path="Assets/Resources/Data/DataFormat/Binary/FunctionBlockFormulaMetaData.bytes" Crc="1764439641" ABName="byte" AssetName="FunctionBlockFormulaMetaData.bytes" />
@@ -19,6 +21,15 @@
   <ABList Path="Assets/Prefabs/Map/Chunk/Chunk.prefab" Crc="3827161952" ABName="chunk" AssetName="Chunk.prefab" />
   <ABList Path="Assets/Prefabs/Map/Chunk/ChunkAdditionalMesh.prefab" Crc="2551667754" ABName="chunk" AssetName="ChunkAdditionalMesh.prefab" />
   <ABList Path="Assets/Prefabs/Map/Chunk/ChunkCollider.prefab" Crc="1421911425" ABName="chunk" AssetName="ChunkCollider.prefab" />
+  <ABList Path="Assets/Prefabs/Object/District/CostElement.prefab" Crc="789212646" ABName="costelement" AssetName="CostElement.prefab" />
+  <ABList Path="Assets/Prefabs/Object/District/District.prefab" Crc="4197089091" ABName="district" AssetName="District.prefab" />
+  <ABList Path="Assets/Prefabs/Object/District/DistrictBuildElemet.prefab" Crc="1471119687" ABName="districtbuildelemet" AssetName="DistrictBuildElemet.prefab">
+    <ABDependce>costelement</ABDependce>
+  </ABList>
+  <ABList Path="Assets/Prefabs/Object/FactoryTagObject.prefab" Crc="3933100057" ABName="factorytagobject" AssetName="FactoryTagObject.prefab">
+    <ABDependce>costelement</ABDependce>
+    <ABDependce>sprite</ABDependce>
+  </ABList>
   <ABList Path="Assets/Prefabs/Object/Factorytest.prefab" Crc="2417927083" ABName="factorytest" AssetName="Factorytest.prefab" />
   <ABList Path="Assets/Prefabs/Map/Chunk/Generator.prefab" Crc="2477043363" ABName="generator" AssetName="Generator.prefab">
     <ABDependce>chunk</ABDependce>
@@ -27,6 +38,9 @@
     <ABDependce>block_1</ABDependce>
   </ABList>
   <ABList Path="Assets/Prefabs/Object/ItemUIPrefab.prefab" Crc="952363211" ABName="itemuiprefab" AssetName="ItemUIPrefab.prefab" />
+  <ABList Path="Assets/Prefabs/Object/ManufactSlot.prefab" Crc="3905820402" ABName="manufactslot" AssetName="ManufactSlot.prefab" />
+  <ABList Path="Assets/Prefabs/Object/MaterialItem.prefab" Crc="845240790" ABName="materialitem" AssetName="MaterialItem.prefab" />
+  <ABList Path="Assets/Prefabs/Object/District/PickedDistrict.prefab" Crc="3890587006" ABName="pickeddistrict" AssetName="PickedDistrict.prefab" />
   <ABList Path="Assets/Prefabs/Map/SimpleSun.prefab" Crc="2371428080" ABName="simplesun" AssetName="SimpleSun.prefab" />
   <ABList Path="Assets/Resources/Sprite/UI/Facotry/BlockInfoBG.png" Crc="514406836" ABName="sprite" AssetName="BlockInfoBG.png" />
   <ABList Path="Assets/Resources/Sprite/UI/Facotry/FactoryDesc_BG.png" Crc="2764969152" ABName="sprite" AssetName="FactoryDesc_BG.png" />

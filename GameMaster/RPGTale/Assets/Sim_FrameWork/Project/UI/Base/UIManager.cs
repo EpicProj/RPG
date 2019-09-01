@@ -5,11 +5,6 @@ using UnityEngine.EventSystems;
 
 namespace Sim_FrameWork {
 
-    public enum UIMsgID
-    {
-        None = 0,
-        Update=1,
-    }
 
     public class UIManager : Singleton<UIManager> {
 
@@ -116,7 +111,7 @@ namespace Sim_FrameWork {
         /// <param name="msgID">消息ID</param>
         /// <param name="paralist">参数数组</param>
         /// <returns></returns>
-        public bool SendMessageToWnd(string name, UIMsgID msgID = 0, params object[] paralist)
+        public bool SendMessageToWnd(string name, string msgID , params object[] paralist)
         {
             WindowBase wnd = FindWndByName<WindowBase>(name);
             if (wnd != null)

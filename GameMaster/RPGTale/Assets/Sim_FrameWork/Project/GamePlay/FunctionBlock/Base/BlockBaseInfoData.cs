@@ -10,6 +10,7 @@ namespace Sim_FrameWork
     {
 
         public List<BlockLevelData> ManufactoryBlockLevelDataList;
+        public List<BlockDistrictUnlockData> ManuBlockDistrictUnlockDataList;
 
         public BlockBaseInfoData()
         {
@@ -21,6 +22,7 @@ namespace Sim_FrameWork
             ManufactoryBaseInfoData manuData = new ManufactoryBaseInfoData();
             manuData.LoadData();
             ManufactoryBlockLevelDataList = manuData.ManufactoryBlockLevelDatas;
+            ManuBlockDistrictUnlockDataList = manuData.DistrictUnlockDatas;
         }
 
 
@@ -30,23 +32,17 @@ namespace Sim_FrameWork
     public class ManufactoryBaseInfoData
     {
         public List<BlockLevelData> ManufactoryBlockLevelDatas;
-
+        public List<BlockDistrictUnlockData> DistrictUnlockDatas;
 
         public void LoadData()
         {
             BlockBaseInfoDataReader reader = new BlockBaseInfoDataReader();
             ManufactoryBaseInfoData info= reader.LoadManufactoryBaseInfoData();
             ManufactoryBlockLevelDatas = info.ManufactoryBlockLevelDatas;
+            DistrictUnlockDatas = info.DistrictUnlockDatas;
         }
      
 
-    }
-
-
-    public class BlockLevelData
-    {
-        public string ID;
-        public List<int> EXPMap;
     }
 
 
@@ -71,5 +67,30 @@ namespace Sim_FrameWork
             }
             return null;
         }
+
     }
+
+
+    /// <summary>
+    /// EXP Data
+    /// </summary>
+
+    public class BlockLevelData
+    {
+        public string ID;
+        public List<int> EXPMap;
+    }
+
+    public class BlockDistrictUnlockData
+    {
+        public string ID;
+        public List<DistrictUnlockData> UnlockData;
+    }
+
+    public class DistrictUnlockData
+    {
+        public int DistrictID;
+        public bool UnlockDefault;
+    }
+
 }

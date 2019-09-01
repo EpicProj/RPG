@@ -159,7 +159,7 @@ namespace Sim_FrameWork {
         }
         public Dictionary<int, int> GetDistrictMaterialCostDic(DistrictData data)
         {
-            Dictionary<int, int> result = null;
+            Dictionary<int, int> result = new Dictionary<int, int> ();
             List<string> materialList = Utility.TryParseStringList(data.MaterialCostList, ',');
             if (materialList == null)
                 return result;
@@ -197,7 +197,7 @@ namespace Sim_FrameWork {
 
         public Dictionary<Material,int> GetMaterialCost(DistrictData data)
         {
-            Dictionary<Material, int> MaterialCostDic = null;
+            Dictionary<Material, int> MaterialCostDic = new Dictionary<Material, int> ();
             Dictionary<int, int> cost = GetDistrictMaterialCostDic(data);
             foreach(KeyValuePair<int,int> kvp in cost)
             {

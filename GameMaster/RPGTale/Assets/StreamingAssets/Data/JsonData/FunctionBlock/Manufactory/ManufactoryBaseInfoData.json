@@ -3,6 +3,17 @@
 	"ManufactoryBlockLevelDatas":[{
 		"ID":"100",
         "EXPMap":[1000,2000,3000,4000]
+	}],
+	"DistrictUnlockDatas":[{
+		"ID":"100",
+		"UnlockData":[{
+			"DistrictID":100,
+			"UnlockDefault":true
+		},{
+			"DistrictID":101,
+			"UnlockDefault":true
+		}]
 	}]
+
 
 }

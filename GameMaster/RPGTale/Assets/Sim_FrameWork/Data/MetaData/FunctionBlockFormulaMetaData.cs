@@ -18,6 +18,7 @@ public class FunctionBlockFormulaMetaData : ExcelBase
             data.FormulaName = "";
             data.FormulaDesc = "";
             data.ProductSpeed = i;
+            data.EXP = (ushort)i;
             data.InputMaterialList = "";
             data.OutputMaterialList = "";
             data.ByProductList = "";
@@ -86,6 +87,8 @@ public class FormulaData
     public string FormulaDesc { get; set; }
     [XmlElement]
     public float ProductSpeed { get; set; }
+    [XmlElement]
+    public ushort EXP { get; set; }
     [XmlElement]
     public string InputMaterialList { get; set; }
     [XmlElement]

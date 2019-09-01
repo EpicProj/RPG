@@ -6,7 +6,7 @@ using UnityEngine.EventSystems;
 namespace Sim_FrameWork {
     public class DistrictSlot : Slot {
 
-        private const string DISTRICT_PREFAB_PATH = "Assets/Prefabs/Object/District.prefab";
+      
         public DistrictAreaBase infoBase;
 
 
@@ -19,7 +19,7 @@ namespace Sim_FrameWork {
             if (transform.childCount == 1)
             {
                 //Contain Empty Info
-                GameObject itemObj = ObjectManager.Instance.InstantiateObject(DISTRICT_PREFAB_PATH);
+                GameObject itemObj = ObjectManager.Instance.InstantiateObject(UIPath.DISTRICT_PREFAB_PATH);
                 itemObj.transform.SetParent(transform, false);
                 itemObj.transform.localScale = Vector3.one;
                 itemObj.transform.localPosition = Vector3.zero;
@@ -58,7 +58,7 @@ namespace Sim_FrameWork {
         public override void OnEndDrag(PointerEventData eventData)
         {
             GameObject target = InventoryManager.Instance.GetDistrictSlotItemByRay();
-            DistrictSlot targetSlot = target.GetComponent<DistrictSlot>();
+           
             SlotItem pickedItem = InventoryManager.Instance.PickedItem;
             if (target == null)
             {
@@ -70,7 +70,7 @@ namespace Sim_FrameWork {
                
             if (InventoryManager.Instance.IsPickedItem == true)
             {
-                
+                DistrictSlot targetSlot = target.GetComponent<DistrictSlot>();
                 if (target.transform.childCount > 1)
                 {
                     SlotItem targetItem = target.transform.GetChild(1).GetComponent<SlotItem>(); //目标区划

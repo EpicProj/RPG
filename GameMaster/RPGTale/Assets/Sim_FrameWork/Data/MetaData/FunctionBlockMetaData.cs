@@ -24,6 +24,7 @@ public class FunctionBlockMetaData : ExcelBase {
             fac.FunctionBlockTypeIndex = (ushort)i;
             fac.Level = (ushort)i;
             fac.EXPDataJsonIndex = "";
+            fac.DistrictData = "";
             AllFunctionBlockList.Add(fac);
         }
 
@@ -226,6 +227,8 @@ public class FunctionBlock
     public ushort Level { get; set; }
     [XmlAttribute]
     public string EXPDataJsonIndex { get; set; }
+    [XmlAttribute]
+    public string DistrictData { get; set; }
 
 
 }

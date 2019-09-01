@@ -105,24 +105,9 @@ namespace Sim_FrameWork
         public string BlockUID;
         public int BlockID;
         public Vector3 BlockPos;
-        
-       
 
-        /// <summary>
-        /// Block EXP
-        /// </summary>
-        [SerializeField]
-        private int _currentBlockExp=0;
-        public int CurrentBlockExp { get { return _currentBlockExp; } protected set { } }
-        private float _baseEXPRatio = 1;
-        public float BaseEXPRatio { get { return _baseEXPRatio; } protected set { } }
-        // CurrentLevel
-        public int currentBlockLevel =1;
-        //EXPMap
-        public List<int> BlockEXPMap;
-        //InhertLevel
-        public string InherentLevel;
 
+        public FunctionBlockLevelInfo levelInfo = new FunctionBlockLevelInfo ();
 
 
         public FunctionBlock block;
@@ -167,8 +152,8 @@ namespace Sim_FrameWork
         public float CurrentSpeed { get { return _currentSpeed; }  set { _currentSpeed = value; } }
 
         public ManufactFormulaInfo formulaInfo;
-
-
+        public List<DistrictUnlockData> districtUnlockDataList;
+        public List<DistrictData> ActiveDistrictBuildList=new List<DistrictData> ();
 
 
         public static FunctionBlockInfoData Create()
@@ -187,6 +172,17 @@ namespace Sim_FrameWork
             info.BlockPos = blockPos;
             info.blockModifier = modifier;
             info.BlockUID = FunctionBlockModule.Instance.GenerateGUID(blockBase);
+            info.districtUnlockDataList = FunctionBlockModule.Instance.GetManuBlockDistrictUnlockData(blockBase.FunctionBlockID);
+            info.levelInfo.BlockEXPMap = FunctionBlockModule.Instance.GetBlockEXPMapData(info.block.FunctionBlockID);
+            info.levelInfo.CurrentBlockMaxEXP = FunctionBlockModule.Instance.GetCurrentLevelEXP(info.levelInfo.BlockEXPMap, info.levelInfo.currentBlockLevel);
+            //Set active district build
+            for (int i = 0; i < info.districtUnlockDataList.Count; i++)
+            {
+                if (info.districtUnlockDataList[i].UnlockDefault == true)
+                {
+                    info.ActiveDistrictBuildList.Add(DistrictModule.Instance.GetDistrictDataByKey(info.districtUnlockDataList[i].DistrictID));
+                }
+            }
             //TODO
             return info;
         }
@@ -227,26 +223,7 @@ namespace Sim_FrameWork
         }
 
 
-        public void AddCurrentBlockEXP(int value)
-        {
-            _currentBlockExp += (int)(value* _baseEXPRatio);
-            int currentMaxEXP= FunctionBlockModule.Instance.GetCurrentLevelEXP(BlockEXPMap, currentBlockLevel);
-            if (_currentBlockExp > currentMaxEXP)
-            {
-                currentBlockLevel++;
-                _currentBlockExp -= currentMaxEXP;
-            }
-        }
-
-        public void AddBaseEXPRatio(float num)
-        {
-            _baseEXPRatio += num;
-            if (num < 0)
-            {
-                _baseEXPRatio = 0;
-            }
-        }
-
+ 
 
         public void ClearBlockInfoData()
         {
@@ -276,4 +253,48 @@ namespace Sim_FrameWork
         }
 
     }
+    public class FunctionBlockLevelInfo
+    {
+
+        /// <summary>
+        /// Block EXP
+        /// </summary>
+        [SerializeField]
+        private int _currentBlockExp = 0;
+        public int CurrentBlockExp { get { return _currentBlockExp; } protected set { } }
+        public int CurrentBlockMaxEXP { get; set; }
+
+        private float _baseEXPRatio = 1;
+        public float BaseEXPRatio { get { return _baseEXPRatio; } protected set { } }
+        // CurrentLevel
+        public int currentBlockLevel = 1;
+        //EXPMap
+        public List<int> BlockEXPMap;
+        //InhertLevel
+        public string InherentLevel;
+
+        public void AddCurrentBlockEXP(int value)
+        {
+            _currentBlockExp += (int)(value * _baseEXPRatio);
+            int currentMaxEXP = FunctionBlockModule.Instance.GetCurrentLevelEXP(BlockEXPMap, currentBlockLevel);
+            if (_currentBlockExp > currentMaxEXP)
+            {
+                currentBlockLevel++;
+                CurrentBlockMaxEXP = FunctionBlockModule.Instance.GetCurrentLevelEXP(BlockEXPMap, currentBlockLevel);
+                _currentBlockExp -= currentMaxEXP;
+            }
+        }
+
+        public void AddBaseEXPRatio(float num)
+        {
+            _baseEXPRatio += num;
+            if (num < 0)
+            {
+                _baseEXPRatio = 0;
+            }
+        }
+
+
+    }
+
 }

@@ -29,6 +29,8 @@ namespace Sim_FrameWork
         List<Material> inputMaList = new List<Material>();
         List<Material> outputMaList = new List<Material>();
 
+        public FormulaData currentFormulaData;
+
 
         public override void InitData()
         {
@@ -41,6 +43,7 @@ namespace Sim_FrameWork
 
         public void InitFormulaInfo()
         {
+            currentFormulaData = FormulaModule.Instance.GetFormulaDataByID(currentFormulaID);
             info.formulaInfo = new ManufactFormulaInfo();
             info.formulaInfo.FormulaIDList = FunctionBlockModule.Instance.GetFormulaDataList(info.block);
             info.formulaInfo.CurrentFormulaID = currentFormulaID;
@@ -65,8 +68,7 @@ namespace Sim_FrameWork
             info.districtAreaMax = FunctionBlockModule.Instance.GetFunctionBlockAreaMax<FunctionBlock_Manufacture>(functionBlock);
             info.currentDistrictDataDic = FunctionBlockModule.Instance.GetFuntionBlockOriginAreaInfo<FunctionBlock_Manufacture>(functionBlock); ;
             info.currentDistrictBaseDic = FunctionBlockModule.Instance.GetFuntionBlockAreaDetailDefaultDataInfo<FunctionBlock_Manufacture>(functionBlock);
-            info.BlockEXPMap = FunctionBlockModule.Instance.GetManuBlockEXPMapData(info.block.FunctionBlockID);
-
+          
             InitFormulaInfo();
             return info;
         }
@@ -92,7 +94,7 @@ namespace Sim_FrameWork
             //获取材料列表
             inputMaList = FormulaModule.Instance.GetFormulaTotalMaterialList(currentFormulaID, FormulaModule.MaterialProductType.Input);
             outputMaList = FormulaModule.Instance.GetFormulaTotalMaterialList(currentFormulaID, FormulaModule.MaterialProductType.Output);
-
+          
         }
 
 
@@ -106,10 +108,11 @@ namespace Sim_FrameWork
         public void AddMaterialToInputSlot(int id,ushort count)
         {
             //是否有效输入
+            //需要优化
             Material ma = MaterialModule.Instance.GetMaterialByMaterialID(id);
             if (info.formulaInfo.currentInputMaterialFormulaDic.ContainsKey(ma))
             {
-                if (info.formulaInfo.realInputDataDic[ma] > ma.BlockCapacity)
+                if (info.formulaInfo.realInputDataDic[ma] +count > ma.BlockCapacity)
                 {
                     return;
                 }
@@ -175,13 +178,18 @@ namespace Sim_FrameWork
             //Add OutPut
             AddOutputSlotNum();
             //UpdateUI
-            UIManager.Instance.SendMessageToWnd(UIPath.FUCNTIONBLOCK_INFO_DIALOG, UIMsgID.Update, info.formulaInfo);
+            UIManager.Instance.SendMessageToWnd(UIPath.FUCNTIONBLOCK_INFO_DIALOG, "UpdateManuSlot", info.formulaInfo);
+
+            //UpdateEXP
+            info.levelInfo.AddCurrentBlockEXP(currentFormulaData.EXP);
+            UIManager.Instance.SendMessageToWnd(UIPath.FUCNTIONBLOCK_INFO_DIALOG, "UpdateLevelInfo", info.levelInfo);
+
             StartManufact();
         }
 
         public float GetCurrentFormulaNeedTime()
         {
-            float totalTime = FormulaModule.Instance.GetFormulaDataByID(currentFormulaID).ProductSpeed;
+            float totalTime = currentFormulaData.ProductSpeed;
             float time = totalTime / info.CurrentSpeed;
             return time;
         }

@@ -36,6 +36,9 @@ namespace Sim_FrameWork
         private Transform OutputSlotContent;
         private Transform ByproductSlotContent;
 
+        //LV
+
+        private Text LvValue;
 
 
         /// <summary>
@@ -52,6 +55,9 @@ namespace Sim_FrameWork
             InputSlotContent = manuSlotPanel.transform.Find("InputSlotContent");
             OutputSlotContent = manuSlotPanel.transform.Find("Output/OutputSlotContent");
             ByproductSlotContent = manuSlotPanel.transform.Find("Output/ByproductSlotContent");
+            //Level
+           
+            LvValue = m_dialog.LevelValue.transform.Find("Value").GetComponent<Text>();
 
             clostBtn = GameObject.Find("MainBG").GetComponent<Button>();
             ProgressImage = m_dialog.Processbar.transform.Find("Progress").GetComponent<Image>();
@@ -80,6 +86,8 @@ namespace Sim_FrameWork
             slotPanel.InitData();
             slotPanel.InitDistrictArea(blockInfo);
             RefreshManuSlot(blockInfo.formulaInfo);
+            UpdateLevel(blockInfo.levelInfo);
+            InitDistrictBuildContent();
         }
 
         public void RefreshManuSlot(ManufactFormulaInfo info)
@@ -122,27 +130,29 @@ namespace Sim_FrameWork
             UpdateProgress(blockInfo.formulaInfo);
         }
 
-        public override bool OnMessage(UIMsgID msgID, params object[] paralist)
+        public override bool OnMessage(string msgID, params object[] paralist)
         {
-            if(msgID== UIMsgID.Update)
+            switch (msgID)
             {
-                ManufactFormulaInfo formulaInfo = (ManufactFormulaInfo)paralist[0];
-                //Update Info
-                blockInfo.formulaInfo = formulaInfo;
+                case "UpdateManuSlot":
+                    ManufactFormulaInfo formulaInfo = (ManufactFormulaInfo)paralist[0];
+                    //Update Info
+                    blockInfo.formulaInfo = formulaInfo;
 
-                UpdateManuMaterialSlot(formulaInfo);
-
+                    UpdateManuMaterialSlot(formulaInfo);
+                    return true;
+                case "UpdateLevelInfo":
+                    FunctionBlockLevelInfo levelInfo = (FunctionBlockLevelInfo)paralist[0];
+                    //Update Info
+                    blockInfo.levelInfo = levelInfo;
+                    UpdateLevel(levelInfo);
+                    return true;
+                default:
+                    Debug.LogError("UI msg Error , msgID=" + msgID);
+                    return false;
             }
-            return true;
-        }
-
-
-        private void UpdateDistrictSlot()
-        {
-
             
         }
-
 
     
 
@@ -172,6 +182,32 @@ namespace Sim_FrameWork
         }
 
      
+        //LV and EXP
+        public void UpdateLevel(FunctionBlockLevelInfo info)
+        {
+            SetLevel(info.currentBlockLevel);
+            SetCurrentLvSlider(info);
+            SetLvValue(info);
+        }
+
+        private void SetLevel(int level)
+        {
+            m_dialog.Level.text = level.ToString();
+        }
+        private void SetCurrentLvSlider(FunctionBlockLevelInfo info)
+        {
+            int totalEXP = info.CurrentBlockMaxEXP;
+            float value = info.CurrentBlockExp*100/ totalEXP;
+            m_dialog.StartCoroutine(m_dialog.SliderLerp(value, 5f));
+           
+        }
+        private void SetLvValue(FunctionBlockLevelInfo info)
+        {
+            LvValue.text = string.Format("{0} / {1}", info.CurrentBlockExp.ToString(), info.CurrentBlockMaxEXP.ToString());
+        }
+
+ 
+
         //Progress
         public void UpdateProgress(ManufactFormulaInfo info)
         {
@@ -188,18 +224,18 @@ namespace Sim_FrameWork
                 {
                     // Complete
                     currentProcess=0;
+                    ProgressImage.fillAmount = 0;
+                    ProcessIndicator.text = ((int)currentProcess).ToString() + "%";
                 }
             }
             else
             {
                 currentProcess = 0;
                 ProgressImage.fillAmount = 0;
+                ProcessIndicator.text = ((int)currentProcess).ToString() + "%";
             }
           
         }
-
-
-
 
         public void UpdateManuMaterialSlot(ManufactFormulaInfo info)
         {
@@ -219,7 +255,16 @@ namespace Sim_FrameWork
 
         }
 
-
+        public void InitDistrictBuildContent()
+        {
+            for(int i = 0; i < blockInfo.ActiveDistrictBuildList.Count; i++)
+            {
+                GameObject districtBuild = ObjectManager.Instance.InstantiateObject(UIPath.DISTRICT_BUILD_PREFAB_PATH);
+                DistrictBuildElement element = districtBuild.GetComponent<DistrictBuildElement>();
+                element.InitCostElementData(blockInfo.ActiveDistrictBuildList[i]);
+                districtBuild.transform.SetParent(m_dialog.BuildContent.transform, false);
+            }
+        }
 
 
 

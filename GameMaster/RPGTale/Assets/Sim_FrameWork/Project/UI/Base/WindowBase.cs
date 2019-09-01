@@ -22,7 +22,7 @@ namespace Sim_FrameWork
         //所有Toggle
         protected List<Toggle> m_AllToggle = new List<Toggle>();
 
-        public virtual bool OnMessage(UIMsgID msgID, params object[] paralist)
+        public virtual bool OnMessage(string msgID, params object[] paralist)
         {
             return true;
         }

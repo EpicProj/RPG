@@ -1,12 +1,12 @@
 ManifestFileVersion: 0
-CRC: 497918859
+CRC: 589584414
 Hashes:
   AssetFileHash:
     serializedVersion: 2
-    Hash: e45d94c932fb38a18f780caa25ea01ae
+    Hash: bbd85f30d658b18ef4476246ee304a05
   TypeTreeHash:
     serializedVersion: 2
-    Hash: 729acdb1f4f7413a2489d7e569e1fb41
+    Hash: 560ba821b8a9ea49c5dca0184dd9136f
 HashAppended: 0
 ClassTypes:
 - Class: 1
@@ -18,6 +18,8 @@ ClassTypes:
 - Class: 48
   Script: {instanceID: 0}
 - Class: 114
+  Script: {fileID: 11500000, guid: a32ae6002afd54043befdfcdcc1e4e42, type: 3}
+- Class: 114
   Script: {fileID: 1392445389, guid: f70555f144d8491a825f0804e09c671c, type: 3}
 - Class: 114
   Script: {fileID: -2095666955, guid: f70555f144d8491a825f0804e09c671c, type: 3}
@@ -28,11 +30,19 @@ ClassTypes:
 - Class: 114
   Script: {fileID: 1679637790, guid: f70555f144d8491a825f0804e09c671c, type: 3}
 - Class: 114
+  Script: {fileID: -1200242548, guid: f70555f144d8491a825f0804e09c671c, type: 3}
+- Class: 114
+  Script: {fileID: 1367256648, guid: f70555f144d8491a825f0804e09c671c, type: 3}
+- Class: 114
   Script: {fileID: -113659843, guid: f70555f144d8491a825f0804e09c671c, type: 3}
 - Class: 114
   Script: {fileID: 708705254, guid: f70555f144d8491a825f0804e09c671c, type: 3}
 - Class: 114
   Script: {fileID: 1297475563, guid: f70555f144d8491a825f0804e09c671c, type: 3}
+- Class: 114
+  Script: {fileID: 11500000, guid: 3eda9578a7673134498a44aeb022b676, type: 3}
+- Class: 114
+  Script: {fileID: 11500000, guid: 71f82b9a9280fb244a11b23cad7d1d74, type: 3}
 - Class: 114
   Script: {fileID: 11500000, guid: 6385a44df6b81794dbd7da69305b40d6, type: 3}
 - Class: 115
@@ -49,6 +59,17 @@ ClassTypes:
   Script: {instanceID: 0}
 Assets:
 - Assets/SpriteOutput/SpriteItem/Sprite/M1.png
+- Assets/SpriteOutput/UI/Main/Rect.png
+- Assets/SpriteOutput/UI/Main/EXPBG02.png
+- Assets/SpriteOutput/UI/Main/innerCircle.png
+- Assets/Resources/Fonts/SourceHanSansCN-Heavy.otf
+- Assets/SpriteOutput/UI/Main/progressCircle.png
+- Assets/SpriteOutput/UI/Main/Cycle.png
+- Assets/SpriteOutput/District/DistrictBuild.png
+- Assets/SpriteOutput/UI/Main/EXPBG01.png
+- Assets/SpriteOutput/Item/BuildIcon.png
 - Assets/Prefabs/UI/Dialog/FunctionBlock/BlockInfoDialog.prefab
 Dependencies:
 - D:/Project/GameMaster/RPGTale/Assets/../AssetBundle/StandaloneWindows64/sprite
+- D:/Project/GameMaster/RPGTale/Assets/../AssetBundle/StandaloneWindows64/costelement
+- D:/Project/GameMaster/RPGTale/Assets/../AssetBundle/StandaloneWindows64/manufactslot
