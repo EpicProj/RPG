@@ -160,6 +160,20 @@ namespace Sim_FrameWork {
         #endregion
     }
 
+    public class MaterialStorageData
+    {
+        public Material material;
+        public int count;
+
+        public MaterialStorageData(Material ma,int count)
+        {
+            material = ma;
+            this.count = count;
+        }
+
+    }
+
+
     public class MaterialRarityData
     {
         public string RarityLevel;

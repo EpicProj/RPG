@@ -15,42 +15,55 @@ namespace Sim_FrameWork
 
         public BaseResourcesData resourceData;
         public PlayerConfig config;
+        public PlayerData playerData;
 
         public HardLevel currentHardLevel = HardLevel.easy;
 
-        private int food;
-        public int Food { get { return food; } set { food = value; } }
-        private float currency;
-        public float Currency { get { return currency; } set { currency = value; } }
-        private int energy;
-        public int Energy { get { return energy; } set { energy = value; } }
-        private int laber;
-        public int Laber { get { return laber; } set { laber = value; } }
-        private int reputation;
-        public int Reputation { get { return reputation; } set { reputation = value; } }
-        private float technologyConversionRate;
-        public float TechnologyConversionRate { get { return technologyConversionRate; } set { technologyConversionRate = value; } }
-
+        private bool HasInit = false;
 
         public void InitData()
         {
+            if(HasInit)
+                return;
             //resourceData = new BaseResourcesData();
             //resourceData.ReadData();
             config = new PlayerConfig();
             config.ReadPlayerConfigData();
-            InitPlayerData();
+            HasInit = true;
         }
 
-        private void InitPlayerData()
+
+        
+        public PlayerData InitPlayerData()
         {
             HardLevelData data = GetHardlevelData(HardLevel.easy);
-            food = data.OriginalFood;
-            currency = data.OriginalCurrency;
-            energy = data.OriginalEnergy;
-            laber = data.OriginalLaber;
-            reputation = data.OriginalReputation;
-            technologyConversionRate = data.TechnologyConversionRate;
+            playerData = new PlayerData();
+            //Init Food
+            playerData.AddFoodMax(data.OriginalFoodMax);
+            playerData.AddFood(data.OriginalFood);
+            //Init Currency
+            playerData.AddCurrencyMax(data.OriginalCurrencyMax);
+            playerData.AddCurrency(data.OriginalCurrency);
+
+            playerData.AddReputation(data.OriginalReputation);
+            return playerData;
+
         }
+
+        public void AddCurrency(float num)
+        {
+            playerData.AddCurrency(num);
+            UIManager.Instance.SendMessageToWnd(UIPath.MAINMENU_PAGE, "UpdateResourceData", playerData);
+        }
+
+
+        public void AddMaterialData(int id,ushort count)
+        {
+            playerData.AddMaterialStoreData(id, count);
+            UIManager.Instance.SendMessageToWnd(UIPath.WAREHOURSE_DIALOG, "UpdateWarehouseData", playerData.materialStorageDataList);
+        }
+
+
 
         public HardLevelData GetHardlevelData(HardLevel level)
         {
@@ -96,8 +109,10 @@ namespace Sim_FrameWork
         public string HardName;
         //初始货币
         public float OriginalCurrency;
+        public float OriginalCurrencyMax;
         //初始食物
         public int OriginalFood;
+        public int OriginalFoodMax;
         //初始能量
         public int OriginalEnergy;
         //初始劳动力

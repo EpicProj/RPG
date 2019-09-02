@@ -21,11 +21,11 @@ namespace Sim_FrameWork
 
         public void ReadData()
         {
-            Config.JsonReader reader= new Config.JsonReader();
+            Config.JsonReader reader = new Config.JsonReader();
             BaseResourcesConfig config = reader.LoadBaseResourcesConfig();
             CurrencyName = config.CurrencyName;
-            CurrencyIcon = Utility.LoadSprite(config.CurrencyIconPath,Utility.SpriteType.png);
-            
+            CurrencyIcon = Utility.LoadSprite(config.CurrencyIconPath, Utility.SpriteType.png);
+
         }
 
 

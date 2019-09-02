@@ -786,13 +786,19 @@ namespace Sim_FrameWork {
 
     public class FunctionBlockHistory
     {
-        public int FunctionBlockGUID { get; set; }
-        public int FacotoryID { get; set; }
+        public string FunctionBlockGUID;
+        public int FacotoryID;
+        public string BuildDate;
 
-        public FunctionBlockHistory(int guid,int functionBlockID)
+
+
+
+        public FunctionBlockHistory(FunctionBlock block ,string buildData)
         {
-            this.FacotoryID = functionBlockID;
-            this.FunctionBlockGUID = guid;
+            FacotoryID = block.FunctionBlockID;
+            FunctionBlockGUID = FunctionBlockModule.Instance.GenerateGUID(block);
+            this.BuildDate = buildData;
+
         }
 
     }

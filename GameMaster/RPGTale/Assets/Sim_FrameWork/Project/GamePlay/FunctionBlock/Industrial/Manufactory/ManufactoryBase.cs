@@ -139,7 +139,10 @@ namespace Sim_FrameWork
         {
             for(int i = 0; i < outputMaList.Count; i++)
             {
-                info.formulaInfo.realOutputDataDic[outputMaList[i]] += info.formulaInfo.currentOutputMaterialFormulaDic[outputMaList[i]];
+                ushort count = info.formulaInfo.currentOutputMaterialFormulaDic[outputMaList[i]];
+                info.formulaInfo.realOutputDataDic[outputMaList[i]] += count;
+                //Add to PlayerData
+                PlayerModule.Instance.AddMaterialData(outputMaList[i].MaterialID, count);
             }
 
           

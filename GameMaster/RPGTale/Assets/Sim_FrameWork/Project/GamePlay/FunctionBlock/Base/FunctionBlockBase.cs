@@ -27,10 +27,6 @@ namespace Sim_FrameWork
 
         public virtual void InitData()
         {
-            FunctionBlockModule.Instance.InitData();
-            MaterialModule.Instance.InitData();
-            DistrictModule.Instance.InitData();
-            FormulaModule.Instance.InitData();
             //TODO
             functionBlock = FunctionBlockModule.Instance.GetFunctionBlockByBlockID(100);
             //TODO
@@ -106,6 +102,10 @@ namespace Sim_FrameWork
         public int BlockID;
         public Vector3 BlockPos;
 
+        /// <summary>
+        /// 区划历史记录
+        /// </summary>
+        public FunctionBlockHistory blockHistory;
 
         public FunctionBlockLevelInfo levelInfo = new FunctionBlockLevelInfo ();
 

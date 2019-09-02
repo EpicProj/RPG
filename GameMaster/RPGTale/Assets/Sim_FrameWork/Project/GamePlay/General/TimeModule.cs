@@ -30,9 +30,12 @@ namespace Sim_FrameWork
             November=11,
             December=12
         }
+        private TimeDataConfig timeConfig;
 
-        public int CurrentYear;
-        public int CurrentMonth;
+        private int _currentYear;
+        public int CurrentYear { get { return _currentYear; } }
+        private int _currentMonth;
+        public int CurrentMonth { get { return _currentMonth; } }
 
         public int ConvertMonthToSeason(int month)
         {
@@ -57,7 +60,12 @@ namespace Sim_FrameWork
             return IntConvertToSeason(ConvertMonthToSeason(CurrentMonth));
         }
 
-
+        public void InitTime()
+        {
+            timeConfig = new TimeDataConfig();
+            _currentYear = timeConfig.OriginalYear;
+            _currentMonth = timeConfig.OriginalMonth;
+        }
     }
 
     public class TimeDataConfig

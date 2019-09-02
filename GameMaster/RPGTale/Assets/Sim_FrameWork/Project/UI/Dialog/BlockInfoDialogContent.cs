@@ -59,7 +59,7 @@ namespace Sim_FrameWork
            
             LvValue = m_dialog.LevelValue.transform.Find("Value").GetComponent<Text>();
 
-            clostBtn = GameObject.Find("MainBG").GetComponent<Button>();
+            clostBtn = GameObject.Find("Btn").GetComponent<Button>();
             ProgressImage = m_dialog.Processbar.transform.Find("Progress").GetComponent<Image>();
             ProcessIndicator = m_dialog.Processbar.transform.Find("Indicator").GetComponent<Text>();
             AddBtnListener();
