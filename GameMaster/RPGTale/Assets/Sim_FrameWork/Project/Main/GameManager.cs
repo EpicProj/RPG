@@ -2,17 +2,30 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
+using System;
 
 namespace Sim_FrameWork
 {
     public class GameManager : MonoSingleton<GameManager>
     {
+
+        public enum GameStates
+        {
+            Start =1,
+            Pause =2
+        }
+
+
         public const string ITEM_UI_PATH = "ItemUIPrefab.prefab";
 
         public List<FunctionBlockInfoData> FunctionBlockInfoDataList = new List<FunctionBlockInfoData>();
 
         private Canvas MainCanvas;
+        //游戏状态
+        private GameStates _gameStates = GameStates.Start;
+        public GameStates gameStates { get { return _gameStates; } }
 
+        public static Config.GlobalSetting globalSettings =new Config.GlobalSetting ();
         protected override void Awake()
         {
             base.Awake();
@@ -21,6 +34,9 @@ namespace Sim_FrameWork
             ObjectManager.Instance.Init(transform.Find("RecyclePoolTrs"), transform.Find("SceneTrs"));
             UIManager.Instance.Init(GameObject.Find("MainCanvas").transform as RectTransform, GameObject.Find("MainCanvas/Window").transform as RectTransform, GameObject.Find("MainCanvas/UICamera").GetComponent<Camera>(), GameObject.Find("MainCanvas/EventSystem").GetComponent<EventSystem>());
             MainCanvas = GameObject.Find("MainCanvas").GetComponent<Canvas>();
+
+            globalSettings.LoadGlobalSettting();
+
             RegisterModule();
             RegisterUI();
         }
@@ -38,6 +54,11 @@ namespace Sim_FrameWork
             {
                 PlayerModule.Instance.AddMaterialData(100, 10);
             }
+            if (gameStates == GameStates.Start)
+            {
+                PlayerModule.Instance.UpdateTime();
+            }
+        
         }
 
 
@@ -59,6 +80,25 @@ namespace Sim_FrameWork
             FormulaModule.Instance.InitData();
             PlayerModule.Instance.InitData();
         }
+
+        #region MainFunction
+
+        public void SetGameStates(GameStates states)
+        {
+            switch (states)
+            {
+                case GameStates.Pause:
+                    _gameStates = states;
+                    break;
+                case GameStates.Start:
+                    _gameStates = states;
+                    break;
+            }
+          
+        }
+
+        #endregion
+
 
 
         #region PlayerData

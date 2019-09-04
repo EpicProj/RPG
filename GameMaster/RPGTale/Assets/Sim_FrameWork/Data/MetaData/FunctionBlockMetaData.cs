@@ -16,9 +16,10 @@ public class FunctionBlockMetaData : ExcelBase {
             FunctionBlock fac = new FunctionBlock();
             fac.FunctionBlockID = i;
             fac.Comment = "";
-            fac.FunctionBlockName = "";
-            fac.FunctionBlockIcon = "";
-            fac.FunctionBlockDesc = "";
+            fac.BlockName = "";
+            fac.BlockBG = "";
+            fac.BlockIcon = "";
+            fac.BlockDesc = "";
             fac.PreLevelBlock = i;
             fac.FunctionBlockType = "";
             fac.FunctionBlockTypeIndex = (ushort)i;
@@ -212,11 +213,13 @@ public class FunctionBlock
     [XmlAttribute]
     public string Comment { get; set; }
     [XmlAttribute]
-    public string FunctionBlockName { get; set; }
+    public string BlockName { get; set; }
     [XmlAttribute]
-    public string FunctionBlockIcon { get; set; }
+    public string BlockBG { get; set; }
     [XmlAttribute]
-    public string FunctionBlockDesc { get; set; }
+    public string BlockIcon { get; set; }
+    [XmlAttribute]
+    public string BlockDesc { get; set; }
     [XmlAttribute]
     public int PreLevelBlock { get; set; }
     [XmlAttribute]

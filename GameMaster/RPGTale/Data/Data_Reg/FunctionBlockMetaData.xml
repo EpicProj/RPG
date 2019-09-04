@@ -4,9 +4,10 @@
 		<list name = "FunctionBlock" sheetname="FunctionBlock" mainKey = "FunctionBlockID">
 			<variable  name="FunctionBlockID" col = "FunctionBlockID" type="int"/>
 			<variable  name="Comment" col = "Comment" type="string"/>
-			<variable  name="FunctionBlockName" col = "FunctionBlockName" type="string"/>
-			<variable  name="FunctionBlockIcon" col = "FunctionBlockIcon" type="string"/>
-			<variable  name="FunctionBlockDesc" col = "FunctionBlockDesc" type="string"/>
+			<variable  name="BlockName" col = "BlockName" type="string"/>
+			<variable  name="BlockBG" col = "BlockBG" type="string"/>
+			<variable  name="BlockIcon" col = "BlockIcon" type="string"/>
+			<variable  name="BlockDesc" col = "BlockDesc" type="string"/>
 			<variable  name="PreLevelBlock" col = "PreLevelBlock" type="int"/>
 			<variable  name="FunctionBlockType" col = "FunctionBlockType" type="string"/>
 			<variable  name="FunctionBlockTypeIndex" col = "FunctionBlockTypeIndex" type="ushort"/>

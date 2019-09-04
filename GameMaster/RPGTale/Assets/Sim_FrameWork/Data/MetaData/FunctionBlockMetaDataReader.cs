@@ -25,6 +25,12 @@ namespace Sim_FrameWork
         public static List<FunctionBlockTypeData> FunctionBlockTypeDataList=new List<FunctionBlockTypeData> ();
         public static Dictionary<string,FunctionBlockTypeData> FunctionBlockTypeDataDic=new Dictionary<string, FunctionBlockTypeData> ();
 
+
+        public FunctionBlockMetaDataReader()
+        {
+            LoadData();
+        }
+
         public static void LoadData()
         {
             var config = ConfigManager.Instance.LoadData<FunctionBlockMetaData>(ConfigPath.TABLE_FUNCTIONBLOCK_METADATA_PATH);

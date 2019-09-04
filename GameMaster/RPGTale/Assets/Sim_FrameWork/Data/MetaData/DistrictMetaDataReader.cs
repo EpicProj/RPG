@@ -14,7 +14,6 @@ namespace Sim_FrameWork
         public static List<DistrictIcon> DistrictIconList = new List<DistrictIcon>();
         public static Dictionary<int, DistrictIcon> DistrictIconDic = new Dictionary<int, DistrictIcon>();
 
-
         public static void LoadData()
         {
             var config = ConfigManager.Instance.LoadData<DistrictMetaData>(ConfigPath.TABLE_DISTRICT_METADATA_PATH);

@@ -190,9 +190,14 @@ namespace Sim_FrameWork {
 
         public Sprite GetFunctionBlockIcon(int functionBlockID)
         {
-            string path = GetFunctionBlockByBlockID(functionBlockID).FunctionBlockIcon;
+            string path = GetFunctionBlockByBlockID(functionBlockID).BlockIcon;
             return Utility.LoadSprite(path,Utility.SpriteType.png);
          
+        }
+        public Sprite GetFunctionBlockBG(int functionBlockID)
+        {
+            string path = GetFunctionBlockByBlockID(functionBlockID).BlockBG;
+            return Utility.LoadSprite(path, Utility.SpriteType.png);
         }
 
         public ushort GetFunctionBlockLevel(int functionBlockID)
@@ -215,19 +220,19 @@ namespace Sim_FrameWork {
 
         public string GetFunctionBlockName(int functionBlockID)
         {
-            return MultiLanguage.Instance.GetTextValue(GetFunctionBlockByBlockID(functionBlockID).FunctionBlockName);
+            return MultiLanguage.Instance.GetTextValue(GetFunctionBlockByBlockID(functionBlockID).BlockName);
         }
         public string GetFunctionBlockName(FunctionBlock block)
         {
-            return MultiLanguage.Instance.GetTextValue(block.FunctionBlockName);
+            return MultiLanguage.Instance.GetTextValue(block.BlockName);
         }
         public string GetFunctionBlockDesc(int functionBlockID)
         {
-            return MultiLanguage.Instance.GetTextValue(GetFunctionBlockByBlockID(functionBlockID).FunctionBlockDesc);
+            return MultiLanguage.Instance.GetTextValue(GetFunctionBlockByBlockID(functionBlockID).BlockDesc);
         }
         public string GetFunctionBlockDesc(FunctionBlock block)
         {
-            return MultiLanguage.Instance.GetTextValue(block.FunctionBlockDesc);
+            return MultiLanguage.Instance.GetTextValue(block.BlockDesc);
         }
 
         public Vector2 GetFunctionBlockAreaMax<T>(FunctionBlock block) where T:class
@@ -319,7 +324,7 @@ namespace Sim_FrameWork {
                 foreach (KeyValuePair<Vector2, DistrictData> kvp in dic)
                 {
                     //District Larger than 1X1
-                    List<Vector2> largeArea = DistrictModule.Instance.GetDistrictTypeArea(kvp.Value);
+                    var largeArea = DistrictModule.Instance.GetDistrictTypeArea(kvp.Value);
                     if (largeArea.Count == 1)
                     {
                         //1x1 grid
@@ -330,7 +335,7 @@ namespace Sim_FrameWork {
                             slotType = DistrictSlotType.NormalDistrict,
                             OriginCoordinate = kvp.Key,
                             sprite = DistrictModule.Instance.GetDistrictIconSpriteList(kvp.Value.DistrictID)[0]
-                    };
+                        };
                         result.Add(kvp.Key, info);
                         continue;
                     }
@@ -348,7 +353,7 @@ namespace Sim_FrameWork {
                                 slotType = DistrictSlotType.LargeDistrict,
                                 OriginCoordinate = new Vector2(largeArea[0].x + kvp.Key.x, largeArea[0].y + kvp.Key.y),
                                 sprite = DistrictModule.Instance.GetDistrictIconSpriteList(kvp.Value.DistrictID)[i]
-                        };
+                            };
                             result.Add(currentPos, info);
                         }
                         largeDistrictIndex++;
@@ -682,15 +687,7 @@ namespace Sim_FrameWork {
                         Debug.LogError("Can not Find ManuBlockEXP Map  id=" + id);
                         return null;
                     }
-
-                    for (int i = 0; i < manuData.Count; i++)
-                    {
-                        if (manuData[i].ID == id)
-                        {
-                            return manuData[i].EXPMap;
-                        }
-                    }
-                    return null;
+                    return manuData.Find(x => x.ID == id).EXPMap;
                 default:
                     return null;
             }

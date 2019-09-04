@@ -34,6 +34,9 @@ namespace Sim_FrameWork
         public const string MATERIAL_WAREHOUSE_PREFAB_PATH = "Assets/Prefabs/Object/Material/MaterialObj.prefab";
 
         public const string FUNCTIONBLOCK_PREFAB_PATH = "Assets/Prefabs/Object/ItemUIPrefab.prefab";
+
+        //建造面板中区块
+        public const string BUILD_ELEMENT_PREFAB_PATH= "Assets/Prefabs/Object/Main/BlockBuildElement.prefab";
         #endregion
 
     }

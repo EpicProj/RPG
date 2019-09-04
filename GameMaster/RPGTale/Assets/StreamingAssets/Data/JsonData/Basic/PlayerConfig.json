@@ -7,8 +7,10 @@
 			"OriginalFood":200,
 			"OriginalFoodMax":1000,
 			"OriginalEnergy":100,
-			"OriginalLaber":10,
+			"OriginalLabor":10,
+			"OriginalLaborMax":1000,
 			"OriginalReputation":0,
+			"OriginalReputationMax":100,
 			"TechnologyConversionRate":10
 		},{
 			"HardName":"normal",
@@ -17,8 +19,10 @@
 			"OriginalFood":200,
 			"OriginalFoodMax":1000,
 			"OriginalEnergy":100,
-			"OriginalLaber":10,
+			"OriginalLabor":10,
+			"OriginalLaborMax":1000,
 			"OriginalReputation":0,
+			"OriginalReputationMax":100,
 			"TechnologyConversionRate":10
 		},{
 			"HardName":"hard",
@@ -27,13 +31,42 @@
 			"OriginalFood":200,
 			"OriginalFoodMax":1000,
 			"OriginalEnergy":100,
-			"OriginalLaber":10,
+			"OriginalLabor":10,
+			"OriginalLaborMax":1000,
 			"OriginalReputation":0,
+			"OriginalReputationMax":100,
 			"TechnologyConversionRate":10
 		}
 	],
-	"OriginalYear":1000,
-	"OriginalMonth":1,
-	"RealSecondsPerMonth":300
+	"timeConfig":{
+		"OriginalYear":1000,
+		"OriginalMonth":1,
+		"RealSecondsPerMonth":1,
+		"SeasonConfigList":[{
+			"SeasonIndex":1,
+			"SeasonName":"SeasonName_Spring",
+			"SeasonIconPath":"SpriteOutput/Material/beef_raw"
+		},{
+			"SeasonIndex":2,
+			"SeasonName":"SeasonName_Summer",
+			"SeasonIconPath":"SpriteOutput/Material/beef_cooked"
+		},{
+			"SeasonIndex":3,
+			"SeasonName":"SeasonName_Autumn",
+			"SeasonIconPath":"SpriteOutput/Material/bone"
+		},{
+			"SeasonIndex":4,
+			"SeasonName":"SeasonName_Winter",
+			"SeasonIconPath":"SpriteOutput/Material/book_normal"
+		}]
+	},
+
+	"BuildTagList":[{
+		"BuildMainTag":"Resource",
+		"SubTagList":["Food","Industry"]
+	},{
+		"BuildMainTag":"Technology",
+		"SubTagList":["Building"]
+	}]
 
 }

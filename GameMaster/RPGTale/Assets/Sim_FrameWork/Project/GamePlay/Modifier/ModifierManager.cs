@@ -108,14 +108,12 @@ namespace Sim_FrameWork {
 
         public ModifierBase GetModifierBase(string name)
         {
-            for(int i = 0; i < modifierBaseList.Count; i++)
+            var modifier= modifierBaseList.Find(x => x.ModifierName == name);
+            if (modifier == null)
             {
-                if (modifierBaseList[i].ModifierName == name)
-                {
-                    return modifierBaseList[i];
-                }
+                Debug.LogError("Can not Find Modifier,Name=" + name);
             }
-            return null;
+            return modifier;
         }
 
  

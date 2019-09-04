@@ -64,7 +64,6 @@ namespace Sim_FrameWork.Config
             return null;
         }
 
-
         //ModifierData
         public GeneralModifier LoadModifierData()
         {
@@ -84,6 +83,27 @@ namespace Sim_FrameWork.Config
             }
             return null;
         }
+
+        //GlobalSetting
+        public GlobalSetting LoadGlobalSettingData()
+        {
+            GlobalSetting settting = new GlobalSetting();
+            string filePath=Application.streamingAssetsPath+ "/Data/JsonData/Basic" + "/Global_Setting.json";
+            if (File.Exists(filePath))
+            {
+                StreamReader sr = new StreamReader(filePath);
+                string jsonStr = sr.ReadToEnd();
+                sr.Close();
+                settting = JsonMapper.ToObject<GlobalSetting>(jsonStr);
+                return settting;
+            }
+            else
+            {
+                Debug.LogError("GlobalSetting Read Fail");
+            }
+            return null;
+        }
+
 
 
     }

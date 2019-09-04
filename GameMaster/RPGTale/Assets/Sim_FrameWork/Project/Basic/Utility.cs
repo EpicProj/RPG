@@ -94,4 +94,55 @@ namespace Sim_FrameWork
         }
 
     }
+
+    public class MultiDictionary<Key1, Key2, Value>
+    {
+        Dictionary<Key1, Dictionary<Key2, Value>> dic = new Dictionary<Key1, Dictionary<Key2, Value>>();
+
+        public void Add(Key1 key1, Key2 key2, Value value)
+        {
+            if (dic.ContainsKey(key1))
+            {
+                var dic2 = dic[key1];
+                if (dic2.ContainsKey(key2))
+                {
+                    dic2[key2] = value;
+                }
+                else
+                {
+                    dic2.Add(key2, value);
+                }
+            }
+            else
+            {
+                var dic2 = new Dictionary<Key2, Value>();
+                dic2.Add(key2, value);
+                dic.Add(key1, dic2);
+
+            }
+        }
+        public void Remove()
+        {
+
+        }
+
+        public Value GetValue(Key1 key1, Key2 key2, Value defaultValue = default(Value))
+        {
+            if (dic.ContainsKey(key1))
+            {
+                var dic2 = dic[key1];
+                if (dic2.ContainsKey(key2))
+                {
+                    return dic2[key2];
+
+                }
+            }
+            return defaultValue;
+        }
+
+       
+
+    }
+
+
 }

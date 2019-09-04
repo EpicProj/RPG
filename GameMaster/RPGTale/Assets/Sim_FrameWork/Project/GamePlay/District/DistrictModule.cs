@@ -14,6 +14,8 @@ namespace Sim_FrameWork {
         public static Dictionary<int, DistrictIcon> DistrictIconDic = new Dictionary<int, DistrictIcon>();
 
         private bool HasInit = false;
+
+
         public override void InitData()
         {
             if (HasInit)

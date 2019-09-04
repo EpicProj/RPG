@@ -9,6 +9,10 @@ namespace Sim_FrameWork
 
         public List<MaterialStorageData> materialStorageDataList =new List<MaterialStorageData> ();
 
+        public List<BuildingPanelData> AllBuildingPanelDataList = new List<BuildingPanelData>();
+        public List<BuildingPanelData> UnLockBuildingPanelDataList = new List<BuildingPanelData>();
+        public List<BuildSubTag> buildTagList = new List<BuildSubTag>();
+
         //当前货币
         private float _currency;
         public float Currency { get { return _currency; } protected set { } }
@@ -26,6 +30,9 @@ namespace Sim_FrameWork
         //当前劳动力
         private int _labor;
         public int Labor { get { return _labor; } }
+        //劳动力最大值
+        private int _laborMax;
+        public int LaborMax { get { return _laborMax; } }
 
         //当前信誉
         private int _reputation;
@@ -38,6 +45,7 @@ namespace Sim_FrameWork
         private float technologyConversionRate;
         public float TechnologyConversionRate { get { return technologyConversionRate; } set { technologyConversionRate = value; } }
 
+        //Add Currenct
         public void AddCurrency(float num)
         {
             _currency += num;
@@ -51,6 +59,7 @@ namespace Sim_FrameWork
                 _currencyMax = 0;
         }
 
+        //Add Food
         public void AddFood(int num)
         {
             _food += num;
@@ -64,12 +73,36 @@ namespace Sim_FrameWork
                 _foodMax = 0;
         }
 
+        //Add Labor
+        public void AddLabor(int num)
+        {
+            _labor += num;
+            if (_labor > _laborMax)
+                _labor = _laborMax;
+        }
+        public void AddLaborMax(int num)
+        {
+            _laborMax += num;
+            if (_laborMax < 0)
+                _laborMax = 0;
+        }
+
+
+        //Add Reputation
         public void AddReputation(int num)
         {
             _reputation += num;
             if (_reputation > _reputationMax)
                 _reputation = _reputationMax;
         }
+        public void AddReputationMax(int num)
+        {
+            _reputationMax += num;
+            if (_reputationMax < 0)
+                _reputationMax = 0;
+        }
+
+
 
         public void AddMaterialStoreData(int materialID,ushort count)
         {
@@ -80,20 +113,19 @@ namespace Sim_FrameWork
             {
                 materialStorageDataList.Add(new MaterialStorageData(ma, count));
             }
-            for (int i = 0; i < materialStorageDataList.Count; i++)
+
+            var material = materialStorageDataList.Find(x => x.material == ma);
+            if (material != null)
             {
-                if (materialStorageDataList[i].material == ma)
+                material.count += count;
+                if (material.count <= 0)
                 {
-                    materialStorageDataList[i].count += count;
-                    if (materialStorageDataList[i].count <= 0)
-                    {
-                        materialStorageDataList.Remove(materialStorageDataList[i]);
-                    }
+                    materialStorageDataList.Remove(material);
                 }
-                else
-                {
-                    materialStorageDataList.Add(new MaterialStorageData(ma, count));
-                }
+            }
+            else
+            {
+                materialStorageDataList.Add(new MaterialStorageData(ma, count));
             }
 
         }
@@ -105,4 +137,8 @@ namespace Sim_FrameWork
     {
 
     }
+
+
+
+
 }

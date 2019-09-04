@@ -198,7 +198,11 @@ namespace Sim_FrameWork
         {
             int totalEXP = info.CurrentBlockMaxEXP;
             float value = info.CurrentBlockExp*100/ totalEXP;
-            m_dialog.StartCoroutine(m_dialog.SliderLerp(value, 5f));
+            if (m_dialog.isActiveAndEnabled)
+            {
+                m_dialog.StartCoroutine(m_dialog.SliderLerp(value, 5f));
+            }
+           
            
         }
         private void SetLvValue(FunctionBlockLevelInfo info)
