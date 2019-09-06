@@ -12,7 +12,7 @@ namespace Sim_FrameWork
         public void ReadModifierData()
         {
             Config.JsonReader reader = new Config.JsonReader();
-            GeneralModifier modifer = reader.LoadModifierData();
+            GeneralModifier modifer = reader.LoadJsonDataConfig<GeneralModifier>(Config.JsonConfigPath.ModifierDataConfigJsonPath);
             ModifierBase = modifer.ModifierBase;
         }
     }

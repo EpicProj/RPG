@@ -3,7 +3,6 @@
 	<variable  name="AllFunctionBlockList" type="list">
 		<list name = "FunctionBlock" sheetname="FunctionBlock" mainKey = "FunctionBlockID">
 			<variable  name="FunctionBlockID" col = "FunctionBlockID" type="int"/>
-			<variable  name="Comment" col = "Comment" type="string"/>
 			<variable  name="BlockName" col = "BlockName" type="string"/>
 			<variable  name="BlockBG" col = "BlockBG" type="string"/>
 			<variable  name="BlockIcon" col = "BlockIcon" type="string"/>
@@ -47,7 +46,6 @@
 		<list name = "FunctionBlock_Science" sheetname="FunctionBlock_Science" mainKey = "ScienceID">
 			<variable  name="ScienceID" col = "ScienceID" type="int"/>
 			<variable  name="InherentLevel" col = "InherentLevel" type="string"/>
-			<variable  name="Comment" col = "Comment" type="string"/>
 			<variable  name="AreaDetailDefault" col = "AreaDetailDefault" type="string"/>
 			<variable  name="OriginArea" col = "OriginArea" type="string"/>
 			<variable  name="AreaMax" col = "AreaMax" type="string"/>

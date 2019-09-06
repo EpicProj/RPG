@@ -1,6 +1,61 @@
 {
-	"RarityLevel":"Normal",
-	"RarityColor":"#FFFFFFFF",
-	"RarityName":"Rarity_Normal"
+	"rarityDataList":[{
+		"RarityLevel":"Normal",
+		"RarityColor":"#FFFFFFFF",
+		"RarityName":"Rarity_Normal"
+	},{
+		"RarityLevel":"Rare",
+		"RarityColor":"#FFFFFFFF",
+		"RarityName":"Rarity_Rare"
+	},{
+		"RarityLevel":"Epic",
+		"RarityColor":"#FFFFFFFF",
+		"RarityName":"Rarity_Epic"
+
+	},{
+		"RarityLevel":"Legend",
+		"RarityColor":"#FFFFFFFF",
+		"RarityName":"Rarity_Legend"
+	}],
+	"materialTypeList":
+	[{
+		"Type":"BaseResource",
+		"TypeName":"MaterialType_Name_BaseResource",
+		"TypeDesc":"MaterialType_Desc_BaseResource",
+		"TypeIconPath":"SpriteOutput/Material/apple",
+		"SubTypeList":
+		[{
+			"Type":"Mineral",
+			"SubTypeName":"MaterialSubType_Name_BaseResource_Mineral",
+			"SubTypeDesc":"MaterialSubType_Desc_BaseResource_Mineral",
+			"SubTypeIcon":"SpriteOutput/Material/apple"
+		},{
+			"Type":"Stone",
+			"SubTypeName":"MaterialSubType_Name_BaseResource_Stone",
+			"SubTypeDesc":"MaterialSubType_Desc_BaseResource_Stone",
+			"SubTypeIcon":"SpriteOutput/Material/apple_golden"
+		},{
+			"Type":"Wood",
+			"SubTypeName":"MaterialSubType_Name_BaseResource_Wood",
+			"SubTypeDesc":"MaterialSubType_Desc_BaseResource_Wood",
+		}]
+	},{
+		"Type":"ElementaryProcessedGoods",
+		"TypeName":"MaterialType_Name_ElementaryProcessedGoods",
+		"TypeDesc":"MaterialType_Desc_ElementaryProcessedGoods",
+		"TypeIconPath":"SpriteOutput/Material/apple",
+		"SubTypeList":[{
+			"Type":"Metal",
+			"SubTypeName":"MaterialSubType_Name_ElementaryProcessedGoods_Metal",
+			"SubTypeDesc":"MaterialSubType_Desc_ElementaryProcessedGoods_Metal",
+			"SubTypeIcon":"SpriteOutput/Material/apple"
+		},{
+			"Type":"Leather",
+			"SubTypeName":"MaterialSubType_Name_ElementaryProcessedGoods_Leather",
+			"SubTypeDesc":"MaterialSubType_Desc_ElementaryProcessedGoods_Leather",
+			"SubTypeIcon":"SpriteOutput/Material/apple"
+		}]
+
+	}]
 
 }

@@ -14,7 +14,6 @@ public class DistrictMetaData : ExcelBase {
         {
             DistrictData data = new DistrictData();
             data.DistrictID = i;
-            data.Comment = "";
             data.DistrictName = "";
             data.DistrictDesc = "";
             data.Type = i;
@@ -33,7 +32,6 @@ public class DistrictMetaData : ExcelBase {
         {
             DistrictType type = new DistrictType();
             type.TypeID = i;
-            type.Comment = "";
             type.TypeShape = "";
             type.IconList = "";
             AllDistrictTypeList.Add(type);
@@ -44,7 +42,6 @@ public class DistrictMetaData : ExcelBase {
             DistrictIcon icon = new DistrictIcon();
             icon.IconID = i;
             icon.IconPath = "";
-            icon.Comment = "";
             AllDistrictIconList.Add(icon);
         }
     }
@@ -114,8 +111,6 @@ public class DistrictData
     [XmlAttribute]
     public int DistrictID { get; set; }
     [XmlAttribute]
-    public string Comment { get; set; }
-    [XmlAttribute]
     public string DistrictName { get; set; }
     [XmlAttribute]
     public string DistrictDesc { get; set; }
@@ -144,8 +139,6 @@ public class DistrictType
     [XmlAttribute]
     public int TypeID { get; set; }
     [XmlAttribute]
-    public string Comment { get; set; }
-    [XmlAttribute]
     public string TypeShape { get; set; }
     [XmlAttribute]
     public string IconList { get; set; }
@@ -158,6 +151,4 @@ public class DistrictIcon
     public int IconID { get; set; }
     [XmlAttribute]
     public string IconPath { get; set; }
-    [XmlAttribute]
-    public string Comment { get; set; }
 }

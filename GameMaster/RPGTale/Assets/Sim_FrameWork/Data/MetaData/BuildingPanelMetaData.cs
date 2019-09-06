@@ -14,7 +14,6 @@ using System.Xml.Serialization;
             {
                 BuildingPanelData data = new BuildingPanelData();
                 data.BuildID = i;
-                data.Comment = "";
                 data.FunctionBlockID = i;
                 data.BuildType = "";
                 data.BuildSubType = "";
@@ -57,8 +56,6 @@ using System.Xml.Serialization;
     {
         [XmlAttribute]
         public int BuildID { get; set; }
-        [XmlAttribute]
-        public string Comment { get; set; }
         [XmlAttribute]
         public int FunctionBlockID { get; set; }
         [XmlAttribute]

@@ -15,7 +15,6 @@ public class FunctionBlockMetaData : ExcelBase {
         {
             FunctionBlock fac = new FunctionBlock();
             fac.FunctionBlockID = i;
-            fac.Comment = "";
             fac.BlockName = "";
             fac.BlockBG = "";
             fac.BlockIcon = "";
@@ -65,7 +64,6 @@ public class FunctionBlockMetaData : ExcelBase {
             FunctionBlock_Science science = new FunctionBlock_Science();
             science.ScienceID = i;
             science.InherentLevel = "";
-            science.Comment = "";
             science.AreaDetailDefault = "";
             science.OriginArea = "";
             science.AreaMax = "";
@@ -211,8 +209,6 @@ public class FunctionBlock
     [XmlAttribute]
     public int FunctionBlockID { get; set; }
     [XmlAttribute]
-    public string Comment { get; set; }
-    [XmlAttribute]
     public string BlockName { get; set; }
     [XmlAttribute]
     public string BlockBG { get; set; }
@@ -289,8 +285,6 @@ public class FunctionBlock_Science
     public int ScienceID { get; set; }
     [XmlAttribute]
     public string InherentLevel { get; set; }
-    [XmlAttribute]
-    public string Comment { get; set; }
     [XmlAttribute]
     public string AreaDetailDefault { get; set; }
     [XmlAttribute]

@@ -5,27 +5,15 @@
 			<variable  name="MaterialID" col = "MaterialID" type="int"/>
 			<variable  name="MaterialName" col = "MaterialName" type="string"/>
 			<variable  name="MaterialDesc" col = "MaterialDesc" type="string"/>
-			<variable  name="Type" col = "Type" type="ushort"/>
-			<variable  name="TypeIndex" col = "TypeIndex" type="int"/>
-			<variable  name="BlockCapacity" col = "BlockCapacity" type="int"/>
+			<variable  name="Type" col = "Type" type="string"/>
+			<variable  name="SubType" col = "SubType" type="string"/>
+			<variable  name="BlockCapacity" col = "BlockCapacity" type="ushort"/>
+			<variable  name="PriceBase" col = "PriceBase" type="int"/>
 			<variable  name="MaterialIcon" col = "MaterialIcon" type="string"/>
-			<variable  name="Rarity" col = "Rarity" type="ushort"/>
+			<variable  name="UnitName" col = "UnitName" type="string"/>
+			<variable  name="Rarity" col = "Rarity" type="string"/>
 			<variable  name="ModelPath" col = "ModelPath" type="string"/>
 		</list>
 	</variable>
-	<variable  name="AllMaterial_ArtifactList" type="list">
-		<list name = "Material_Artifact" sheetname="Material_Artifact" mainKey = "ArtifactID">
-			<variable  name="ArtifactID" col = "ArtifactID" type="int"/>
-			<variable  name="ArtifactQuality" col = "ArtifactQuality" type="ushort"/>
-			<variable  name="ProcessingTime" col = "ProcessingTime" type="float"/>
-			<variable  name="ProcessingRawList" col = "ProcessingRawList" type="string"/>
-		</list>
-	</variable>
 
-	<variable  name="AllMaterial_FluidList" type="list">
-		<list name = "Material_Fluid" sheetname="Material_Fluid" mainKey = "FluidID">
-			<variable  name="FluidID" col = "FluidID" type="int"/>
-			<variable  name="Comment" col = "Comment" type="string"/>
-		</list>
-	</variable>
 </data>

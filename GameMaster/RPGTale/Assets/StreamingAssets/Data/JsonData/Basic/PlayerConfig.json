@@ -62,11 +62,31 @@
 	},
 
 	"BuildTagList":[{
-		"BuildMainTag":"Resource",
-		"SubTagList":["Food","Industry"]
+		"Tag":"Resource",
+		"BuildMainTagName":"BuildMainTagName_Resource",
+		"BuildMainTagDesc":"BuildMainTagDesc_Resource",
+		"BuildMainTagIcon":"SpriteOutput/Material/beef_cooked",
+		"BuildSubTagList":[{
+			"Tag":"Food",
+			"BuildMainTagName":"BuildSubTagName_Food",
+			"BuildMainTagDesc":"BuildSubTagDesc_Food",
+			"BuildMainTagIcon":"SpriteOutput/Material/beef_cooked",
+		},{
+			"Tag":"Industry",
+			"BuildMainTagName":"BuildSubTagName_Industry",
+			"BuildMainTagDesc":"BuildSubTagDesc_Industry",
+			"BuildMainTagIcon":"SpriteOutput/Material/beef_cooked",
+		}]
 	},{
-		"BuildMainTag":"Technology",
-		"SubTagList":["Building"]
+		"Tag":"Technology",
+		"BuildMainTagName":"BuildMainTagName_Technology",
+		"BuildMainTagDesc":"BuildMainTagDesc_Technology",
+		"BuildMainTagIcon":"SpriteOutput/Material/beef_cooked",
+		"BuildSubTagList":[{
+			"Tag":"Building",
+			"BuildMainTagName":"BuildSubTagName_Building",
+			"BuildMainTagDesc":"BuildSubTagDesc_Building",
+			"BuildMainTagIcon":"SpriteOutput/Material/beef_cooked",
+		}]
 	}]
-
 }

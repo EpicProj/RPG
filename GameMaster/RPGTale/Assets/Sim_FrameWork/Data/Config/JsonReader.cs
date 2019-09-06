@@ -1,109 +1,45 @@
 ﻿using UnityEngine;
 using System.IO;
 using LitJson;
+using System.Collections.Generic;
 
 namespace Sim_FrameWork.Config
 {
     public class JsonReader
     {
-        public MaterialRarityData LoadMaterialRarityDataConfig()
-        {
-            MaterialRarityData rarityData = new MaterialRarityData();
-            string filePath = Application.streamingAssetsPath + "/Data/JsonData/Material" + "/MaterialBasicConfig.json";
-            if (File.Exists(filePath))
-            {
-                StreamReader sr = new StreamReader(filePath);
-                string jsonStr = sr.ReadToEnd();
-                sr.Close();
-                rarityData = JsonMapper.ToObject<MaterialRarityData>(jsonStr);
-                return rarityData;
-            }
-            else
-            {
-                Debug.LogError("Material RarityData Read Fail");
-            }
-            return null;
-        }
 
-        public BaseResourcesConfig LoadBaseResourcesConfig()
+        public T LoadJsonDataConfig<T>(string filePath) where T:new()
         {
-            BaseResourcesConfig config = new BaseResourcesConfig();
-            string filePath= Application.streamingAssetsPath + "/Data/JsonData/Basic" + "/BaseResourceConfig.json";
+            T data = new T();
             if (File.Exists(filePath))
             {
                 StreamReader sr = new StreamReader(filePath);
                 string jsonStr = sr.ReadToEnd();
                 sr.Close();
-                config = JsonMapper.ToObject<BaseResourcesConfig>(jsonStr);
-                return config;
-            }
-            else
-            {
-                Debug.LogError("BaseResourcesConfig Read Fail");
-            }
-            return null;
-        }
-
-        //PlayerConfig
-        public PlayerConfig LoadPlayerConfig()
-        {
-            PlayerConfig config = new PlayerConfig();
-            string filePath = Application.streamingAssetsPath + "/Data/JsonData/Basic" + "/PlayerConfig.json";
-            if (File.Exists(filePath))
-            {
-                StreamReader sr = new StreamReader(filePath);
-                string jsonStr = sr.ReadToEnd();
-                sr.Close();
-                config = JsonMapper.ToObject<PlayerConfig>(jsonStr);
-                return config;
-            }
-            else
-            {
-                Debug.LogError("PlayerConfig Read Fail");
-            }
-            return null;
-        }
-
-        //ModifierData
-        public GeneralModifier LoadModifierData()
-        {
-            GeneralModifier data = new GeneralModifier();
-            string filePath = Application.streamingAssetsPath + "/Data/JsonData/Modifier" + "/GeneralModifier.json";
-            if (File.Exists(filePath))
-            {
-                StreamReader sr = new StreamReader(filePath);
-                string jsonStr = sr.ReadToEnd();
-                sr.Close();
-                data = JsonMapper.ToObject<GeneralModifier>(jsonStr);
+                data = JsonMapper.ToObject<T>(jsonStr);
                 return data;
             }
             else
             {
-                Debug.LogError("ModifierData Read Fail");
+                Debug.LogError(typeof(T).ToString()+ " Read Fail");
             }
-            return null;
+            return default(T);
         }
 
+    }
+
+    public class JsonConfigPath
+    {
+        //ModifierData
+        public static string ModifierDataConfigJsonPath = Application.streamingAssetsPath + "/Data/JsonData/Modifier" + "/GeneralModifier.json";
+        //PlayerConfig
+        public static string PlayerConfigJsonPath = Application.streamingAssetsPath + "/Data/JsonData/Basic" + "/PlayerConfig.json";
         //GlobalSetting
-        public GlobalSetting LoadGlobalSettingData()
-        {
-            GlobalSetting settting = new GlobalSetting();
-            string filePath=Application.streamingAssetsPath+ "/Data/JsonData/Basic" + "/Global_Setting.json";
-            if (File.Exists(filePath))
-            {
-                StreamReader sr = new StreamReader(filePath);
-                string jsonStr = sr.ReadToEnd();
-                sr.Close();
-                settting = JsonMapper.ToObject<GlobalSetting>(jsonStr);
-                return settting;
-            }
-            else
-            {
-                Debug.LogError("GlobalSetting Read Fail");
-            }
-            return null;
-        }
-
+        public static string GlobalSettingJsonPath = Application.streamingAssetsPath + "/Data/JsonData/Basic" + "/Global_Setting.json";
+        //Base Resource
+        public static string BaseResourceJsonPath = Application.streamingAssetsPath + "/Data/JsonData/Basic" + "/BaseResourceConfig.json";
+        //Material Config
+        public static string MaterialConfigJsonPath = Application.streamingAssetsPath + "/Data/JsonData/Material" + "/MaterialBasicConfig.json";
 
 
     }

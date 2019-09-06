@@ -169,6 +169,10 @@ namespace Sim_FrameWork.Editor
                                         value = range.Value.ToString().Trim();
                                     }
                                     string colValue = worksheet.Cells[1, n + 1].Value.ToString().Trim();
+                                    if(string.IsNullOrEmpty(GetNameFormCol(sheetClass.VarList, colValue)))
+                                    {
+                                        continue;
+                                    }
                                     rowData.RowDataDic.Add(GetNameFormCol(sheetClass.VarList, colValue), value);
                                 }
 

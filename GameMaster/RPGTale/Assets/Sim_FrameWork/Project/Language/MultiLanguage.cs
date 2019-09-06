@@ -40,6 +40,15 @@ namespace Sim_FrameWork
                             continue;
                         }
                         string[] value = line.Split('\t');
+                        if (TextData.ContainsKey(value[0]))
+                        {
+                            Debug.LogError("FindSame TextID  TextID=" + value[0]);
+                            continue;
+                        }else if (value.Length != 2)
+                        {
+                            Debug.LogError("Text Format Error  string=" + value);
+                            continue;
+                        }
                         TextData.Add(value[0], value[1]);
                     }
                 }

@@ -3,7 +3,6 @@
 	<variable  name="AllDistrictDataList" type="list">
 		<list name = "DistrictData" sheetname="DistrictData" mainKey = "DistrictID">
 			<variable  name="DistrictID" col = "DistrictID" type="int"/>
-			<variable  name="Comment" col = "Comment" type="string"/>
 			<variable  name="DistrictName" col = "DistrictName" type="string"/>
 			<variable  name="DistrictDesc" col = "DistrictDesc" type="string"/>
 			<variable  name="Type" col = "Type" type="int"/>
@@ -19,7 +18,6 @@
 	<variable  name="AllDistrictTypeList" type="list">
 		<list name = "DistrictType" sheetname="DistrictType" mainKey = "TypeID">
 			<variable  name="TypeID" col = "TypeID" type="int"/>
-			<variable  name="Comment" col = "Comment" type="string"/>
 			<variable  name="TypeShape" col = "TypeShape" type="string"/>
 			<variable  name="IconList" col = "IconList" type="string"/>
 		</list>
@@ -28,7 +26,6 @@
 		<list name = "DistrictIcon" sheetname="DistrictIcon" mainKey = "IconID">
 			<variable  name="IconID" col = "IconID" type="int"/>
 			<variable  name="IconPath" col = "IconPath" type="string"/>
-			<variable  name="Comment" col = "Comment" type="string"/>
 		</list>
 	</variable>
 </data>

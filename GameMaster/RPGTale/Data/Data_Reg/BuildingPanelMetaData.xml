@@ -3,7 +3,6 @@
 	<variable  name="AllBuildingPanelDataList" type="list">
 		<list name = "BuildingPanelData" sheetname="BuildingPanelData" mainKey = "BuildID">
 			<variable  name="BuildID" col = "BuildID" type="int"/>
-			<variable  name="Comment" col = "Comment" type="string"/>
 			<variable  name="FunctionBlockID" col = "FunctionBlockID" type="int"/>
 			<variable  name="BuildType" col = "BuildType" type="string"/>
 			<variable  name="BuildSubType" col = "BuildSubType" type="string"/>

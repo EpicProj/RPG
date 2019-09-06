@@ -11,7 +11,7 @@ namespace Sim_FrameWork
 
         public List<BuildingPanelData> AllBuildingPanelDataList = new List<BuildingPanelData>();
         public List<BuildingPanelData> UnLockBuildingPanelDataList = new List<BuildingPanelData>();
-        public List<BuildSubTag> buildTagList = new List<BuildSubTag>();
+        public List<BuildMainTag> buildTagList = new List<BuildMainTag>();
 
         //当前货币
         private float _currency;

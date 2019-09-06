@@ -21,7 +21,7 @@ namespace Sim_FrameWork.Config
         public GlobalSetting LoadGlobalSettting()
         {
             Config.JsonReader config = new Config.JsonReader();
-            GlobalSetting settting = config.LoadGlobalSettingData();
+            GlobalSetting settting = config.LoadJsonDataConfig<GlobalSetting>(Config.JsonConfigPath.GlobalSettingJsonPath);
             basicSpriteConfig = settting.basicSpriteConfig;
 
             return settting;
