@@ -19,6 +19,8 @@ namespace Sim_FrameWork
         private Canvas mainCanvas;
         private Camera uiCamera;
 
+        private MaterialInfoTip maInfoTip;
+        private bool isInfoTipShow = false;
 
         void Start()
         {
@@ -26,10 +28,15 @@ namespace Sim_FrameWork
             uiCamera = mainCanvas.transform.Find("UICamera").GetComponent<Camera>();
             pickedItem = mainCanvas.transform.Find("Window/PickedDistrict").GetComponent<SlotItem>();
             pickedItem.Hide();
+            maInfoTip= mainCanvas.transform.Find("Window/MaterialInfoTip").GetComponent<MaterialInfoTip>();
         }
 
         void Update()
         {
+            if (isInfoTipShow)
+            {
+                maInfoTip.SetLocalPosition(GetCurrentMousePos());
+            }
         }
 
         protected override void Awake()
@@ -61,7 +68,10 @@ namespace Sim_FrameWork
         }
 
 
-        //获取当前鼠标位置
+        /// <summary>
+        /// 获取当前鼠标位置
+        /// </summary>
+        /// <returns></returns>
         Vector2 GetCurrentMousePos()
         {
             Vector2 position;
@@ -101,5 +111,20 @@ namespace Sim_FrameWork
                 pickedItem.Hide();
             }
         }
+
+        public void ShowMaterialInfoTip(Material ma)
+        {
+            isInfoTipShow = true;
+            maInfoTip.OnShow(ma);
+            maInfoTip.transform.SetAsLastSibling();
+        }
+        public void HideMaterialInfoTip()
+        {
+            isInfoTipShow = false;
+            maInfoTip.Hide();
+        }
+
+
+       
     }
 }

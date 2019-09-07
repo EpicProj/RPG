@@ -5,7 +5,7 @@ using UnityEngine;
 using UnityEngine.UI;
 
 namespace Sim_FrameWork {
-    public class FunctionBlockModule : BaseModule<FunctionBlockModule> {
+    public class FunctionBlockModule : BaseModule <FunctionBlockModule>{
 
         public enum FunctionBlockType
         {

@@ -143,6 +143,11 @@ namespace Sim_FrameWork {
             return result;
            
         }
+
+        public MaterialConfig.MaterialType GetMaterialTypeData(string tagName)
+        {
+            return maConfig.materialTypeList.Find(x => x.Type == tagName);
+        }
         /// <summary>
         /// 获取所有副类型
         /// </summary>
@@ -156,6 +161,10 @@ namespace Sim_FrameWork {
                 var list = maConfig.materialTypeList.Find(x => x.Type == mainTypeName);
                 if (list != null)
                 {
+                    if (list.SubTypeList == null)
+                    {
+                        return result;
+                    }
                     foreach(var subData in list.SubTypeList)
                     {
                         if (result.Contains(subData.SubTypeName))
@@ -174,6 +183,21 @@ namespace Sim_FrameWork {
             else
             {
                 Debug.LogError("MainType Error,Can not find SubType Data ,MainType=" + mainTypeName);
+            }
+            return result;
+        }
+
+        public List<MaterialConfig.MaterialType.MaterialSubType> GetMaterialSubTypeDataList(string tagName)
+        {
+            List<MaterialConfig.MaterialType.MaterialSubType> result = new List<MaterialConfig.MaterialType.MaterialSubType>();
+            MaterialConfig.MaterialType type = GetMaterialTypeData(tagName);
+            List<string> subTag = GetMaterialSubTypeList(tagName);
+            if (subTag != null)
+            {
+                for(int i = 0; i < subTag.Count; i++)
+                {
+                    result.Add(type.SubTypeList.Find(x => x.Type == subTag[i]));
+                }
             }
             return result;
         }
@@ -204,6 +228,10 @@ namespace Sim_FrameWork {
         {
             return MultiLanguage.Instance.GetTextValue(type.TypeName);
         }
+        public string GetMaterialMainTypeName(Material ma)
+        {
+            return MultiLanguage.Instance.GetTextValue(GetMaterialMainType(ma).TypeName);
+        }
         public string GetMaterialMainTypeDesc(MaterialConfig.MaterialType type)
         {
             return MultiLanguage.Instance.GetTextValue(type.TypeDesc);
@@ -214,7 +242,10 @@ namespace Sim_FrameWork {
             return Utility.LoadSprite(type.TypeIconPath, Utility.SpriteType.png);
         }
 
-
+        public Sprite GetMaterialMainTypeSprite(Material ma)
+        {
+            return Utility.LoadSprite(GetMaterialMainType(ma.MaterialID).TypeIconPath, Utility.SpriteType.png);
+        }
         /// <summary>
         /// 获取副分类
         /// </summary>
@@ -277,11 +308,15 @@ namespace Sim_FrameWork {
     {
         public Material material;
         public int count;
+        public MaterialConfig.MaterialType mainType;
+        public MaterialConfig.MaterialType.MaterialSubType subType;
 
         public MaterialStorageData(Material ma,int count)
         {
             material = ma;
             this.count = count;
+            this.mainType = MaterialModule.Instance.GetMaterialMainType(ma.MaterialID);
+            this.subType = MaterialModule.Instance.GetMaterialSubType(ma.MaterialID);
         }
 
     }

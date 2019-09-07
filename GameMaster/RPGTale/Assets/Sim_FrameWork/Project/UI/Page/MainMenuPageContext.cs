@@ -121,7 +121,7 @@ namespace Sim_FrameWork
         {
             AddButtonClickListener(m_page.MaterialBtn, delegate () 
             {
-                UIManager.Instance.PopUpWnd(UIPath.WAREHOURSE_DIALOG, true ,playerData.materialStorageDataList);
+                UIManager.Instance.PopUpWnd(UIPath.WAREHOURSE_DIALOG, true,playerData.wareHouseInfo);
             });
             AddButtonClickListener(PauseBtn, delegate ()
             {

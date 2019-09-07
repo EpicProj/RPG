@@ -6,12 +6,24 @@ namespace Sim_FrameWork
 {
     public class PlayerData 
     {
+        public class WareHouseInfo
+        {
+            //存储物资
+            public List<MaterialStorageData> materialStorageDataList =new List<MaterialStorageData> ();
+            //材料分类
+            public List<MaterialConfig.MaterialType> materialTagList =new List<MaterialConfig.MaterialType> ();
 
-        public List<MaterialStorageData> materialStorageDataList =new List<MaterialStorageData> ();
+            public Dictionary<MaterialConfig.MaterialType, List<MaterialConfig.MaterialType.MaterialSubType>> materialSubTagDic = new Dictionary<MaterialConfig.MaterialType, List<MaterialConfig.MaterialType.MaterialSubType>>();
+
+            public MaterialConfig.MaterialType currentSelectMainType;
+            public MaterialConfig.MaterialType.MaterialSubType currentSelectSubType;
+        }
+       
 
         public List<BuildingPanelData> AllBuildingPanelDataList = new List<BuildingPanelData>();
         public List<BuildingPanelData> UnLockBuildingPanelDataList = new List<BuildingPanelData>();
         public List<BuildMainTag> buildTagList = new List<BuildMainTag>();
+        public WareHouseInfo wareHouseInfo = new WareHouseInfo();
 
         //当前货币
         private float _currency;
@@ -109,27 +121,60 @@ namespace Sim_FrameWork
             Material ma = MaterialModule.Instance.GetMaterialByMaterialID(materialID);
             if (ma == null)
                 return;
-            if (materialStorageDataList.Count == 0 && count>0)
-            {
-                materialStorageDataList.Add(new MaterialStorageData(ma, count));
-            }
 
-            var material = materialStorageDataList.Find(x => x.material == ma);
+            var material = wareHouseInfo.materialStorageDataList.Find(x => x.material == ma);
             if (material != null)
             {
                 material.count += count;
-                if (material.count <= 0)
+                if (material.count > ma.BlockCapacity)
                 {
-                    materialStorageDataList.Remove(material);
+                    //超出上限 ,TODO
+                    UIManager.Instance.SendMessageToWnd(UIPath.WAREHOURSE_DIALOG, "UpdateWarehouseData", material);
                 }
+                else if(material.count <= 0)
+                {
+                    wareHouseInfo.materialStorageDataList.Remove(material);
+                }
+                else
+                {
+                    UIManager.Instance.SendMessageToWnd(UIPath.WAREHOURSE_DIALOG, "UpdateWarehouseData", material);
+                }
+               
             }
             else
             {
-                materialStorageDataList.Add(new MaterialStorageData(ma, count));
+                MaterialStorageData data = new MaterialStorageData(ma, count);
+                wareHouseInfo.materialStorageDataList.Add(data);
+                UIManager.Instance.SendMessageToWnd(UIPath.WAREHOURSE_DIALOG, "UpdateWarehouseData", data);
             }
-
         }
 
+        public void InitMaterialType()
+        {
+            List<string> mainTag = MaterialModule.Instance.GetAllMainMaterialTypeList();
+            if (mainTag != null)
+            {
+                for(int i = 0; i < mainTag.Count; i++)
+                {
+                    MaterialConfig.MaterialType type = MaterialModule.Instance.GetMaterialTypeData(mainTag[i]);
+                    if (type != null)
+                    {
+                        wareHouseInfo.materialTagList.Add(type);
+                    }
+                }
+            }
+        }
+
+        public void InitSubTagType()
+        {
+            if (wareHouseInfo.materialTagList != null)
+            {
+                for(int i = 0; i < wareHouseInfo.materialTagList.Count; i++)
+                {
+                    wareHouseInfo.materialSubTagDic.Add(wareHouseInfo.materialTagList[i], MaterialModule.Instance.GetMaterialSubTypeDataList(wareHouseInfo.materialTagList[i].Type));
+                }
+            }
+        }
 
     }
 

@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
 namespace Sim_FrameWork
@@ -20,6 +21,26 @@ namespace Sim_FrameWork
             Num.text = itemData.count.ToString();
         }
 
+        public void AddMaterialNum(MaterialStorageData itemData)
+        {
+            storeData = itemData;
+            if (itemData.count <= 0)
+            {
+                Destroy(this.gameObject);
+                return;
+            }
+            Num.text = itemData.count.ToString();
+        }
+
+        public override void OnPointerEnter(PointerEventData eventData)
+        {
+            InventoryManager.Instance.ShowMaterialInfoTip(storeData.material);
+        }
+
+        public override void OnPointerExit(PointerEventData eventData)
+        {
+            InventoryManager.Instance.HideMaterialInfoTip();
+        }
 
     }
 }

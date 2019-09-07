@@ -181,11 +181,11 @@ namespace Sim_FrameWork
             //Add OutPut
             AddOutputSlotNum();
             //UpdateUI
-            UIManager.Instance.SendMessageToWnd(UIPath.FUCNTIONBLOCK_INFO_DIALOG, "UpdateManuSlot", info.formulaInfo);
+            UIManager.Instance.SendMessageToWnd(UIPath.FUNCTIONBLOCK_INFO_DIALOG, "UpdateManuSlot", info.formulaInfo);
 
             //UpdateEXP
             info.levelInfo.AddCurrentBlockEXP(currentFormulaData.EXP);
-            UIManager.Instance.SendMessageToWnd(UIPath.FUCNTIONBLOCK_INFO_DIALOG, "UpdateLevelInfo", info.levelInfo);
+            UIManager.Instance.SendMessageToWnd(UIPath.FUNCTIONBLOCK_INFO_DIALOG, "UpdateLevelInfo", info.levelInfo);
 
             StartManufact();
         }

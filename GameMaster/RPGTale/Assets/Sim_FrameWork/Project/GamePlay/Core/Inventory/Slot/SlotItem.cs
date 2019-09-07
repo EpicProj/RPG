@@ -26,7 +26,6 @@ namespace Sim_FrameWork
         }
 
         public int Amount { get; private set; }
-        private float targetScale = 1.0f;
 
         public void OnUpdate()
         {

@@ -7,28 +7,6 @@ namespace Sim_FrameWork
 {
     public class Slot : MonoBehaviour,IPointerEnterHandler,IPointerExitHandler,IPointerDownHandler,IDragHandler,IBeginDragHandler,IEndDragHandler
     {
-        private const string FUNCTIONBLOCK_PREFAB_PATH= "Assets/Prefabs/Object/ItemUIPrefab.prefab";
-     
-
-
-
-
-        public void InitFunctionBlockSlot(FunctionBlock block)
-        {
-            if (transform.childCount == 0)
-            {
-                GameObject itemObj = ObjectManager.Instance.InstantiateObject(FUNCTIONBLOCK_PREFAB_PATH);
-                itemObj.transform.SetParent(transform,false);
-                itemObj.transform.localScale = Vector3.one;
-                itemObj.transform.localPosition = Vector3.zero;
-                itemObj.GetComponent<SlotItem>().SetFunctionBlock(block);
-            }
-            else
-            {
-                transform.GetChild(0).GetComponent<SlotItem>().AddAmount();
-            }
-        }
-
 
 
         public virtual void OnPointerExit(PointerEventData eventData)

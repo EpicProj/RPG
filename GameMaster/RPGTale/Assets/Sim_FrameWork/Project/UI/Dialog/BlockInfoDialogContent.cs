@@ -128,6 +128,10 @@ namespace Sim_FrameWork
         public override void OnUpdate()
         {
             UpdateProgress(blockInfo.formulaInfo);
+            if (Input.GetKeyDown(KeyCode.Escape))
+            {
+                UIManager.Instance.HideWnd(UIPath.FUNCTIONBLOCK_INFO_DIALOG);
+            }
         }
 
         public override bool OnMessage(string msgID, params object[] paralist)
@@ -178,7 +182,7 @@ namespace Sim_FrameWork
 
         private void HideInfoDialog()
         {
-            UIManager.Instance.HideWnd(UIPath.FUCNTIONBLOCK_INFO_DIALOG);
+            UIManager.Instance.HideWnd(UIPath.FUNCTIONBLOCK_INFO_DIALOG);
         }
 
      

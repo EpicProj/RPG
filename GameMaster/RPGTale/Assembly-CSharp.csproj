@@ -106,15 +106,19 @@
      <Compile Include="Assets\Sim_FrameWork\Project\GamePlay\Core\Inventory\Element\BaseElement.cs" />
      <Compile Include="Assets\Sim_FrameWork\Project\GamePlay\Core\Inventory\Element\BlockBuildElement.cs" />
      <Compile Include="Assets\Sim_FrameWork\Project\GamePlay\Core\Inventory\Element\DistrictBuildElement.cs" />
+     <Compile Include="Assets\Sim_FrameWork\Project\GamePlay\Core\Inventory\Element\GeneralTagElement.cs" />
+     <Compile Include="Assets\Sim_FrameWork\Project\GamePlay\Core\Inventory\InfoTip\MaterialInfoTip.cs" />
      <Compile Include="Assets\Sim_FrameWork\Project\GamePlay\Core\Inventory\Inventory.cs" />
      <Compile Include="Assets\Sim_FrameWork\Project\GamePlay\Core\Inventory\InventoryManager.cs" />
      <Compile Include="Assets\Sim_FrameWork\Project\GamePlay\Core\Inventory\InventoryPanel\BlockManufactSlotPanel.cs" />
      <Compile Include="Assets\Sim_FrameWork\Project\GamePlay\Core\Inventory\InventoryPanel\DistrictContentSlotPanel.cs" />
+     <Compile Include="Assets\Sim_FrameWork\Project\GamePlay\Core\Inventory\InventoryPanel\WarehouseSlotPanel.cs" />
      <Compile Include="Assets\Sim_FrameWork\Project\GamePlay\Core\Inventory\Slot\DistrictSlot.cs" />
      <Compile Include="Assets\Sim_FrameWork\Project\GamePlay\Core\Inventory\Slot\ManufactMaterialSlot.cs" />
      <Compile Include="Assets\Sim_FrameWork\Project\GamePlay\Core\Inventory\Slot\MaterialSlot.cs" />
      <Compile Include="Assets\Sim_FrameWork\Project\GamePlay\Core\Inventory\Slot\Slot.cs" />
      <Compile Include="Assets\Sim_FrameWork\Project\GamePlay\Core\Inventory\Slot\SlotItem.cs" />
+     <Compile Include="Assets\Sim_FrameWork\Project\GamePlay\Core\Main\GameManager.cs" />
      <Compile Include="Assets\Sim_FrameWork\Project\GamePlay\District\DistrictModule.cs" />
      <Compile Include="Assets\Sim_FrameWork\Project\GamePlay\Formula\FormulaModule.cs" />
      <Compile Include="Assets\Sim_FrameWork\Project\GamePlay\FunctionBlock\Base\BlockBaseInfoData.cs" />
@@ -146,7 +150,6 @@
      <Compile Include="Assets\Sim_FrameWork\Project\GamePlay\Terrain\TerrainModule.cs" />
      <Compile Include="Assets\Sim_FrameWork\Project\Language\GetTextByID.cs" />
      <Compile Include="Assets\Sim_FrameWork\Project\Language\MultiLanguage.cs" />
-     <Compile Include="Assets\Sim_FrameWork\Project\Main\GameManager.cs" />
      <Compile Include="Assets\Sim_FrameWork\Project\Scene\SceneManager.cs" />
      <Compile Include="Assets\Sim_FrameWork\Project\UI\Base\UIManager.cs" />
      <Compile Include="Assets\Sim_FrameWork\Project\UI\Base\UIPath.cs" />

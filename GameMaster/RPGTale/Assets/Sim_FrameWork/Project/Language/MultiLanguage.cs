@@ -35,18 +35,18 @@ namespace Sim_FrameWork
                     string[] lines = txt.Replace("\r\n", "\r").Split('\r');
                     foreach (var line in lines)
                     {
-                        if (line == null)
+                        if (string.IsNullOrEmpty(line))
                         {
                             continue;
                         }
-                        string[] value = line.Split('\t');
+                        string[] value = line.Split('=');
                         if (TextData.ContainsKey(value[0]))
                         {
-                            Debug.LogError("FindSame TextID  TextID=" + value[0]);
+                            Debug.LogError("FindSame TextID  TextID=" + line+"   txt="+ languageDataPath);
                             continue;
                         }else if (value.Length != 2)
                         {
-                            Debug.LogError("Text Format Error  string=" + value);
+                            Debug.LogError("Text Format Error  string=" + line + "   txt=" + languageDataPath);
                             continue;
                         }
                         TextData.Add(value[0], value[1]);

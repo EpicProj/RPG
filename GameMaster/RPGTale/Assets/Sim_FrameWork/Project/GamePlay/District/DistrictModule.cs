@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 namespace Sim_FrameWork {
-    public class DistrictModule : BaseModule<DistrictModule> {
+    public class DistrictModule : BaseModule<DistrictModule>{
 
         #region Row Data
         public static List<DistrictData> DistrictDataList = new List<DistrictData>();

@@ -26,7 +26,7 @@ namespace Sim_FrameWork
 
         public override void Update()
         {
-            CheckMouseButtonDown(UIPath.FUCNTIONBLOCK_INFO_DIALOG, info);
+            CheckMouseButtonDown(UIPath.FUNCTIONBLOCK_INFO_DIALOG, info);
             if (Input.GetKeyDown(KeyCode.Space))
             {
                 info.blockModifier.DoModifier(info,"AddManuSpeed");
@@ -34,12 +34,12 @@ namespace Sim_FrameWork
             if (Input.GetKeyDown(KeyCode.F))
             {
                 info.levelInfo.AddCurrentBlockEXP(100);
-                UIManager.Instance.SendMessageToWnd(UIPath.FUCNTIONBLOCK_INFO_DIALOG, "UpdateLevelInfo", info.levelInfo);
+                UIManager.Instance.SendMessageToWnd(UIPath.FUNCTIONBLOCK_INFO_DIALOG, "UpdateLevelInfo", info.levelInfo);
             }
             if (Input.GetKeyDown(KeyCode.A))
             {
                 AddMaterialToInputSlot(100, 2);
-                UIManager.Instance.SendMessageToWnd(UIPath.FUCNTIONBLOCK_INFO_DIALOG, "UpdateManuSlot", info.formulaInfo);
+                UIManager.Instance.SendMessageToWnd(UIPath.FUNCTIONBLOCK_INFO_DIALOG, "UpdateManuSlot", info.formulaInfo);
             }
         }
         public override void InitData()

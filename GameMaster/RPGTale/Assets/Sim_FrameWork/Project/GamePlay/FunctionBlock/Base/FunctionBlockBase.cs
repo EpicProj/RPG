@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.EventSystems;
 
 namespace Sim_FrameWork
 {
@@ -75,6 +76,8 @@ namespace Sim_FrameWork
         {
             if (Input.GetMouseButtonDown(0))
             {
+                if (CheckUIRaycast())
+                    return;
                 Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
                 if (Physics.Raycast(ray, out hit))
                 {
@@ -83,7 +86,15 @@ namespace Sim_FrameWork
                 }
             }
         }
-
+        bool CheckUIRaycast()
+        {
+            PointerEventData data = new PointerEventData(EventSystem.current);
+            data.pressPosition = Input.mousePosition;
+            data.position = Input.mousePosition;
+            List<RaycastResult> result = new List<RaycastResult>();
+            GameManager.Instance.raycaster.Raycast(data, result);
+            return result.Count > 0;
+        }
 
 
 

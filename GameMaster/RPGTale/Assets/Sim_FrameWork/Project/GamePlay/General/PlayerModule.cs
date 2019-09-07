@@ -105,6 +105,11 @@ namespace Sim_FrameWork
             playerData.AllBuildingPanelDataList = buildPanelDataList;
             playerData.UnLockBuildingPanelDataList = GetUnLockBuildData();
             playerData.buildTagList = config.BuildTagList;
+            
+
+            //Init wareHouse
+            playerData.InitMaterialType();
+            playerData.InitSubTagType();
 
             return playerData;
 
@@ -117,10 +122,10 @@ namespace Sim_FrameWork
         }
 
 
-        public void AddMaterialData(int id,ushort count)
+        public void AddMaterialData(int materialId,ushort count)
         {
-            playerData.AddMaterialStoreData(id, count);
-            UIManager.Instance.SendMessageToWnd(UIPath.WAREHOURSE_DIALOG, "UpdateWarehouseData", playerData.materialStorageDataList);
+            playerData.AddMaterialStoreData(materialId, count);
+         
         }
 
 

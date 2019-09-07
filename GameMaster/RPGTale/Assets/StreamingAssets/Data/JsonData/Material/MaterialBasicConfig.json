@@ -19,12 +19,22 @@
 	}],
 	"materialTypeList":
 	[{
+		"Type":"Total",
+		"TypeName":"MaterialType_Name_Total",
+		"TypeDesc":"MaterialType_Desc_Total",
+		"TypeIconPath":"SpriteOutput/Material/apple"
+	},{
 		"Type":"BaseResource",
 		"TypeName":"MaterialType_Name_BaseResource",
 		"TypeDesc":"MaterialType_Desc_BaseResource",
 		"TypeIconPath":"SpriteOutput/Material/apple",
 		"SubTypeList":
 		[{
+			"Type":"Total",
+			"SubTypeName":"MaterialSubType_Name_BaseResource_Total",
+			"SubTypeDesc":"MaterialSubType_Desc_BaseResource_Total",
+			"SubTypeIcon":"SpriteOutput/Material/apple"
+		},{
 			"Type":"Mineral",
 			"SubTypeName":"MaterialSubType_Name_BaseResource_Mineral",
 			"SubTypeDesc":"MaterialSubType_Desc_BaseResource_Mineral",
@@ -38,6 +48,7 @@
 			"Type":"Wood",
 			"SubTypeName":"MaterialSubType_Name_BaseResource_Wood",
 			"SubTypeDesc":"MaterialSubType_Desc_BaseResource_Wood",
+			"SubTypeIcon":"SpriteOutput/Material/apple_golden"
 		}]
 	},{
 		"Type":"ElementaryProcessedGoods",
