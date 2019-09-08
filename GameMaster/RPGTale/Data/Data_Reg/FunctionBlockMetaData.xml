@@ -26,7 +26,6 @@
 			<variable  name="BasePopulation" col = "BasePopulation" type="float"/>
 			<variable  name="FoodConsumBase" col = "FoodConsumBase" type="float"/>
 			<variable  name="MaintainBase" col = "MaintainBase" type="float"/>
-			<variable  name="WorkerBase" col = "WorkerBase" type="float"/>
 			<variable  name="EnergyBase" col = "EnergyBase" type="float"/>
 		</list>
 	</variable>
@@ -48,6 +47,7 @@
 			<variable  name="SpeedBase" col = "SpeedBase" type="float"/>
 			<variable  name="FormulaInfoID" col = "FormulaInfoID" type="int"/>
 			<variable  name="MaintenanceBase" col = "MaintenanceBase" type="string"/>
+			<variable  name="WorkerBase" col = "WorkerBase" type="float"/>
 			<variable  name="EnergyConsumptionBase" col = "EnergyConsumptionBase" type="string"/>
 		</list>
 	</variable>

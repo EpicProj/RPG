@@ -44,7 +44,6 @@ namespace Sim_FrameWork
         }
         public override void InitData()
         {
-            currentFormulaID = 100;
             base.InitData();
            
         }

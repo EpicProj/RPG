@@ -4,39 +4,33 @@ using UnityEngine;
 
 namespace Sim_FrameWork
 {
+
     public class ManufactoryBase : FunctionBlockBase
     {
 
-        public enum ManufactoryType
-        {
-            Iron,
-            Electronic
-        }
-
-        public enum ManufactoryInherentLevel
-        {
-            Elementary,
-            Secondary,
-            Advanced
-        }
-
-       
-
-
         public ManufactoryInfo manufactoryInfo;
 
-        public int currentFormulaID=100;
+        /// <summary>
+        /// 当前配方
+        /// </summary>
+        private int _currentFormulaID = 0;
+        public int CurrentFormulaID { get { return _currentFormulaID; }  }
 
         public override void InitData()
         {
             base.InitData();
-            manufactoryInfo = new ManufactoryInfo(info.block, currentFormulaID);
-            manufactoryInfo.formulaInfo.currentFormulaData = FormulaModule.GetFormulaDataByID(currentFormulaID);
+            manufactoryInfo = new ManufactoryInfo(info.block);
             InitFormula();
         }
 
         public void InitFormula()
         {
+            List<FormulaData> formulaData = FunctionBlockModule.GetFormulaDataList(info.block);
+            if (formulaData.Count == 1)
+            {
+                manufactoryInfo.formulaInfo = new ManufactFormulaInfo(formulaData[0].FormulaID, info.block);
+            }
+
             foreach(var material in manufactoryInfo.formulaInfo.currentInputMaterialFormulaDic.Keys)
             {
                 manufactoryInfo.formulaInfo.realInputDataDic.Add(material, 0);
@@ -47,8 +41,16 @@ namespace Sim_FrameWork
             }
             //获取材料列表
             manufactoryInfo.formulaInfo.currentNeedTime = GetCurrentFormulaNeedTime();
+        }
 
-
+        /// <summary>
+        /// 更换配方
+        /// </summary>
+        /// <param name="formulaID"></param>
+        public void ChangeFormula(int formulaID)
+        {
+            _currentFormulaID = formulaID;
+            manufactoryInfo.formulaInfo.RefreshFormulaID(formulaID);
         }
 
         #region Manufact
@@ -221,7 +223,7 @@ namespace Sim_FrameWork
 
 
 
-        public ManufactoryInfo(FunctionBlock block,int currentFormulaID)
+        public ManufactoryInfo(FunctionBlock block)
         {
             manufactoryData = FunctionBlockModule.FetchFunctionBlockTypeIndex<FunctionBlock_Manufacture>(block.FunctionBlockID);
             AddWorkerNum(int.Parse(manufactoryData.MaintenanceBase));
@@ -229,14 +231,17 @@ namespace Sim_FrameWork
             AddEnergyCostMagic(Utility.TryParseIntList(manufactoryData.EnergyConsumptionBase, ',')[1]);
             AddMaintain(float.Parse(manufactoryData.MaintenanceBase));
             AddCurrentSpeed(FunctionBlockModule.GetManufactureSpeed(block.FunctionBlockID));
-
-            formulaInfo = new ManufactFormulaInfo(currentFormulaID, block);
         }
 
 
     }
+
+
+
     public class ManufactFormulaInfo
     {
+
+
         public List<FormulaData> FormulaIDList = new List<FormulaData>();
         public int CurrentFormulaID;
         public FormulaData currentFormulaData;
@@ -271,7 +276,6 @@ namespace Sim_FrameWork
         {
             CurrentFormulaID = currentFormulaID;
             FormulaIDList = FunctionBlockModule.GetFormulaDataList(block);
-            CurrentFormulaID = currentFormulaID;
             currentFormulaData = FormulaModule.GetFormulaDataByID(currentFormulaID);
             currentInputMaterialFormulaDic = FormulaModule.GetFormulaMaterialDic(currentFormulaID, FormulaModule.MaterialProductType.Input);
             currentOutputMaterialFormulaDic = FormulaModule.GetFormulaMaterialDic(currentFormulaID, FormulaModule.MaterialProductType.Output);
@@ -283,7 +287,18 @@ namespace Sim_FrameWork
             //INIT SLOT
             inputMaList = FormulaModule.GetFormulaTotalMaterialList(currentFormulaID, FormulaModule.MaterialProductType.Input);
             outputMaList = FormulaModule.GetFormulaTotalMaterialList(currentFormulaID, FormulaModule.MaterialProductType.Output);
+        }
 
+        public void RefreshFormulaID(int formulaID)
+        {
+            CurrentFormulaID = formulaID;
+            currentFormulaData = FormulaModule.GetFormulaDataByID(formulaID);
+            currentInputMaterialFormulaDic = FormulaModule.GetFormulaMaterialDic(formulaID, FormulaModule.MaterialProductType.Input);
+            currentOutputMaterialFormulaDic = FormulaModule.GetFormulaMaterialDic(formulaID, FormulaModule.MaterialProductType.Output);
+            currentBypruductMaterialFormulaDic = FormulaModule.GetFormulaMaterialDic(formulaID, FormulaModule.MaterialProductType.Byproduct);
+            //INIT SLOT
+            inputMaList = FormulaModule.GetFormulaTotalMaterialList(formulaID, FormulaModule.MaterialProductType.Input);
+            outputMaList = FormulaModule.GetFormulaTotalMaterialList(formulaID, FormulaModule.MaterialProductType.Output);
         }
 
     }
