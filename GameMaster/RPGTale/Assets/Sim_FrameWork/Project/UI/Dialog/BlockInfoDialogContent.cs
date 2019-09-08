@@ -32,7 +32,10 @@ namespace Sim_FrameWork
 
         private BlockInfoDialog m_dialog;
         private Button clostBtn;
+
+        //Info
         FunctionBlockInfoData blockInfo;
+        ManufactoryInfo manufactoryInfo;
         private float currentManuSpeed;
 
         private float currentProcess;
@@ -54,6 +57,7 @@ namespace Sim_FrameWork
         public override void Awake(params object[] paralist)
         {
             blockInfo = (FunctionBlockInfoData)paralist[0];
+            manufactoryInfo = (ManufactoryInfo)paralist[1];
 
             m_dialog = GameObject.GetComponent<BlockInfoDialog>();
             slotPanel = m_dialog.DistrictSlotContent.GetComponent<DistrictContentSlotPanel>();
@@ -71,7 +75,7 @@ namespace Sim_FrameWork
             AddBtnListener();
             InitInfoPanel();
             InitBaseData();
-            currentManuSpeed = blockInfo.CurrentSpeed;
+            currentManuSpeed = manufactoryInfo.CurrentSpeed;
         }
 
 
@@ -82,6 +86,7 @@ namespace Sim_FrameWork
             m_dialog.Title.transform.Find("BG2/Desc/FacotryName").GetComponent<Text>().text = FunctionBlockModule.GetFunctionBlockName(blockInfo.block);
             m_dialog.BlockInfoDesc.text = FunctionBlockModule.GetFunctionBlockDesc(blockInfo.block);
             blockInfo = (FunctionBlockInfoData)paralist[0];
+            manufactoryInfo = (ManufactoryInfo)paralist[1];
             //Init Sprite
             //m_dialog.FactoryBG.GetComponent<Image>().sprite = FunctionBlockModule.Instance.GetFunctionBlockIcon(currentBlock.FunctionBlockID);
         }
@@ -91,7 +96,7 @@ namespace Sim_FrameWork
             slotPanel.InitDistrictDataSlot(blockInfo);
             slotPanel.InitData();
             slotPanel.InitDistrictArea(blockInfo);
-            RefreshManuSlot(blockInfo.formulaInfo);
+            RefreshManuSlot(manufactoryInfo.formulaInfo);
             UpdateLevel(blockInfo.levelInfo);
             InitDistrictBuildContent();
         }
@@ -133,7 +138,7 @@ namespace Sim_FrameWork
 
         public override void OnUpdate()
         {
-            UpdateProgress(blockInfo.formulaInfo);
+            UpdateProgress(manufactoryInfo.formulaInfo);
             if (Input.GetKeyDown(KeyCode.Escape))
             {
                 UIManager.Instance.HideWnd(UIPath.FUNCTIONBLOCK_INFO_DIALOG);
@@ -147,7 +152,7 @@ namespace Sim_FrameWork
                 case "UpdateManuSlot":
                     ManufactFormulaInfo formulaInfo = (ManufactFormulaInfo)paralist[0];
                     //Update Info
-                    blockInfo.formulaInfo = formulaInfo;
+                    manufactoryInfo.formulaInfo = formulaInfo;
 
                     UpdateManuMaterialSlot(formulaInfo);
                     return true;
@@ -160,8 +165,8 @@ namespace Sim_FrameWork
                 case "UpdateSpeedText":
                     //UpdateSpeed
                     float Addspeed = (float)paralist[0];
-                    blockInfo.AddCurrentSpeed(Addspeed);
-                    RefreshInfoText(blockInfo.CurrentSpeed, InfoType.Speed);
+                    manufactoryInfo.AddCurrentSpeed(Addspeed);
+                    RefreshInfoText(manufactoryInfo.CurrentSpeed, InfoType.Speed);
                     return true;
 
                 default:
@@ -183,10 +188,10 @@ namespace Sim_FrameWork
             MaintianText= m_dialog.InfoData.transform.Find("Maintain/Value/Value").GetComponent<Text>();
             m_dialog.InfoData.transform.Find("Worker/Info/Item/Text").GetComponent<Text>().text = MultiLanguage.Instance.GetTextValue(INFOPANEL_WOEKER_TITLE);
             WorkerText = m_dialog.InfoData.transform.Find("Worker/Value/Value").GetComponent<Text>();
-            RefreshInfoText(blockInfo.CurrentSpeed, InfoType.Speed);
-            RefreshInfoText(blockInfo.EnergyCostNormal, InfoType.Energy);
-            RefreshInfoText(blockInfo.WorkerNum, InfoType.Worker);
-            RefreshInfoText(blockInfo.Maintain, InfoType.Maintain);
+            RefreshInfoText(manufactoryInfo.CurrentSpeed, InfoType.Speed);
+            RefreshInfoText(manufactoryInfo.EnergyCostNormal, InfoType.Energy);
+            RefreshInfoText(manufactoryInfo.WorkerNum, InfoType.Worker);
+            RefreshInfoText(manufactoryInfo.Maintain, InfoType.Maintain);
         }
 
         public void RefreshInfoText(float value, InfoType type)

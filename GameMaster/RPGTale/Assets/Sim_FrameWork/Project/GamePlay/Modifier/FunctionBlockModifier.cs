@@ -36,9 +36,9 @@ namespace Sim_FrameWork
         }
 
 
-        public void DoModifier(FunctionBlockInfoData info, string modifierName)
+        public void DoManufactModifier(ManufactoryInfo manuInfo, FunctionBlockInfoData baseInfo, string modifierName)
         {
-            ModifierManager.Instance.DoFunctionBlockModifier(info, modifierName);
+            ModifierManager.Instance.DoManufactBlockModifier(manuInfo, baseInfo, modifierName);
         }
 
         public void OnAddModifier(ModifierData data)

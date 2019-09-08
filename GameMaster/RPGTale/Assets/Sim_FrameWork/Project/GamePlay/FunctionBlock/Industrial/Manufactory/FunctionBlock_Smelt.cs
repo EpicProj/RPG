@@ -26,10 +26,10 @@ namespace Sim_FrameWork
 
         public override void Update()
         {
-            CheckMouseButtonDown(UIPath.FUNCTIONBLOCK_INFO_DIALOG, info);
+            CheckMouseButtonDown(UIPath.FUNCTIONBLOCK_INFO_DIALOG, info,manufactoryInfo);
             if (Input.GetKeyDown(KeyCode.Space))
             {
-                info.blockModifier.DoModifier(info,"AddManuSpeed");
+                info.blockModifier.DoManufactModifier(manufactoryInfo,info,"AddManuSpeed");
             }
             if (Input.GetKeyDown(KeyCode.F))
             {
@@ -39,7 +39,7 @@ namespace Sim_FrameWork
             if (Input.GetKeyDown(KeyCode.A))
             {
                 AddMaterialToInputSlot(100, 2);
-                UIManager.Instance.SendMessageToWnd(UIPath.FUNCTIONBLOCK_INFO_DIALOG, "UpdateManuSlot", info.formulaInfo);
+                UIManager.Instance.SendMessageToWnd(UIPath.FUNCTIONBLOCK_INFO_DIALOG, "UpdateManuSlot", manufactoryInfo.formulaInfo);
             }
         }
         public override void InitData()

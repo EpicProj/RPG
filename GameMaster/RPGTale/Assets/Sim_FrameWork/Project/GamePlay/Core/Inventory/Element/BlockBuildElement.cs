@@ -15,7 +15,7 @@ namespace Sim_FrameWork
         {
             FunctionBlock block = PlayerModule.Instance.GetBuildFunctionBlock(data);
             Name.text = FunctionBlockModule.GetFunctionBlockName(block);
-            BlockIcon.sprite = FunctionBlockModule.Instance.GetFunctionBlockIcon(block.FunctionBlockID);
+            BlockIcon.sprite = FunctionBlockModule.GetFunctionBlockIcon(block.FunctionBlockID);
         }
 
     }

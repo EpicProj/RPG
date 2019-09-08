@@ -36,7 +36,7 @@ namespace Sim_FrameWork
         {
             this.functionBlock = block;
             this.Amount = amount;
-            ItemImage.sprite = FunctionBlockModule.Instance.GetFunctionBlockIcon(block.FunctionBlockID);
+            ItemImage.sprite = FunctionBlockModule.GetFunctionBlockIcon(block.FunctionBlockID);
 
         }
 

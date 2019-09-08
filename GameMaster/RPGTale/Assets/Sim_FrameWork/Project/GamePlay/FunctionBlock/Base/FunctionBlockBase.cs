@@ -16,7 +16,6 @@ namespace Sim_FrameWork
         private FunctionBlockModifier blockModifier;
         RaycastHit hit;
 
-        public int currentFormulaID;
 
         public virtual void Update() { }
         public virtual void FixedUpdate() { }
@@ -118,7 +117,7 @@ namespace Sim_FrameWork
         /// </summary>
         public FunctionBlockHistory blockHistory;
 
-        public FunctionBlockLevelInfo levelInfo = new FunctionBlockLevelInfo ();
+        public FunctionBlockLevelInfo levelInfo;
 
 
         public FunctionBlock block;
@@ -132,37 +131,7 @@ namespace Sim_FrameWork
         /// </summary>
         public Dictionary<Vector2, DistrictAreaBase> currentDistrictBaseDic;
         public FunctionBlockModifier blockModifier = new FunctionBlockModifier();
-
-
-        /// <summary>
-        /// WorkerNum
-        /// </summary>
-        [SerializeField]
-        private int _workerNum =0;
-        public int WorkerNum { get { return _workerNum; } protected set {  } }
-
-        private float _maintain =0;
-        public float Maintain { get { return _maintain; } protected set { } }
-
-        /// <summary>
-        /// 基础电力消耗
-        /// </summary>
-        [SerializeField]
-        private float _energyCostNormal =0;
-        public float EnergyCostNormal { get { return _energyCostNormal; } protected set { } }
-        [SerializeField]
-        private float _energyCostMagic =0;
-        public float EnergyCostMagic { get { return _energyCostNormal; } protected set { } }
-
-    
-        /// <summary>
-        /// current Manu Speed
-        /// </summary>
-        [SerializeField]
-        private float _currentSpeed =0;
-        public float CurrentSpeed { get { return _currentSpeed; } protected set { } }
-
-        public ManufactFormulaInfo formulaInfo;
+        
         public List<BlockDistrictUnlockData.DistrictUnlockData> districtUnlockDataList;
         public List<DistrictData> ActiveDistrictBuildList=new List<DistrictData> ();
 
@@ -183,9 +152,10 @@ namespace Sim_FrameWork
             info.BlockPos = blockPos;
             info.blockModifier = modifier;
             info.BlockUID = FunctionBlockModule.Instance.GenerateGUID(blockBase);
-            info.districtUnlockDataList = FunctionBlockModule.Instance.GetManuBlockDistrictUnlockData(blockBase.FunctionBlockID);
-            info.levelInfo.BlockEXPMap = FunctionBlockModule.Instance.GetBlockEXPMapData(info.block.FunctionBlockID);
-            info.levelInfo.CurrentBlockMaxEXP = FunctionBlockModule.Instance.GetCurrentLevelEXP(info.levelInfo.BlockEXPMap, info.levelInfo.currentBlockLevel);
+            info.districtUnlockDataList = FunctionBlockModule.GetManuBlockDistrictUnlockData(blockBase.FunctionBlockID);
+
+            info.levelInfo = new FunctionBlockLevelInfo(blockBase);
+
             //District
             info.districtAreaMax = FunctionBlockModule.GetFunctionBlockAreaMax(blockBase);
             info.currentDistrictDataDic = FunctionBlockModule.GetFuntionBlockOriginAreaInfo(blockBase); ;
@@ -202,47 +172,6 @@ namespace Sim_FrameWork
             //TODO
             return info;
         }
-
-
-        public void AddCurrentSpeed(float speed)
-        {
-            _currentSpeed += speed;
-            if (_currentSpeed <= 0)
-                _currentSpeed = 0;
-        }
-        public void AddWorkerNum(int num)
-        {
-            _workerNum += num;
-            if (_workerNum <= 0)
-                _workerNum = 0;
-        }
-
-        public void AddMaintain(float num)
-        {
-            _maintain += num;
-            if (_maintain <= 0)
-                _maintain = 0;
-
-        }
-        public void AddEnergyCostNormal(float num)
-        {
-            _energyCostNormal += num;
-            if (_energyCostNormal < 0)
-            {
-                _energyCostNormal = 0;
-            }
-        }
-        public void AddEnergyCostMagic(float num)
-        {
-            _energyCostMagic += num;
-            if (_energyCostMagic < 0)
-            {
-                _energyCostMagic = 0;
-            }
-        }
-
-
- 
 
         public void ClearBlockInfoData()
         {
@@ -295,11 +224,11 @@ namespace Sim_FrameWork
         public void AddCurrentBlockEXP(int value)
         {
             _currentBlockExp += (int)(value * _baseEXPRatio);
-            int currentMaxEXP = FunctionBlockModule.Instance.GetCurrentLevelEXP(BlockEXPMap, currentBlockLevel);
+            int currentMaxEXP = FunctionBlockModule.GetCurrentLevelEXP(BlockEXPMap, currentBlockLevel);
             if (_currentBlockExp > currentMaxEXP)
             {
                 currentBlockLevel++;
-                CurrentBlockMaxEXP = FunctionBlockModule.Instance.GetCurrentLevelEXP(BlockEXPMap, currentBlockLevel);
+                CurrentBlockMaxEXP = FunctionBlockModule.GetCurrentLevelEXP(BlockEXPMap, currentBlockLevel);
                 _currentBlockExp -= currentMaxEXP;
             }
         }
@@ -313,6 +242,12 @@ namespace Sim_FrameWork
             }
         }
 
+        public FunctionBlockLevelInfo(FunctionBlock block)
+        {
+            BlockEXPMap = FunctionBlockModule.GetBlockEXPMapData(block.FunctionBlockID);
+            CurrentBlockMaxEXP = FunctionBlockModule.GetCurrentLevelEXP(BlockEXPMap, currentBlockLevel);
+        }
+       
 
     }
 

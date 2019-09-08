@@ -2,15 +2,11 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class LaborBlockBase : MonoBehaviour {
+namespace Sim_FrameWork {
+    public class LaborBlockBase : FunctionBlockBase {
 
-	// Use this for initialization
-	void Start () {
-		
-	}
-	
-	// Update is called once per frame
-	void Update () {
-		
-	}
+
+
+    
+    }
 }

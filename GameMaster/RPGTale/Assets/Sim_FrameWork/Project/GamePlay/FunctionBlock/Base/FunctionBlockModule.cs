@@ -12,7 +12,8 @@ namespace Sim_FrameWork {
             Manufacture,
             Raw,
             Science,
-            Energy
+            Energy,
+            Labor,
         }
         //Slot类型
         public enum FunctionBlockManuMaterialType
@@ -49,7 +50,7 @@ namespace Sim_FrameWork {
         public Dictionary<string, FunctionBlock> CurrentFunctionBlockDataDic = new Dictionary<string, FunctionBlock>();
 
         //info Data
-        public ManufactoryBaseInfoData manufactoryBaseInfoData;
+        public static ManufactoryBaseInfoData manufactoryBaseInfoData;
 
         #region Data
         public override void InitData()
@@ -80,7 +81,7 @@ namespace Sim_FrameWork {
 
 
 
-        private bool CheckTypeValid(string type)
+        private static bool CheckTypeValid(string type)
         {
             if (Enum.IsDefined(typeof(FunctionBlockType), type) == false)
             {
@@ -94,7 +95,7 @@ namespace Sim_FrameWork {
         #region Method Data
 
         //Get FunctionBlockType
-        public FunctionBlockType GetFunctionBlockType(int blockID)
+        public static FunctionBlockType GetFunctionBlockType(int blockID)
         {
             FunctionBlock functionBlock = GetFunctionBlockByBlockID(blockID);
             if (CheckTypeValid(functionBlock.FunctionBlockType) == false)
@@ -103,7 +104,7 @@ namespace Sim_FrameWork {
         }
 
         //Get Type Data
-        public FunctionBlockTypeData GetFacotryTypeData(FunctionBlockType type)
+        public static FunctionBlockTypeData GetFacotryTypeData(FunctionBlockType type)
         {
             FunctionBlockTypeData typeData = null;
             FunctionBlockTypeDataDic.TryGetValue(type.ToString(), out typeData);
@@ -117,7 +118,7 @@ namespace Sim_FrameWork {
                 return null;
             }
         }
-        public FunctionBlockTypeData GetFacotryTypeData(int functionBlockID)
+        public static FunctionBlockTypeData GetFacotryTypeData(int functionBlockID)
         {
             return GetFacotryTypeData(GetFunctionBlockType(functionBlockID));
         }
@@ -128,7 +129,7 @@ namespace Sim_FrameWork {
         /// <typeparam name="T"></typeparam>
         /// <param name="functionBlockID"></param>
         /// <returns></returns>
-        public T FetchFunctionBlockTypeIndex<T>(int functionBlockID) where T:class
+        public static T FetchFunctionBlockTypeIndex<T>(int functionBlockID) where T:class
         {
             switch (GetFunctionBlockType(functionBlockID))
             {
@@ -140,25 +141,36 @@ namespace Sim_FrameWork {
                     return GetFunctionBlock_ScienceData(GetFunctionBlockByBlockID(functionBlockID).FunctionBlockTypeIndex) as T;
                 case FunctionBlockType.Energy:
                     return GetFunctionBlock_EnergyData(GetFunctionBlockByBlockID(functionBlockID).FunctionBlockTypeIndex) as T;
+                case FunctionBlockType.Labor:
+                    return GetFunctionBlock_LaborData(GetFunctionBlockByBlockID(functionBlockID).FunctionBlockTypeIndex) as T;
                 default:
                     Debug.LogError("Fetch FacotryType Error facotryID=" + functionBlockID);
                     return null;
             }
         }
-
-        public FunctionBlock_Manufacture GetFunctionBlock_ManufactureData(int manufactureID)
+        
+        public static FunctionBlock_Labor GetFunctionBlock_LaborData(int laborID)
+        {
+            FunctionBlock_Labor labor = null;
+            FunctionBlock_LaborDic.TryGetValue(laborID, out labor);
+            if (labor == null)
+            {
+                Debug.LogError("Get FunctionBlock_Labor Data Error! LaborID=" + labor);
+            }
+            return labor;
+        }
+        public static FunctionBlock_Manufacture GetFunctionBlock_ManufactureData(int manufactureID)
         {
             FunctionBlock_Manufacture functionBlock_Manufacture = null;
             FunctionBlock_ManufactureDic.TryGetValue(manufactureID, out functionBlock_Manufacture);
             if (functionBlock_Manufacture == null)
             {
                 Debug.LogError("Get functionBlock_Manufacture Error , manufactureId=" + manufactureID);
-                return null;
             }
             return functionBlock_Manufacture;
         }
 
-        public FunctionBlock_Raw GetFacotryRawData(int rawID)
+        public static FunctionBlock_Raw GetFacotryRawData(int rawID)
         {
             FunctionBlock_Raw functionBlock_Raw = null;
             FunctionBlock_RawDic.TryGetValue(rawID, out functionBlock_Raw);
@@ -170,7 +182,7 @@ namespace Sim_FrameWork {
             return functionBlock_Raw;
         }
 
-        public FunctionBlock_Science GetFunctionBlock_ScienceData(int scienceID)
+        public static FunctionBlock_Science GetFunctionBlock_ScienceData(int scienceID)
         {
             FunctionBlock_Science functionBlock_Science = null;
             FunctionBlock_ScienceDic.TryGetValue(scienceID, out functionBlock_Science);
@@ -182,7 +194,7 @@ namespace Sim_FrameWork {
             return functionBlock_Science;
         }
 
-        public FunctionBlock_Energy GetFunctionBlock_EnergyData(int energyID)
+        public static FunctionBlock_Energy GetFunctionBlock_EnergyData(int energyID)
         {
             FunctionBlock_Energy functionBlock_Energy = null;
             FunctionBlock_EnergyDic.TryGetValue(energyID, out functionBlock_Energy);
@@ -194,23 +206,23 @@ namespace Sim_FrameWork {
             return functionBlock_Energy;
         }
 
-        public Sprite GetFunctionBlockIcon(int functionBlockID)
+        public static Sprite GetFunctionBlockIcon(int functionBlockID)
         {
             string path = GetFunctionBlockByBlockID(functionBlockID).BlockIcon;
             return Utility.LoadSprite(path,Utility.SpriteType.png);
          
         }
-        public Sprite GetFunctionBlockBG(int functionBlockID)
+        public static Sprite GetFunctionBlockBG(int functionBlockID)
         {
             string path = GetFunctionBlockByBlockID(functionBlockID).BlockBG;
             return Utility.LoadSprite(path, Utility.SpriteType.png);
         }
 
-        public ushort GetFunctionBlockMaxLevel(int functionBlockID)
+        public static ushort GetFunctionBlockMaxLevel(int functionBlockID)
         {
             return GetFunctionBlockByBlockID(functionBlockID).MaxLevel;
         }
-        public float GetManufactureSpeed(int functionBlockID)
+        public static float GetManufactureSpeed(int functionBlockID)
         {
             return FetchFunctionBlockTypeIndex<FunctionBlock_Manufacture>(functionBlockID).SpeedBase;
         }
@@ -650,11 +662,11 @@ namespace Sim_FrameWork {
         /// </summary>
         /// <param name="blockID"></param>
         /// <returns></returns>
-        public InherentLevelData GetBlockInherentLevelData(int blockID)
+        public static InherentLevelData GetBlockInherentLevelData(int blockID)
         {
             return GetBlockInherentLevelData(FetchFunctionBlockTypeIndex<FunctionBlock_Manufacture>(blockID).InherentLevel, FunctionBlockType.Manufacture);
         }
-        public InherentLevelData GetBlockInherentLevelData(string name,FunctionBlockType type)
+        public static InherentLevelData GetBlockInherentLevelData(string name,FunctionBlockType type)
         {
             switch (type)
             {
@@ -671,7 +683,7 @@ namespace Sim_FrameWork {
             }
         }
 
-        public List<string> GetBlockInherentLevelList()
+        public static List<string> GetBlockInherentLevelList()
         {
             List<string> result = new List<string>();
             foreach(var data in manufactoryBaseInfoData.InherentLevelDatas)
@@ -692,7 +704,7 @@ namespace Sim_FrameWork {
         /// <param name="id"></param>
         /// <param name="type"></param>
         /// <returns></returns>
-        public List<int> GetBlockEXPMapData(string id ,FunctionBlockType type)
+        public static List<int> GetBlockEXPMapData(string id ,FunctionBlockType type)
         {
             switch (type)
             {
@@ -710,7 +722,7 @@ namespace Sim_FrameWork {
            
         }
 
-        public List<int> GetBlockEXPMapData(int blockid)
+        public static List<int> GetBlockEXPMapData(int blockid)
         {
             FunctionBlockType type = GetFunctionBlockType(blockid);
             switch (type)
@@ -722,7 +734,7 @@ namespace Sim_FrameWork {
             }
         }
 
-        public int GetCurrentLevelEXP(List<int> expMap ,int currentLevel)
+        public static int GetCurrentLevelEXP(List<int> expMap ,int currentLevel)
         {
             if (expMap == null)
             {
@@ -741,7 +753,7 @@ namespace Sim_FrameWork {
             }
         }
 
-        public List<BlockDistrictUnlockData.DistrictUnlockData> GetManuBlockDistrictUnlockData(string id , FunctionBlockType type)
+        public static List<BlockDistrictUnlockData.DistrictUnlockData> GetManuBlockDistrictUnlockData(string id , FunctionBlockType type)
         {
             switch (type)
             {
@@ -767,7 +779,7 @@ namespace Sim_FrameWork {
         /// </summary>
         /// <param name="blockid"></param>
         /// <returns></returns>
-        public List<BlockDistrictUnlockData.DistrictUnlockData> GetManuBlockDistrictUnlockData(int blockid)
+        public static List<BlockDistrictUnlockData.DistrictUnlockData> GetManuBlockDistrictUnlockData(int blockid)
         {
             FunctionBlockType type = GetFunctionBlockType(blockid);
             return GetManuBlockDistrictUnlockData(GetFunctionBlockByBlockID(blockid).DistrictData,type);
@@ -776,7 +788,7 @@ namespace Sim_FrameWork {
         #endregion
 
         //Formula
-        public List<Dictionary<Material,ushort>> GetFunctionBlockFormulaDataList(FunctionBlock block,FormulaModule.MaterialProductType GetType)
+        public static List<Dictionary<Material,ushort>> GetFunctionBlockFormulaDataList(FunctionBlock block,FormulaModule.MaterialProductType GetType)
         {
             List<Dictionary<Material, ushort>> result = new List<Dictionary<Material, ushort>>();
 
@@ -788,7 +800,7 @@ namespace Sim_FrameWork {
             }
             return result;
         }
-        public List<FormulaData> GetFormulaDataList(FunctionBlock block)
+        public static List<FormulaData> GetFormulaDataList(FunctionBlock block)
         {
             return FormulaModule.GetFormulaDataList(FetchFunctionBlockTypeIndex<FunctionBlock_Manufacture>(block.FunctionBlockID).FormulaInfoID);
         }

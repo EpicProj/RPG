@@ -17,9 +17,9 @@ namespace Sim_FrameWork {
         }
 
 
-        public void DoFunctionBlockModifier(FunctionBlockInfoData info,string modifierName)
+        public void DoManufactBlockModifier(ManufactoryInfo manuInfo, FunctionBlockInfoData baseInfo,string modifierName)
         {
-            DoFunctionBlockModifier(info, GetModifierBase(modifierName));
+            DoManufactoryBlockModifier(manuInfo, baseInfo, GetModifierBase(modifierName));
         }
 
         /// <summary>
@@ -27,7 +27,7 @@ namespace Sim_FrameWork {
         /// </summary>
         /// <param name="infoData"></param>
         /// <param name="modifierBase"></param>
-        public void DoFunctionBlockModifier(FunctionBlockInfoData info,ModifierBase modifierBase)
+        public void DoManufactoryBlockModifier(ManufactoryInfo manuInfo,FunctionBlockInfoData baseInfo, ModifierBase modifierBase)
         {
             if (modifierBase == null)
             {
@@ -46,30 +46,30 @@ namespace Sim_FrameWork {
             {
                 case ModifierFunctionBlockType.ManuSpeed:
                     //Modifier Speed
-                    if (!IsAddFcuntionBlockModifier(info, modifierBase))
+                    if (!IsAddFcuntionBlockModifier(baseInfo, modifierBase))
                     {
                         data = ModifierData.Create(modifierBase, delegate
                          {
-                             info.AddCurrentSpeed(modifierBase.Value);
-                             UIManager.Instance.SendMessageToWnd(UIPath.FUNCTIONBLOCK_INFO_DIALOG, "UpdateSpeedText", info.CurrentSpeed);
+                             manuInfo.AddCurrentSpeed(modifierBase.Value);
+                             UIManager.Instance.SendMessageToWnd(UIPath.FUNCTIONBLOCK_INFO_DIALOG, "UpdateSpeedText", manuInfo.CurrentSpeed);
                          });
                     }
                     break;
                 case ModifierFunctionBlockType.EnergyCostNormal:
                     //Modifier EnergyCost
-                    if (!IsAddFcuntionBlockModifier(info, modifierBase))
+                    if (!IsAddFcuntionBlockModifier(baseInfo, modifierBase))
                     {
                         data = ModifierData.Create(modifierBase, delegate
                          {
-                             info.AddEnergyCostNormal(modifierBase.Value);
+                             manuInfo.AddEnergyCostNormal(modifierBase.Value);
                          });
                     }
                     break;
                 case ModifierFunctionBlockType.EnergyCostMagic:
-                    if (!IsAddFcuntionBlockModifier(info, modifierBase)){
+                    if (!IsAddFcuntionBlockModifier(baseInfo, modifierBase)){
                         data = ModifierData.Create(modifierBase, delegate
                          {
-                             info.AddEnergyCostMagic(modifierBase.Value);
+                             manuInfo.AddEnergyCostMagic(modifierBase.Value);
                          });
                     }
                     break;
@@ -78,7 +78,7 @@ namespace Sim_FrameWork {
 
             if (data != null)
             {
-                info.blockModifier.OnAddModifier(data);
+                baseInfo.blockModifier.OnAddModifier(data);
             }
         }
 

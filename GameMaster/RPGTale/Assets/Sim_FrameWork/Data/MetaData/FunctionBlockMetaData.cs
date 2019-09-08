@@ -63,6 +63,7 @@ public class FunctionBlockMetaData : ExcelBase {
             manu.SpeedBase = i;
             manu.FormulaInfoID = i;
             manu.MaintenanceBase = "";
+            manu.WorkerBase = i;
             manu.EnergyConsumptionBase = "";
             AllFunctionBlock_ManufactureList.Add(manu);
         }
@@ -308,6 +309,8 @@ public class FunctionBlock_Manufacture
     [XmlAttribute]
     //维护成本
     public string MaintenanceBase { get; set; }
+    [XmlAttribute]
+    public float WorkerBase { get; set; }
     [XmlAttribute]
     public string EnergyConsumptionBase { get; set; }
 }
