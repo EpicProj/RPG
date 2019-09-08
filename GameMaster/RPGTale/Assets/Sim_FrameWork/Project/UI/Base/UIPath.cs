@@ -24,6 +24,8 @@ namespace Sim_FrameWork
         #region ItemPath
         //区划格
         public const string DISTRICT_PREFAB_PATH = "Assets/Prefabs/Object/District/District.prefab";
+        //区划底格
+        public const string DISTRICTSLOT_PREFAB_PATH = "Assets/Prefabs/Object/District/BlockGrid.prefab";
         //材料单位
         public const string MATERIAL_PREFAB_PATH = "Assets/Prefabs/Object/Material/MaterialItem.prefab";
         //区划建造单位

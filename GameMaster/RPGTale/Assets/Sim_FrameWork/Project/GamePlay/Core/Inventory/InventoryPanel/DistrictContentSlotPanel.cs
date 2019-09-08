@@ -15,12 +15,13 @@ namespace Sim_FrameWork
 
     public class DistrictContentSlotPanel : InventoryBase
     {
-        private const string DISTRICTSLOT_PREFAB_PATH = "Assets/Prefabs/Object/BlockGrid.prefab";
+        private GridLayoutGroup gridlayoutGroup;
 
         public override void Awake()
         {
             base.Awake();
             InitData();
+            gridlayoutGroup = GetComponent<GridLayoutGroup>();
         }
 
         /// <summary>
@@ -58,6 +59,8 @@ namespace Sim_FrameWork
         {
             if (blockInfo.currentDistrictDataDic == null)
                 return;
+            gridlayoutGroup.constraint = GridLayoutGroup.Constraint.FixedColumnCount;
+            gridlayoutGroup.constraintCount = (int)blockInfo.districtAreaMax.x;
             foreach (KeyValuePair<Vector2, DistrictAreaInfo> kvp in blockInfo.currentDistrictDataDic)
             {
                 int index = FunctionBlockModule.Instance.GetDistrictAreaIndex(blockInfo.districtAreaMax, kvp.Key);
@@ -99,7 +102,7 @@ namespace Sim_FrameWork
         public void InitEmptyDisBlock(DistrictAreaBase info)
         {
             //ContainEmptyInfo
-            GameObject EmptySlot = ObjectManager.Instance.InstantiateObject(DISTRICTSLOT_PREFAB_PATH);
+            GameObject EmptySlot = ObjectManager.Instance.InstantiateObject(UIPath.DISTRICTSLOT_PREFAB_PATH);
             EmptySlot.GetComponent<Image>().sprite = info.sprite;
             EmptySlot.transform.SetParent(transform, false);
             EmptySlot.transform.localScale = Vector3.one;
@@ -111,7 +114,7 @@ namespace Sim_FrameWork
 
         public void InitUnlockDisBlock(DistrictAreaBase info)
         {
-            GameObject UnlockSlot = ObjectManager.Instance.InstantiateObject(DISTRICTSLOT_PREFAB_PATH);
+            GameObject UnlockSlot = ObjectManager.Instance.InstantiateObject(UIPath.DISTRICTSLOT_PREFAB_PATH);
             UnlockSlot.transform.SetParent(transform, false);
             UnlockSlot.GetComponent<DistrictSlot>().InitBaseInfo(info);
         }

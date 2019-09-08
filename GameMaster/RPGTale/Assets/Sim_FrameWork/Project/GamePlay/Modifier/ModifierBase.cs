@@ -21,15 +21,17 @@ namespace Sim_FrameWork
     [Serializable]
     public class ModifierBase 
     {
-        public string ModifierName;
+
+        //Row Data
+        public string ModifierName ;
         /// <summary>
         /// 作用目标
         /// </summary>
-        public ModifierTarget Target;
+        public string Target;
         /// <summary>
         /// 区块作用类型
         /// </summary>
-        public ModifierFunctionBlockType functionBlockType;
+        public string functionBlockType;
         /// <summary>
         /// 基础资源作用类型
         /// </summary>
@@ -45,7 +47,31 @@ namespace Sim_FrameWork
         /// <summary>
         /// 效果值
         /// </summary>
-        public float Num;
+        public float Value;
+
+
+        public ModifierTarget ParseTargetType(string target)
+        {
+            ModifierTarget modifierTarget = ModifierTarget.None;
+            Enum.TryParse<ModifierTarget>(target, out modifierTarget);
+            if (modifierTarget == ModifierTarget.None)
+            {
+                Debug.LogError("ModiferType Error! Type=" + target);
+            }
+            return modifierTarget;
+        }
+
+        public ModifierFunctionBlockType ParseModifierFunctionBlockType(string blockType)
+        {
+            ModifierFunctionBlockType modifierFunctionBlockType = ModifierFunctionBlockType.None;
+            Enum.TryParse<ModifierFunctionBlockType>(blockType, out modifierFunctionBlockType);
+            if (modifierFunctionBlockType == ModifierFunctionBlockType.None)
+            {
+                Debug.LogError("ModiferType Error! Type=" + blockType);
+            }
+            return modifierFunctionBlockType;
+        }
+
 
     }
     [Serializable]
@@ -348,7 +374,7 @@ namespace Sim_FrameWork
             data._persistentTime = modifier.Time;
             data.modifierOverlapType = modifier.OverlapType;
             data.modifierRemoveType = modifier.RemoveType;
-            data.target = modifier.Target;
+            data.target = modifier.ParseTargetType(modifier.Target);
             data.MaxLimit = modifier.MaxLimit;
             data.OnCallBack = callback;
             data.OnAddLayer = addLayerAction;
@@ -404,12 +430,22 @@ namespace Sim_FrameWork
         /// <summary>
         /// 订单
         /// </summary>
-        Order
+        Order,
+        /// <summary>
+        /// Error
+        /// </summary>
+        None
     }
 
     public enum ModifierFunctionBlockType
     {
+        /// <summary>
+        /// 建造速度
+        /// </summary>
         ManuSpeed,
+        /// <summary>
+        /// 维护成本
+        /// </summary>
         Maintain,
         /// <summary>
         /// 能源消耗
@@ -419,7 +455,14 @@ namespace Sim_FrameWork
         /// 炼金能源消耗
         /// </summary>
         EnergyCostMagic,
-        Worker
+        /// <summary>
+        /// 所需工人
+        /// </summary>
+        Worker,
+        /// <summary>
+        /// Error
+        /// </summary>
+        None,
 
     }
 

@@ -13,6 +13,8 @@ namespace Sim_FrameWork
         public static Dictionary<int, DistrictType> DistrictTypeDic = new Dictionary<int, DistrictType>();
         public static List<DistrictIcon> DistrictIconList = new List<DistrictIcon>();
         public static Dictionary<int, DistrictIcon> DistrictIconDic = new Dictionary<int, DistrictIcon>();
+        public static List<DistrictModel> DistrictModelList = new List<DistrictModel>();
+        public static Dictionary<int, DistrictModel> DistrictModelDic = new Dictionary<int, DistrictModel>();
 
         public static void LoadData()
         {
@@ -28,6 +30,8 @@ namespace Sim_FrameWork
             DistrictTypeDic = config.AllDistrictTypeDic;
             DistrictIconList = config.AllDistrictIconList;
             DistrictIconDic = config.AllDistrictIconDic;
+            DistrictModelList = config.AllDistrictModelList;
+            DistrictModelDic = config.AllDistrictModelDic;
         }
 
 
@@ -65,6 +69,16 @@ namespace Sim_FrameWork
             return DistrictIconDic;
         }
 
+        public static List<DistrictModel> GetDistrictModel()
+        {
+            LoadData();
+            return DistrictModelList;
+        }
+        public static Dictionary<int,DistrictModel> GetDistrictModelDic()
+        {
+            LoadData();
+            return DistrictModelDic;
+        }
         public static DistrictData GetDistrictDataByKey(int key)
         {
             LoadData();

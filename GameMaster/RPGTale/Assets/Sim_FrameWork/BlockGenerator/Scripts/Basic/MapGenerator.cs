@@ -79,8 +79,9 @@ namespace Sim_FrameWork
 
 
         public static bool Inited;
-        public void Awake()
+        protected override void Awake()
         {
+            base.Awake();
             ChunkManagerInstance = GetComponent<ChunkManager>();
 
             InitData();

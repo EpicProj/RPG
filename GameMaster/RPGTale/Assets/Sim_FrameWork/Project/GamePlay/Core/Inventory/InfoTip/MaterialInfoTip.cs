@@ -7,10 +7,15 @@ namespace Sim_FrameWork
 {
     public class MaterialInfoTip : MonoBehaviour
     {
+        private Image TitleSprite;
         private Text Name;
         private Text Desc;
         private Image TypeIcon;
         private Text TypeName;
+        private Image SubTypeIcon;
+        private Text SubTypeName;
+
+        private Text Rarity;
         private CanvasGroup canvasGroup;
 
         private float targetAlpha = 0;
@@ -18,10 +23,14 @@ namespace Sim_FrameWork
 
         private void Start()
         {
+            TitleSprite = transform.Find("TitleBG/Icon").GetComponent<Image>();
             Name = transform.Find("TitleBG/Name").GetComponent<Text>();
             Desc = transform.Find("Desc").GetComponent<Text>();
             TypeIcon = transform.Find("Type/Icon").GetComponent<Image>();
             TypeName = transform.Find("Type/Type").GetComponent<Text>();
+            SubTypeIcon= transform.Find("Type/SubIcon").GetComponent<Image>();
+            SubTypeName= transform.Find("Type/SubType").GetComponent<Text>();
+            Rarity = transform.Find("Rarity/Text").GetComponent<Text>();
             canvasGroup = GetComponent<CanvasGroup>();
         }
 
@@ -39,11 +48,16 @@ namespace Sim_FrameWork
 
         public void OnShow(Material ma)
         {
+            TitleSprite.sprite = MaterialModule.Instance.GetMaterialSprite(ma.MaterialID);
             Name.text = MaterialModule.Instance.GetMaterialName(ma);
             Desc.text = MaterialModule.Instance.GetmaterialDesc(ma);
             TypeIcon.sprite = MaterialModule.Instance.GetMaterialMainTypeSprite(ma);
             TypeName.text = MaterialModule.Instance.GetMaterialMainTypeName(ma);
-
+            SubTypeIcon.sprite = MaterialModule.Instance.GetMaterialSubTypeIcon(ma);
+            SubTypeName.text = MaterialModule.Instance.GetMaterialSubTypeName(ma);
+            Rarity.text = MaterialModule.Instance.GetMaterialRarityName(ma);
+            Rarity.color = MaterialModule.Instance.TryParseRarityColor(ma);
+               
             targetAlpha = 1;
         }
 

@@ -30,14 +30,14 @@ namespace Sim_FrameWork
         public float Currency { get { return _currency; } protected set { } }
         //最大货币储量
         private float _currencyMax;
-        public float CurrencyMax { get { return _currency; } set { _currencyMax = value; } }
+        public float CurrencyMax { get { return _currencyMax; } protected set {  } }
 
         //当前食物
         private int _food;
         public int Food { get { return _food; } protected set { } }
         //食物最大储量
         private int _foodMax;
-        public int FoodMax { get { return _foodMax; } set { _foodMax = value; } }
+        public int FoodMax { get { return _foodMax; } protected set { } } 
 
         //当前劳动力
         private int _labor;
@@ -51,11 +51,11 @@ namespace Sim_FrameWork
         public int Reputation { get { return _reputation; } }
         //信誉最大值
         private int _reputationMax;
-        public int ReputationMax { get { return _reputationMax; } set { _reputationMax = value; } }
+        public int ReputationMax { get { return _reputationMax; } protected set { } }
 
         //当前科技转换率
-        private float technologyConversionRate;
-        public float TechnologyConversionRate { get { return technologyConversionRate; } set { technologyConversionRate = value; } }
+        private float _technologyConversionRate;
+        public float TechnologyConversionRate { get { return _technologyConversionRate; } protected set {  } }
 
         //Add Currenct
         public void AddCurrency(float num)

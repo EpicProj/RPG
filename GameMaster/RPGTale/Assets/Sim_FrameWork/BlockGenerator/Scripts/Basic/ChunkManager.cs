@@ -107,6 +107,13 @@ namespace Sim_FrameWork
             return chunkObj;
         }
 
+        #region Spawn Chunk
+        /// <summary>
+        /// 区块生成
+        /// </summary>
+        /// <param name="x"></param>
+        /// <param name="y"></param>
+        /// <param name="z"></param>
         public static void SpawnChunks(int x,int y,int z)
         {
             MapGenerator.ChunkManagerInstance.TrySpawnChunks(x,y,z);
@@ -114,6 +121,11 @@ namespace Sim_FrameWork
         public static void SpawnChunks(Index index)
         {
             MapGenerator.ChunkManagerInstance.TrySpawnChunks(index.x, index.y, index.z);
+        }
+        public static void SpawnChunks(Vector3 pos)
+        {
+            Index index = MapGenerator.PositionToChunkIndex(pos);
+            MapGenerator.ChunkManagerInstance.TrySpawnChunks(index);
         }
 
         private void TrySpawnChunks(Index index)
@@ -334,4 +346,7 @@ namespace Sim_FrameWork
             ProcessChunkQueueLoopActive = false;
         }
     }
+
+
+    #endregion
 }

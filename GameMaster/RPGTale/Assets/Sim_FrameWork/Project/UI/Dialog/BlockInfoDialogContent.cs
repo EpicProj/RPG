@@ -8,6 +8,14 @@ namespace Sim_FrameWork
     public class BlockInfoDialogContent : WindowBase
     {
 
+        public enum InfoType
+        {
+            Speed,
+            Energy,
+            Maintain,
+            Worker,
+        }
+
         private const string INFOPANEL_MANUSPEED_TITLE = "FuntionBlockInfoDialog_Info_Manufact_Speed_Title";
         private const string INFOPANEL_ENERGY_TITLE = "FuntionBlockInfoDialog_Info_Energy_Title";
         private const string INFOPANEL_MAINTAIN_TITLE = "FuntionBlockInfoDialog_Info_Maintain_Title";
@@ -37,9 +45,7 @@ namespace Sim_FrameWork
         private Transform ByproductSlotContent;
 
         //LV
-
         private Text LvValue;
-
 
         /// <summary>
         /// [0] currentBlockid   [1] currentDistrictData
@@ -151,6 +157,13 @@ namespace Sim_FrameWork
                     blockInfo.levelInfo = levelInfo;
                     UpdateLevel(levelInfo);
                     return true;
+                case "UpdateSpeedText":
+                    //UpdateSpeed
+                    float Addspeed = (float)paralist[0];
+                    blockInfo.AddCurrentSpeed(Addspeed);
+                    RefreshInfoText(blockInfo.CurrentSpeed, InfoType.Speed);
+                    return true;
+
                 default:
                     Debug.LogError("UI msg Error , msgID=" + msgID);
                     return false;
@@ -170,8 +183,33 @@ namespace Sim_FrameWork
             MaintianText= m_dialog.InfoData.transform.Find("Maintain/Value/Value").GetComponent<Text>();
             m_dialog.InfoData.transform.Find("Worker/Info/Item/Text").GetComponent<Text>().text = MultiLanguage.Instance.GetTextValue(INFOPANEL_WOEKER_TITLE);
             WorkerText = m_dialog.InfoData.transform.Find("Worker/Value/Value").GetComponent<Text>();
-
+            RefreshInfoText(blockInfo.CurrentSpeed, InfoType.Speed);
+            RefreshInfoText(blockInfo.EnergyCostNormal, InfoType.Energy);
+            RefreshInfoText(blockInfo.WorkerNum, InfoType.Worker);
+            RefreshInfoText(blockInfo.Maintain, InfoType.Maintain);
         }
+
+        public void RefreshInfoText(float value, InfoType type)
+        {
+            switch (type)
+            {
+                case InfoType.Energy:
+                    EnergyText.text = value.ToString();
+                    break;
+                case InfoType.Maintain:
+                    MaintianText.text = value.ToString();
+                    break;
+                case InfoType.Speed:
+                    SpeedText.text = value.ToString();
+                    break;
+                case InfoType.Worker:
+                    WorkerText.text = value.ToString();
+                    break;
+                default:
+                    break;
+            }   
+        }
+
 
 
         //Button

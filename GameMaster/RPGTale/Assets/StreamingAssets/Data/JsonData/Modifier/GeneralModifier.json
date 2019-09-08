@@ -2,14 +2,14 @@
 	"ModifierBase":
 	[{
 		"ModifierName":"AddManuSpeed",
-		"Target":1,
-		"functionBlockType":0,
+		"Target":"FunctionBlock",
+		"functionBlockType":"ManuSpeed",
 		"OverlapType":0,
 		"RemoveType":1,
 		"AddType":0,
 		"MaxLimit":0,
 		"Time":100,
 		"CallFrequency":1,
-		"Num":500
+		"Value":1
 	}]
 }

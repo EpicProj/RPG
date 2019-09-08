@@ -26,6 +26,7 @@ namespace Sim_FrameWork
         //游戏状态
         private GameStates _gameStates = GameStates.Start;
         public GameStates gameStates { get { return _gameStates; } }
+        private GameObject PausePage;
 
         public static Config.GlobalSetting globalSettings =new Config.GlobalSetting ();
         protected override void Awake()
@@ -37,6 +38,8 @@ namespace Sim_FrameWork
             UIManager.Instance.Init(GameObject.Find("MainCanvas").transform as RectTransform, GameObject.Find("MainCanvas/Window").transform as RectTransform, GameObject.Find("MainCanvas/UICamera").GetComponent<Camera>(), GameObject.Find("MainCanvas/EventSystem").GetComponent<EventSystem>());
             MainCanvas = GameObject.Find("MainCanvas").GetComponent<Canvas>();
             raycaster = MainCanvas.GetComponent<GraphicRaycaster>();
+            PausePage = MainCanvas.transform.Find("Window/PausePage").gameObject;
+            PausePage.transform.GetComponent<CanvasGroup>().alpha = 0;
             globalSettings.LoadGlobalSettting();
 
             RegisterModule();
@@ -94,9 +97,13 @@ namespace Sim_FrameWork
             {
                 case GameStates.Pause:
                     _gameStates = states;
+                    Time.timeScale = 0;
+                    PausePage.transform.GetComponent<CanvasGroup>().alpha = 1;
                     break;
                 case GameStates.Start:
                     _gameStates = states;
+                    Time.timeScale = 1;
+                    PausePage.transform.GetComponent<CanvasGroup>().alpha = 0;
                     break;
             }
           

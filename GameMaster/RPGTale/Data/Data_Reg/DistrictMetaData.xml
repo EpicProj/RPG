@@ -6,7 +6,6 @@
 			<variable  name="DistrictName" col = "DistrictName" type="string"/>
 			<variable  name="DistrictDesc" col = "DistrictDesc" type="string"/>
 			<variable  name="Type" col = "Type" type="int"/>
-			<variable  name="ModelPath" col = "ModelPath" type="string"/>
 			<variable  name="Level" col = "Level" type="ushort"/>
 			<variable  name="CurrencyCost" col = "CurrencyCost" type="int"/>
 			<variable  name="MaterialCostList" col = "MaterialCostList" type="string"/>
@@ -20,12 +19,19 @@
 			<variable  name="TypeID" col = "TypeID" type="int"/>
 			<variable  name="TypeShape" col = "TypeShape" type="string"/>
 			<variable  name="IconList" col = "IconList" type="string"/>
+			<variable  name="PrefabList" col = "PrefabList" type="string"/>
 		</list>
 	</variable>
 		<variable  name="AllDistrictIconList" type="list">
 		<list name = "DistrictIcon" sheetname="DistrictIcon" mainKey = "IconID">
 			<variable  name="IconID" col = "IconID" type="int"/>
 			<variable  name="IconPath" col = "IconPath" type="string"/>
+		</list>
+	</variable>
+		<variable  name="AllDistrictModelList" type="list">
+		<list name = "DistrictModel" sheetname="DistrictModel" mainKey = "ID">
+			<variable  name="ID" col = "ID" type="int"/>
+			<variable  name="ModelPath" col = "ModelPath" type="string"/>
 		</list>
 	</variable>
 </data>

@@ -138,29 +138,29 @@ namespace Sim_FrameWork
         /// WorkerNum
         /// </summary>
         [SerializeField]
-        private int _workerNum;
-        public int WorkerNum { get { return _workerNum; }  set {  } }
+        private int _workerNum =0;
+        public int WorkerNum { get { return _workerNum; } protected set {  } }
 
-        private int _maintain;
-        public int Maintain { get { return _maintain; }  set { } }
+        private float _maintain =0;
+        public float Maintain { get { return _maintain; } protected set { } }
 
         /// <summary>
         /// 基础电力消耗
         /// </summary>
         [SerializeField]
-        private float _energyCostNormal;
-        public float EnergyCostNormal { get { return _energyCostNormal; }  set { } }
+        private float _energyCostNormal =0;
+        public float EnergyCostNormal { get { return _energyCostNormal; } protected set { } }
         [SerializeField]
-        private float _energyCostMagic;
-        public float EnergyCostMagic { get { return _energyCostNormal; }  set { } }
+        private float _energyCostMagic =0;
+        public float EnergyCostMagic { get { return _energyCostNormal; } protected set { } }
 
     
         /// <summary>
         /// current Manu Speed
         /// </summary>
         [SerializeField]
-        private float _currentSpeed;
-        public float CurrentSpeed { get { return _currentSpeed; }  set { _currentSpeed = value; } }
+        private float _currentSpeed =0;
+        public float CurrentSpeed { get { return _currentSpeed; } protected set { } }
 
         public ManufactFormulaInfo formulaInfo;
         public List<DistrictUnlockData> districtUnlockDataList;
@@ -212,8 +212,11 @@ namespace Sim_FrameWork
                 _workerNum = 0;
         }
 
-        public void AddMaintain(int num)
+        public void AddMaintain(float num)
         {
+            _maintain += num;
+            if (_maintain <= 0)
+                _maintain = 0;
 
         }
         public void AddEnergyCostNormal(float num)

@@ -12,6 +12,8 @@ namespace Sim_FrameWork {
         public static Dictionary<int, DistrictType> DistrictTypeDic = new Dictionary<int, DistrictType>();
         public static List<DistrictIcon> DistrictIconList = new List<DistrictIcon>();
         public static Dictionary<int, DistrictIcon> DistrictIconDic = new Dictionary<int, DistrictIcon>();
+        public static List<DistrictModel> DistrictModelList = new List<DistrictModel>();
+        public static Dictionary<int, DistrictModel> DistrictModelDic = new Dictionary<int, DistrictModel>();
 
         private bool HasInit = false;
 
@@ -26,6 +28,8 @@ namespace Sim_FrameWork {
             DistrictTypeDic = DistrictMetaDataReader.GetDistrictTypeDic();
             DistrictIconList = DistrictMetaDataReader.GetDistrictIcon();
             DistrictIconDic = DistrictMetaDataReader.GetDistrictIconDic();
+            DistrictModelList = DistrictMetaDataReader.GetDistrictModel();
+            DistrictModelDic = DistrictMetaDataReader.GetDistrictModelDic();
             HasInit = true;
         }
 

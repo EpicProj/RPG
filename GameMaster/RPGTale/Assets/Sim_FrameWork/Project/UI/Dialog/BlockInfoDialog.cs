@@ -26,6 +26,10 @@ public class BlockInfoDialog : MonoBehaviour {
     //District Build
     public GameObject BuildContent;
 
+    //Btn
+    public Button StatisticsBtn;
+    public Button UpgradeBtn;
+
 
     void Awake()
     {

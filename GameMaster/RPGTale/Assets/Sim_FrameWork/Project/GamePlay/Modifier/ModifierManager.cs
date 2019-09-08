@@ -34,7 +34,7 @@ namespace Sim_FrameWork {
                 Debug.LogError("Modifier Base Data is null");
                 return;
             }
-            if (modifierBase.Target != ModifierTarget.FunctionBlock)
+            if (modifierBase.ParseTargetType(modifierBase.Target) != ModifierTarget.FunctionBlock)
             {
                 Debug.LogError("ModifierTargetError  Name=" + modifierBase.ModifierName);
                 return;
@@ -42,7 +42,7 @@ namespace Sim_FrameWork {
 
             ModifierData data = null;
 
-            switch (modifierBase.functionBlockType)
+            switch (modifierBase.ParseModifierFunctionBlockType(modifierBase.functionBlockType))
             {
                 case ModifierFunctionBlockType.ManuSpeed:
                     //Modifier Speed
@@ -50,7 +50,8 @@ namespace Sim_FrameWork {
                     {
                         data = ModifierData.Create(modifierBase, delegate
                          {
-                             info.AddCurrentSpeed(modifierBase.Num);
+                             info.AddCurrentSpeed(modifierBase.Value);
+                             UIManager.Instance.SendMessageToWnd(UIPath.FUNCTIONBLOCK_INFO_DIALOG, "UpdateSpeedText", info.CurrentSpeed);
                          });
                     }
                     break;
@@ -60,7 +61,7 @@ namespace Sim_FrameWork {
                     {
                         data = ModifierData.Create(modifierBase, delegate
                          {
-                             info.AddEnergyCostNormal(modifierBase.Num);
+                             info.AddEnergyCostNormal(modifierBase.Value);
                          });
                     }
                     break;
@@ -68,7 +69,7 @@ namespace Sim_FrameWork {
                     if (!IsAddFcuntionBlockModifier(info, modifierBase)){
                         data = ModifierData.Create(modifierBase, delegate
                          {
-                             info.AddEnergyCostMagic(modifierBase.Num);
+                             info.AddEnergyCostMagic(modifierBase.Value);
                          });
                     }
                     break;

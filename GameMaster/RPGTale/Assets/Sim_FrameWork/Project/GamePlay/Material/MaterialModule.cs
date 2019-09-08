@@ -5,7 +5,7 @@ using System;
 using UnityEngine.UI;
 
 namespace Sim_FrameWork {
-    public class MaterialModule : Singleton<MaterialModule> {
+    public class MaterialModule : BaseModule<MaterialModule> {
 
 
         public List<Material> MaterialList = new List<Material>();
@@ -20,7 +20,7 @@ namespace Sim_FrameWork {
 
 
         #region data
-        public void InitData()
+        public override void InitData()
         {
             if (HasInit)
                 return;
@@ -28,7 +28,7 @@ namespace Sim_FrameWork {
             MaterialDic = MaterialMetaDataReader.GetMaterialDic();
             maConfig = new MaterialConfig();
             maConfig.LoadConfigData();
-            AllMaterialRarityList = GetAllMainMaterialTypeList();
+            AllMaterialRarityList = GetAllMaterialRarityList();
             AllMaterialTypeList = GetAllMainMaterialTypeList();
             HasInit = true;
         }
@@ -112,13 +112,25 @@ namespace Sim_FrameWork {
             }
             return data;
         }
-        public string GetRarityName(MaterialConfig.MaterialRarityData data)
+        public string GetMaterialRarityName(MaterialConfig.MaterialRarityData data)
         {
             return MultiLanguage.Instance.GetTextValue(data.RarityName);
         }
+        public string GetMaterialRarityName(Material ma)
+        {
+            return MultiLanguage.Instance.GetTextValue(GetMaterialRarityData(ma.MaterialID).RarityName);
+        }
 
-
-
+        public Color TryParseRarityColor(Material ma)
+        {
+            Color result = new Color();
+            ColorUtility.TryParseHtmlString(GetMaterialRarityData(ma.MaterialID).RarityColor, out result);
+            if (result == null)
+            {
+                Debug.LogError("Parse Color Error! color=" + GetMaterialRarityData(ma.MaterialID).RarityColor);
+            }
+            return result;
+        }
         //Type
 
         /// <summary>
@@ -274,6 +286,10 @@ namespace Sim_FrameWork {
         {
             return MultiLanguage.Instance.GetTextValue(subtype.SubTypeName);
         }
+        public string GetMaterialSubTypeName(Material ma)
+        {
+            return MultiLanguage.Instance.GetTextValue(GetMaterialSubType(ma.MaterialID).SubTypeName);
+        }
         public string GetMaterialSubTypeDesc(MaterialConfig.MaterialType.MaterialSubType subtype)
         {
             return MultiLanguage.Instance.GetTextValue(subtype.SubTypeDesc);
@@ -282,6 +298,10 @@ namespace Sim_FrameWork {
         public Sprite GetMaterialSubTypeIcon(MaterialConfig.MaterialType.MaterialSubType subtype)
         {
             return Utility.LoadSprite(subtype.SubTypeIcon, Utility.SpriteType.png);
+        }
+        public Sprite GetMaterialSubTypeIcon(Material ma)
+        {
+            return Utility.LoadSprite(GetMaterialSubType(ma.MaterialID).SubTypeIcon, Utility.SpriteType.png);
         }
         #endregion
 

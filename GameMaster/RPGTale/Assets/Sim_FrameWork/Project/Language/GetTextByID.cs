@@ -9,7 +9,7 @@ namespace Sim_FrameWork
     public class GetTextByID : MonoBehaviour
     {
         public string Textid;
-        void Awake()
+        void Start()
         {
             InitText();
         }
@@ -18,7 +18,11 @@ namespace Sim_FrameWork
         {
             if (!string.IsNullOrEmpty(Textid))
             {
-                MultiLanguage.Instance.GetTextValue(Textid);
+                GetComponent<Text>().text = MultiLanguage.Instance.GetTextValue(Textid);
+            }
+            else
+            {
+                GetComponent<Text>().text = "Error!+" + Textid;
             }
         }
     }
