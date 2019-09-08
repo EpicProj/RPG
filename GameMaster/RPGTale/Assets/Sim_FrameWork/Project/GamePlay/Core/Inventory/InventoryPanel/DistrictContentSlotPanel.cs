@@ -63,7 +63,7 @@ namespace Sim_FrameWork
             gridlayoutGroup.constraintCount = (int)blockInfo.districtAreaMax.x;
             foreach (KeyValuePair<Vector2, DistrictAreaInfo> kvp in blockInfo.currentDistrictDataDic)
             {
-                int index = FunctionBlockModule.Instance.GetDistrictAreaIndex(blockInfo.districtAreaMax, kvp.Key);
+                int index = FunctionBlockModule.GetDistrictAreaIndex(blockInfo.districtAreaMax, kvp.Key);
                 if (slotList.Length < index)
                 {
                     Debug.LogError("Area Error!");
@@ -82,10 +82,10 @@ namespace Sim_FrameWork
                     {
                         //Init Large District
                        
-                        List<Vector2> v2 = DistrictModule.Instance.GetRealDistrictTypeArea(kvp.Value.data, kvp.Key);
+                        List<Vector2> v2 = DistrictModule.GetRealDistrictTypeArea(kvp.Value.data, kvp.Key);
                         for (int i = 0; i < v2.Count; i++)
                         {
-                            int pos = FunctionBlockModule.Instance.GetDistrictAreaIndex(blockInfo.districtAreaMax, v2[i]);
+                            int pos = FunctionBlockModule.GetDistrictAreaIndex(blockInfo.districtAreaMax, v2[i]);
                             DistrictSlot slot = (DistrictSlot)slotList[pos];
                             slot.InitDistrictAreaSlot(kvp.Value);
                         }

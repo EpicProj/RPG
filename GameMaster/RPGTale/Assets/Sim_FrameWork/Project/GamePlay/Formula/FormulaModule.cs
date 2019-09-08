@@ -21,10 +21,10 @@ namespace Sim_FrameWork
             Automatic
         }
 
-        public List<FormulaData> FormulaDataList = new List<FormulaData>();
-        public Dictionary<int, FormulaData> FormulaDataDic = new Dictionary<int, FormulaData>();
-        public List<FormulaInfo> FormulaInfoList = new List<FormulaInfo>();
-        public Dictionary<int, FormulaInfo> FormulaInfoDic = new Dictionary<int, FormulaInfo>();
+        public static List<FormulaData> FormulaDataList;
+        public static Dictionary<int, FormulaData> FormulaDataDic;
+        public static List<FormulaInfo> FormulaInfoList;
+        public static Dictionary<int, FormulaInfo> FormulaInfoDic;
 
 
         private bool HasInit = false;
@@ -42,24 +42,24 @@ namespace Sim_FrameWork
             HasInit = true;
         }
 
-        public string GetFormulaName(FormulaData data)
+        public static string GetFormulaName(FormulaData data)
         {
             return MultiLanguage.Instance.GetTextValue(data.FormulaName);
         }
-        public string GetFormulaName(int formulaID)
+        public static string GetFormulaName(int formulaID)
         {
             return MultiLanguage.Instance.GetTextValue(GetFormulaDataByID(formulaID).FormulaName);
         }
-        public string GetFormulaDesc(FormulaData data)
+        public static string GetFormulaDesc(FormulaData data)
         {
             return MultiLanguage.Instance.GetTextValue(data.FormulaDesc);
         }
-        public string GetFormulaDesc(int formulaID)
+        public static string GetFormulaDesc(int formulaID)
         {
             return MultiLanguage.Instance.GetTextValue(GetFormulaDataByID(formulaID).FormulaDesc);
         }
         //Speed Base
-        public float GetProductSpeed(int formulaID)
+        public static float GetProductSpeed(int formulaID)
         {
             return GetFormulaDataByID(formulaID).ProductSpeed;
         }
@@ -67,7 +67,7 @@ namespace Sim_FrameWork
 
 
         //获取原料，产出或副产物列表
-        public Dictionary<Material,ushort> GetFormulaMaterialDic(int formulaID, MaterialProductType Gettype)
+        public static Dictionary<Material,ushort> GetFormulaMaterialDic(int formulaID, MaterialProductType Gettype)
         {
             Dictionary<Material, ushort> result = new Dictionary<Material, ushort>();
             Dictionary<int, ushort> infoDic = GetFormulaMaterialList(formulaID, Gettype);
@@ -75,14 +75,14 @@ namespace Sim_FrameWork
             {
                 foreach(KeyValuePair<int,ushort> kvp in infoDic)
                 {
-                    Material ma = MaterialModule.Instance.GetMaterialByMaterialID(kvp.Key);
+                    Material ma = MaterialModule.GetMaterialByMaterialID(kvp.Key);
                     result.Add(ma, kvp.Value);
                 }
             }
             return result;
         }
 
-        public Dictionary<int, ushort> GetFormulaMaterialList(int formulaID, MaterialProductType Gettype)
+        public static Dictionary<int, ushort> GetFormulaMaterialList(int formulaID, MaterialProductType Gettype)
         {
             FormulaData fm = GetFormulaDataByID(formulaID);
             if (string.IsNullOrEmpty(fm.InputMaterialList) || string.IsNullOrEmpty(fm.OutputMaterialList) || string.IsNullOrEmpty(fm.ByProductList))
@@ -103,7 +103,7 @@ namespace Sim_FrameWork
             }
         }
 
-        public Dictionary<int, ushort> TryParseMaterialList(string s)
+        public static Dictionary<int, ushort> TryParseMaterialList(string s)
         {
             Dictionary<int, ushort> materialDic = new Dictionary<int, ushort>();
             try
@@ -122,7 +122,7 @@ namespace Sim_FrameWork
         }
 
 
-        public FormulaData GetFormulaDataByID(int formulaID)
+        public static FormulaData GetFormulaDataByID(int formulaID)
         {
             FormulaData data = null;
             FormulaDataDic.TryGetValue(formulaID, out data);
@@ -134,7 +134,7 @@ namespace Sim_FrameWork
         }
 
         //Info
-        public FormulaInfo GetFormulaInfoByID(int infoID)
+        public static FormulaInfo GetFormulaInfoByID(int infoID)
         {
             FormulaInfo info = null;
             FormulaInfoDic.TryGetValue(infoID, out info);
@@ -144,7 +144,7 @@ namespace Sim_FrameWork
             }
             return info;
         }
-        public FormulaInfoType GetFormulaInfoType(int infoID)
+        public static FormulaInfoType GetFormulaInfoType(int infoID)
         {
             switch (GetFormulaInfoByID(infoID).InfoType)
             {
@@ -158,7 +158,7 @@ namespace Sim_FrameWork
             }
         }
 
-        public List<FormulaData> GetFormulaDataList(int infoID)
+        public static List<FormulaData> GetFormulaDataList(int infoID)
         {
             List<FormulaData> result = new List<FormulaData>();
             List<int> info = Utility.TryParseIntList(GetFormulaInfoByID(infoID).FormulaList,',');
@@ -180,12 +180,12 @@ namespace Sim_FrameWork
             return result;
         }
 
-        public List<Material> GetFormulaTotalMaterialList(int formulaID, MaterialProductType Gettype)
+        public static List<Material> GetFormulaTotalMaterialList(int formulaID, MaterialProductType Gettype)
         {
             List<Material> result = new List<Material>();
             foreach( var id in  GetFormulaMaterialList(formulaID, Gettype).Keys)
             {
-                result.Add(MaterialModule.Instance.GetMaterialByMaterialID(id));
+                result.Add(MaterialModule.GetMaterialByMaterialID(id));
             }
             return result;
         }

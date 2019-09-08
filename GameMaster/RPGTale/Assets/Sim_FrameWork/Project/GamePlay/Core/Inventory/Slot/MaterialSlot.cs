@@ -17,8 +17,8 @@ namespace Sim_FrameWork
         public void SetUpMaterialItem(MaterialStorageData itemData)
         {
             storeData = itemData;
-            Name.text = MaterialModule.Instance.GetMaterialName(itemData.material);
-            Icon.sprite = MaterialModule.Instance.GetMaterialSprite(itemData.material.MaterialID);
+            Name.text = MaterialModule.GetMaterialName(itemData.material);
+            Icon.sprite = MaterialModule.GetMaterialSprite(itemData.material.MaterialID);
             Num.text = itemData.count.ToString();
         }
 

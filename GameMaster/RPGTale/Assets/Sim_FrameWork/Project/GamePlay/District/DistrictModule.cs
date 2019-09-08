@@ -33,7 +33,7 @@ namespace Sim_FrameWork {
             HasInit = true;
         }
 
-        public DistrictData GetDistrictDataByKey(int districtID)
+        public static DistrictData GetDistrictDataByKey(int districtID)
         {
             DistrictData data = null;
             DistrictDataDic.TryGetValue(districtID, out data);
@@ -41,7 +41,7 @@ namespace Sim_FrameWork {
                 Debug.LogError("Can not Find DistrictData ,ID=" + districtID);
             return data;
         }
-        public DistrictIcon GetDistrictIconByKey(int iconID)
+        public static DistrictIcon GetDistrictIconByKey(int iconID)
         {
             DistrictIcon icon = null;
             DistrictIconDic.TryGetValue(iconID, out icon);
@@ -52,24 +52,24 @@ namespace Sim_FrameWork {
             return icon;
         }
 
-        public string GetDistrictName(int districtID)
+        public static string GetDistrictName(int districtID)
         {
             return MultiLanguage.Instance.GetTextValue(GetDistrictDataByKey(districtID).DistrictName);
         }
-        public string GetDistrictName(DistrictData data)
+        public static string GetDistrictName(DistrictData data)
         {
             return MultiLanguage.Instance.GetTextValue(data.DistrictName);
         }
-        public string GetDistrictDesc(int districtID)
+        public static string GetDistrictDesc(int districtID)
         {
             return MultiLanguage.Instance.GetTextValue(GetDistrictDataByKey(districtID).DistrictDesc);
         }
 
-        public bool CheckIconList(int districtID)
+        public static bool CheckIconList(int districtID)
         {
             return GetDistrictTypeArea(districtID).Count == GetDistrictIconList(districtID).Count;
         }
-        public List<string> GetDistrictIconList(int districtID)
+        public static List<string> GetDistrictIconList(int districtID)
         {
             List<string> result = new List<string>();
             List<int> id =Utility.TryParseIntList(GetDistrictType(districtID).IconList, ',');
@@ -85,7 +85,7 @@ namespace Sim_FrameWork {
         /// </summary>
         /// <param name="districtID"></param>
         /// <returns></returns>
-        public List<Sprite> GetDistrictIconSpriteList(int districtID)
+        public static List<Sprite> GetDistrictIconSpriteList(int districtID)
         {
             if (CheckIconList(districtID) == false)
             {
@@ -102,17 +102,17 @@ namespace Sim_FrameWork {
         }
 
 
-        public string GetDistrictDesc(DistrictData data)
+        public static string GetDistrictDesc(DistrictData data)
         {
             return MultiLanguage.Instance.GetTextValue(data.DistrictDesc);
         }
 
 
-        public DistrictType GetDistrictType(int districtID)
+        public static DistrictType GetDistrictType(int districtID)
         {
             return GetDistrictType(GetDistrictDataByKey(districtID));
         }
-        public DistrictType GetDistrictType(DistrictData data)
+        public static DistrictType GetDistrictType(DistrictData data)
         {
             DistrictType type = null;
             DistrictTypeDic.TryGetValue(data.Type, out type);
@@ -126,11 +126,11 @@ namespace Sim_FrameWork {
         /// </summary>
         /// <param name="data"></param>
         /// <returns></returns>
-        public List<Vector2> GetDistrictTypeArea(DistrictData data)
+        public static List<Vector2> GetDistrictTypeArea(DistrictData data)
         {
             return GetDistrictTypeArea(data.DistrictID);
         }
-        public List<Vector2> GetDistrictTypeArea(int DistrictID)
+        public static List<Vector2> GetDistrictTypeArea(int DistrictID)
         {
             List<Vector2> result = new List<Vector2>();
             DistrictType type = GetDistrictType(DistrictID);
@@ -149,7 +149,7 @@ namespace Sim_FrameWork {
             return result;
         }
 
-        public List<Vector2> GetRealDistrictTypeArea(int DistrictID,Vector2 pos)
+        public static List<Vector2> GetRealDistrictTypeArea(int DistrictID,Vector2 pos)
         {
             List<Vector2> result = new List<Vector2>();
             List<Vector2> input = GetDistrictTypeArea(DistrictID);
@@ -159,11 +159,11 @@ namespace Sim_FrameWork {
             }
             return result;
         }
-        public List<Vector2> GetRealDistrictTypeArea(DistrictData data, Vector2 pos)
+        public static List<Vector2> GetRealDistrictTypeArea(DistrictData data, Vector2 pos)
         {
             return GetRealDistrictTypeArea(data.DistrictID, pos);
         }
-        public Dictionary<int, int> GetDistrictMaterialCostDic(DistrictData data)
+        public static Dictionary<int, int> GetDistrictMaterialCostDic(DistrictData data)
         {
             Dictionary<int, int> result = new Dictionary<int, int> ();
             List<string> materialList = Utility.TryParseStringList(data.MaterialCostList, ',');
@@ -208,7 +208,7 @@ namespace Sim_FrameWork {
             Dictionary<int, int> cost = GetDistrictMaterialCostDic(data);
             foreach(KeyValuePair<int,int> kvp in cost)
             {
-                Material ma= MaterialModule.Instance.GetMaterialByMaterialID(kvp.Key);
+                Material ma= MaterialModule.GetMaterialByMaterialID(kvp.Key);
                 if (ma != null)
                 {
                     MaterialCostDic.Add(ma, kvp.Value);

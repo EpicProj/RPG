@@ -43,14 +43,14 @@ namespace Sim_FrameWork
 
         public void InitFormulaInfo()
         {
-            currentFormulaData = FormulaModule.Instance.GetFormulaDataByID(currentFormulaID);
+            currentFormulaData = FormulaModule.GetFormulaDataByID(currentFormulaID);
             info.formulaInfo = new ManufactFormulaInfo();
             info.formulaInfo.FormulaIDList = FunctionBlockModule.Instance.GetFormulaDataList(info.block);
             info.formulaInfo.CurrentFormulaID = currentFormulaID;
             info.formulaInfo.currentNeedTime = GetCurrentFormulaNeedTime();
-            info.formulaInfo.currentInputMaterialFormulaDic = FormulaModule.Instance.GetFormulaMaterialDic(currentFormulaID, FormulaModule.MaterialProductType.Input);
-            info.formulaInfo.currentOutputMaterialFormulaDic = FormulaModule.Instance.GetFormulaMaterialDic(currentFormulaID, FormulaModule.MaterialProductType.Output);
-            info.formulaInfo.currentBypruductMaterialFormulaDic = FormulaModule.Instance.GetFormulaMaterialDic(currentFormulaID, FormulaModule.MaterialProductType.Byproduct);
+            info.formulaInfo.currentInputMaterialFormulaDic = FormulaModule.GetFormulaMaterialDic(currentFormulaID, FormulaModule.MaterialProductType.Input);
+            info.formulaInfo.currentOutputMaterialFormulaDic = FormulaModule.GetFormulaMaterialDic(currentFormulaID, FormulaModule.MaterialProductType.Output);
+            info.formulaInfo.currentBypruductMaterialFormulaDic = FormulaModule.GetFormulaMaterialDic(currentFormulaID, FormulaModule.MaterialProductType.Byproduct);
             
             InitFormula();
         }
@@ -88,8 +88,8 @@ namespace Sim_FrameWork
                 info.formulaInfo.realOutputDataDic.Add(material, 0);
             }
             //获取材料列表
-            inputMaList = FormulaModule.Instance.GetFormulaTotalMaterialList(currentFormulaID, FormulaModule.MaterialProductType.Input);
-            outputMaList = FormulaModule.Instance.GetFormulaTotalMaterialList(currentFormulaID, FormulaModule.MaterialProductType.Output);
+            inputMaList = FormulaModule.GetFormulaTotalMaterialList(currentFormulaID, FormulaModule.MaterialProductType.Input);
+            outputMaList = FormulaModule.GetFormulaTotalMaterialList(currentFormulaID, FormulaModule.MaterialProductType.Output);
           
         }
 
@@ -105,7 +105,7 @@ namespace Sim_FrameWork
         {
             //是否有效输入
             //需要优化
-            Material ma = MaterialModule.Instance.GetMaterialByMaterialID(id);
+            Material ma = MaterialModule.GetMaterialByMaterialID(id);
             if (info.formulaInfo.currentInputMaterialFormulaDic.ContainsKey(ma))
             {
                 if (info.formulaInfo.realInputDataDic[ma] +count > ma.BlockCapacity)

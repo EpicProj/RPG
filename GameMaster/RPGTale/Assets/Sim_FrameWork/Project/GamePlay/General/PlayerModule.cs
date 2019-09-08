@@ -42,8 +42,8 @@ namespace Sim_FrameWork
 
 
         //Build Panel Config
-        public List<BuildingPanelData> buildPanelDataList=new List<BuildingPanelData> ();
-        public Dictionary<int, BuildingPanelData> buildPanelDataDic=new Dictionary<int, BuildingPanelData> ();
+        public static List<BuildingPanelData> buildPanelDataList;
+        public static Dictionary<int, BuildingPanelData> buildPanelDataDic;
         public List<string> AllBuildMainTagList = new List<string>();
         public BaseResourcesData resourceData;
         public PlayerConfig config;
@@ -264,7 +264,7 @@ namespace Sim_FrameWork
         /// <returns></returns>
         public FunctionBlock GetBuildFunctionBlock(BuildingPanelData data)
         {
-            return FunctionBlockModule.Instance.GetFunctionBlockByBlockID(data.FunctionBlockID);
+            return FunctionBlockModule.GetFunctionBlockByBlockID(data.FunctionBlockID);
         }
   
 
@@ -280,12 +280,12 @@ namespace Sim_FrameWork
                     Debug.LogError("BuildPanel Parse Error , ID=" + data.BuildID);
                     return result;
                 }
-                result.Add(MaterialModule.Instance.GetMaterialByMaterialID(str[0]), (ushort)str[1]);
+                result.Add(MaterialModule.GetMaterialByMaterialID(str[0]), (ushort)str[1]);
             }
             return result;
         }
         //获取所有解锁的BuildID
-        public List<BuildingPanelData> GetUnLockBuildData()
+        public static List<BuildingPanelData> GetUnLockBuildData()
         {
             List<BuildingPanelData> result = new List<BuildingPanelData>();
             foreach (var bd in buildPanelDataDic)
@@ -298,13 +298,13 @@ namespace Sim_FrameWork
             return result;
         }
         //获取所有解锁的区块ID
-        public List<FunctionBlock> GetUnLockBuildBlockID()
+        public static List<FunctionBlock> GetUnLockBuildBlockID()
         {
             List<FunctionBlock> result = new List<FunctionBlock>();
             List<BuildingPanelData> unlockList = GetUnLockBuildData();
             for(int i = 0; i < unlockList.Count; i++)
             {
-                result.Add(FunctionBlockModule.Instance.GetFunctionBlockByBlockID(unlockList[i].FunctionBlockID));
+                result.Add(FunctionBlockModule.GetFunctionBlockByBlockID(unlockList[i].FunctionBlockID));
             }
             return result;
         }

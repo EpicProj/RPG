@@ -4,35 +4,30 @@ using UnityEngine;
 
 namespace Sim_FrameWork
 {
-    public class FunctionBlockMetaDataReader
+    public static class FunctionBlockMetaDataReader
     {
 
-        public static List<FunctionBlock> FunctionBlockDataList=new List<FunctionBlock> ();
-        public static Dictionary<int, FunctionBlock> FunctionBlockDataDic=new Dictionary<int, FunctionBlock> ();
+        public static List<FunctionBlock> FunctionBlockDataList;
+        public static Dictionary<int, FunctionBlock> FunctionBlockDataDic;
 
-        public static List<FunctionBlock_Labor> FunctionBlock_LaborList = new List<FunctionBlock_Labor>();
-        public static Dictionary<int, FunctionBlock_Labor> FunctionBlock_LaborDic = new Dictionary<int, FunctionBlock_Labor>();
+        public static List<FunctionBlock_Labor> FunctionBlock_LaborList;
+        public static Dictionary<int, FunctionBlock_Labor> FunctionBlock_LaborDic;
 
-        public static List<FunctionBlock_Raw> FunctionBlock_RawList=new List<FunctionBlock_Raw> ();
-        public static Dictionary<int, FunctionBlock_Raw> FunctionBlock_RawDic=new Dictionary<int, FunctionBlock_Raw> ();
+        public static List<FunctionBlock_Raw> FunctionBlock_RawList;
+        public static Dictionary<int, FunctionBlock_Raw> FunctionBlock_RawDic;
 
-        public static List<FunctionBlock_Manufacture> FunctionBlock_ManufactureList = new List<FunctionBlock_Manufacture>();
-        public static Dictionary<int, FunctionBlock_Manufacture> FunctionBlock_ManufactureDic = new Dictionary<int, FunctionBlock_Manufacture>();
+        public static List<FunctionBlock_Manufacture> FunctionBlock_ManufactureList ;
+        public static Dictionary<int, FunctionBlock_Manufacture> FunctionBlock_ManufactureDic;
 
-        public static List<FunctionBlock_Energy> FunctionBlock_EnergyList = new List<FunctionBlock_Energy>();
-        public static Dictionary<int, FunctionBlock_Energy> FunctionBlock_EnergyDic = new Dictionary<int, FunctionBlock_Energy>();
+        public static List<FunctionBlock_Energy> FunctionBlock_EnergyList;
+        public static Dictionary<int, FunctionBlock_Energy> FunctionBlock_EnergyDic;
 
-        public static List<FunctionBlock_Science> FunctionBlock_ScienceList = new List<FunctionBlock_Science>();
-        public static Dictionary<int, FunctionBlock_Science> FunctionBlock_ScienceDic = new Dictionary<int, FunctionBlock_Science>();
+        public static List<FunctionBlock_Science> FunctionBlock_ScienceList;
+        public static Dictionary<int, FunctionBlock_Science> FunctionBlock_ScienceDic;
 
-        public static List<FunctionBlockTypeData> FunctionBlockTypeDataList=new List<FunctionBlockTypeData> ();
-        public static Dictionary<string,FunctionBlockTypeData> FunctionBlockTypeDataDic=new Dictionary<string, FunctionBlockTypeData> ();
+        public static List<FunctionBlockTypeData> FunctionBlockTypeDataList;
+        public static Dictionary<string,FunctionBlockTypeData> FunctionBlockTypeDataDic;
 
-
-        public FunctionBlockMetaDataReader()
-        {
-            LoadData();
-        }
 
         public static void LoadData()
         {

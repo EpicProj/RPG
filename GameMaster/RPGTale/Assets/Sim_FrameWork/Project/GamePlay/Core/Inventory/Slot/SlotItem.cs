@@ -67,7 +67,7 @@ namespace Sim_FrameWork
                 //destory
                 Destroy(this.gameObject);
             }
-            ItemImage.sprite = MaterialModule.Instance.GetMaterialSprite(ma.MaterialID);
+            ItemImage.sprite = MaterialModule.GetMaterialSprite(ma.MaterialID);
             transform.Find("AmountBG/Amount").GetComponent<Text>().text = amount.ToString();
 
         }
@@ -81,7 +81,7 @@ namespace Sim_FrameWork
             this.Amount = amount;
 
             ItemImage.sprite = info.sprite;
-            transform.Find("Name").GetComponent<Text>().text = DistrictModule.Instance.GetDistrictName(info.data);
+            transform.Find("Name").GetComponent<Text>().text = DistrictModule.GetDistrictName(info.data);
 
             switch (info.slotType)
             {

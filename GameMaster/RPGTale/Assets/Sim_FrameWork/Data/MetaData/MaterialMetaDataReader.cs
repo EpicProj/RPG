@@ -4,10 +4,10 @@ using UnityEngine;
 
 namespace Sim_FrameWork
 {
-    public class MaterialMetaDataReader 
+    public static class MaterialMetaDataReader 
     {
-        public static List<Material> MaterialList = new List<Material>();
-        public static Dictionary<int, Material> MaterialDic = new Dictionary<int, Material>();
+        public static List<Material> MaterialList;
+        public static Dictionary<int, Material> MaterialDic;
 
         public static void LoadData()
         {

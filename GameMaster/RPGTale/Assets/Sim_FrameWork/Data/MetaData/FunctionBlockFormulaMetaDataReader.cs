@@ -4,13 +4,13 @@ using UnityEngine;
 
 namespace Sim_FrameWork
 {
-    public class FunctionBlockFormulaMetaDataReader 
+    public static class FunctionBlockFormulaMetaDataReader 
     {
-        public static List<FormulaData> FormulaDataList = new List<FormulaData>();
-        public static Dictionary<int, FormulaData> FormulaDataDic = new Dictionary<int, FormulaData>();
+        public static List<FormulaData> FormulaDataList;
+        public static Dictionary<int, FormulaData> FormulaDataDic;
 
-        public static List<FormulaInfo> FormulaInfoList = new List<FormulaInfo>();
-        public static Dictionary<int, FormulaInfo> FormulaInfoDic = new Dictionary<int, FormulaInfo>();
+        public static List<FormulaInfo> FormulaInfoList;
+        public static Dictionary<int, FormulaInfo> FormulaInfoDic;
 
         public static void LoadData()
         {

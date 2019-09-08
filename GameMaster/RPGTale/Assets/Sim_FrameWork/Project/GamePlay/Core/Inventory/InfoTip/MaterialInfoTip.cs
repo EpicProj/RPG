@@ -48,13 +48,13 @@ namespace Sim_FrameWork
 
         public void OnShow(Material ma)
         {
-            TitleSprite.sprite = MaterialModule.Instance.GetMaterialSprite(ma.MaterialID);
-            Name.text = MaterialModule.Instance.GetMaterialName(ma);
-            Desc.text = MaterialModule.Instance.GetmaterialDesc(ma);
-            TypeIcon.sprite = MaterialModule.Instance.GetMaterialMainTypeSprite(ma);
-            TypeName.text = MaterialModule.Instance.GetMaterialMainTypeName(ma);
-            SubTypeIcon.sprite = MaterialModule.Instance.GetMaterialSubTypeIcon(ma);
-            SubTypeName.text = MaterialModule.Instance.GetMaterialSubTypeName(ma);
+            TitleSprite.sprite = MaterialModule.GetMaterialSprite(ma.MaterialID);
+            Name.text = MaterialModule.GetMaterialName(ma);
+            Desc.text = MaterialModule.GetmaterialDesc(ma);
+            TypeIcon.sprite = MaterialModule.GetMaterialMainTypeSprite(ma);
+            TypeName.text = MaterialModule.GetMaterialMainTypeName(ma);
+            SubTypeIcon.sprite = MaterialModule.GetMaterialSubTypeIcon(ma);
+            SubTypeName.text = MaterialModule.GetMaterialSubTypeName(ma);
             Rarity.text = MaterialModule.Instance.GetMaterialRarityName(ma);
             Rarity.color = MaterialModule.Instance.TryParseRarityColor(ma);
           

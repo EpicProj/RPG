@@ -4,17 +4,17 @@ using UnityEngine;
 
 namespace Sim_FrameWork
 {
-    public class DistrictMetaDataReader
+    public static class DistrictMetaDataReader
     {
 
-        public static List<DistrictData> DistrictDataList = new List<DistrictData>();
-        public static Dictionary<int, DistrictData> DistrictDataDic = new Dictionary<int, DistrictData>();
-        public static List<DistrictType> DistrictTypeList = new List<DistrictType>();
-        public static Dictionary<int, DistrictType> DistrictTypeDic = new Dictionary<int, DistrictType>();
-        public static List<DistrictIcon> DistrictIconList = new List<DistrictIcon>();
-        public static Dictionary<int, DistrictIcon> DistrictIconDic = new Dictionary<int, DistrictIcon>();
-        public static List<DistrictModel> DistrictModelList = new List<DistrictModel>();
-        public static Dictionary<int, DistrictModel> DistrictModelDic = new Dictionary<int, DistrictModel>();
+        public static List<DistrictData> DistrictDataList;
+        public static Dictionary<int, DistrictData> DistrictDataDic;
+        public static List<DistrictType> DistrictTypeList;
+        public static Dictionary<int, DistrictType> DistrictTypeDic;
+        public static List<DistrictIcon> DistrictIconList;
+        public static Dictionary<int, DistrictIcon> DistrictIconDic;
+        public static List<DistrictModel> DistrictModelList;
+        public static Dictionary<int, DistrictModel> DistrictModelDic;
 
         public static void LoadData()
         {

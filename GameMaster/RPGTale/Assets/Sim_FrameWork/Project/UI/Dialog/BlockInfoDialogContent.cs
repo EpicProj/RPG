@@ -79,8 +79,8 @@ namespace Sim_FrameWork
         public override void OnShow(params object[] paralist)
         {
             //Init Text
-            m_dialog.Title.transform.Find("BG2/Desc/FacotryName").GetComponent<Text>().text = FunctionBlockModule.Instance.GetFunctionBlockName(blockInfo.block);
-            m_dialog.BlockInfoDesc.text = FunctionBlockModule.Instance.GetFunctionBlockDesc(blockInfo.block);
+            m_dialog.Title.transform.Find("BG2/Desc/FacotryName").GetComponent<Text>().text = FunctionBlockModule.GetFunctionBlockName(blockInfo.block);
+            m_dialog.BlockInfoDesc.text = FunctionBlockModule.GetFunctionBlockDesc(blockInfo.block);
             blockInfo = (FunctionBlockInfoData)paralist[0];
             //Init Sprite
             //m_dialog.FactoryBG.GetComponent<Image>().sprite = FunctionBlockModule.Instance.GetFunctionBlockIcon(currentBlock.FunctionBlockID);

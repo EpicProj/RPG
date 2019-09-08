@@ -6,70 +6,41 @@ using UnityEngine;
 
 namespace Sim_FrameWork
 {
-    public class BlockBaseInfoData
-    {
-
-        public List<BlockLevelData> ManufactoryBlockLevelDataList;
-        public List<BlockDistrictUnlockData> ManuBlockDistrictUnlockDataList;
-
-        public BlockBaseInfoData()
-        {
-            LoadData();
-        }
-
-        public void LoadData()
-        {
-            ManufactoryBaseInfoData manuData = new ManufactoryBaseInfoData();
-            manuData.LoadData();
-            ManufactoryBlockLevelDataList = manuData.ManufactoryBlockLevelDatas;
-            ManuBlockDistrictUnlockDataList = manuData.DistrictUnlockDatas;
-        }
-
-
-    }
-
 
     public class ManufactoryBaseInfoData
     {
-        public List<BlockLevelData> ManufactoryBlockLevelDatas;
+        public List<BlockLevelData> BlockLevelDatas;
         public List<BlockDistrictUnlockData> DistrictUnlockDatas;
+        public List<InherentLevelData> InherentLevelDatas;
+        public List<ManufactureType> ManufactureTypes;
 
         public void LoadData()
         {
-            BlockBaseInfoDataReader reader = new BlockBaseInfoDataReader();
-            ManufactoryBaseInfoData info= reader.LoadManufactoryBaseInfoData();
-            ManufactoryBlockLevelDatas = info.ManufactoryBlockLevelDatas;
+            Config.JsonReader reader = new Config.JsonReader();
+            ManufactoryBaseInfoData info= reader.LoadJsonDataConfig<ManufactoryBaseInfoData>(Config.JsonConfigPath.ManufactoryBaseInfoJsonPath);
+            BlockLevelDatas = info.BlockLevelDatas;
             DistrictUnlockDatas = info.DistrictUnlockDatas;
+            InherentLevelDatas = info.InherentLevelDatas;
+            ManufactureTypes = info.ManufactureTypes;
         }
-     
 
-    }
-
-
-
-    public class BlockBaseInfoDataReader
-    {
-        public ManufactoryBaseInfoData LoadManufactoryBaseInfoData()
+        public class ManufactureType
         {
-            ManufactoryBaseInfoData data = new ManufactoryBaseInfoData();
-            string filePath = Application.streamingAssetsPath + "/Data/JsonData/FunctionBlock/Manufactory" + "/ManufactoryBaseInfoData.json";
-            if (File.Exists(filePath))
-            {
-                StreamReader sr = new StreamReader(filePath);
-                string jsonStr = sr.ReadToEnd();
-                sr.Close();
-                data = JsonMapper.ToObject<ManufactoryBaseInfoData>(jsonStr);
-                return data;
-            }
-            else
-            {
-                Debug.LogError("ManufactoryBaseInfoData Read Fail");
-            }
-            return null;
+            public string Type;
+            public string TypeName;
+            public string TypeDesc;
+            public string TypeIconPath;
         }
-
     }
 
+
+    public class InherentLevelData
+    {
+        public string Name;
+        public string LevelName;
+        public string LevelDesc;
+        public string IconPath;
+    }
 
     /// <summary>
     /// EXP Data
@@ -85,12 +56,14 @@ namespace Sim_FrameWork
     {
         public string ID;
         public List<DistrictUnlockData> UnlockData;
+
+        public class DistrictUnlockData
+        {
+            public int DistrictID;
+            public bool UnlockDefault;
+        }
     }
 
-    public class DistrictUnlockData
-    {
-        public int DistrictID;
-        public bool UnlockDefault;
-    }
+   
 
 }

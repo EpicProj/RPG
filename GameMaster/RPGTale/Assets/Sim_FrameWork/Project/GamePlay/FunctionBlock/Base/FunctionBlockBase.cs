@@ -29,7 +29,7 @@ namespace Sim_FrameWork
         public virtual void InitData()
         {
             //TODO
-            functionBlock = FunctionBlockModule.Instance.GetFunctionBlockByBlockID(100);
+            functionBlock = FunctionBlockModule.GetFunctionBlockByBlockID(100);
             //TODO
             blockModifier = GetComponent<FunctionBlockModifier>();
             info = FunctionBlockInfoData.CreateBaseInfo(GetBlockPos(),functionBlock,blockModifier);
@@ -163,7 +163,7 @@ namespace Sim_FrameWork
         public float CurrentSpeed { get { return _currentSpeed; } protected set { } }
 
         public ManufactFormulaInfo formulaInfo;
-        public List<DistrictUnlockData> districtUnlockDataList;
+        public List<BlockDistrictUnlockData.DistrictUnlockData> districtUnlockDataList;
         public List<DistrictData> ActiveDistrictBuildList=new List<DistrictData> ();
 
 
@@ -187,16 +187,16 @@ namespace Sim_FrameWork
             info.levelInfo.BlockEXPMap = FunctionBlockModule.Instance.GetBlockEXPMapData(info.block.FunctionBlockID);
             info.levelInfo.CurrentBlockMaxEXP = FunctionBlockModule.Instance.GetCurrentLevelEXP(info.levelInfo.BlockEXPMap, info.levelInfo.currentBlockLevel);
             //District
-            info.districtAreaMax = FunctionBlockModule.Instance.GetFunctionBlockAreaMax(blockBase);
-            info.currentDistrictDataDic = FunctionBlockModule.Instance.GetFuntionBlockOriginAreaInfo(blockBase); ;
-            info.currentDistrictBaseDic = FunctionBlockModule.Instance.GetFuntionBlockAreaDetailDefaultDataInfo(blockBase);
+            info.districtAreaMax = FunctionBlockModule.GetFunctionBlockAreaMax(blockBase);
+            info.currentDistrictDataDic = FunctionBlockModule.GetFuntionBlockOriginAreaInfo(blockBase); ;
+            info.currentDistrictBaseDic = FunctionBlockModule.GetFuntionBlockAreaDetailDefaultDataInfo(blockBase);
 
             //Set active district build
             for (int i = 0; i < info.districtUnlockDataList.Count; i++)
             {
                 if (info.districtUnlockDataList[i].UnlockDefault == true)
                 {
-                    info.ActiveDistrictBuildList.Add(DistrictModule.Instance.GetDistrictDataByKey(info.districtUnlockDataList[i].DistrictID));
+                    info.ActiveDistrictBuildList.Add(DistrictModule.GetDistrictDataByKey(info.districtUnlockDataList[i].DistrictID));
                 }
             }
             //TODO

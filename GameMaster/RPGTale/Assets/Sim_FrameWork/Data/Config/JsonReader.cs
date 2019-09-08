@@ -42,5 +42,8 @@ namespace Sim_FrameWork.Config
         public static string MaterialConfigJsonPath = Application.streamingAssetsPath + "/Data/JsonData/Material" + "/MaterialBasicConfig.json";
 
 
+        //FunctionBlock
+        public static string ManufactoryBaseInfoJsonPath= Application.streamingAssetsPath + "/Data/JsonData/FunctionBlock/Manufactory" + "/ManufactoryBaseInfoData.json";
+
     }
 }

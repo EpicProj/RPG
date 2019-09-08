@@ -8,12 +8,12 @@ namespace Sim_FrameWork {
     public class MaterialModule : BaseModule<MaterialModule> {
 
 
-        public List<Material> MaterialList = new List<Material>();
-        public Dictionary<int, Material> MaterialDic = new Dictionary<int, Material>();
+        public static List<Material> MaterialList;
+        public static Dictionary<int, Material> MaterialDic;
 
-        public MaterialConfig maConfig;
-        public List<string> AllMaterialRarityList = new List<string>();
-        public List<string> AllMaterialTypeList = new List<string>();
+        public static MaterialConfig maConfig;
+        public static List<string> AllMaterialRarityList;
+        public static List<string> AllMaterialTypeList;
 
         private bool HasInit = false;
 
@@ -33,7 +33,7 @@ namespace Sim_FrameWork {
             HasInit = true;
         }
 
-        public Material GetMaterialByMaterialID(int materialID)
+        public static Material GetMaterialByMaterialID(int materialID)
         {
             Material ma = null;
             MaterialDic.TryGetValue(materialID, out ma);
@@ -42,28 +42,28 @@ namespace Sim_FrameWork {
             return ma;
         }
 
-        public string GetMaterialName(int materialID)
+        public static string GetMaterialName(int materialID)
         {
             return MultiLanguage.Instance.GetTextValue(GetMaterialByMaterialID(materialID).MaterialName);
         }
-        public string GetMaterialName(Material ma)
+        public static string GetMaterialName(Material ma)
         {
             return MultiLanguage.Instance.GetTextValue(ma.MaterialName);
         }
-        public string GetMaterialDesc(int materialID)
+        public static string GetMaterialDesc(int materialID)
         {
             return MultiLanguage.Instance.GetTextValue(GetMaterialByMaterialID(materialID).MaterialDesc);
         }
-        public string GetmaterialDesc(Material ma)
+        public static string GetmaterialDesc(Material ma)
         {
             return MultiLanguage.Instance.GetTextValue(ma.MaterialDesc);
         }
 
-        public string GetMaterialUnitName(Material ma)
+        public static string GetMaterialUnitName(Material ma)
         {
             return MultiLanguage.Instance.GetTextValue(ma.UnitName);
         }
-        public string GetMaterialUnitName(int materialID)
+        public static string GetMaterialUnitName(int materialID)
         {
             return MultiLanguage.Instance.GetTextValue(GetMaterialByMaterialID(materialID).UnitName);
         }
@@ -71,7 +71,7 @@ namespace Sim_FrameWork {
 
 
         //Rarity
-        public List<string> GetAllMaterialRarityList()
+        public static List<string> GetAllMaterialRarityList()
         {
             List<string> result = new List<string>();
             foreach(var data in maConfig.rarityDataList)
@@ -89,7 +89,7 @@ namespace Sim_FrameWork {
             return result;
         }
 
-        public string GetMaterialRarity(int materialID)
+        public static string GetMaterialRarity(int materialID)
         {
             return GetMaterialRarityData(materialID).RarityLevel;
         }
@@ -98,7 +98,7 @@ namespace Sim_FrameWork {
         /// </summary>
         /// <param name="materialID"></param>
         /// <returns></returns>
-        public MaterialConfig.MaterialRarityData GetMaterialRarityData(int materialID)
+        public static MaterialConfig.MaterialRarityData GetMaterialRarityData(int materialID)
         {
             MaterialConfig.MaterialRarityData data = null;
             string rarity = GetMaterialByMaterialID(materialID).Rarity;
@@ -112,7 +112,7 @@ namespace Sim_FrameWork {
             }
             return data;
         }
-        public string GetMaterialRarityName(MaterialConfig.MaterialRarityData data)
+        public static string GetMaterialRarityName(MaterialConfig.MaterialRarityData data)
         {
             return MultiLanguage.Instance.GetTextValue(data.RarityName);
         }
@@ -137,7 +137,7 @@ namespace Sim_FrameWork {
         /// 获取所有主要材料类型
         /// </summary>
         /// <returns></returns>
-        public List<string> GetAllMainMaterialTypeList()
+        public static List<string> GetAllMainMaterialTypeList()
         {
             List<string> result = new List<string>();
             foreach(var data in maConfig.materialTypeList)
@@ -156,7 +156,7 @@ namespace Sim_FrameWork {
            
         }
 
-        public MaterialConfig.MaterialType GetMaterialTypeData(string tagName)
+        public static MaterialConfig.MaterialType GetMaterialTypeData(string tagName)
         {
             return maConfig.materialTypeList.Find(x => x.Type == tagName);
         }
@@ -165,7 +165,7 @@ namespace Sim_FrameWork {
         /// </summary>
         /// <param name="mainTypeName"></param>
         /// <returns></returns>
-        public List<string> GetMaterialSubTypeList(string mainTypeName)
+        public static List<string> GetMaterialSubTypeList(string mainTypeName)
         {
             List<string> result = new List<string>();
             if (AllMaterialTypeList.Contains(mainTypeName))
@@ -199,7 +199,7 @@ namespace Sim_FrameWork {
             return result;
         }
 
-        public List<MaterialConfig.MaterialType.MaterialSubType> GetMaterialSubTypeDataList(string tagName)
+        public static List<MaterialConfig.MaterialType.MaterialSubType> GetMaterialSubTypeDataList(string tagName)
         {
             List<MaterialConfig.MaterialType.MaterialSubType> result = new List<MaterialConfig.MaterialType.MaterialSubType>();
             MaterialConfig.MaterialType type = GetMaterialTypeData(tagName);
@@ -218,7 +218,7 @@ namespace Sim_FrameWork {
         /// </summary>
         /// <param name="materialID"></param>
         /// <returns></returns>
-        public MaterialConfig.MaterialType GetMaterialMainType(int materialID)
+        public static MaterialConfig.MaterialType GetMaterialMainType(int materialID)
         {
             string mainType = GetMaterialByMaterialID(materialID).Type;
             if (AllMaterialTypeList.Contains(mainType))
@@ -231,30 +231,30 @@ namespace Sim_FrameWork {
                 return null;
             }
         }
-        public MaterialConfig.MaterialType GetMaterialMainType(Material ma)
+        public static MaterialConfig.MaterialType GetMaterialMainType(Material ma)
         {
             return GetMaterialMainType(ma.MaterialID);
         }
 
-        public string GetMaterialMainTypeName(MaterialConfig.MaterialType type)
+        public static string GetMaterialMainTypeName(MaterialConfig.MaterialType type)
         {
             return MultiLanguage.Instance.GetTextValue(type.TypeName);
         }
-        public string GetMaterialMainTypeName(Material ma)
+        public static string GetMaterialMainTypeName(Material ma)
         {
             return MultiLanguage.Instance.GetTextValue(GetMaterialMainType(ma).TypeName);
         }
-        public string GetMaterialMainTypeDesc(MaterialConfig.MaterialType type)
+        public static string GetMaterialMainTypeDesc(MaterialConfig.MaterialType type)
         {
             return MultiLanguage.Instance.GetTextValue(type.TypeDesc);
         }
 
-        public Sprite GetMaterialMainTypeSprite(MaterialConfig.MaterialType type)
+        public static Sprite GetMaterialMainTypeSprite(MaterialConfig.MaterialType type)
         {
             return Utility.LoadSprite(type.TypeIconPath, Utility.SpriteType.png);
         }
 
-        public Sprite GetMaterialMainTypeSprite(Material ma)
+        public static Sprite GetMaterialMainTypeSprite(Material ma)
         {
             return Utility.LoadSprite(GetMaterialMainType(ma.MaterialID).TypeIconPath, Utility.SpriteType.png);
         }
@@ -263,7 +263,7 @@ namespace Sim_FrameWork {
         /// </summary>
         /// <param name="materialID"></param>
         /// <returns></returns>
-        public MaterialConfig.MaterialType.MaterialSubType GetMaterialSubType(int materialID)
+        public static MaterialConfig.MaterialType.MaterialSubType GetMaterialSubType(int materialID)
         {
             MaterialConfig.MaterialType mainType = GetMaterialMainType(materialID);
             string subtype = GetMaterialByMaterialID(materialID).SubType;
@@ -277,29 +277,29 @@ namespace Sim_FrameWork {
                 return null;
             }
         }
-        public MaterialConfig.MaterialType.MaterialSubType GetMaterialSubType(Material ma)
+        public static MaterialConfig.MaterialType.MaterialSubType GetMaterialSubType(Material ma)
         {
             return GetMaterialSubType(ma.MaterialID);
         }
 
-        public string GetMaterialSubTypeName(MaterialConfig.MaterialType.MaterialSubType subtype)
+        public static string GetMaterialSubTypeName(MaterialConfig.MaterialType.MaterialSubType subtype)
         {
             return MultiLanguage.Instance.GetTextValue(subtype.SubTypeName);
         }
-        public string GetMaterialSubTypeName(Material ma)
+        public static string GetMaterialSubTypeName(Material ma)
         {
             return MultiLanguage.Instance.GetTextValue(GetMaterialSubType(ma.MaterialID).SubTypeName);
         }
-        public string GetMaterialSubTypeDesc(MaterialConfig.MaterialType.MaterialSubType subtype)
+        public static string GetMaterialSubTypeDesc(MaterialConfig.MaterialType.MaterialSubType subtype)
         {
             return MultiLanguage.Instance.GetTextValue(subtype.SubTypeDesc);
         }
 
-        public Sprite GetMaterialSubTypeIcon(MaterialConfig.MaterialType.MaterialSubType subtype)
+        public static Sprite GetMaterialSubTypeIcon(MaterialConfig.MaterialType.MaterialSubType subtype)
         {
             return Utility.LoadSprite(subtype.SubTypeIcon, Utility.SpriteType.png);
         }
-        public Sprite GetMaterialSubTypeIcon(Material ma)
+        public static Sprite GetMaterialSubTypeIcon(Material ma)
         {
             return Utility.LoadSprite(GetMaterialSubType(ma.MaterialID).SubTypeIcon, Utility.SpriteType.png);
         }
@@ -308,13 +308,13 @@ namespace Sim_FrameWork {
 
         #region Method
 
-        public Sprite GetMaterialSprite(int materialID)
+        public static Sprite GetMaterialSprite(int materialID)
         {
             string path = GetMaterialByMaterialID(materialID).MaterialIcon;
             return Utility.LoadSprite(path,Utility.SpriteType.png);
         }
 
-        public GameObject InitMaterialObj(int materialID)
+        public  GameObject InitMaterialObj(int materialID)
         {
             GameObject MaterialObj = ObjectManager.Instance.InstantiateObject(UIPath.FUNCTIONBLOCK_MATERIAL_PREFAB_PATH);
             MaterialObj.transform.Find("Image").GetComponent<Image>().sprite = GetMaterialSprite(materialID);
@@ -335,8 +335,8 @@ namespace Sim_FrameWork {
         {
             material = ma;
             this.count = count;
-            this.mainType = MaterialModule.Instance.GetMaterialMainType(ma.MaterialID);
-            this.subType = MaterialModule.Instance.GetMaterialSubType(ma.MaterialID);
+            this.mainType = MaterialModule.GetMaterialMainType(ma.MaterialID);
+            this.subType = MaterialModule.GetMaterialSubType(ma.MaterialID);
         }
 
     }

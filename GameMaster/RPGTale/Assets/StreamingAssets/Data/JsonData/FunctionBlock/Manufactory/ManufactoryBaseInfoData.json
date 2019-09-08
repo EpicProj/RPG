@@ -1,6 +1,5 @@
 {
-
-	"ManufactoryBlockLevelDatas":[{
+	"BlockLevelDatas":[{
 		"ID":"100",
         "EXPMap":[1000,2000,3000,4000]
 	}],
@@ -13,6 +12,18 @@
 			"DistrictID":101,
 			"UnlockDefault":true
 		}]
+	}],
+	"InherentLevelDatas":[{
+		"Name":"Manufactory_InherentLevel_Smelt_Level_1",
+		"LevelName":"Name_Manufactory_InherentLevel_Smelt_Level_1",
+		"LevelDesc":"Desc_Manufactory_InherentLevel_Smelt_Level_1",
+		"IconPath":"SpriteOutput/FunctionBlock/Icon"
+	}],
+	"ManufactureTypes":[{
+		"Type":"Smelt",
+		"TypeName":"ManufactureType_Smelt_Name",
+		"TypeDesc":"ManufactureType_Smelt_Desc",
+		"TypeIconPath":"SpriteOutput/FunctionBlock/Icon"
 	}]
 
 

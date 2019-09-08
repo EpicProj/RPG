@@ -4,11 +4,11 @@ using UnityEngine;
 
 namespace Sim_FrameWork
 {
-    public class BuildingPanelMetaDataReader 
+    public static class BuildingPanelMetaDataReader 
     {
 
-        public static List<BuildingPanelData> BuildingPanelDataList = new List<BuildingPanelData>();
-        public static Dictionary<int, BuildingPanelData> BuildingPanelDataDic = new Dictionary<int, BuildingPanelData>();
+        public static List<BuildingPanelData> BuildingPanelDataList;
+        public static Dictionary<int, BuildingPanelData> BuildingPanelDataDic;
 
         public static void LoadData()
         {

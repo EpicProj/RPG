@@ -2,15 +2,11 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class TechnologyMetaDataReader : MonoBehaviour {
+namespace Sim_FrameWork
+{
+    public static class TechnologyMetaDataReader
+    {
 
-	// Use this for initialization
-	void Start () {
-		
-	}
-	
-	// Update is called once per frame
-	void Update () {
-		
-	}
+        
+    }
 }

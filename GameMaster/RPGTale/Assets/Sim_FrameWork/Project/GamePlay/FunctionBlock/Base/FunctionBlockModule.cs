@@ -23,22 +23,22 @@ namespace Sim_FrameWork {
         }
 
 
-        public List<FunctionBlock> FunctionBlockList=new List<FunctionBlock> ();
-        public Dictionary<int, FunctionBlock> FunctionBlockDic=new Dictionary<int, FunctionBlock> ();
+        public static List<FunctionBlock> FunctionBlockList;
+        public static Dictionary<int, FunctionBlock> FunctionBlockDic;
 
-        public List<FunctionBlock_Labor> FunctionBlock_LaborList = new List<FunctionBlock_Labor>();
-        public Dictionary<int, FunctionBlock_Labor> FunctionBlock_LaborDic = new Dictionary<int, FunctionBlock_Labor>();
-        public List<FunctionBlock_Raw> FunctionBlock_RawList=new List<FunctionBlock_Raw> ();
-        public Dictionary<int, FunctionBlock_Raw> FunctionBlock_RawDic = new Dictionary<int, FunctionBlock_Raw>();
-        public List<FunctionBlock_Manufacture> FunctionBlock_ManufactureList = new List<FunctionBlock_Manufacture>();
-        public Dictionary<int, FunctionBlock_Manufacture> FunctionBlock_ManufactureDic = new Dictionary<int, FunctionBlock_Manufacture>();
-        public List<FunctionBlock_Science> FunctionBlock_ScienceList = new List<FunctionBlock_Science>();
-        public Dictionary<int, FunctionBlock_Science> FunctionBlock_ScienceDic = new Dictionary<int, FunctionBlock_Science>();
-        public List<FunctionBlock_Energy> FunctionBlock_EnergyList = new List<FunctionBlock_Energy>();
-        public Dictionary<int, FunctionBlock_Energy> FunctionBlock_EnergyDic = new Dictionary<int, FunctionBlock_Energy>();
+        public static List<FunctionBlock_Labor> FunctionBlock_LaborList;
+        public static Dictionary<int, FunctionBlock_Labor> FunctionBlock_LaborDic;
+        public static List<FunctionBlock_Raw> FunctionBlock_RawList;
+        public static Dictionary<int, FunctionBlock_Raw> FunctionBlock_RawDic;
+        public static List<FunctionBlock_Manufacture> FunctionBlock_ManufactureList;
+        public static Dictionary<int, FunctionBlock_Manufacture> FunctionBlock_ManufactureDic;
+        public static List<FunctionBlock_Science> FunctionBlock_ScienceList;
+        public static Dictionary<int, FunctionBlock_Science> FunctionBlock_ScienceDic;
+        public static List<FunctionBlock_Energy> FunctionBlock_EnergyList;
+        public static Dictionary<int, FunctionBlock_Energy> FunctionBlock_EnergyDic;
 
-        public List<FunctionBlockTypeData> FunctionBlockTypeDataList=new List<FunctionBlockTypeData> ();
-        public Dictionary<string, FunctionBlockTypeData> FunctionBlockTypeDataDic = new Dictionary<string, FunctionBlockTypeData>();
+        public static List<FunctionBlockTypeData> FunctionBlockTypeDataList;
+        public static Dictionary<string, FunctionBlockTypeData> FunctionBlockTypeDataDic;
 
 
         private bool HasInit = false;
@@ -49,7 +49,7 @@ namespace Sim_FrameWork {
         public Dictionary<string, FunctionBlock> CurrentFunctionBlockDataDic = new Dictionary<string, FunctionBlock>();
 
         //info Data
-        public BlockBaseInfoData infoData;
+        public ManufactoryBaseInfoData manufactoryBaseInfoData;
 
         #region Data
         public override void InitData()
@@ -72,7 +72,9 @@ namespace Sim_FrameWork {
             FunctionBlockTypeDataList = FunctionBlockMetaDataReader.GetFunctionBlockTypeData();
             FunctionBlockTypeDataDic = FunctionBlockMetaDataReader.GetFunctionBlockTypeDataDic();
 
-            infoData = new BlockBaseInfoData();
+            //Init Info Data
+            manufactoryBaseInfoData = new ManufactoryBaseInfoData();
+            manufactoryBaseInfoData.LoadData();
             HasInit = true;
         }
 
@@ -213,7 +215,7 @@ namespace Sim_FrameWork {
             return FetchFunctionBlockTypeIndex<FunctionBlock_Manufacture>(functionBlockID).SpeedBase;
         }
 
-        public FunctionBlock GetFunctionBlockByBlockID(int functionBlockID)
+        public static FunctionBlock GetFunctionBlockByBlockID(int functionBlockID)
         {
             FunctionBlock functionBlock = null;
             FunctionBlockDic.TryGetValue(functionBlockID, out functionBlock);
@@ -222,24 +224,24 @@ namespace Sim_FrameWork {
             return functionBlock;
         }
 
-        public string GetFunctionBlockName(int functionBlockID)
+        public static string GetFunctionBlockName(int functionBlockID)
         {
             return MultiLanguage.Instance.GetTextValue(GetFunctionBlockByBlockID(functionBlockID).BlockName);
         }
-        public string GetFunctionBlockName(FunctionBlock block)
+        public static string GetFunctionBlockName(FunctionBlock block)
         {
             return MultiLanguage.Instance.GetTextValue(block.BlockName);
         }
-        public string GetFunctionBlockDesc(int functionBlockID)
+        public static string GetFunctionBlockDesc(int functionBlockID)
         {
             return MultiLanguage.Instance.GetTextValue(GetFunctionBlockByBlockID(functionBlockID).BlockDesc);
         }
-        public string GetFunctionBlockDesc(FunctionBlock block)
+        public static string GetFunctionBlockDesc(FunctionBlock block)
         {
             return MultiLanguage.Instance.GetTextValue(block.BlockDesc);
         }
 
-        public Vector2 GetFunctionBlockAreaMax(FunctionBlock block)
+        public static Vector2 GetFunctionBlockAreaMax(FunctionBlock block)
         {
             return Utility.TryParseIntVector2(block.AreaMax, ',');
         }
@@ -251,7 +253,7 @@ namespace Sim_FrameWork {
         /// <typeparam name="T"></typeparam>
         /// <param name="block"></param>
         /// <returns></returns>
-        public Dictionary<Vector2, DistrictAreaBase> GetFuntionBlockAreaDetailDefaultDataInfo(FunctionBlock block) 
+        public static Dictionary<Vector2, DistrictAreaBase> GetFuntionBlockAreaDetailDefaultDataInfo(FunctionBlock block) 
         {
             Dictionary<Vector2, DistrictAreaBase> result = new Dictionary<Vector2, DistrictAreaBase>();
             Dictionary<Vector2, DistrictData> totalDic = GetDistrictAreaDetailDefaultData(block);
@@ -267,7 +269,7 @@ namespace Sim_FrameWork {
                         Locked = false,
                         slotType = DistrictSlotType.Empty,
                         Coordinate = kvp.Key,
-                        sprite = DistrictModule.Instance.GetDistrictIconSpriteList(kvp.Value.DistrictID)[0]
+                        sprite = DistrictModule.GetDistrictIconSpriteList(kvp.Value.DistrictID)[0]
                     };
                     result.Add(kvp.Key, info);
                 }
@@ -300,7 +302,7 @@ namespace Sim_FrameWork {
         /// <typeparam name="T"></typeparam>
         /// <param name="block"></param>
         /// <returns></returns>
-        public Dictionary<Vector2, DistrictAreaInfo> GetFuntionBlockOriginAreaInfo(FunctionBlock block)
+        public static Dictionary<Vector2, DistrictAreaInfo> GetFuntionBlockOriginAreaInfo(FunctionBlock block)
         {
             Dictionary<Vector2, DistrictAreaInfo> result = new Dictionary<Vector2, DistrictAreaInfo>();
             Dictionary<Vector2, DistrictData> dic = GetDistrictOriginData(block);
@@ -314,7 +316,7 @@ namespace Sim_FrameWork {
                 foreach (KeyValuePair<Vector2, DistrictData> kvp in dic)
                 {
                     //District Larger than 1X1
-                    var largeArea = DistrictModule.Instance.GetDistrictTypeArea(kvp.Value);
+                    var largeArea = DistrictModule.GetDistrictTypeArea(kvp.Value);
                     if (largeArea.Count == 1)
                     {
                         //1x1 grid
@@ -324,7 +326,7 @@ namespace Sim_FrameWork {
                             isLargeDistrict = false,
                             slotType = DistrictSlotType.NormalDistrict,
                             OriginCoordinate = kvp.Key,
-                            sprite = DistrictModule.Instance.GetDistrictIconSpriteList(kvp.Value.DistrictID)[0]
+                            sprite = DistrictModule.GetDistrictIconSpriteList(kvp.Value.DistrictID)[0]
                         };
                         result.Add(kvp.Key, info);
                         continue;
@@ -342,7 +344,7 @@ namespace Sim_FrameWork {
                                 LargeDistrictIndex = largeDistrictIndex,
                                 slotType = DistrictSlotType.LargeDistrict,
                                 OriginCoordinate = new Vector2(largeArea[0].x + kvp.Key.x, largeArea[0].y + kvp.Key.y),
-                                sprite = DistrictModule.Instance.GetDistrictIconSpriteList(kvp.Value.DistrictID)[i]
+                                sprite = DistrictModule.GetDistrictIconSpriteList(kvp.Value.DistrictID)[i]
                             };
                             result.Add(currentPos, info);
                         }
@@ -366,7 +368,7 @@ namespace Sim_FrameWork {
         /// <typeparam name="T"></typeparam>
         /// <param name="block"></param>
         /// <returns></returns>
-        private Dictionary<Vector2,DistrictData> GetDistrictOriginData(FunctionBlock block)
+        private static Dictionary<Vector2,DistrictData> GetDistrictOriginData(FunctionBlock block)
         {
             return GetFuntionBlockDistrictData(GetFuntionBlockOriginArea(block));
         }
@@ -376,7 +378,7 @@ namespace Sim_FrameWork {
         /// <typeparam name="T"></typeparam>
         /// <param name="block"></param>
         /// <returns></returns>
-        private Dictionary<Vector2,DistrictData> GetDistrictAreaDetailDefaultData(FunctionBlock block)
+        private static Dictionary<Vector2,DistrictData> GetDistrictAreaDetailDefaultData(FunctionBlock block)
         {
             return GetFuntionBlockDistrictData(GetFuntionBlockAreaDetailDefault(block));
         }
@@ -388,7 +390,7 @@ namespace Sim_FrameWork {
         /// <param name="block"></param>
         /// <param name="initCheck"></param>
         /// <returns></returns>
-        public bool CheckDistrictDataOutofRange(FunctionBlock block,bool initCheck) 
+        public static bool CheckDistrictDataOutofRange(FunctionBlock block,bool initCheck) 
         {
             List<Vector2> CheckContent = new List<Vector2>();
             Dictionary<Vector2, DistrictData> Checkdic = GetFuntionBlockDistrictData(GetFuntionBlockOriginArea(block));
@@ -396,7 +398,7 @@ namespace Sim_FrameWork {
             foreach (KeyValuePair<Vector2,DistrictData> kvp in Checkdic)
             {
                 //Check District
-                List<Vector2> v2 = DistrictModule.Instance.GetDistrictTypeArea(kvp.Value);
+                List<Vector2> v2 = DistrictModule.GetDistrictTypeArea(kvp.Value);
                 for(int i = 0; i < v2.Count; i++)
                 {
                     Vector2 currentPos = new Vector2(v2[i].x + kvp.Key.x, v2[i].y + kvp.Key.y);
@@ -428,14 +430,14 @@ namespace Sim_FrameWork {
         /// <param name="block"></param>
         /// <param name="initCheck"></param>
         /// <returns></returns>
-        private bool CheckTargetDistrictNoLock(FunctionBlock block,bool initCheck)
+        private static bool CheckTargetDistrictNoLock(FunctionBlock block,bool initCheck)
         {
             Dictionary<Vector2, DistrictData> Checkdic = GetFuntionBlockDistrictData(GetFuntionBlockOriginArea(block));
             List<Vector2> lockedList = GetLockedDistrictList(block);
             foreach (KeyValuePair<Vector2,DistrictData> kvp in Checkdic)
             {
                 //Check District
-                List<Vector2> v2 = DistrictModule.Instance.GetDistrictTypeArea(kvp.Value);
+                List<Vector2> v2 = DistrictModule.GetDistrictTypeArea(kvp.Value);
                 for (int i = 0; i < v2.Count; i++)
                 {
                     Vector2 currentPos = new Vector2(v2[i].x + kvp.Key.x, v2[i].y + kvp.Key.y);
@@ -451,7 +453,7 @@ namespace Sim_FrameWork {
         }
 
 
-        private List<Vector2> GetLockedDistrictList(FunctionBlock block)
+        private static List<Vector2> GetLockedDistrictList(FunctionBlock block)
         {
             List<Vector2> result = new List<Vector2>();
             Dictionary<Vector2, DistrictData> totalDic = GetFuntionBlockDistrictData(GetFuntionBlockAreaDetailDefault(block));
@@ -471,14 +473,14 @@ namespace Sim_FrameWork {
         /// </summary>
         /// <param name="dic"></param>
         /// <returns></returns>
-        private Dictionary<Vector2, DistrictData> GetFuntionBlockDistrictData(Dictionary<Vector2, int> dic)
+        private static Dictionary<Vector2, DistrictData> GetFuntionBlockDistrictData(Dictionary<Vector2, int> dic)
         {
             Dictionary<Vector2, DistrictData> result = new Dictionary<Vector2, DistrictData>();
             if (dic == null)
                 return result;
             foreach(KeyValuePair<Vector2, int> kvp in dic)
             {
-                DistrictData dd = DistrictModule.Instance.GetDistrictDataByKey(kvp.Value);
+                DistrictData dd = DistrictModule.GetDistrictDataByKey(kvp.Value);
                 if (dd == null)
                     continue;
                 result.Add(kvp.Key, dd);
@@ -486,14 +488,14 @@ namespace Sim_FrameWork {
             return result;
         }
 
-        private Dictionary<Vector2, int> GetFuntionBlockAreaDetailDefault(FunctionBlock block)
+        private static Dictionary<Vector2, int> GetFuntionBlockAreaDetailDefault(FunctionBlock block)
         {
             int id = block.FunctionBlockID;
             Vector2 areaMax = GetFunctionBlockAreaMax(block);
             return TryParseAreaDetailDefault(block.AreaDetailDefault, areaMax);
         }
 
-        private Dictionary<Vector2, int> TryParseAreaDetailDefault(string content, Vector2 areaMax)
+        private static Dictionary<Vector2, int> TryParseAreaDetailDefault(string content, Vector2 areaMax)
         {
             Dictionary<Vector2, int> result = new Dictionary<Vector2, int> ();
             List<string> ls = Utility.TryParseStringList(content, ';');
@@ -525,11 +527,11 @@ namespace Sim_FrameWork {
             return result;
         }
 
-        private Dictionary<Vector2 ,int> GetFuntionBlockOriginArea(FunctionBlock block)
+        private static Dictionary<Vector2 ,int> GetFuntionBlockOriginArea(FunctionBlock block)
         {
             return TryParseOriginArea(block.OriginArea);
         }
-        private Dictionary<Vector2,int> TryParseOriginArea(string content)
+        private static Dictionary<Vector2,int> TryParseOriginArea(string content)
         {
             Dictionary<Vector2, int> result = new Dictionary<Vector2, int>();
             List<string> ls = Utility.TryParseStringList(content, ';');
@@ -560,7 +562,7 @@ namespace Sim_FrameWork {
 
         #region Main Function
 
-        public int GetDistrictAreaIndex(Vector2 areaMax,Vector2 currentVector)
+        public static int GetDistrictAreaIndex(Vector2 areaMax,Vector2 currentVector)
         {
             return (int)(currentVector.x * areaMax.x + currentVector.y);
         }
@@ -643,14 +645,59 @@ namespace Sim_FrameWork {
         }
 
         #region BlockInfoData
+        /// <summary>
+        ///  区块固有等级
+        /// </summary>
+        /// <param name="blockID"></param>
+        /// <returns></returns>
+        public InherentLevelData GetBlockInherentLevelData(int blockID)
+        {
+            return GetBlockInherentLevelData(FetchFunctionBlockTypeIndex<FunctionBlock_Manufacture>(blockID).InherentLevel, FunctionBlockType.Manufacture);
+        }
+        public InherentLevelData GetBlockInherentLevelData(string name,FunctionBlockType type)
+        {
+            switch (type)
+            {
+                case FunctionBlockType.Manufacture:
+                    List<InherentLevelData> leveldata = manufactoryBaseInfoData.InherentLevelDatas;
+                    if (leveldata == null)
+                    {
+                        Debug.LogError("Can not Find Manu InherentLevelData  name=" + name);
+                        return null;
+                    }
+                    return leveldata.Find(x => x.LevelName == name);
+                default:
+                    return null;
+            }
+        }
 
+        public List<string> GetBlockInherentLevelList()
+        {
+            List<string> result = new List<string>();
+            foreach(var data in manufactoryBaseInfoData.InherentLevelDatas)
+            {
+                if (result.Contains(data.Name))
+                {
+                    Debug.LogError("Find Same BlockInhernet Level Data ID=" + data.Name);
+                    continue;
+                }
+                result.Add(data.Name);
+            }
+            return result;
+        }
 
+        /// <summary>
+        /// EXP
+        /// </summary>
+        /// <param name="id"></param>
+        /// <param name="type"></param>
+        /// <returns></returns>
         public List<int> GetBlockEXPMapData(string id ,FunctionBlockType type)
         {
             switch (type)
             {
                 case FunctionBlockType.Manufacture:
-                    List<BlockLevelData> manuData = infoData.ManufactoryBlockLevelDataList;
+                    List<BlockLevelData> manuData = manufactoryBaseInfoData.BlockLevelDatas;
                     if (manuData == null)
                     {
                         Debug.LogError("Can not Find ManuBlockEXP Map  id=" + id);
@@ -694,16 +741,16 @@ namespace Sim_FrameWork {
             }
         }
 
-        public List<DistrictUnlockData> GetManuBlockDistrictUnlockData(string id , FunctionBlockType type)
+        public List<BlockDistrictUnlockData.DistrictUnlockData> GetManuBlockDistrictUnlockData(string id , FunctionBlockType type)
         {
             switch (type)
             {
                 case FunctionBlockType.Manufacture:
-                    for (int i = 0; i < infoData.ManuBlockDistrictUnlockDataList.Count; i++)
+                    for (int i = 0; i < manufactoryBaseInfoData.DistrictUnlockDatas.Count; i++)
                     {
-                        if (infoData.ManuBlockDistrictUnlockDataList[i].ID == id)
+                        if (manufactoryBaseInfoData.DistrictUnlockDatas[i].ID == id)
                         {
-                            return infoData.ManuBlockDistrictUnlockDataList[i].UnlockData;
+                            return manufactoryBaseInfoData.DistrictUnlockDatas[i].UnlockData;
                         }
                     }
                     Debug.LogError("can not find unlockdata,id=" + id);
@@ -720,7 +767,7 @@ namespace Sim_FrameWork {
         /// </summary>
         /// <param name="blockid"></param>
         /// <returns></returns>
-        public List<DistrictUnlockData> GetManuBlockDistrictUnlockData(int blockid)
+        public List<BlockDistrictUnlockData.DistrictUnlockData> GetManuBlockDistrictUnlockData(int blockid)
         {
             FunctionBlockType type = GetFunctionBlockType(blockid);
             return GetManuBlockDistrictUnlockData(GetFunctionBlockByBlockID(blockid).DistrictData,type);
@@ -736,14 +783,14 @@ namespace Sim_FrameWork {
             List<FormulaData> data = GetFormulaDataList(block);
             for (int i = 0; i < data.Count; i++)
             {
-                Dictionary<Material, ushort> maDic = FormulaModule.Instance.GetFormulaMaterialDic(data[i].FormulaID, GetType);
+                Dictionary<Material, ushort> maDic = FormulaModule.GetFormulaMaterialDic(data[i].FormulaID, GetType);
                 result.Add(maDic);
             }
             return result;
         }
         public List<FormulaData> GetFormulaDataList(FunctionBlock block)
         {
-            return FormulaModule.Instance.GetFormulaDataList(FetchFunctionBlockTypeIndex<FunctionBlock_Manufacture>(block.FunctionBlockID).FormulaInfoID);
+            return FormulaModule.GetFormulaDataList(FetchFunctionBlockTypeIndex<FunctionBlock_Manufacture>(block.FunctionBlockID).FormulaInfoID);
         }
 
 

@@ -118,7 +118,7 @@ namespace Sim_FrameWork
 
         public void AddMaterialStoreData(int materialID,ushort count)
         {
-            Material ma = MaterialModule.Instance.GetMaterialByMaterialID(materialID);
+            Material ma = MaterialModule.GetMaterialByMaterialID(materialID);
             if (ma == null)
                 return;
 
@@ -151,12 +151,12 @@ namespace Sim_FrameWork
 
         public void InitMaterialType()
         {
-            List<string> mainTag = MaterialModule.Instance.GetAllMainMaterialTypeList();
+            List<string> mainTag = MaterialModule.GetAllMainMaterialTypeList();
             if (mainTag != null)
             {
                 for(int i = 0; i < mainTag.Count; i++)
                 {
-                    MaterialConfig.MaterialType type = MaterialModule.Instance.GetMaterialTypeData(mainTag[i]);
+                    MaterialConfig.MaterialType type = MaterialModule.GetMaterialTypeData(mainTag[i]);
                     if (type != null)
                     {
                         wareHouseInfo.materialTagList.Add(type);
@@ -171,7 +171,7 @@ namespace Sim_FrameWork
             {
                 for(int i = 0; i < wareHouseInfo.materialTagList.Count; i++)
                 {
-                    wareHouseInfo.materialSubTagDic.Add(wareHouseInfo.materialTagList[i], MaterialModule.Instance.GetMaterialSubTypeDataList(wareHouseInfo.materialTagList[i].Type));
+                    wareHouseInfo.materialSubTagDic.Add(wareHouseInfo.materialTagList[i], MaterialModule.GetMaterialSubTypeDataList(wareHouseInfo.materialTagList[i].Type));
                 }
             }
         }

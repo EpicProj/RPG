@@ -2,15 +2,11 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class TalentsMetaDataReader : MonoBehaviour {
+namespace Sim_FrameWork
+{
+    public static class TalentsMetaDataReader
+    {
 
-	// Use this for initialization
-	void Start () {
-		
-	}
-	
-	// Update is called once per frame
-	void Update () {
-		
-	}
+
+    }
 }
