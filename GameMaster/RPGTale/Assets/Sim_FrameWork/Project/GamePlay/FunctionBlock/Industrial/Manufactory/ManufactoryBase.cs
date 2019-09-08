@@ -65,10 +65,6 @@ namespace Sim_FrameWork
             info.AddEnergyCostMagic  (Utility.TryParseIntList(manufactoryData.EnergyConsumptionBase, ',')[1]);
             info.AddMaintain(float.Parse(manufactoryData.MaintenanceBase));
             info.AddCurrentSpeed(FunctionBlockModule.Instance.GetManufactureSpeed(functionBlock.FunctionBlockID));
-            info.districtAreaMax = FunctionBlockModule.Instance.GetFunctionBlockAreaMax<FunctionBlock_Manufacture>(functionBlock);
-            info.currentDistrictDataDic = FunctionBlockModule.Instance.GetFuntionBlockOriginAreaInfo<FunctionBlock_Manufacture>(functionBlock); ;
-            info.currentDistrictBaseDic = FunctionBlockModule.Instance.GetFuntionBlockAreaDetailDefaultDataInfo<FunctionBlock_Manufacture>(functionBlock);
-          
             InitFormulaInfo();
             return info;
         }

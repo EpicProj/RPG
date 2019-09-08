@@ -10,9 +10,23 @@
 			<variable  name="PreLevelBlock" col = "PreLevelBlock" type="int"/>
 			<variable  name="FunctionBlockType" col = "FunctionBlockType" type="string"/>
 			<variable  name="FunctionBlockTypeIndex" col = "FunctionBlockTypeIndex" type="ushort"/>
-			<variable  name="Level" col = "Level" type="ushort"/>
+			<variable  name="MaxLevel" col = "MaxLevel" type="ushort"/>
+			<variable  name="AreaDetailDefault" col = "AreaDetailDefault" type="string"/>
+			<variable  name="OriginArea" col = "OriginArea" type="string"/>
+			<variable  name="AreaMax" col = "AreaMax" type="string"/>
 			<variable  name="EXPDataJsonIndex" col = "EXPDataJsonIndex" type="string"/>
 			<variable  name="DistrictData" col = "DistrictData" type="string"/>
+		</list>
+	</variable>
+
+	<variable  name="AllFunctionBlock_LaborList" type="list">
+		<list name = "FunctionBlock_Labor" sheetname="FunctionBlock_Labor" mainKey = "LaborID">
+			<variable  name="LaborID" col = "LaborID" type="int"/>
+			<variable  name="InherentLevel" col = "InherentLevel" type="string"/>
+			<variable  name="BasePopulation" col = "BasePopulation" type="float"/>
+			<variable  name="FoodConsumBase" col = "FoodConsumBase" type="float"/>
+			<variable  name="MaintainBase" col = "MaintainBase" type="float"/>
+			<variable  name="EnergyBase" col = "EnergyBase" type="float"/>
 		</list>
 	</variable>
 
@@ -22,23 +36,18 @@
 			<variable  name="RawType" col = "RawType" type="ushort"/>
 			<variable  name="InherentLevel" col = "InherentLevel" type="string"/>
 			<variable  name="CollectMaterialList" col = "CollectMaterialList" type="string"/>
-			<variable  name="AreaDetailDefault" col = "AreaDetailDefault" type="string"/>
-			<variable  name="OriginArea" col = "OriginArea" type="string"/>
-			<variable  name="AreaMax" col = "AreaMax" type="string"/>
 		</list>
 	</variable>
 
 	<variable  name="AllFunctionBlock_ManufactureList" type="list">
 		<list name = "FunctionBlock_Manufacture" sheetname="FunctionBlock_Manufacture" mainKey = "ManufactureID">
 			<variable  name="ManufactureID" col = "ManufactureID" type="int"/>
+			<variable  name="ManufactType" col = "ManufactType" type="string"/>
 			<variable  name="InherentLevel" col = "InherentLevel" type="string"/>
 			<variable  name="SpeedBase" col = "SpeedBase" type="float"/>
 			<variable  name="FormulaInfoID" col = "FormulaInfoID" type="int"/>
 			<variable  name="MaintenanceBase" col = "MaintenanceBase" type="string"/>
 			<variable  name="EnergyConsumptionBase" col = "EnergyConsumptionBase" type="string"/>
-			<variable  name="AreaDetailDefault" col = "AreaDetailDefault" type="string"/>
-			<variable  name="OriginArea" col = "OriginArea" type="string"/>
-			<variable  name="AreaMax" col = "AreaMax" type="string"/>
 		</list>
 	</variable>
 
@@ -46,9 +55,6 @@
 		<list name = "FunctionBlock_Science" sheetname="FunctionBlock_Science" mainKey = "ScienceID">
 			<variable  name="ScienceID" col = "ScienceID" type="int"/>
 			<variable  name="InherentLevel" col = "InherentLevel" type="string"/>
-			<variable  name="AreaDetailDefault" col = "AreaDetailDefault" type="string"/>
-			<variable  name="OriginArea" col = "OriginArea" type="string"/>
-			<variable  name="AreaMax" col = "AreaMax" type="string"/>
 		</list>
 	</variable>
 
@@ -57,9 +63,6 @@
 			<variable  name="EnergyID" col = "EnergyID" type="int"/>
 			<variable  name="InherentLevel" col = "InherentLevel" type="string"/>
 			<variable  name="EnergyType" col = "EnergyType" type="ushort"/>
-			<variable  name="AreaDetailDefault" col = "AreaDetailDefault" type="string"/>
-			<variable  name="OriginArea" col = "OriginArea" type="string"/>
-			<variable  name="AreaMax" col = "AreaMax" type="string"/>
 		</list>
 	</variable>
 

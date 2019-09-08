@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Ma_ArtifactBase : MonoBehaviour {
+public class EnergyBlockBase : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {

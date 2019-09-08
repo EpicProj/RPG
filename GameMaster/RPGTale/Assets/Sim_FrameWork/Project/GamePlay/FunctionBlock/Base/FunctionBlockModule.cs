@@ -26,6 +26,8 @@ namespace Sim_FrameWork {
         public List<FunctionBlock> FunctionBlockList=new List<FunctionBlock> ();
         public Dictionary<int, FunctionBlock> FunctionBlockDic=new Dictionary<int, FunctionBlock> ();
 
+        public List<FunctionBlock_Labor> FunctionBlock_LaborList = new List<FunctionBlock_Labor>();
+        public Dictionary<int, FunctionBlock_Labor> FunctionBlock_LaborDic = new Dictionary<int, FunctionBlock_Labor>();
         public List<FunctionBlock_Raw> FunctionBlock_RawList=new List<FunctionBlock_Raw> ();
         public Dictionary<int, FunctionBlock_Raw> FunctionBlock_RawDic = new Dictionary<int, FunctionBlock_Raw>();
         public List<FunctionBlock_Manufacture> FunctionBlock_ManufactureList = new List<FunctionBlock_Manufacture>();
@@ -56,6 +58,8 @@ namespace Sim_FrameWork {
                 return;
             FunctionBlockList = FunctionBlockMetaDataReader.GetFunctionBlockData();
             FunctionBlockDic = FunctionBlockMetaDataReader.GetFunctionBlockDataDic();
+            FunctionBlock_LaborList = FunctionBlockMetaDataReader.GetFunctionBlock_LaborData();
+            FunctionBlock_LaborDic = FunctionBlockMetaDataReader.GetFunctionBlock_LaborDic();
             FunctionBlock_RawList = FunctionBlockMetaDataReader.GetFunctionBlockRowData();
             FunctionBlock_RawDic = FunctionBlockMetaDataReader.GetFunctionBlock_RawDic();
             FunctionBlock_ManufactureList = FunctionBlockMetaDataReader.GetFunctionBlock_ManufactureData();
@@ -200,9 +204,9 @@ namespace Sim_FrameWork {
             return Utility.LoadSprite(path, Utility.SpriteType.png);
         }
 
-        public ushort GetFunctionBlockLevel(int functionBlockID)
+        public ushort GetFunctionBlockMaxLevel(int functionBlockID)
         {
-            return GetFunctionBlockByBlockID(functionBlockID).Level;
+            return GetFunctionBlockByBlockID(functionBlockID).MaxLevel;
         }
         public float GetManufactureSpeed(int functionBlockID)
         {
@@ -235,23 +239,9 @@ namespace Sim_FrameWork {
             return MultiLanguage.Instance.GetTextValue(block.BlockDesc);
         }
 
-        public Vector2 GetFunctionBlockAreaMax<T>(FunctionBlock block) where T:class
+        public Vector2 GetFunctionBlockAreaMax(FunctionBlock block)
         {
-            int id = block.FunctionBlockID;
-            switch (GetFunctionBlockType(id))
-            {
-                case FunctionBlockType.Manufacture:
-                    return Utility.TryParseIntVector2(GetFunctionBlock_ManufactureData(GetFunctionBlockByBlockID(id).FunctionBlockTypeIndex).AreaMax,',');
-                case FunctionBlockType.Raw:
-                    return Utility.TryParseIntVector2(GetFacotryRawData(GetFunctionBlockByBlockID(id).FunctionBlockTypeIndex).AreaMax,',');
-                case FunctionBlockType.Science:
-                    return Utility.TryParseIntVector2(GetFunctionBlock_ScienceData(GetFunctionBlockByBlockID(id).FunctionBlockTypeIndex).AreaMax,',');
-                case FunctionBlockType.Energy:
-                    return Utility.TryParseIntVector2(GetFunctionBlock_EnergyData(GetFunctionBlockByBlockID(id).FunctionBlockTypeIndex).AreaMax,',');
-                default:
-                    Debug.LogError("Fetch AreaMax Error BlockID=" + id);
-                    return Vector2.zero;
-            }
+            return Utility.TryParseIntVector2(block.AreaMax, ',');
         }
 
         /// <summary>
@@ -261,10 +251,10 @@ namespace Sim_FrameWork {
         /// <typeparam name="T"></typeparam>
         /// <param name="block"></param>
         /// <returns></returns>
-        public Dictionary<Vector2, DistrictAreaBase> GetFuntionBlockAreaDetailDefaultDataInfo<T>(FunctionBlock block) where T : class
+        public Dictionary<Vector2, DistrictAreaBase> GetFuntionBlockAreaDetailDefaultDataInfo(FunctionBlock block) 
         {
             Dictionary<Vector2, DistrictAreaBase> result = new Dictionary<Vector2, DistrictAreaBase>();
-            Dictionary<Vector2, DistrictData> totalDic = GetDistrictAreaDetailDefaultData<T>(block);
+            Dictionary<Vector2, DistrictData> totalDic = GetDistrictAreaDetailDefaultData(block);
 
             foreach (KeyValuePair<Vector2, DistrictData> kvp in totalDic)
             {
@@ -310,15 +300,15 @@ namespace Sim_FrameWork {
         /// <typeparam name="T"></typeparam>
         /// <param name="block"></param>
         /// <returns></returns>
-        public Dictionary<Vector2, DistrictAreaInfo> GetFuntionBlockOriginAreaInfo<T>(FunctionBlock block) where T : class
+        public Dictionary<Vector2, DistrictAreaInfo> GetFuntionBlockOriginAreaInfo(FunctionBlock block)
         {
             Dictionary<Vector2, DistrictAreaInfo> result = new Dictionary<Vector2, DistrictAreaInfo>();
-            Dictionary<Vector2, DistrictData> dic = GetDistrictOriginData<T>(block);
+            Dictionary<Vector2, DistrictData> dic = GetDistrictOriginData(block);
 
             if (dic == null)
                 return result;
             //Check Range
-            if (CheckDistrictDataOutofRange<T>(block, true) && CheckTargetDistrictNoLock<T>(block, true))
+            if (CheckDistrictDataOutofRange(block, true) && CheckTargetDistrictNoLock(block, true))
             {
                 int largeDistrictIndex = 1;
                 foreach (KeyValuePair<Vector2, DistrictData> kvp in dic)
@@ -376,9 +366,9 @@ namespace Sim_FrameWork {
         /// <typeparam name="T"></typeparam>
         /// <param name="block"></param>
         /// <returns></returns>
-        private Dictionary<Vector2,DistrictData> GetDistrictOriginData<T>(FunctionBlock block) where T :class
+        private Dictionary<Vector2,DistrictData> GetDistrictOriginData(FunctionBlock block)
         {
-            return GetFuntionBlockDistrictData(GetFuntionBlockOriginArea<T>(block));
+            return GetFuntionBlockDistrictData(GetFuntionBlockOriginArea(block));
         }
         /// <summary>
         /// 获取所有基础区划信息
@@ -386,9 +376,9 @@ namespace Sim_FrameWork {
         /// <typeparam name="T"></typeparam>
         /// <param name="block"></param>
         /// <returns></returns>
-        private Dictionary<Vector2,DistrictData> GetDistrictAreaDetailDefaultData<T>(FunctionBlock block) where T : class
+        private Dictionary<Vector2,DistrictData> GetDistrictAreaDetailDefaultData(FunctionBlock block)
         {
-            return GetFuntionBlockDistrictData(GetFuntionBlockAreaDetailDefault<T>(block));
+            return GetFuntionBlockDistrictData(GetFuntionBlockAreaDetailDefault(block));
         }
 
         /// <summary>
@@ -398,11 +388,11 @@ namespace Sim_FrameWork {
         /// <param name="block"></param>
         /// <param name="initCheck"></param>
         /// <returns></returns>
-        public bool CheckDistrictDataOutofRange<T>(FunctionBlock block,bool initCheck) where T:class
+        public bool CheckDistrictDataOutofRange(FunctionBlock block,bool initCheck) 
         {
             List<Vector2> CheckContent = new List<Vector2>();
-            Dictionary<Vector2, DistrictData> Checkdic = GetFuntionBlockDistrictData(GetFuntionBlockOriginArea<T>(block));
-            Vector2 areaMax = GetFunctionBlockAreaMax<T>(block);
+            Dictionary<Vector2, DistrictData> Checkdic = GetFuntionBlockDistrictData(GetFuntionBlockOriginArea(block));
+            Vector2 areaMax = GetFunctionBlockAreaMax(block);
             foreach (KeyValuePair<Vector2,DistrictData> kvp in Checkdic)
             {
                 //Check District
@@ -438,10 +428,10 @@ namespace Sim_FrameWork {
         /// <param name="block"></param>
         /// <param name="initCheck"></param>
         /// <returns></returns>
-        private bool CheckTargetDistrictNoLock<T>(FunctionBlock block,bool initCheck) where T:class
+        private bool CheckTargetDistrictNoLock(FunctionBlock block,bool initCheck)
         {
-            Dictionary<Vector2, DistrictData> Checkdic = GetFuntionBlockDistrictData(GetFuntionBlockOriginArea<T>(block));
-            List<Vector2> lockedList = GetLockedDistrictList<T>(block);
+            Dictionary<Vector2, DistrictData> Checkdic = GetFuntionBlockDistrictData(GetFuntionBlockOriginArea(block));
+            List<Vector2> lockedList = GetLockedDistrictList(block);
             foreach (KeyValuePair<Vector2,DistrictData> kvp in Checkdic)
             {
                 //Check District
@@ -461,10 +451,10 @@ namespace Sim_FrameWork {
         }
 
 
-        private List<Vector2> GetLockedDistrictList<T>(FunctionBlock block) where T:class
+        private List<Vector2> GetLockedDistrictList(FunctionBlock block)
         {
             List<Vector2> result = new List<Vector2>();
-            Dictionary<Vector2, DistrictData> totalDic = GetFuntionBlockDistrictData(GetFuntionBlockAreaDetailDefault<T>(block));
+            Dictionary<Vector2, DistrictData> totalDic = GetFuntionBlockDistrictData(GetFuntionBlockAreaDetailDefault(block));
             foreach(KeyValuePair<Vector2,DistrictData> kvp in totalDic)
             {
                 if (kvp.Value.DistrictID == -2)
@@ -496,20 +486,11 @@ namespace Sim_FrameWork {
             return result;
         }
 
-        private Dictionary<Vector2, int> GetFuntionBlockAreaDetailDefault<T>(FunctionBlock block) where T : class
+        private Dictionary<Vector2, int> GetFuntionBlockAreaDetailDefault(FunctionBlock block)
         {
             int id = block.FunctionBlockID;
-            Vector2 areaMax = GetFunctionBlockAreaMax<T>(block);
-            switch (GetFunctionBlockType(id))
-            {
-                case FunctionBlockType.Manufacture:
-                    return TryParseAreaDetailDefault(GetFunctionBlock_ManufactureData(block.FunctionBlockTypeIndex).AreaDetailDefault ,areaMax);
-                case FunctionBlockType.Energy:
-                    return TryParseAreaDetailDefault(GetFunctionBlock_EnergyData(block.FunctionBlockTypeIndex).AreaDetailDefault,areaMax);
-                default:
-                    Debug.LogError("Fetch AreaDetailDefault Error   id="+id);
-                    return null;
-            }
+            Vector2 areaMax = GetFunctionBlockAreaMax(block);
+            return TryParseAreaDetailDefault(block.AreaDetailDefault, areaMax);
         }
 
         private Dictionary<Vector2, int> TryParseAreaDetailDefault(string content, Vector2 areaMax)
@@ -544,21 +525,9 @@ namespace Sim_FrameWork {
             return result;
         }
 
-
-        private Dictionary<Vector2 ,int > GetFuntionBlockOriginArea<T>(FunctionBlock block)
+        private Dictionary<Vector2 ,int> GetFuntionBlockOriginArea(FunctionBlock block)
         {
-            int id = block.FunctionBlockID;
-            switch (GetFunctionBlockType(id))
-            {
-                case FunctionBlockType.Manufacture:
-                    return TryParseOriginArea(GetFunctionBlock_ManufactureData(block.FunctionBlockTypeIndex).OriginArea);
-                case FunctionBlockType.Energy:
-                    return TryParseOriginArea(GetFunctionBlock_EnergyData(block.FunctionBlockTypeIndex).OriginArea);
-                default:
-                    Debug.LogError("Fetch OriginArea Error   id=" + id);
-                    return null;
-
-            }
+            return TryParseOriginArea(block.OriginArea);
         }
         private Dictionary<Vector2,int> TryParseOriginArea(string content)
         {
@@ -667,9 +636,9 @@ namespace Sim_FrameWork {
         /// <typeparam name="T"></typeparam>
         /// <param name="block"></param>
         /// <returns></returns>
-        public Vector3 InitFunctionBlockBoxCollider<T>(FunctionBlock block) where T:class
+        public Vector3 InitFunctionBlockBoxCollider(FunctionBlock block)
         {
-            Vector2 area = GetFunctionBlockAreaMax<T>(block);
+            Vector2 area = GetFunctionBlockAreaMax(block);
             return new Vector3(area.x, 3.0f, area.y);
         }
 

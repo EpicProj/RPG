@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class RawFactoryBase : MonoBehaviour {
+public class OrderModule : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {

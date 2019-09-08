@@ -104,6 +104,7 @@
      <Compile Include="Assets\Sim_FrameWork\Project\Basic\BasicMiscsTool.cs" />
      <Compile Include="Assets\Sim_FrameWork\Project\Basic\ConfigUtility.cs" />
      <Compile Include="Assets\Sim_FrameWork\Project\Basic\Utility.cs" />
+     <Compile Include="Assets\Sim_FrameWork\Project\GamePlay\Achievement\AchievementModule.cs" />
      <Compile Include="Assets\Sim_FrameWork\Project\GamePlay\Core\Inventory\Element\BaseElement.cs" />
      <Compile Include="Assets\Sim_FrameWork\Project\GamePlay\Core\Inventory\Element\BlockBuildElement.cs" />
      <Compile Include="Assets\Sim_FrameWork\Project\GamePlay\Core\Inventory\Element\DistrictBuildElement.cs" />
@@ -125,10 +126,11 @@
      <Compile Include="Assets\Sim_FrameWork\Project\GamePlay\FunctionBlock\Base\BlockBaseInfoData.cs" />
      <Compile Include="Assets\Sim_FrameWork\Project\GamePlay\FunctionBlock\Base\FunctionBlockBase.cs" />
      <Compile Include="Assets\Sim_FrameWork\Project\GamePlay\FunctionBlock\Base\FunctionBlockModule.cs" />
-     <Compile Include="Assets\Sim_FrameWork\Project\GamePlay\FunctionBlock\Industrial\Energy\EnergyFactoryBase.cs" />
+     <Compile Include="Assets\Sim_FrameWork\Project\GamePlay\FunctionBlock\Energy\EnergyBlockBase.cs" />
      <Compile Include="Assets\Sim_FrameWork\Project\GamePlay\FunctionBlock\Industrial\Manufactory\FunctionBlock_Smelt.cs" />
      <Compile Include="Assets\Sim_FrameWork\Project\GamePlay\FunctionBlock\Industrial\Manufactory\ManufactoryBase.cs" />
-     <Compile Include="Assets\Sim_FrameWork\Project\GamePlay\FunctionBlock\Industrial\Raw\RawFactoryBase.cs" />
+     <Compile Include="Assets\Sim_FrameWork\Project\GamePlay\FunctionBlock\Industrial\Raw\IndustryRowBase.cs" />
+     <Compile Include="Assets\Sim_FrameWork\Project\GamePlay\FunctionBlock\Labor\LaborBlockBase.cs" />
      <Compile Include="Assets\Sim_FrameWork\Project\GamePlay\FunctionBlock\Science\ScienceFactoryBase.cs" />
      <Compile Include="Assets\Sim_FrameWork\Project\GamePlay\FunctionBlock\Warehouse\WarehouseBase.cs" />
      <Compile Include="Assets\Sim_FrameWork\Project\GamePlay\FunctionBlock\Warehouse\WarehouseBlock.cs" />
@@ -137,13 +139,14 @@
      <Compile Include="Assets\Sim_FrameWork\Project\GamePlay\General\GlobalSetting.cs" />
      <Compile Include="Assets\Sim_FrameWork\Project\GamePlay\General\PlayerData.cs" />
      <Compile Include="Assets\Sim_FrameWork\Project\GamePlay\General\PlayerModule.cs" />
-     <Compile Include="Assets\Sim_FrameWork\Project\GamePlay\Material\Material_Artifact\Ma_ArtifactBase.cs" />
      <Compile Include="Assets\Sim_FrameWork\Project\GamePlay\Material\MaterialBase.cs" />
      <Compile Include="Assets\Sim_FrameWork\Project\GamePlay\Material\MaterialModule.cs" />
      <Compile Include="Assets\Sim_FrameWork\Project\GamePlay\Modifier\FunctionBlockModifier.cs" />
      <Compile Include="Assets\Sim_FrameWork\Project\GamePlay\Modifier\ModifierBase.cs" />
      <Compile Include="Assets\Sim_FrameWork\Project\GamePlay\Modifier\ModifierManager.cs" />
      <Compile Include="Assets\Sim_FrameWork\Project\GamePlay\Modifier\ModifierReader.cs" />
+     <Compile Include="Assets\Sim_FrameWork\Project\GamePlay\Order\OrderModule.cs" />
+     <Compile Include="Assets\Sim_FrameWork\Project\GamePlay\RandomEvent\RandomEventModule.cs" />
      <Compile Include="Assets\Sim_FrameWork\Project\GamePlay\Talents\TalentsBase.cs" />
      <Compile Include="Assets\Sim_FrameWork\Project\GamePlay\Talents\TalentsModule.cs" />
      <Compile Include="Assets\Sim_FrameWork\Project\GamePlay\Technology\TechnologyBase.cs" />

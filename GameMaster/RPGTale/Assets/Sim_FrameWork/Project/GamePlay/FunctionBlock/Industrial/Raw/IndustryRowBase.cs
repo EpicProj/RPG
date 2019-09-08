@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class EnergyFactoryBase : MonoBehaviour {
+public class IndustryRowBase : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {

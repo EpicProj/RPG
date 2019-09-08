@@ -10,6 +10,9 @@ namespace Sim_FrameWork
         public static List<FunctionBlock> FunctionBlockDataList=new List<FunctionBlock> ();
         public static Dictionary<int, FunctionBlock> FunctionBlockDataDic=new Dictionary<int, FunctionBlock> ();
 
+        public static List<FunctionBlock_Labor> FunctionBlock_LaborList = new List<FunctionBlock_Labor>();
+        public static Dictionary<int, FunctionBlock_Labor> FunctionBlock_LaborDic = new Dictionary<int, FunctionBlock_Labor>();
+
         public static List<FunctionBlock_Raw> FunctionBlock_RawList=new List<FunctionBlock_Raw> ();
         public static Dictionary<int, FunctionBlock_Raw> FunctionBlock_RawDic=new Dictionary<int, FunctionBlock_Raw> ();
 
@@ -41,6 +44,8 @@ namespace Sim_FrameWork
             }
             FunctionBlockDataList = config.AllFunctionBlockList;
             FunctionBlockDataDic = config.AllFunctionBlockDic;
+            FunctionBlock_LaborList = config.AllFunctionBlock_LaborList;
+            FunctionBlock_LaborDic = config.AllFunctionBlock_LaborDic;
             FunctionBlock_RawList = config.AllFunctionBlock_RawList;
             FunctionBlock_RawDic = config.AllFunctionBlock_RawDic;
             FunctionBlock_ManufactureList = config.AllFunctionBlock_ManufactureList;
@@ -59,6 +64,11 @@ namespace Sim_FrameWork
         {
             LoadData();
             return FunctionBlockDataList;
+        }
+        public static List<FunctionBlock_Labor> GetFunctionBlock_LaborData()
+        {
+            LoadData();
+            return FunctionBlock_LaborList;
         }
         public static List<FunctionBlock_Raw> GetFunctionBlockRowData()
         {
@@ -90,6 +100,11 @@ namespace Sim_FrameWork
         {
             LoadData();
             return FunctionBlockDataDic;
+        }
+        public static Dictionary<int, FunctionBlock_Labor> GetFunctionBlock_LaborDic()
+        {
+            LoadData();
+            return FunctionBlock_LaborDic;
         }
         public static Dictionary<string, FunctionBlockTypeData> GetFunctionBlockTypeDataDic()
         {

@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.EventSystems;
 
 namespace Sim_FrameWork
 {
@@ -23,7 +24,20 @@ namespace Sim_FrameWork
 
         }
 
+        public override void OnPointerEnter(PointerEventData eventData)
+        {
+            if(transform.childCount > 0)
+            {
+                Material ma= transform.GetChild(0).GetComponent<SlotItem>().material;
+                InventoryManager.Instance.ShowMaterialInfoTip(ma);
+            }
+           
+        }
 
+        public override void OnPointerExit(PointerEventData eventData)
+        {
+            InventoryManager.Instance.HideMaterialInfoTip();
+        }
 
 
 

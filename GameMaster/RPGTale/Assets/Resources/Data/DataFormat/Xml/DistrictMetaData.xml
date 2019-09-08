@@ -5,12 +5,12 @@
   <AllDistrictDataList DistrictID="100" DistrictName="DistrictName_100" DistrictDesc="DistrictDesc_100" Type="1" Level="1" CurrencyCost="1000" MaterialCostList="100:10,101:3" TimeCost="10" ParentList="1,1" EffectList="District_Effect_100" />
   <AllDistrictDataList DistrictID="101" DistrictName="DistrictName_101" DistrictDesc="DistrictDesc_101" Type="2" Level="2" CurrencyCost="1000" MaterialCostList="100:10,102:3" TimeCost="20" ParentList="1,1" EffectList="District_Effect_101" />
   <AllDistrictTypeList TypeID="0" TypeShape="0,0" IconList="0" PrefabList="0" />
-  <AllDistrictTypeList TypeID="1" TypeShape="0,0" IconList="1" PrefabList="1" />
-  <AllDistrictTypeList TypeID="2" TypeShape="0,0;0,1" IconList="2,2" PrefabList="1,1" />
+  <AllDistrictTypeList TypeID="1" TypeShape="0,0" IconList="1" PrefabList="2" />
+  <AllDistrictTypeList TypeID="2" TypeShape="0,0;0,1" IconList="2,2" PrefabList="2,1" />
   <AllDistrictIconList IconID="0" IconPath="SpriteOutput/District/District_Empty" />
   <AllDistrictIconList IconID="1" IconPath="SpriteOutput/District/DistriceTest01" />
   <AllDistrictIconList IconID="2" IconPath="SpriteOutput/District/DistriceTest02" />
-  <AllDistrictModelList ID="1" ModelPath="Prefabs/FunctionBlock/Manu/District_01" />
-  <AllDistrictModelList ID="2" ModelPath="Prefabs/FunctionBlock/Manu/District_02" />
+  <AllDistrictModelList ID="1" ModelPath="Prefabs/FunctionBlock/Manu/District_Smelt_Large" />
+  <AllDistrictModelList ID="2" ModelPath="Prefabs/FunctionBlock/Manu/District_Smelt_Small" />
   <AllDistrictModelList ID="3" ModelPath="Prefabs/FunctionBlock/Manu/District_03" />
 </DistrictMetaData>

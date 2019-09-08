@@ -41,7 +41,7 @@ namespace Sim_FrameWork
         {
             //Set Collider
             BlockCollider = gameObject.GetComponent<BoxCollider>();
-            SetBlockColliderSize(FunctionBlockModule.Instance.InitFunctionBlockBoxCollider<FunctionBlock_Manufacture>(functionBlock));
+            SetBlockColliderSize(FunctionBlockModule.Instance.InitFunctionBlockBoxCollider(functionBlock));
 
         }
 
@@ -186,6 +186,11 @@ namespace Sim_FrameWork
             info.districtUnlockDataList = FunctionBlockModule.Instance.GetManuBlockDistrictUnlockData(blockBase.FunctionBlockID);
             info.levelInfo.BlockEXPMap = FunctionBlockModule.Instance.GetBlockEXPMapData(info.block.FunctionBlockID);
             info.levelInfo.CurrentBlockMaxEXP = FunctionBlockModule.Instance.GetCurrentLevelEXP(info.levelInfo.BlockEXPMap, info.levelInfo.currentBlockLevel);
+            //District
+            info.districtAreaMax = FunctionBlockModule.Instance.GetFunctionBlockAreaMax(blockBase);
+            info.currentDistrictDataDic = FunctionBlockModule.Instance.GetFuntionBlockOriginAreaInfo(blockBase); ;
+            info.currentDistrictBaseDic = FunctionBlockModule.Instance.GetFuntionBlockAreaDetailDefaultDataInfo(blockBase);
+
             //Set active district build
             for (int i = 0; i < info.districtUnlockDataList.Count; i++)
             {

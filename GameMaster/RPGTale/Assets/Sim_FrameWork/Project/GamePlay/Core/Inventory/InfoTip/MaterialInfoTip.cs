@@ -57,7 +57,7 @@ namespace Sim_FrameWork
             SubTypeName.text = MaterialModule.Instance.GetMaterialSubTypeName(ma);
             Rarity.text = MaterialModule.Instance.GetMaterialRarityName(ma);
             Rarity.color = MaterialModule.Instance.TryParseRarityColor(ma);
-               
+          
             targetAlpha = 1;
         }
 

@@ -9,6 +9,7 @@ namespace Sim_FrameWork
     public class MaterialSlot : Slot
     {
         public MaterialStorageData storeData;
+        public Material materialData;
         public Text Name;
         public Image Icon;
         public Text Num;
@@ -32,6 +33,7 @@ namespace Sim_FrameWork
             Num.text = itemData.count.ToString();
         }
 
+
         public override void OnPointerEnter(PointerEventData eventData)
         {
             InventoryManager.Instance.ShowMaterialInfoTip(storeData.material);
@@ -41,6 +43,9 @@ namespace Sim_FrameWork
         {
             InventoryManager.Instance.HideMaterialInfoTip();
         }
+
+
+        
 
     }
 }
