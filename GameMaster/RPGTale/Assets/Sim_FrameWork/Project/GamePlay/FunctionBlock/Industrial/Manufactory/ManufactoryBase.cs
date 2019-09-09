@@ -156,13 +156,14 @@ namespace Sim_FrameWork
 
         public ManufactFormulaInfo formulaInfo;
         public FunctionBlock_Manufacture manufactoryData;
+        public ManufactoryBaseInfoData.ManufactureInherentLevelData inherentLevelData;
 
         /// <summary>
         /// current Manu Speed
         /// </summary>
         [SerializeField]
         private float _currentSpeed = 0;
-        public float CurrentSpeed { get { return _currentSpeed; } protected set { } }
+        public float CurrentSpeed { get { return _currentSpeed; } protected  set {  } }
 
         /// <summary>
         /// WorkerNum
@@ -226,6 +227,7 @@ namespace Sim_FrameWork
         public ManufactoryInfo(FunctionBlock block)
         {
             manufactoryData = FunctionBlockModule.FetchFunctionBlockTypeIndex<FunctionBlock_Manufacture>(block.FunctionBlockID);
+            inherentLevelData = FunctionBlockModule.GetManuInherentLevelData(manufactoryData);
             AddWorkerNum(int.Parse(manufactoryData.MaintenanceBase));
             AddEnergyCostNormal(Utility.TryParseIntList(manufactoryData.EnergyConsumptionBase, ',')[0]);
             AddEnergyCostMagic(Utility.TryParseIntList(manufactoryData.EnergyConsumptionBase, ',')[1]);

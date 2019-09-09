@@ -17,6 +17,9 @@ namespace Sim_FrameWork {
 
     public class LaborBlockInfo
     {
+        public FunctionBlock_Labor laborData;
+        public LaborBaseInfoData.LaborInherentLevelData inherentLevelData;
+
 
         /// <summary>
         /// 当前人口
@@ -36,7 +39,11 @@ namespace Sim_FrameWork {
         public float FoodConsum { get { return _foodConsum; } }
 
 
-
+        public void InitPopulationMax()
+        {
+            if (laborData == null)
+                return;
+        }
 
         public void AddPopulation(float num)
         {
@@ -46,11 +53,20 @@ namespace Sim_FrameWork {
             if (_population > _populationMax)
                 _population = _populationMax;
         }
-
-
-        public LaborBlockInfo()
+        
+        /// <summary>
+        /// Refresh Food Consum
+        /// </summary>
+        public void AddFoodConsum()
         {
 
+        }
+
+        public LaborBlockInfo(FunctionBlock block)
+        {
+            laborData = FunctionBlockModule.FetchFunctionBlockTypeIndex<FunctionBlock_Labor>(block.FunctionBlockID);
+            inherentLevelData = FunctionBlockModule.GetLaborInherentLevelData(laborData);
+            AddPopulation(laborData.BasePopulation);
         }
 
 

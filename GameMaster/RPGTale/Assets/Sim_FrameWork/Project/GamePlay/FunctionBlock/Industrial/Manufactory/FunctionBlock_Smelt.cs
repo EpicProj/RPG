@@ -19,8 +19,8 @@ namespace Sim_FrameWork
         public override void Awake()
         {
             base.Awake();
-            
            
+
 
         }
 
@@ -45,7 +45,7 @@ namespace Sim_FrameWork
         public override void InitData()
         {
             base.InitData();
-           
+            FunctionBlockManager.Instance.AddFunctionBlockData(info.BlockUID, this);
         }
 
         public void Product()

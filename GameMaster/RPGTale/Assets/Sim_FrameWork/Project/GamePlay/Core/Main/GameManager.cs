@@ -19,8 +19,6 @@ namespace Sim_FrameWork
 
         public const string ITEM_UI_PATH = "ItemUIPrefab.prefab";
 
-        public List<FunctionBlockInfoData> FunctionBlockInfoDataList = new List<FunctionBlockInfoData>();
-
         public Canvas MainCanvas;
         public GraphicRaycaster raycaster;
         //游戏状态
@@ -111,23 +109,11 @@ namespace Sim_FrameWork
 
         #endregion
 
-
-
         #region PlayerData
 
 
         #endregion
 
-        #region FunctionBlock
-
-        public void AddFunctionBlockData(FunctionBlockInfoData infoData)
-        {
-            if (!FunctionBlockInfoDataList.Contains(infoData))
-            {
-                FunctionBlockInfoDataList.Add(infoData);
-            }
-        }
-
-        #endregion
+ 
     }
 }

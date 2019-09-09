@@ -33,7 +33,6 @@ namespace Sim_FrameWork
             blockModifier = GetComponent<FunctionBlockModifier>();
             info = FunctionBlockInfoData.CreateBaseInfo(GetBlockPos(),functionBlock,blockModifier);
             InitBaseInfo();
-
         }
 
         private void InitBaseInfo()

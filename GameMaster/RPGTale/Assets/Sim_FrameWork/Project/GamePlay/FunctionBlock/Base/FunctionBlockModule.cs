@@ -51,6 +51,7 @@ namespace Sim_FrameWork {
 
         //info Data
         public static ManufactoryBaseInfoData manufactoryBaseInfoData;
+        public static LaborBaseInfoData laborBaseInfoData;
 
         #region Data
         public override void InitData()
@@ -76,6 +77,8 @@ namespace Sim_FrameWork {
             //Init Info Data
             manufactoryBaseInfoData = new ManufactoryBaseInfoData();
             manufactoryBaseInfoData.LoadData();
+            laborBaseInfoData = new LaborBaseInfoData();
+            laborBaseInfoData.LoadData();
             HasInit = true;
         }
 
@@ -479,7 +482,6 @@ namespace Sim_FrameWork {
             return result;
         }
 
-
         /// <summary>
         /// Get District Data
         /// </summary>
@@ -662,28 +664,28 @@ namespace Sim_FrameWork {
         /// </summary>
         /// <param name="blockID"></param>
         /// <returns></returns>
-        public static InherentLevelData GetBlockInherentLevelData(int blockID)
+        public static ManufactoryBaseInfoData.ManufactureInherentLevelData GetManuInherentLevelData(FunctionBlock_Manufacture manuData)
         {
-            return GetBlockInherentLevelData(FetchFunctionBlockTypeIndex<FunctionBlock_Manufacture>(blockID).InherentLevel, FunctionBlockType.Manufacture);
-        }
-        public static InherentLevelData GetBlockInherentLevelData(string name,FunctionBlockType type)
-        {
-            switch (type)
+            List<ManufactoryBaseInfoData.ManufactureInherentLevelData> ManuLevel = manufactoryBaseInfoData.InherentLevelDatas;
+            if (ManuLevel == null)
             {
-                case FunctionBlockType.Manufacture:
-                    List<InherentLevelData> leveldata = manufactoryBaseInfoData.InherentLevelDatas;
-                    if (leveldata == null)
-                    {
-                        Debug.LogError("Can not Find Manu InherentLevelData  name=" + name);
-                        return null;
-                    }
-                    return leveldata.Find(x => x.LevelName == name);
-                default:
-                    return null;
+                Debug.LogError("Can not Find Manu InherentLevelData!");
+                return null;
             }
+            return ManuLevel.Find(x => x.LevelName == manuData.InherentLevel);
         }
 
-        public static List<string> GetBlockInherentLevelList()
+        public static LaborBaseInfoData.LaborInherentLevelData GetLaborInherentLevelData(FunctionBlock_Labor laborData)
+        {
+            List<LaborBaseInfoData.LaborInherentLevelData> laborLevel = laborBaseInfoData.InherentLevelDatas;
+            if (laborLevel == null)
+            {
+                Debug.LogError("Can not Find Labor InherentLevelData!");
+                return null;
+            }
+            return laborLevel.Find(x => x.LevelName == laborData.InherentLevel);
+        }
+        private static List<string> GetBlockInherentLevelList()
         {
             List<string> result = new List<string>();
             foreach(var data in manufactoryBaseInfoData.InherentLevelDatas)
@@ -704,7 +706,7 @@ namespace Sim_FrameWork {
         /// <param name="id"></param>
         /// <param name="type"></param>
         /// <returns></returns>
-        public static List<int> GetBlockEXPMapData(string id ,FunctionBlockType type)
+        private static List<int> GetBlockEXPMapData(string id ,FunctionBlockType type)
         {
             switch (type)
             {
@@ -716,6 +718,14 @@ namespace Sim_FrameWork {
                         return null;
                     }
                     return manuData.Find(x => x.ID == id).EXPMap;
+                case FunctionBlockType.Labor:
+                    List<BlockLevelData> laborData = laborBaseInfoData.BlockLevelDatas;
+                    if (laborData == null)
+                    {
+                        Debug.LogError("Can not Find LaborEXP Map  id=" + id);
+                        return null;
+                    }
+                    return laborData.Find(x => x.ID == id).EXPMap;
                 default:
                     return null;
             }
@@ -728,6 +738,8 @@ namespace Sim_FrameWork {
             switch (type)
             {
                 case FunctionBlockType.Manufacture:
+                    return GetBlockEXPMapData(GetFunctionBlockByBlockID(blockid).EXPDataJsonIndex,type);
+                case FunctionBlockType.Labor:
                     return GetBlockEXPMapData(GetFunctionBlockByBlockID(blockid).EXPDataJsonIndex,type);
                 default:
                     return null;
@@ -753,20 +765,28 @@ namespace Sim_FrameWork {
             }
         }
 
-        public static List<BlockDistrictUnlockData.DistrictUnlockData> GetManuBlockDistrictUnlockData(string id , FunctionBlockType type)
+        private static List<BlockDistrictUnlockData.DistrictUnlockData> GetManuBlockDistrictUnlockData(string id , FunctionBlockType type)
         {
             switch (type)
             {
                 case FunctionBlockType.Manufacture:
-                    for (int i = 0; i < manufactoryBaseInfoData.DistrictUnlockDatas.Count; i++)
+                    List < BlockDistrictUnlockData .DistrictUnlockData> manuData= manufactoryBaseInfoData.DistrictUnlockDatas.Find(x => x.ID == id).UnlockData;
+                    if (manuData == null)
                     {
-                        if (manufactoryBaseInfoData.DistrictUnlockDatas[i].ID == id)
-                        {
-                            return manufactoryBaseInfoData.DistrictUnlockDatas[i].UnlockData;
-                        }
+                        Debug.LogError("can not find unlockdata,id=" + id);
+                        return null;
                     }
-                    Debug.LogError("can not find unlockdata,id=" + id);
-                    return null;
+                    return manuData;
+
+                case FunctionBlockType.Labor:
+                    List<BlockDistrictUnlockData.DistrictUnlockData> laborData = laborBaseInfoData.DistrictUnlockDatas.Find(x => x.ID == id).UnlockData;
+                    if (laborData == null)
+                    {
+                        Debug.LogError("can not find unlockdata,id=" + id);
+                        return null;
+                    }
+                    return laborData;
+
                 default:
                     return null;
             }

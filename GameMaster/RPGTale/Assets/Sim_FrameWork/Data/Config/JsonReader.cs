@@ -44,6 +44,7 @@ namespace Sim_FrameWork.Config
 
         //FunctionBlock
         public static string ManufactoryBaseInfoJsonPath= Application.streamingAssetsPath + "/Data/JsonData/FunctionBlock/Manufactory" + "/ManufactoryBaseInfoData.json";
+        public static string LaborBaseInfoJsonPath = Application.streamingAssetsPath + "/Data/JsonData/FunctionBlock/Labor" + "/LaborBaseInfoData.json";
 
     }
 }
