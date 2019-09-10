@@ -424,6 +424,7 @@ GameObject:
   - component: {fileID: 239614930}
   - component: {fileID: 239614932}
   - component: {fileID: 239614933}
+  - component: {fileID: 239614934}
   m_Layer: 0
   m_Name: GameManager
   m_TagString: Untagged
@@ -442,7 +443,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3f15d7e5241af17439229b9b42405963, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  FunctionBlockInfoDataList: []
   MainCanvas: {fileID: 0}
   raycaster: {fileID: 0}
 --- !u!4 &239614931
@@ -490,6 +490,17 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 8e631b70551d5bd429b040a8229cf537, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &239614934
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 239614929}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 59990538297bf2e4bbc1a2cf7a27864f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!1 &286409859
