@@ -1556,7 +1556,7 @@ GameObject:
   - component: {fileID: 222837801961426792}
   - component: {fileID: 114142990956909144}
   m_Layer: 5
-  m_Name: Text
+  m_Name: InherentLevel
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2724,6 +2724,7 @@ MonoBehaviour:
   Level: {fileID: 114235340766708048}
   LvSlider: {fileID: 114232938052465564}
   LevelValue: {fileID: 1164839853402424}
+  InherentLevelText: {fileID: 114142990956909144}
   BuildContent: {fileID: 1241990807148496}
   StatisticsBtn: {fileID: 114702826318559244}
   UpgradeBtn: {fileID: 114406317474439570}
@@ -8418,10 +8419,10 @@ RectTransform:
   m_Father: {fileID: 224175848435822766}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 1}
-  m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 79.5, y: -15.507043}
-  m_SizeDelta: {x: 81, y: 19.014086}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!224 &224219650315353246
 RectTransform:
@@ -8549,10 +8550,10 @@ RectTransform:
   m_Father: {fileID: 224175848435822766}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 1}
-  m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 21, y: -18}
-  m_SizeDelta: {x: 32, y: 24}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!224 &224293116596645630
 RectTransform:
@@ -9349,7 +9350,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0, y: 0.000009536743}
+  m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 300}
   m_Pivot: {x: 0, y: 1}
 --- !u!224 &224578511714697966

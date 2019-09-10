@@ -9,6 +9,11 @@ namespace Sim_FrameWork
         public Dictionary<string, FunctionBlockBase> FunctionBlockDic = new Dictionary<string, FunctionBlockBase>();
 
 
+        protected override void Awake()
+        {
+            base.Awake();
+        }
+
         #region FunctionBlock
 
         public void AddFunctionBlockData(string blockUID,FunctionBlockBase blockBase)

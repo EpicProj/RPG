@@ -50,6 +50,7 @@ namespace Sim_FrameWork
         //LV
         private Text LvValue;
 
+
         /// <summary>
         /// [0] currentBlockid   [1] currentDistrictData
         /// </summary>
@@ -68,6 +69,7 @@ namespace Sim_FrameWork
             //Level
            
             LvValue = m_dialog.LevelValue.transform.Find("Value").GetComponent<Text>();
+            m_dialog.InherentLevelText.text = FunctionBlockModule.GetCurrentInherentLevelName(manufactoryInfo.inherentLevelData);
 
             clostBtn = GameObject.Find("Btn").GetComponent<Button>();
             ProgressImage = m_dialog.Processbar.transform.Find("Progress").GetComponent<Image>();

@@ -43,7 +43,6 @@ namespace Sim_FrameWork {
 
 
         private bool HasInit = false;
-        public string FacotryGUID;
         public List<string> FunctionBlockGUIDList = new List<string>();
         public Dictionary<int, FunctionBlockHistory> FunctionBlockHistoryDic = new Dictionary<int, FunctionBlockHistory>();
 
@@ -375,24 +374,10 @@ namespace Sim_FrameWork {
             }
             return result;
         }
-
-
-        /// <summary>
-        /// 获取所有初始区划信息
-        /// </summary>
-        /// <typeparam name="T"></typeparam>
-        /// <param name="block"></param>
-        /// <returns></returns>
         private static Dictionary<Vector2,DistrictData> GetDistrictOriginData(FunctionBlock block)
         {
             return GetFuntionBlockDistrictData(GetFuntionBlockOriginArea(block));
         }
-        /// <summary>
-        /// 获取所有基础区划信息
-        /// </summary>
-        /// <typeparam name="T"></typeparam>
-        /// <param name="block"></param>
-        /// <returns></returns>
         private static Dictionary<Vector2,DistrictData> GetDistrictAreaDetailDefaultData(FunctionBlock block)
         {
             return GetFuntionBlockDistrictData(GetFuntionBlockAreaDetailDefault(block));
@@ -672,9 +657,18 @@ namespace Sim_FrameWork {
                 Debug.LogError("Can not Find Manu InherentLevelData!");
                 return null;
             }
-            return ManuLevel.Find(x => x.LevelName == manuData.InherentLevel);
+            return ManuLevel.Find(x => x.Name == manuData.InherentLevel);
         }
 
+        public static string GetCurrentInherentLevelName(ManufactoryBaseInfoData.ManufactureInherentLevelData level)
+        {
+            if (level == null)
+            {
+                Debug.LogError("Manu InherentLevel is null");
+                return string.Empty;
+            }
+            return MultiLanguage.Instance.GetTextValue(level.LevelName);
+        }
         public static LaborBaseInfoData.LaborInherentLevelData GetLaborInherentLevelData(FunctionBlock_Labor laborData)
         {
             List<LaborBaseInfoData.LaborInherentLevelData> laborLevel = laborBaseInfoData.InherentLevelDatas;

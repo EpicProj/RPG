@@ -23,6 +23,7 @@ public class BlockInfoDialog : MonoBehaviour {
     public Slider LvSlider;
     public GameObject LevelValue;
     private Text Lvpercent;
+    public Text InherentLevelText;
     //District Build
     public GameObject BuildContent;
 
