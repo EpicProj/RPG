@@ -129,7 +129,7 @@ namespace Sim_FrameWork
                 if (material.count > ma.BlockCapacity)
                 {
                     //超出上限 ,TODO
-                    UIManager.Instance.SendMessageToWnd(UIPath.WAREHOURSE_DIALOG, "UpdateWarehouseData", material);
+                    UIManager.Instance.SendMessageToWnd(UIPath.WAREHOURSE_DIALOG,new UIMessage (UIMsgType.UpdateWarehouseData,material));
                 }
                 else if(material.count <= 0)
                 {
@@ -137,7 +137,7 @@ namespace Sim_FrameWork
                 }
                 else
                 {
-                    UIManager.Instance.SendMessageToWnd(UIPath.WAREHOURSE_DIALOG, "UpdateWarehouseData", material);
+                    UIManager.Instance.SendMessageToWnd(UIPath.WAREHOURSE_DIALOG, new UIMessage(UIMsgType.UpdateWarehouseData,material));
                 }
                
             }
@@ -145,7 +145,7 @@ namespace Sim_FrameWork
             {
                 MaterialStorageData data = new MaterialStorageData(ma, count);
                 wareHouseInfo.materialStorageDataList.Add(data);
-                UIManager.Instance.SendMessageToWnd(UIPath.WAREHOURSE_DIALOG, "UpdateWarehouseData", data);
+                UIManager.Instance.SendMessageToWnd(UIPath.WAREHOURSE_DIALOG, new UIMessage (UIMsgType.UpdateWarehouseData,data));
             }
         }
 

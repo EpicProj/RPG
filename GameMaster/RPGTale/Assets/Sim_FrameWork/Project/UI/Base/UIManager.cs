@@ -111,12 +111,12 @@ namespace Sim_FrameWork {
         /// <param name="msgID">消息ID</param>
         /// <param name="paralist">参数数组</param>
         /// <returns></returns>
-        public bool SendMessageToWnd(string name, string msgID , params object[] paralist)
+        public bool SendMessageToWnd(string name, UIMessage message)
         {
             WindowBase wnd = FindWndByName<WindowBase>(name);
             if (wnd != null)
             {
-                return wnd.OnMessage(msgID, paralist);
+                return wnd.OnMessage(message);
             }
             return false;
         }

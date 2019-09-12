@@ -61,23 +61,23 @@ namespace Sim_FrameWork
         }
 
 
-        public override bool OnMessage(string msgID, params object[] paralist)
+        public override bool OnMessage(UIMessage msg)
         {
-            switch (msgID)
+            switch (msg.type)
             {
-                case "UpdateResourceData":
+                case  UIMsgType.UpdateResourceData:
                     //更新资源面板
-                    playerData = (PlayerData)paralist[0];
+                    playerData = (PlayerData)msg.content;
                     UpdatePlayerBaseData();
                     return true;
 
-                case "UpdateBuildPanelData":
+                case UIMsgType.UpdateBuildPanelData:
                     //更新建造列表
-                    playerData.UnLockBuildingPanelDataList = (List<BuildingPanelData>)paralist[0];
+                    playerData.UnLockBuildingPanelDataList = (List<BuildingPanelData>)msg.content;
                     return true;
-                case "UpdateTime":
+                case  UIMsgType.UpdateTime:
                     //更新时间
-                    timeData = (PlayerModule.TimeData)paralist[0];
+                    timeData = (PlayerModule.TimeData)msg.content;
                     UpdateTimePanel();
                     return true;
                 default:

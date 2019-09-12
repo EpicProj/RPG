@@ -51,7 +51,7 @@ namespace Sim_FrameWork {
                         data = ModifierData.Create(modifierBase, delegate
                          {
                              manuInfo.AddCurrentSpeed(modifierBase.Value);
-                             UIManager.Instance.SendMessageToWnd(UIPath.FUNCTIONBLOCK_INFO_DIALOG, "UpdateSpeedText", manuInfo.CurrentSpeed);
+                             UIManager.Instance.SendMessageToWnd(UIPath.FUNCTIONBLOCK_INFO_DIALOG,new UIMessage(UIMsgType.UpdateSpeedText,manuInfo.CurrentSpeed));
                          });
                     }
                     break;

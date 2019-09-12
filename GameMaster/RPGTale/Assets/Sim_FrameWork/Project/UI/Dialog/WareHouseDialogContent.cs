@@ -31,12 +31,12 @@ namespace Sim_FrameWork {
             InitSotrageItem();
         }
 
-        public override bool OnMessage(string msgID, params object[] paralist)
+        public override bool OnMessage(UIMessage msg)
         {
-            switch (msgID)
+            switch (msg.type)
             {
-                case "UpdateWarehouseData":
-                    MaterialStorageData data = (MaterialStorageData)paralist[0];
+                case UIMsgType.UpdateWarehouseData:
+                    MaterialStorageData data = (MaterialStorageData)msg.content;
                     UpdateStorageItem(data);
                     return true;
             }

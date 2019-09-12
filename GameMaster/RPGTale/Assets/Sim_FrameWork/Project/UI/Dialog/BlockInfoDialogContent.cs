@@ -147,32 +147,32 @@ namespace Sim_FrameWork
             }
         }
 
-        public override bool OnMessage(string msgID, params object[] paralist)
+        public override bool OnMessage(UIMessage msg)
         {
-            switch (msgID)
+            switch (msg.type)
             {
-                case "UpdateManuSlot":
-                    ManufactFormulaInfo formulaInfo = (ManufactFormulaInfo)paralist[0];
+                case  UIMsgType.UpdateManuSlot:
+                    ManufactFormulaInfo formulaInfo = (ManufactFormulaInfo)msg.content;
                     //Update Info
                     manufactoryInfo.formulaInfo = formulaInfo;
 
                     UpdateManuMaterialSlot(formulaInfo);
                     return true;
-                case "UpdateLevelInfo":
-                    FunctionBlockLevelInfo levelInfo = (FunctionBlockLevelInfo)paralist[0];
+                case  UIMsgType.UpdateLevelInfo:
+                    FunctionBlockLevelInfo levelInfo = (FunctionBlockLevelInfo)msg.content;
                     //Update Info
                     blockInfo.levelInfo = levelInfo;
                     UpdateLevel(levelInfo);
                     return true;
-                case "UpdateSpeedText":
+                case  UIMsgType.UpdateSpeedText:
                     //UpdateSpeed
-                    float Addspeed = (float)paralist[0];
+                    float Addspeed = (float)msg.content;
                     manufactoryInfo.AddCurrentSpeed(Addspeed);
                     RefreshInfoText(manufactoryInfo.CurrentSpeed, InfoType.Speed);
                     return true;
 
                 default:
-                    Debug.LogError("UI msg Error , msgID=" + msgID);
+                    Debug.LogError("UI msg Error , msgID=" + msg.type);
                     return false;
             }
             

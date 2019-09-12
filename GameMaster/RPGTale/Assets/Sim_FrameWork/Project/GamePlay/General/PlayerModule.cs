@@ -118,7 +118,7 @@ namespace Sim_FrameWork
         public void AddCurrency(float num)
         {
             playerData.AddCurrency(num);
-            UIManager.Instance.SendMessageToWnd(UIPath.MAINMENU_PAGE, "UpdateResourceData", playerData);
+            UIManager.Instance.SendMessageToWnd(UIPath.MAINMENU_PAGE,new UIMessage(UIMsgType.UpdateResourceData,playerData));
         }
 
 
@@ -316,7 +316,7 @@ namespace Sim_FrameWork
                 playerData.UnLockBuildingPanelDataList.Add(data);
             }
             //UpdateUI
-            UIManager.Instance.SendMessageToWnd(UIPath.MAINMENU_PAGE, "UpdateBuildPanelData", playerData.UnLockBuildingPanelDataList);
+            UIManager.Instance.SendMessageToWnd(UIPath.MAINMENU_PAGE, new UIMessage (UIMsgType.UpdateBuildPanelData,playerData.UnLockBuildingPanelDataList));
         }
 
         #endregion
@@ -408,7 +408,7 @@ namespace Sim_FrameWork
                     timeData.currentMonth = 1;
                 }
                 timeData.currentSeason = ConvertMonthToSeason(timeData.currentMonth);
-                UIManager.Instance.SendMessageToWnd(UIPath.MAINMENU_PAGE, "UpdateTime", timeData);
+                UIManager.Instance.SendMessageToWnd(UIPath.MAINMENU_PAGE, new UIMessage (UIMsgType.UpdateTime,timeData));
             }
         }
 
