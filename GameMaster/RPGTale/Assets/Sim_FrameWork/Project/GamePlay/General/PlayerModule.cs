@@ -406,6 +406,7 @@ namespace Sim_FrameWork
                 if (timeData.currentMonth >= 13)
                 {
                     timeData.currentMonth = 1;
+                    timeData.currentYear++;
                 }
                 timeData.currentSeason = ConvertMonthToSeason(timeData.currentMonth);
                 UIManager.Instance.SendMessageToWnd(UIPath.MAINMENU_PAGE, new UIMessage (UIMsgType.UpdateTime,timeData));

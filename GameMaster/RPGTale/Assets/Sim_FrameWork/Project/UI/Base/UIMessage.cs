@@ -9,10 +9,10 @@ namespace Sim_FrameWork
         public UIMsgType type;
         public object content;
 
-        public UIMessage(UIMsgType Msgtype, object contents)
+        public UIMessage(UIMsgType Msgtype, object Content)
         {
             type = Msgtype;
-            content = contents;
+            content = Content;
         }
     }
 

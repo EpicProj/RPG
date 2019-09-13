@@ -40,8 +40,8 @@ namespace Sim_FrameWork
             CurrentMonthText= m_page.TimePanel.transform.Find("Time/CurrentMonth").GetComponent<Text>();
             CurrentSeasonText= m_page.TimePanel.transform.Find("Time/Season").GetComponent<Text>();
             SeasonSprite = m_page.TimePanel.transform.Find("Time/SeasonIcon").GetComponent<Image>();
-            PauseBtn = m_page.GameStatesObj.transform.Find("PauseButton").GetComponent<Button>();
-            StatesBtnImage=m_page.GameStatesObj.transform.Find("PauseButton").GetComponent<Image>();
+            PauseBtn = m_page.GameStatesObj.transform.Find("Pause").GetComponent<Button>();
+            StatesBtnImage=m_page.GameStatesObj.transform.Find("Pause").GetComponent<Image>();
             StatesBtnImage.sprite = Utility.LoadSprite(GameManager.globalSettings.basicSpriteConfig.StartBtn_Sprite_Path, Utility.SpriteType.png);
             timeData = PlayerModule.Instance.timeData;
 
