@@ -69,7 +69,6 @@ namespace Sim_FrameWork
             config.ReadPlayerConfigData();
             buildPanelDataList = BuildingPanelMetaDataReader.GetBuildingPanelDataList();
             buildPanelDataDic = BuildingPanelMetaDataReader.GetBuildingPanelDataDic();
-            AllBuildMainTagList = GetAllBuildPanelType();
             //Init Time
             //INIT CONFIG
             realSecondsPerMonth = config.timeConfig.RealSecondsPerMonth;
@@ -106,8 +105,9 @@ namespace Sim_FrameWork
             //Init BuildPanel
             playerData.AllBuildingPanelDataList = buildPanelDataList;
             playerData.UnLockBuildingPanelDataList = GetUnLockBuildData();
-            playerData.buildTagList = config.BuildTagList;
-            
+
+            //Init Camp
+            playerData.campData.AddJusticeValue(CampModule.campConfig.Player_OriginValue_Default);
 
             //Init wareHouse
             playerData.InitMaterialType();
@@ -260,95 +260,6 @@ namespace Sim_FrameWork
             return data;
         }
 
-        /// <summary>
-        /// 获取所有建造主Tag
-        /// </summary>
-        /// <param name="data"></param>
-        /// <returns></returns>
-        public List<string> GetAllBuildPanelType()
-        {
-            List<string> result = new List<string>();
-            foreach(var data in config.BuildTagList)
-            {
-                if (result.Contains(data.Tag))
-                {
-                    Debug.LogError("Find Same Build Main Tag, Tag =" + data.Tag);
-                    continue;
-                }
-                result.Add(data.Tag);
-            }
-            return result;
-        }
-
-        /// <summary>
-        /// 获取所有副标签
-        /// </summary>
-        /// <returns></returns>
-        public List<string> GetBuildPanelSubTag(string mainTag)
-        {
-            List<string> result = new List<string>();
-            if (AllBuildMainTagList.Contains(mainTag))
-            {
-                var subdata = config.BuildTagList.Find(x => x.Tag == mainTag);
-                if (subdata == null)
-                {
-                    Debug.LogError("Get BuildPanel Sub Type Error! MainTag=" + mainTag);
-                    return result;
-                }
-                foreach(var data in subdata.BuildSubTagList)
-                {
-                    if (result.Contains(data.Tag))
-                    {
-                        Debug.LogError("Find Same Build SubTag ,tag=" + data.Tag);
-                        continue;
-                    }
-                    result.Add(data.Tag);
-                }
-            }
-            else
-            {
-                Debug.LogError("Build MainTag Error! mainTag=" + mainTag);
-            }
-           
-            return result;
-        }
-
-        public BuildMainTag GetBuildMainTag(int BuildID)
-        {
-            string tag = GetBuildingPanelDataByKey(BuildID).BuildType;
-            if (AllBuildMainTagList.Contains(tag))
-            {
-                return config.BuildTagList.Find(x => x.Tag == tag);
-            }
-            else
-            {
-                Debug.LogError("Get BuildTag Error BuildType=" + tag);
-                return null;
-            }
-        }
-        public BuildMainTag GetBuildMainTag(BuildingPanelData Data)
-        {
-            return GetBuildMainTag(Data.BuildID);
-        }
-
-        public BuildMainTag.BuildSubTag GetBuildSubTag(int BuildID)
-        {
-            BuildMainTag mainTag = GetBuildMainTag(BuildID);
-            if (mainTag != null)
-            {
-                string subType= GetBuildingPanelDataByKey(BuildID).BuildSubType;
-                if (GetBuildPanelSubTag(mainTag.Tag).Contains(subType))
-                {
-                    return mainTag.BuildSubTagList.Find(x => x.Tag == subType);
-                }
-                else
-                {
-                    Debug.LogError("BuildSub Tag Error Type=" + subType);
-                    return null;
-                }
-            }
-            return null;
-        }
         /// <summary>
         /// 获取区块
         /// </summary>
@@ -528,7 +439,6 @@ namespace Sim_FrameWork
     {
         public List<HardLevelData> hardlevelData;
         public TimeDataConfig timeConfig;
-        public List<BuildMainTag> BuildTagList;
 
 
 
@@ -538,7 +448,6 @@ namespace Sim_FrameWork
             PlayerConfig config = reader.LoadJsonDataConfig<PlayerConfig>(Config.JsonConfigPath.PlayerConfigJsonPath);
             hardlevelData = config.hardlevelData;
             timeConfig = config.timeConfig;
-            BuildTagList = config.BuildTagList;
         }
     }
 
@@ -582,21 +491,5 @@ namespace Sim_FrameWork
         public float TechnologyConversionRate;
     }
 
-    public class BuildMainTag
-    {
-        public string Tag;
-        public string BuildMainTagName;
-        public string BuildMainTagDesc;
-        public string BuildMainTagIcon;
-        public List<BuildSubTag> BuildSubTagList;
-
-        public class BuildSubTag
-        {
-            public string Tag;
-            public string BuildSubTagName;
-            public string BuildSubTagDesc;
-            public string BuildSubTagIcon;
-        }
-    }
 
 }

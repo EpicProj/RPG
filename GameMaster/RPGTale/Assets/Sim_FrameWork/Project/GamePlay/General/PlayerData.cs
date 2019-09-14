@@ -22,9 +22,10 @@ namespace Sim_FrameWork
 
         public List<BuildingPanelData> AllBuildingPanelDataList = new List<BuildingPanelData>();
         public List<BuildingPanelData> UnLockBuildingPanelDataList = new List<BuildingPanelData>();
-        public List<BuildMainTag> buildTagList = new List<BuildMainTag>();
         public WareHouseInfo wareHouseInfo = new WareHouseInfo();
         public PlayerResourceData resourceData = new PlayerResourceData();
+        public PlayerCampData campData = new PlayerCampData();
+        
    
 
         //当前科技转换率
@@ -88,6 +89,30 @@ namespace Sim_FrameWork
                 {
                     wareHouseInfo.materialSubTagDic.Add(wareHouseInfo.materialTagList[i], MaterialModule.GetMaterialSubTypeDataList(wareHouseInfo.materialTagList[i].Type));
                 }
+            }
+        }
+
+        public class PlayerCampData
+        {
+
+            /// <summary>
+            /// 正义值
+            /// </summary>
+            private float _current_Justice_Value;
+            public float Current_Justice_Value { get { return _current_Justice_Value; } }
+
+            public void AddJusticeValue(float num)
+            {
+                _current_Justice_Value += num;
+                if (num > CampModule.campConfig.maxValue)
+                {
+                    _current_Justice_Value = CampModule.campConfig.maxValue;
+                }
+                else if (num < CampModule.campConfig.minValue)
+                {
+                    _current_Justice_Value = CampModule.campConfig.minValue;
+                }
+
             }
         }
 
@@ -225,13 +250,15 @@ namespace Sim_FrameWork
                     _reputationMax = 0;
             }
             #endregion
-        }
 
+        }
 
     }
 
     public class PlayerDataConfig
     {
+       
+
 
     }
 

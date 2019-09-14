@@ -155,7 +155,7 @@ namespace Sim_FrameWork
     {
 
         public ManufactFormulaInfo formulaInfo;
-        public FunctionBlock_Manufacture manufactoryData;
+        public FunctionBlock_Industry IndustryData;
         public ManufactoryBaseInfoData.ManufactureInherentLevelData inherentLevelData;
 
         /// <summary>
@@ -226,13 +226,13 @@ namespace Sim_FrameWork
 
         public ManufactoryInfo(FunctionBlock block)
         {
-            manufactoryData = FunctionBlockModule.FetchFunctionBlockTypeIndex<FunctionBlock_Manufacture>(block.FunctionBlockID);
-            inherentLevelData = FunctionBlockModule.GetManuInherentLevelData(manufactoryData);
-            AddWorkerNum(int.Parse(manufactoryData.MaintenanceBase));
-            AddEnergyCostNormal(Utility.TryParseIntList(manufactoryData.EnergyConsumptionBase, ',')[0]);
-            AddEnergyCostMagic(Utility.TryParseIntList(manufactoryData.EnergyConsumptionBase, ',')[1]);
-            AddMaintain(float.Parse(manufactoryData.MaintenanceBase));
-            AddCurrentSpeed(FunctionBlockModule.GetManufactureSpeed(block.FunctionBlockID));
+            IndustryData = FunctionBlockModule.FetchFunctionBlockTypeIndex<FunctionBlock_Industry>(block.FunctionBlockID);
+            inherentLevelData = FunctionBlockModule.GetManuInherentLevelData(IndustryData);
+            AddWorkerNum(int.Parse(IndustryData.MaintenanceBase));
+            AddEnergyCostNormal(Utility.TryParseIntList(IndustryData.EnergyConsumptionBase, ',')[0]);
+            AddEnergyCostMagic(Utility.TryParseIntList(IndustryData.EnergyConsumptionBase, ',')[1]);
+            AddMaintain(float.Parse(IndustryData.MaintenanceBase));
+            AddCurrentSpeed(FunctionBlockModule.GetIndustrySpeed(block.FunctionBlockID));
         }
 
 

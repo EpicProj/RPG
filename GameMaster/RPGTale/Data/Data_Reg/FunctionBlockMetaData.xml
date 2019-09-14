@@ -9,6 +9,7 @@
 			<variable  name="BlockDesc" col = "BlockDesc" type="string"/>
 			<variable  name="PreLevelBlock" col = "PreLevelBlock" type="int"/>
 			<variable  name="FunctionBlockType" col = "FunctionBlockType" type="string"/>
+			<variable  name="SubType" col = "SubType" type="string"/>
 			<variable  name="FunctionBlockTypeIndex" col = "FunctionBlockTypeIndex" type="ushort"/>
 			<variable  name="MaxLevel" col = "MaxLevel" type="ushort"/>
 			<variable  name="AreaDetailDefault" col = "AreaDetailDefault" type="string"/>
@@ -39,10 +40,10 @@
 		</list>
 	</variable>
 
-	<variable  name="AllFunctionBlock_ManufactureList" type="list">
-		<list name = "FunctionBlock_Manufacture" sheetname="FunctionBlock_Manufacture" mainKey = "ManufactureID">
-			<variable  name="ManufactureID" col = "ManufactureID" type="int"/>
-			<variable  name="ManufactType" col = "ManufactType" type="string"/>
+	<variable  name="AllFunctionBlock_IndustryList" type="list">
+		<list name = "FunctionBlock_Industry" sheetname="FunctionBlock_Industry" mainKey = "ID">
+			<variable  name="ID" col = "ID" type="int"/>
+			<variable  name="Type" col = "Type" type="string"/>
 			<variable  name="InherentLevel" col = "InherentLevel" type="string"/>
 			<variable  name="SpeedBase" col = "SpeedBase" type="float"/>
 			<variable  name="FormulaInfoID" col = "FormulaInfoID" type="int"/>
@@ -70,6 +71,18 @@
 	<variable  name="AllFunctionBlockTypeDataList" type="list">
 		<list name = "FunctionBlockTypeData" sheetname="FunctionBlockTypeData" mainKey = "Type">
 			<variable  name="Type" col = "Type" type="string"/>
+			<variable  name="DefaultShow" col = "DefaultShow" type="bool"/>
+			<variable  name="TypeName" col = "TypeName" type="string"/>
+			<variable  name="TypeDesc" col = "TypeDesc" type="string"/>
+			<variable  name="TypeIcon" col = "TypeIcon" type="string"/>
+			<variable  name="SubTypeList" col = "SubTypeList" type="string"/>
+		</list>
+	</variable>
+
+	<variable  name="AllFunctionBlockSubTypeDataList" type="list">
+		<list name = "FunctionBlockSubTypeData" sheetname="FunctionBlockSubTypeData" mainKey = "Type">
+			<variable  name="SubType" col = "SubType" type="string"/>
+			<variable  name="DefaultShow" col = "DefaultShow" type="bool"/>
 			<variable  name="TypeName" col = "TypeName" type="string"/>
 			<variable  name="TypeDesc" col = "TypeDesc" type="string"/>
 			<variable  name="TypeIcon" col = "TypeIcon" type="string"/>

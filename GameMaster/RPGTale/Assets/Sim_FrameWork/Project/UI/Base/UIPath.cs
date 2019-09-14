@@ -44,7 +44,7 @@ namespace Sim_FrameWork
 
         //建造面板中区块
         public const string BUILD_ELEMENT_PREFAB_PATH= "Assets/Prefabs/Object/Main/BlockBuildElement.prefab";
-
+        public const string Construct_MainTab_Element_Path = "Assets/Prefabs/Object/Main/ConstructMainTabElement.prefab";
 
 
 

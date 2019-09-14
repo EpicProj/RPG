@@ -16,8 +16,8 @@ namespace Sim_FrameWork
         public static List<FunctionBlock_Raw> FunctionBlock_RawList;
         public static Dictionary<int, FunctionBlock_Raw> FunctionBlock_RawDic;
 
-        public static List<FunctionBlock_Manufacture> FunctionBlock_ManufactureList ;
-        public static Dictionary<int, FunctionBlock_Manufacture> FunctionBlock_ManufactureDic;
+        public static List<FunctionBlock_Industry> FunctionBlock_IndustryList;
+        public static Dictionary<int, FunctionBlock_Industry> FunctionBlock_IndustryDic;
 
         public static List<FunctionBlock_Energy> FunctionBlock_EnergyList;
         public static Dictionary<int, FunctionBlock_Energy> FunctionBlock_EnergyDic;
@@ -27,6 +27,9 @@ namespace Sim_FrameWork
 
         public static List<FunctionBlockTypeData> FunctionBlockTypeDataList;
         public static Dictionary<string,FunctionBlockTypeData> FunctionBlockTypeDataDic;
+
+        public static List<FunctionBlockSubTypeData> FunctionBlockSubTypeDataList;
+        public static Dictionary<string, FunctionBlockSubTypeData> FunctionBlockSubTypeDataDic;
 
 
         public static void LoadData()
@@ -43,8 +46,8 @@ namespace Sim_FrameWork
             FunctionBlock_LaborDic = config.AllFunctionBlock_LaborDic;
             FunctionBlock_RawList = config.AllFunctionBlock_RawList;
             FunctionBlock_RawDic = config.AllFunctionBlock_RawDic;
-            FunctionBlock_ManufactureList = config.AllFunctionBlock_ManufactureList;
-            FunctionBlock_ManufactureDic = config.AllFunctionBlock_ManufactureDic;
+            FunctionBlock_IndustryList = config.AllFunctionBlock_IndustryList;
+            FunctionBlock_IndustryDic = config.AllFunctionBlock_IndustryDic;
             FunctionBlock_ScienceList = config.AllFunctionBlock_ScienceList;
             FunctionBlock_ScienceDic = config.AllFunctionBlock_ScienceDic;
             FunctionBlock_EnergyList = config.AllFunctionBlock_EnergyList;
@@ -52,6 +55,8 @@ namespace Sim_FrameWork
 
             FunctionBlockTypeDataList = config.AllFunctionBlockTypeDataList;
             FunctionBlockTypeDataDic = config.AllFunctionBlockTypeDataDic;
+            FunctionBlockSubTypeDataList = config.AllFunctionBlockSubTypeDataList;
+            FunctionBlockSubTypeDataDic = config.AllFunctionBlockSubTypeDataDic;
         }
 
 
@@ -70,10 +75,10 @@ namespace Sim_FrameWork
             LoadData();
             return FunctionBlock_RawList;
         }
-        public static List<FunctionBlock_Manufacture> GetFunctionBlock_ManufactureData()
+        public static List<FunctionBlock_Industry> GetFunctionBlock_IndustryData()
         {
             LoadData();
-            return FunctionBlock_ManufactureList;
+            return FunctionBlock_IndustryList;
         }
         public static List<FunctionBlock_Science> GetFunctionBlock_ScienceData()
         {
@@ -89,6 +94,11 @@ namespace Sim_FrameWork
         {
             LoadData();
             return FunctionBlockTypeDataList;
+        }
+        public static List<FunctionBlockSubTypeData> GetFunctionBlockSubTypeData()
+        {
+            LoadData();
+            return FunctionBlockSubTypeDataList;
         }
 
         public static Dictionary<int, FunctionBlock> GetFunctionBlockDataDic()
@@ -111,10 +121,10 @@ namespace Sim_FrameWork
             LoadData();
             return FunctionBlock_RawDic;
         }
-        public static Dictionary<int,FunctionBlock_Manufacture> GetFunctionBlock_ManufactureDic()
+        public static Dictionary<int, FunctionBlock_Industry> GetFunctionBlock_IndustryDic()
         {
             LoadData();
-            return FunctionBlock_ManufactureDic;
+            return FunctionBlock_IndustryDic;
         }
         public static Dictionary<int,FunctionBlock_Science> GetFunctionBlock_ScienceDic()
         {
@@ -125,6 +135,11 @@ namespace Sim_FrameWork
         {
             LoadData();
             return FunctionBlock_EnergyDic;
+        }
+        public static Dictionary<string, FunctionBlockSubTypeData> GetFunctionBlockSubTypeDataDic()
+        {
+            LoadData();
+            return FunctionBlockSubTypeDataDic;
         }
 
 

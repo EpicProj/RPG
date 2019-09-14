@@ -41,9 +41,19 @@ namespace Sim_FrameWork
         private Text EnergyNumText;
         private Text EnergyAddNumText;
 
+        /// <summary>
+        /// Camp Data
+        /// </summary>
+        private const float CampRotateValue_Min = -62.0f;
+        private const float CampRotateValue_Max = 117.0f;
+        private const float CampRotateValue_Zero = 25.5f;
+        private Text CampValueMinText;
+        private Text CampValueMaxText;
+        private Text CampValueCurrentText;
+        private GameObject CampPointer;
+
         //GameStates
         private Button PauseBtn;
-        private Image StatesBtnImage;
 
         public override void Awake(params object[] paralist)
         {
@@ -53,6 +63,7 @@ namespace Sim_FrameWork
             UpdateResData(ResourceType.All);
             UpdateResMonthData(ResourceType.All);
             InitBuildPanel();
+            InitBuildMainTab();
         }
 
         private void InitBaseData()
@@ -66,18 +77,22 @@ namespace Sim_FrameWork
             LaborAddNumText= m_page.Labor.transform.Find("AddNum").GetComponent<Text>();
             EnergyNumText= m_page.Energy.transform.Find("Num").GetComponent<Text>();
             EnergyAddNumText = m_page.Energy.transform.Find("AddNum").GetComponent<Text>();
+            //Camp
+            CampValueMinText = m_page.CampValue.transform.Find("ValueMin").GetComponent<Text>();
+            CampValueMaxText = m_page.CampValue.transform.Find("ValueMax").GetComponent<Text>();
+            CampValueCurrentText = m_page.CampContent.transform.Find("Value").GetComponent<Text>();
+            CampPointer = m_page.CampValue.transform.Find("Current").gameObject;
 
             CurrentYearText = m_page.TimePanel.transform.Find("Time/CurrentYear").GetComponent<Text>();
             CurrentMonthText= m_page.TimePanel.transform.Find("Time/CurrentMonth").GetComponent<Text>();
             CurrentSeasonText= m_page.TimePanel.transform.Find("Time/Season").GetComponent<Text>();
             SeasonSprite = m_page.TimePanel.transform.Find("Time/SeasonIcon").GetComponent<Image>();
             PauseBtn = m_page.GameStatesObj.transform.Find("Pause").GetComponent<Button>();
-            StatesBtnImage=m_page.GameStatesObj.transform.Find("Pause").GetComponent<Image>();
-            StatesBtnImage.sprite = Utility.LoadSprite(GameManager.globalSettings.basicSpriteConfig.StartBtn_Sprite_Path, Utility.SpriteType.png);
             timeData = PlayerModule.Instance.timeData;
 
             //Update Time
             UpdateTimePanel();
+            InitCampData();
         }
 
         public override void OnUpdate()
@@ -217,8 +232,6 @@ namespace Sim_FrameWork
             }
         }
 
-
-
         //Button
         private void AddBtnListener()
         {
@@ -237,15 +250,47 @@ namespace Sim_FrameWork
             if (GameManager.Instance.gameStates == GameManager.GameStates.Start)
             {
                 GameManager.Instance.SetGameStates(GameManager.GameStates.Pause);
-                StatesBtnImage.sprite = Utility.LoadSprite(GameManager.globalSettings.basicSpriteConfig.PauseBtn_Sprite_Path, Utility.SpriteType.png);
             }
             else if (GameManager.Instance.gameStates == GameManager.GameStates.Pause)
             {
                 GameManager.Instance.SetGameStates(GameManager.GameStates.Start);
-                StatesBtnImage.sprite = Utility.LoadSprite(GameManager.globalSettings.basicSpriteConfig.StartBtn_Sprite_Path, Utility.SpriteType.png);
             }
         }
 
+        #region Camp
+        private void InitCampData()
+        {
+            CampValueMinText.text = CampModule.campConfig.minValue.ToString();
+            CampValueMaxText.text = CampModule.campConfig.maxValue.ToString();
+            CampValueCurrentText.text = playerData.campData.Current_Justice_Value.ToString();
+            
+            UpdateCampPointer();
+
+        }
+        private void UpdateCampPointer()
+        {
+            //更新指针
+            if (playerData.campData.Current_Justice_Value == 0)
+            {
+                SetCampPointerPos(CampRotateValue_Zero);
+            }
+            else if (playerData.campData.Current_Justice_Value > 0)
+            {
+                float ratio= playerData.campData.Current_Justice_Value / Mathf.Abs(CampModule.campConfig.maxValue);
+                SetCampPointerPos((CampRotateValue_Max - CampRotateValue_Zero) * ratio);
+            }else if (playerData.campData.Current_Justice_Value < 0)
+            {
+                float ratio = playerData.campData.Current_Justice_Value / Mathf.Abs(CampModule.campConfig.minValue);
+                SetCampPointerPos((CampRotateValue_Zero - CampRotateValue_Min) * ratio);
+            }
+        }
+        private void SetCampPointerPos(float pos)
+        {
+            //TODO BUG
+            CampPointer.transform.GetComponent<RectTransform>().localRotation = new Quaternion(0f, 0f,pos, 0f);
+        }
+
+        #endregion
 
         #region BuildPanel
         public void InitBuildPanel()
@@ -257,7 +302,18 @@ namespace Sim_FrameWork
                 element.InitBuildElement(playerData.UnLockBuildingPanelDataList[i]);
                 buildObj.transform.SetParent(m_page.BuildContent.transform, false);
             }
-            
+        }
+
+        public void InitBuildMainTab()
+        {
+            List<FunctionBlockTypeData> mainTypeList = FunctionBlockModule.GetInitMainType();
+            for(int i = 0; i < mainTypeList.Count; i++)
+            {
+                GameObject mainTab = ObjectManager.Instance.InstantiateObject(UIPath.Construct_MainTab_Element_Path);
+                ConstructMainTabElement element = mainTab.GetComponent<ConstructMainTabElement>();
+                element.InitMainTabElement(mainTypeList[i]);
+                mainTab.transform.SetParent(m_page.BuildTabContent.transform, false);
+            }
         }
 
         #endregion

@@ -21,6 +21,7 @@ public class FunctionBlockMetaData : ExcelBase {
             fac.BlockDesc = "";
             fac.PreLevelBlock = i;
             fac.FunctionBlockType = "";
+            fac.SubType = "";
             fac.FunctionBlockTypeIndex = (ushort)i;
             fac.MaxLevel = (ushort)i;
             fac.AreaDetailDefault = "";
@@ -53,19 +54,19 @@ public class FunctionBlockMetaData : ExcelBase {
             AllFunctionBlock_RawList.Add(row);
         }
 
-        AllFunctionBlock_ManufactureList = new List<FunctionBlock_Manufacture>();
+        AllFunctionBlock_IndustryList = new List<FunctionBlock_Industry>();
         for(int i = 0; i < 2; i++)
         {
-            FunctionBlock_Manufacture manu = new FunctionBlock_Manufacture();
-            manu.ManufactureID = i;
-            manu.ManufactType = "";
+            FunctionBlock_Industry manu = new FunctionBlock_Industry();
+            manu.ID = i;
+            manu.Type = "";
             manu.InherentLevel = "";
             manu.SpeedBase = i;
             manu.FormulaInfoID = i;
             manu.MaintenanceBase = "";
             manu.WorkerBase = i;
             manu.EnergyConsumptionBase = "";
-            AllFunctionBlock_ManufactureList.Add(manu);
+            AllFunctionBlock_IndustryList.Add(manu);
         }
 
         AllFunctionBlock_ScienceList = new List<FunctionBlock_Science>();
@@ -93,10 +94,23 @@ public class FunctionBlockMetaData : ExcelBase {
         {
             FunctionBlockTypeData type = new FunctionBlockTypeData();
             type.Type = "";
+            type.DefaultShow = true;
             type.TypeName = "";
             type.TypeDesc = "";
             type.TypeIcon = "";
+            type.SubTypeList = "";
             AllFunctionBlockTypeDataList.Add(type);
+        }
+        AllFunctionBlockSubTypeDataList = new List<FunctionBlockSubTypeData>();
+        for(int i = 0; i < 2; i++)
+        {
+            FunctionBlockSubTypeData type = new FunctionBlockSubTypeData();
+            type.SubType = "";
+            type.DefaultShow = true;
+            type.TypeName = "";
+            type.TypeDesc = "";
+            type.TypeIcon = "";
+            AllFunctionBlockSubTypeDataList.Add(type);
         }
     }
 #endif
@@ -106,9 +120,10 @@ public class FunctionBlockMetaData : ExcelBase {
         AllFunctionBlock_LaborDic.Clear();
         AllFunctionBlockTypeDataDic.Clear();
         AllFunctionBlock_EnergyDic.Clear();
-        AllFunctionBlock_ManufactureDic.Clear();
+        AllFunctionBlock_IndustryDic.Clear();
         AllFunctionBlock_RawDic.Clear();
         AllFunctionBlock_ScienceDic.Clear();
+        AllFunctionBlockSubTypeDataDic.Clear();
 
         foreach(var data in AllFunctionBlockList)
         {
@@ -143,15 +158,15 @@ public class FunctionBlockMetaData : ExcelBase {
                 AllFunctionBlock_RawDic.Add(data.RawID, data);
             }
         }
-        foreach (var data in AllFunctionBlock_ManufactureList)
+        foreach (var data in AllFunctionBlock_IndustryList)
         {
-            if (AllFunctionBlock_ManufactureDic.ContainsKey(data.ManufactureID))
+            if (AllFunctionBlock_IndustryDic.ContainsKey(data.ID))
             {
-                Debug.LogError("Find Same ManufactureID , ManufactureID  = " + data.ManufactureID);
+                Debug.LogError("Find Same IndustryID , IndustryID  = " + data.ID);
             }
             else
             {
-                AllFunctionBlock_ManufactureDic.Add(data.ManufactureID, data);
+                AllFunctionBlock_IndustryDic.Add(data.ID, data);
             }
         }
         foreach (var data in AllFunctionBlock_ScienceList)
@@ -187,6 +202,17 @@ public class FunctionBlockMetaData : ExcelBase {
                 AllFunctionBlockTypeDataDic.Add(data.Type, data);
             }
         }
+        foreach (var data in AllFunctionBlockSubTypeDataList)
+        {
+            if (AllFunctionBlockSubTypeDataDic.ContainsKey(data.SubType))
+            {
+                Debug.LogError("Find Same SubType , Type  = " + data.SubType);
+            }
+            else
+            {
+                AllFunctionBlockSubTypeDataDic.Add(data.SubType, data);
+            }
+        }
 
     }
 
@@ -198,13 +224,15 @@ public class FunctionBlockMetaData : ExcelBase {
     [XmlIgnore]
     public Dictionary<int, FunctionBlock_Raw> AllFunctionBlock_RawDic = new Dictionary<int, FunctionBlock_Raw>();
     [XmlIgnore]
-    public Dictionary<int, FunctionBlock_Manufacture> AllFunctionBlock_ManufactureDic = new Dictionary<int, FunctionBlock_Manufacture>();
+    public Dictionary<int, FunctionBlock_Industry> AllFunctionBlock_IndustryDic = new Dictionary<int, FunctionBlock_Industry>();
     [XmlIgnore]
     public Dictionary<int, FunctionBlock_Science> AllFunctionBlock_ScienceDic = new Dictionary<int, FunctionBlock_Science>();
     [XmlIgnore]
     public Dictionary<int, FunctionBlock_Energy> AllFunctionBlock_EnergyDic = new Dictionary<int, FunctionBlock_Energy>();
     [XmlIgnore]
     public Dictionary<string, FunctionBlockTypeData> AllFunctionBlockTypeDataDic = new Dictionary<string, FunctionBlockTypeData>();
+    [XmlIgnore]
+    public Dictionary<string, FunctionBlockSubTypeData> AllFunctionBlockSubTypeDataDic = new Dictionary<string, FunctionBlockSubTypeData>();
 
     [XmlElement]
     public List<FunctionBlock> AllFunctionBlockList { get; set; }
@@ -213,13 +241,15 @@ public class FunctionBlockMetaData : ExcelBase {
     [XmlElement]
     public List<FunctionBlock_Raw> AllFunctionBlock_RawList { get; set; }
     [XmlElement]
-    public List<FunctionBlock_Manufacture> AllFunctionBlock_ManufactureList { get; set; }
+    public List<FunctionBlock_Industry> AllFunctionBlock_IndustryList { get; set; }
     [XmlElement]
     public List<FunctionBlock_Science> AllFunctionBlock_ScienceList { get; set; }
     [XmlElement]
     public List<FunctionBlock_Energy> AllFunctionBlock_EnergyList { get; set; }
     [XmlElement]
     public List<FunctionBlockTypeData> AllFunctionBlockTypeDataList { get; set; }
+    [XmlElement]
+    public List<FunctionBlockSubTypeData> AllFunctionBlockSubTypeDataList { get; set; }
 
 
 }
@@ -241,6 +271,8 @@ public class FunctionBlock
     public int PreLevelBlock { get; set; }
     [XmlAttribute]
     public string FunctionBlockType { get; set; }
+    [XmlAttribute]
+    public string SubType { get; set; }
     [XmlAttribute]
     public ushort FunctionBlockTypeIndex { get; set; }
     [XmlAttribute]
@@ -293,13 +325,13 @@ public class FunctionBlock_Raw
 }
 
 [System.Serializable] 
-public class FunctionBlock_Manufacture
+public class FunctionBlock_Industry
 {
     //制造
     [XmlAttribute]
-    public int ManufactureID { get; set; }
+    public int ID { get; set; }
     [XmlAttribute]
-    public string ManufactType { get; set; }
+    public string Type { get; set; }
     [XmlAttribute]
     public string InherentLevel { get; set; }
     [XmlAttribute]
@@ -344,6 +376,24 @@ public class FunctionBlockTypeData
     //类型数据
     [XmlAttribute]
     public string Type { get; set; }
+    [XmlAttribute]
+    public bool DefaultShow { get; set; }
+    [XmlAttribute]
+    public string TypeName { get; set; }
+    [XmlAttribute]
+    public string TypeDesc { get; set; }
+    [XmlAttribute]
+    public string TypeIcon { get; set; }
+    [XmlAttribute]
+    public string SubTypeList { get; set; }
+}
+[System.Serializable]
+public class FunctionBlockSubTypeData
+{
+    [XmlAttribute]
+    public string SubType { get; set; }
+    [XmlAttribute]
+    public bool DefaultShow { get; set; }
     [XmlAttribute]
     public string TypeName { get; set; }
     [XmlAttribute]

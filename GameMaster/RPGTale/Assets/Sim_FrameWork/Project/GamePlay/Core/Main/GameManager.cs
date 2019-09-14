@@ -83,6 +83,7 @@ namespace Sim_FrameWork
             DistrictModule.Instance.InitData();
             FormulaModule.Instance.InitData();
             PlayerModule.Instance.InitData();
+            CampModule.Instance.InitData();
 
 
         }
