@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
+using System;
 
 namespace Sim_FrameWork
 {
@@ -31,7 +32,7 @@ namespace Sim_FrameWork
             functionBlock = FunctionBlockModule.GetFunctionBlockByBlockID(100);
             //TODO
             blockModifier = GetComponent<FunctionBlockModifier>();
-            info = FunctionBlockInfoData.CreateBaseInfo(GetBlockPos(),functionBlock,blockModifier);
+            info = FunctionBlockInfoData.CreateBaseInfo(transform.position,functionBlock,blockModifier);
             InitBaseInfo();
         }
 
@@ -62,25 +63,19 @@ namespace Sim_FrameWork
         {
             BlockCollider.size = size;
         }
-        private Vector3 GetBlockPos()
-        {
-            Vector3 pos = new Vector3();
-            pos = transform.position;
-            return pos;
-        }
+
 
         #endregion 
-        public void CheckMouseButtonDown(string UIPath, params object[] param )
+        public void CheckMouseButtonDown(Action callback)
         {
             if (Input.GetMouseButtonDown(0))
             {
                 if (CheckUIRaycast())
-                    return;
-                Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
-                if (Physics.Raycast(ray, out hit))
+                    return ;
+                var ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+                if(Physics.Raycast(ray, out hit))
                 {
-                    Debug.Log(hit.collider.gameObject.name);
-                    UIManager.Instance.PopUpWnd( UIPath, true, param);
+                    callback();
                 }
             }
         }
@@ -93,10 +88,6 @@ namespace Sim_FrameWork
             GameManager.Instance.raycaster.Raycast(data, result);
             return result.Count > 0;
         }
-
-
-
-       
     }
 
 
@@ -130,7 +121,7 @@ namespace Sim_FrameWork
         /// </summary>
         public Dictionary<Vector2, DistrictAreaBase> currentDistrictBaseDic;
         public FunctionBlockModifier blockModifier = new FunctionBlockModifier();
-        
+
         public List<BlockDistrictUnlockData.DistrictUnlockData> districtUnlockDataList;
         public List<DistrictData> ActiveDistrictBuildList=new List<DistrictData> ();
 

@@ -11,4 +11,16 @@
 			<variable  name="CanBuild" col = "CanBuild" type="bool"/>
 		</list>
 	</variable>
+	<variable  name="AllBiotaDataList" type="list">
+		<list name = "BiotaData" sheetname="BiotaData" mainKey = "BiotaID">
+			<variable  name="BiotaID" col = "BiotaID" type="int"/>
+			<variable  name="BiotaName" col = "BiotaName" type="string"/>
+			<variable  name="BiotaDesc" col = "BiotaDesc" type="string"/>
+			<variable  name="BiotaIcon" col = "BiotaIcon" type="string"/>
+			<variable  name="Type" col = "Type" type="string"/>
+			<variable  name="AvgElevation" col = "AvgElevation" type="string"/>
+			<variable  name="RainFall" col = "RainFall" type="string"/>
+			<variable  name="Temperature" col = "Temperature" type="string"/>
+		</list>
+	</variable>
 </data>

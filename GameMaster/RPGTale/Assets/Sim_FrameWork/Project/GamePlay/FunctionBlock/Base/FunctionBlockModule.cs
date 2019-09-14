@@ -5,7 +5,7 @@ using UnityEngine;
 using UnityEngine.UI;
 
 namespace Sim_FrameWork {
-    public class FunctionBlockModule : BaseModule <FunctionBlockModule>{
+    public class FunctionBlockModule : BaseModule<FunctionBlockModule> {
 
         public enum FunctionBlockType
         {
@@ -53,6 +53,7 @@ namespace Sim_FrameWork {
         public static LaborBaseInfoData laborBaseInfoData;
 
         #region Data
+
         public override void InitData()
         {
             if (HasInit)
@@ -110,7 +111,7 @@ namespace Sim_FrameWork {
         {
             FunctionBlockTypeData typeData = null;
             FunctionBlockTypeDataDic.TryGetValue(type.ToString(), out typeData);
-            if(typeData != null)
+            if (typeData != null)
             {
                 return typeData;
             }
@@ -131,7 +132,7 @@ namespace Sim_FrameWork {
         /// <typeparam name="T"></typeparam>
         /// <param name="functionBlockID"></param>
         /// <returns></returns>
-        public static T FetchFunctionBlockTypeIndex<T>(int functionBlockID) where T:class
+        public static T FetchFunctionBlockTypeIndex<T>(int functionBlockID) where T : class
         {
             switch (GetFunctionBlockType(functionBlockID))
             {
@@ -149,8 +150,9 @@ namespace Sim_FrameWork {
                     Debug.LogError("Fetch FacotryType Error facotryID=" + functionBlockID);
                     return null;
             }
+
         }
-        
+
         public static FunctionBlock_Labor GetFunctionBlock_LaborData(int laborID)
         {
             FunctionBlock_Labor labor = null;
@@ -393,12 +395,12 @@ namespace Sim_FrameWork {
         public static bool CheckDistrictDataOutofRange(FunctionBlock block,bool initCheck) 
         {
             List<Vector2> CheckContent = new List<Vector2>();
-            Dictionary<Vector2, DistrictData> Checkdic = GetFuntionBlockDistrictData(GetFuntionBlockOriginArea(block));
-            Vector2 areaMax = GetFunctionBlockAreaMax(block);
+            var Checkdic = GetFuntionBlockDistrictData(GetFuntionBlockOriginArea(block));
+            var areaMax = GetFunctionBlockAreaMax(block);
             foreach (KeyValuePair<Vector2,DistrictData> kvp in Checkdic)
             {
                 //Check District
-                List<Vector2> v2 = DistrictModule.GetDistrictTypeArea(kvp.Value);
+                var v2 = DistrictModule.GetDistrictTypeArea(kvp.Value);
                 for(int i = 0; i < v2.Count; i++)
                 {
                     Vector2 currentPos = new Vector2(v2[i].x + kvp.Key.x, v2[i].y + kvp.Key.y);

@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System;
 
 namespace Sim_FrameWork
 {
@@ -13,6 +14,7 @@ namespace Sim_FrameWork
         {
             base.Awake();
         }
+
 
         #region FunctionBlock
 
@@ -32,6 +34,8 @@ namespace Sim_FrameWork
                 Debug.LogError("GetBlock Error UID=" + UID);
             return block;
         }
+
+
 
         #endregion
     }

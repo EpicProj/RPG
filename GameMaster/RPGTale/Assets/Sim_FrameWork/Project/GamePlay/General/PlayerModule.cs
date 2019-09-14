@@ -40,7 +40,6 @@ namespace Sim_FrameWork
         }
 
 
-
         //Build Panel Config
         public static List<BuildingPanelData> buildPanelDataList;
         public static Dictionary<int, BuildingPanelData> buildPanelDataDic;
@@ -89,18 +88,21 @@ namespace Sim_FrameWork
             HardLevelData data = GetHardlevelData(currentHardLevel);
             playerData = new PlayerData();
             //Init Food
-            playerData.AddFoodMax(data.OriginalFoodMax);
-            playerData.AddFood(data.OriginalFood);
+            playerData.resourceData.AddFoodMax(data.OriginalFoodMax);
+            playerData.resourceData.AddFood(data.OriginalFood);
             //Init Currency
-            playerData.AddCurrencyMax(data.OriginalCurrencyMax);
-            playerData.AddCurrency(data.OriginalCurrency);
+            playerData.resourceData.AddCurrencyMax(data.OriginalCurrencyMax);
+            playerData.resourceData.AddCurrency(data.OriginalCurrency);
             //Init Labor
-            playerData.AddLaborMax(data.OriginalLaborMax);
-            playerData.AddLabor(data.OriginalLabor);
+            playerData.resourceData.AddLaborMax(data.OriginalLaborMax);
+            playerData.resourceData.AddLabor(data.OriginalLabor);
             //Init Reputation
-            playerData.AddReputationMax(data.OriginalReputationMax);
-            playerData.AddReputation(data.OriginalReputation);
-
+            playerData.resourceData.AddReputationMax(data.OriginalReputationMax);
+            playerData.resourceData.AddReputation(data.OriginalReputation);
+            //Init Energy
+            playerData.resourceData.AddEnergyMax(data.OriginalEnergyMax);
+            playerData.resourceData.AddEnergy(data.OriginalEnergy);
+            
             //Init BuildPanel
             playerData.AllBuildingPanelDataList = buildPanelDataList;
             playerData.UnLockBuildingPanelDataList = GetUnLockBuildData();
@@ -115,10 +117,100 @@ namespace Sim_FrameWork
 
         }
 
-        public void AddCurrency(float num)
+        #region ResourceFunc
+        public enum ResourceAddType
         {
-            playerData.AddCurrency(num);
-            UIManager.Instance.SendMessageToWnd(UIPath.MAINMENU_PAGE,new UIMessage(UIMsgType.UpdateResourceData,playerData));
+            current,
+            month,
+            max
+        }
+
+        public void AddCurrency(float num,ResourceAddType type,Action callback=null)
+        {
+            switch (type)
+            {
+                case ResourceAddType.current:
+                    playerData.resourceData.AddCurrency(num);
+                    UIManager.Instance.SendMessageToWnd(UIPath.MAINMENU_PAGE, new UIMessage(UIMsgType.Res_Currency, playerData.resourceData));
+                    callback?.Invoke();
+                    break;
+                case ResourceAddType.max:
+                    playerData.resourceData.AddCurrencyMax(num);
+                    callback?.Invoke();
+                    break;
+                default:
+                    break;
+            }
+          
+        }
+        public void AddFood(float num,ResourceAddType type,Action callback = null)
+        {
+            switch (type)
+            {
+                case ResourceAddType.current:
+                    playerData.resourceData.AddFood(num);
+                    UIManager.Instance.SendMessageToWnd(UIPath.MAINMENU_PAGE, new UIMessage(UIMsgType.Res_Food, playerData.resourceData));
+                    callback?.Invoke();
+                    break;
+                case ResourceAddType.max:
+                    playerData.resourceData.AddFoodMax(num);
+                    callback?.Invoke();
+                    break;
+                case ResourceAddType.month:
+                    playerData.resourceData.AddFoodPerMonth(num);
+                    UIManager.Instance.SendMessageToWnd(UIPath.MAINMENU_PAGE, new UIMessage(UIMsgType.Res_MonthFood, playerData.resourceData));
+                    callback?.Invoke();
+                    break;
+                default:
+                    break;
+            }
+           
+        }
+        public void AddEnergy(float num,ResourceAddType type,Action callback=null)
+        {
+            switch (type)
+            {
+                case ResourceAddType.current:
+                    playerData.resourceData.AddEnergy(num);
+                    UIManager.Instance.SendMessageToWnd(UIPath.MAINMENU_PAGE, new UIMessage(UIMsgType.Res_Energy, playerData.resourceData));
+                    callback?.Invoke();
+                    break;
+                case ResourceAddType.max:
+                    playerData.resourceData.AddEnergyMax(num);
+                    callback?.Invoke();
+                    break;
+                case ResourceAddType.month:
+                    playerData.resourceData.AddEnergyPerMonth(num);
+                    UIManager.Instance.SendMessageToWnd(UIPath.MAINMENU_PAGE, new UIMessage(UIMsgType.Res_MonthEnergy, playerData.resourceData));
+                    callback?.Invoke();
+                    break;
+                default:
+                    break;
+            }
+           
+        }
+        public void AddLabor(float num, ResourceAddType type, Action callback = null)
+        {
+            switch (type)
+            {
+                case ResourceAddType.current:
+                    playerData.resourceData.AddLabor(num);
+                    UIManager.Instance.SendMessageToWnd(UIPath.MAINMENU_PAGE, new UIMessage(UIMsgType.Res_Labor, playerData.resourceData));
+                    callback?.Invoke();
+                    break;
+                case ResourceAddType.max:
+                    playerData.resourceData.AddLaborMax(num);
+                    callback?.Invoke();
+                    break;
+                case ResourceAddType.month:
+                    playerData.resourceData.AddLaborPerMonth(num);
+                    UIManager.Instance.SendMessageToWnd(UIPath.MAINMENU_PAGE, new UIMessage(UIMsgType.Res_MonthLabor, playerData.resourceData));
+                    callback?.Invoke();
+                    break;
+                default:
+                    break;
+            }
+           
         }
 
 
@@ -128,7 +220,7 @@ namespace Sim_FrameWork
          
         }
 
-
+        #endregion
         /// <summary>
         /// 获取Hardlevel信息
         /// </summary>
@@ -403,6 +495,8 @@ namespace Sim_FrameWork
             {
                 timer = 0;
                 timeData.currentMonth++;
+                //MonthSettle
+                DoMonthSettle();
                 if (timeData.currentMonth >= 13)
                 {
                     timeData.currentMonth = 1;
@@ -411,6 +505,17 @@ namespace Sim_FrameWork
                 timeData.currentSeason = ConvertMonthToSeason(timeData.currentMonth);
                 UIManager.Instance.SendMessageToWnd(UIPath.MAINMENU_PAGE, new UIMessage (UIMsgType.UpdateTime,timeData));
             }
+        }
+
+        /// <summary>
+        /// 月底结算
+        /// </summary>
+        private void DoMonthSettle()
+        {
+            AddFood(playerData.resourceData.FoodPerMonth,ResourceAddType.current);
+            AddEnergy(playerData.resourceData.EnergyPerMonth,ResourceAddType.current);
+            AddLabor(playerData.resourceData.LaborPerMonth,ResourceAddType.current);
+           
         }
 
         #endregion
@@ -461,13 +566,14 @@ namespace Sim_FrameWork
         public float OriginalCurrency;
         public float OriginalCurrencyMax;
         //初始食物
-        public int OriginalFood;
-        public int OriginalFoodMax;
+        public float OriginalFood;
+        public float OriginalFoodMax;
         //初始能量
-        public int OriginalEnergy;
+        public float OriginalEnergy;
+        public float OriginalEnergyMax;
         //初始劳动力
-        public int OriginalLabor;
-        public int OriginalLaborMax;
+        public float OriginalLabor;
+        public float OriginalLaborMax;
         //初始信誉
         public int OriginalReputation;
         public int OriginalReputationMax;

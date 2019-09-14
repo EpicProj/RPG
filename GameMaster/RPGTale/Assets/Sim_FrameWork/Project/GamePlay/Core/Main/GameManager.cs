@@ -51,7 +51,7 @@ namespace Sim_FrameWork
             //test
             if (Input.GetKeyDown(KeyCode.M))
             {
-                PlayerModule.Instance.AddCurrency(1000.5f);
+                PlayerModule.Instance.AddCurrency(1000.5f, PlayerModule.ResourceAddType.current);
             }
             if (Input.GetKeyDown(KeyCode.N))
             {

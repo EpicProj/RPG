@@ -8,6 +8,16 @@ namespace Sim_FrameWork
 {
     public class MainMenuPageContext : WindowBase
     {
+        public enum ResourceType
+        {
+            All,
+            Currency,
+            Food,
+            Labor,
+            Energy,
+            Material
+        }
+
         public PlayerData playerData;
         public PlayerModule.TimeData timeData;
 
@@ -20,6 +30,17 @@ namespace Sim_FrameWork
         private Image SeasonSprite;
         private float currentTimeProgress = 0f;
 
+        /// <summary>
+        /// Resource
+        /// </summary>
+        private Text CurrencyNumText;
+        private Text FoodNumText;
+        private Text FoodAddNumText;
+        private Text LaborNumText;
+        private Text LaborAddNumText;
+        private Text EnergyNumText;
+        private Text EnergyAddNumText;
+
         //GameStates
         private Button PauseBtn;
         private Image StatesBtnImage;
@@ -29,13 +50,23 @@ namespace Sim_FrameWork
             playerData = PlayerModule.Instance.InitPlayerData();
             InitBaseData();
             AddBtnListener();
-            UpdatePlayerBaseData();
+            UpdateResData(ResourceType.All);
+            UpdateResMonthData(ResourceType.All);
             InitBuildPanel();
         }
 
         private void InitBaseData()
         {
             m_page = GameObject.GetComponent<MainMenuPage>();
+            //Resource
+            CurrencyNumText = m_page.Currency.transform.Find("Num").GetComponent<Text>();
+            FoodNumText = m_page.Food.transform.Find("Num").GetComponent<Text>();
+            FoodAddNumText = m_page.Food.transform.Find("AddNum").GetComponent<Text>();
+            LaborNumText= m_page.Labor.transform.Find("Num").GetComponent<Text>();
+            LaborAddNumText= m_page.Labor.transform.Find("AddNum").GetComponent<Text>();
+            EnergyNumText= m_page.Energy.transform.Find("Num").GetComponent<Text>();
+            EnergyAddNumText = m_page.Energy.transform.Find("AddNum").GetComponent<Text>();
+
             CurrentYearText = m_page.TimePanel.transform.Find("Time/CurrentYear").GetComponent<Text>();
             CurrentMonthText= m_page.TimePanel.transform.Find("Time/CurrentMonth").GetComponent<Text>();
             CurrentSeasonText= m_page.TimePanel.transform.Find("Time/Season").GetComponent<Text>();
@@ -65,12 +96,36 @@ namespace Sim_FrameWork
         {
             switch (msg.type)
             {
-                case  UIMsgType.UpdateResourceData:
-                    //更新资源面板
+                #region Resource
+                case UIMsgType.Res_Currency:
                     playerData = (PlayerData)msg.content;
-                    UpdatePlayerBaseData();
+                    UpdateResData(ResourceType.Currency);
                     return true;
-
+                case UIMsgType.Res_Food:
+                    playerData.resourceData = (PlayerData.PlayerResourceData)msg.content;
+                    UpdateResData(ResourceType.Food);
+                    return true;
+                case UIMsgType.Res_MonthFood:
+                    playerData.resourceData = (PlayerData.PlayerResourceData)msg.content;
+                    UpdateResMonthData(ResourceType.Food);
+                    return true;
+                case UIMsgType.Res_Labor:
+                    playerData.resourceData = (PlayerData.PlayerResourceData)msg.content;
+                    UpdateResData(ResourceType.Labor);
+                    return true;
+                case UIMsgType.Res_MonthLabor:
+                    playerData.resourceData = (PlayerData.PlayerResourceData)msg.content;
+                    UpdateResMonthData(ResourceType.Labor);
+                    return true;
+                case UIMsgType.Res_Energy:
+                    playerData.resourceData = (PlayerData.PlayerResourceData)msg.content;
+                    UpdateResData(ResourceType.Energy);
+                    return true;
+                case UIMsgType.Res_MonthEnergy:
+                    playerData.resourceData = (PlayerData.PlayerResourceData)msg.content;
+                    UpdateResMonthData(ResourceType.Energy);
+                    return true;
+                #endregion
                 case UIMsgType.UpdateBuildPanelData:
                     //更新建造列表
                     playerData.UnLockBuildingPanelDataList = (List<BuildingPanelData>)msg.content;
@@ -107,11 +162,59 @@ namespace Sim_FrameWork
             m_page.TimeSlider.value = currentTimeProgress / timeData.realSecondsPerMonth;
         }
 
-
-        public void UpdatePlayerBaseData()
+        /// <summary>
+        /// 更新当前资源
+        /// </summary>
+        /// <param name="type"></param>
+        public void UpdateResData(ResourceType type)
         {
-            m_page.CurrencyNum.text = playerData.Currency.ToString();
-            m_page.FoodNum.text = playerData.Food.ToString();
+            switch (type)
+            {
+                case ResourceType.All:
+                    CurrencyNumText.text = playerData.resourceData.Currency.ToString();
+                    FoodNumText.text = playerData.resourceData.Food.ToString();
+                    LaborNumText.text = playerData.resourceData.Labor.ToString();
+                    EnergyNumText.text = playerData.resourceData.Energy.ToString();
+                    break;
+                case ResourceType.Currency:
+                    CurrencyNumText.text = playerData.resourceData.Currency.ToString();
+                    break;
+                case ResourceType.Food:
+                    FoodNumText.text = playerData.resourceData.Food.ToString();
+                    break;
+                case ResourceType.Labor:
+                    LaborNumText.text = playerData.resourceData.Labor.ToString();
+                    break;
+                case ResourceType.Energy:
+                    EnergyNumText.text = playerData.resourceData.Energy.ToString();
+                    break;
+                default:
+                    break;
+            }   
+        }
+        /// <summary>
+        /// 更新当前资源增加值
+        /// </summary>
+        /// <param name="type"></param>
+        public void UpdateResMonthData(ResourceType type)
+        {
+            switch (type)
+            {
+                case ResourceType.All:
+                    FoodAddNumText.text = "+" + playerData.resourceData.FoodPerMonth.ToString();
+                    EnergyAddNumText.text = "+" + playerData.resourceData.EnergyPerMonth.ToString();
+                    LaborAddNumText.text = "+" + playerData.resourceData.LaborPerMonth.ToString();
+                    break;
+                case ResourceType.Energy:
+                    EnergyAddNumText.text = "+" + playerData.resourceData.EnergyPerMonth.ToString();
+                    break;
+                case ResourceType.Food:
+                    FoodAddNumText.text = "+" + playerData.resourceData.FoodPerMonth.ToString();
+                    break;
+                case ResourceType.Labor:
+                    LaborAddNumText.text = "+" + playerData.resourceData.LaborPerMonth.ToString();
+                    break;
+            }
         }
 
 
@@ -119,7 +222,7 @@ namespace Sim_FrameWork
         //Button
         private void AddBtnListener()
         {
-            AddButtonClickListener(m_page.MaterialBtn, delegate () 
+            AddButtonClickListener(m_page.MaterialBtn,  delegate () 
             {
                 UIManager.Instance.PopUpWnd(UIPath.WAREHOURSE_DIALOG, true,playerData.wareHouseInfo);
             });

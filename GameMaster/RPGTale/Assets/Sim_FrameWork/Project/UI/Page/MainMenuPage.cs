@@ -15,10 +15,17 @@ public class MainMenuPage : MonoBehaviour {
 
     //Resource
     public GameObject ResouceContent;
-    public Text CurrencyNum;
-    public Text FoodNum;
-
+    public GameObject Currency;
+    public GameObject Food;
+    public GameObject Energy;
+    public GameObject Labor;
     public Button MaterialBtn;
 
+    //BuildPanel
+    public GameObject BuildTabContent;
+    public GameObject BuildSubTabContent;
 
+    //Camp
+    public GameObject CampContent;
+    public GameObject CampValue;
 }

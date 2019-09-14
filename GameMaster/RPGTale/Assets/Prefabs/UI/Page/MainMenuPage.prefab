@@ -3381,9 +3381,15 @@ MonoBehaviour:
   TimeSlider: {fileID: 114313664634583120}
   GameStatesObj: {fileID: 1838778071671262}
   ResouceContent: {fileID: 1124237828618014}
-  CurrencyNum: {fileID: 114147300450157124}
-  FoodNum: {fileID: 114742704056688872}
+  Currency: {fileID: 1712750716940678}
+  Food: {fileID: 1464279369845502}
+  Energy: {fileID: 1091369905295328}
+  Labor: {fileID: 1847759866983582}
   MaterialBtn: {fileID: 114724724100127416}
+  BuildTabContent: {fileID: 1851950790264606}
+  BuildSubTabContent: {fileID: 1134488824891750}
+  CampContent: {fileID: 1699929028357714}
+  CampValue: {fileID: 1221800331069442}
 --- !u!114 &114345051300084208
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -4073,8 +4079,8 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 114616489381317572}
   m_HandleRect: {fileID: 224973786127123772}
   m_Direction: 2
-  m_Value: 1
-  m_Size: 0.9999996
+  m_Value: 0
+  m_Size: 1
   m_NumberOfSteps: 0
   m_OnValueChanged:
     m_PersistentCalls:
@@ -7443,7 +7449,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: -0.000031707805, y: 0}
+  m_AnchoredPosition: {x: 0.00001628189, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0, y: 1}
 --- !u!224 &224594009582083884
@@ -8086,7 +8092,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0, y: 0.000035085384}
+  m_AnchoredPosition: {x: 0, y: 0.000019826624}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0, y: 1}
 --- !u!224 &224858781673831942
@@ -8178,7 +8184,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 1, y: 0.5}
   m_AnchorMax: {x: 1, y: 0.5}
-  m_AnchoredPosition: {x: -28.2, y: 0.00000047683716}
+  m_AnchoredPosition: {x: -28.199951, y: 0.00000047683716}
   m_SizeDelta: {x: 20, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!224 &224880369396807488

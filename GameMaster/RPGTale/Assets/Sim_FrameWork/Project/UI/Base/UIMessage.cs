@@ -23,7 +23,18 @@ namespace Sim_FrameWork
         UpdateSpeedText,//更新速度
         UpdateWarehouseData,//更新仓库
 
-        UpdateResourceData,//更新主界面资源
+        /// <summary>
+        /// Update Resource
+        /// </summary>
+        Res_Food,
+        Res_MonthFood,
+        Res_Currency,
+        Res_Energy,
+        Res_MonthEnergy,
+        Res_Labor,
+        Res_MonthLabor,
+
+
         UpdateBuildPanelData, //更新建造列表
         UpdateTime,//更新时间
     }
