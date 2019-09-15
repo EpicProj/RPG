@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using System;
 
-namespace Sim_FrameWork
+namespace Sim_FrameWork.UI
 {
     public class MainMenuPageContext : WindowBase
     {
@@ -242,6 +242,13 @@ namespace Sim_FrameWork
             AddButtonClickListener(PauseBtn, delegate ()
             {
                 OnPauseBtnClick();
+            });
+
+            /// Order Receive Page
+            AddButtonClickListener(m_page.OrderBtn, delegate ()
+            {
+                UIManager.Instance.Register<OrderReceiveMainPageContext>(UIPath.Order_Receive_Main_Page);
+                UIManager.Instance.PopUpWnd(UIPath.Order_Receive_Main_Page, true);
             });
         }
 

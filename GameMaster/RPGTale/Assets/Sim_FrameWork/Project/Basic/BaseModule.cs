@@ -21,6 +21,7 @@ namespace Sim_FrameWork {
 
         public virtual void InitData() { }
 
+        public virtual void Register() { }
 
 
 

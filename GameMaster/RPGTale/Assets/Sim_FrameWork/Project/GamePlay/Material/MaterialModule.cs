@@ -15,23 +15,28 @@ namespace Sim_FrameWork {
         public static List<string> AllMaterialRarityList;
         public static List<string> AllMaterialTypeList;
 
-        private bool HasInit = false;
 
-
-
-        #region data
         public override void InitData()
         {
-            if (HasInit)
-                return;
             MaterialList = MaterialMetaDataReader.GetMaterialListData();
             MaterialDic = MaterialMetaDataReader.GetMaterialDic();
             maConfig = new MaterialConfig();
             maConfig.LoadConfigData();
             AllMaterialRarityList = GetAllMaterialRarityList();
             AllMaterialTypeList = GetAllMainMaterialTypeList();
-            HasInit = true;
         }
+
+        public override void Register()
+        {
+           
+        }
+
+        public MaterialModule()
+        {
+            InitData();
+        }
+        #region data
+
 
         public static Material GetMaterialByMaterialID(int materialID)
         {

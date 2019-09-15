@@ -24,9 +24,9 @@ namespace Sim_FrameWork {
         //注册的字典
         private Dictionary<string, System.Type> m_RegisterDic = new Dictionary<string, System.Type>();
         //所有打开的窗口
-        private Dictionary<string, WindowBase> m_WindowDic = new Dictionary<string, WindowBase>();
+        private Dictionary<string, UI.WindowBase> m_WindowDic = new Dictionary<string, UI.WindowBase>();
         //打开的窗口列表
-        private List<WindowBase> m_WindowList = new List<WindowBase>();
+        private List<UI.WindowBase> m_WindowList = new List<UI.WindowBase>();
 
         /// <summary>
         /// 初始化
@@ -99,9 +99,12 @@ namespace Sim_FrameWork {
         /// </summary>
         /// <typeparam name="T">窗口泛型类</typeparam>
         /// <param name="name">窗口名</param>
-        public void Register<T>(string name) where T : WindowBase
+        public void Register<T>(string name) where T : UI.WindowBase
         {
-            m_RegisterDic[name] = typeof(T);
+            if (!m_RegisterDic.ContainsKey(name))
+            {
+                m_RegisterDic[name] = typeof(T);
+            }
         }
 
         /// <summary>
@@ -113,7 +116,7 @@ namespace Sim_FrameWork {
         /// <returns></returns>
         public bool SendMessageToWnd(string name, UIMessage message)
         {
-            WindowBase wnd = FindWndByName<WindowBase>(name);
+            UI.WindowBase wnd = FindWndByName<UI.WindowBase>(name);
             if (wnd != null)
             {
                 return wnd.OnMessage(message);
@@ -127,9 +130,9 @@ namespace Sim_FrameWork {
         /// <typeparam name="T"></typeparam>
         /// <param name="name"></param>
         /// <returns></returns>
-        public T FindWndByName<T>(string name) where T : WindowBase
+        public T FindWndByName<T>(string name) where T : UI.WindowBase
         {
-            WindowBase wnd = null;
+            UI.WindowBase wnd = null;
             if (m_WindowDic.TryGetValue(name, out wnd))
             {
                 return (T)wnd;
@@ -155,15 +158,15 @@ namespace Sim_FrameWork {
         /// <param name="para2"></param>
         /// <param name="para3"></param>
         /// <returns></returns>
-        public WindowBase PopUpWnd(string wndName, bool bTop = true, params object[] paralist)
+        public UI.WindowBase PopUpWnd(string wndName, bool bTop = true, params object[] paralist)
         {
-            WindowBase wnd = FindWndByName<WindowBase>(wndName);
+            UI.WindowBase wnd = FindWndByName<UI.WindowBase>(wndName);
             if (wnd == null)
             {
                 System.Type tp = null;
                 if (m_RegisterDic.TryGetValue(wndName, out tp))
                 {
-                    wnd = System.Activator.CreateInstance(tp) as WindowBase;
+                    wnd = System.Activator.CreateInstance(tp) as UI.WindowBase;
                 }
                 else
                 {
@@ -171,7 +174,7 @@ namespace Sim_FrameWork {
                     return null;
                 }
 
-                GameObject wndObj = ObjectManager.Instance.InstantiateObject(m_UIPrefabPath + wndName, false, false);
+                GameObject wndObj = ObjectManager.Instance.InstantiateObject(m_UIPrefabPath + wndName +".prefab", false, false);
                 if (wndObj == null)
                 {
                     Debug.Log("创建窗口Prefab失败：" + wndName);
@@ -213,7 +216,7 @@ namespace Sim_FrameWork {
         /// <param name="destory"></param>
         public void CloseWnd(string name, bool destory = false)
         {
-            WindowBase wnd = FindWndByName<WindowBase>(name);
+            UI.WindowBase wnd = FindWndByName<UI.WindowBase>(name);
             CloseWnd(wnd, destory);
         }
 
@@ -222,7 +225,7 @@ namespace Sim_FrameWork {
         /// </summary>
         /// <param name="window"></param>
         /// <param name="destory"></param>
-        public void CloseWnd(WindowBase window, bool destory = false)
+        public void CloseWnd(UI.WindowBase window, bool destory = false)
         {
             if (window != null)
             {
@@ -273,7 +276,7 @@ namespace Sim_FrameWork {
         /// <param name="name"></param>
         public void HideWnd(string name)
         {
-            WindowBase wnd = FindWndByName<WindowBase>(name);
+            UI.WindowBase wnd = FindWndByName<UI.WindowBase>(name);
             HideWnd(wnd);
         }
 
@@ -282,7 +285,7 @@ namespace Sim_FrameWork {
         /// </summary>
         /// <param name="wnd"></param>
 
-        public void HideWnd(WindowBase wnd)
+        public void HideWnd(UI.WindowBase wnd)
         {
             if (wnd != null)
             {
@@ -298,7 +301,7 @@ namespace Sim_FrameWork {
         /// <param name="paralist"></param>
         public void ShowWnd(string name, bool bTop = true, params object[] paralist)
         {
-            WindowBase wnd = FindWndByName<WindowBase>(name);
+            UI.WindowBase wnd = FindWndByName<UI.WindowBase>(name);
             ShowWnd(wnd, bTop, paralist);
         }
 
@@ -307,7 +310,7 @@ namespace Sim_FrameWork {
         /// </summary>
         /// <param name="wnd"></param>
         /// <param name="paralist"></param>
-        public void ShowWnd(WindowBase wnd, bool bTop = true, params object[] paralist)
+        public void ShowWnd(UI.WindowBase wnd, bool bTop = true, params object[] paralist)
         {
             if (wnd != null)
             {

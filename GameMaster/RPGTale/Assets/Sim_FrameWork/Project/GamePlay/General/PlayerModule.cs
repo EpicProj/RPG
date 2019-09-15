@@ -5,7 +5,7 @@ using System;
 
 namespace Sim_FrameWork
 {
-    public class PlayerModule :Singleton<PlayerModule>
+    public class PlayerModule :BaseModule<PlayerModule>
     {
         public enum HardLevel
         {
@@ -56,13 +56,8 @@ namespace Sim_FrameWork
         public float timer;
         public float realSecondsPerMonth;
 
-
-        private bool HasInit = false;
-
-        public void InitData()
+        public override void InitData()
         {
-            if(HasInit)
-                return;
             //resourceData = new BaseResourcesData();
             //resourceData.ReadData();
             config = new PlayerConfig();
@@ -77,9 +72,16 @@ namespace Sim_FrameWork
             timeData.currentMonth = config.timeConfig.OriginalMonth;
             timeData.currentSeason = ConvertMonthToSeason(config.timeConfig.OriginalMonth);
             timeData.realSecondsPerMonth = config.timeConfig.RealSecondsPerMonth;
-            HasInit = true;
         }
 
+        public override void Register()
+        {
+        }
+
+        public PlayerModule()
+        {
+            InitData();
+        }
 
         
         public PlayerData InitPlayerData()
@@ -131,7 +133,7 @@ namespace Sim_FrameWork
             {
                 case ResourceAddType.current:
                     playerData.resourceData.AddCurrency(num);
-                    UIManager.Instance.SendMessageToWnd(UIPath.MAINMENU_PAGE, new UIMessage(UIMsgType.Res_Currency, playerData.resourceData));
+                    UIManager.Instance.SendMessageToWnd(UIPath.MainMenu_Page, new UIMessage(UIMsgType.Res_Currency, playerData.resourceData));
                     callback?.Invoke();
                     break;
                 case ResourceAddType.max:
@@ -149,7 +151,7 @@ namespace Sim_FrameWork
             {
                 case ResourceAddType.current:
                     playerData.resourceData.AddFood(num);
-                    UIManager.Instance.SendMessageToWnd(UIPath.MAINMENU_PAGE, new UIMessage(UIMsgType.Res_Food, playerData.resourceData));
+                    UIManager.Instance.SendMessageToWnd(UIPath.MainMenu_Page, new UIMessage(UIMsgType.Res_Food, playerData.resourceData));
                     callback?.Invoke();
                     break;
                 case ResourceAddType.max:
@@ -158,7 +160,7 @@ namespace Sim_FrameWork
                     break;
                 case ResourceAddType.month:
                     playerData.resourceData.AddFoodPerMonth(num);
-                    UIManager.Instance.SendMessageToWnd(UIPath.MAINMENU_PAGE, new UIMessage(UIMsgType.Res_MonthFood, playerData.resourceData));
+                    UIManager.Instance.SendMessageToWnd(UIPath.MainMenu_Page, new UIMessage(UIMsgType.Res_MonthFood, playerData.resourceData));
                     callback?.Invoke();
                     break;
                 default:
@@ -172,7 +174,7 @@ namespace Sim_FrameWork
             {
                 case ResourceAddType.current:
                     playerData.resourceData.AddEnergy(num);
-                    UIManager.Instance.SendMessageToWnd(UIPath.MAINMENU_PAGE, new UIMessage(UIMsgType.Res_Energy, playerData.resourceData));
+                    UIManager.Instance.SendMessageToWnd(UIPath.MainMenu_Page, new UIMessage(UIMsgType.Res_Energy, playerData.resourceData));
                     callback?.Invoke();
                     break;
                 case ResourceAddType.max:
@@ -181,7 +183,7 @@ namespace Sim_FrameWork
                     break;
                 case ResourceAddType.month:
                     playerData.resourceData.AddEnergyPerMonth(num);
-                    UIManager.Instance.SendMessageToWnd(UIPath.MAINMENU_PAGE, new UIMessage(UIMsgType.Res_MonthEnergy, playerData.resourceData));
+                    UIManager.Instance.SendMessageToWnd(UIPath.MainMenu_Page, new UIMessage(UIMsgType.Res_MonthEnergy, playerData.resourceData));
                     callback?.Invoke();
                     break;
                 default:
@@ -195,7 +197,7 @@ namespace Sim_FrameWork
             {
                 case ResourceAddType.current:
                     playerData.resourceData.AddLabor(num);
-                    UIManager.Instance.SendMessageToWnd(UIPath.MAINMENU_PAGE, new UIMessage(UIMsgType.Res_Labor, playerData.resourceData));
+                    UIManager.Instance.SendMessageToWnd(UIPath.MainMenu_Page, new UIMessage(UIMsgType.Res_Labor, playerData.resourceData));
                     callback?.Invoke();
                     break;
                 case ResourceAddType.max:
@@ -204,7 +206,7 @@ namespace Sim_FrameWork
                     break;
                 case ResourceAddType.month:
                     playerData.resourceData.AddLaborPerMonth(num);
-                    UIManager.Instance.SendMessageToWnd(UIPath.MAINMENU_PAGE, new UIMessage(UIMsgType.Res_MonthLabor, playerData.resourceData));
+                    UIManager.Instance.SendMessageToWnd(UIPath.MainMenu_Page, new UIMessage(UIMsgType.Res_MonthLabor, playerData.resourceData));
                     callback?.Invoke();
                     break;
                 default:
@@ -319,7 +321,7 @@ namespace Sim_FrameWork
                 playerData.UnLockBuildingPanelDataList.Add(data);
             }
             //UpdateUI
-            UIManager.Instance.SendMessageToWnd(UIPath.MAINMENU_PAGE, new UIMessage (UIMsgType.UpdateBuildPanelData,playerData.UnLockBuildingPanelDataList));
+            UIManager.Instance.SendMessageToWnd(UIPath.MainMenu_Page, new UIMessage (UIMsgType.UpdateBuildPanelData,playerData.UnLockBuildingPanelDataList));
         }
 
         #endregion
@@ -414,7 +416,7 @@ namespace Sim_FrameWork
                     timeData.currentYear++;
                 }
                 timeData.currentSeason = ConvertMonthToSeason(timeData.currentMonth);
-                UIManager.Instance.SendMessageToWnd(UIPath.MAINMENU_PAGE, new UIMessage (UIMsgType.UpdateTime,timeData));
+                UIManager.Instance.SendMessageToWnd(UIPath.MainMenu_Page, new UIMessage (UIMsgType.UpdateTime,timeData));
             }
         }
 

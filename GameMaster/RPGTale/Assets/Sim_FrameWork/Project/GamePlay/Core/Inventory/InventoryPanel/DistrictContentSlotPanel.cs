@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-namespace Sim_FrameWork
+namespace Sim_FrameWork.UI
 {
     public enum DistrictSlotType
     {

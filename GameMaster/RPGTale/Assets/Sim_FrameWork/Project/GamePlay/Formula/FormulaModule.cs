@@ -27,20 +27,25 @@ namespace Sim_FrameWork
         public static Dictionary<int, FormulaInfo> FormulaInfoDic;
 
 
-        private bool HasInit = false;
-
-        #region Data
         public override void InitData()
         {
-            if (HasInit)
-                return;
             FormulaDataList = FunctionBlockFormulaMetaDataReader.GetFormulaDataList();
             FormulaDataDic = FunctionBlockFormulaMetaDataReader.GetFormulaDataDic();
             FormulaInfoDic = FunctionBlockFormulaMetaDataReader.GetFormulaInfoDic();
             FormulaInfoList = FunctionBlockFormulaMetaDataReader.GetFormulaInfoList();
-
-            HasInit = true;
         }
+
+        public override void Register()
+        {
+            
+        }
+
+        public FormulaModule()
+        {
+            InitData();
+        }
+
+        #region Data
 
         public static string GetFormulaName(FormulaData data)
         {

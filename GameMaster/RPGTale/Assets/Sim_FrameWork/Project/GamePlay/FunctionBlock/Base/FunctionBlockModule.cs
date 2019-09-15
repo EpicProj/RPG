@@ -50,7 +50,6 @@ namespace Sim_FrameWork {
         public static Dictionary<string, FunctionBlockSubTypeData> FunctionBlockSubTypeDataDic;
 
 
-        private bool HasInit = false;
         public List<string> FunctionBlockGUIDList = new List<string>();
         public Dictionary<int, FunctionBlockHistory> FunctionBlockHistoryDic = new Dictionary<int, FunctionBlockHistory>();
 
@@ -64,8 +63,6 @@ namespace Sim_FrameWork {
 
         public override void InitData()
         {
-            if (HasInit)
-                return;
             FunctionBlockList = FunctionBlockMetaDataReader.GetFunctionBlockData();
             FunctionBlockDic = FunctionBlockMetaDataReader.GetFunctionBlockDataDic();
             FunctionBlock_LaborList = FunctionBlockMetaDataReader.GetFunctionBlock_LaborData();
@@ -89,7 +86,16 @@ namespace Sim_FrameWork {
             manufactoryBaseInfoData.LoadData();
             laborBaseInfoData = new LaborBaseInfoData();
             laborBaseInfoData.LoadData();
-            HasInit = true;
+        }
+
+        public override void Register()
+        {
+            
+        }
+
+        public FunctionBlockModule()
+        {
+            InitData();
         }
         #endregion
 
@@ -336,7 +342,7 @@ namespace Sim_FrameWork {
                     {
                         data = kvp.Value,
                         Locked = false,
-                        slotType = DistrictSlotType.Empty,
+                        slotType = UI.DistrictSlotType.Empty,
                         Coordinate = kvp.Key,
                         sprite = DistrictModule.GetDistrictIconSpriteList(kvp.Value.DistrictID)[0]
                     };
@@ -349,7 +355,7 @@ namespace Sim_FrameWork {
                     {
                         data = kvp.Value,
                         Locked = true,
-                        slotType= DistrictSlotType.UnLock,
+                        slotType= UI.DistrictSlotType.UnLock,
                         Coordinate = kvp.Key
                     };
                     result.Add(kvp.Key, info);
@@ -393,7 +399,7 @@ namespace Sim_FrameWork {
                         {
                             data = kvp.Value,
                             isLargeDistrict = false,
-                            slotType = DistrictSlotType.NormalDistrict,
+                            slotType = UI.DistrictSlotType.NormalDistrict,
                             OriginCoordinate = kvp.Key,
                             sprite = DistrictModule.GetDistrictIconSpriteList(kvp.Value.DistrictID)[0]
                         };
@@ -411,7 +417,7 @@ namespace Sim_FrameWork {
                                 data = kvp.Value,
                                 isLargeDistrict = true,
                                 LargeDistrictIndex = largeDistrictIndex,
-                                slotType = DistrictSlotType.LargeDistrict,
+                                slotType = UI.DistrictSlotType.LargeDistrict,
                                 OriginCoordinate = new Vector2(largeArea[0].x + kvp.Key.x, largeArea[0].y + kvp.Key.y),
                                 sprite = DistrictModule.GetDistrictIconSpriteList(kvp.Value.DistrictID)[i]
                             };

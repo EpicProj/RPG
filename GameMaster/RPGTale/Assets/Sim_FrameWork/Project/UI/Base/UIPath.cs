@@ -7,15 +7,21 @@ namespace Sim_FrameWork
     public class UIPath
     {
         #region DialogPath
-        public const string FUNCTIONBLOCK_INFO_DIALOG = "Dialog/FunctionBlock/BlockInfoDialog.prefab";
+        public const string FUNCTIONBLOCK_INFO_DIALOG = "Dialog/FunctionBlock/BlockInfoDialog";
         //材料界面
-        public const string WAREHOURSE_DIALOG = "Dialog/Main/WareHouseDialog.prefab";
+        public const string WAREHOURSE_DIALOG = "Dialog/Main/WareHouseDialog";
 
         #endregion
 
         #region PagePath
-        //主界面
-        public const string MAINMENU_PAGE= "Page/MainMenuPage.prefab";
+        /// <summary>
+        /// 主界面
+        /// </summary>
+        public const string MainMenu_Page= "Page/MainMenuPage";
+        /// <summary>
+        /// 订单接收界面
+        /// </summary>
+        public const string Order_Receive_Main_Page = "Page/OrderReceiveMainPage";
 
         #endregion
 

@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<data name ="OrganizationMetaData" from="OrganizationMetaData.xlsx" to = "OrganizationMetaData.xml">
+	<variable  name="AllOrganizationDataList" type="list">
+		<list name = "OrganizationData" sheetname="OrganizationData" mainKey = "ID">
+			<variable  name="ID" col = "ID" type="int"/>
+			<variable  name="Name" col = "Name" type="string"/>
+			<variable  name="Name_En" col = "Name_En" type="string"/>
+			<variable  name="AreaType" col = "AreaType" type="string"/>
+			<variable  name="Icon" col = "Icon" type="string"/>
+			<variable  name="IconBig" col = "IconBig" type="string"/>
+			<variable  name="ScaleDesc" col = "ScaleDesc" type="string"/>
+			<variable  name="EconomyDesc" col = "EconomyDesc" type="string"/>
+			<variable  name="BGDescBrief" col = "BGDescBrief" type="string"/>
+		</list>
+	</variable>
+
+	<variable  name="AllOrganizationEventDataList" type="list">
+		<list name = "OrganizationEventData" sheetname="OrganizationEventData" mainKey = "EventID">
+			<variable  name="EventID" col = "EventID" type="int"/>
+			<variable  name="EventTitle" col = "EventTitle" type="string"/>
+			<variable  name="EventDesc" col = "EventDesc" type="string"/>
+			<variable  name="EventTime" col = "EventTime" type="string"/>
+			<variable  name="EventBG" col = "EventBG" type="string"/>
+			<variable  name="Effects" col = "Effects" type="string"/>
+		</list>
+	</variable>
+</data>

@@ -3,7 +3,8 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-namespace Sim_FrameWork {
+namespace Sim_FrameWork.UI
+{
     public class WareHouseDialogContent : WindowBase {
 
         public WareHouseDialog m_dialog;

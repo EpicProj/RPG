@@ -83,8 +83,7 @@ namespace Sim_FrameWork {
         public const string TABLE_BUILDPANEL_METADATA_PATH= "Assets/Resources/Data/DataFormat/Binary/BuildingPanelMetaData.bytes";
         public const string TABLE_TERRIAN_METADATA_PATH= "Assets/Resources/Data/DataFormat/Binary/TerrianMetaData.bytes";
         public const string TABLE_CAMP_METADATA_PATH= "Assets/Resources/Data/DataFormat/Binary/CampMetaData.bytes";
-
-
+        public const string TABLE_ORGANIZATION_METADATA_PATH= "Assets/Resources/Data/DataFormat/Binary/OrganizationMetaData.bytes";
 
     }
 }

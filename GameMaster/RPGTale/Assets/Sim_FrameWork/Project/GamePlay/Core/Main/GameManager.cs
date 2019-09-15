@@ -2,8 +2,8 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
-using System;
 using UnityEngine.UI;
+using Sim_FrameWork.UI;
 
 namespace Sim_FrameWork
 {
@@ -69,23 +69,21 @@ namespace Sim_FrameWork
         {
             UIManager.Instance.Register<BlockInfoDialogContent>(UIPath.FUNCTIONBLOCK_INFO_DIALOG);
             UIManager.Instance.Register<WareHouseDialogContent>(UIPath.WAREHOURSE_DIALOG);
-            UIManager.Instance.Register<MainMenuPageContext>(UIPath.MAINMENU_PAGE);
-            UIManager.Instance.PopUpWnd(UIPath.MAINMENU_PAGE);
+            UIManager.Instance.Register<MainMenuPageContext>(UIPath.MainMenu_Page);
+            UIManager.Instance.PopUpWnd(UIPath.MainMenu_Page);
 
         }
 
 
         public void RegisterModule()
         {
-
-            FunctionBlockModule.Instance.InitData();
-            MaterialModule.Instance.InitData();
-            DistrictModule.Instance.InitData();
-            FormulaModule.Instance.InitData();
-            PlayerModule.Instance.InitData();
-            CampModule.Instance.InitData();
-
-
+            FunctionBlockModule.Instance.Register();
+            MaterialModule.Instance.Register();
+            DistrictModule.Instance.Register();
+            FormulaModule.Instance.Register();
+            PlayerModule.Instance.Register();
+            CampModule.Instance.Register();
+            OrganizationModule.Instance.Register();
         }
 
         #region MainFunction

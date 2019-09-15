@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine.EventSystems;
 using UnityEngine;
 
-namespace Sim_FrameWork
+namespace Sim_FrameWork.UI
 {
     public class Slot : MonoBehaviour,IPointerEnterHandler,IPointerExitHandler,IPointerDownHandler,IDragHandler,IBeginDragHandler,IEndDragHandler
     {

@@ -1,16 +1,14 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
-public class OrderReceiveMainPage : MonoBehaviour {
+namespace Sim_FrameWork
+{
+    public class OrderReceiveMainPage : MonoBehaviour
+    {
+        [Header("Button")]
+        public Button BackBtn;
 
-	// Use this for initialization
-	void Start () {
-		
-	}
-	
-	// Update is called once per frame
-	void Update () {
-		
-	}
+    }
 }

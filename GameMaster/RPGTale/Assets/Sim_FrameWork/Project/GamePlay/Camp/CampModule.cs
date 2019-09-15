@@ -6,6 +6,9 @@ namespace Sim_FrameWork {
     public class CampModule : BaseModule<CampModule> {
 
         public static List<CampData> CampDataList;
+        public static Dictionary<int, CampData> CampDataDic;
+        public static List<CampLevelData> CampLevelDataList;
+        public static Dictionary<int, CampLevelData> CampLevelDataDic;
 
         public static CampBaseConfig campConfig;
 
@@ -14,9 +17,21 @@ namespace Sim_FrameWork {
             campConfig = new CampBaseConfig();
             campConfig.LoadData();
             CampDataList = CampMetaDataReader.GetCampData();
+            CampDataDic = CampMetaDataReader.GetCampDataDic();
+            CampLevelDataList = CampMetaDataReader.GetCampLevelData();
+            CampLevelDataDic = CampMetaDataReader.GetCampLevelDataDic();
         }
 
 
+        public override void Register()
+        {
+            
+        }
+
+        public CampModule()
+        {
+            InitData();
+        }
 
 
         public class CampBaseConfig

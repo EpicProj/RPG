@@ -13,6 +13,7 @@ public class MainMenuPage : MonoBehaviour {
     //GameStates
     public GameObject GameStatesObj;
 
+    [Header("Resources")]
     //Resource
     public GameObject ResouceContent;
     public GameObject Currency;
@@ -28,4 +29,13 @@ public class MainMenuPage : MonoBehaviour {
     //Camp
     public GameObject CampContent;
     public GameObject CampValue;
+
+    //Btn
+    [Header("Button")]
+    public Button ConstructBtn;
+    public Button RoadBtn;
+    public Button OrderBtn;
+    public Button ReserachBtn;
+    public Button EventsBtn;
+        
 }

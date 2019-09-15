@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
-namespace Sim_FrameWork
+namespace Sim_FrameWork.UI
 {
     public class MaterialSlot : Slot
     {

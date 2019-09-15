@@ -15,13 +15,10 @@ namespace Sim_FrameWork {
         public static List<DistrictModel> DistrictModelList = new List<DistrictModel>();
         public static Dictionary<int, DistrictModel> DistrictModelDic = new Dictionary<int, DistrictModel>();
 
-        private bool HasInit = false;
 
 
         public override void InitData()
         {
-            if (HasInit)
-                return;
             DistrictDataList = DistrictMetaDataReader.GetDistrictData();
             DistrictDataDic = DistrictMetaDataReader.GetDistrictDic();
             DistrictTypeList = DistrictMetaDataReader.GetDistrictType();
@@ -30,7 +27,16 @@ namespace Sim_FrameWork {
             DistrictIconDic = DistrictMetaDataReader.GetDistrictIconDic();
             DistrictModelList = DistrictMetaDataReader.GetDistrictModel();
             DistrictModelDic = DistrictMetaDataReader.GetDistrictModelDic();
-            HasInit = true;
+        }
+
+        public override void Register()
+        {
+            
+        }
+
+        public DistrictModule()
+        {
+            InitData();
         }
 
         public static DistrictData GetDistrictDataByKey(int districtID)
@@ -238,7 +244,7 @@ namespace Sim_FrameWork {
         public bool isLargeDistrict;
         public int LargeDistrictIndex;
         public Vector2 OriginCoordinate;
-        public DistrictSlotType slotType;
+        public UI.DistrictSlotType slotType;
         public Sprite sprite;
     }
     public class DistrictAreaBase
@@ -246,7 +252,7 @@ namespace Sim_FrameWork {
         public DistrictData data;
         public bool Locked;
         public Vector2 Coordinate;
-        public DistrictSlotType slotType;
+        public UI.DistrictSlotType slotType;
         public Sprite sprite;
     }
 
