@@ -30,24 +30,24 @@ namespace Sim_FrameWork {
         }
 
 
-        public static List<FunctionBlock> FunctionBlockList;
-        public static Dictionary<int, FunctionBlock> FunctionBlockDic;
+        protected static List<FunctionBlock> FunctionBlockList;
+        protected static Dictionary<int, FunctionBlock> FunctionBlockDic;
 
-        public static List<FunctionBlock_Labor> FunctionBlock_LaborList;
-        public static Dictionary<int, FunctionBlock_Labor> FunctionBlock_LaborDic;
-        public static List<FunctionBlock_Raw> FunctionBlock_RawList;
-        public static Dictionary<int, FunctionBlock_Raw> FunctionBlock_RawDic;
-        public static List<FunctionBlock_Industry> FunctionBlock_IndustryList;
-        public static Dictionary<int, FunctionBlock_Industry> FunctionBlock_IndustryDic;
-        public static List<FunctionBlock_Science> FunctionBlock_ScienceList;
-        public static Dictionary<int, FunctionBlock_Science> FunctionBlock_ScienceDic;
-        public static List<FunctionBlock_Energy> FunctionBlock_EnergyList;
-        public static Dictionary<int, FunctionBlock_Energy> FunctionBlock_EnergyDic;
+        protected static List<FunctionBlock_Labor> FunctionBlock_LaborList;
+        protected static Dictionary<int, FunctionBlock_Labor> FunctionBlock_LaborDic;
+        protected static List<FunctionBlock_Raw> FunctionBlock_RawList;
+        protected static Dictionary<int, FunctionBlock_Raw> FunctionBlock_RawDic;
+        protected static List<FunctionBlock_Industry> FunctionBlock_IndustryList;
+        protected static Dictionary<int, FunctionBlock_Industry> FunctionBlock_IndustryDic;
+        protected static List<FunctionBlock_Science> FunctionBlock_ScienceList;
+        protected static Dictionary<int, FunctionBlock_Science> FunctionBlock_ScienceDic;
+        protected static List<FunctionBlock_Energy> FunctionBlock_EnergyList;
+        protected static Dictionary<int, FunctionBlock_Energy> FunctionBlock_EnergyDic;
 
-        public static List<FunctionBlockTypeData> FunctionBlockTypeDataList;
-        public static Dictionary<string, FunctionBlockTypeData> FunctionBlockTypeDataDic;
-        public static List<FunctionBlockSubTypeData> FunctionBlockSubTypeDataList;
-        public static Dictionary<string, FunctionBlockSubTypeData> FunctionBlockSubTypeDataDic;
+        protected static List<FunctionBlockTypeData> FunctionBlockTypeDataList;
+        protected static Dictionary<string, FunctionBlockTypeData> FunctionBlockTypeDataDic;
+        protected static List<FunctionBlockSubTypeData> FunctionBlockSubTypeDataList;
+        protected static Dictionary<string, FunctionBlockSubTypeData> FunctionBlockSubTypeDataDic;
 
 
         public List<string> FunctionBlockGUIDList = new List<string>();
@@ -196,7 +196,7 @@ namespace Sim_FrameWork {
             switch (GetFunctionBlockType(functionBlockID))
             {
                 case FunctionBlockType.Industry:
-                    return GetFunctionBlock_ManufactureData(GetFunctionBlockByBlockID(functionBlockID).FunctionBlockTypeIndex) as T;
+                    return GetFunctionBlock_IndustryData(GetFunctionBlockByBlockID(functionBlockID).FunctionBlockTypeIndex) as T;
                 //case FunctionBlockType.Raw:
                 //    return GetFacotryRawData(GetFunctionBlockByBlockID(functionBlockID).FunctionBlockTypeIndex) as T;
                 case FunctionBlockType.Science:
@@ -222,7 +222,7 @@ namespace Sim_FrameWork {
             }
             return labor;
         }
-        public static FunctionBlock_Industry GetFunctionBlock_ManufactureData(int id)
+        public static FunctionBlock_Industry GetFunctionBlock_IndustryData(int id)
         {
             FunctionBlock_Industry functionBlock_Industry = null;
             FunctionBlock_IndustryDic.TryGetValue(id, out functionBlock_Industry);
@@ -331,7 +331,13 @@ namespace Sim_FrameWork {
         public static Dictionary<Vector2, DistrictAreaBase> GetFuntionBlockAreaDetailDefaultDataInfo(FunctionBlock block) 
         {
             Dictionary<Vector2, DistrictAreaBase> result = new Dictionary<Vector2, DistrictAreaBase>();
-            Dictionary<Vector2, DistrictData> totalDic = GetDistrictAreaDetailDefaultData(block);
+
+            Func<FunctionBlock, Dictionary<Vector2, DistrictData>> getDefaultData = (b) =>
+            {
+                return GetFuntionBlockDistrictData(GetFuntionBlockAreaDetailDefault(b));
+            };
+
+            Dictionary<Vector2, DistrictData> totalDic = getDefaultData(block);
 
             foreach (KeyValuePair<Vector2, DistrictData> kvp in totalDic)
             {
@@ -379,8 +385,13 @@ namespace Sim_FrameWork {
         /// <returns></returns>
         public static Dictionary<Vector2, DistrictAreaInfo> GetFuntionBlockOriginAreaInfo(FunctionBlock block)
         {
+            Func<FunctionBlock, Dictionary<Vector2, DistrictData>> getOriginData = (b) =>
+            {
+                return GetFuntionBlockDistrictData(GetFuntionBlockOriginArea(b));
+            };
+
             Dictionary<Vector2, DistrictAreaInfo> result = new Dictionary<Vector2, DistrictAreaInfo>();
-            Dictionary<Vector2, DistrictData> dic = GetDistrictOriginData(block);
+            Dictionary<Vector2, DistrictData> dic = getOriginData(block);
 
             if (dic == null)
                 return result;
@@ -435,14 +446,6 @@ namespace Sim_FrameWork {
             }
             return result;
         }
-        private static Dictionary<Vector2,DistrictData> GetDistrictOriginData(FunctionBlock block)
-        {
-            return GetFuntionBlockDistrictData(GetFuntionBlockOriginArea(block));
-        }
-        private static Dictionary<Vector2,DistrictData> GetDistrictAreaDetailDefaultData(FunctionBlock block)
-        {
-            return GetFuntionBlockDistrictData(GetFuntionBlockAreaDetailDefault(block));
-        }
 
         /// <summary>
         /// 检测区划是否重叠  或超出范围
@@ -494,7 +497,22 @@ namespace Sim_FrameWork {
         private static bool CheckTargetDistrictNoLock(FunctionBlock block,bool initCheck)
         {
             Dictionary<Vector2, DistrictData> Checkdic = GetFuntionBlockDistrictData(GetFuntionBlockOriginArea(block));
-            List<Vector2> lockedList = GetLockedDistrictList(block);
+
+            Func<FunctionBlock, List<Vector2>> getDistrict = (b) =>
+             {
+                 List<Vector2> result = new List<Vector2>();
+                 Dictionary<Vector2, DistrictData> totalDic = GetFuntionBlockDistrictData(GetFuntionBlockAreaDetailDefault(b));
+                 foreach (KeyValuePair<Vector2, DistrictData> kvp in totalDic)
+                 {
+                     if (kvp.Value.DistrictID == -2)
+                     {
+                         result.Add(kvp.Key);
+                     }
+                 }
+                 return result;
+             };
+
+            List<Vector2> lockedList = getDistrict(block);
             foreach (KeyValuePair<Vector2,DistrictData> kvp in Checkdic)
             {
                 //Check District
@@ -513,20 +531,6 @@ namespace Sim_FrameWork {
             return true;
         }
 
-
-        private static List<Vector2> GetLockedDistrictList(FunctionBlock block)
-        {
-            List<Vector2> result = new List<Vector2>();
-            Dictionary<Vector2, DistrictData> totalDic = GetFuntionBlockDistrictData(GetFuntionBlockAreaDetailDefault(block));
-            foreach(KeyValuePair<Vector2,DistrictData> kvp in totalDic)
-            {
-                if (kvp.Value.DistrictID == -2)
-                {
-                    result.Add(kvp.Key);
-                }
-            }
-            return result;
-        }
 
         /// <summary>
         /// Get District Data
@@ -550,73 +554,73 @@ namespace Sim_FrameWork {
 
         private static Dictionary<Vector2, int> GetFuntionBlockAreaDetailDefault(FunctionBlock block)
         {
+            Func<string, Vector2, Dictionary<Vector2, int>> parse = (s, v) =>
+             {
+                 Dictionary<Vector2, int> result = new Dictionary<Vector2, int>();
+                 List<string> ls = Utility.TryParseStringList(s, ';');
+                 if (string.IsNullOrEmpty(s) || ls.Count == 0)
+                 {
+                     Debug.LogWarning("Parse AreaDetailFail!  content=" + s);
+                     return result;
+                 }
+                 if (ls.Count != v.y)
+                 {
+                     Debug.LogError("AreaY Not Match Area Max ,content=" + s);
+                     return result;
+                 }
+
+                 for (int i = 0; i < ls.Count; i++)
+                 {
+                     List<int> li = Utility.TryParseIntList(ls[i], ',');
+                     if (li.Count != v.x)
+                     {
+                         Debug.LogError("AreaX Not Match Area Max ,content=" + s);
+                         return result;
+                     }
+                     for (int j = 0; j < li.Count; j++)
+                     {
+                         Vector2 pos = new Vector2(i, j);
+                         result.Add(pos, li[2]);
+                     }
+                 }
+                 return result;
+             };
             int id = block.FunctionBlockID;
             Vector2 areaMax = GetFunctionBlockAreaMax(block);
-            return TryParseAreaDetailDefault(block.AreaDetailDefault, areaMax);
-        }
-
-        private static Dictionary<Vector2, int> TryParseAreaDetailDefault(string content, Vector2 areaMax)
-        {
-            Dictionary<Vector2, int> result = new Dictionary<Vector2, int> ();
-            List<string> ls = Utility.TryParseStringList(content, ';');
-            if (string.IsNullOrEmpty(content) || ls.Count == 0)
-            {
-                Debug.LogWarning("Parse AreaDetailFail!  content="+content);
-                return result;
-            }
-            if(ls.Count != areaMax.y)
-            {
-                Debug.LogError("AreaY Not Match Area Max ,content=" + content);
-                return result;
-            }
-
-            for (int i = 0; i < ls.Count; i++)
-            {
-                List<int> li = Utility.TryParseIntList(ls[i], ',');
-                if (li.Count != areaMax.x)
-                {
-                    Debug.LogError("AreaX Not Match Area Max ,content=" + content);
-                    return result;
-                }
-                for (int j = 0; j < li.Count; j++)
-                {
-                    Vector2 pos = new Vector2(i,j);
-                    result.Add(pos, li[2]);
-                }
-            }
-            return result;
+            return parse(block.AreaDetailDefault, areaMax);
         }
 
         private static Dictionary<Vector2 ,int> GetFuntionBlockOriginArea(FunctionBlock block)
         {
-            return TryParseOriginArea(block.OriginArea);
-        }
-        private static Dictionary<Vector2,int> TryParseOriginArea(string content)
-        {
-            Dictionary<Vector2, int> result = new Dictionary<Vector2, int>();
-            List<string> ls = Utility.TryParseStringList(content, ';');
-            if(string.IsNullOrEmpty(content) || ls.Count == 0)
+            Func<string, Dictionary<Vector2, int>> parse = (s) =>
             {
-                Debug.Log("OriginArea is Empty!");
+                Dictionary<Vector2, int> result = new Dictionary<Vector2, int>();
+                List<string> ls = Utility.TryParseStringList(s, ';');
+                if (string.IsNullOrEmpty(s) || ls.Count == 0)
+                {
+                    Debug.Log("OriginArea is Empty!");
+                    return result;
+                }
+                for (int i = 0; i < ls.Count; i++)
+                {
+                    List<int> li = Utility.TryParseIntList(ls[i], ',');
+                    if (li.Count != 3)
+                    {
+                        Debug.LogError("Parse OriginArea Format Error , content=" + li);
+                        return result;
+                    }
+                    Vector2 v = new Vector2(li[0], li[1]);
+                    if (result.ContainsKey(v))
+                    {
+                        Debug.LogError("Find Same Origin Area ,vector2=" + v);
+                        return result;
+                    }
+                    result.Add(v, li[2]);
+                }
                 return result;
-            }
-            for(int i = 0; i < ls.Count; i++)
-            {
-                List<int> li = Utility.TryParseIntList(ls[i], ',');
-                if (li.Count != 3)
-                {
-                    Debug.LogError("Parse OriginArea Format Error , content=" + li);
-                    return result;
-                }
-                Vector2 v = new Vector2(li[0], li[1]);
-                if (result.ContainsKey(v))
-                {
-                    Debug.LogError("Find Same Origin Area ,vector2=" + v);
-                    return result;
-                }
-                result.Add(v, li[2]);
-            }
-            return result;
+            };
+
+            return parse(block.OriginArea);
         }
         #endregion
 
@@ -867,7 +871,7 @@ namespace Sim_FrameWork {
         {
             List<Dictionary<Material, ushort>> result = new List<Dictionary<Material, ushort>>();
 
-            List<FormulaData> data = GetFormulaDataList(block);
+            List<FormulaData> data = GetFormulaList(block);
             for (int i = 0; i < data.Count; i++)
             {
                 Dictionary<Material, ushort> maDic = FormulaModule.GetFormulaMaterialDic(data[i].FormulaID, GetType);
@@ -875,11 +879,11 @@ namespace Sim_FrameWork {
             }
             return result;
         }
-        public static List<FormulaData> GetFormulaDataList(FunctionBlock block)
+
+        public static List<FormulaData> GetFormulaList(FunctionBlock block)
         {
             return FormulaModule.GetFormulaDataList(FetchFunctionBlockTypeIndex<FunctionBlock_Industry>(block.FunctionBlockID).FormulaInfoID);
         }
-
 
         #endregion
     }

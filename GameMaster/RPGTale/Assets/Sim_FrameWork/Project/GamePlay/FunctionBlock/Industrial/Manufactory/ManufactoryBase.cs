@@ -25,7 +25,7 @@ namespace Sim_FrameWork
 
         public void InitFormula()
         {
-            List<FormulaData> formulaData = FunctionBlockModule.GetFormulaDataList(info.block);
+            List<FormulaData> formulaData = FunctionBlockModule.GetFormulaList(info.block);
             if (formulaData.Count == 1)
             {
                 manufactoryInfo.formulaInfo = new ManufactFormulaInfo(formulaData[0].FormulaID, info.block);
@@ -97,7 +97,7 @@ namespace Sim_FrameWork
                 ushort count = manufactoryInfo.formulaInfo.currentOutputMaterialFormulaDic[manufactoryInfo.formulaInfo.outputMaList[i]];
                 manufactoryInfo.formulaInfo.realOutputDataDic[manufactoryInfo.formulaInfo.outputMaList[i]] += count;
                 //Add to PlayerData
-                PlayerModule.Instance.AddMaterialData(manufactoryInfo.formulaInfo.outputMaList[i].MaterialID, count);
+                PlayerManager.Instance.AddMaterialData(manufactoryInfo.formulaInfo.outputMaList[i].MaterialID, count);
             }
         }
         public void StartManufact()
@@ -277,7 +277,7 @@ namespace Sim_FrameWork
         public ManufactFormulaInfo(int currentFormulaID,FunctionBlock block)
         {
             CurrentFormulaID = currentFormulaID;
-            FormulaIDList = FunctionBlockModule.GetFormulaDataList(block);
+            FormulaIDList = FunctionBlockModule.GetFormulaList(block);
             currentFormulaData = FormulaModule.GetFormulaDataByID(currentFormulaID);
             currentInputMaterialFormulaDic = FormulaModule.GetFormulaMaterialDic(currentFormulaID, FormulaModule.MaterialProductType.Input);
             currentOutputMaterialFormulaDic = FormulaModule.GetFormulaMaterialDic(currentFormulaID, FormulaModule.MaterialProductType.Output);

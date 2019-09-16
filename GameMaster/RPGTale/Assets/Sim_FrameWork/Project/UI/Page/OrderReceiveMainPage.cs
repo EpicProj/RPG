@@ -10,5 +10,9 @@ namespace Sim_FrameWork
         [Header("Button")]
         public Button BackBtn;
 
+
+        [Header("Content")]
+        ///订单中心
+        public GameObject OrderMainContent;
     }
 }

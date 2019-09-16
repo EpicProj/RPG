@@ -51,15 +51,11 @@ namespace Sim_FrameWork
             //test
             if (Input.GetKeyDown(KeyCode.M))
             {
-                PlayerModule.Instance.AddCurrency(1000.5f, PlayerModule.ResourceAddType.current);
+                PlayerManager.Instance.AddCurrency(1000.5f, PlayerManager.ResourceAddType.current);
             }
             if (Input.GetKeyDown(KeyCode.N))
             {
-                PlayerModule.Instance.AddMaterialData(100, 10);
-            }
-            if (gameStates == GameStates.Start)
-            {
-                PlayerModule.Instance.UpdateTime();
+                PlayerManager.Instance.AddMaterialData(100, 10);
             }
         
         }
@@ -70,7 +66,7 @@ namespace Sim_FrameWork
             UIManager.Instance.Register<BlockInfoDialogContent>(UIPath.FUNCTIONBLOCK_INFO_DIALOG);
             UIManager.Instance.Register<WareHouseDialogContent>(UIPath.WAREHOURSE_DIALOG);
             UIManager.Instance.Register<MainMenuPageContext>(UIPath.MainMenu_Page);
-            UIManager.Instance.PopUpWnd(UIPath.MainMenu_Page);
+           
 
         }
 
@@ -84,6 +80,7 @@ namespace Sim_FrameWork
             PlayerModule.Instance.Register();
             CampModule.Instance.Register();
             OrganizationModule.Instance.Register();
+            OrderModule.Instance.Register();
         }
 
         #region MainFunction

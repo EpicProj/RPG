@@ -25,7 +25,8 @@ namespace Sim_FrameWork
         public WareHouseInfo wareHouseInfo = new WareHouseInfo();
         public PlayerResourceData resourceData = new PlayerResourceData();
         public PlayerCampData campData = new PlayerCampData();
-        
+
+        public TimeData timeData;
    
 
         //当前科技转换率

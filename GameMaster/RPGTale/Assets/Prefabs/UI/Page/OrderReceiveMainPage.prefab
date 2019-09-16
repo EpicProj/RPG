@@ -683,7 +683,7 @@ GameObject:
   serializedVersion: 5
   m_Component:
   - component: {fileID: 224450752890316708}
-  - component: {fileID: 222791298347098860}
+  - component: {fileID: 114561037219778864}
   m_Layer: 5
   m_Name: OrderReceiveElement
   m_TagString: Untagged
@@ -752,6 +752,7 @@ GameObject:
   - component: {fileID: 224932892458542388}
   - component: {fileID: 222291108587905626}
   - component: {fileID: 114790456458883874}
+  - component: {fileID: 114640299270271634}
   m_Layer: 5
   m_Name: Title_En
   m_TagString: Untagged
@@ -919,6 +920,7 @@ GameObject:
   - component: {fileID: 224711903459668114}
   - component: {fileID: 222960606818116662}
   - component: {fileID: 114063460950603024}
+  - component: {fileID: 114523863349968660}
   m_Layer: 5
   m_Name: Title_En
   m_TagString: Untagged
@@ -1438,6 +1440,7 @@ GameObject:
   - component: {fileID: 224153573864485588}
   - component: {fileID: 222936116196331728}
   - component: {fileID: 114087173346914574}
+  - component: {fileID: 114529114497691888}
   m_Layer: 5
   m_Name: Title
   m_TagString: Untagged
@@ -1552,6 +1555,7 @@ GameObject:
   - component: {fileID: 224924498965279606}
   - component: {fileID: 222302521223523574}
   - component: {fileID: 114448214965148256}
+  - component: {fileID: 114423703137633768}
   m_Layer: 5
   m_Name: Title
   m_TagString: Untagged
@@ -4448,7 +4452,7 @@ MonoBehaviour:
     m_TypeName: UnityEngine.UI.MaskableGraphic+CullStateChangedEvent, UnityEngine.UI,
       Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
   m_FontData:
-    m_Font: {fileID: 10102, guid: 0000000000000000e000000000000000, type: 0}
+    m_Font: {fileID: 12800000, guid: 5190073a686e4f1498a2fea79a97c47a, type: 3}
     m_FontSize: 10
     m_FontStyle: 0
     m_BestFit: 0
@@ -4459,9 +4463,8 @@ MonoBehaviour:
     m_RichText: 1
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
-    m_LineSpacing: 1
-  m_Text: "Remodulin\u5DF2\u4E8E2018\u5E746\u670826\u65E5\u4E13\u5229\u5230\u671F\u3002\u540C\u65F6\uFF0CUnited
-    Therapeutics\u4E0ESandoz\u3001Teva\u3001Par Pharmaceuticals\u53CA\u5176\u4ED6\u4EFF\u5236\u836F\u516C\u53F8\u7B7E\u7F72\u4E86\u4E13\u5229\u534F\u8BAE\r\n"
+    m_LineSpacing: 0.8
+  m_Text: 
 --- !u!114 &114183497248409034
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -4580,6 +4583,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   BackBtn: {fileID: 114506854837976570}
+  OrderMainContent: {fileID: 1834233596298014}
 --- !u!114 &114205315393108498
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -5710,6 +5714,18 @@ MonoBehaviour:
   m_FillAmount: 1
   m_FillClockwise: 1
   m_FillOrigin: 0
+--- !u!114 &114423703137633768
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1430030230730618}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 13a2f455c30ad324696562dc37c6c658, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Textid: OrderDetail_Title
 --- !u!114 &114426120696122874
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -6402,6 +6418,30 @@ MonoBehaviour:
     m_VerticalOverflow: 0
     m_LineSpacing: 1
   m_Text: "\u9650\u65F6\uFF1A 35D\r"
+--- !u!114 &114523863349968660
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1238796961031078}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 13a2f455c30ad324696562dc37c6c658, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Textid: OrderDetail_Title_En
+--- !u!114 &114529114497691888
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1391350812718858}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 13a2f455c30ad324696562dc37c6c658, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Textid: OrderReward_Title
 --- !u!114 &114531124992241316
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -6557,6 +6597,20 @@ MonoBehaviour:
   m_FlexibleWidth: 1
   m_FlexibleHeight: -1
   m_LayoutPriority: 1
+--- !u!114 &114561037219778864
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1187366891036372}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9388643a6abad0446afb30afb87ad5aa, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  TitleName: {fileID: 114641164721657168}
+  TitleDesc: {fileID: 114179597508462982}
+  OrderBG: {fileID: 114665383517067720}
 --- !u!114 &114563257168715764
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -6996,6 +7050,18 @@ MonoBehaviour:
   m_FillAmount: 1
   m_FillClockwise: 1
   m_FillOrigin: 0
+--- !u!114 &114640299270271634
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1199174468128294}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 13a2f455c30ad324696562dc37c6c658, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Textid: OrderReward_Title_En
 --- !u!114 &114641164721657168
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -9798,12 +9864,6 @@ CanvasRenderer:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1868466603360114}
---- !u!222 &222791298347098860
-CanvasRenderer:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1187366891036372}
 --- !u!222 &222791332083856754
 CanvasRenderer:
   m_ObjectHideFlags: 1
@@ -11954,7 +12014,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: -34.299995}
+  m_AnchoredPosition: {x: 0, y: -26.5}
   m_SizeDelta: {x: 220, y: 55}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!224 &224463975686159332
@@ -12844,7 +12904,7 @@ RectTransform:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1372966501938276}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
@@ -13178,7 +13238,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0.0001185911, y: 0.000015880185}
+  m_AnchoredPosition: {x: -0.0000034779061, y: 0.000015880185}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0, y: 1}
 --- !u!224 &224772931407792622

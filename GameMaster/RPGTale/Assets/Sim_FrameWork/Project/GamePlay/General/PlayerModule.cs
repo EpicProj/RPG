@@ -7,38 +7,6 @@ namespace Sim_FrameWork
 {
     public class PlayerModule :BaseModule<PlayerModule>
     {
-        public enum HardLevel
-        {
-            easy=1<<0,
-            normal=1<<1,
-            hard=1<<2
-        }
-
-  
-        public enum Season
-        {
-            Spring = 1,
-            Summer = 2,
-            Autumn = 3,
-            Winter = 4
-        }
-
-        public enum Month
-        {
-            January = 1,
-            February = 2,
-            March = 3,
-            April = 4,
-            May = 5,
-            June = 6,
-            July = 7,
-            August = 8,
-            September = 9,
-            October = 10,
-            November = 11,
-            December = 12
-        }
-
 
         //Build Panel Config
         public static List<BuildingPanelData> buildPanelDataList;
@@ -46,32 +14,15 @@ namespace Sim_FrameWork
         public List<string> AllBuildMainTagList = new List<string>();
         public BaseResourcesData resourceData;
         public PlayerConfig config;
-        public PlayerData playerData;
 
-        public HardLevel currentHardLevel = HardLevel.easy;
-
-        //Time
-        public TimeData timeData;
-
-        public float timer;
-        public float realSecondsPerMonth;
+        public PlayerConfig.HardLevel currentHardLevel = PlayerConfig.HardLevel.easy;
 
         public override void InitData()
-        {
-            //resourceData = new BaseResourcesData();
-            //resourceData.ReadData();
-            config = new PlayerConfig();
-            config.ReadPlayerConfigData();
+        {        
             buildPanelDataList = BuildingPanelMetaDataReader.GetBuildingPanelDataList();
             buildPanelDataDic = BuildingPanelMetaDataReader.GetBuildingPanelDataDic();
-            //Init Time
-            //INIT CONFIG
-            realSecondsPerMonth = config.timeConfig.RealSecondsPerMonth;
-            timeData = new TimeData();
-            timeData.currentYear = config.timeConfig.OriginalYear;
-            timeData.currentMonth = config.timeConfig.OriginalMonth;
-            timeData.currentSeason = ConvertMonthToSeason(config.timeConfig.OriginalMonth);
-            timeData.realSecondsPerMonth = config.timeConfig.RealSecondsPerMonth;
+            config = new PlayerConfig();
+            config.ReadPlayerConfigData();
         }
 
         public override void Register()
@@ -83,11 +34,13 @@ namespace Sim_FrameWork
             InitData();
         }
 
+
         
         public PlayerData InitPlayerData()
         {
-            HardLevelData data = GetHardlevelData(currentHardLevel);
-            playerData = new PlayerData();
+            HardLevelData data = config.GetHardlevelData(currentHardLevel);
+            PlayerData playerData = new PlayerData();
+            playerData.timeData = new TimeData(config.timeConfig);
             //Init Food
             playerData.resourceData.AddFoodMax(data.OriginalFoodMax);
             playerData.resourceData.AddFood(data.OriginalFood);
@@ -119,135 +72,7 @@ namespace Sim_FrameWork
 
         }
 
-        #region ResourceFunc
-        public enum ResourceAddType
-        {
-            current,
-            month,
-            max
-        }
 
-        public void AddCurrency(float num,ResourceAddType type,Action callback=null)
-        {
-            switch (type)
-            {
-                case ResourceAddType.current:
-                    playerData.resourceData.AddCurrency(num);
-                    UIManager.Instance.SendMessageToWnd(UIPath.MainMenu_Page, new UIMessage(UIMsgType.Res_Currency, playerData.resourceData));
-                    callback?.Invoke();
-                    break;
-                case ResourceAddType.max:
-                    playerData.resourceData.AddCurrencyMax(num);
-                    callback?.Invoke();
-                    break;
-                default:
-                    break;
-            }
-          
-        }
-        public void AddFood(float num,ResourceAddType type,Action callback = null)
-        {
-            switch (type)
-            {
-                case ResourceAddType.current:
-                    playerData.resourceData.AddFood(num);
-                    UIManager.Instance.SendMessageToWnd(UIPath.MainMenu_Page, new UIMessage(UIMsgType.Res_Food, playerData.resourceData));
-                    callback?.Invoke();
-                    break;
-                case ResourceAddType.max:
-                    playerData.resourceData.AddFoodMax(num);
-                    callback?.Invoke();
-                    break;
-                case ResourceAddType.month:
-                    playerData.resourceData.AddFoodPerMonth(num);
-                    UIManager.Instance.SendMessageToWnd(UIPath.MainMenu_Page, new UIMessage(UIMsgType.Res_MonthFood, playerData.resourceData));
-                    callback?.Invoke();
-                    break;
-                default:
-                    break;
-            }
-           
-        }
-        public void AddEnergy(float num,ResourceAddType type,Action callback=null)
-        {
-            switch (type)
-            {
-                case ResourceAddType.current:
-                    playerData.resourceData.AddEnergy(num);
-                    UIManager.Instance.SendMessageToWnd(UIPath.MainMenu_Page, new UIMessage(UIMsgType.Res_Energy, playerData.resourceData));
-                    callback?.Invoke();
-                    break;
-                case ResourceAddType.max:
-                    playerData.resourceData.AddEnergyMax(num);
-                    callback?.Invoke();
-                    break;
-                case ResourceAddType.month:
-                    playerData.resourceData.AddEnergyPerMonth(num);
-                    UIManager.Instance.SendMessageToWnd(UIPath.MainMenu_Page, new UIMessage(UIMsgType.Res_MonthEnergy, playerData.resourceData));
-                    callback?.Invoke();
-                    break;
-                default:
-                    break;
-            }
-           
-        }
-        public void AddLabor(float num, ResourceAddType type, Action callback = null)
-        {
-            switch (type)
-            {
-                case ResourceAddType.current:
-                    playerData.resourceData.AddLabor(num);
-                    UIManager.Instance.SendMessageToWnd(UIPath.MainMenu_Page, new UIMessage(UIMsgType.Res_Labor, playerData.resourceData));
-                    callback?.Invoke();
-                    break;
-                case ResourceAddType.max:
-                    playerData.resourceData.AddLaborMax(num);
-                    callback?.Invoke();
-                    break;
-                case ResourceAddType.month:
-                    playerData.resourceData.AddLaborPerMonth(num);
-                    UIManager.Instance.SendMessageToWnd(UIPath.MainMenu_Page, new UIMessage(UIMsgType.Res_MonthLabor, playerData.resourceData));
-                    callback?.Invoke();
-                    break;
-                default:
-                    break;
-            }
-           
-        }
-
-
-        public void AddMaterialData(int materialId,ushort count)
-        {
-            playerData.AddMaterialStoreData(materialId, count);
-         
-        }
-
-        #endregion
-        /// <summary>
-        /// 获取Hardlevel信息
-        /// </summary>
-        /// <param name="level"></param>
-        /// <returns></returns>
-        public HardLevelData GetHardlevelData(HardLevel level)
-        {
-            if (config.hardlevelData.Count == 0)
-            {
-                Debug.LogError("HardlevelData is null");
-                return null;
-            }
-            switch (level)
-            {
-                case HardLevel.easy:
-                    return config.hardlevelData[0];
-                case HardLevel.normal:
-                    return config.hardlevelData[1];
-                case HardLevel.hard:
-                    return config.hardlevelData[2];
-                default:
-                    Debug.LogError("HardLevelMode Error");
-                    return config.hardlevelData[0];
-            }
-        }
 
 
         #region BuildPanel Data
@@ -314,68 +139,48 @@ namespace Sim_FrameWork
             return result;
         }
 
-        public void AddUnLockBuildData(BuildingPanelData data)
-        {
-            if (!playerData.UnLockBuildingPanelDataList.Contains(data))
-            {
-                playerData.UnLockBuildingPanelDataList.Add(data);
-            }
-            //UpdateUI
-            UIManager.Instance.SendMessageToWnd(UIPath.MainMenu_Page, new UIMessage (UIMsgType.UpdateBuildPanelData,playerData.UnLockBuildingPanelDataList));
-        }
+ 
 
         #endregion
 
         #region Time
-        public class TimeData
-        {
-            //初始时间
-            public Season OriginSeason;
-            public Month OriginMonth;
-            public int OriginYear;
-            //当前时间
-            public Season currentSeason;
-            public int currentMonth;
-            public int currentYear;
-
-            public float realSecondsPerMonth;
-        }
+       
   
         //季节转化
-        public Season ConvertMonthToSeason(int month)
+        public static TimeData.Season ConvertMonthToSeason(int month)
         {
             switch (month)
             {
                 case 3:
                 case 4:
                 case 5:
-                    return Season.Spring;
+                    return TimeData.Season.Spring;
                 case 6:
                 case 7:
                 case 8:
-                    return Season.Summer;
+                    return TimeData.Season.Summer;
                 case 9:
                 case 10:
                 case 11:
-                    return Season.Autumn;
+                    return TimeData.Season.Autumn;
                 case 12:
                 case 1:
                 case 2:
-                    return Season.Winter;
+                    return TimeData.Season.Winter;
                 default:
                     Debug.LogError("SeasonError ,month=" + month);
-                    return Season.Spring;
+                    return TimeData.Season.Spring;
 
             }
         }
-        public Season IntConvertToSeason(int i)
+        public static TimeData.Season IntConvertToSeason(int i)
         {
-            if (Enum.IsDefined(typeof(Season), i))
+            if (Enum.IsDefined(typeof(TimeData.Season), i))
             {
-                return (Season)Enum.ToObject(typeof(Season), i);
+                return (TimeData.Season)Enum.ToObject(typeof(TimeData.Season), i);
             }
             Debug.LogError("SeasonConvertError Season=" + i);
-            return Season.Spring;
+            return TimeData.Season.Spring;
         }
 
         public SeasonConfig GetSeasonConfig(int season)
@@ -391,7 +196,6 @@ namespace Sim_FrameWork
 
         public string GetSeasonName(int season)
         {
-           
             return MultiLanguage.Instance.GetTextValue(GetSeasonConfig(season).SeasonName);
         }
 
@@ -400,41 +204,59 @@ namespace Sim_FrameWork
             return Utility.LoadSprite(GetSeasonConfig(season).SeasonIconPath, Utility.SpriteType.png);
         }
 
-
-        public void UpdateTime()
-        {
-            timer += Time.deltaTime;
-            if (timer >= realSecondsPerMonth)
-            {
-                timer = 0;
-                timeData.currentMonth++;
-                //MonthSettle
-                DoMonthSettle();
-                if (timeData.currentMonth >= 13)
-                {
-                    timeData.currentMonth = 1;
-                    timeData.currentYear++;
-                }
-                timeData.currentSeason = ConvertMonthToSeason(timeData.currentMonth);
-                UIManager.Instance.SendMessageToWnd(UIPath.MainMenu_Page, new UIMessage (UIMsgType.UpdateTime,timeData));
-            }
-        }
-
-        /// <summary>
-        /// 月底结算
-        /// </summary>
-        private void DoMonthSettle()
-        {
-            AddFood(playerData.resourceData.FoodPerMonth,ResourceAddType.current);
-            AddEnergy(playerData.resourceData.EnergyPerMonth,ResourceAddType.current);
-            AddLabor(playerData.resourceData.LaborPerMonth,ResourceAddType.current);
-           
-        }
-
         #endregion
 
     
     }
+    public class TimeData
+    {
+        public enum Season
+        {
+            Spring = 1,
+            Summer = 2,
+            Autumn = 3,
+            Winter = 4
+        }
+
+        public enum Month
+        {
+            January = 1,
+            February = 2,
+            March = 3,
+            April = 4,
+            May = 5,
+            June = 6,
+            July = 7,
+            August = 8,
+            September = 9,
+            October = 10,
+            November = 11,
+            December = 12
+        }
+
+
+        //初始时间
+        public Season OriginSeason;
+        public Month OriginMonth;
+        public int OriginYear;
+        //当前时间
+        public Season currentSeason;
+        public int currentMonth;
+        public int currentYear;
+
+        public float realSecondsPerMonth;
+
+
+        public TimeData(TimeDataConfig timeConfig)
+        {
+            currentYear = timeConfig.OriginalYear;
+            currentMonth = timeConfig.OriginalMonth;
+            currentSeason = PlayerModule.ConvertMonthToSeason(timeConfig.OriginalMonth);
+            realSecondsPerMonth = timeConfig.RealSecondsPerMonth;
+        }
+
+    }
+
 
 
     public class PlayerConfig
@@ -442,7 +264,12 @@ namespace Sim_FrameWork
         public List<HardLevelData> hardlevelData;
         public TimeDataConfig timeConfig;
 
-
+        public enum HardLevel
+        {
+            easy = 1 << 0,
+            normal = 1 << 1,
+            hard = 1 << 2
+        }
 
         public void ReadPlayerConfigData()
         {
@@ -450,6 +277,33 @@ namespace Sim_FrameWork
             PlayerConfig config = reader.LoadJsonDataConfig<PlayerConfig>(Config.JsonConfigPath.PlayerConfigJsonPath);
             hardlevelData = config.hardlevelData;
             timeConfig = config.timeConfig;
+        }
+
+
+        /// <summary>
+        /// 获取Hardlevel信息
+        /// </summary>
+        /// <param name="level"></param>
+        /// <returns></returns>
+        public HardLevelData GetHardlevelData(HardLevel level)
+        {
+            if (hardlevelData.Count == 0)
+            {
+                Debug.LogError("HardlevelData is null");
+                return null;
+            }
+            switch (level)
+            {
+                case HardLevel.easy:
+                    return hardlevelData[0];
+                case HardLevel.normal:
+                    return hardlevelData[1];
+                case HardLevel.hard:
+                    return hardlevelData[2];
+                default:
+                    Debug.LogError("HardLevelMode Error");
+                    return hardlevelData[0];
+            }
         }
     }
 

@@ -6,10 +6,10 @@ namespace Sim_FrameWork
 {
     public class OrganizationModule : BaseModule<OrganizationModule>
     {
-        public static List<OrganizationData> OrganizationDataList;
-        public static Dictionary<int, OrganizationData> OrganizationDataDic;
-        public static List<OrganizationEventData> OrganizationEventDataList;
-        public static Dictionary<int, OrganizationEventData> OrganizationEventDataDic;
+        protected static List<OrganizationData> OrganizationDataList;
+        protected static Dictionary<int, OrganizationData> OrganizationDataDic;
+        protected static List<OrganizationEventData> OrganizationEventDataList;
+        protected static Dictionary<int, OrganizationEventData> OrganizationEventDataDic;
 
 
         public override void InitData()

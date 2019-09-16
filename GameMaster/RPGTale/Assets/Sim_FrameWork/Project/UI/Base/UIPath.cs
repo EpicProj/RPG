@@ -50,10 +50,17 @@ namespace Sim_FrameWork
 
         //建造面板中区块
         public const string BUILD_ELEMENT_PREFAB_PATH= "Assets/Prefabs/Object/Main/BlockBuildElement.prefab";
+
+
+
+
+        #endregion
+
+        #region ElementPath
+        ///建造主页签
         public const string Construct_MainTab_Element_Path = "Assets/Prefabs/Object/Main/ConstructMainTabElement.prefab";
-
-
-
+        ///订单主单位
+        public const string OrderMain_Content_Element_Path = "Assets/Prefabs/Object/Order/OrderReceiveElement.prefab";
         #endregion
 
     }

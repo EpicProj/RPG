@@ -19,7 +19,6 @@ namespace Sim_FrameWork.UI
         }
 
         public PlayerData playerData;
-        public PlayerModule.TimeData timeData;
 
         public MainMenuPage m_page;
 
@@ -57,7 +56,7 @@ namespace Sim_FrameWork.UI
 
         public override void Awake(params object[] paralist)
         {
-            playerData = PlayerModule.Instance.InitPlayerData();
+            playerData = (PlayerData)paralist[0];
             InitBaseData();
             AddBtnListener();
             UpdateResData(ResourceType.All);
@@ -88,7 +87,6 @@ namespace Sim_FrameWork.UI
             CurrentSeasonText= m_page.TimePanel.transform.Find("Time/Season").GetComponent<Text>();
             SeasonSprite = m_page.TimePanel.transform.Find("Time/SeasonIcon").GetComponent<Image>();
             PauseBtn = m_page.GameStatesObj.transform.Find("Pause").GetComponent<Button>();
-            timeData = PlayerModule.Instance.timeData;
 
             //Update Time
             UpdateTimePanel();
@@ -147,7 +145,7 @@ namespace Sim_FrameWork.UI
                     return true;
                 case  UIMsgType.UpdateTime:
                     //更新时间
-                    timeData = (PlayerModule.TimeData)msg.content;
+                    playerData.timeData = (TimeData)msg.content;
                     UpdateTimePanel();
                     return true;
                 default:
@@ -160,21 +158,21 @@ namespace Sim_FrameWork.UI
 
         private void UpdateTimePanel()
         {
-            CurrentMonthText.text = timeData.currentMonth.ToString();
-            CurrentYearText.text = timeData.currentYear.ToString();
-            CurrentSeasonText.text = PlayerModule.Instance.GetSeasonName((int)timeData.currentSeason);
-            SeasonSprite.sprite = PlayerModule.Instance.GetSeasonSprite((int)timeData.currentSeason);
+            CurrentMonthText.text = playerData.timeData.currentMonth.ToString();
+            CurrentYearText.text = playerData.timeData.currentYear.ToString();
+            CurrentSeasonText.text = PlayerModule.Instance.GetSeasonName((int)playerData.timeData.currentSeason);
+            SeasonSprite.sprite = PlayerModule.Instance.GetSeasonSprite((int)playerData.timeData.currentSeason);
         }
         private void UpdateTimeProgress()
         {
             if (GameManager.Instance.gameStates == GameManager.GameStates.Pause)
                 return;
             currentTimeProgress+=Time.deltaTime;
-            if (currentTimeProgress >= timeData.realSecondsPerMonth)
+            if (currentTimeProgress >= playerData.timeData.realSecondsPerMonth)
             {
                 currentTimeProgress = 0;
             }
-            m_page.TimeSlider.value = currentTimeProgress / timeData.realSecondsPerMonth;
+            m_page.TimeSlider.value = currentTimeProgress / playerData.timeData.realSecondsPerMonth;
         }
 
         /// <summary>
@@ -235,17 +233,17 @@ namespace Sim_FrameWork.UI
         //Button
         private void AddBtnListener()
         {
-            AddButtonClickListener(m_page.MaterialBtn,  delegate () 
+            AddButtonClickListener(m_page.MaterialBtn, ()=>
             {
                 UIManager.Instance.PopUpWnd(UIPath.WAREHOURSE_DIALOG, true,playerData.wareHouseInfo);
             });
-            AddButtonClickListener(PauseBtn, delegate ()
+            AddButtonClickListener(PauseBtn, () =>
             {
                 OnPauseBtnClick();
             });
 
             /// Order Receive Page
-            AddButtonClickListener(m_page.OrderBtn, delegate ()
+            AddButtonClickListener(m_page.OrderBtn, () =>
             {
                 UIManager.Instance.Register<OrderReceiveMainPageContext>(UIPath.Order_Receive_Main_Page);
                 UIManager.Instance.PopUpWnd(UIPath.Order_Receive_Main_Page, true);
