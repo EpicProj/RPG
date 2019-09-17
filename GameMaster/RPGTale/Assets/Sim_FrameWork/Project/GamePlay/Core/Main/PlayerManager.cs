@@ -19,7 +19,7 @@ namespace Sim_FrameWork
         /// <summary>
         /// Time Manager
         /// </summary>
-        public float timer;
+        private float timer;
 
 
         protected override void Awake()

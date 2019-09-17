@@ -13,9 +13,24 @@ namespace Sim_FrameWork {
         public Dictionary<string, OrderInfo> AllOrderDic = new Dictionary<string, OrderInfo>();
 
 
+
         protected override void Awake()
         {
             base.Awake();
+        }
+        void Update()
+        {
+            if (Input.GetKeyDown(KeyCode.W))
+            {
+                UIManager.Instance.SendMessageToWnd(UIPath.Order_Receive_Main_Page, new UIMessage(UIMsgType.Order_Receive_Main, AllOrderDic));
+            }
+        }
+
+        void Start()
+        {
+            //For test
+            RegisterOrder(new OrderInfo(1));
+           
         }
 
         public void RegisterOrder(OrderInfo order)

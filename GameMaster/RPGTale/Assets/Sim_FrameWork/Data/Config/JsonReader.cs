@@ -48,6 +48,8 @@ namespace Sim_FrameWork.Config
 
         //Camp
         public static string CampBaseConfigJsonPath=Application.streamingAssetsPath+ "/Data/JsonData/Camp" + "/CampConfig.json";
+        //Order
+        public static string OrderConfigJsonPath= Application.streamingAssetsPath + "/Data/JsonData/Order" + "/OrderConfig.json";
 
     }
 }

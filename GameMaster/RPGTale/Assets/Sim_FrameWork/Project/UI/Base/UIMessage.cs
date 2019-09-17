@@ -37,5 +37,8 @@ namespace Sim_FrameWork
 
         UpdateBuildPanelData, //更新建造列表
         UpdateTime,//更新时间
+
+        ///Order
+        Order_Receive_Main
     }
 }

@@ -20,10 +20,8 @@ public class OrderMetaData : ExcelBase {
             data.Type = "";
             data.TimeLimit = i;
             data.OrderContent = "";
-            data.Reward = i;
             data.Rarity = (ushort)i;
-            data.AppearConfig = "";
-            data.DisAppearConfig = "";
+            data.OrderJsonConfig = "";
             AllOrderDataList.Add(data);
         }
 
@@ -84,7 +82,7 @@ public class OrderMetaData : ExcelBase {
 }
 
 
-[System.Serializable] 
+[System.Serializable]
 public class OrderData
 {
     [XmlAttribute]
@@ -102,13 +100,9 @@ public class OrderData
     [XmlAttribute]
     public string OrderContent { get; set; }
     [XmlAttribute]
-    public int Reward { get; set; }
-    [XmlAttribute]
     public ushort Rarity { get; set; }
     [XmlAttribute]
-    public string AppearConfig { get; set; }
-    [XmlAttribute]
-    public string DisAppearConfig { get; set; }
+    public string OrderJsonConfig { get; set; }
 }
 
 [System.Serializable]

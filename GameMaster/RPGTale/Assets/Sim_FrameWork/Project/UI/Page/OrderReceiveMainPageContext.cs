@@ -10,7 +10,7 @@ namespace Sim_FrameWork.UI
 
         public OrderReceiveMainPage m_page;
 
-
+        private Dictionary<string, OrderInfo> AllOrderContent;
 
         public override void Awake(params object[] paralist)
         {
@@ -21,6 +21,13 @@ namespace Sim_FrameWork.UI
 
         public override bool OnMessage(UIMessage msg)
         {
+            switch (msg.type)
+            {
+                case UIMsgType.Order_Receive_Main:
+                    AllOrderContent = (Dictionary<string, OrderInfo>)msg.content;
+                    InitOrderMainContent();
+                    return true;
+            }
             return true;
         }
 
@@ -44,9 +51,13 @@ namespace Sim_FrameWork.UI
         private void InitOrderMainContent()
         {
             //For Test
-            var obj= ObjectManager.Instance.InstantiateObject(UIPath.OrderMain_Content_Element_Path);
-            OrderReceiveElement element = obj.GetComponent<OrderReceiveElement>();
-
+            foreach(var info in AllOrderContent.Values)
+            {
+                var obj = ObjectManager.Instance.InstantiateObject(UIPath.OrderMain_Content_Element_Path);
+                var element = obj.GetComponent<OrderReceiveElement>();
+                element.InitOrderReceiveElement(info);
+                obj.transform.SetParent(m_page.OrderMainContent.transform);
+            }
         }
 
 

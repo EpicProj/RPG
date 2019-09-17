@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System;
 
 namespace Sim_FrameWork
 {
@@ -40,13 +41,19 @@ namespace Sim_FrameWork
                 return;
 
             var material = wareHouseInfo.materialStorageDataList.Find(x => x.material == ma);
+
+            Action<MaterialStorageData> sendMsg = (m) =>
+            {
+                UIManager.Instance.SendMessageToWnd(UIPath.WAREHOURSE_DIALOG, new UIMessage(UIMsgType.UpdateWarehouseData, m));
+            };
+
             if (material != null)
             {
                 material.count += count;
                 if (material.count > ma.BlockCapacity)
                 {
                     //超出上限 ,TODO
-                    UIManager.Instance.SendMessageToWnd(UIPath.WAREHOURSE_DIALOG,new UIMessage (UIMsgType.UpdateWarehouseData,material));
+                    sendMsg(material);
                 }
                 else if(material.count <= 0)
                 {
@@ -54,7 +61,7 @@ namespace Sim_FrameWork
                 }
                 else
                 {
-                    UIManager.Instance.SendMessageToWnd(UIPath.WAREHOURSE_DIALOG, new UIMessage(UIMsgType.UpdateWarehouseData,material));
+                    sendMsg(material);
                 }
                
             }
@@ -62,7 +69,7 @@ namespace Sim_FrameWork
             {
                 MaterialStorageData data = new MaterialStorageData(ma, count);
                 wareHouseInfo.materialStorageDataList.Add(data);
-                UIManager.Instance.SendMessageToWnd(UIPath.WAREHOURSE_DIALOG, new UIMessage (UIMsgType.UpdateWarehouseData,data));
+                sendMsg(material);
             }
         }
 

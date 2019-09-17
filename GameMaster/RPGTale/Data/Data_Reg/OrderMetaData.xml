@@ -9,10 +9,8 @@
 			<variable  name="Type" col = "Type" type="string"/>
 			<variable  name="TimeLimit" col = "TimeLimit" type="float"/>
 			<variable  name="OrderContent" col = "OrderContent" type="string"/>
-			<variable  name="Reward" col = "Reward" type="int"/>
 			<variable  name="Rarity" col = "Rarity" type="ushort"/>
-			<variable  name="AppearConfig" col = "AppearConfig" type="string"/>
-			<variable  name="DisAppearConfig" col = "DisAppearConfig" type="string"/>
+			<variable  name="OrderJsonConfig" col = "OrderJsonConfig" type="string"/>
 		</list>
 	</variable>
 

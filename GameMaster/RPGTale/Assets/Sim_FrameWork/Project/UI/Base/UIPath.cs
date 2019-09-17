@@ -61,6 +61,8 @@ namespace Sim_FrameWork
         public const string Construct_MainTab_Element_Path = "Assets/Prefabs/Object/Main/ConstructMainTabElement.prefab";
         ///订单主单位
         public const string OrderMain_Content_Element_Path = "Assets/Prefabs/Object/Order/OrderReceiveElement.prefab";
+        ///订单内容
+        public const string Order_Detail_Content_Element_Path = "Assets/Prefabs/Object/Order/OrderDetailElement.prefab";
         #endregion
 
     }

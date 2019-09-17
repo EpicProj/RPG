@@ -50,7 +50,7 @@ namespace Sim_FrameWork
         {
             TitleSprite.sprite = MaterialModule.GetMaterialSprite(ma.MaterialID);
             Name.text = MaterialModule.GetMaterialName(ma);
-            Desc.text = MaterialModule.GetmaterialDesc(ma);
+            Desc.text = MaterialModule.GetMaterialDesc(ma);
             TypeIcon.sprite = MaterialModule.GetMaterialMainTypeSprite(ma);
             TypeName.text = MaterialModule.GetMaterialMainTypeName(ma);
             SubTypeIcon.sprite = MaterialModule.GetMaterialSubTypeIcon(ma);
