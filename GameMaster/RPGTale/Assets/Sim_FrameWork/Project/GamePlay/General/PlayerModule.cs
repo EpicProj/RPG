@@ -74,7 +74,6 @@ namespace Sim_FrameWork
 
 
 
-
         #region BuildPanel Data
         public BuildingPanelData GetBuildingPanelDataByKey(int buildID)
         {

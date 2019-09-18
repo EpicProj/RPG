@@ -56,7 +56,7 @@ namespace Sim_FrameWork.UI
                 var obj = ObjectManager.Instance.InstantiateObject(UIPath.OrderMain_Content_Element_Path);
                 var element = obj.GetComponent<OrderReceiveElement>();
                 element.InitOrderReceiveElement(info);
-                obj.transform.SetParent(m_page.OrderMainContent.transform);
+                obj.transform.SetParent(m_page.OrderMainContent.transform,false);
             }
         }
 

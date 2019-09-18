@@ -19,7 +19,9 @@ namespace Sim_FrameWork
 
         public const string ITEM_UI_PATH = "ItemUIPrefab.prefab";
 
+        [HideInInspector]
         public Canvas MainCanvas;
+        [HideInInspector]
         public GraphicRaycaster raycaster;
         //游戏状态
         private GameStates _gameStates = GameStates.Start;
@@ -27,6 +29,7 @@ namespace Sim_FrameWork
         private GameObject PausePage;
 
         public static Config.GlobalSetting globalSettings =new Config.GlobalSetting ();
+
         protected override void Awake()
         {
             base.Awake();

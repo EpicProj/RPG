@@ -31,4 +31,17 @@ namespace Sim_FrameWork
         }
 
     }
+
+
+
+    public class OrganizationInfo
+    {
+        public string Name;
+        public string Desc;
+
+
+
+
+    }
+
 }

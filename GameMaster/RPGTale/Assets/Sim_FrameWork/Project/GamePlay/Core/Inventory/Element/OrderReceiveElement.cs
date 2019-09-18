@@ -42,7 +42,7 @@ namespace Sim_FrameWork.UI
                 var obj = ObjectManager.Instance.InstantiateObject(UIPath.Order_Detail_Content_Element_Path);
                 var element = obj.GetComponent<OrderDetailElement>();
                 element.InitOrderDetailElement(new MaterialInfo(kvp.Key), kvp.Value);
-                obj.transform.SetParent(OrderContent.transform);
+                obj.transform.SetParent(OrderContent.transform,false);
             }
         }
 

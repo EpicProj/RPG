@@ -22,6 +22,14 @@ namespace Sim_FrameWork
         /// 订单接收界面
         /// </summary>
         public const string Order_Receive_Main_Page = "Page/OrderReceiveMainPage";
+        /// <summary>
+        /// 开始界面
+        /// </summary>
+        public const string Game_Entry_Page = "Page/GameEntryPage";
+        /// <summary>
+        /// 场景加载界面
+        /// </summary>
+        public const string Scene_Loading_Page = "Page/LoadingPage";
 
         #endregion
 
@@ -65,5 +73,12 @@ namespace Sim_FrameWork
         public const string Order_Detail_Content_Element_Path = "Assets/Prefabs/Object/Order/OrderDetailElement.prefab";
         #endregion
 
+
+        public const string Scene_Loading = "LoadingScene";
+        public const string Scene_Test = "TestFactory";
+        public const string Scene_GameEntry = "GameEntry";
+            
+
     }
+
 }
