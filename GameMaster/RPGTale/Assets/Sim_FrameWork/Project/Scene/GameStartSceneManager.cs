@@ -23,7 +23,7 @@ namespace Sim_FrameWork
 
         private void RegisterUI()
         {
-            UIManager.Instance.Register<GameEntryPageContext>(UIPath.Game_Entry_Page);
+           
         }
 
     }

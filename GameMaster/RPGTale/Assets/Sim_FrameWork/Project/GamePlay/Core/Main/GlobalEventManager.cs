@@ -10,7 +10,7 @@ namespace Sim_FrameWork {
     /// </summary>
     public class GlobalEventManager : MonoSingleton<GlobalEventManager>{
 
-        public Dictionary<string, OrderInfo> AllOrderDic = new Dictionary<string, OrderInfo>();
+        public Dictionary<string, OrderItemBase> AllOrderDic = new Dictionary<string, OrderItemBase>();
 
 
 
@@ -29,11 +29,11 @@ namespace Sim_FrameWork {
         void Start()
         {
             //For test
-            RegisterOrder(new OrderInfo(1));
+            RegisterOrder(new OrderItemBase(1));
            
         }
 
-        public void RegisterOrder(OrderInfo order)
+        public void RegisterOrder(OrderItemBase order)
         {
             string strGUID = Guid.NewGuid().ToString();
             order.GUID = strGUID;

@@ -18,7 +18,6 @@ namespace Sim_FrameWork.UI
             Material
         }
 
-        public PlayerData playerData;
 
         public MainMenuPage m_page;
 
@@ -56,7 +55,6 @@ namespace Sim_FrameWork.UI
 
         public override void Awake(params object[] paralist)
         {
-            playerData = (PlayerData)paralist[0];
             InitBaseData();
             AddBtnListener();
             UpdateResData(ResourceType.All);
@@ -110,44 +108,27 @@ namespace Sim_FrameWork.UI
             switch (msg.type)
             {
                 #region Resource
-                case UIMsgType.Res_Currency:
-                    playerData = (PlayerData)msg.content;
-                    UpdateResData(ResourceType.Currency);
-                    return true;
+                case UIMsgType.Res_Currency:         
+                    return UpdateResData(ResourceType.Currency);
                 case UIMsgType.Res_Food:
-                    playerData.resourceData = (PlayerData.PlayerResourceData)msg.content;
-                    UpdateResData(ResourceType.Food);
-                    return true;
+                    return UpdateResData(ResourceType.Food);
                 case UIMsgType.Res_MonthFood:
-                    playerData.resourceData = (PlayerData.PlayerResourceData)msg.content;
-                    UpdateResMonthData(ResourceType.Food);
-                    return true;
+                    return UpdateResMonthData(ResourceType.Food);
                 case UIMsgType.Res_Labor:
-                    playerData.resourceData = (PlayerData.PlayerResourceData)msg.content;
-                    UpdateResData(ResourceType.Labor);
-                    return true;
+                    return UpdateResData(ResourceType.Labor);
                 case UIMsgType.Res_MonthLabor:
-                    playerData.resourceData = (PlayerData.PlayerResourceData)msg.content;
-                    UpdateResMonthData(ResourceType.Labor);
-                    return true;
+                    return UpdateResMonthData(ResourceType.Labor);
                 case UIMsgType.Res_Energy:
-                    playerData.resourceData = (PlayerData.PlayerResourceData)msg.content;
-                    UpdateResData(ResourceType.Energy);
-                    return true;
+                    return UpdateResData(ResourceType.Energy);
                 case UIMsgType.Res_MonthEnergy:
-                    playerData.resourceData = (PlayerData.PlayerResourceData)msg.content;
-                    UpdateResMonthData(ResourceType.Energy);
-                    return true;
+                    return UpdateResMonthData(ResourceType.Energy);
                 #endregion
                 case UIMsgType.UpdateBuildPanelData:
                     //更新建造列表
-                    playerData.UnLockBuildingPanelDataList = (List<BuildingPanelData>)msg.content;
                     return true;
                 case  UIMsgType.UpdateTime:
                     //更新时间
-                    playerData.timeData = (TimeData)msg.content;
-                    UpdateTimePanel();
-                    return true;
+                    return UpdateTimePanel();
                 default:
                     return false;
             }
@@ -156,77 +137,89 @@ namespace Sim_FrameWork.UI
             
         }
 
-        private void UpdateTimePanel()
+        private bool UpdateTimePanel()
         {
-            CurrentMonthText.text = playerData.timeData.currentMonth.ToString();
-            CurrentYearText.text = playerData.timeData.currentYear.ToString();
-            CurrentSeasonText.text = PlayerModule.Instance.GetSeasonName((int)playerData.timeData.currentSeason);
-            SeasonSprite.sprite = PlayerModule.Instance.GetSeasonSprite((int)playerData.timeData.currentSeason);
+            var timedata = PlayerManager.Instance.playerData.timeData;
+            if (timedata == null)
+                return false;
+            CurrentMonthText.text = timedata.currentMonth.ToString();
+            CurrentYearText.text = timedata.currentYear.ToString();
+            CurrentSeasonText.text = PlayerModule.Instance.GetSeasonName((int)PlayerManager.Instance.playerData.timeData.currentSeason);
+            SeasonSprite.sprite = PlayerModule.Instance.GetSeasonSprite((int)PlayerManager.Instance.playerData.timeData.currentSeason);
+            return true;
         }
         private void UpdateTimeProgress()
         {
             if (GameManager.Instance.gameStates == GameManager.GameStates.Pause)
                 return;
             currentTimeProgress+=Time.deltaTime;
-            if (currentTimeProgress >= playerData.timeData.realSecondsPerMonth)
+            if (currentTimeProgress >= PlayerManager.Instance.playerData.timeData.realSecondsPerMonth)
             {
                 currentTimeProgress = 0;
             }
-            m_page.TimeSlider.value = currentTimeProgress / playerData.timeData.realSecondsPerMonth;
+            m_page.TimeSlider.value = currentTimeProgress / PlayerManager.Instance.playerData.timeData.realSecondsPerMonth;
         }
 
         /// <summary>
         /// 更新当前资源
         /// </summary>
         /// <param name="type"></param>
-        public void UpdateResData(ResourceType type)
+        public bool UpdateResData(ResourceType type)
         {
+            var data = PlayerManager.Instance.playerData.resourceData;
+            if (data == null)
+                return false;
             switch (type)
             {
                 case ResourceType.All:
-                    CurrencyNumText.text = playerData.resourceData.Currency.ToString();
-                    FoodNumText.text = playerData.resourceData.Food.ToString();
-                    LaborNumText.text = playerData.resourceData.Labor.ToString();
-                    EnergyNumText.text = playerData.resourceData.Energy.ToString();
-                    break;
+                    CurrencyNumText.text = data.Currency.ToString();
+                    FoodNumText.text = data.Food.ToString();
+                    LaborNumText.text = data.Labor.ToString();
+                    EnergyNumText.text = data.Energy.ToString();
+                    return true;
                 case ResourceType.Currency:
-                    CurrencyNumText.text = playerData.resourceData.Currency.ToString();
-                    break;
+                    CurrencyNumText.text = data.Currency.ToString();
+                    return true;
                 case ResourceType.Food:
-                    FoodNumText.text = playerData.resourceData.Food.ToString();
-                    break;
+                    FoodNumText.text = data.Food.ToString();
+                    return true;
                 case ResourceType.Labor:
-                    LaborNumText.text = playerData.resourceData.Labor.ToString();
-                    break;
+                    LaborNumText.text = data.Labor.ToString();
+                    return true;
                 case ResourceType.Energy:
-                    EnergyNumText.text = playerData.resourceData.Energy.ToString();
-                    break;
+                    EnergyNumText.text = data.Energy.ToString();
+                    return true;
                 default:
-                    break;
+                    return false;
             }   
         }
         /// <summary>
         /// 更新当前资源增加值
         /// </summary>
         /// <param name="type"></param>
-        public void UpdateResMonthData(ResourceType type)
+        public bool UpdateResMonthData(ResourceType type)
         {
+            var data = PlayerManager.Instance.playerData.resourceData;
+            if (data == null)
+                return false;
             switch (type)
             {
                 case ResourceType.All:
-                    FoodAddNumText.text = "+" + playerData.resourceData.FoodPerMonth.ToString();
-                    EnergyAddNumText.text = "+" + playerData.resourceData.EnergyPerMonth.ToString();
-                    LaborAddNumText.text = "+" + playerData.resourceData.LaborPerMonth.ToString();
-                    break;
+                    FoodAddNumText.text = "+" + data.FoodPerMonth.ToString();
+                    EnergyAddNumText.text = "+" + data.EnergyPerMonth.ToString();
+                    LaborAddNumText.text = "+" + data.LaborPerMonth.ToString();
+                    return true;
                 case ResourceType.Energy:
-                    EnergyAddNumText.text = "+" + playerData.resourceData.EnergyPerMonth.ToString();
-                    break;
+                    EnergyAddNumText.text = "+" + data.EnergyPerMonth.ToString();
+                    return true;
                 case ResourceType.Food:
-                    FoodAddNumText.text = "+" + playerData.resourceData.FoodPerMonth.ToString();
-                    break;
+                    FoodAddNumText.text = "+" + data.FoodPerMonth.ToString();
+                    return true;
                 case ResourceType.Labor:
-                    LaborAddNumText.text = "+" + playerData.resourceData.LaborPerMonth.ToString();
-                    break;
+                    LaborAddNumText.text = "+" + data.LaborPerMonth.ToString();
+                    return true;
+                default:
+                    return false;
             }
         }
 
@@ -235,7 +228,7 @@ namespace Sim_FrameWork.UI
         {
             AddButtonClickListener(m_page.MaterialBtn, ()=>
             {
-                UIManager.Instance.PopUpWnd(UIPath.WAREHOURSE_DIALOG, true,playerData.wareHouseInfo);
+                UIManager.Instance.PopUpWnd(UIPath.WAREHOURSE_DIALOG, true, PlayerManager.Instance.playerData.wareHouseInfo);
             });
             AddButtonClickListener(PauseBtn, () =>
             {
@@ -267,7 +260,7 @@ namespace Sim_FrameWork.UI
         {
             CampValueMinText.text = CampModule.campConfig.minValue.ToString();
             CampValueMaxText.text = CampModule.campConfig.maxValue.ToString();
-            CampValueCurrentText.text = playerData.campData.Current_Justice_Value.ToString();
+            CampValueCurrentText.text = PlayerManager.Instance.playerData.campData.Current_Justice_Value.ToString();
             
             UpdateCampPointer();
 
@@ -275,17 +268,17 @@ namespace Sim_FrameWork.UI
         private void UpdateCampPointer()
         {
             //更新指针
-            if (playerData.campData.Current_Justice_Value == 0)
+            if (PlayerManager.Instance.playerData.campData.Current_Justice_Value == 0)
             {
                 SetCampPointerPos(CampRotateValue_Zero);
             }
-            else if (playerData.campData.Current_Justice_Value > 0)
+            else if (PlayerManager.Instance.playerData.campData.Current_Justice_Value > 0)
             {
-                float ratio= playerData.campData.Current_Justice_Value / Mathf.Abs(CampModule.campConfig.maxValue);
+                float ratio= PlayerManager.Instance.playerData.campData.Current_Justice_Value / Mathf.Abs(CampModule.campConfig.maxValue);
                 SetCampPointerPos((CampRotateValue_Max - CampRotateValue_Zero) * ratio);
-            }else if (playerData.campData.Current_Justice_Value < 0)
+            }else if (PlayerManager.Instance.playerData.campData.Current_Justice_Value < 0)
             {
-                float ratio = playerData.campData.Current_Justice_Value / Mathf.Abs(CampModule.campConfig.minValue);
+                float ratio = PlayerManager.Instance.playerData.campData.Current_Justice_Value / Mathf.Abs(CampModule.campConfig.minValue);
                 SetCampPointerPos((CampRotateValue_Zero - CampRotateValue_Min) * ratio);
             }
         }
@@ -300,11 +293,11 @@ namespace Sim_FrameWork.UI
         #region BuildPanel
         public void InitBuildPanel()
         {
-            for(int i = 0; i < playerData.UnLockBuildingPanelDataList.Count; i++)
+            for(int i = 0; i < PlayerManager.Instance.playerData.UnLockBuildingPanelDataList.Count; i++)
             {
                 GameObject buildObj = ObjectManager.Instance.InstantiateObject(UIPath.BUILD_ELEMENT_PREFAB_PATH);
                 BlockBuildElement element = buildObj.GetComponent<BlockBuildElement>();
-                element.InitBuildElement(playerData.UnLockBuildingPanelDataList[i]);
+                element.InitBuildElement(PlayerManager.Instance.playerData.UnLockBuildingPanelDataList[i]);
                 buildObj.transform.SetParent(m_page.BuildContent.transform, false);
             }
         }

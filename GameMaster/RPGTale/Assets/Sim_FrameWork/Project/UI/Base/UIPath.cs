@@ -29,7 +29,7 @@ namespace Sim_FrameWork
         /// <summary>
         /// 场景加载界面
         /// </summary>
-        public const string Scene_Loading_Page = "Page/LoadingPage";
+        public const string Loading_Scene_Page = "Page/LoadingPage";
 
         #endregion
 

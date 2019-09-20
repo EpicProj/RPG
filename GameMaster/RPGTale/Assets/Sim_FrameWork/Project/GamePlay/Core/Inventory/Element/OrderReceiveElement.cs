@@ -16,16 +16,16 @@ namespace Sim_FrameWork.UI
         public GameObject OrderContent;
         public GameObject OrderRewardContent;
 
-        private OrderInfo orderInfo;
+        private OrderItemBase orderItem;
 
 
-        public void InitOrderReceiveElement(OrderInfo info)
+        public void InitOrderReceiveElement(OrderItemBase item)
         {
-            orderInfo = info;
-            TitleName.text = info.Name;
-            TitleDesc.text = info.Desc;
-            OrderBG.sprite = info.BG;
-            InitOrderDetailElment(info);
+            orderItem = item;
+            TitleName.text = item.Name;
+            TitleDesc.text = item.Desc;
+            OrderBG.sprite = item.BG;
+            InitOrderDetailElment(item);
 
             
         }
@@ -34,9 +34,9 @@ namespace Sim_FrameWork.UI
         /// 生成订单详情
         /// </summary>
         /// <param name="info"></param>
-        public void InitOrderDetailElment(OrderInfo info)
+        public void InitOrderDetailElment(OrderItemBase item)
         {
-            var dic = info.OrderContentDic;
+            var dic = item.OrderContentDic;
             foreach(KeyValuePair<Material,int> kvp in dic)
             {
                 var obj = ObjectManager.Instance.InstantiateObject(UIPath.Order_Detail_Content_Element_Path);

@@ -33,18 +33,26 @@ namespace Sim_FrameWork
         protected override void Awake()
         {
             base.Awake();
+            DontDestroyOnLoad(gameObject);
             AssetBundleManager.Instance.LoadAssetBundleConfig();
             ResourceManager.Instance.Init(this);
             ObjectManager.Instance.Init(transform.Find("RecyclePoolTrs"), transform.Find("SceneTrs"));
             UIManager.Instance.Init(GameObject.Find("MainCanvas").transform as RectTransform, GameObject.Find("MainCanvas/Window").transform as RectTransform, GameObject.Find("MainCanvas/UICamera").GetComponent<Camera>(), GameObject.Find("MainCanvas/EventSystem").GetComponent<EventSystem>());
+
             MainCanvas = GameObject.Find("MainCanvas").GetComponent<Canvas>();
             raycaster = MainCanvas.GetComponent<GraphicRaycaster>();
-            PausePage = MainCanvas.transform.Find("Window/PausePage").gameObject;
+            PausePage = GameObject.Find("MainCanvas/Window/PausePage").gameObject;
             PausePage.transform.GetComponent<CanvasGroup>().alpha = 0;
             globalSettings.LoadGlobalSettting();
 
             RegisterModule();
             RegisterUI();
+        }
+
+        public void InitMainPage()
+        {
+        
+          
         }
 
 
@@ -69,7 +77,8 @@ namespace Sim_FrameWork
             UIManager.Instance.Register<BlockInfoDialogContent>(UIPath.FUNCTIONBLOCK_INFO_DIALOG);
             UIManager.Instance.Register<WareHouseDialogContent>(UIPath.WAREHOURSE_DIALOG);
             UIManager.Instance.Register<MainMenuPageContext>(UIPath.MainMenu_Page);
-           
+            UIManager.Instance.Register<GameEntryPageContext>(UIPath.Game_Entry_Page);
+            UIManager.Instance.Register<LoadingPageContext>(UIPath.Loading_Scene_Page);
 
         }
 

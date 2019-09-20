@@ -8,7 +8,6 @@ namespace Sim_FrameWork
 {
     public class GameDataSaveManager : MonoSingleton<GameDataSaveManager>
     {
-        private static string SaveFilePath = Application.persistentDataPath + "Save.sav";
 
 
         protected override void Awake()
@@ -59,6 +58,8 @@ namespace Sim_FrameWork
             //For Test
             GameSaveData gameSave = Create_gameSaveData();
 
+            string SaveFilePath = Application.persistentDataPath + "Save.sav";
+
             BinaryFormatter bf = new BinaryFormatter();
             FileStream stream = File.Create(SaveFilePath);
             bf.Serialize(stream, gameSave);
@@ -74,6 +75,7 @@ namespace Sim_FrameWork
 
         private void LoadSaveByBin()
         {
+            string SaveFilePath = Application.persistentDataPath + "Save.sav";
             if (File.Exists(SaveFilePath))
             {
                 BinaryFormatter bf = new BinaryFormatter();

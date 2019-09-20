@@ -123,6 +123,10 @@ namespace Sim_FrameWork
 
     }
 
+
+
+    #region Order Config
+
     public class OrderConfig
     {
         public int order_max_count_default;
@@ -170,7 +174,7 @@ namespace Sim_FrameWork
 
         public class OrderAppearConfig
         {
-
+            
         }
 
         public class OrderDisAppearConfig
@@ -179,41 +183,5 @@ namespace Sim_FrameWork
         }
 
     }
-
-
-
-
-    public class OrderInfo
-    {
-        public string GUID;
-        public string Name;
-        public string Desc;
-        public Sprite BG;
-        public float OrderTime;
-
-        public Dictionary<Material, int> OrderContentDic;
-        public OrderContent.OrderReward rewardData;
-
-
-        ///Order actual
-        public float remainTime;
-
-
-        public OrderInfo(int orderID)
-        {
-            var data = OrderModule.GetOrderDataByID(orderID);
-            Name = OrderModule.GetOrderName(data);
-            Desc = OrderModule.GetOrderDesc(data);
-            BG = OrderModule.GetOrderBGPath(data);
-            OrderContentDic = OrderModule.GetOrderContent(data);
-            OrderTime = data.TimeLimit;
-            remainTime = OrderTime;
-
-            rewardData = OrderModule.Instance.GetOrderRewardData(data);
-        }
-
-
-
-    }
-
+    #endregion
 }
