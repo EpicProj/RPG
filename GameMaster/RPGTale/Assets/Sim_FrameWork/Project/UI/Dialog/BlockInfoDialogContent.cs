@@ -60,20 +60,20 @@ namespace Sim_FrameWork.UI
             blockInfo = (FunctionBlockInfoData)paralist[0];
             manufactoryInfo = (ManufactoryInfo)paralist[1];
 
-            m_dialog = GameObject.GetComponent<BlockInfoDialog>();
-            slotPanel = m_dialog.DistrictSlotContent.GetComponent<DistrictContentSlotPanel>();
-            manuSlotPanel = m_dialog.ManufactPanel.GetComponent<BlockManufactSlotPanel>();
+            m_dialog = UIUtility.SafeGetComponent<BlockInfoDialog>(Transform);
+            slotPanel = UIUtility.SafeGetComponent<DistrictContentSlotPanel>(m_dialog.DistrictSlotContent.transform);
+            manuSlotPanel = UIUtility.SafeGetComponent<BlockManufactSlotPanel>(m_dialog.ManufactPanel.transform);
             InputSlotContent = manuSlotPanel.transform.Find("InputSlotContent");
             OutputSlotContent = manuSlotPanel.transform.Find("Output/OutputSlotContent");
             ByproductSlotContent = manuSlotPanel.transform.Find("Output/ByproductSlotContent");
             //Level
-           
-            LvValue = m_dialog.LevelValue.transform.Find("Value").GetComponent<Text>();
+
+            LvValue = UIUtility.SafeGetComponent<Text>(m_dialog.LevelValue.transform.Find("Value"));
             m_dialog.InherentLevelText.text = FunctionBlockModule.GetCurrentInherentLevelName(manufactoryInfo.inherentLevelData);
 
-            clostBtn = GameObject.Find("Btn").GetComponent<Button>();
-            ProgressImage = m_dialog.Processbar.transform.Find("Progress").GetComponent<Image>();
-            ProcessIndicator = m_dialog.Processbar.transform.Find("Indicator").GetComponent<Text>();
+            clostBtn = UIUtility.SafeGetComponent<Button>(GameObject.Find("Btn").transform);
+            ProgressImage = UIUtility.SafeGetComponent<Image>(m_dialog.Processbar.transform.Find("Progress"));
+            ProcessIndicator = UIUtility.SafeGetComponent<Text>(m_dialog.Processbar.transform.Find("Indicator"));
             AddBtnListener();
             InitInfoPanel();
             InitBaseData();
@@ -182,14 +182,14 @@ namespace Sim_FrameWork.UI
 
         private void InitInfoPanel()
         {
-            m_dialog.InfoData.transform.Find("Speed/Info/Item/Text").GetComponent<Text>().text = MultiLanguage.Instance.GetTextValue(INFOPANEL_MANUSPEED_TITLE);
-            SpeedText = m_dialog.InfoData.transform.Find("Speed/Value/Value").GetComponent<Text>();
-            m_dialog.InfoData.transform.Find("Energy/Info/Item/Text").GetComponent<Text>().text = MultiLanguage.Instance.GetTextValue(INFOPANEL_ENERGY_TITLE);
-            EnergyText = m_dialog.InfoData.transform.Find("Energy/Value/Value").GetComponent<Text>();
-            m_dialog.InfoData.transform.Find("Maintain/Info/Item/Text").GetComponent<Text>().text = MultiLanguage.Instance.GetTextValue(INFOPANEL_MAINTAIN_TITLE);
-            MaintianText= m_dialog.InfoData.transform.Find("Maintain/Value/Value").GetComponent<Text>();
-            m_dialog.InfoData.transform.Find("Worker/Info/Item/Text").GetComponent<Text>().text = MultiLanguage.Instance.GetTextValue(INFOPANEL_WOEKER_TITLE);
-            WorkerText = m_dialog.InfoData.transform.Find("Worker/Value/Value").GetComponent<Text>();
+            UIUtility.SafeGetComponent<Text>(m_dialog.InfoData.transform.Find("Speed/Info/Item/Text")).text = MultiLanguage.Instance.GetTextValue(INFOPANEL_MANUSPEED_TITLE);
+            SpeedText = UIUtility.SafeGetComponent<Text>(m_dialog.InfoData.transform.Find("Speed/Value/Value"));
+            UIUtility.SafeGetComponent<Text>(m_dialog.InfoData.transform.Find("Energy/Info/Item/Text")).text = MultiLanguage.Instance.GetTextValue(INFOPANEL_ENERGY_TITLE);
+            EnergyText = UIUtility.SafeGetComponent<Text>(m_dialog.InfoData.transform.Find("Energy/Value/Value"));
+            UIUtility.SafeGetComponent<Text>(m_dialog.InfoData.transform.Find("Maintain/Info/Item/Text")).text = MultiLanguage.Instance.GetTextValue(INFOPANEL_MAINTAIN_TITLE);
+            MaintianText = UIUtility.SafeGetComponent<Text>(m_dialog.InfoData.transform.Find("Maintain/Value/Value"));
+            UIUtility.SafeGetComponent<Text>(m_dialog.InfoData.transform.Find("Worker/Info/Item/Text")).text = MultiLanguage.Instance.GetTextValue(INFOPANEL_WOEKER_TITLE);
+            WorkerText = UIUtility.SafeGetComponent<Text>(m_dialog.InfoData.transform.Find("Worker/Value/Value"));
             RefreshInfoText(manufactoryInfo.CurrentSpeed, InfoType.Speed);
             RefreshInfoText(manufactoryInfo.EnergyCostNormal, InfoType.Energy);
             RefreshInfoText(manufactoryInfo.WorkerNum, InfoType.Worker);
@@ -312,8 +312,8 @@ namespace Sim_FrameWork.UI
         {
             for(int i = 0; i < blockInfo.ActiveDistrictBuildList.Count; i++)
             {
-                GameObject districtBuild = ObjectManager.Instance.InstantiateObject(UIPath.DISTRICT_BUILD_PREFAB_PATH);
-                DistrictBuildElement element = districtBuild.GetComponent<DistrictBuildElement>();
+                var districtBuild = ObjectManager.Instance.InstantiateObject(UIPath.DISTRICT_BUILD_PREFAB_PATH);
+                var element = UIUtility.SafeGetComponent<DistrictBuildElement>(districtBuild.transform);
                 element.InitCostElementData(blockInfo.ActiveDistrictBuildList[i]);
                 districtBuild.transform.SetParent(m_dialog.BuildContent.transform, false);
             }

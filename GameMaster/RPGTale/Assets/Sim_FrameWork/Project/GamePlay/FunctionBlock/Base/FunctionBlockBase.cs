@@ -120,7 +120,7 @@ namespace Sim_FrameWork
         /// 区划底信息
         /// </summary>
         public Dictionary<Vector2, DistrictAreaBase> currentDistrictBaseDic;
-        public FunctionBlockModifier blockModifier = new FunctionBlockModifier();
+        public FunctionBlockModifier blockModifier;
 
         public List<BlockDistrictUnlockData.DistrictUnlockData> districtUnlockDataList;
         public List<DistrictData> ActiveDistrictBuildList=new List<DistrictData> ();

@@ -65,26 +65,26 @@ namespace Sim_FrameWork.UI
 
         private void InitBaseData()
         {
-            m_page = GameObject.GetComponent<MainMenuPage>();
+            m_page = UIUtility.SafeGetComponent<MainMenuPage>(Transform);
             //Resource
-            CurrencyNumText = m_page.Currency.transform.Find("Num").GetComponent<Text>();
-            FoodNumText = m_page.Food.transform.Find("Num").GetComponent<Text>();
-            FoodAddNumText = m_page.Food.transform.Find("AddNum").GetComponent<Text>();
-            LaborNumText= m_page.Labor.transform.Find("Num").GetComponent<Text>();
-            LaborAddNumText= m_page.Labor.transform.Find("AddNum").GetComponent<Text>();
-            EnergyNumText= m_page.Energy.transform.Find("Num").GetComponent<Text>();
-            EnergyAddNumText = m_page.Energy.transform.Find("AddNum").GetComponent<Text>();
+            CurrencyNumText = UIUtility.SafeGetComponent<Text>(m_page.Currency.transform.Find("Num"));
+            FoodNumText = UIUtility.SafeGetComponent<Text>(m_page.Food.transform.Find("Num"));
+            FoodAddNumText = UIUtility.SafeGetComponent<Text>(m_page.Food.transform.Find("AddNum"));
+            LaborNumText = UIUtility.SafeGetComponent<Text>(m_page.Labor.transform.Find("Num"));
+            LaborAddNumText = UIUtility.SafeGetComponent<Text>(m_page.Labor.transform.Find("AddNum"));
+            EnergyNumText = UIUtility.SafeGetComponent<Text>(m_page.Energy.transform.Find("Num"));
+            EnergyAddNumText = UIUtility.SafeGetComponent<Text>(m_page.Energy.transform.Find("AddNum"));
             //Camp
-            CampValueMinText = m_page.CampValue.transform.Find("ValueMin").GetComponent<Text>();
-            CampValueMaxText = m_page.CampValue.transform.Find("ValueMax").GetComponent<Text>();
-            CampValueCurrentText = m_page.CampContent.transform.Find("Value").GetComponent<Text>();
+            CampValueMinText = UIUtility.SafeGetComponent<Text>(m_page.CampValue.transform.Find("ValueMin"));
+            CampValueMaxText = UIUtility.SafeGetComponent<Text>(m_page.CampValue.transform.Find("ValueMax"));
+            CampValueCurrentText = UIUtility.SafeGetComponent<Text>(m_page.CampContent.transform.Find("Value"));
             CampPointer = m_page.CampValue.transform.Find("Current").gameObject;
 
-            CurrentYearText = m_page.TimePanel.transform.Find("Time/CurrentYear").GetComponent<Text>();
-            CurrentMonthText= m_page.TimePanel.transform.Find("Time/CurrentMonth").GetComponent<Text>();
-            CurrentSeasonText= m_page.TimePanel.transform.Find("Time/Season").GetComponent<Text>();
-            SeasonSprite = m_page.TimePanel.transform.Find("Time/SeasonIcon").GetComponent<Image>();
-            PauseBtn = m_page.GameStatesObj.transform.Find("Pause").GetComponent<Button>();
+            CurrentYearText = UIUtility.SafeGetComponent<Text>(m_page.TimePanel.transform.Find("Time/CurrentYear"));
+            CurrentMonthText = UIUtility.SafeGetComponent<Text>(m_page.TimePanel.transform.Find("Time/CurrentMonth"));
+            CurrentSeasonText = UIUtility.SafeGetComponent<Text>(m_page.TimePanel.transform.Find("Time/Season"));
+            SeasonSprite = UIUtility.SafeGetComponent<Image>(m_page.TimePanel.transform.Find("Time/SeasonIcon"));
+            PauseBtn = UIUtility.SafeGetComponent<Button>(m_page.GameStatesObj.transform.Find("Pause"));
 
             //Update Time
             UpdateTimePanel();
@@ -285,7 +285,7 @@ namespace Sim_FrameWork.UI
         private void SetCampPointerPos(float pos)
         {
             //TODO BUG
-            CampPointer.transform.GetComponent<RectTransform>().localRotation = new Quaternion(0f, 0f,pos, 0f);
+            UIUtility.SafeGetComponent<RectTransform>(CampPointer.transform).localRotation = new Quaternion(0f, 0f,pos, 0f);
         }
 
         #endregion
@@ -296,7 +296,7 @@ namespace Sim_FrameWork.UI
             for(int i = 0; i < PlayerManager.Instance.playerData.UnLockBuildingPanelDataList.Count; i++)
             {
                 GameObject buildObj = ObjectManager.Instance.InstantiateObject(UIPath.BUILD_ELEMENT_PREFAB_PATH);
-                BlockBuildElement element = buildObj.GetComponent<BlockBuildElement>();
+                BlockBuildElement element = UIUtility.SafeGetComponent<BlockBuildElement>(buildObj.transform);
                 element.InitBuildElement(PlayerManager.Instance.playerData.UnLockBuildingPanelDataList[i]);
                 buildObj.transform.SetParent(m_page.BuildContent.transform, false);
             }
@@ -308,7 +308,7 @@ namespace Sim_FrameWork.UI
             for(int i = 0; i < mainTypeList.Count; i++)
             {
                 GameObject mainTab = ObjectManager.Instance.InstantiateObject(UIPath.Construct_MainTab_Element_Path);
-                ConstructMainTabElement element = mainTab.GetComponent<ConstructMainTabElement>();
+                ConstructMainTabElement element = UIUtility.SafeGetComponent<ConstructMainTabElement>(mainTab.transform);
                 element.InitMainTabElement(mainTypeList[i]);
                 mainTab.transform.SetParent(m_page.BuildTabContent.transform, false);
             }

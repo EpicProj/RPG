@@ -40,9 +40,9 @@ namespace Sim_FrameWork
             UIManager.Instance.Init(GameObject.Find("MainCanvas").transform as RectTransform, GameObject.Find("MainCanvas/Window").transform as RectTransform, GameObject.Find("MainCanvas/UICamera").GetComponent<Camera>(), GameObject.Find("MainCanvas/EventSystem").GetComponent<EventSystem>());
 
             MainCanvas = GameObject.Find("MainCanvas").GetComponent<Canvas>();
-            raycaster = MainCanvas.GetComponent<GraphicRaycaster>();
+            raycaster = UIUtility.SafeGetComponent<GraphicRaycaster>(MainCanvas.transform); 
             PausePage = GameObject.Find("MainCanvas/Window/PausePage").gameObject;
-            PausePage.transform.GetComponent<CanvasGroup>().alpha = 0;
+            UIUtility.SafeGetComponent<CanvasGroup>(PausePage.transform).alpha = 0;
             globalSettings.LoadGlobalSettting();
 
             RegisterModule();

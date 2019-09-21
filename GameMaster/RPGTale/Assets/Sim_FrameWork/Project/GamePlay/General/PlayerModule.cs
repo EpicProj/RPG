@@ -240,7 +240,7 @@ namespace Sim_FrameWork
         public int OriginYear;
         //当前时间
         public Season currentSeason;
-        public int currentMonth;
+        public ushort currentMonth;
         public int currentYear;
 
         public float realSecondsPerMonth;
@@ -253,6 +253,7 @@ namespace Sim_FrameWork
             currentSeason = PlayerModule.ConvertMonthToSeason(timeConfig.OriginalMonth);
             realSecondsPerMonth = timeConfig.RealSecondsPerMonth;
         }
+        
 
     }
 
@@ -309,7 +310,7 @@ namespace Sim_FrameWork
     public class TimeDataConfig
     {
         public int OriginalYear;
-        public int OriginalMonth;
+        public ushort OriginalMonth;
         public float RealSecondsPerMonth;
         public List<SeasonConfig> SeasonConfigList;
 

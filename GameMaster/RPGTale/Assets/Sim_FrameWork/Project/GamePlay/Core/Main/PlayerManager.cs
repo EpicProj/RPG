@@ -132,6 +132,23 @@ namespace Sim_FrameWork
 
         }
 
+        public void AddReputation(int num,ResourceAddType type,Action callback = null)
+        {
+            switch (type)
+            {
+                case ResourceAddType.current:
+                    playerData.resourceData.AddReputation(num);
+                    callback?.Invoke();
+                    break;
+                case ResourceAddType.max:
+                    playerData.resourceData.AddReputationMax(num);
+                    callback?.Invoke();
+                    break;
+                default:
+                    break;
+            }
+        }
+
 
         public void AddMaterialData(int materialId, ushort count)
         {
@@ -167,6 +184,24 @@ namespace Sim_FrameWork
                 playerData.timeData.currentSeason = PlayerModule.ConvertMonthToSeason(playerData.timeData.currentMonth);
                 UIManager.Instance.SendMessageToWnd(UIPath.MainMenu_Page, new UIMessage(UIMsgType.UpdateTime));
             }
+        }
+
+        /// <summary>
+        /// 获取当前时间
+        /// </summary>
+        /// <returns></returns>
+        public TimeData getCurrentTime()
+        {
+            return playerData.timeData;
+        }
+
+        public int GetCurrentYearTime()
+        {
+            return playerData.timeData.currentYear;
+        }
+        public ushort GetCurrentMonthTime()
+        {
+            return playerData.timeData.currentMonth;
         }
 
 

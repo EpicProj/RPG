@@ -11,7 +11,7 @@ namespace Sim_FrameWork.UI
 
         public override void Awake(params object[] paralist)
         {
-            m_page = GameObject.GetComponent<GameEntryPage>();
+            m_page = UIUtility.SafeGetComponent<GameEntryPage>(Transform);
             AddBtnListener();
         }
 

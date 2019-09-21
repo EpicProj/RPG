@@ -60,13 +60,7 @@ namespace Sim_FrameWork
             trans.localPosition = localPos;
         }
 
-        //Reset Transform
-        public void TransIdentity(Transform trans)
-        {
-            trans.localPosition = Vector3.zero;
-            trans.localScale = Vector3.one;
-            trans.localRotation = Quaternion.identity;
-        }
+  
 
         //Timer
         public void Delay(float time,Action onFinish)

@@ -12,7 +12,7 @@ namespace Sim_FrameWork.UI
 
         public override void Awake(params object[] paralist)
         {
-            m_page = GameObject.GetComponent<OrderReceiveMainPage>();
+            m_page = UIUtility.SafeGetComponent<OrderReceiveMainPage>(Transform);
             AddBtnListener();
         }
 
@@ -54,8 +54,7 @@ namespace Sim_FrameWork.UI
             foreach(var info in orderContent.Values)
             {
                 var obj = ObjectManager.Instance.InstantiateObject(UIPath.OrderMain_Content_Element_Path);
-                var element = obj.GetComponent<OrderReceiveElement>();
-                element.InitOrderReceiveElement(info);
+                var element = UIUtility.SafeGetComponent<OrderReceiveElement>(obj.transform);
                 obj.transform.SetParent(m_page.OrderMainContent.transform,false);
             }
             return true;

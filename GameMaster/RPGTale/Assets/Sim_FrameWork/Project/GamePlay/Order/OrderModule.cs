@@ -72,6 +72,8 @@ namespace Sim_FrameWork
             return Utility.LoadSprite(order.BGPath, Utility.SpriteType.png);
         }
 
+ 
+
         /// <summary>
         /// Get Order Content
         /// </summary>
@@ -104,14 +106,13 @@ namespace Sim_FrameWork
         {
             return config.FindOrderContent(data.OrderJsonConfig).Reward;
         }
-        public Dictionary<Material,int> GetOrderRewardMaterial(OrderData data)
+        public Dictionary<Material,ushort> GetOrderRewardMaterial(OrderContent.OrderReward reward)
         {
-            var reward = GetOrderRewardData(data);
-            Dictionary<Material, int> result = new Dictionary<Material, int>();
+            Dictionary<Material, ushort> result = new Dictionary<Material, ushort>();
 
-            foreach(KeyValuePair<string,int> kvp in reward.Reward_Mateiral)
+            foreach(KeyValuePair<string, ushort> kvp in reward.Reward_Mateiral)
             {
-                var ma = MaterialModule.GetMaterialByMaterialID(int.Parse(kvp.Key));
+                var ma = MaterialModule.GetMaterialByMaterialID(Utility.TryParseInt(kvp.Key));
                 if (ma != null)
                 {
                     result.Add(ma, kvp.Value);
@@ -120,7 +121,96 @@ namespace Sim_FrameWork
             return result;
         }
 
+        #region Type
 
+        public static string GetOrderTypeName(OrderTypeData data)
+        {
+            return MultiLanguage.Instance.GetTextValue(data.Name);
+        }
+        public static string GetOrderTypeDesc(OrderTypeData data)
+        {
+            return MultiLanguage.Instance.GetTextValue(data.Desc);
+        }
+        public static Sprite GetOrderIconPath(OrderTypeData data)
+        {
+            return Utility.LoadSprite(data.IconPath, Utility.SpriteType.png);
+        }
+
+        /// <summary>
+        /// 获取类型信息
+        /// </summary>
+        /// <param name="order"></param>
+        /// <returns></returns>
+        public static OrderTypeInfo GetOrderTypeInfo(OrderData order)
+        {
+            Func<OrderData, OrderTypeData> getData = (d) =>
+            {
+                OrderTypeData data = null;
+                OrderTypeDataDic.TryGetValue(d.Type, out data);
+                if (data == null)
+                {
+                    Debug.LogError("OrderType Error , Type Not Exist , Type=" + order.Type);
+                }
+                return data;
+            };
+
+            return new OrderTypeInfo(getData(order));
+
+        }
+        #endregion
+
+        #region Refresh Data
+
+        /// <summary>
+        /// 获取订单刷新条件
+        /// </summary>
+        /// <param name="orderID"></param>
+        /// <returns></returns>
+        public OrderAppearData GetOrderAppearData(int orderID)
+        {
+            var order = GetOrderDataByID(orderID);
+            var appearConfig = config.FindOrderContent(order.OrderJsonConfig).appearConfig;
+            if (appearConfig != null)
+            {
+                OrderAppearData data = new OrderAppearData(appearConfig);
+                return data;
+            }
+            return null;
+        }
+        /// <summary>
+        /// 获取订单销毁条件
+        /// </summary>
+        /// <param name="orderID"></param>
+        /// <returns></returns>
+        public OrderDisAppearData GetOrderDisAppearData(int orderID)
+        {
+            var order = GetOrderDataByID(orderID);
+            var disAppearConfig = config.FindOrderContent(order.OrderJsonConfig).disAppearConfig;
+            if (disAppearConfig != null)
+            {
+                OrderDisAppearData data = new OrderDisAppearData(disAppearConfig);
+                return data;
+            }
+            return null;
+        }
+
+        #endregion
+    }
+
+    public class OrderTypeInfo
+    {
+        public string TypeID;
+        public string TypeName;
+        public string TypeDesc;
+        public Sprite Icon;
+
+        public OrderTypeInfo(OrderTypeData data)
+        {
+            TypeID = data.TypeID;
+            TypeName = OrderModule.GetOrderTypeName(data);
+            TypeDesc = OrderModule.GetOrderTypeDesc(data);
+            Icon = OrderModule.GetOrderIconPath(data);
+        }
     }
 
 
@@ -133,27 +223,41 @@ namespace Sim_FrameWork
 
         public List<OrderContent> orderContent;
 
+        public Dictionary<string, OrderContent> orderContentDic;
+
         public void ReadOrderConfigData()
         {
             Config.JsonReader reader = new Config.JsonReader();
             OrderConfig config = reader.LoadJsonDataConfig<OrderConfig>(Config.JsonConfigPath.OrderConfigJsonPath);
             order_max_count_default = config.order_max_count_default;
             orderContent = config.orderContent;
+            ///Add Dic
+            orderContentDic = new Dictionary<string, OrderContent>();
+            for(int i = 0; i < orderContent.Count; i++)
+            {
+                if (orderContentDic.ContainsKey(orderContent[i].ConfigID))
+                {
+                    Debug.LogError("Find Same Order Config ID , ID=" + orderContent[i].ConfigID);
+                    continue;
+                }
+                else
+                {
+                    orderContentDic.Add(orderContent[i].ConfigID, orderContent[i]);
+                }
+            }
         }
 
         public OrderContent FindOrderContent(string id)
         {
-            if (orderContent != null)
-            {
-                var content = orderContent.Find(x => x.ConfigID == id);
-                if (content == null)
+            OrderContent result = null;
+            if (orderContentDic != null)
+            { 
+                orderContentDic.TryGetValue(id, out result);
+                if (result == null)
                     Debug.LogError("Find OrderConfigContent Error ,id=" + id);
-                return content;
             }
-            return null;      
+            return result; 
         }
-
-
 
     }
 
@@ -162,25 +266,76 @@ namespace Sim_FrameWork
     {
         public string ConfigID;
         public OrderReward Reward;
+        public OrderAppearConfig appearConfig;
+        public OrderDisAppearConfig disAppearConfig;
+
 
 
         public class OrderReward
         {
             public float Reward_Currency;
-            public float Reward_Reputation;
-            public Dictionary<string, int> Reward_Mateiral;
+            public int Reward_Reputation;
+            public Dictionary<string, ushort> Reward_Mateiral;
             
         }
 
-        public class OrderAppearConfig
+    }
+
+    public class OrderAppearConfig
+    {
+        public Appear_Time_Config appear_Time;
+        public Appear_PreOrder_Config appear_PreOrder;
+        public Appear_Organization_Config appear_Organization;
+
+
+        /// <summary>
+        /// 按时间刷新
+        /// </summary>
+        public class Appear_Time_Config
         {
-            
+            public ushort Time_Year;
+            public ushort Time_Month;
+            public float Weight_Origin;
+            public float Weight_Month_Add;
         }
 
-        public class OrderDisAppearConfig
+        /// <summary>
+        /// 订单前置
+        /// </summary>
+        public class Appear_PreOrder_Config
+        {
+            public Dictionary<string, int> OrderContent;
+        }
+
+        /// <summary>
+        /// 订单组织前置
+        /// </summary>
+        public class Appear_Organization_Config
         {
 
         }
+
+    }
+
+    public class OrderDisAppearConfig
+    {
+        public DisAppear_Time_Config disAppear_Time;
+        public DisAppear_PreOrder_Config disAppear_Preorder;
+
+        public class DisAppear_Time_Config
+        {
+            public ushort Time_Year;
+            public ushort Time_Month;
+            public float Weight_Origin;
+            public float Weight_Month_Add;
+        }
+
+        public class DisAppear_PreOrder_Config
+        {
+            public Dictionary<string, int> OrderContent;
+        }
+
+
 
     }
     #endregion

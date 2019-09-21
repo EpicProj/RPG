@@ -20,7 +20,7 @@ public class OrderMetaData : ExcelBase {
             data.Type = "";
             data.TimeLimit = i;
             data.OrderContent = "";
-            data.Rarity = (ushort)i;
+            data.Rarity = "";
             data.OrderJsonConfig = "";
             AllOrderDataList.Add(data);
         }
@@ -100,7 +100,7 @@ public class OrderData
     [XmlAttribute]
     public string OrderContent { get; set; }
     [XmlAttribute]
-    public ushort Rarity { get; set; }
+    public string Rarity { get; set; }
     [XmlAttribute]
     public string OrderJsonConfig { get; set; }
 }

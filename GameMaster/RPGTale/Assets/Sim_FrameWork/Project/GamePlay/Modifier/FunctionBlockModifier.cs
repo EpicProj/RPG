@@ -7,7 +7,7 @@ namespace Sim_FrameWork
     public class FunctionBlockModifier :MonoBehaviour
     {
         [SerializeField]
-        private List<ModifierData> modifierList = new List<ModifierData>();
+        private List<ModifierData> modifierList;
 
 
 

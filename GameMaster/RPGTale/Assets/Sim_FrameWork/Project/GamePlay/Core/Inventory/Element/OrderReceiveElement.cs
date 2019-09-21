@@ -40,7 +40,7 @@ namespace Sim_FrameWork.UI
             foreach(KeyValuePair<Material,int> kvp in dic)
             {
                 var obj = ObjectManager.Instance.InstantiateObject(UIPath.Order_Detail_Content_Element_Path);
-                var element = obj.GetComponent<OrderDetailElement>();
+                var element = UIUtility.SafeGetComponent<OrderDetailElement>(obj.transform);
                 element.InitOrderDetailElement(new MaterialInfo(kvp.Key), kvp.Value);
                 obj.transform.SetParent(OrderContent.transform,false);
             }

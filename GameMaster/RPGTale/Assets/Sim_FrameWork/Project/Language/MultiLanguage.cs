@@ -92,13 +92,10 @@ namespace Sim_FrameWork
 
         public string GetTextValue(string key)
         {
-            if (TextData.ContainsKey(key) == false)
-            {
+            var result = TextData[key];
+            if (result == null)
                 return string.Empty;
-            }
-            string value = null;
-            TextData.TryGetValue(key, out value);
-            return value;
+            return result;
         }
 
     }

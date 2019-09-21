@@ -30,6 +30,17 @@ namespace Sim_FrameWork
             return sprite;
         }
 
+        public static int TryParseInt(string str)
+        {
+            int result;
+            if(int.TryParse(str, out result) == false)
+            {
+                Debug.LogError("Parse Int Error,str=" + str);
+            }
+            return result;
+        }
+
+
         public static List<int> TryParseIntList(string str,char split)
         {
             List<int> result = new List<int> ();
@@ -92,6 +103,17 @@ namespace Sim_FrameWork
             }
             return result;
         }
+
+        public static bool CheckValueInRange(float min,float max, float value,string debug=null)
+        {
+            if(value<min || value > max)
+            {
+                Debug.LogError("Value not in range,value=" + value +"  , DebugContent=" + debug);
+                return false;
+            }
+            return true;
+        }
+
 
     }
 
