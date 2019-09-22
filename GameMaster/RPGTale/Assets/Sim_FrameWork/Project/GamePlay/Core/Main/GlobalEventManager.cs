@@ -41,6 +41,13 @@ namespace Sim_FrameWork {
         {
             //For test
             RegisterOrder(new OrderItemBase(1));
+            RegisterOrder(new OrderItemBase(1));
+            RegisterOrder(new OrderItemBase(1));
+            RegisterOrder(new OrderItemBase(1));
+            RegisterOrder(new OrderItemBase(1));
+            RegisterOrder(new OrderItemBase(1));
+            RegisterOrder(new OrderItemBase(1));
+            RegisterOrder(new OrderItemBase(1));
 
         }
 

@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using System;
+using System.Linq;
 
 namespace Sim_FrameWork.UI
 {
@@ -30,7 +32,7 @@ namespace Sim_FrameWork.UI
 
         public override void OnShow(params object[] paralist)
         {
-
+            InitOrderMainContent();
         }
 
         private void AddBtnListener()
@@ -47,16 +49,26 @@ namespace Sim_FrameWork.UI
 
         private bool InitOrderMainContent()
         {
+            Func<Dictionary<string, OrderItemBase>, List<BaseElementModel>> getData = (d) =>
+            {
+                List<BaseElementModel> result = new List<BaseElementModel>();
+                foreach (var item in d.Values)
+                {
+                    OrderReceiveElementModel model = new OrderReceiveElementModel(item);
+                    result.Add(model);
+                }
+                return result;
+            };
+
             var orderContent = GlobalEventManager.Instance.AllOrderDic;
             if (orderContent == null)
                 return false;
             //For Test
-            foreach(var info in orderContent.Values)
-            {
-                var obj = ObjectManager.Instance.InstantiateObject(UIPath.OrderMain_Content_Element_Path);
-                var element = UIUtility.SafeGetComponent<OrderReceiveElement>(obj.transform);
-                obj.transform.SetParent(m_page.OrderMainContent.transform,false);
-            }
+           
+            var loopList = UIUtility.SafeGetComponent<LoopList>(m_page.OrderContentScroll.transform);
+
+            loopList.InitData(getData(orderContent));
+         
             return true;
         }
 

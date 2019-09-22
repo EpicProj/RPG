@@ -13,6 +13,6 @@ namespace Sim_FrameWork
 
         [Header("Content")]
         ///订单中心
-        public GameObject OrderMainContent;
+        public GameObject OrderContentScroll;
     }
 }

@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
@@ -16,16 +17,18 @@ namespace Sim_FrameWork.UI
         public GameObject OrderContent;
         public GameObject OrderRewardContent;
 
-        private OrderItemBase orderItem;
 
-
-        public void InitOrderReceiveElement(OrderItemBase item)
+        public override void ChangeAction(BaseElementModel model)
         {
-            orderItem = item;
-            TitleName.text = item.Name;
-            TitleDesc.text = item.Desc;
-            OrderBG.sprite = item.BG;
-            InitOrderDetailElment(item);
+            InitOrderReceiveElement((OrderReceiveElementModel)model);
+        }
+        public void InitOrderReceiveElement(OrderReceiveElementModel orderModel)
+        {
+            
+            TitleName.text = orderModel.TitleName;
+            TitleDesc.text = orderModel.TitleDesc;
+            OrderBG.sprite = orderModel.OrderBG;
+            //InitOrderDetailElment(orderModel);
 
             
         }
