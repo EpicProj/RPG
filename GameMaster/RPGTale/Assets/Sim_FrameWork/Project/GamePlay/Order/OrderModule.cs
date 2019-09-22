@@ -71,31 +71,43 @@ namespace Sim_FrameWork
         {
             return Utility.LoadSprite(order.BGPath, Utility.SpriteType.png);
         }
+        public static Sprite GetOrderBGPath(int orderID)
+        {
+            var order = GetOrderDataByID(orderID);
+            return Utility.LoadSprite(order.BGPath, Utility.SpriteType.png);
+        }
 
- 
+        public static OrganizationDataModel GetOrganizationBelong(int orderID)
+        {
+            OrganizationDataModel model = new OrganizationDataModel();
+            model.Create(GetOrderDataByID(orderID).OrganizationBelong);
+            return model;
+        }
 
         /// <summary>
         /// Get Order Content
         /// </summary>
         /// <param name="order"></param>
         /// <returns></returns>
-        public static Dictionary<Material,int> GetOrderContent(OrderData order)
+        public static Dictionary<MaterialDataModel,int> GetOrderContent(int orderID)
         {
-            Dictionary<Material, int> content = new Dictionary<Material, int>();
-
-            var list = Utility.TryParseStringList(order.OrderContent, ',');
+            Dictionary<MaterialDataModel, int> content = new Dictionary<MaterialDataModel, int>();
+            var data = GetOrderDataByID(orderID);
+            if (data == null)
+                return content;
+            var list = Utility.TryParseStringList(data.OrderContent, ',');
             for (int i = 0; i < list.Count; i++)
             {
                 var l = Utility.TryParseIntList(list[i], ':');
                 if (l.Count != 2)
                 {
-                    Debug.LogError("Parse Order Content Error ,order ID=" + order.OrderID);
+                    Debug.LogError("Parse Order Content Error ,order ID=" + data.OrderID);
                     return content;
                 }
-                var ma = MaterialModule.GetMaterialByMaterialID(l[0]);
-                if (ma != null && !content.ContainsKey(ma))
+                MaterialDataModel model = new MaterialDataModel();
+                if (model.Create(l[0]) && !content.ContainsKey(model))
                 {
-                    content.Add(ma, l[1]);
+                    content.Add(model, l[1]);
                 }
             }
 

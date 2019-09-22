@@ -15,38 +15,45 @@ namespace Sim_FrameWork.UI
 
         [Header("Element")]
         public GameObject OrderContent;
+        public GameObject ScrollView;
         public GameObject OrderRewardContent;
 
-
-        public override void ChangeAction(BaseElementModel model)
+        private bool HasInitDetailElement = false;
+        public override void ChangeAction(List<BaseDataModel> model)
         {
-            InitOrderReceiveElement((OrderReceiveElementModel)model);
-        }
-        public void InitOrderReceiveElement(OrderReceiveElementModel orderModel)
-        {
-            
-            TitleName.text = orderModel.TitleName;
-            TitleDesc.text = orderModel.TitleDesc;
-            OrderBG.sprite = orderModel.OrderBG;
-            //InitOrderDetailElment(orderModel);
+            var orderModel = model[0];
+            InitOrderReceiveElement((OrderDataModel)orderModel);
 
-            
         }
+        public void InitOrderReceiveElement(OrderDataModel orderModel)
+        {
+            TitleName.text = orderModel.Name;
+            TitleDesc.text = orderModel.Desc;
+            OrderBG.sprite = orderModel.Icon;
+            if(!HasInitDetailElement)
+                InitOrderDetailElment(orderModel);
+
+        }
+
+
 
         /// <summary>
         /// 生成订单详情
         /// </summary>
         /// <param name="info"></param>
-        public void InitOrderDetailElment(OrderItemBase item)
+        public void InitOrderDetailElment(OrderDataModel orderModel)
         {
-            var dic = item.OrderContentDic;
-            foreach(KeyValuePair<Material,int> kvp in dic)
+            var dic = orderModel.OrderContentDic;
+            foreach(KeyValuePair<MaterialDataModel,int> kvp in dic)
             {
-                var obj = ObjectManager.Instance.InstantiateObject(UIPath.Order_Detail_Content_Element_Path);
+                //var loopList = UIUtility.SafeGetComponent<LoopList>(ScrollView.transform);
+                //loopList.InitData()
+                var obj = ObjectManager.Instance.InstantiateObject(UIPath.Test);
                 var element = UIUtility.SafeGetComponent<OrderDetailElement>(obj.transform);
-                element.InitOrderDetailElement(new MaterialInfo(kvp.Key), kvp.Value);
+                element.InitOrderDetailElement(kvp.Key, kvp.Value);
                 obj.transform.SetParent(OrderContent.transform,false);
             }
+            HasInitDetailElement = true;
         }
 
         public void InitOrderRewardElement(OrderContent.OrderReward reward)

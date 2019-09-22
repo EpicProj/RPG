@@ -13,20 +13,15 @@ namespace Sim_FrameWork.UI
         public Text Count;
         public Image materialIcon;
 
-        private MaterialInfo _info;
         private int _count;
 
 
-        public void InitOrderDetailElement(MaterialInfo info, int count)
+        public void InitOrderDetailElement(MaterialDataModel model, int count)
         {
-            _info = info;
             _count = count;
-
-            MaterialName.text = info.Name;
+            MaterialName.text = model.Name;
             Count.text = count.ToString();
-            materialIcon.sprite = info.Icon;
-
-            
+            materialIcon.sprite = model.Icon;
         }
 
        

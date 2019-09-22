@@ -19,6 +19,7 @@ public class OrderMetaData : ExcelBase {
             data.BGPath = "";
             data.Type = "";
             data.TimeLimit = i;
+            data.OrganizationBelong = i;
             data.OrderContent = "";
             data.Rarity = "";
             data.OrderJsonConfig = "";
@@ -97,6 +98,8 @@ public class OrderData
     public string Type { get; set; }
     [XmlAttribute]
     public float TimeLimit { get; set; }
+    [XmlAttribute]
+    public int OrganizationBelong { get; set; }
     [XmlAttribute]
     public string OrderContent { get; set; }
     [XmlAttribute]

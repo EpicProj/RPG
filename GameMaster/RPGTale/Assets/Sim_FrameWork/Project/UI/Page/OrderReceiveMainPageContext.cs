@@ -49,13 +49,17 @@ namespace Sim_FrameWork.UI
 
         private bool InitOrderMainContent()
         {
-            Func<Dictionary<string, OrderItemBase>, List<BaseElementModel>> getData = (d) =>
+            Func<Dictionary<string, OrderItemBase>, Dictionary<int, List<BaseDataModel>>> getData = (d) =>
             {
-                List<BaseElementModel> result = new List<BaseElementModel>();
-                foreach (var item in d.Values)
+                Dictionary<int, List<BaseDataModel>> result = new Dictionary<int, List<BaseDataModel>>();
+                int index = 0;
+                foreach (KeyValuePair<string, OrderItemBase> kvp in d)
                 {
-                    OrderReceiveElementModel model = new OrderReceiveElementModel(item);
-                    result.Add(model);
+                    List<BaseDataModel> modelList = new List<BaseDataModel>();
+                    modelList.Add(kvp.Value.dataModel);
+                    modelList.Add(kvp.Value.belongDataModel);
+                    result.Add(index, modelList);
+                    index++;
                 }
                 return result;
             };
@@ -66,7 +70,6 @@ namespace Sim_FrameWork.UI
             //For Test
            
             var loopList = UIUtility.SafeGetComponent<LoopList>(m_page.OrderContentScroll.transform);
-
             loopList.InitData(getData(orderContent));
          
             return true;

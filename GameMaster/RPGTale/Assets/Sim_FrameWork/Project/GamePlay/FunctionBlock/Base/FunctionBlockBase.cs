@@ -44,18 +44,6 @@ namespace Sim_FrameWork
 
         }
 
-        //Action
-        public virtual void OnPlaceFunctionBlock()
-        {
-            FunctionBlockModule.Instance.PlaceFunctionBlock(info.BlockID, info.BlockPos);
-        }
-        public virtual void OnHoldFunctionBlock() { }
-        public virtual void OnDestoryFunctionBlock() { }
-        public virtual void OnSelectFunctionBlock()
-        {
-        }
-
-
 
         #region InitBaseInfo
 
@@ -88,11 +76,19 @@ namespace Sim_FrameWork
             GameManager.Instance.raycaster.Raycast(data, result);
             return result.Count > 0;
         }
+
     }
 
 
+    public interface IFunctionBlockAction
+    {
+        void OnPlaceFunctionBlock();
+        void OnHoldFunctionBlock();
+        void OnDestoryFunctionBlock();
+        void OnSelectFunctionBlock();
+    }
 
-    [System.Serializable]
+
     public class FunctionBlockInfoData
     {
         //BaseInfo

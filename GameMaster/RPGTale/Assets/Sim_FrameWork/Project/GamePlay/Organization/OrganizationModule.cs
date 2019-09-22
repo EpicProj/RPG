@@ -14,10 +14,10 @@ namespace Sim_FrameWork
 
         public override void InitData()
         {
-            OrganizationDataList = OrganizationMetaDataReader.OrganizationDataList;
-            OrganizationDataDic = OrganizationMetaDataReader.OrganizationDataDic;
-            OrganizationEventDataDic = OrganizationMetaDataReader.OrganizationEventDataDic;
-            OrganizationEventDataList = OrganizationMetaDataReader.OrganizationEventDataList;
+            OrganizationDataList = OrganizationMetaDataReader.GetOrganizationData();
+            OrganizationDataDic = OrganizationMetaDataReader.GetOrganizationDataDic();
+            OrganizationEventDataDic = OrganizationMetaDataReader.GetOrganizationEventDataDic();
+            OrganizationEventDataList = OrganizationMetaDataReader.GetOrganizationEventData();
         }
 
         public override void Register()
@@ -30,15 +30,68 @@ namespace Sim_FrameWork
             InitData();
         }
 
+        public static OrganizationData GetOrganizationDataByID(int id)
+        {
+            OrganizationData data = null;
+            OrganizationDataDic.TryGetValue(id, out data);
+            if (data == null)
+                Debug.LogError("Get Organization Data Error,ID=" + id);
+            return data;
+        }
+
+        public static string GetOrganizationName(int id)
+        {
+            return MultiLanguage.Instance.GetTextValue(GetOrganizationDataByID(id).Name);
+        }
+        public static string GetOrganizationName(OrganizationData data)
+        {
+            return MultiLanguage.Instance.GetTextValue(data.Name);
+        }
+        public static string GetOrganizationName_En(int id)
+        {
+            return MultiLanguage.Instance.GetTextValue(GetOrganizationDataByID(id).Name_En);
+        }
+        public static string GetOrganizationName_En(OrganizationData data)
+        {
+            return MultiLanguage.Instance.GetTextValue(data.Name_En);
+        }
+        public static string GetOrganizationBriefDesc(int id)
+        {
+            return MultiLanguage.Instance.GetTextValue(GetOrganizationDataByID(id).BGDescBrief);
+        }
+        public static string GetOrganizationBriefDesc(OrganizationData data)
+        {
+            return MultiLanguage.Instance.GetTextValue(data.BGDescBrief);
+        }
+
+        public static Sprite GetOrganizationSprite(int id)
+        {
+            return Utility.LoadSprite(GetOrganizationDataByID(id).Icon, Utility.SpriteType.png);
+        }
+        public static Sprite GetOrganizationSpriteBig(int id)
+        {
+            return Utility.LoadSprite(GetOrganizationDataByID(id).IconBig, Utility.SpriteType.png);
+        }
+
+
     }
 
 
 
     public class OrganizationInfo
     {
-        public string Name;
-        public string Desc;
+        public int ID;
+        public OrganizationDataModel dataModel;
 
+        public OrganizationInfo(int id)
+        {
+            var data = OrganizationModule.GetOrganizationDataByID(id);
+            if (data == null)
+                return;
+            ID = data.ID;
+            dataModel = new OrganizationDataModel();
+            dataModel.Create(ID);
+        }
 
 
 

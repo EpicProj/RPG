@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace Sim_FrameWork
 {
-    public class FunctionBlock_Smelt : ManufactoryBase
+    public class FunctionBlock_Smelt : ManufactoryBase,IFunctionBlockAction
     {
         public List<BlockLevelData> leveldata;
         private string InputDesc;
@@ -56,15 +56,25 @@ namespace Sim_FrameWork
 
         }
 
-
-        public override void OnPlaceFunctionBlock()
+        public void OnPlaceFunctionBlock()
         {
-            base.OnPlaceFunctionBlock();
+           
         }
 
-     
+        public void OnHoldFunctionBlock()
+        {
+            
+        }
 
+        public void OnDestoryFunctionBlock()
+        {
+            
+        }
 
+        public void OnSelectFunctionBlock()
+        {
+           
+        }
     }
 
     public class FunctionBlock_Smelt_Config

@@ -25,19 +25,17 @@ namespace Sim_FrameWork
 
     public class MaterialInfo
     {
-        public string Name;
         public int ID;
-        public string Desc;
-        public Sprite Icon;
+
+        MaterialDataModel dataModel;
 
 
 
         public MaterialInfo(Material ma)
         {
-            Name = MaterialModule.GetMaterialName(ma);
             ID = ma.MaterialID;
-            Desc = MaterialModule.GetMaterialDesc(ma);
-            Icon = MaterialModule.GetMaterialSprite(ma.MaterialID);
+            dataModel = new MaterialDataModel();
+            dataModel.Create(ID);
 
         }
 

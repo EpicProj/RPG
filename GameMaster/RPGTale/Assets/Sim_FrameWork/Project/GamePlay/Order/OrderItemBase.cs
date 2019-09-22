@@ -38,9 +38,13 @@ namespace Sim_FrameWork
         /// </summary>
         public string GUID;
         public int OrderID;
-        public string Name;
-        public string Desc;
-        public Sprite BG;
+
+        /// <summary>
+        /// 归属组织信息
+        /// </summary>
+        public OrganizationDataModel belongDataModel;
+        public OrderDataModel dataModel;
+
         public OrderRarity orderRarity;
         public OrderState orderState;
 
@@ -49,7 +53,6 @@ namespace Sim_FrameWork
         /// <summary>
         /// 订单内容
         /// </summary>
-        public Dictionary<Material, int> OrderContentDic;
         public OrderContent.OrderReward rewardData;
 
         /// <summary>
@@ -73,15 +76,12 @@ namespace Sim_FrameWork
             if (data == null)
                 return;
             OrderID = data.OrderID;
-            Name = OrderModule.GetOrderName(data);
-            Desc = OrderModule.GetOrderDesc(data);
-            BG = OrderModule.GetOrderBGPath(data);
+            belongDataModel = OrderModule.GetOrganizationBelong(OrderID);
+            dataModel = new OrderDataModel();
+            dataModel.Create(OrderID);
 
             typeInfo = OrderModule.GetOrderTypeInfo(data);
-
-            OrderContentDic = OrderModule.GetOrderContent(data);
             orderState = OrderState.Create;
-
             OrderTime = data.TimeLimit;
             remainTime = OrderTime;
 

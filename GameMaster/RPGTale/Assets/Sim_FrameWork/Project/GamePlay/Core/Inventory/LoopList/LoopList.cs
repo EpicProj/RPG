@@ -32,12 +32,12 @@ namespace Sim_FrameWork
         /// <summary>
         /// Element Data
         /// </summary>
-        private List<BaseElementModel> _modelList;
+        private Dictionary<int,List<BaseDataModel>> _modelList;
 
         private void Awake()
         {
             _elementList = new List<BaseElement>();
-            _modelList = new List<BaseElementModel>();
+            _modelList = new Dictionary<int, List<BaseDataModel>>();
             _item = ResourceManager.Instance.LoadResource<GameObject>("Assets/Prefabs/"+ItemPrefabPath+".prefab");
             _content = UIUtility.SafeGetComponent<RectTransform>(transform.Find("Viewport/Content"));
             _itemHeight = UIUtility.SafeGetComponent<RectTransform>(_item.transform).rect.height;
@@ -45,9 +45,9 @@ namespace Sim_FrameWork
            
         }
 
-        public void InitData(List<BaseElementModel> list)
+        public void InitData(Dictionary<int,List<BaseDataModel>> modelData)
         {
-            _modelList = list;
+            _modelList = modelData;
             int num = GetItemNum(_itemHeight, _itemWidth, offSet);
             if (_modelList.Count < num)
             {
@@ -109,7 +109,7 @@ namespace Sim_FrameWork
             }
         }
 
-        private BaseElementModel GetData(int id)
+        private List<BaseDataModel> GetData(int id)
         {
             if (id < 0 || id >= _modelList.Count)
                 return null;

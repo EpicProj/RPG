@@ -21,7 +21,7 @@ namespace Sim_FrameWork
         /// <summary>
         /// Data
         /// </summary>
-        private BaseElementModel _model;
+        private List<BaseDataModel> _model;
         private LoopList.LayoutType _layoutType;
 
         public RectTransform Rect
@@ -44,8 +44,8 @@ namespace Sim_FrameWork
             ChangeID(id);
         }
 
-        private Func<int, BaseElementModel> _getData;
-        public void AddGetDataListener(Func<int, BaseElementModel> getData)
+        private Func<int, List<BaseDataModel>> _getData;
+        public void AddGetDataListener(Func<int, List<BaseDataModel>> getData)
         {
             ///这里不能用多播
             _getData = getData;
@@ -112,7 +112,7 @@ namespace Sim_FrameWork
             }
         }
 
-        public virtual void ChangeAction(BaseElementModel model)
+        public virtual void ChangeAction(List<BaseDataModel> model)
         {
             
         }
