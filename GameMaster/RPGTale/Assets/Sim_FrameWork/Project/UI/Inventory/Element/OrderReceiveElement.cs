@@ -18,6 +18,12 @@ namespace Sim_FrameWork.UI
         public GameObject ScrollView;
         public GameObject OrderRewardContent;
 
+        [Header("Button")]
+        public Button OrderBtn;
+
+        private const string Order_Receive_Confirm_Title_Text = "Order_Receive_Confirm_Title";
+        private const string Order_Receive_Confirm_Content_Text = "Order_Receive_Confirm_Content";
+
         private bool HasInitDetailElement = false;
         public override void ChangeAction(List<BaseDataModel> model)
         {
@@ -30,12 +36,18 @@ namespace Sim_FrameWork.UI
             TitleName.text = orderModel.Name;
             TitleDesc.text = orderModel.Desc;
             OrderBG.sprite = orderModel.Icon;
+
+
+
             if(!HasInitDetailElement)
                 InitOrderDetailElment(orderModel);
 
         }
 
+        private void AddBtnListener()
+        {
 
+        }
 
         /// <summary>
         /// 生成订单详情

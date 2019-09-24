@@ -30,7 +30,7 @@ namespace Sim_FrameWork
 
         private void Start()
         {
-            UIManager.Instance.PopUpWnd(UIPath.MainMenu_Page, true, playerData);
+            UIManager.Instance.PopUpWnd(UIPath.MainMenu_Page, WindowType.Page, true, playerData);
         }
 
         private void Update()

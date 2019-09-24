@@ -28,7 +28,7 @@ namespace Sim_FrameWork
         {
             CheckMouseButtonDown(delegate()
             {
-                UIManager.Instance.PopUpWnd(UIPath.FUNCTIONBLOCK_INFO_DIALOG, true, info, manufactoryInfo);
+                UIManager.Instance.PopUpWnd(UIPath.FUNCTIONBLOCK_INFO_DIALOG, WindowType.Dialog, true, info, manufactoryInfo);
             });
             if (Input.GetKeyDown(KeyCode.Space))
             {

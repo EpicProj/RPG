@@ -37,7 +37,8 @@ namespace Sim_FrameWork
             AssetBundleManager.Instance.LoadAssetBundleConfig();
             ResourceManager.Instance.Init(this);
             ObjectManager.Instance.Init(transform.Find("RecyclePoolTrs"), transform.Find("SceneTrs"));
-            UIManager.Instance.Init(GameObject.Find("MainCanvas").transform as RectTransform, GameObject.Find("MainCanvas/Window").transform as RectTransform, GameObject.Find("MainCanvas/UICamera").GetComponent<Camera>(), GameObject.Find("MainCanvas/EventSystem").GetComponent<EventSystem>());
+            UIManager.Instance.Init(GameObject.Find("MainCanvas").transform as RectTransform, GameObject.Find("MainCanvas/Window").transform as RectTransform,
+                GameObject.Find("MainCanvas/Dialog").transform as RectTransform, GameObject.Find("MainCanvas/UICamera").GetComponent<Camera>(), GameObject.Find("MainCanvas/EventSystem").GetComponent<EventSystem>());
 
             MainCanvas = GameObject.Find("MainCanvas").GetComponent<Canvas>();
             raycaster = UIUtility.SafeGetComponent<GraphicRaycaster>(MainCanvas.transform); 
@@ -45,8 +46,7 @@ namespace Sim_FrameWork
             UIUtility.SafeGetComponent<CanvasGroup>(PausePage.transform).alpha = 0;
             globalSettings.LoadGlobalSettting();
 
-            RegisterModule();
-            RegisterUI();
+            DataManager.Instance.InitData();
         }
 
         public void InitMainPage()
@@ -72,28 +72,8 @@ namespace Sim_FrameWork
         }
 
 
-        public void RegisterUI()
-        {
-            UIManager.Instance.Register<BlockInfoDialogContent>(UIPath.FUNCTIONBLOCK_INFO_DIALOG);
-            UIManager.Instance.Register<WareHouseDialogContent>(UIPath.WAREHOURSE_DIALOG);
-            UIManager.Instance.Register<MainMenuPageContext>(UIPath.MainMenu_Page);
-            UIManager.Instance.Register<GameEntryPageContext>(UIPath.Game_Entry_Page);
-            UIManager.Instance.Register<LoadingPageContext>(UIPath.Loading_Scene_Page);
+  
 
-        }
-
-
-        public void RegisterModule()
-        {
-            FunctionBlockModule.Instance.Register();
-            MaterialModule.Instance.Register();
-            DistrictModule.Instance.Register();
-            FormulaModule.Instance.Register();
-            PlayerModule.Instance.Register();
-            CampModule.Instance.Register();
-            OrganizationModule.Instance.Register();
-            OrderModule.Instance.Register();
-        }
 
         #region MainFunction
 

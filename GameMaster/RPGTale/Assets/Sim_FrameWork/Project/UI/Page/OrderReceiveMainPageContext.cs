@@ -12,6 +12,7 @@ namespace Sim_FrameWork.UI
 
         public OrderReceiveMainPage m_page;
 
+
         public override void Awake(params object[] paralist)
         {
             m_page = UIUtility.SafeGetComponent<OrderReceiveMainPage>(Transform);
@@ -43,6 +44,7 @@ namespace Sim_FrameWork.UI
                 UIManager.Instance.ShowWnd(UIPath.MainMenu_Page);
             });
         }
+
 
 
         #region Init OrderMain

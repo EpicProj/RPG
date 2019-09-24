@@ -10,6 +10,10 @@ namespace Sim_FrameWork
         public const string FUNCTIONBLOCK_INFO_DIALOG = "Dialog/FunctionBlock/BlockInfoDialog";
         //材料界面
         public const string WAREHOURSE_DIALOG = "Dialog/Main/WareHouseDialog";
+        /// <summary>
+        /// 信息确认框
+        /// </summary>
+        public const string General_Confirm_Dialog = "Dialog/Main/GeneralConfirmDialog";
 
         #endregion
 

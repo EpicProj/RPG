@@ -2,17 +2,24 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
+using Sim_FrameWork.UI;
 
 namespace Sim_FrameWork {
 
+    public enum WindowType
+    {
+        Page,
+        Dialog
+    }
 
     public class UIManager : Singleton<UIManager> {
-
 
         //UI节点
         public RectTransform m_UiRoot;
         //窗口节点
         private RectTransform m_WndRoot;
+        private RectTransform m_DialogRoot;
+
         //UI摄像机
         private Camera m_UICamera;
         //EventSystem节点
@@ -24,9 +31,9 @@ namespace Sim_FrameWork {
         //注册的字典
         private Dictionary<string, System.Type> m_RegisterDic = new Dictionary<string, System.Type>();
         //所有打开的窗口
-        private Dictionary<string, UI.WindowBase> m_WindowDic = new Dictionary<string, UI.WindowBase>();
+        private Dictionary<string, WindowBase> m_WindowDic = new Dictionary<string, WindowBase>();
         //打开的窗口列表
-        private List<UI.WindowBase> m_WindowList = new List<UI.WindowBase>();
+        private List<WindowBase> m_WindowList = new List<WindowBase>();
 
         /// <summary>
         /// 初始化
@@ -34,10 +41,11 @@ namespace Sim_FrameWork {
         /// <param name="uiRoot">UI父节点</param>
         /// <param name="wndRoot">窗口父节点</param>
         /// <param name="uiCamera">UI摄像机</param>
-        public void Init(RectTransform uiRoot, RectTransform wndRoot, Camera uiCamera, EventSystem eventSystem)
+        public void Init(RectTransform uiRoot, RectTransform wndRoot, RectTransform dialogRoot,  Camera uiCamera, EventSystem eventSystem)
         {
             m_UiRoot = uiRoot;
             m_WndRoot = wndRoot;
+            m_DialogRoot = dialogRoot;
             m_UICamera = uiCamera;
             m_EventSystem = eventSystem;
             m_CanvasRate = Screen.height / (m_UICamera.orthographicSize * 2);
@@ -116,7 +124,7 @@ namespace Sim_FrameWork {
         /// <returns></returns>
         public bool SendMessageToWnd(string name, UIMessage message)
         {
-            UI.WindowBase wnd = FindWndByName<UI.WindowBase>(name);
+            WindowBase wnd = FindWndByName<WindowBase>(name);
             if (wnd != null)
             {
                 return wnd.OnMessage(message);
@@ -130,9 +138,9 @@ namespace Sim_FrameWork {
         /// <typeparam name="T"></typeparam>
         /// <param name="name"></param>
         /// <returns></returns>
-        public T FindWndByName<T>(string name) where T : UI.WindowBase
+        public T FindWndByName<T>(string name) where T : WindowBase
         {
-            UI.WindowBase wnd = null;
+            WindowBase wnd = null;
             if (m_WindowDic.TryGetValue(name, out wnd))
             {
                 return (T)wnd;
@@ -146,7 +154,6 @@ namespace Sim_FrameWork {
         }
 
 
-       
 
 
         /// <summary>
@@ -158,15 +165,15 @@ namespace Sim_FrameWork {
         /// <param name="para2"></param>
         /// <param name="para3"></param>
         /// <returns></returns>
-        public UI.WindowBase PopUpWnd(string wndName, bool bTop = true, params object[] paralist)
+        public WindowBase PopUpWnd(string wndName, WindowType type = WindowType.Page, bool bTop = true, params object[] paralist)
         {
-            UI.WindowBase wnd = FindWndByName<UI.WindowBase>(wndName);
+            WindowBase wnd = FindWndByName<WindowBase>(wndName);
             if (wnd == null)
             {
                 System.Type tp = null;
                 if (m_RegisterDic.TryGetValue(wndName, out tp))
                 {
-                    wnd = System.Activator.CreateInstance(tp) as UI.WindowBase;
+                    wnd = System.Activator.CreateInstance(tp) as WindowBase;
                 }
                 else
                 {
@@ -191,7 +198,15 @@ namespace Sim_FrameWork {
                 wnd.Transform = wndObj.transform;
                 wnd.Name = wndName;
                 wnd.Awake(paralist);
-                wndObj.transform.SetParent(m_WndRoot, false);
+                if(type== WindowType.Page)
+                {
+                    wndObj.transform.SetParent(m_WndRoot, false);
+                }
+                else if(type == WindowType.Dialog)
+                {
+                    wndObj.transform.SetParent(m_DialogRoot, false);
+                }
+               
 
 
                 if (bTop)
@@ -216,7 +231,7 @@ namespace Sim_FrameWork {
         /// <param name="destory"></param>
         public void CloseWnd(string name, bool destory = false)
         {
-            UI.WindowBase wnd = FindWndByName<UI.WindowBase>(name);
+            WindowBase wnd = FindWndByName<WindowBase>(name);
             CloseWnd(wnd, destory);
         }
 
@@ -225,7 +240,7 @@ namespace Sim_FrameWork {
         /// </summary>
         /// <param name="window"></param>
         /// <param name="destory"></param>
-        public void CloseWnd(UI.WindowBase window, bool destory = false)
+        public void CloseWnd(WindowBase window, bool destory = false)
         {
             if (window != null)
             {
@@ -264,10 +279,10 @@ namespace Sim_FrameWork {
         /// <summary>
         /// 切换到唯一窗口
         /// </summary>
-        public void SwitchStateByName(string name, bool bTop = true)
+        public void SwitchStateByName(string name,WindowType type,bool bTop = true)
         {
             CloseAllWnd();
-            PopUpWnd(name, bTop);
+            PopUpWnd(name,type,bTop);
         }
 
         /// <summary>
@@ -276,7 +291,7 @@ namespace Sim_FrameWork {
         /// <param name="name"></param>
         public void HideWnd(string name)
         {
-            UI.WindowBase wnd = FindWndByName<UI.WindowBase>(name);
+            WindowBase wnd = FindWndByName<WindowBase>(name);
             HideWnd(wnd);
         }
 
@@ -285,7 +300,7 @@ namespace Sim_FrameWork {
         /// </summary>
         /// <param name="wnd"></param>
 
-        public void HideWnd(UI.WindowBase wnd)
+        public void HideWnd(WindowBase wnd)
         {
             if (wnd != null)
             {
@@ -301,7 +316,7 @@ namespace Sim_FrameWork {
         /// <param name="paralist"></param>
         public void ShowWnd(string name, bool bTop = true, params object[] paralist)
         {
-            UI.WindowBase wnd = FindWndByName<UI.WindowBase>(name);
+            WindowBase wnd = FindWndByName<UI.WindowBase>(name);
             ShowWnd(wnd, bTop, paralist);
         }
 
@@ -310,7 +325,7 @@ namespace Sim_FrameWork {
         /// </summary>
         /// <param name="wnd"></param>
         /// <param name="paralist"></param>
-        public void ShowWnd(UI.WindowBase wnd, bool bTop = true, params object[] paralist)
+        public void ShowWnd(WindowBase wnd, bool bTop = true, params object[] paralist)
         {
             if (wnd != null)
             {

@@ -228,7 +228,7 @@ namespace Sim_FrameWork.UI
         {
             AddButtonClickListener(m_page.MaterialBtn, ()=>
             {
-                UIManager.Instance.PopUpWnd(UIPath.WAREHOURSE_DIALOG, true, PlayerManager.Instance.playerData.wareHouseInfo);
+                UIManager.Instance.PopUpWnd(UIPath.WAREHOURSE_DIALOG, WindowType.Page, true, PlayerManager.Instance.playerData.wareHouseInfo);
             });
             AddButtonClickListener(PauseBtn, () =>
             {
@@ -239,7 +239,7 @@ namespace Sim_FrameWork.UI
             AddButtonClickListener(m_page.OrderBtn, () =>
             {
                 UIManager.Instance.Register<OrderReceiveMainPageContext>(UIPath.Order_Receive_Main_Page);
-                UIManager.Instance.PopUpWnd(UIPath.Order_Receive_Main_Page, true);
+                UIManager.Instance.PopUpWnd(UIPath.Order_Receive_Main_Page, WindowType.Page, true);
             });
         }
 
