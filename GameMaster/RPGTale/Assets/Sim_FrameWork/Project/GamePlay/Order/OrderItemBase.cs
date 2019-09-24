@@ -33,10 +33,6 @@ namespace Sim_FrameWork
             Epic
         }
 
-        /// <summary>
-        /// Base Info
-        /// </summary>
-        public string GUID;
         public int OrderID;
 
         /// <summary>

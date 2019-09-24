@@ -1,12 +1,8 @@
 ﻿using Sim_FrameWork.UI;
 
 namespace Sim_FrameWork {
-    public class DataManager : MonoSingleton<DataManager> {
+    public class DataManager : Singleton<DataManager> {
 
-        protected override void Awake()
-        {
-            base.Awake();
-        }
 
         public void InitData() { }
 

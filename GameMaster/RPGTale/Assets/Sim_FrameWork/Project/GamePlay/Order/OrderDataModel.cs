@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using UnityEngine;
 
 namespace Sim_FrameWork
@@ -23,6 +24,19 @@ namespace Sim_FrameWork
 
         private int _id;
         public int ID { get { return _id; } set { _id = value; } }
+
+        private string _guid;
+        public string GUID
+        {
+            get
+            {
+                if (_guid == null)
+                    _guid = Guid.NewGuid().ToString();
+                return _guid;
+            }
+            set { }
+        }
+
 
         private string _name;
         public string Name
@@ -70,6 +84,8 @@ namespace Sim_FrameWork
             }
             set { }
         }
+
+        
 
     }
 

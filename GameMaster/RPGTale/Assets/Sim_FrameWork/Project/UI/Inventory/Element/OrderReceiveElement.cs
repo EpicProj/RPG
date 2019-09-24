@@ -21,33 +21,65 @@ namespace Sim_FrameWork.UI
         [Header("Button")]
         public Button OrderBtn;
 
+
+        private OrderDataModel _model;
+
         private const string Order_Receive_Confirm_Title_Text = "Order_Receive_Confirm_Title";
         private const string Order_Receive_Confirm_Content_Text = "Order_Receive_Confirm_Content";
+        private string Confirm_Title_Text;
+        private string Confirm_Content_Text;
 
         private bool HasInitDetailElement = false;
         public override void ChangeAction(List<BaseDataModel> model)
         {
-            var orderModel = model[0];
-            InitOrderReceiveElement((OrderDataModel)orderModel);
+            _model = (OrderDataModel)model[0];
+            InitOrderReceiveElement();
 
         }
-        public void InitOrderReceiveElement(OrderDataModel orderModel)
+        public void InitOrderReceiveElement()
         {
-            TitleName.text = orderModel.Name;
-            TitleDesc.text = orderModel.Desc;
-            OrderBG.sprite = orderModel.Icon;
+            TitleName.text = _model.Name;
+            TitleDesc.text = _model.Desc;
+            OrderBG.sprite = _model.Icon;
 
+            Confirm_Title_Text = MultiLanguage.Instance.GetTextValue(Order_Receive_Confirm_Title_Text);
+            Confirm_Content_Text =MultiLanguage.Instance.GetTextValue(Order_Receive_Confirm_Content_Text);
 
+            AddBtnListener();
 
-            if(!HasInitDetailElement)
-                InitOrderDetailElment(orderModel);
+            if (!HasInitDetailElement)
+                InitOrderDetailElment(_model);
 
         }
 
         private void AddBtnListener()
         {
-
+            AddButtonClickListener(OrderBtn, () =>
+            {
+                OnReceiveOrderClick();
+            });
         }
+
+        void OnReceiveOrderClick()
+        {
+            Action confirmAction = () =>
+            {
+
+                if (GlobalEventManager.Instance.ReceiveOrder(_model.GUID))
+                {
+                    GlobalEventManager.Instance.UnRegisterOrder(_model.GUID);
+                    UIManager.Instance.HideWnd(UIPath.General_Confirm_Dialog);
+                    //销毁界面订单，TODO
+                    //UIManager.Instance.SendMessageToWnd(UIPath.Order_Receive_Main_Page,new UIMessage ( UIMsgType.))
+                }
+               
+            };
+
+            GeneralConfirmDialogItem item = new GeneralConfirmDialogItem(Confirm_Title_Text, Confirm_Content_Text,confirmAction);
+            UIManager.Instance.PopUpWnd(UIPath.General_Confirm_Dialog, WindowType.Dialog, true, item);
+        }
+
+
 
         /// <summary>
         /// 生成订单详情

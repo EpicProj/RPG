@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
+using UnityEngine.UI;
 
 namespace Sim_FrameWork
 {
@@ -18,11 +19,17 @@ namespace Sim_FrameWork
         private RectTransform _rect;
         private float _offset;
         private int _showNum;
+
         /// <summary>
         /// Data
         /// </summary>
         private List<BaseDataModel> _model;
         private LoopList.LayoutType _layoutType;
+
+        /// <summary>
+        /// UI
+        /// </summary>
+        protected List<Button> m_AllBtns=new List<Button> ();
 
         public RectTransform Rect
         {
@@ -140,8 +147,40 @@ namespace Sim_FrameWork
         /// <returns></returns>
         private bool JudgeIDValid(int id)
         {
-            return !(_getData(id)==null);
+            return !(_getData(id) == null);
         }
+
+        #region UI
+
+
+        public void RemoveAllButtonListener()
+        {
+            foreach (Button btn in m_AllBtns)
+            {
+                btn.onClick.RemoveAllListeners();
+            }
+        }
+
+
+        public void AddButtonClickListener(Button btn, UnityEngine.Events.UnityAction action)
+        {
+            if (btn != null)
+            {
+                if (!m_AllBtns.Contains(btn))
+                {
+                    m_AllBtns.Add(btn);
+                }
+                btn.onClick.RemoveAllListeners();
+                btn.onClick.AddListener(action);
+                btn.onClick.AddListener(PlayBtnSound);
+            }
+        }
+        void PlayBtnSound()
+        {
+
+        }
+
+        #endregion
 
         public virtual void OnPointerExit(PointerEventData eventData){}
         public virtual void OnPointerEnter(PointerEventData eventData){}

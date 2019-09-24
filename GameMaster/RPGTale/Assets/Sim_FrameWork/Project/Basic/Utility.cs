@@ -113,6 +113,12 @@ namespace Sim_FrameWork
             }
             return true;
         }
+        
+        public static string ParseStringParams(string content,string[] replaceValue)
+        {
+            //TODO
+            return string.Empty;
+        } 
 
 
     }

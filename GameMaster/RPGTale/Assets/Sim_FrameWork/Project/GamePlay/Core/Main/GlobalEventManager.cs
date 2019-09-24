@@ -55,13 +55,27 @@ namespace Sim_FrameWork {
         /// 注册订单
         /// </summary>
         /// <param name="order"></param>
-        public void RegisterOrder(OrderItemBase order)
+        public bool RegisterOrder(OrderItemBase order)
         {
-        generate: string strGUID = Guid.NewGuid().ToString();
-            if (AllOrderDic.ContainsKey(strGUID))
-                goto generate;
-            order.GUID = strGUID;
-            AllOrderDic.Add(strGUID, order);
+            if (AllOrderDic.ContainsKey(order.dataModel.GUID))
+                return false;
+            AllOrderDic.Add(order.dataModel.GUID, order);
+            return true;
+        }
+
+        public void UnRegisterOrder(string GUID)
+        {
+            if (AllOrderDic.ContainsKey(GUID))
+            {
+                AllOrderDic.Remove(GUID);
+            }
+        }
+
+        private OrderItemBase GetOrderItemInAllOrder(string GUID)
+        {
+            OrderItemBase item = null;
+            AllOrderDic.TryGetValue(GUID, out item);
+            return item;
         }
 
         /// <summary>
@@ -69,24 +83,27 @@ namespace Sim_FrameWork {
         /// </summary>
         /// <param name="order"></param>
         /// <returns></returns>
-        public bool ReceiveOrder(OrderItemBase order)
+        public bool ReceiveOrder(string GUID)
         {
-            if (AllOrderDic.ContainsKey(order.GUID))
+            var order = GetOrderItemInAllOrder(GUID);
+            if(order != null)
             {
                 order.orderState = OrderItemBase.OrderState.Receive;
-                if (PlayerReceivedOrders.ContainsKey(order.GUID))
+                if (PlayerReceivedOrders.ContainsKey(GUID))
                 {
                     Debug.LogError("Order Error , Can not receive same order with Same GUID");
                     return false;
                 }
-                PlayerReceivedOrders.Add(order.GUID, order);
-                AllOrderDic.Remove(order.GUID);
+                PlayerReceivedOrders.Add(GUID, order);
+                AllOrderDic.Remove(GUID);
+                Debug.Log("成功接取订单");
                 return true;
             }
             else
             {
                 return false;
             }
+
         }
 
         /// <summary>
@@ -112,7 +129,7 @@ namespace Sim_FrameWork {
                 }             
             };
 
-            if (!PlayerReceivedOrders.ContainsKey(order.GUID))
+            if (!PlayerReceivedOrders.ContainsKey(order.dataModel.GUID))
             {
                 ///首个订单超时
                 if(order.orderState== OrderItemBase.OrderState.OverTime)

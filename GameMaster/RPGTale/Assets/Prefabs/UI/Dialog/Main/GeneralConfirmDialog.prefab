@@ -54,6 +54,7 @@ GameObject:
   - component: {fileID: 224659311024824280}
   - component: {fileID: 222176468030225126}
   - component: {fileID: 114587315991119384}
+  - component: {fileID: 225601830840818234}
   m_Layer: 5
   m_Name: Content
   m_TagString: Untagged
@@ -171,6 +172,7 @@ GameObject:
   m_Component:
   - component: {fileID: 224343735038280350}
   - component: {fileID: 114582970684536270}
+  - component: {fileID: 111345363002593062}
   m_Layer: 5
   m_Name: GeneralConfirmDialog
   m_TagString: Untagged
@@ -214,6 +216,21 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
+--- !u!111 &111345363002593062
+Animation:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1715206975046116}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Animation: {fileID: 7400000, guid: a1eda18b94b2f744988445d117ba335e, type: 2}
+  m_Animations:
+  - {fileID: 7400000, guid: a1eda18b94b2f744988445d117ba335e, type: 2}
+  m_WrapMode: 0
+  m_PlayAutomatically: 1
+  m_AnimatePhysics: 0
+  m_CullingType: 0
 --- !u!114 &114276327848414288
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -925,3 +942,14 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!225 &225601830840818234
+CanvasGroup:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1338146592574612}
+  m_Enabled: 1
+  m_Alpha: 1
+  m_Interactable: 1
+  m_BlocksRaycasts: 1
+  m_IgnoreParentGroups: 0

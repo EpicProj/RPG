@@ -10,7 +10,12 @@ namespace Sim_FrameWork
 
         public static T Instance
         {
-            get { return instance; }
+            get
+            {
+                if (instance == null)
+                    Debug.LogError("MonoSingleton Not instantiate ");
+                return instance;
+            }
         }
 
         protected virtual void Awake()
