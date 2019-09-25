@@ -213,8 +213,10 @@ namespace Sim_FrameWork
             AddFood(playerData.resourceData.FoodPerMonth, ResourceAddType.current);
             AddEnergy(playerData.resourceData.EnergyPerMonth, ResourceAddType.current);
             AddLabor(playerData.resourceData.LaborPerMonth, ResourceAddType.current);
-
+            GlobalEventManager.Instance.DoPlayerOrderMonthSettle();
+            
         }
 
+        
     }
 }

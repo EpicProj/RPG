@@ -48,7 +48,7 @@ namespace Sim_FrameWork
         public override void InitData()
         {
             base.InitData();
-            FunctionBlockManager.Instance.AddFunctionBlockData(info.BlockUID, this);
+            FunctionBlockManager.Instance.AddFunctionBlockData(info.dataModel.GUID, this);
         }
 
         public void Product()

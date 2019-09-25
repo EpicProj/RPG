@@ -94,7 +94,7 @@ namespace Sim_FrameWork
         //BaseInfo
         private static Stack<FunctionBlockInfoData> functionBlockInfoCache = new Stack<FunctionBlockInfoData>();
 
-        public string BlockUID;
+        
         public int BlockID;
         public Vector3 BlockPos;
 
@@ -107,6 +107,8 @@ namespace Sim_FrameWork
 
 
         public FunctionBlock block;
+        public FunctionBlockDataModel dataModel;
+
         public Vector2 districtAreaMax;
         /// <summary>
         /// 当前区划信息
@@ -135,9 +137,11 @@ namespace Sim_FrameWork
             FunctionBlockInfoData info = new FunctionBlockInfoData();
             info.BlockID = blockBase.FunctionBlockID;
             info.block = blockBase;
+            info.dataModel = new FunctionBlockDataModel();
+            info.dataModel.Create(info.BlockID);
             info.BlockPos = blockPos;
+
             info.blockModifier = modifier;
-            info.BlockUID = FunctionBlockModule.Instance.GenerateGUID(blockBase);
             info.districtUnlockDataList = FunctionBlockModule.GetManuBlockDistrictUnlockData(blockBase.FunctionBlockID);
 
             info.levelInfo = new FunctionBlockLevelInfo(blockBase);

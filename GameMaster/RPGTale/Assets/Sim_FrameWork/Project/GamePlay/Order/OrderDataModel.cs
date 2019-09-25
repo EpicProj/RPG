@@ -20,6 +20,7 @@ namespace Sim_FrameWork
             _name = null;
             _desc = null;
             _icon = null;
+            _guid = null;
         }
 
         private int _id;

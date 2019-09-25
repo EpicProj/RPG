@@ -49,12 +49,6 @@ namespace Sim_FrameWork {
         protected static List<FunctionBlockSubTypeData> FunctionBlockSubTypeDataList;
         protected static Dictionary<string, FunctionBlockSubTypeData> FunctionBlockSubTypeDataDic;
 
-
-        public List<string> FunctionBlockGUIDList = new List<string>();
-        public Dictionary<int, FunctionBlockHistory> FunctionBlockHistoryDic = new Dictionary<int, FunctionBlockHistory>();
-
-        public Dictionary<string, FunctionBlock> CurrentFunctionBlockDataDic = new Dictionary<string, FunctionBlock>();
-
         //info Data
         public static ManufactoryBaseInfoData manufactoryBaseInfoData;
         public static LaborBaseInfoData laborBaseInfoData;
@@ -632,41 +626,8 @@ namespace Sim_FrameWork {
         }
 
 
-        //Place Block
-        public void PlaceFunctionBlock(int functionBlockID,Vector3 checkpos)
-        {
-            FunctionBlock currentFunctionBlock = GetFunctionBlockByBlockID(functionBlockID);
-            if (currentFunctionBlock == null)
-                return ;
-            if (CheckBlockCanPlace(currentFunctionBlock,checkpos) )
-            {
-                
-            }
-            else
-            {
-                Debug.Log("Can not place functionBlock ");
-                return ;
-            }
-           
+  
 
-
-            //FunctionBlockHistory history = new FunctionBlockHistory(1, functionBlockID);
-
-            //FunctionBlockHistoryDic.Add(functionBlockID, history);
-        }
-
-
-        public string GenerateGUID(FunctionBlock functionBlock)
-        {
-            string GUID= Guid.NewGuid().ToString();
-            if (FunctionBlockGUIDList.Contains(GUID))
-            {
-                GenerateGUID(functionBlock);
-            }
-            CurrentFunctionBlockDataDic.Add(GUID, functionBlock);
-            FunctionBlockGUIDList.Add(GUID);
-            return GUID;
-        }
 
 
         public bool CheckBlockCanPlace(FunctionBlock block,Vector3 checkPos)
@@ -678,20 +639,7 @@ namespace Sim_FrameWork {
 
         public void InitDistrictBlockModel<T>(FunctionBlock block) where T:class
         {
-            //Dictionary<Vector2, DistrictAreaInfo> districtDic = GetFuntionBlockAreaDetailDefaultData<T>(block);
-            //if (districtDic == null)
-            //    return;
-            
-            //foreach(KeyValuePair<Vector2, DistrictAreaInfo> kvp in districtDic)
-            //{
-            //    var data = kvp.Value.data;
-            //    if(data==null || data.DistrictID == -1 || data.DistrictID == -2)
-            //    {
-            //        //empty Model
-            //        continue;
-            //    }
 
-            //}
 
           
         }
@@ -897,10 +845,10 @@ namespace Sim_FrameWork {
 
 
 
-        public FunctionBlockHistory(FunctionBlock block ,string buildData)
+        public FunctionBlockHistory(FunctionBlockInfoData blockInfo ,string buildData)
         {
-            FacotoryID = block.FunctionBlockID;
-            FunctionBlockGUID = FunctionBlockModule.Instance.GenerateGUID(block);
+            FacotoryID = blockInfo.BlockID;
+            FunctionBlockGUID = blockInfo.dataModel.GUID;
             this.BuildDate = buildData;
 
         }

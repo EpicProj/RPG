@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using System;
 
 namespace Sim_FrameWork
 {
@@ -32,24 +33,25 @@ namespace Sim_FrameWork
         /// <summary>
         /// Element Data
         /// </summary>
-        private Dictionary<int,List<BaseDataModel>> _modelList;
+        private List<List<BaseDataModel>> _modelList;
 
         private void Awake()
         {
             _elementList = new List<BaseElement>();
-            _modelList = new Dictionary<int, List<BaseDataModel>>();
+            _modelList = new List<List<BaseDataModel>>();
             _item = ResourceManager.Instance.LoadResource<GameObject>("Assets/Prefabs/"+ItemPrefabPath+".prefab");
             _content = UIUtility.SafeGetComponent<RectTransform>(transform.Find("Viewport/Content"));
             _itemHeight = UIUtility.SafeGetComponent<RectTransform>(_item.transform).rect.height;
             _itemWidth = UIUtility.SafeGetComponent<RectTransform>(_item.transform).rect.width;
-           
         }
 
-        public void InitData(Dictionary<int,List<BaseDataModel>> modelData)
+        public void InitData(List<List<BaseDataModel>> modelData)
         {
             _modelList = modelData;
             int num = GetItemNum(_itemHeight, _itemWidth, offSet);
-            if (_modelList.Count < num)
+            if (_content.childCount == num)
+                return;
+            if (_modelList.Count < num )
             {
                 SpawnItem(_modelList.Count, ItemPrefabPath);
             }
@@ -57,11 +59,48 @@ namespace Sim_FrameWork
             {
                 SpawnItem(num, ItemPrefabPath);
             }
-           
             SetContentSize();
             UIUtility.SafeGetComponent<ScrollRect>(transform).onValueChanged.AddListener(ValueChanged);
         }
 
+        public void RefrshData(List<List<BaseDataModel>> modelData)
+        {
+            Action<int,int,int> SpawnItem = (count, startID, total) =>
+            {
+                for(int i = 0; i < count; i++)
+                {
+                    var element = ObjectManager.Instance.InstantiateObject("Assets/Prefabs/" + ItemPrefabPath + ".prefab");
+                    element.transform.SetParent(_content, false);
+                    var elementcpt = UIUtility.SafeGetComponent<BaseElement>(element.transform);
+                    /// Get  Data
+                    elementcpt.AddGetDataListener(GetData);
+                    elementcpt.Init(i+startID, offSet, total, layoutType);
+                    _elementList.Add(elementcpt);
+                }
+            };
+            _modelList = modelData;
+            int num = GetItemNum(_itemHeight, _itemWidth, offSet);
+            if (_modelList.Count<num && _content.childCount<_modelList.Count)
+            {
+                //小于实际数量,生成多的
+                SpawnItem(_modelList.Count - _content.childCount, _content.childCount - 1, num);
+                RefreshItem();
+            }
+            else if(_modelList.Count<num && _content.childCount > _modelList.Count)
+            {
+                //大于实际数量,销毁
+                for(int i = 0; i < _content.childCount - _modelList.Count;i++)
+                {
+                    var obj = _content.GetChild(_content.childCount - i - 1);
+                    var elementcpt = UIUtility.SafeGetComponent<BaseElement>(obj.transform);
+                    _elementList.Remove(elementcpt);
+                    ObjectManager.Instance.ReleaseObject(_content.GetChild(_content.childCount - i - 1).gameObject);
+                }
+                RefreshItem();
+
+
+            }
+        }
 
         /// <summary>
         /// Listener
@@ -108,6 +147,18 @@ namespace Sim_FrameWork
                 _elementList.Add(elementcpt);
             }
         }
+        private void RefreshItem()
+        {
+            int i = 0;
+            int num = GetItemNum(_itemHeight, _itemWidth, offSet);
+            foreach (Transform item in _content.transform)
+            {
+                var cpt= UIUtility.SafeGetComponent<BaseElement>(item);
+                cpt.Init(i, offSet, num, layoutType);
+                i++;
+            }
+        }
+
 
         private List<BaseDataModel> GetData(int id)
         {

@@ -39,6 +39,6 @@ namespace Sim_FrameWork
         UpdateTime,//更新时间
 
         ///Order
-        Order_Receive_Main
+        RefreshOrder,
     }
 }

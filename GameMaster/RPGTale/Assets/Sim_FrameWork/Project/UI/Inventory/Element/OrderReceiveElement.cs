@@ -67,10 +67,9 @@ namespace Sim_FrameWork.UI
 
                 if (GlobalEventManager.Instance.ReceiveOrder(_model.GUID))
                 {
-                    GlobalEventManager.Instance.UnRegisterOrder(_model.GUID);
                     UIManager.Instance.HideWnd(UIPath.General_Confirm_Dialog);
-                    //销毁界面订单，TODO
-                    //UIManager.Instance.SendMessageToWnd(UIPath.Order_Receive_Main_Page,new UIMessage ( UIMsgType.))
+                    GeneralHintDialogItem hint = new GeneralHintDialogItem("", 1);
+                    UIManager.Instance.PopUpWnd(UIPath.General_Hint_Dialog, WindowType.Dialog,true,hint);
                 }
                
             };

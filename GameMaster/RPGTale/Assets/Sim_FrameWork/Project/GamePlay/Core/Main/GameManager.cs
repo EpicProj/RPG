@@ -33,7 +33,6 @@ namespace Sim_FrameWork
         protected override void Awake()
         {
             base.Awake();
-            DontDestroyOnLoad(gameObject);
             AssetBundleManager.Instance.LoadAssetBundleConfig();
             ResourceManager.Instance.Init(this);
             ObjectManager.Instance.Init(transform.Find("RecyclePoolTrs"), transform.Find("SceneTrs"));

@@ -11,19 +11,27 @@ namespace Sim_FrameWork {
     /// </summary>
     public class GlobalEventManager : MonoSingleton<GlobalEventManager>
     {
+        enum OrderDicType
+        {
+            All,
+            Received,
+        }
         /// <summary>
         /// 列表中订单
         /// </summary>
         public Dictionary<string, OrderItemBase> AllOrderDic = new Dictionary<string, OrderItemBase>();
+        public List<List<BaseDataModel>> AllOrderDataModelList = new List<List<BaseDataModel>>();
         /// <summary>
         /// 接取的订单
         /// </summary>
         public Dictionary<string, OrderItemBase> PlayerReceivedOrders = new Dictionary<string, OrderItemBase>();
+        public List<List<BaseDataModel>> PlayerReceivedModelList = new List<List<BaseDataModel>>();
 
         /// <summary>
         /// statistics   key  :orderID   value: count
         /// </summary>
         public Dictionary<int, OrderStatisticsItem> OrderStatisticsDic = new Dictionary<int, OrderStatisticsItem>();
+
 
         protected override void Awake()
         {
@@ -33,7 +41,7 @@ namespace Sim_FrameWork {
         {
             if (Input.GetKeyDown(KeyCode.W))
             {
-                UIManager.Instance.SendMessageToWnd(UIPath.Order_Receive_Main_Page, new UIMessage(UIMsgType.Order_Receive_Main, AllOrderDic));
+                UIManager.Instance.SendMessageToWnd(UIPath.Order_Receive_Main_Page, new UIMessage(UIMsgType.RefreshOrder, AllOrderDic));
             }
         }
 
@@ -41,14 +49,11 @@ namespace Sim_FrameWork {
         {
             //For test
             RegisterOrder(new OrderItemBase(1));
+            RegisterOrder(new OrderItemBase(2));
             RegisterOrder(new OrderItemBase(1));
-            RegisterOrder(new OrderItemBase(1));
-            RegisterOrder(new OrderItemBase(1));
-            RegisterOrder(new OrderItemBase(1));
-            RegisterOrder(new OrderItemBase(1));
-            RegisterOrder(new OrderItemBase(1));
-            RegisterOrder(new OrderItemBase(1));
+            RegisterOrder(new OrderItemBase(2));
 
+            InitOrderModelData();
         }
 
         /// <summary>
@@ -71,11 +76,173 @@ namespace Sim_FrameWork {
             }
         }
 
-        private OrderItemBase GetOrderItemInAllOrder(string GUID)
+        private OrderItemBase GetOrderItem(string GUID,OrderDicType type)
         {
             OrderItemBase item = null;
-            AllOrderDic.TryGetValue(GUID, out item);
+            switch (type)
+            {
+                case OrderDicType.All:
+                    AllOrderDic.TryGetValue(GUID, out item);
+                    break;
+                case OrderDicType.Received:
+                    PlayerReceivedOrders.TryGetValue(GUID, out item);
+                    break;
+            }
+            if (item == null)
+            {
+                Debug.LogError("OrderItem not Exists! GUID=" + GUID);
+            }
             return item;
+        }
+
+
+        private List<BaseDataModel> GetOrderBaseData(OrderItemBase item)
+        {
+            List<BaseDataModel> model = new List<BaseDataModel>();
+            model.Add(item.dataModel);
+            model.Add(item.belongDataModel);
+            return model;
+        }
+
+        private void InitOrderModelData()
+        {
+            Func<Dictionary<string, OrderItemBase>,List<List<BaseDataModel>>> getData = (d) =>
+            {
+                List<List<BaseDataModel>> result = new List<List<BaseDataModel>>();
+                int index = 0;
+                foreach (KeyValuePair<string, OrderItemBase> kvp in d)
+                {
+                    result.Add(GetOrderBaseData(kvp.Value));
+                    index++;
+                }
+                return result;
+            };
+            AllOrderDataModelList = getData(AllOrderDic);
+            PlayerReceivedModelList = getData(PlayerReceivedOrders);
+        }
+
+        
+
+        /// <summary>
+        /// 移除订单数据
+        /// </summary>
+        /// <param name="GUIDList"></param>
+        /// <param name="type"></param>
+        private void RemoveOrderModel(List<string> GUIDList,OrderDicType type)
+        {
+            switch (type)
+            {
+                case OrderDicType.All:
+                    for(int i = 0; i < GUIDList.Count; i++)
+                    {
+                        foreach (var item in AllOrderDataModelList)
+                        {
+                            var model = (OrderDataModel)item[0];
+                            if (model.GUID == GUIDList[i])
+                            {
+                                AllOrderDataModelList.Remove(item);
+                                break;
+                            }    
+                        }
+                    }
+                    break;
+                case OrderDicType.Received:
+                    for(int i = 0; i < GUIDList.Count; i++)
+                    {
+                        foreach (var item in PlayerReceivedModelList)
+                        {
+                            var model = (OrderDataModel)item[0];
+                            if (model.GUID == GUIDList[i])
+                            {
+                                AllOrderDataModelList.Remove(item);
+                                break;
+                            }      
+                        }
+                    }
+                    break;
+            }
+        }
+        private void RemoveOrderModel(string GUID, OrderDicType type)
+        {
+            switch (type)
+            {
+                case OrderDicType.All:
+                    foreach (var item in AllOrderDataModelList)
+                    {
+                        var model = (OrderDataModel)item[0];
+                        if (model.GUID == GUID)
+                        {
+                            AllOrderDataModelList.Remove(item);
+                            break;
+                        }
+                            
+                    }
+                    break;
+                case OrderDicType.Received:
+                    foreach (var item in PlayerReceivedModelList)
+                    {
+                        var model = (OrderDataModel)item[0];
+                        if (model.GUID == GUID)
+                        {
+                            AllOrderDataModelList.Remove(item);
+                            break;
+                        }
+                           
+                    }
+                    break;
+            }
+        }
+
+        /// <summary>
+        /// 增加订单数据
+        /// </summary>
+        /// <param name="GUIDList"></param>
+        /// <param name="type"></param>
+        private void AddOrderModel(List<string> GUIDList,OrderDicType type)
+        {
+            switch (type)
+            {
+                case OrderDicType.All:
+                    for(int i = 0; i < GUIDList.Count; i++)
+                    {
+                        var item = GetOrderItem(GUIDList[i], OrderDicType.All);
+                        if(item != null)
+                        {
+                            AllOrderDataModelList.Add(GetOrderBaseData(item));
+                        }  
+                    }
+                    break;
+                case OrderDicType.Received:
+                    for(int i = 0; i < GUIDList.Count; i++)
+                    {
+                        var item = GetOrderItem(GUIDList[i], OrderDicType.Received);
+                        if (item != null)
+                        {
+                            PlayerReceivedModelList.Add(GetOrderBaseData(item));
+                        }
+                    }
+                    break;
+            }
+        }
+        private void AddOrderModel(string GUID,OrderDicType type)
+        {
+            switch (type)
+            {
+                case OrderDicType.All:
+                    var item = GetOrderItem(GUID, OrderDicType.All);
+                    if (item != null)
+                    {
+                        AllOrderDataModelList.Add(GetOrderBaseData(item));
+                    }
+                    break;
+                case OrderDicType.Received:
+                    var item2 = GetOrderItem(GUID, OrderDicType.Received);
+                    if (item2 != null)
+                    {
+                        PlayerReceivedModelList.Add(GetOrderBaseData(item2));
+                    }
+                    break;
+            }
         }
 
         /// <summary>
@@ -85,7 +252,7 @@ namespace Sim_FrameWork {
         /// <returns></returns>
         public bool ReceiveOrder(string GUID)
         {
-            var order = GetOrderItemInAllOrder(GUID);
+            var order = GetOrderItem(GUID, OrderDicType.All);
             if(order != null)
             {
                 order.orderState = OrderItemBase.OrderState.Receive;
@@ -95,7 +262,12 @@ namespace Sim_FrameWork {
                     return false;
                 }
                 PlayerReceivedOrders.Add(GUID, order);
+                AddOrderModel(GUID, OrderDicType.Received);
                 AllOrderDic.Remove(GUID);
+                RemoveOrderModel(GUID, OrderDicType.All);
+                //UpdateUI
+                UIManager.Instance.SendMessageToWnd(UIPath.Order_Receive_Main_Page, new UIMessage(UIMsgType.RefreshOrder));
+                
                 Debug.Log("成功接取订单");
                 return true;
             }
@@ -199,6 +371,28 @@ namespace Sim_FrameWork {
             return item;
         }
 
+
+        #region OrderSettle
+        /// <summary>
+        /// 订单月底结算
+        /// </summary>
+        public void DoPlayerOrderMonthSettle()
+        {
+            foreach(var item in PlayerReceivedOrders.Values)
+            {
+                item.remainTime -= 1;
+                if (item.remainTime <= 0)
+                {
+                    //TODO 订单超时
+                    
+                }
+            }
+        }
+
+
+        #endregion
+
+
         #region Sizer
 
         public OrderItemBase[] FilterOrderByType(string type)
@@ -225,6 +419,9 @@ namespace Sim_FrameWork {
         #endregion
 
     }
+
+
+
 
     public class OrderStatisticsItem
     {

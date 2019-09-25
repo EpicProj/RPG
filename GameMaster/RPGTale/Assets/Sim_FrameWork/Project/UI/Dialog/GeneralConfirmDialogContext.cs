@@ -10,12 +10,12 @@ namespace Sim_FrameWork.UI
 
         private GeneralConfirmDialogItem _item;
 
+
         private const string ConfirmText = "GeneralConfirmDialog_Confirm_Text";
         private const string CancelText = "GeneralConfirmDialog_Cancel_Text";
 
         public override void Awake(params object[] paralist)
         {
-            _item = (GeneralConfirmDialogItem)paralist[0];
             m_dialog = UIUtility.SafeGetComponent<GeneralConfirmDialog>(Transform);   
         }
 
@@ -25,6 +25,7 @@ namespace Sim_FrameWork.UI
             AddBtnListener();
             InitText();
         }
+
 
         private void InitText()
         {

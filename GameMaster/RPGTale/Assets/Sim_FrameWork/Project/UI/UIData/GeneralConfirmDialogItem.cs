@@ -33,4 +33,16 @@ namespace Sim_FrameWork
            
         }
     }
+
+    public class GeneralHintDialogItem
+    {
+        public string content;
+        public float time;
+
+        public GeneralHintDialogItem(string content,float time)
+        {
+            this.content = content;
+            this.time = time;
+        }
+    }
 }

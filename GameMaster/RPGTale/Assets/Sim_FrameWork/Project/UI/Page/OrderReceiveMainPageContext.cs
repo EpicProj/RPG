@@ -24,8 +24,9 @@ namespace Sim_FrameWork.UI
         {
             switch (msg.type)
             {
-                case UIMsgType.Order_Receive_Main:
-                    return InitOrderMainContent();
+                case UIMsgType.RefreshOrder:
+                    //TODO
+                    return RefreshOrderContent();
                 default:
                     return false;
             }
@@ -47,35 +48,24 @@ namespace Sim_FrameWork.UI
 
 
 
-        #region Init OrderMain
+        #region  OrderMain
 
         private bool InitOrderMainContent()
         {
-            Func<Dictionary<string, OrderItemBase>, Dictionary<int, List<BaseDataModel>>> getData = (d) =>
-            {
-                Dictionary<int, List<BaseDataModel>> result = new Dictionary<int, List<BaseDataModel>>();
-                int index = 0;
-                foreach (KeyValuePair<string, OrderItemBase> kvp in d)
-                {
-                    List<BaseDataModel> modelList = new List<BaseDataModel>();
-                    modelList.Add(kvp.Value.dataModel);
-                    modelList.Add(kvp.Value.belongDataModel);
-                    result.Add(index, modelList);
-                    index++;
-                }
-                return result;
-            };
-
-            var orderContent = GlobalEventManager.Instance.AllOrderDic;
-            if (orderContent == null)
-                return false;
             //For Test
-           
             var loopList = UIUtility.SafeGetComponent<LoopList>(m_page.OrderContentScroll.transform);
-            loopList.InitData(getData(orderContent));
+            loopList.InitData(GlobalEventManager.Instance.AllOrderDataModelList);
          
             return true;
         }
+
+        private bool RefreshOrderContent()
+        {
+            var loopList = UIUtility.SafeGetComponent<LoopList>(m_page.OrderContentScroll.transform);
+            loopList.RefrshData(GlobalEventManager.Instance.AllOrderDataModelList);
+            return true;
+        }
+
 
 
         #endregion

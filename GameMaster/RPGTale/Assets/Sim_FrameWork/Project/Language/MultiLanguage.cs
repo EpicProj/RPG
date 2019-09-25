@@ -92,8 +92,9 @@ namespace Sim_FrameWork
 
         public string GetTextValue(string key)
         {
-            var result = TextData[key];
-            if (result == null)
+            var result = string.Empty;
+            TextData.TryGetValue(key, out result);
+            if (string.IsNullOrEmpty(result))
                 return string.Empty;
             return result;
         }

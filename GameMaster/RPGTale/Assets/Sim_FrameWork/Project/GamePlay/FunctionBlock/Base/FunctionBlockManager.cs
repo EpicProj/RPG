@@ -38,6 +38,16 @@ namespace Sim_FrameWork
 
 
 
+        //Place Block
+        public void PlaceFunctionBlock(int blockID, Vector3 checkpos)
+        {
+            var block = FunctionBlockModule.GetFunctionBlockByBlockID(blockID);
+            if (block == null)
+                return;
+
+
+        }
+
         #endregion
     }
 }

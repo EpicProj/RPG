@@ -114,6 +114,8 @@ namespace Sim_FrameWork
             return content;
         }
 
+
+
         public OrderContent.OrderReward GetOrderRewardData(OrderData data)
         {
             return config.FindOrderContent(data.OrderJsonConfig).Reward;

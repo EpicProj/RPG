@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace Sim_FrameWork
 {
-    public static class BuildingPanelMetaDataReader 
+    public static class BuildingPanelMetaDataReader
     {
 
         public static List<BuildingPanelData> BuildingPanelDataList;

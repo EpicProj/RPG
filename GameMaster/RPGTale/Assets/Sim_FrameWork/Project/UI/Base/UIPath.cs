@@ -14,6 +14,7 @@ namespace Sim_FrameWork
         /// 信息确认框
         /// </summary>
         public const string General_Confirm_Dialog = "Dialog/Main/GeneralConfirmDialog";
+        public const string General_Hint_Dialog = "Dialog/Main/GeneralHint";
 
         #endregion
 
