@@ -1,16 +1,22 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
-public class GeneralOrganizationElement : MonoBehaviour {
+namespace Sim_FrameWork
+{
+    public class GeneralOrganizationElement : BaseElement
+    {
+        [Header("Base Info")]
+        public Image Icon;
+        public Text OrganizationName;
+        public Image AreaIcon;
+        public Text AreaText;
 
-	// Use this for initialization
-	void Start () {
-		
-	}
-	
-	// Update is called once per frame
-	void Update () {
-		
-	}
+
+
+        private OrganizationDataModel _model;
+
+
+    }
 }

@@ -41,6 +41,8 @@ namespace Sim_FrameWork
             }
         }
 
+        public virtual void Awake() { }
+
         public void Init(int id, float offset , int showNum , LoopList.LayoutType type)
         {
             _id = -1;

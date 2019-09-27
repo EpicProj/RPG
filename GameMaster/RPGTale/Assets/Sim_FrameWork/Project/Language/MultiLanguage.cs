@@ -95,7 +95,9 @@ namespace Sim_FrameWork
             var result = string.Empty;
             TextData.TryGetValue(key, out result);
             if (string.IsNullOrEmpty(result))
-                return string.Empty;
+            {
+                Debug.LogError("Text not Found! ID=" + key);
+            }       
             return result;
         }
 

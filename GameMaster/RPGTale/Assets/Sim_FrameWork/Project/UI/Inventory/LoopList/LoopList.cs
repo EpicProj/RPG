@@ -18,6 +18,7 @@ namespace Sim_FrameWork
         public float offSet;
         public LayoutType layoutType = LayoutType.Horizontal;
         
+        
         /// <summary>
         /// 生成物体路径
         /// </summary>
@@ -80,6 +81,7 @@ namespace Sim_FrameWork
             };
             _modelList = modelData;
             int num = GetItemNum(_itemHeight, _itemWidth, offSet);
+            Debug.Log(num);
             if (_modelList.Count<num && _content.childCount<_modelList.Count)
             {
                 //小于实际数量,生成多的
@@ -115,14 +117,14 @@ namespace Sim_FrameWork
 
         private int GetItemNum(float itemHeight,float itemWidth, float offset)
         {
-            var rect = UIUtility.SafeGetComponent<RectTransform>(transform).rect;
+            var ScrollRect = UIUtility.SafeGetComponent<RectTransform>(transform).rect;
             switch (layoutType)
             {
                 case LayoutType.Horizontal:
-                    var width = rect.width;
+                    var width = ScrollRect.width;
                     return Mathf.CeilToInt(width / (itemWidth + offset)) + 1;
                 case LayoutType.Vertical:
-                    var height = rect.height;
+                    var height = ScrollRect.height;
                     return Mathf.CeilToInt(height / (itemHeight + offset)) + 1;
                 default:
                     return -1;

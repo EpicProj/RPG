@@ -11,6 +11,7 @@ namespace Sim_FrameWork {
     /// </summary>
     public class GlobalEventManager : MonoSingleton<GlobalEventManager>
     {
+        #region Order
         enum OrderDicType
         {
             All,
@@ -417,6 +418,10 @@ namespace Sim_FrameWork {
 
 
         #endregion
+        #endregion
+
+
+
 
     }
 

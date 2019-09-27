@@ -15,8 +15,8 @@ namespace Sim_FrameWork.UI
 
         [Header("Element")]
         public GameObject OrderContent;
-        public GameObject ScrollView;
         public GameObject OrderRewardContent;
+        public GameObject OrganizationContent;
 
         [Header("Button")]
         public Button OrderBtn;
@@ -26,10 +26,25 @@ namespace Sim_FrameWork.UI
 
         private const string Order_Receive_Confirm_Title_Text = "Order_Receive_Confirm_Title";
         private const string Order_Receive_Confirm_Content_Text = "Order_Receive_Confirm_Content";
+        private const string Order_Receive_Hint_Text = "Order_Receive_Hint";
         private string Confirm_Title_Text;
         private string Confirm_Content_Text;
 
+        private Image OrganizationIcon;
+        private Text OrganizationName;
+        private Text OrganizationName_En;
+
         private bool HasInitDetailElement = false;
+
+        public override void Awake()
+        {
+            Confirm_Title_Text = MultiLanguage.Instance.GetTextValue(Order_Receive_Confirm_Title_Text);
+            Confirm_Content_Text = MultiLanguage.Instance.GetTextValue(Order_Receive_Confirm_Content_Text);
+            OrganizationIcon = UIUtility.SafeGetComponent<Image>(OrganizationContent.transform.Find("Icon"));
+            OrganizationName = UIUtility.SafeGetComponent<Text>(OrganizationContent.transform.Find("Name"));
+            OrganizationName_En = UIUtility.SafeGetComponent<Text>(OrganizationContent.transform.Find("Name_EN"));
+
+        }
         public override void ChangeAction(List<BaseDataModel> model)
         {
             _model = (OrderDataModel)model[0];
@@ -42,9 +57,11 @@ namespace Sim_FrameWork.UI
             TitleDesc.text = _model.Desc;
             OrderBG.sprite = _model.Icon;
 
-            Confirm_Title_Text = MultiLanguage.Instance.GetTextValue(Order_Receive_Confirm_Title_Text);
-            Confirm_Content_Text =MultiLanguage.Instance.GetTextValue(Order_Receive_Confirm_Content_Text);
-
+            var organization = OrderModule.GetOrderBelongModel(_model.ID);
+            OrganizationIcon.sprite = organization.IconBig;
+            OrganizationName.text = organization.Name;
+            OrganizationName_En.text = organization.Name_En;
+          
             AddBtnListener();
 
             if (!HasInitDetailElement)
@@ -67,7 +84,7 @@ namespace Sim_FrameWork.UI
                 if (GlobalEventManager.Instance.ReceiveOrder(_model.GUID))
                 {
                     UIManager.Instance.HideWnd(UIPath.General_Confirm_Dialog);
-                    GeneralHintDialogItem hint = new GeneralHintDialogItem("", 1);
+                    GeneralHintDialogItem hint = new GeneralHintDialogItem(Order_Receive_Hint_Text, 1);
                     UIManager.Instance.PopUpWnd(UIPath.General_Hint_Dialog, WindowType.Dialog,true,hint);
                 }
                

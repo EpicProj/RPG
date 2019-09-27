@@ -114,7 +114,14 @@ namespace Sim_FrameWork
             return content;
         }
 
-
+        public static OrganizationDataModel GetOrderBelongModel(int orderID)
+        {
+            var id = GetOrderDataByID(orderID).OrganizationBelong;
+            OrganizationDataModel model = new OrganizationDataModel();
+            if (!model.Create(id))
+                Debug.LogError("Get OrganizationModel Fail OrderID=" + orderID);
+            return model;
+        }
 
         public OrderContent.OrderReward GetOrderRewardData(OrderData data)
         {

@@ -9,12 +9,24 @@ namespace Sim_FrameWork
     {
         public static T SafeGetComponent<T>(Transform trans) where T : class
         {
-            var cpt = trans.GetComponent<T>();
-            if (cpt == null)
+            T result = null;
+            try
+            {
+                result = trans.GetComponent<T>();
+            }
+            catch (Exception e)
+            {
+            }
+            if(result == null && trans!=null)
             {
                 Debug.LogError("Get Component is null , trans=" + trans.name);
             }
-            return cpt;
+            else if (trans == null)
+            {
+                Debug.LogError("Transform is null");
+            }
+            return result;
+         
         }
 
         /// <summary>
