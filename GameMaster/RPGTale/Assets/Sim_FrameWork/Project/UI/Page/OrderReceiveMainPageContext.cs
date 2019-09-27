@@ -17,6 +17,7 @@ namespace Sim_FrameWork.UI
         {
             m_page = UIUtility.SafeGetComponent<OrderReceiveMainPage>(Transform);
             AddBtnListener();
+            InitOrderMainContent();
         }
 
 
@@ -34,7 +35,7 @@ namespace Sim_FrameWork.UI
 
         public override void OnShow(params object[] paralist)
         {
-            InitOrderMainContent();
+            RefreshOrderContent();
         }
 
         private void AddBtnListener()
@@ -52,10 +53,8 @@ namespace Sim_FrameWork.UI
 
         private bool InitOrderMainContent()
         {
-            //For Test
             var loopList = UIUtility.SafeGetComponent<LoopList>(m_page.OrderContentScroll.transform);
-            loopList.InitData(GlobalEventManager.Instance.AllOrderDataModelList);
-         
+            loopList.InitData(GlobalEventManager.Instance.AllOrderDataModelList);   
             return true;
         }
 

@@ -27,9 +27,9 @@ namespace Sim_FrameWork
         {
             mainCanvas = GameObject.Find("MainCanvas").GetComponent<Canvas>();
             uiCamera = mainCanvas.transform.Find("UICamera").GetComponent<Camera>();
-            pickedItem = mainCanvas.transform.Find("Window/PickedDistrict").GetComponent<SlotItem>();
+            pickedItem = mainCanvas.transform.Find("SPContent/PickedDistrict").GetComponent<SlotItem>();
             pickedItem.Hide();
-            maInfoTip= mainCanvas.transform.Find("Window/MaterialInfoTip").GetComponent<MaterialInfoTip>();
+            maInfoTip= mainCanvas.transform.Find("SPContent/MaterialInfoTip").GetComponent<MaterialInfoTip>();
         }
 
         void Update()

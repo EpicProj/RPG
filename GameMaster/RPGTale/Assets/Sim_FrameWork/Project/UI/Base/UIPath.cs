@@ -72,7 +72,7 @@ namespace Sim_FrameWork
         #region ElementPath
         ///建造主页签
         public const string Construct_MainTab_Element_Path = "Assets/Prefabs/Object/Main/ConstructMainTabElement.prefab";
-        public const string Test = "Assets/Prefabs/Object/Order/OrderDetailElement.prefab";
+        public const string Order_Detail_Element = "Assets/Prefabs/Object/Order/OrderDetailElement.prefab";
         #endregion
 
 

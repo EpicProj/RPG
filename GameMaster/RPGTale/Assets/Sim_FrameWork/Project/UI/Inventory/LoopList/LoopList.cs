@@ -97,8 +97,6 @@ namespace Sim_FrameWork
                     ObjectManager.Instance.ReleaseObject(_content.GetChild(_content.childCount - i - 1).gameObject);
                 }
                 RefreshItem();
-
-
             }
         }
 

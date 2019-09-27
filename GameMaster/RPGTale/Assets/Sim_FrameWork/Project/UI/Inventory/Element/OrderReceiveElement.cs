@@ -64,7 +64,6 @@ namespace Sim_FrameWork.UI
         {
             Action confirmAction = () =>
             {
-
                 if (GlobalEventManager.Instance.ReceiveOrder(_model.GUID))
                 {
                     UIManager.Instance.HideWnd(UIPath.General_Confirm_Dialog);
@@ -89,9 +88,7 @@ namespace Sim_FrameWork.UI
             var dic = orderModel.OrderContentDic;
             foreach(KeyValuePair<MaterialDataModel,int> kvp in dic)
             {
-                //var loopList = UIUtility.SafeGetComponent<LoopList>(ScrollView.transform);
-                //loopList.InitData()
-                var obj = ObjectManager.Instance.InstantiateObject(UIPath.Test);
+                var obj = ObjectManager.Instance.InstantiateObject(UIPath.Order_Detail_Element);
                 var element = UIUtility.SafeGetComponent<OrderDetailElement>(obj.transform);
                 element.InitOrderDetailElement(kvp.Key, kvp.Value);
                 obj.transform.SetParent(OrderContent.transform,false);
