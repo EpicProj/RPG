@@ -14,10 +14,22 @@ namespace Sim_FrameWork
             Horizontal
         }
 
+        [System.Serializable]
+        public class SepConfig
+        {
+            public float LeftSep;
+            public float TopSep;
+            public SepConfig(float left,float top)
+            {
+                LeftSep = left;
+                TopSep = top;
+            }
+        }
+
         [Header("Config")]
         public float offSet;
         public LayoutType layoutType = LayoutType.Horizontal;
-        
+        public SepConfig sepConfig;
         
         /// <summary>
         /// 生成物体路径
@@ -40,10 +52,14 @@ namespace Sim_FrameWork
         {
             _elementList = new List<BaseElement>();
             _modelList = new List<List<BaseDataModel>>();
-            _item = ResourceManager.Instance.LoadResource<GameObject>("Assets/Prefabs/"+ItemPrefabPath+".prefab");
+            if (!string.IsNullOrEmpty(ItemPrefabPath))
+            {
+                _item = ResourceManager.Instance.LoadResource<GameObject>("Assets/Prefabs/" + ItemPrefabPath + ".prefab");
+                _itemHeight = UIUtility.SafeGetComponent<RectTransform>(_item.transform).rect.height;
+                _itemWidth = UIUtility.SafeGetComponent<RectTransform>(_item.transform).rect.width;
+            }  
             _content = UIUtility.SafeGetComponent<RectTransform>(transform.Find("Viewport/Content"));
-            _itemHeight = UIUtility.SafeGetComponent<RectTransform>(_item.transform).rect.height;
-            _itemWidth = UIUtility.SafeGetComponent<RectTransform>(_item.transform).rect.width;
+
         }
 
         public void InitData(List<List<BaseDataModel>> modelData)
@@ -75,7 +91,7 @@ namespace Sim_FrameWork
                     var elementcpt = UIUtility.SafeGetComponent<BaseElement>(element.transform);
                     /// Get  Data
                     elementcpt.AddGetDataListener(GetData);
-                    elementcpt.Init(i+startID, offSet, total, layoutType);
+                    elementcpt.Init(i+startID, offSet, total,sepConfig, layoutType);
                     _elementList.Add(elementcpt);
                 }
             };
@@ -143,7 +159,7 @@ namespace Sim_FrameWork
                 elementcpt= UIUtility.SafeGetComponent<BaseElement>(element.transform);
                 /// Get  Data
                 elementcpt.AddGetDataListener(GetData);
-                elementcpt.Init(i, offSet, num ,layoutType);
+                elementcpt.Init(i, offSet, num , sepConfig, layoutType);
                 _elementList.Add(elementcpt);
             }
         }
@@ -154,7 +170,7 @@ namespace Sim_FrameWork
             foreach (Transform item in _content.transform)
             {
                 var cpt= UIUtility.SafeGetComponent<BaseElement>(item);
-                cpt.Init(i, offSet, num, layoutType);
+                cpt.Init(i, offSet, num,sepConfig, layoutType);
                 i++;
             }
         }

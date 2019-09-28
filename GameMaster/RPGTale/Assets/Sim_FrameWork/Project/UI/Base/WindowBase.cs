@@ -7,6 +7,13 @@ namespace Sim_FrameWork.UI
 {
     public class WindowBase 
     {
+        public enum WindowStates
+        {
+            show,
+            hide,
+            Close
+        }
+
         //引用GameObject
         public GameObject GameObject { get; set; }
 
@@ -21,6 +28,8 @@ namespace Sim_FrameWork.UI
 
         //所有Toggle
         protected List<Toggle> m_AllToggle = new List<Toggle>();
+
+        public WindowStates currentStates = WindowStates.Close;
 
         public virtual bool OnMessage(UIMessage msg)
         {

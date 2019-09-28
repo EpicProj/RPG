@@ -125,7 +125,7 @@ namespace Sim_FrameWork {
         public bool SendMessageToWnd(string name, UIMessage message)
         {
             WindowBase wnd = FindWndByName<WindowBase>(name);
-            if (wnd != null)
+            if (wnd != null && wnd.currentStates== WindowBase.WindowStates.show)
             {
                 return wnd.OnMessage(message);
             }
@@ -215,6 +215,7 @@ namespace Sim_FrameWork {
                 }
 
                 wnd.OnShow(paralist);
+                wnd.currentStates = WindowBase.WindowStates.show;
             }
             else
             {
@@ -306,6 +307,7 @@ namespace Sim_FrameWork {
             {
                 wnd.GameObject.SetActive(false);
                 wnd.OnDisable();
+                wnd.currentStates = WindowBase.WindowStates.hide;
             }
         }
 
@@ -333,6 +335,7 @@ namespace Sim_FrameWork {
                     wnd.GameObject.SetActive(true);
                 if (bTop) wnd.Transform.SetAsLastSibling();
                 wnd.OnShow(paralist);
+                wnd.currentStates = WindowBase.WindowStates.show;
             }
         }
     }

@@ -13,6 +13,14 @@
 			<variable  name="BGDescBrief" col = "BGDescBrief" type="string"/>
 		</list>
 	</variable>
+	<variable  name="AllOrganizationTypeDataList" type="list">
+		<list name = "OrganizationTypeData" sheetname="OrganizationTypeData" mainKey = "TypeID">
+			<variable  name="TypeID" col = "TypeID" type="string"/>
+			<variable  name="Name" col = "Name" type="string"/>
+			<variable  name="Desc" col = "Desc" type="string"/>
+			<variable  name="IconPath" col = "IconPath" type="string"/>
+		</list>
+	</variable>
 
 	<variable  name="AllOrganizationEventDataList" type="list">
 		<list name = "OrganizationEventData" sheetname="OrganizationEventData" mainKey = "EventID">

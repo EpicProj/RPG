@@ -8,7 +8,7 @@ namespace Sim_FrameWork.UI
     public class LoadingPage : MonoBehaviour
     {
         public Image BG;
-
+        public Slider progressSlider;
 
     }
 }

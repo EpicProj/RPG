@@ -44,7 +44,7 @@ namespace Sim_FrameWork
 
             Action<MaterialStorageData> sendMsg = (m) =>
             {
-                UIManager.Instance.SendMessageToWnd(UIPath.WAREHOURSE_DIALOG, new UIMessage(UIMsgType.UpdateWarehouseData, m));
+                UIManager.Instance.SendMessageToWnd(UIPath.WAREHOURSE_DIALOG, new UIMessage(UIMsgType.UpdateWarehouseData, new List<object>(1) { m }));
             };
 
             if (material != null)

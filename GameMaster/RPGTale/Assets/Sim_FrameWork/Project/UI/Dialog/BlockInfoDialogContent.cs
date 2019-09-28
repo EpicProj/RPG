@@ -152,21 +152,21 @@ namespace Sim_FrameWork.UI
             switch (msg.type)
             {
                 case  UIMsgType.UpdateManuSlot:
-                    ManufactFormulaInfo formulaInfo = (ManufactFormulaInfo)msg.content;
+                    ManufactFormulaInfo formulaInfo = (ManufactFormulaInfo)msg.content[0];
                     //Update Info
                     manufactoryInfo.formulaInfo = formulaInfo;
 
                     UpdateManuMaterialSlot(formulaInfo);
                     return true;
                 case  UIMsgType.UpdateLevelInfo:
-                    FunctionBlockLevelInfo levelInfo = (FunctionBlockLevelInfo)msg.content;
+                    FunctionBlockLevelInfo levelInfo = (FunctionBlockLevelInfo)msg.content[0];
                     //Update Info
                     blockInfo.levelInfo = levelInfo;
                     UpdateLevel(levelInfo);
                     return true;
                 case  UIMsgType.UpdateSpeedText:
                     //UpdateSpeed
-                    float Addspeed = (float)msg.content;
+                    float Addspeed = (float)msg.content[0];
                     manufactoryInfo.AddCurrentSpeed(Addspeed);
                     RefreshInfoText(manufactoryInfo.CurrentSpeed, InfoType.Speed);
                     return true;

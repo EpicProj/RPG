@@ -7,9 +7,9 @@ namespace Sim_FrameWork
     public class UIMessage 
     {
         public UIMsgType type;
-        public object content;
+        public List<object> content;
 
-        public UIMessage(UIMsgType Msgtype, object Content=null)
+        public UIMessage(UIMsgType Msgtype, List<object> Content=null)
         {
             type = Msgtype;
             content = Content;
@@ -40,5 +40,6 @@ namespace Sim_FrameWork
 
         ///Order
         RefreshOrder,
+        OrderPage_Select_Organization,
     }
 }

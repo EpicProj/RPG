@@ -23,6 +23,16 @@ public class OrganizationMetaData : ExcelBase {
             data.BGDescBrief = "";
             AllOrganizationDataList.Add(data);
         }
+        AllOrganizationTypeDataList = new List<OrganizationTypeData>();
+        for(int i = 0; i < 2; i++)
+        {
+            OrganizationTypeData data = new OrganizationTypeData();
+            data.TypeID = "";
+            data.Name = "";
+            data.Desc = "";
+            data.IconPath = "";
+            AllOrganizationTypeDataList.Add(data);
+        }
         AllOrganizationEventDataList = new List<OrganizationEventData>();
         for(int i = 0; i < 2; i++)
         {
@@ -34,7 +44,6 @@ public class OrganizationMetaData : ExcelBase {
             data.EventBG = "";
             data.Effects = "";
             AllOrganizationEventDataList.Add(data);
-
         }
     }
 #endif
@@ -56,6 +65,17 @@ public class OrganizationMetaData : ExcelBase {
                 AllOrganizationDataDic.Add(data.ID, data);
             }
         }
+        foreach (var data in AllOrganizationTypeDataList)
+        {
+            if (AllOrganizationTypeDataDic.ContainsKey(data.TypeID))
+            {
+                Debug.LogError("Find Same Organization TypeID  , ID= " + data.TypeID);
+            }
+            else
+            {
+                AllOrganizationTypeDataDic.Add(data.TypeID, data);
+            }
+        }
         foreach (var data in AllOrganizationEventDataList)
         {
             if (AllOrganizationEventDataDic.ContainsKey(data.EventID))
@@ -74,12 +94,17 @@ public class OrganizationMetaData : ExcelBase {
     public Dictionary<int, OrganizationData> AllOrganizationDataDic = new Dictionary<int, OrganizationData>();
     [XmlIgnore]
     public Dictionary<int, OrganizationEventData> AllOrganizationEventDataDic = new Dictionary<int, OrganizationEventData>();
+    [XmlIgnore]
+    public Dictionary<string, OrganizationTypeData> AllOrganizationTypeDataDic = new Dictionary<string, OrganizationTypeData>();
 
     [XmlElement]
     public List<OrganizationData> AllOrganizationDataList { get; set; }
     [XmlElement]
     public List<OrganizationEventData> AllOrganizationEventDataList { get; set; }
- 
+    [XmlElement]
+    public List<OrganizationTypeData> AllOrganizationTypeDataList { get; set; }
+
+
 
 
 }
@@ -106,6 +131,20 @@ public class OrganizationData
     public string BGDescBrief { get; set; }
 
 }
+
+[System.Serializable]
+public class OrganizationTypeData
+{
+    [XmlAttribute]
+    public string TypeID { get; set; }
+    [XmlAttribute]
+    public string Name { get; set; }
+    [XmlAttribute]
+    public string Desc { get; set; }
+    [XmlAttribute]
+    public string IconPath { get; set; }
+}
+
 [System.Serializable]
 public class OrganizationEventData
 {

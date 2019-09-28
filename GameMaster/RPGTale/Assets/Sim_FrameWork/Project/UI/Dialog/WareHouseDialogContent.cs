@@ -37,7 +37,7 @@ namespace Sim_FrameWork.UI
             switch (msg.type)
             {
                 case UIMsgType.UpdateWarehouseData:
-                    MaterialStorageData data = (MaterialStorageData)msg.content;
+                    MaterialStorageData data = (MaterialStorageData)msg.content[0];
                     UpdateStorageItem(data);
                     return true;
             }

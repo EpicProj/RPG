@@ -16,14 +16,14 @@ namespace Sim_FrameWork
             }
             catch (Exception e)
             {
-            }
-            if(result == null && trans!=null)
-            {
-                Debug.LogError("Get Component is null , trans=" + trans.name);
-            }
-            else if (trans == null)
-            {
-                Debug.LogError("Transform is null");
+                if (result == null && trans != null)
+                {
+                    Debug.LogError("Get Component is null , trans=" + trans.name);
+                }
+                else if (trans == null)
+                {
+                    Debug.LogError("Transform is null");
+                }
             }
             return result;
          

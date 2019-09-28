@@ -9,6 +9,9 @@ namespace Sim_FrameWork
         public static List<OrganizationData> OrganizationDataList;
         public static Dictionary<int, OrganizationData> OrganizationDataDic;
 
+        public static List<OrganizationTypeData> OrganizationTypeDataList;
+        public static Dictionary<string, OrganizationTypeData> OrganizationTypeDataDic;
+
         public static List<OrganizationEventData> OrganizationEventDataList;
         public static Dictionary<int, OrganizationEventData> OrganizationEventDataDic;
 
@@ -23,6 +26,8 @@ namespace Sim_FrameWork
 
             OrganizationDataList = config.AllOrganizationDataList;
             OrganizationDataDic = config.AllOrganizationDataDic;
+            OrganizationTypeDataList = config.AllOrganizationTypeDataList;
+            OrganizationTypeDataDic = config.AllOrganizationTypeDataDic;
             OrganizationEventDataList = config.AllOrganizationEventDataList;
             OrganizationEventDataDic = config.AllOrganizationEventDataDic;
         }
@@ -36,6 +41,16 @@ namespace Sim_FrameWork
         {
             LoadData();
             return OrganizationDataDic;
+        }
+        public static List<OrganizationTypeData> GetOrganizaitonTypeData()
+        {
+            LoadData();
+            return OrganizationTypeDataList;
+        }
+        public static Dictionary<string, OrganizationTypeData> GetOrganizaitonTypeDataDic()
+        {
+            LoadData();
+            return OrganizationTypeDataDic;
         }
         public static List<OrganizationEventData> GetOrganizationEventData()
         {

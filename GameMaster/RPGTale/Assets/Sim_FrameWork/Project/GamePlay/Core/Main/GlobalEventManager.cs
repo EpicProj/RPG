@@ -12,7 +12,7 @@ namespace Sim_FrameWork {
     public class GlobalEventManager : MonoSingleton<GlobalEventManager>
     {
         #region Order
-        enum OrderDicType
+        public enum OrderDicType
         {
             All,
             Received,
@@ -33,18 +33,15 @@ namespace Sim_FrameWork {
         /// </summary>
         public Dictionary<int, OrderStatisticsItem> OrderStatisticsDic = new Dictionary<int, OrderStatisticsItem>();
 
+        public Dictionary<int, OrganizationInfo> CurrentOrganization = new Dictionary<int, OrganizationInfo>();
+        public List<List<BaseDataModel>> CurrrentOrganizationModel = new List<List<BaseDataModel>>();
+
 
         protected override void Awake()
         {
             base.Awake();
         }
-        void Update()
-        {
-            if (Input.GetKeyDown(KeyCode.W))
-            {
-                UIManager.Instance.SendMessageToWnd(UIPath.Order_Receive_Main_Page, new UIMessage(UIMsgType.RefreshOrder, AllOrderDic));
-            }
-        }
+
 
         void Start()
         {
@@ -54,7 +51,10 @@ namespace Sim_FrameWork {
             RegisterOrder(new OrderItemBase(1));
             RegisterOrder(new OrderItemBase(2));
 
+            AddOrganization(1);
+
             InitOrderModelData();
+            InitOrganizationModelData();
         }
 
         /// <summary>
@@ -69,11 +69,24 @@ namespace Sim_FrameWork {
             return true;
         }
 
-        public void UnRegisterOrder(string GUID)
+        public void UnRegisterOrder(string GUID,OrderDicType type)
         {
-            if (AllOrderDic.ContainsKey(GUID))
+            switch (type)
             {
-                AllOrderDic.Remove(GUID);
+                case OrderDicType.All:
+                    if (AllOrderDic.ContainsKey(GUID))
+                    {
+                        AllOrderDic.Remove(GUID);
+                        RemoveOrderModel(GUID, OrderDicType.All);
+                    }
+                    break;
+                case OrderDicType.Received:
+                    if (PlayerReceivedOrders.ContainsKey(GUID))
+                    {
+                        PlayerReceivedOrders.Remove(GUID);
+                        RemoveOrderModel(GUID, OrderDicType.Received);
+                    }
+                    break;
             }
         }
 
@@ -233,14 +246,14 @@ namespace Sim_FrameWork {
                     var item = GetOrderItem(GUID, OrderDicType.All);
                     if (item != null)
                     {
-                        AllOrderDataModelList.Add(GetOrderBaseData(item));
+                        AllOrderDataModelList.Add(GetOrderBaseData(item));                       
                     }
                     break;
                 case OrderDicType.Received:
                     var item2 = GetOrderItem(GUID, OrderDicType.Received);
                     if (item2 != null)
                     {
-                        PlayerReceivedModelList.Add(GetOrderBaseData(item2));
+                        PlayerReceivedModelList.Add(GetOrderBaseData(item2));                      
                     }
                     break;
             }
@@ -264,8 +277,7 @@ namespace Sim_FrameWork {
                 }
                 PlayerReceivedOrders.Add(GUID, order);
                 AddOrderModel(GUID, OrderDicType.Received);
-                AllOrderDic.Remove(GUID);
-                RemoveOrderModel(GUID, OrderDicType.All);
+                UnRegisterOrder(GUID, OrderDicType.All);            
                 //UpdateUI
                 UIManager.Instance.SendMessageToWnd(UIPath.Order_Receive_Main_Page, new UIMessage(UIMsgType.RefreshOrder));
                 
@@ -420,6 +432,48 @@ namespace Sim_FrameWork {
         #endregion
         #endregion
 
+        #region Organization
+        public void AddOrganization (int id)
+        {
+            if (CurrentOrganization.ContainsKey(id))
+                return;
+            OrganizationInfo info = new OrganizationInfo(id);
+            CurrentOrganization.Add(id,info);
+        }
+
+        public void RemoveOrganization(int id)
+        {
+            if (CurrentOrganization.ContainsKey(id))
+            {
+                CurrentOrganization.Remove(id);
+            }
+        }
+
+        private List<BaseDataModel> GetOrganizationBaseData(OrganizationInfo info)
+        {
+            List<BaseDataModel> model = new List<BaseDataModel>();
+            model.Add(info.dataModel);
+            return model;
+        }
+
+        private void InitOrganizationModelData()
+        {
+            Func<Dictionary<int,OrganizationInfo >, List<List<BaseDataModel>>> getData = (d) =>
+            {
+                List<List<BaseDataModel>> result = new List<List<BaseDataModel>>();
+                int index = 0;
+                foreach (KeyValuePair<int, OrganizationInfo> kvp in d)
+                {
+                    result.Add(GetOrganizationBaseData(kvp.Value));
+                    index++;
+                }
+                return result;
+            };
+            CurrrentOrganizationModel = getData(CurrentOrganization);
+        }
+
+
+        #endregion
 
 
 

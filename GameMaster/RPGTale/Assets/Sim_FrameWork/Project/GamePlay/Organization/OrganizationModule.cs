@@ -8,6 +8,8 @@ namespace Sim_FrameWork
     {
         protected static List<OrganizationData> OrganizationDataList;
         protected static Dictionary<int, OrganizationData> OrganizationDataDic;
+        protected static List<OrganizationTypeData> OrganizaitonTypeDataList;
+        protected static Dictionary<string, OrganizationTypeData> OrganizaitonTypeDataDic;
         protected static List<OrganizationEventData> OrganizationEventDataList;
         protected static Dictionary<int, OrganizationEventData> OrganizationEventDataDic;
 
@@ -16,6 +18,8 @@ namespace Sim_FrameWork
         {
             OrganizationDataList = OrganizationMetaDataReader.GetOrganizationData();
             OrganizationDataDic = OrganizationMetaDataReader.GetOrganizationDataDic();
+            OrganizaitonTypeDataList = OrganizationMetaDataReader.GetOrganizaitonTypeData();
+            OrganizaitonTypeDataDic = OrganizationMetaDataReader.GetOrganizaitonTypeDataDic();
             OrganizationEventDataDic = OrganizationMetaDataReader.GetOrganizationEventDataDic();
             OrganizationEventDataList = OrganizationMetaDataReader.GetOrganizationEventData();
         }
@@ -73,6 +77,43 @@ namespace Sim_FrameWork
             return Utility.LoadSprite(GetOrganizationDataByID(id).IconBig, Utility.SpriteType.png);
         }
 
+        public static OrganizationTypeData GetOrganizaitonTypeDataByID(string id)
+        {
+            OrganizationTypeData data = null;
+            OrganizaitonTypeDataDic.TryGetValue(id, out data);
+            if (data == null)
+                Debug.LogError("Get OrganizaitonTypeData Error!  id=" + id);
+            return data;
+        }
+        public static OrganizationTypeData FetchOrganizationType(int id)
+        {
+            return GetOrganizaitonTypeDataByID(GetOrganizationDataByID(id).AreaType);
+        }
+
+        public static string GetTypeName(string id)
+        {
+            return MultiLanguage.Instance.GetTextValue(GetOrganizaitonTypeDataByID(id).Name);
+        }
+        public static string GetTypeName(int orID)
+        {
+            return MultiLanguage.Instance.GetTextValue(GetOrganizaitonTypeDataByID(GetOrganizationDataByID(orID).AreaType).Name);
+        }
+        public static string GetTypeDesc(string id)
+        {
+            return MultiLanguage.Instance.GetTextValue(GetOrganizaitonTypeDataByID(id).Desc);
+        }
+        public static string GetTypeDesc(int orID)
+        {
+            return MultiLanguage.Instance.GetTextValue(GetOrganizaitonTypeDataByID(GetOrganizationDataByID(orID).AreaType).Desc);
+        }
+        public static Sprite GetTypeIcon(string id)
+        {
+            return Utility.LoadSprite(GetOrganizaitonTypeDataByID(id).IconPath, Utility.SpriteType.png);
+        }
+        public static Sprite GetTypeIcon(int orID)
+        {
+            return Utility.LoadSprite(GetOrganizaitonTypeDataByID(GetOrganizationDataByID(orID).AreaType).IconPath, Utility.SpriteType.png);
+        }
 
     }
 

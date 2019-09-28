@@ -25,7 +25,6 @@ namespace Sim_FrameWork
             catch (Exception e)
             {
                 Debug.LogError(e);
-                return sprite;
             }
             return sprite;
         }

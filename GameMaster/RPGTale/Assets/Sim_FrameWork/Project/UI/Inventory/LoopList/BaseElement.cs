@@ -20,6 +20,8 @@ namespace Sim_FrameWork
         private float _offset;
         private int _showNum;
 
+        private LoopList.SepConfig _sepConfig;
+
         /// <summary>
         /// Data
         /// </summary>
@@ -43,12 +45,13 @@ namespace Sim_FrameWork
 
         public virtual void Awake() { }
 
-        public void Init(int id, float offset , int showNum , LoopList.LayoutType type)
+        public void Init(int id, float offset , int showNum , LoopList.SepConfig config, LoopList.LayoutType type)
         {
             _id = -1;
             _content = UIUtility.SafeGetComponent<RectTransform>(transform.parent);
             _offset = offset;
             _showNum = showNum;
+            _sepConfig = config;
             _layoutType = type;
             ChangeID(id);
         }
@@ -132,10 +135,10 @@ namespace Sim_FrameWork
             switch (_layoutType)
             {
                 case LoopList.LayoutType.Horizontal:
-                    Rect.anchoredPosition = new Vector2( _id * (Rect.rect.width + _offset), 0);
+                    Rect.anchoredPosition = new Vector2( _id * (Rect.rect.width + _offset)+ _sepConfig.LeftSep, 0+_sepConfig.TopSep);
                     break;
                 case LoopList.LayoutType.Vertical:
-                    Rect.anchoredPosition = new Vector2(0,  _id * (Rect.rect.height + _offset));
+                    Rect.anchoredPosition = new Vector2(0+_sepConfig.LeftSep,  _id * (Rect.rect.height + _offset)+_sepConfig.TopSep);
                     break;
                 default:
                     break;
