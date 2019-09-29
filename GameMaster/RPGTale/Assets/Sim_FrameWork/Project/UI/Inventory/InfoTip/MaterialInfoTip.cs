@@ -46,17 +46,17 @@ namespace Sim_FrameWork
             }
         }
 
-        public void OnShow(Material ma)
+        public void OnShow(MaterialDataModel model)
         {
-            TitleSprite.sprite = MaterialModule.GetMaterialSprite(ma.MaterialID);
-            Name.text = MaterialModule.GetMaterialName(ma);
-            Desc.text = MaterialModule.GetMaterialDesc(ma);
-            TypeIcon.sprite = MaterialModule.GetMaterialMainTypeSprite(ma);
-            TypeName.text = MaterialModule.GetMaterialMainTypeName(ma);
-            SubTypeIcon.sprite = MaterialModule.GetMaterialSubTypeIcon(ma);
-            SubTypeName.text = MaterialModule.GetMaterialSubTypeName(ma);
-            Rarity.text = MaterialModule.Instance.GetMaterialRarityName(ma);
-            Rarity.color = MaterialModule.Instance.TryParseRarityColor(ma);
+            TitleSprite.sprite = model.Icon;
+            Name.text = model.Name;
+            Desc.text = model.Desc;
+            //TypeIcon.sprite = MaterialModule.GetMaterialMainTypeSprite(ma);
+            //TypeName.text = MaterialModule.GetMaterialMainTypeName(ma);
+            //SubTypeIcon.sprite = MaterialModule.GetMaterialSubTypeIcon(ma);
+            //SubTypeName.text = MaterialModule.GetMaterialSubTypeName(ma);
+            //Rarity.text = MaterialModule.Instance.GetMaterialRarityName(ma);
+            //Rarity.color = MaterialModule.Instance.TryParseRarityColor(ma);
           
             targetAlpha = 1;
         }

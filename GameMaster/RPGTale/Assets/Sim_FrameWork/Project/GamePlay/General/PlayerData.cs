@@ -10,7 +10,7 @@ namespace Sim_FrameWork
         public class WareHouseInfo
         {
             //存储物资
-            public List<MaterialStorageData> materialStorageDataList =new List<MaterialStorageData> ();
+            public Dictionary<int, MaterialStorageItem> materialStorageDataDic =new Dictionary<int, MaterialStorageItem> ();
             //材料分类
             public List<MaterialConfig.MaterialType> materialTagList =new List<MaterialConfig.MaterialType> ();
 
@@ -36,41 +36,40 @@ namespace Sim_FrameWork
 
         public void AddMaterialStoreData(int materialID,ushort count)
         {
-            Material ma = MaterialModule.GetMaterialByMaterialID(materialID);
-            if (ma == null)
-                return;
-
-            var material = wareHouseInfo.materialStorageDataList.Find(x => x.material == ma);
-
-            Action<MaterialStorageData> sendMsg = (m) =>
+            Action<MaterialStorageItem> sendMsg = (m) =>
             {
                 UIManager.Instance.SendMessageToWnd(UIPath.WAREHOURSE_DIALOG, new UIMessage(UIMsgType.UpdateWarehouseData, new List<object>(1) { m }));
             };
 
-            if (material != null)
+            if (wareHouseInfo.materialStorageDataDic.ContainsKey(materialID))
             {
+                var material = wareHouseInfo.materialStorageDataDic[materialID];
                 material.count += count;
-                if (material.count > ma.BlockCapacity)
+                if (material.count > material.info.material.BlockCapacity)
                 {
                     //超出上限 ,TODO
                     sendMsg(material);
                 }
-                else if(material.count <= 0)
+                else if (material.count <= 0)
                 {
-                    wareHouseInfo.materialStorageDataList.Remove(material);
+                    wareHouseInfo.materialStorageDataDic.Remove(materialID);
                 }
                 else
                 {
                     sendMsg(material);
                 }
-               
             }
             else
             {
-                MaterialStorageData data = new MaterialStorageData(ma, count);
-                wareHouseInfo.materialStorageDataList.Add(data);
-                sendMsg(material);
+                MaterialInfo info = new MaterialInfo(materialID);
+                if (info.ID != 0)
+                {
+                    MaterialStorageItem data = new MaterialStorageItem(info, count);
+                    wareHouseInfo.materialStorageDataDic.Add(materialID,data);
+                    sendMsg(data);
+                }
             }
+
         }
 
         public void InitMaterialType()

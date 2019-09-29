@@ -329,22 +329,6 @@ namespace Sim_FrameWork {
         #endregion
     }
 
-    public class MaterialStorageData
-    {
-        public Material material;
-        public int count;
-        public MaterialConfig.MaterialType mainType;
-        public MaterialConfig.MaterialType.MaterialSubType subType;
-
-        public MaterialStorageData(Material ma,int count)
-        {
-            material = ma;
-            this.count = count;
-            this.mainType = MaterialModule.GetMaterialMainType(ma.MaterialID);
-            this.subType = MaterialModule.GetMaterialSubType(ma.MaterialID);
-        }
-
-    }
 
     public class MaterialConfig
     {

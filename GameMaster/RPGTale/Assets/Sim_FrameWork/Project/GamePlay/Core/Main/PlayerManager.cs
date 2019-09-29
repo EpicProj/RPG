@@ -153,7 +153,20 @@ namespace Sim_FrameWork
         public void AddMaterialData(int materialId, ushort count)
         {
             playerData.AddMaterialStoreData(materialId, count);
+        }
 
+        /// <summary>
+        /// 获取仓库材料数量
+        /// </summary>
+        /// <param name="materialID"></param>
+        /// <returns></returns>
+        public int GetMaterialStoreCount(int materialID)
+        {
+            if (playerData.wareHouseInfo.materialStorageDataDic.ContainsKey(materialID))
+            {
+                return playerData.wareHouseInfo.materialStorageDataDic[materialID].count;
+            }
+            return 0;
         }
         #endregion
 

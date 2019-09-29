@@ -28,8 +28,8 @@ namespace Sim_FrameWork.UI
         {
             if(transform.childCount > 0)
             {
-                Material ma= transform.GetChild(0).GetComponent<SlotItem>().material;
-                InventoryManager.Instance.ShowMaterialInfoTip(ma);
+                //var ma= transform.GetChild(0).GetComponent<SlotItem>().;
+                //InventoryManager.Instance.ShowMaterialInfoTip(ma);
             }
            
         }

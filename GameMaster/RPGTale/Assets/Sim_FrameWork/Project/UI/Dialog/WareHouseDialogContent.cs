@@ -37,8 +37,8 @@ namespace Sim_FrameWork.UI
             switch (msg.type)
             {
                 case UIMsgType.UpdateWarehouseData:
-                    MaterialStorageData data = (MaterialStorageData)msg.content[0];
-                    UpdateStorageItem(data);
+                    MaterialStorageItem item = (MaterialStorageItem)msg.content[0];
+                    UpdateStorageItem(item);
                     return true;
             }
          
@@ -169,10 +169,10 @@ namespace Sim_FrameWork.UI
             panel.InitMaterialContent(info);
         }
 
-        private void UpdateStorageItem(MaterialStorageData data)
+        private void UpdateStorageItem(MaterialStorageItem item)
         {
             WarehouseSlotPanel panel = m_dialog.MaterialContent.GetComponent<WarehouseSlotPanel>();
-            panel.AddMaterial(data);
+            panel.AddMaterial(item);
         }
     }
 }

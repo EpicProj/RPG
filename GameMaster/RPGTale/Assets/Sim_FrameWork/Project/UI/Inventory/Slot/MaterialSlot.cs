@@ -8,21 +8,20 @@ namespace Sim_FrameWork.UI
 {
     public class MaterialSlot : Slot
     {
-        public MaterialStorageData storeData;
-        public Material materialData;
+        public MaterialStorageItem storeData;
         public Text Name;
         public Image Icon;
         public Text Num;
 
-        public void SetUpMaterialItem(MaterialStorageData itemData)
+        public void SetUpMaterialItem(MaterialStorageItem itemData)
         {
             storeData = itemData;
-            Name.text = MaterialModule.GetMaterialName(itemData.material);
-            Icon.sprite = MaterialModule.GetMaterialSprite(itemData.material.MaterialID);
+            Name.text = itemData.info.dataModel.Name;
+            Icon.sprite = itemData.info.dataModel.Icon;
             Num.text = itemData.count.ToString();
         }
 
-        public void AddMaterialNum(MaterialStorageData itemData)
+        public void AddMaterialNum(MaterialStorageItem itemData)
         {
             storeData = itemData;
             if (itemData.count <= 0)
@@ -36,7 +35,7 @@ namespace Sim_FrameWork.UI
 
         public override void OnPointerEnter(PointerEventData eventData)
         {
-            InventoryManager.Instance.ShowMaterialInfoTip(storeData.material);
+            InventoryManager.Instance.ShowMaterialInfoTip(storeData.info.dataModel);
         }
 
         public override void OnPointerExit(PointerEventData eventData)

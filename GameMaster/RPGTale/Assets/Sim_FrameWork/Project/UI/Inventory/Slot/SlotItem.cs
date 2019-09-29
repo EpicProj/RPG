@@ -10,7 +10,6 @@ namespace Sim_FrameWork.UI
         private Image itemImage;
         public FunctionBlock functionBlock { get; private set; }
         public DistrictAreaInfo districtInfo { get; private set; }
-        public Material material { get; private set; }
 
 
 
@@ -60,7 +59,6 @@ namespace Sim_FrameWork.UI
 
         public void SetMaterialData(Material ma,int amount=1)
         {
-            this.material = ma;
             this.Amount = amount;
             if (amount == 0)
             {

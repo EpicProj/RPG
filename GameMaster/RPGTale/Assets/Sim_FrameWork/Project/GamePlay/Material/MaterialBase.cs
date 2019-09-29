@@ -19,30 +19,42 @@ namespace Sim_FrameWork
         public virtual void OnHoldMaterial() { }
         public virtual void OnDestoryMaterial() { }
 
-
-
     }
 
     public class MaterialInfo
     {
         public int ID;
+        public Material material;
+        public MaterialDataModel dataModel;
+        public MaterialConfig.MaterialType mainType;
+        public MaterialConfig.MaterialType.MaterialSubType subType;
 
-        MaterialDataModel dataModel;
 
-
-
-        public MaterialInfo(Material ma)
+        public MaterialInfo(int id)
         {
-            ID = ma.MaterialID;
-            dataModel = new MaterialDataModel();
-            dataModel.Create(ID);
-
+            material = MaterialModule.GetMaterialByMaterialID(id);
+            if (material != null)
+            {
+                ID = id;
+                dataModel = new MaterialDataModel();
+                dataModel.Create(ID);
+                mainType = MaterialModule.GetMaterialMainType(id);
+                subType = MaterialModule.GetMaterialSubType(id);
+            }
+       
         }
+    }
 
+    public class MaterialStorageItem
+    {
+        public MaterialInfo info;
+        public int count;
 
-
-
-
+        public MaterialStorageItem(MaterialInfo ma,int count)
+        {
+            this.info = ma;
+            this.count = count;
+        }
     }
 
 }

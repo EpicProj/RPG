@@ -113,10 +113,10 @@ namespace Sim_FrameWork
             }
         }
 
-        public void ShowMaterialInfoTip(Material ma)
+        public void ShowMaterialInfoTip(MaterialDataModel model)
         {
             isInfoTipShow = true;
-            maInfoTip.OnShow(ma);
+            maInfoTip.OnShow(model);
             maInfoTip.transform.SetAsLastSibling();
         }
         public void HideMaterialInfoTip()

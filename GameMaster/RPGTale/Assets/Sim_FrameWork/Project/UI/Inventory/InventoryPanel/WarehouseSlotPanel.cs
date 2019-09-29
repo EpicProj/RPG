@@ -11,7 +11,7 @@ namespace Sim_FrameWork.UI
         public MaterialConfig.MaterialType currentSelectMainType;
         public MaterialConfig.MaterialType.MaterialSubType currentSelectSubType;
 
-        public Dictionary<GameObject, MaterialStorageData> allObjDic = new Dictionary<GameObject, MaterialStorageData>();
+        public Dictionary<GameObject, MaterialStorageItem> allObjDic = new Dictionary<GameObject, MaterialStorageItem>();
 
         public override void Awake()
         {
@@ -24,76 +24,43 @@ namespace Sim_FrameWork.UI
         {
             currentSelectMainType = info.currentSelectMainType;
             currentSelectSubType = info.currentSelectSubType;
-            if (info.currentSelectMainType == null || info.currentSelectSubType == null || info.materialStorageDataList == null)
+            if (info.currentSelectMainType == null || info.currentSelectSubType == null || info.materialStorageDataDic == null)
                 return;
-            List<MaterialStorageData> currentData = GetCurrentSubTypeMaterial(info);
             //Clear Content
             foreach (Transform trans in this.transform)
             {
                 GameObject.Destroy(trans.gameObject);
             }
             allObjDic.Clear();
-            for (int i = 0; i < currentData.Count; i++)
-            {
-                GameObject obj = ObjectManager.Instance.InstantiateObject(UIPath.MATERIAL_WAREHOUSE_PREFAB_PATH);
-                MaterialSlot slot = obj.GetComponent<MaterialSlot>();
-                slot.SetUpMaterialItem(currentData[i]);
-                obj.transform.SetParent(this.transform, false);
-                allObjDic.Add(obj, currentData[i]);
-            }
+            //for (int i = 0; i < currentData.Count; i++)
+            //{
+            //    GameObject obj = ObjectManager.Instance.InstantiateObject(UIPath.MATERIAL_WAREHOUSE_PREFAB_PATH);
+            //    MaterialSlot slot = obj.GetComponent<MaterialSlot>();
+            //    slot.SetUpMaterialItem(currentData[i]);
+            //    obj.transform.SetParent(this.transform, false);
+            //    allObjDic.Add(obj, currentData[i]);
+            //}
         }
 
-        public void AddMaterial(MaterialStorageData data)
+        public void AddMaterial(MaterialStorageItem item)
         {
-            if (allObjDic.ContainsValue(data) == false && currentSelectMainType.Type == "Total")
-            {
-                GameObject obj = ObjectManager.Instance.InstantiateObject(UIPath.MATERIAL_WAREHOUSE_PREFAB_PATH);
-                MaterialSlot slot = obj.GetComponent<MaterialSlot>();
-                slot.SetUpMaterialItem(data);
-                obj.transform.SetParent(this.transform, false);
-                allObjDic.Add(obj, data);
-            }
-            foreach(KeyValuePair<GameObject,MaterialStorageData> kvp in allObjDic)
-            {
-                if (kvp.Value == data)
-                {
-                    kvp.Key.GetComponent<MaterialSlot>().AddMaterialNum(data);
-                }
-            }
+            //if (allObjDic.ContainsValue(item == false && currentSelectMainType.Type == "Total")
+            //{
+            //    GameObject obj = ObjectManager.Instance.InstantiateObject(UIPath.MATERIAL_WAREHOUSE_PREFAB_PATH);
+            //    MaterialSlot slot = obj.GetComponent<MaterialSlot>();
+            //    slot.SetUpMaterialItem(item);
+            //    obj.transform.SetParent(this.transform, false);
+            //    allObjDic.Add(obj, item);
+            //}
+            //foreach(KeyValuePair<GameObject, MaterialStorageItem> kvp in allObjDic)
+            //{
+            //    if (kvp.Value == item)
+            //    {
+            //        kvp.Key.GetComponent<MaterialSlot>().AddMaterialNum(data);
+            //    }
+            //}
         }
 
-
-        public List<MaterialStorageData> GetCurrentSubTypeMaterial(PlayerData.WareHouseInfo info)
-        {
-            List<MaterialStorageData>  currentTypeList = new List<MaterialStorageData>();
-            if (info.currentSelectMainType.Type == "Total")
-            {
-                //全部
-                currentTypeList = info.materialStorageDataList;
-                return currentTypeList;
-            }else if (info.currentSelectSubType.Type == "Total")
-            {
-                foreach(var item in info.materialStorageDataList)
-                {
-                    if (item.mainType == info.currentSelectMainType)
-                    {
-                        currentTypeList.Add(item);
-                    }
-                }
-                return currentTypeList;
-            }
-            else
-            {
-                foreach(var item in info.materialStorageDataList)
-                {
-                    if (item.subType == info.currentSelectSubType)
-                    {
-                        currentTypeList.Add(item);
-                    }
-                }
-                return currentTypeList;
-            }
-        }
 
     }
 }

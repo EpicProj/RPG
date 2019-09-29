@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using UnityEngine;
 using System;
+using System.Text.RegularExpressions;
+using System.Text;
 
 namespace Sim_FrameWork
 {
@@ -115,8 +117,13 @@ namespace Sim_FrameWork
         
         public static string ParseStringParams(string content,string[] replaceValue)
         {
-            //TODO
-            return string.Empty;
+            Regex regex = new Regex("\\#[0-9]");
+            var match = regex.Match(content);
+            if (match.Success)
+            {
+  
+            }
+            return content;
         } 
 
 
