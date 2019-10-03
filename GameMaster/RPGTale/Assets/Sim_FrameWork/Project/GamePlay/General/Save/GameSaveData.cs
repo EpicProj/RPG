@@ -8,7 +8,7 @@ namespace Sim_FrameWork
     public class GameSaveData
     {
         public PlayerSaveData playerSaveData;
-
+        public GameStatisticsSaveData gameStatisticsData;
 
 
 

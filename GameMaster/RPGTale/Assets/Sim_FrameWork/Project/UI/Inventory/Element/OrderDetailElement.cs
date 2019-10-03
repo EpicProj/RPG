@@ -26,6 +26,7 @@ namespace Sim_FrameWork.UI
             _count = count;
             _model = model;
             MaterialName.text = model.Name;
+            MaterialName_En.text = model.NameEn;
             Count.text = count.ToString();
             materialIcon.sprite = model.Icon;
             RefreshProgress();
@@ -34,8 +35,11 @@ namespace Sim_FrameWork.UI
         public void RefreshProgress()
         {
             var count = PlayerManager.Instance.GetMaterialStoreCount(_model.ID);
+            if (slider.value == slider.maxValue && _count >= count)
+                return;
             StorageValue.text = Utility.ParseStringParams(MultiLanguage.Instance.GetTextValue(OrderDetail_Storage_Text),new string[1] {count.ToString()});
-
+            slider.value = count / _count;
+            Progress.text = (count / _count) * 100 + "%";
         }
        
     }

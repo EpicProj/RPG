@@ -55,6 +55,15 @@ namespace Sim_FrameWork {
         {
             return MultiLanguage.Instance.GetTextValue(ma.MaterialName);
         }
+        public static string GetMaterialNameEn(int materialID)
+        {
+            return MultiLanguage.Instance.GetTextValue(GetMaterialByMaterialID(materialID).NameEn);
+        }
+        public static string GetMaterialNameEn(Material ma)
+        {
+            return MultiLanguage.Instance.GetTextValue(ma.NameEn);
+        }
+
         public static string GetMaterialDesc(int materialID)
         {
             return MultiLanguage.Instance.GetTextValue(GetMaterialByMaterialID(materialID).MaterialDesc);

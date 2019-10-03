@@ -31,6 +31,7 @@ namespace Sim_FrameWork
             GameSaveData gameSave = new GameSaveData();
             
             gameSave.playerSaveData= Create_playerSaveData();
+            gameSave.gameStatisticsData = Create_GameStatisticsSaveData();
 
             return gameSave;
         }
@@ -45,6 +46,12 @@ namespace Sim_FrameWork
 
             saveData.playerSaveData_Resource = Resdata;
 
+            return saveData;
+        }
+
+        private GameStatisticsSaveData Create_GameStatisticsSaveData()
+        {
+            GameStatisticsSaveData saveData = new GameStatisticsSaveData();
             return saveData;
         }
 

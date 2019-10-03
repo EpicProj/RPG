@@ -4,6 +4,7 @@
 		<list name = "Material" sheetname="Material" mainKey = "MaterialID">
 			<variable  name="MaterialID" col = "MaterialID" type="int"/>
 			<variable  name="MaterialName" col = "MaterialName" type="string"/>
+      <variable  name="NameEn" col = "NameEn" type="string"/>
 			<variable  name="MaterialDesc" col = "MaterialDesc" type="string"/>
 			<variable  name="Type" col = "Type" type="string"/>
 			<variable  name="SubType" col = "SubType" type="string"/>

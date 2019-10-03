@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using UnityEngine;
 using System;
 using System.Text.RegularExpressions;
-using System.Text;
 
 namespace Sim_FrameWork
 {
@@ -117,13 +116,16 @@ namespace Sim_FrameWork
         
         public static string ParseStringParams(string content,string[] replaceValue)
         {
-            Regex regex = new Regex("\\#[0-9]");
-            var match = regex.Match(content);
-            if (match.Success)
+            int index = 1;
+            char split = '#';
+            string result = content;
+            for(int i = 0; i < replaceValue.Length; i++)
             {
-  
+                string replaceStr = split + index.ToString();
+                result= result.Replace(replaceStr, replaceValue[i]);
+                index++;
             }
-            return content;
+            return result;
         } 
 
 

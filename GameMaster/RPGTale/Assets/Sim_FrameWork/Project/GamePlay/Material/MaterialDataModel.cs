@@ -36,6 +36,18 @@ namespace Sim_FrameWork {
             }
             set { }
         }
+        private string _nameEn;
+        public string NameEn
+        {
+            get
+            {
+                if (string.IsNullOrEmpty(_nameEn))
+                    _nameEn = MaterialModule.GetMaterialNameEn(_id);
+                return _nameEn;
+            }
+            set { }
+        }
+
         private string _desc;
         public string Desc
         {

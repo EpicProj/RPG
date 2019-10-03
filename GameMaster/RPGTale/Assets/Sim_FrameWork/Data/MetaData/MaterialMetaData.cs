@@ -15,6 +15,7 @@ public class MaterialMetaData : ExcelBase {
             Material mat = new Material();
             mat.MaterialID = i;
             mat.MaterialName = "";
+            mat.NameEn = "";
             mat.MaterialDesc = "";
             mat.Type = "";
             mat.SubType = "";
@@ -64,6 +65,8 @@ public class Material
     public int MaterialID { get; set; }
     [XmlAttribute]
     public string MaterialName { get; set; }
+    [XmlAttribute]
+    public string NameEn { get; set; }
     [XmlAttribute]
     public string MaterialDesc { get; set; }
     [XmlAttribute]
