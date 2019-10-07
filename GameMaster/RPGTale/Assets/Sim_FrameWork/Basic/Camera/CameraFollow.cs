@@ -6,124 +6,101 @@ namespace Sim_FrameWork
 {
     public class CameraFollow : MonoBehaviour
     {
-
-        private enum CametaStates
-        {
-            Idle,
-            Rotate,
-            Move,
-            Zoom
-        }
-
-
         public Transform target;
-        private CametaStates CurrentStates = CametaStates.Idle;
 
-        private float x = 0.0f;
-        private float y = 0.0f;
+        public Vector3 targetOffset;
+        public float distance = 5.0f;
+        public float maxDistance = 20;
+        public float minDistance = 0.6f;
 
-        private float xSpeed = 250.0f;
-        private float ySpeed = 120.0f;
-
-        private int yMinLimit = -20;
+        [Header("Speed")]
+        public float xSpeed = 200.0f;
+        public float ySpeed = 200.0f;
+        private int yMinLimit = -80;
         private int yMaxLimit = 80;
-        private float CameraDefaultHeight = 0.0f;
-        private float MoveSpeed = 10;
+        /// <summary>
+        /// Zoom
+        /// </summary>
+        public int zoomRate = 30;
+        public float panSpeed = 0.3f;
+        public float zoomDamp = 5.0f;
 
-        private Vector3 CameraTarget;
-        private Quaternion rotation = Quaternion.Euler(new Vector3(0f, 0f, 0f));
+        private float currentDistance;
+        private float targetDistance;
+        private Quaternion currentRotation;
+        private Quaternion targetRotation;
+        private Quaternion rotation;
+        private Vector3 position;
+
+        private float xDeg = 0.0f;
+        private float yDeg = 0.0f;
 
         void Start()
         {
-            CameraTarget = target.position;
-            float cameraHeight = target.transform.position.z - CameraDefaultHeight;
-            transform.position = rotation * new Vector3(transform.position.x, transform.position.y, cameraHeight);
-            transform.LookAt(target);
-
-            var angles = transform.eulerAngles;
-            x = angles.y;
-            y = angles.x;
-  
+            InitData();
         }
-        public void Update()
+        void InitData()
         {
-            CameraZoom();
-            RotateCamera();
-            CameraMove();
-
-        }
-
-
-
-        public void CameraZoom()
-        {
-            if(Input.GetAxis("Mouse ScrollWheel") < 0)
+            if (!target)
             {
-                if (Camera.main.fieldOfView <= 100)
-                {
-                    Camera.main.fieldOfView += 2;
-                }
+
             }
-            if (Input.GetAxis("Mouse ScrollWheel") > 0)
-            {
-                if (Camera.main.fieldOfView > 2)
-                {
-                    Camera.main.fieldOfView -= 2;
-                }
-            }
+            distance = Vector3.Distance(transform.position, target.position);
+            currentDistance = distance;
+            targetDistance = distance;
+
+            position = transform.position;
+            rotation = transform.rotation;
+            currentRotation = transform.rotation;
+            targetRotation = transform.rotation;
+
+            xDeg = Vector3.Angle(Vector3.right, transform.right);
+            yDeg = Vector3.Angle(Vector3.up, transform.up);
+
         }
 
-        public void RotateCamera()
+        void LateUpdate()
         {
-            if (CurrentStates == CametaStates.Move)
-                return;
-            if (Input.GetMouseButton(2))
+            //if (Input.GetMouseButton(1))
+            //{
+            //    targetDistance -= -Input.GetAxis("Mouse X") * Time.deltaTime * zoomRate * 0.125f * Mathf.Abs(targetDistance);
+            //    targetDistance-= -Input.GetAxis("Mouse Y") * Time.deltaTime * zoomRate * 0.125f * Mathf.Abs(targetDistance);
+            //}
+            if(Input.GetMouseButton(1))
             {
-                CurrentStates = CametaStates.Rotate;
-                x += Input.GetAxis("Mouse X") * xSpeed * Time.deltaTime;
-                y -= Input.GetAxis("Mouse Y") * ySpeed * Time.deltaTime;
+                target.rotation = transform.rotation;
+                target.Translate(Vector3.right * -Input.GetAxis("Mouse X") * panSpeed);
+                target.Translate(transform.up * -Input.GetAxis("Mouse Y") * panSpeed, Space.World);
+            }
+            //Middle mouse
+            else if (Input.GetMouseButton(2))
+            {
+                xDeg += Input.GetAxis("Mouse X") * xSpeed * 0.02f;
+                yDeg -= Input.GetAxis("Mouse Y") * ySpeed * 0.02f;
+                ///Format angle
+                yDeg = AngleFormat(yDeg, yMinLimit, yMaxLimit);
 
-                y = AngleFormat(y, yMinLimit, yMaxLimit);
-                var rotation = Quaternion.Euler(y, x, 0);
+                targetRotation = Quaternion.Euler(yDeg, xDeg, 0);
+                currentRotation = transform.rotation;
 
+                rotation = Quaternion.Lerp(currentRotation, targetRotation, Time.deltaTime * zoomDamp);
                 transform.rotation = rotation;
             }
-            CurrentStates = CametaStates.Idle;
-        }
 
-        public void CameraMove()
-        {
-            if (CurrentStates == CametaStates.Rotate)
-                return;
-            if (Input.GetKey(KeyCode.W))
-            {
-                CurrentStates = CametaStates.Move;
-                transform.Translate(new Vector3(0.0f, 0.0f, MoveSpeed * Time.deltaTime),Space.World);
-                CameraTarget = transform.position;
-            }
-            else if (Input.GetKey(KeyCode.S))
-            {
-                CurrentStates = CametaStates.Move;
-                transform.Translate(new Vector3(0.0f, 0.0f, -MoveSpeed * Time.deltaTime), Space.World);
-                CameraTarget = transform.position;
-            }
-            else if (Input.GetKey(KeyCode.A))
-            {
-                CurrentStates = CametaStates.Move;
-                transform.Translate(new Vector3(-MoveSpeed * Time.deltaTime,0.0f, 0.0f), Space.World);
-                CameraTarget = transform.position;
-            }
-            else if (Input.GetKey(KeyCode.D))
-            {
-                CurrentStates = CametaStates.Move;
-                transform.Translate(new Vector3(MoveSpeed * Time.deltaTime, 0.0f, 0.0f), Space.World);
-                CameraTarget = transform.position;
-            }
-            CurrentStates = CametaStates.Idle;
+            targetDistance -= Input.GetAxis("Mouse ScrollWheel") * Time.deltaTime * zoomRate * Mathf.Abs(targetDistance);
+            targetDistance = Mathf.Clamp(targetDistance, minDistance, maxDistance);
+            //Smooth
+            currentDistance = Mathf.Lerp(currentDistance, targetDistance, Time.deltaTime * zoomDamp);
+            position = target.position - (rotation * Vector3.forward * currentDistance + targetOffset);
+            transform.position = position;
+
 
         }
 
-        private static float AngleFormat(float angle,float min,float max)
+
+
+  
+        private float AngleFormat(float angle,float min,float max)
         {
             if (angle < -360)
                 angle += 360;
@@ -134,8 +111,4 @@ namespace Sim_FrameWork
 
     }
 
-    public class CameraParam
-    {
-
-    }
 }
