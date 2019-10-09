@@ -40,6 +40,16 @@ namespace Sim_FrameWork
             return result;
         }
 
+        public static float TryParseFloat(string str)
+        {
+            float result ;
+            if(float.TryParse(str,out result) == false)
+            {
+                Debug.LogError("Parse Float Error,Str=" + str);
+            }
+            return result;
+        }
+
 
         public static List<int> TryParseIntList(string str,char split)
         {

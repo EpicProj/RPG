@@ -27,6 +27,7 @@ namespace Sim_FrameWork
         private GameStates _gameStates = GameStates.Start;
         public GameStates gameStates { get { return _gameStates; } }
         private GameObject PausePage;
+        private bool ConsolePageShow = false;
 
         public static Config.GlobalSetting globalSettings =new Config.GlobalSetting ();
 
@@ -58,21 +59,20 @@ namespace Sim_FrameWork
         public void Update()
         {
             UIManager.Instance.OnUpdate();
-            //test
-            if (Input.GetKeyDown(KeyCode.M))
+            if (Input.GetKeyDown(KeyCode.BackQuote))
             {
-                PlayerManager.Instance.AddCurrency(1000.5f, PlayerManager.ResourceAddType.current);
+                if (ConsolePageShow)
+                {
+                    UIManager.Instance.HideWnd(UIPath.Console_Page);
+                    ConsolePageShow = false;
+                }
+                else
+                {
+                    UIManager.Instance.PopUpWnd(UIPath.Console_Page, WindowType.Page);
+                    ConsolePageShow = true;
+                }
             }
-            if (Input.GetKeyDown(KeyCode.N))
-            {
-                PlayerManager.Instance.AddMaterialData(100, 10);
-            }
-        
         }
-
-
-  
-
 
         #region MainFunction
 

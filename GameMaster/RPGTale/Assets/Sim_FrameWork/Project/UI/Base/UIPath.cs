@@ -36,6 +36,8 @@ namespace Sim_FrameWork
         /// </summary>
         public const string Loading_Scene_Page = "Page/LoadingPage";
 
+        public const string Console_Page = "Page/ConsolePage";
+
         #endregion
 
 
