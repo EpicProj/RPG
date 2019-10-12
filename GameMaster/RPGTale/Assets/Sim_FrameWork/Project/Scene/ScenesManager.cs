@@ -44,18 +44,6 @@ namespace Sim_FrameWork
         /// <param name="sceneName"></param>
         void SetSceneSetting(string sceneName)
         {
-            switch (sceneName)
-            {
-                case UIPath.Scene_GameEntry:
-                    UIManager.Instance.PopUpWnd(UIPath.MainMenu_Page);
-                    break;
-                case UIPath.Scene_Loading:
-                    UIManager.Instance.PopUpWnd(UIPath.Loading_Scene_Page);
-                    break;
-                case UIPath.Scene_Test:
-                    break;
-                  
-            }
 
         }
 

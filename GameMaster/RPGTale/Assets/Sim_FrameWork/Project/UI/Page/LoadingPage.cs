@@ -9,6 +9,13 @@ namespace Sim_FrameWork.UI
     {
         public Image BG;
         public Slider progressSlider;
+        public Text progressText;
+
+        void Update()
+        {
+            progressSlider.value = ScenesManager.LoadingProgress;
+            progressText.text = ScenesManager.LoadingProgress.ToString() + "%";
+        }
 
     }
 }

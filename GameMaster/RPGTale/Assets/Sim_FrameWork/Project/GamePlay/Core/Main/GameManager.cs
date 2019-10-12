@@ -36,23 +36,29 @@ namespace Sim_FrameWork
             base.Awake();
             AssetBundleManager.Instance.LoadAssetBundleConfig();
             ResourceManager.Instance.Init(this);
-            ObjectManager.Instance.Init(transform.Find("RecyclePoolTrs"), transform.Find("SceneTrs"));
-            UIManager.Instance.Init(GameObject.Find("MainCanvas").transform as RectTransform, GameObject.Find("MainCanvas/Window").transform as RectTransform,
-                GameObject.Find("MainCanvas/Dialog").transform as RectTransform, GameObject.Find("MainCanvas/UICamera").GetComponent<Camera>(), GameObject.Find("MainCanvas/EventSystem").GetComponent<EventSystem>());
-
-            MainCanvas = GameObject.Find("MainCanvas").GetComponent<Canvas>();
-            raycaster = UIUtility.SafeGetComponent<GraphicRaycaster>(MainCanvas.transform); 
-            PausePage = GameObject.Find("MainCanvas/Window/PausePage").gameObject;
-            UIUtility.SafeGetComponent<CanvasGroup>(PausePage.transform).alpha = 0;
+            
+            //PausePage = GameObject.Find("MainCanvas/Window/PausePage").gameObject;
+            //UIUtility.SafeGetComponent<CanvasGroup>(PausePage.transform).alpha = 0;
             globalSettings.LoadGlobalSettting();
 
             DataManager.Instance.InitData();
+            DontDestroyOnLoad(gameObject);
+            
         }
 
-        public void InitMainPage()
+        void Start()
         {
-        
-          
+            InitBaseData();
+            UIManager.Instance.PopUpWnd(UIPath.Game_Entry_Page);
+        }
+
+        public void InitBaseData()
+        {
+            ObjectManager.Instance.Init(transform.Find("RecyclePoolTrs"), transform.Find("SceneTrs"));
+            UIManager.Instance.Init(GameObject.Find("MainCanvas").transform as RectTransform, GameObject.Find("MainCanvas/Window").transform as RectTransform,
+                GameObject.Find("MainCanvas/Dialog").transform as RectTransform, GameObject.Find("MainCanvas/UICamera").GetComponent<Camera>(), GameObject.Find("MainCanvas/EventSystem").GetComponent<EventSystem>());
+            MainCanvas = GameObject.Find("MainCanvas").GetComponent<Canvas>();
+            raycaster = UIUtility.SafeGetComponent<GraphicRaycaster>(MainCanvas.transform);
         }
 
 

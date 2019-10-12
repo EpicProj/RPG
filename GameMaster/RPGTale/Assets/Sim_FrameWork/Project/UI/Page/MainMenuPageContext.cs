@@ -57,11 +57,8 @@ namespace Sim_FrameWork.UI
         {
             InitBaseData();
             AddBtnListener();
-            UpdateResData(ResourceType.All);
-            UpdateResMonthData(ResourceType.All);
-            InitBuildPanel();
-            InitBuildMainTab();
         }
+
 
         private void InitBaseData()
         {
@@ -86,14 +83,22 @@ namespace Sim_FrameWork.UI
             SeasonSprite = UIUtility.SafeGetComponent<Image>(m_page.TimePanel.transform.Find("Time/SeasonIcon"));
             PauseBtn = UIUtility.SafeGetComponent<Button>(m_page.GameStatesObj.transform.Find("Pause"));
 
-            //Update Time
+        }
+
+        void Start()
+        {
             UpdateTimePanel();
             InitCampData();
+            UpdateResData(ResourceType.All);
+            UpdateResMonthData(ResourceType.All);
+            InitBuildPanel();
+            InitBuildMainTab();
         }
 
         public override void OnUpdate()
         {
             UpdateTimeProgress();
+
         }
 
         public override void OnShow(params object[] paralist)

@@ -32,7 +32,6 @@ namespace Sim_FrameWork {
             UIManager.Instance.Register<WareHouseDialogContent>(UIPath.WAREHOURSE_DIALOG);
             UIManager.Instance.Register<MainMenuPageContext>(UIPath.MainMenu_Page);
             UIManager.Instance.Register<GameEntryPageContext>(UIPath.Game_Entry_Page);
-            UIManager.Instance.Register<LoadingPageContext>(UIPath.Loading_Scene_Page);
             UIManager.Instance.Register<GeneralConfirmDialogContext>(UIPath.General_Confirm_Dialog);
             UIManager.Instance.Register<GeneralHintDialogContent>(UIPath.General_Hint_Dialog);
             UIManager.Instance.Register<ConsolePageContext>(UIPath.Console_Page); 

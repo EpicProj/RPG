@@ -22,10 +22,6 @@ namespace Sim_FrameWork.UI
             AddButtonClickListener(m_page.StartButton, () =>
             {
                 ScenesManager.Instance.LoadingScene(UIPath.Scene_Test);
-                ScenesManager.Instance.LoadSceneOverCallBack = () =>
-                {
-                    GameManager.Instance.InitMainPage();
-                };
             });
 
 
