@@ -26,7 +26,6 @@ namespace Sim_FrameWork
         //游戏状态
         private GameStates _gameStates = GameStates.Start;
         public GameStates gameStates { get { return _gameStates; } }
-        private GameObject PausePage;
         private bool ConsolePageShow = false;
 
         public static Config.GlobalSetting globalSettings =new Config.GlobalSetting ();
@@ -37,8 +36,6 @@ namespace Sim_FrameWork
             AssetBundleManager.Instance.LoadAssetBundleConfig();
             ResourceManager.Instance.Init(this);
             
-            //PausePage = GameObject.Find("MainCanvas/Window/PausePage").gameObject;
-            //UIUtility.SafeGetComponent<CanvasGroup>(PausePage.transform).alpha = 0;
             globalSettings.LoadGlobalSettting();
 
             DataManager.Instance.InitData();
@@ -89,12 +86,10 @@ namespace Sim_FrameWork
                 case GameStates.Pause:
                     _gameStates = states;
                     Time.timeScale = 0;
-                    PausePage.transform.GetComponent<CanvasGroup>().alpha = 1;
                     break;
                 case GameStates.Start:
                     _gameStates = states;
                     Time.timeScale = 1;
-                    PausePage.transform.GetComponent<CanvasGroup>().alpha = 0;
                     break;
             }
           

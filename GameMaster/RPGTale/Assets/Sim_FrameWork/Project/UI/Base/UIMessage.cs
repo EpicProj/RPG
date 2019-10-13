@@ -18,6 +18,11 @@ namespace Sim_FrameWork
 
     public enum UIMsgType
     {
+        /// <summary>
+        /// Menu
+        /// </summary>
+        PlayMenuAnim,
+
         UpdateManuSlot,//更新生产格
         UpdateLevelInfo,//更新等级
         UpdateSpeedText,//更新速度

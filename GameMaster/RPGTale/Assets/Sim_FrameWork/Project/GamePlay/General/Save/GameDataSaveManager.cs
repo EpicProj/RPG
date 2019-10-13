@@ -8,18 +8,37 @@ namespace Sim_FrameWork
 {
     public class GameDataSaveManager : MonoSingleton<GameDataSaveManager>
     {
+        public enum SaveState
+        {
+            /// <summary>
+            /// 新存档
+            /// </summary>
+            NewSave,
+            /// <summary>
+            /// 覆盖存档
+            /// </summary>
+            CoverSave
+        }
 
+
+        private int currentSaveNum;
+        private int maxSaveNum;
 
         protected override void Awake()
         {
             base.Awake();
         }
 
+        void Start()
+        {
+            currentSaveNum = GetFileCount();
+        }
+
         private void Update()
         {
-            //For test
-            if (Input.GetKeyDown(KeyCode.O))
+            if (Input.GetKey(KeyCode.O))
             {
+                //For Test
                 SaveByBin();
             }
         }
@@ -29,15 +48,15 @@ namespace Sim_FrameWork
         private GameSaveData Create_gameSaveData()
         {
             GameSaveData gameSave = new GameSaveData();
-            
-            gameSave.playerSaveData= Create_playerSaveData();
-            gameSave.gameStatisticsData = Create_GameStatisticsSaveData();
+            gameSave.SaveID = currentSaveNum + 1;
+            gameSave.SaveName = "Test";
+            gameSave.SaveDate = GetCurrentTime();
+
+            //gameSave.playerSaveData= Create_playerSaveData();
+            //gameSave.gameStatisticsData = Create_GameStatisticsSaveData();
 
             return gameSave;
         }
-
-
-
 
         private PlayerSaveData Create_playerSaveData()
         {
@@ -55,31 +74,59 @@ namespace Sim_FrameWork
             return saveData;
         }
 
-
         #endregion
 
         #region Save Func
-
-        private void SaveByBin()
+        /// <summary>
+        /// Save Data By Bin
+        /// </summary>
+        public void SaveByBin()
         {
             //For Test
             GameSaveData gameSave = Create_gameSaveData();
 
-            string SaveFilePath = Application.persistentDataPath + "Save.sav";
+            string SaveFilePath = Application.persistentDataPath + "/SaveData";
+            if (!File.Exists(SaveFilePath))
+            {
+                Directory.CreateDirectory(SaveFilePath);
+            }
 
+            string savePath = SaveFilePath + "/" + gameSave.SaveID;
             BinaryFormatter bf = new BinaryFormatter();
-            FileStream stream = File.Create(SaveFilePath);
+            FileStream stream = File.Create(savePath);
             bf.Serialize(stream, gameSave);
-
             stream.Close();
 
-            if (File.Exists(SaveFilePath))
+            if (File.Exists(savePath))
             {
-                Debug.Log("存档成功");
+                Debug.Log("Save Success");
             }
         }
 
+        /// <summary>
+        /// 获取存档数量
+        /// </summary>
+        /// <returns></returns>
+        int GetFileCount()
+        {
+            string SaveFilePath = Application.persistentDataPath + "/SaveData";
+            if (File.Exists(SaveFilePath))
+            {
+                var dirs = Directory.GetFileSystemEntries(SaveFilePath);
+                return dirs.Length;
+            }
+            return 0;
+        }
 
+        string GetCurrentTime()
+        {
+            ///Local Time
+            return System.DateTime.Now.ToString("yyyy-MM-dd HH:mm");
+        }
+
+        /// <summary>
+        /// Load Save By Bin
+        /// </summary>
         private void LoadSaveByBin()
         {
             string SaveFilePath = Application.persistentDataPath + "Save.sav";
@@ -92,8 +139,7 @@ namespace Sim_FrameWork
 
                 fs.Close();
 
-                LoadPlayerSaveData(saveData.playerSaveData);
-                
+                LoadPlayerSaveData(saveData.playerSaveData);   
             }
         }
         #endregion
@@ -108,9 +154,7 @@ namespace Sim_FrameWork
 
 
         #endregion
-
-
-
-
     }
+
+
 }

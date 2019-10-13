@@ -15,6 +15,10 @@ namespace Sim_FrameWork
         /// </summary>
         public const string General_Confirm_Dialog = "Dialog/Main/GeneralConfirmDialog";
         public const string General_Hint_Dialog = "Dialog/Main/GeneralHint";
+        /// <summary>
+        /// 载入存档
+        /// </summary>
+        public const string MainMenu_GameLoad_Dialog = "Dialog/Main/GameLoadDialog";
 
         #endregion
 

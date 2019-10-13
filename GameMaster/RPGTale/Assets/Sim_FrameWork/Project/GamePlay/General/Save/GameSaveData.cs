@@ -7,10 +7,12 @@ namespace Sim_FrameWork
     [System.Serializable]
     public class GameSaveData
     {
+        public int SaveID;
+        public string SaveName;
+        public string SaveDate;
+        public float GameTime;
         public PlayerSaveData playerSaveData;
         public GameStatisticsSaveData gameStatisticsData;
-
-
 
     }
 

@@ -293,7 +293,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!1 &1605725290344826
 GameObject:
   m_ObjectHideFlags: 1
@@ -540,7 +540,7 @@ Animation:
   m_Animations:
   - {fileID: 7400000, guid: 154b57b075d8ae846b1a55e5efbbac9c, type: 2}
   m_WrapMode: 0
-  m_PlayAutomatically: 1
+  m_PlayAutomatically: 0
   m_AnimatePhysics: 0
   m_CullingType: 0
 --- !u!114 &114026888854055624
@@ -656,6 +656,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   StartButton: {fileID: 114292112798834910}
+  LoadButton: {fileID: 114927535710121624}
+  SetButton: {fileID: 114554324964405666}
+  QuitButton: {fileID: 114114376603093398}
+  Menu: {fileID: 1564922503962854}
+  MenuAnim: {fileID: 111064970387595430}
 --- !u!114 &114122977567290084
 MonoBehaviour:
   m_ObjectHideFlags: 1
