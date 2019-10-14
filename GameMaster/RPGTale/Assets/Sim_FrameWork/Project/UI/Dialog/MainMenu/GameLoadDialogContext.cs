@@ -14,8 +14,15 @@ namespace Sim_FrameWork.UI
             AddBtnListener();
         }
 
+        public override void OnShow(params object[] paralist)
+        {
+            InitSaveList();
+        }
+
         public override void OnUpdate()
         {
+
+
         }
 
         void AddBtnListener()
@@ -27,6 +34,14 @@ namespace Sim_FrameWork.UI
                 UIManager.Instance.SendMessageToWnd(UIPath.Game_Entry_Page, new UIMessage(UIMsgType.PlayMenuAnim));
             });
         }
+
+        void InitSaveList()
+        {
+            var loopList = UIUtility.SafeGetComponent<LoopList>(m_dialog.SaveScrollView.transform);
+            loopList.InitData(GameDataSaveManager.Instance.GetSaveModel());
+        }
+
+        
 
     }
 }

@@ -10,6 +10,7 @@ namespace Sim_FrameWork
         public int SaveID;
         public string SaveName;
         public string SaveDate;
+        public string OrganizatioName;
         public float GameTime;
         public PlayerSaveData playerSaveData;
         public GameStatisticsSaveData gameStatisticsData;

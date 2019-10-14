@@ -51,8 +51,8 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-     <Compile Include="Assets\Scripts\Test.cs" />
      <Compile Include="Assets\Sim_FrameWork\Basic\Camera\CameraFollow.cs" />
+     <Compile Include="Assets\Sim_FrameWork\Basic\Camera\EntryCameraNavigator.cs" />
      <Compile Include="Assets\Sim_FrameWork\Basic\MonoBehaviourSimplify.cs" />
      <Compile Include="Assets\Sim_FrameWork\Basic\MsgDisPatcher.cs" />
      <Compile Include="Assets\Sim_FrameWork\Basic\Resources\AssetBundleConfig.cs" />
@@ -139,6 +139,7 @@
      <Compile Include="Assets\Sim_FrameWork\Project\GamePlay\General\PlayerModule.cs" />
      <Compile Include="Assets\Sim_FrameWork\Project\GamePlay\General\Save\GameDataSaveManager.cs" />
      <Compile Include="Assets\Sim_FrameWork\Project\GamePlay\General\Save\GameSaveData.cs" />
+     <Compile Include="Assets\Sim_FrameWork\Project\GamePlay\General\Save\SaveDataModel.cs" />
      <Compile Include="Assets\Sim_FrameWork\Project\GamePlay\Material\MaterialBase.cs" />
      <Compile Include="Assets\Sim_FrameWork\Project\GamePlay\Material\MaterialDataModel.cs" />
      <Compile Include="Assets\Sim_FrameWork\Project\GamePlay\Material\MaterialModule.cs" />
@@ -159,6 +160,7 @@
      <Compile Include="Assets\Sim_FrameWork\Project\GamePlay\Terrain\TerrainModule.cs" />
      <Compile Include="Assets\Sim_FrameWork\Project\Language\GetTextByID.cs" />
      <Compile Include="Assets\Sim_FrameWork\Project\Language\MultiLanguage.cs" />
+     <Compile Include="Assets\Sim_FrameWork\Project\ObjectMisc\Planet\PlanetRotate.cs" />
      <Compile Include="Assets\Sim_FrameWork\Project\Scene\ScenesManager.cs" />
      <Compile Include="Assets\Sim_FrameWork\Project\UI\Base\UIManager.cs" />
      <Compile Include="Assets\Sim_FrameWork\Project\UI\Base\UIMessage.cs" />
@@ -170,6 +172,8 @@
      <Compile Include="Assets\Sim_FrameWork\Project\UI\Dialog\GeneralConfirmDialogContext.cs" />
      <Compile Include="Assets\Sim_FrameWork\Project\UI\Dialog\GeneralHintDialog.cs" />
      <Compile Include="Assets\Sim_FrameWork\Project\UI\Dialog\GeneralHintDialogContent.cs" />
+     <Compile Include="Assets\Sim_FrameWork\Project\UI\Dialog\MainMenu\GameLoadDialog.cs" />
+     <Compile Include="Assets\Sim_FrameWork\Project\UI\Dialog\MainMenu\GameLoadDialogContext.cs" />
      <Compile Include="Assets\Sim_FrameWork\Project\UI\Dialog\WareHouseDialog.cs" />
      <Compile Include="Assets\Sim_FrameWork\Project\UI\Dialog\WareHouseDialogContent.cs" />
      <Compile Include="Assets\Sim_FrameWork\Project\UI\Inventory\Element\BlockBuildElement.cs" />
@@ -180,6 +184,7 @@
      <Compile Include="Assets\Sim_FrameWork\Project\UI\Inventory\Element\OrderDetailElement.cs" />
      <Compile Include="Assets\Sim_FrameWork\Project\UI\Inventory\Element\OrderReceiveElement.cs" />
      <Compile Include="Assets\Sim_FrameWork\Project\UI\Inventory\Element\RewardElement.cs" />
+     <Compile Include="Assets\Sim_FrameWork\Project\UI\Inventory\Element\SaveElement.cs" />
      <Compile Include="Assets\Sim_FrameWork\Project\UI\Inventory\InfoTip\MaterialInfoTip.cs" />
      <Compile Include="Assets\Sim_FrameWork\Project\UI\Inventory\Inventory.cs" />
      <Compile Include="Assets\Sim_FrameWork\Project\UI\Inventory\InventoryManager.cs" />
@@ -193,11 +198,11 @@
      <Compile Include="Assets\Sim_FrameWork\Project\UI\Inventory\Slot\MaterialSlot.cs" />
      <Compile Include="Assets\Sim_FrameWork\Project\UI\Inventory\Slot\Slot.cs" />
      <Compile Include="Assets\Sim_FrameWork\Project\UI\Inventory\Slot\SlotItem.cs" />
-     <Compile Include="Assets\Sim_FrameWork\Project\UI\Item\ItemUI.cs" />
+     <Compile Include="Assets\Sim_FrameWork\Project\UI\Page\ConsolePage.cs" />
+     <Compile Include="Assets\Sim_FrameWork\Project\UI\Page\ConsolePageContext.cs" />
      <Compile Include="Assets\Sim_FrameWork\Project\UI\Page\GameEntryPage.cs" />
      <Compile Include="Assets\Sim_FrameWork\Project\UI\Page\GameEntryPageContext.cs" />
      <Compile Include="Assets\Sim_FrameWork\Project\UI\Page\LoadingPage.cs" />
-     <Compile Include="Assets\Sim_FrameWork\Project\UI\Page\LoadingPageContext.cs" />
      <Compile Include="Assets\Sim_FrameWork\Project\UI\Page\MainMenuPage.cs" />
      <Compile Include="Assets\Sim_FrameWork\Project\UI\Page\MainMenuPageContext.cs" />
      <Compile Include="Assets\Sim_FrameWork\Project\UI\Page\OrderReceiveMainPage.cs" />
@@ -215,6 +220,7 @@
      <None Include="Assets\StreamingAssets\Data\Language\Language_CN\District.txt" />
      <None Include="Assets\StreamingAssets\Data\Language\Language_CN\Order.txt" />
      <None Include="Assets\AssetBundleConfig.xml" />
+     <None Include="Assets\Shader\Map\Planet\PlanetRender.shader" />
      <None Include="Assets\Resources\Data\DataFormat\Xml\CampMetaData.xml" />
      <None Include="Assets\Resources\Data\DataFormat\Xml\TerrainMetaData.xml" />
      <None Include="Assets\StreamingAssets\Data\Language\Language_CN\Organization.txt" />
@@ -222,11 +228,12 @@
      <None Include="Assets\Resources\Data\DataFormat\Xml\TalentsMetaData.xml" />
      <None Include="Assets\StreamingAssets\Data\Language\Language_CN\FunctionBlock.txt" />
      <None Include="Assets\Resources\Data\DataFormat\Xml\FunctionBlockFormulaMetaData.xml" />
+     <None Include="Assets\Shader\Map\Planet\PlanetAtmosphere.shader" />
      <None Include="Assets\Resources\Data\DataFormat\Xml\DistrictMetaData.xml" />
      <None Include="Assets\Resources\Data\DataFormat\Xml\FunctionBlockMetaData.xml" />
      <None Include="Assets\StreamingAssets\Data\Language\Language_CN\Material.txt" />
      <None Include="Assets\StreamingAssets\Data\Language\Language_CN\Talents.txt" />
-     <None Include="Assets\Material\Shader\Simple\SimpleGrabPassBlur.shader" />
+     <None Include="Assets\Shader\Simple\SimpleGrabPassBlur.shader" />
      <None Include="Assets\Resources\Data\DataFormat\Xml\TechnologyMetaData.xml" />
      <None Include="Assets\Resources\Data\DataFormat\Xml\OrganizationMetaData.xml" />
      <None Include="Assets\Resources\Data\DataFormat\Xml\MaterialMetaData.xml" />

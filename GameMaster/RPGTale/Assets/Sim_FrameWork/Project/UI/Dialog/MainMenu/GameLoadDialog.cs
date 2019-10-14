@@ -11,6 +11,9 @@ namespace Sim_FrameWork
         public Button BackBtn;
         public Button LoadBtn;
         public Button DeleteBtn;
+
+        [Header("Element")]
+        public GameObject SaveScrollView;
       
     }
 }

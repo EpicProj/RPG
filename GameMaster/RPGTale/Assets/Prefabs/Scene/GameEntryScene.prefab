@@ -21,7 +21,7 @@ GameObject:
   - component: {fileID: 4901441442473164}
   - component: {fileID: 23730665851195684}
   - component: {fileID: 33533808591813326}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: 12
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -38,7 +38,7 @@ GameObject:
   - component: {fileID: 4364701504899736}
   - component: {fileID: 23907842421451752}
   - component: {fileID: 33835442769176358}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: 11
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -55,7 +55,7 @@ GameObject:
   - component: {fileID: 4290435703120770}
   - component: {fileID: 23091833625790832}
   - component: {fileID: 33577723616564484}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: 09
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -72,7 +72,7 @@ GameObject:
   - component: {fileID: 4722236944873344}
   - component: {fileID: 23242183069442428}
   - component: {fileID: 33448375486110286}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: 13
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -87,7 +87,7 @@ GameObject:
   serializedVersion: 5
   m_Component:
   - component: {fileID: 4595471245499270}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Nebula_Blue
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -104,7 +104,7 @@ GameObject:
   - component: {fileID: 4919060626039742}
   - component: {fileID: 23466455226941244}
   - component: {fileID: 33530099210435632}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: 04
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -121,7 +121,7 @@ GameObject:
   - component: {fileID: 4680315528688238}
   - component: {fileID: 23509126835656088}
   - component: {fileID: 33163666339373996}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: 07
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -137,7 +137,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4586266325769888}
   - component: {fileID: 108234500173188362}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: DirectionalLight
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -154,7 +154,7 @@ GameObject:
   - component: {fileID: 4744661195822850}
   - component: {fileID: 23764826648916004}
   - component: {fileID: 33568682902783054}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: 14
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -171,7 +171,7 @@ GameObject:
   - component: {fileID: 4559861006763258}
   - component: {fileID: 23844657421451288}
   - component: {fileID: 33877843785356008}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: 02
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -190,7 +190,7 @@ GameObject:
   - component: {fileID: 23342857283755598}
   - component: {fileID: 135395929091860264}
   - component: {fileID: 114509351983914424}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Planet
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -207,7 +207,7 @@ GameObject:
   - component: {fileID: 4092469232303878}
   - component: {fileID: 23982354957875500}
   - component: {fileID: 33986521632270508}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: 10
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -224,7 +224,7 @@ GameObject:
   - component: {fileID: 4861994138387126}
   - component: {fileID: 23001846142193898}
   - component: {fileID: 33163599862776674}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Atmosphere
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -241,7 +241,7 @@ GameObject:
   - component: {fileID: 4526514300216294}
   - component: {fileID: 23844138331011634}
   - component: {fileID: 33413593626652086}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: 03
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -258,7 +258,7 @@ GameObject:
   - component: {fileID: 4944808580066238}
   - component: {fileID: 23366283430792902}
   - component: {fileID: 33943803172155558}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: 01
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -278,7 +278,8 @@ GameObject:
   - component: {fileID: 81748106336146680}
   - component: {fileID: 45416205160019414}
   - component: {fileID: 111606425106850852}
-  m_Layer: 0
+  - component: {fileID: 114521946725956764}
+  m_Layer: 8
   m_Name: SpaceCamera
   m_TagString: MainCamera
   m_Icon: {fileID: 0}
@@ -294,7 +295,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4376425175256488}
   - component: {fileID: 108779548995414868}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: PointLight
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -311,7 +312,7 @@ GameObject:
   - component: {fileID: 4954944226832680}
   - component: {fileID: 23963564742361570}
   - component: {fileID: 33155499559855816}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: 06
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -326,7 +327,7 @@ GameObject:
   serializedVersion: 5
   m_Component:
   - component: {fileID: 4329371817637296}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Space
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -341,7 +342,7 @@ GameObject:
   serializedVersion: 5
   m_Component:
   - component: {fileID: 4966988096015448}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Planet_Monten
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -358,7 +359,7 @@ GameObject:
   - component: {fileID: 4357050389063066}
   - component: {fileID: 23102204322143278}
   - component: {fileID: 33123115877244332}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: 15
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -375,7 +376,7 @@ GameObject:
   - component: {fileID: 4955123522407476}
   - component: {fileID: 23435658662345448}
   - component: {fileID: 33915870586258156}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: 16
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -392,7 +393,7 @@ GameObject:
   - component: {fileID: 4177535908046426}
   - component: {fileID: 23969104905138664}
   - component: {fileID: 33965732046595548}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: 08
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -407,7 +408,7 @@ GameObject:
   serializedVersion: 5
   m_Component:
   - component: {fileID: 4859446022029260}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Light
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -422,7 +423,7 @@ GameObject:
   serializedVersion: 5
   m_Component:
   - component: {fileID: 4601620863598554}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: GameEntryScene
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -439,7 +440,7 @@ GameObject:
   - component: {fileID: 4845687440292654}
   - component: {fileID: 23691167236272532}
   - component: {fileID: 33251616952810614}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: 05
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1697,6 +1698,18 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   RotateSpeed: 0.02
+--- !u!114 &114521946725956764
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1575854787332872}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: de5d6d203b53bce4584469296c863bfa, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  MoveSpeed: 0.01
 --- !u!124 &124960237352256336
 Behaviour:
   m_ObjectHideFlags: 1

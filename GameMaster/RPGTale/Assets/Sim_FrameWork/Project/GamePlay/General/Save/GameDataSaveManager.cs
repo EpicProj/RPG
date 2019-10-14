@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using System.Runtime.Serialization.Formatters.Binary;
 using System.IO;
+using System;
 
 namespace Sim_FrameWork
 {
@@ -23,10 +24,12 @@ namespace Sim_FrameWork
 
         private int currentSaveNum;
         private int maxSaveNum;
+        private List<GameSaveData> AllSaveDataList;
 
         protected override void Awake()
         {
             base.Awake();
+            AllSaveDataList = new List<GameSaveData>();
         }
 
         void Start()
@@ -43,6 +46,13 @@ namespace Sim_FrameWork
             }
         }
 
+        /// <summary>
+        /// 清空缓存
+        /// </summary>
+        public void ClearCache()
+        {
+            AllSaveDataList = null;
+        }
 
         #region Data Save
         private GameSaveData Create_gameSaveData()
@@ -86,12 +96,12 @@ namespace Sim_FrameWork
             GameSaveData gameSave = Create_gameSaveData();
 
             string SaveFilePath = Application.persistentDataPath + "/SaveData";
-            if (!File.Exists(SaveFilePath))
+            if (!Directory.Exists(SaveFilePath))
             {
                 Directory.CreateDirectory(SaveFilePath);
             }
 
-            string savePath = SaveFilePath + "/" + gameSave.SaveID;
+            string savePath = SaveFilePath + "/" + gameSave.SaveID+".sav";
             BinaryFormatter bf = new BinaryFormatter();
             FileStream stream = File.Create(savePath);
             bf.Serialize(stream, gameSave);
@@ -112,7 +122,7 @@ namespace Sim_FrameWork
             string SaveFilePath = Application.persistentDataPath + "/SaveData";
             if (File.Exists(SaveFilePath))
             {
-                var dirs = Directory.GetFileSystemEntries(SaveFilePath);
+                var dirs = Directory.GetFileSystemEntries(SaveFilePath,"*.sav");
                 return dirs.Length;
             }
             return 0;
@@ -127,31 +137,100 @@ namespace Sim_FrameWork
         /// <summary>
         /// Load Save By Bin
         /// </summary>
-        private void LoadSaveByBin()
+        private GameSaveData LoadSaveByBin(string savePath)
         {
-            string SaveFilePath = Application.persistentDataPath + "Save.sav";
-            if (File.Exists(SaveFilePath))
+            GameSaveData result = null;
+            if (File.Exists(savePath))
             {
-                BinaryFormatter bf = new BinaryFormatter();
-                FileStream fs = File.Open(SaveFilePath, FileMode.Open);
+                try
+                {
+                    BinaryFormatter bf = new BinaryFormatter();
+                    FileStream fs = File.Open(savePath, FileMode.Open);
+                    result = (GameSaveData)bf.Deserialize(fs);
 
-                GameSaveData saveData = (GameSaveData)bf.Deserialize(fs);
+                    fs.Close();
 
-                fs.Close();
-
-                LoadPlayerSaveData(saveData.playerSaveData);   
+                }
+                catch (Exception e)
+                {
+                    Debug.LogError(e);
+                }
             }
+            return result;
         }
         #endregion
 
 
         #region  Game Load
+        public List<GameSaveData> RefreshCurrentSaveDataList()
+        {
+            AllSaveDataList.Clear();
+            string SaveFilePath = Application.persistentDataPath + "/SaveData";
+            if (Directory.Exists(SaveFilePath))
+            {
+                DirectoryInfo dirs = new DirectoryInfo(SaveFilePath);
+                var files = dirs.GetFiles("*.sav", SearchOption.AllDirectories);
 
-        public void LoadPlayerSaveData(PlayerSaveData data)
+                Debug.Log("Save File Length=" + files.Length);
+                for(int i = 0; i < files.Length; i++)
+                {
+                    try
+                    {
+                        var savePath = files[i].FullName;
+                        var data = LoadSaveByBin(savePath);
+                        if (data != null)
+                        {
+                            AllSaveDataList.Add(data);
+                        }
+                    }
+                    catch (Exception e)
+                    {
+                        Debug.LogError(e);
+                        continue;
+                    }
+                }
+            }
+            else
+            {
+                Debug.Log("Save Path not Exits!  Path=" + SaveFilePath);
+            }
+            return AllSaveDataList;
+        }
+
+        /// <summary>
+        /// 获取存档
+        /// </summary>
+        /// <param name="saveID"></param>
+        /// <returns></returns>
+        public GameSaveData GetSaveDataBySaveID(int saveID)
+        {
+            GameSaveData data = AllSaveDataList.Find(x => x.SaveID == saveID);
+            if (data == null)
+                Debug.LogError("Save Not Exists! SaveID=  " + saveID);
+            return data;
+        }
+
+        void LoadPlayerSaveData(PlayerSaveData data)
         {
 
         }
 
+        public List<List<BaseDataModel>> GetSaveModel()
+        {
+            RefreshCurrentSaveDataList();
+            List<List<BaseDataModel>> result = new List<List<BaseDataModel>>();
+            for(int i = 0; i < AllSaveDataList.Count; i++)
+            {
+                SaveDataModel model = new SaveDataModel();
+                if(model.Create(AllSaveDataList[i].SaveID))
+                {
+                    List<BaseDataModel> list = new List<BaseDataModel>();
+                    list.Add((BaseDataModel)model);
+                    result.Add(list);
+                }    
+            }
+            return result;
+        }
 
         #endregion
     }
