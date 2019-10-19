@@ -29,7 +29,7 @@ namespace Sim_FrameWork {
         public void RegisterUI()
         {
             UIManager.Instance.Register<BlockInfoDialogContent>(UIPath.FUNCTIONBLOCK_INFO_DIALOG);
-            UIManager.Instance.Register<WareHouseDialogContent>(UIPath.WAREHOURSE_DIALOG);
+            UIManager.Instance.Register<WareHousePageContext>(UIPath.WareHouse_Page);
             UIManager.Instance.Register<MainMenuPageContext>(UIPath.MainMenu_Page);
             UIManager.Instance.Register<GameEntryPageContext>(UIPath.Game_Entry_Page);
             UIManager.Instance.Register<GeneralConfirmDialogContext>(UIPath.General_Confirm_Dialog);

@@ -5,13 +5,11 @@ using UnityEngine.UI;
 
 namespace Sim_FrameWork
 {
-    public class WareHouseDialog:MonoBehaviour
+    public class WareHousePage:MonoBehaviour
     {
         public GameObject MaterialContent;
 
-        //Tag
-        public GameObject MainTagContent;
-        public GameObject SubTagContent;
+        [Header("Button")]
         public Button CloseBtn;
     }
 }

@@ -5,9 +5,9 @@ using UnityEngine.UI;
 
 namespace Sim_FrameWork.UI
 {
-    public class WareHouseDialogContent : WindowBase {
+    public class WareHousePageContext : WindowBase {
 
-        public WareHouseDialog m_dialog;
+        public WareHousePage m_page;
         public PlayerData.WareHouseInfo info;
         public List<string> mainTagList;
 
@@ -16,12 +16,14 @@ namespace Sim_FrameWork.UI
         public Dictionary<GameObject, MaterialConfig.MaterialType.MaterialSubType> currentSubTagDic = new Dictionary<GameObject, MaterialConfig.MaterialType.MaterialSubType>();
 
 
+        public MaterialConfig.MaterialType currentSelectMainType;
+        public MaterialConfig.MaterialType.MaterialSubType currentSelectSubType;
         public override void Awake(params object[] paralist)
         {
             info = (PlayerData.WareHouseInfo)paralist[0];
-            m_dialog = GameObject.GetComponent<WareHouseDialog>();
-            AddBtnListener();
-            InitMainTag();
+            m_page = GameObject.GetComponent<WareHousePage>();
+            //AddBtnListener();
+            //InitMainTag();
         }
 
 
@@ -29,7 +31,7 @@ namespace Sim_FrameWork.UI
         {
             info = (PlayerData.WareHouseInfo)paralist[0];
             //TODO
-            InitSotrageItem();
+            //InitSotrageItem();
         }
 
         public override bool OnMessage(UIMessage msg)
@@ -49,16 +51,16 @@ namespace Sim_FrameWork.UI
         {
             if (Input.GetKeyDown(KeyCode.Escape))
             {
-                UIManager.Instance.HideWnd(UIPath.WAREHOURSE_DIALOG);
+                UIManager.Instance.HideWnd(UIPath.WareHouse_Page);
             }
         }
 
 
         private void AddBtnListener()
         {
-            AddButtonClickListener(m_dialog.CloseBtn, delegate ()
+            AddButtonClickListener(m_page.CloseBtn, delegate ()
             {
-                UIManager.Instance.HideWnd(UIPath.WAREHOURSE_DIALOG);
+                UIManager.Instance.HideWnd(UIPath.WareHouse_Page);
             });
         }
 
@@ -75,7 +77,7 @@ namespace Sim_FrameWork.UI
             {
                 GameObject mainTag = ObjectManager.Instance.InstantiateObject(UIPath.WareHouse_Maintag_Prefab_Path);
                 GeneralTagElement element = mainTag.GetComponent<GeneralTagElement>();
-                element.InitWareHouseMainTag(info.materialTagList[i], m_dialog.MainTagContent.transform.transform);
+                //element.InitWareHouseMainTag(info.materialTagList[i], m_page.MainTagContent.transform.transform);
                 //Add Btn
                 AddButtonClickListener(element.btn, delegate () {
                     SelectMainTag(mainTag);
@@ -83,8 +85,8 @@ namespace Sim_FrameWork.UI
                 currentMainTagDic.Add(mainTag, info.materialTagList[i]);
             }
             //Set Default Select Tag
-            info.currentSelectMainType = info.materialTagList[0];
-            InitSubTag(info.currentSelectMainType);
+            currentSelectMainType = info.materialTagList[0];
+            InitSubTag(currentSelectMainType);
         }
 
         /// <summary>
@@ -97,16 +99,16 @@ namespace Sim_FrameWork.UI
             info.materialSubTagDic.TryGetValue(type, out subList);
             if (subList != null)
             {
-                foreach(Transform trans in m_dialog.SubTagContent.transform)
-                {
-                    GameObject.Destroy(trans.gameObject);
-                }
+                //foreach(Transform trans in m_page.SubTagContent.transform)
+                //{
+                //    GameObject.Destroy(trans.gameObject);
+                //}
                 currentSubTagDic.Clear();
                 for (int i = 0; i < subList.Count; i++)
                 {
                     GameObject subTag = ObjectManager.Instance.InstantiateObject(UIPath.WareHouse_Subtag_Prefab_Path);
                     GeneralTagElement element = subTag.GetComponent<GeneralTagElement>();
-                    element.InitWareHouseSubTag(subList[i], m_dialog.SubTagContent.transform);
+                    //element.InitWareHouseSubTag(subList[i], m_page.SubTagContent.transform);
                     AddButtonClickListener(element.btn, delegate ()
                     {
                         SelectSubTag(subTag);
@@ -116,14 +118,14 @@ namespace Sim_FrameWork.UI
                 //Set Default Select Sub Tag
                 if (subList.Count == 0)
                 {
-                    info.currentSelectSubType = new MaterialConfig.MaterialType.MaterialSubType
+                    currentSelectSubType = new MaterialConfig.MaterialType.MaterialSubType
                     {
                         Type = "Total"
                     };
                 }
                 else
                 {
-                    info.currentSelectSubType = subList[0];
+                    currentSelectSubType = subList[0];
                 }
                 InitSotrageItem();
             }
@@ -131,33 +133,33 @@ namespace Sim_FrameWork.UI
 
         public void SelectMainTag(GameObject obj)
         {
-            foreach (Transform trans in m_dialog.MainTagContent.transform)
-            {
-                trans.GetComponent<GeneralTagElement>().DimObj();
-            }
+            //foreach (Transform trans in m_page.MainTagContent.transform)
+            //{
+            //    trans.GetComponent<GeneralTagElement>().DimObj();
+            //}
             MaterialConfig.MaterialType type = null;
             currentMainTagDic.TryGetValue(obj, out type);
             if (type != null)
             {
-                info.currentSelectMainType = type;
+                currentSelectMainType = type;
                 //Init Select Info
                 obj.GetComponent<GeneralTagElement>().HighlightObj();
                 //Init Sub Tag
-                InitSubTag(info.currentSelectMainType);
+                InitSubTag(currentSelectMainType);
             }
         }
 
         public void SelectSubTag(GameObject obj)
         {
-            foreach(Transform trans in m_dialog.SubTagContent.transform)
-            {
-                trans.GetComponent<GeneralTagElement>().DimObj();
-            }
+            //foreach(Transform trans in m_page.SubTagContent.transform)
+            //{
+            //    trans.GetComponent<GeneralTagElement>().DimObj();
+            //}
             MaterialConfig.MaterialType.MaterialSubType type = null;
             currentSubTagDic.TryGetValue(obj, out type);
             if (type != null)
             {
-                info.currentSelectSubType = type;
+                currentSelectSubType = type;
                 obj.GetComponent<GeneralTagElement>().HighlightObj();
                 InitSotrageItem();
             }
@@ -165,14 +167,11 @@ namespace Sim_FrameWork.UI
 
         private void InitSotrageItem()
         {
-            WarehouseSlotPanel panel = m_dialog.MaterialContent.GetComponent<WarehouseSlotPanel>();
-            panel.InitMaterialContent(info);
+
         }
 
         private void UpdateStorageItem(MaterialStorageItem item)
         {
-            WarehouseSlotPanel panel = m_dialog.MaterialContent.GetComponent<WarehouseSlotPanel>();
-            panel.AddMaterial(item);
         }
     }
 }

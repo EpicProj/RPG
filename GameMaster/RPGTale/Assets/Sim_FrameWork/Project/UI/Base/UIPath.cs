@@ -8,8 +8,7 @@ namespace Sim_FrameWork
     {
         #region DialogPath
         public const string FUNCTIONBLOCK_INFO_DIALOG = "Dialog/FunctionBlock/BlockInfoDialog";
-        //材料界面
-        public const string WAREHOURSE_DIALOG = "Dialog/Main/WareHouseDialog";
+    
         /// <summary>
         /// 信息确认框
         /// </summary>
@@ -42,6 +41,10 @@ namespace Sim_FrameWork
 
         public const string Console_Page = "Page/ConsolePage";
 
+        /// <summary>
+        /// 仓库界面
+        /// </summary>
+        public const string WareHouse_Page = "Page/WareHousePage";
         #endregion
 
 

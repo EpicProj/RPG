@@ -7,6 +7,11 @@ using UnityEngine.UI;
 
 namespace Sim_FrameWork
 {
+    public enum BaseElementMode
+    {
+        Normal,
+        Grid
+    }
     public class BaseElement : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler, IPointerDownHandler
     {
         /// <summary>
@@ -21,6 +26,7 @@ namespace Sim_FrameWork
         private int _showNum;
 
         private LoopList.SepConfig _sepConfig;
+        private GridLoopList.SepConfig _gridSepConfig;
 
         /// <summary>
         /// Data
@@ -28,6 +34,14 @@ namespace Sim_FrameWork
         private List<BaseDataModel> _model;
         private LoopList.LayoutType _layoutType;
 
+        /// <summary>
+        /// Grid
+        /// </summary>
+        private GridLoopList.LoopType _gridLoopType;
+        private int _horizontalItemNum;
+        private int _verticalItemNum;
+
+        private BaseElementMode mode = BaseElementMode.Normal;
         /// <summary>
         /// UI
         /// </summary>
@@ -45,16 +59,32 @@ namespace Sim_FrameWork
 
         public virtual void Awake() { }
 
+        //General Method
         public void Init(int id, float offset , int showNum , LoopList.SepConfig config, LoopList.LayoutType type)
         {
             _id = -1;
             _content = UIUtility.SafeGetComponent<RectTransform>(transform.parent);
+            mode = BaseElementMode.Normal;
             _offset = offset;
             _showNum = showNum;
             _sepConfig = config;
             _layoutType = type;
             ChangeID(id);
         }
+
+        //For GridLayout
+        public void InitGrid(int id, int showNum, int horizontalItemNum, int verticalItemNum, GridLoopList.SepConfig config,GridLoopList.LoopType type)
+        {
+            _id = -1;
+            _content = UIUtility.SafeGetComponent<RectTransform>(transform.parent);
+            mode = BaseElementMode.Grid;
+            _showNum = showNum;
+            _horizontalItemNum = horizontalItemNum;
+            _verticalItemNum = verticalItemNum;
+            _gridSepConfig = config;
+            _gridLoopType = type;
+        }
+
 
         private Func<int, List<BaseDataModel>> _getData;
         public void AddGetDataListener(Func<int, List<BaseDataModel>> getData)
@@ -79,11 +109,11 @@ namespace Sim_FrameWork
             switch (_layoutType)
             {
                 case LoopList.LayoutType.Horizontal:
-                    startID = Mathf.FloorToInt(- _content.anchoredPosition.x / (Rect.rect.width + _offset));
+                    startID = Mathf.FloorToInt(-_content.anchoredPosition.x / (Rect.rect.width + _offset));
                     endID = startID + _showNum - 1;
                     break;
                 case LoopList.LayoutType.Vertical:
-                    startID = Mathf.FloorToInt( _content.anchoredPosition.y / (Rect.rect.height + _offset));
+                    startID = Mathf.FloorToInt(_content.anchoredPosition.y / (Rect.rect.height + _offset));
                     endID = startID + _showNum - 1;
                     break;
                 default:
@@ -91,7 +121,7 @@ namespace Sim_FrameWork
                     endID = -1;
                     break;
             }
-           
+
         }
 
         /// <summary>
@@ -132,17 +162,34 @@ namespace Sim_FrameWork
 
         private void SetPos()
         {
-            switch (_layoutType)
+            if(mode== BaseElementMode.Normal)
             {
-                case LoopList.LayoutType.Horizontal:
-                    Rect.anchoredPosition = new Vector2( _id * (Rect.rect.width + _offset)+ _sepConfig.LeftSep, 0+_sepConfig.TopSep);
-                    break;
-                case LoopList.LayoutType.Vertical:
-                    Rect.anchoredPosition = new Vector2(0+_sepConfig.LeftSep,  _id * (Rect.rect.height + _offset)+_sepConfig.TopSep);
-                    break;
-                default:
-                    break;
+                switch (_layoutType)
+                {
+                    case LoopList.LayoutType.Horizontal:
+                        Rect.anchoredPosition = new Vector2(_id * (Rect.rect.width + _offset) + _sepConfig.LeftSep, 0 + _sepConfig.TopSep);
+                        break;
+                    case LoopList.LayoutType.Vertical:
+                        Rect.anchoredPosition = new Vector2(0 + _sepConfig.LeftSep, _id * (Rect.rect.height + _offset) + _sepConfig.TopSep);
+                        break;
+                    default:
+                        break;
+                }
             }
+            else if(mode== BaseElementMode.Grid)
+            {
+                switch (_gridLoopType)
+                {
+                    case GridLoopList.LoopType.Vertical:
+                        var x = _id * Rect.rect.width + _gridSepConfig.HorizontalSep;
+                        var y = Mathf.CeilToInt(_id / _horizontalItemNum) * Rect.rect.height;
+                        Rect.anchoredPosition = new Vector2(x, y);
+                        break;
+                    default:
+                        break;
+                }
+            }
+         
         }
 
         /// <summary>

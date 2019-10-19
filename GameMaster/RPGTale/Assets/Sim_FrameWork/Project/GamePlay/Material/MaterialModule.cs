@@ -82,6 +82,16 @@ namespace Sim_FrameWork {
             return MultiLanguage.Instance.GetTextValue(GetMaterialByMaterialID(materialID).UnitName);
         }
 
+        public static Sprite GetMaterialSprite(int materialID)
+        {
+            string path = GetMaterialByMaterialID(materialID).MaterialIcon;
+            return Utility.LoadSprite(path, Utility.SpriteType.png);
+        }
+        public static Sprite GetMaterialBG(int materialID)
+        {
+            string path = GetMaterialByMaterialID(materialID).BG;
+            return Utility.LoadSprite(path, Utility.SpriteType.png);
+        }
 
 
         //Rarity
@@ -322,19 +332,9 @@ namespace Sim_FrameWork {
 
         #region Method
 
-        public static Sprite GetMaterialSprite(int materialID)
-        {
-            string path = GetMaterialByMaterialID(materialID).MaterialIcon;
-            return Utility.LoadSprite(path,Utility.SpriteType.png);
-        }
+    
 
-        public  GameObject InitMaterialObj(int materialID)
-        {
-            GameObject MaterialObj = ObjectManager.Instance.InstantiateObject(UIPath.FUNCTIONBLOCK_MATERIAL_PREFAB_PATH);
-            MaterialObj.transform.Find("Image").GetComponent<Image>().sprite = GetMaterialSprite(materialID);
-            MaterialObj.transform.Find("Name").GetComponent<Text>().text = GetMaterialName(materialID);
-            return MaterialObj;
-        }
+
         #endregion
     }
 

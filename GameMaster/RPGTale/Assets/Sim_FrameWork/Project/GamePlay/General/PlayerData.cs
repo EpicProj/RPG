@@ -16,8 +16,6 @@ namespace Sim_FrameWork
 
             public Dictionary<MaterialConfig.MaterialType, List<MaterialConfig.MaterialType.MaterialSubType>> materialSubTagDic = new Dictionary<MaterialConfig.MaterialType, List<MaterialConfig.MaterialType.MaterialSubType>>();
 
-            public MaterialConfig.MaterialType currentSelectMainType;
-            public MaterialConfig.MaterialType.MaterialSubType currentSelectSubType;
         }
        
 
@@ -38,7 +36,7 @@ namespace Sim_FrameWork
         {
             Action<MaterialStorageItem> sendMsg = (m) =>
             {
-                UIManager.Instance.SendMessageToWnd(UIPath.WAREHOURSE_DIALOG, new UIMessage(UIMsgType.UpdateWarehouseData, new List<object>(1) { m }));
+                UIManager.Instance.SendMessageToWnd(UIPath.WareHouse_Page, new UIMessage(UIMsgType.UpdateWarehouseData, new List<object>(1) { m }));
             };
 
             if (wareHouseInfo.materialStorageDataDic.ContainsKey(materialID))

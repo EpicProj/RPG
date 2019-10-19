@@ -22,6 +22,7 @@ public class MaterialMetaData : ExcelBase {
             mat.BlockCapacity = (ushort)i;
             mat.PriceBase = i;
             mat.MaterialIcon = "";
+            mat.BG = "";
             mat.UnitName = "";
             mat.Rarity = "";
             mat.ModelPath = "";
@@ -79,6 +80,8 @@ public class Material
     public int PriceBase { get; set; }
     [XmlAttribute]
     public string MaterialIcon { get; set; }
+    [XmlAttribute]
+    public string BG { get; set; }
     [XmlAttribute]
     public string UnitName { get; set; }
     [XmlAttribute]

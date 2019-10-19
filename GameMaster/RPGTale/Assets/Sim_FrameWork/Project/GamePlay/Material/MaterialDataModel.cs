@@ -70,6 +70,18 @@ namespace Sim_FrameWork {
             }
             set { }
         }
+
+        private Sprite _bg;
+        public Sprite BG
+        {
+            get
+            {
+                if (_bg == null)
+                    _bg = MaterialModule.GetMaterialBG(_id);
+                return _bg;
+            }
+            set { }
+        }
     
     }
 
