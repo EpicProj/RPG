@@ -7,23 +7,29 @@ using UnityEngine.UI;
 namespace Sim_FrameWork {
     public class MaterialModule : BaseModule<MaterialModule> {
 
-
         public static List<Material> MaterialList;
         public static Dictionary<int, Material> MaterialDic;
 
+        public static List<MaterialType> MaterialTypeList;
+        public static Dictionary<string, MaterialType> MaterialTypeDic;
+
+        public static List<MaterialSubType> MaterialSubTypeList;
+        public static Dictionary<string, MaterialSubType> MaterialSubTypeDic;
+
         public static MaterialConfig maConfig;
-        public static List<string> AllMaterialRarityList;
-        public static List<string> AllMaterialTypeList;
 
 
         public override void InitData()
         {
             MaterialList = MaterialMetaDataReader.GetMaterialListData();
             MaterialDic = MaterialMetaDataReader.GetMaterialDic();
+            MaterialTypeList = MaterialMetaDataReader.GetMaterialTypeListData();
+            MaterialTypeDic = MaterialMetaDataReader.GetMaterialTypeDic();
+            MaterialSubTypeList = MaterialMetaDataReader.GetMaterialSubTypeListData();
+            MaterialSubTypeDic = MaterialMetaDataReader.GetMaterialSubTypeDic();
+
             maConfig = new MaterialConfig();
             maConfig.LoadConfigData();
-            AllMaterialRarityList = GetAllMaterialRarityList();
-            AllMaterialTypeList = GetAllMainMaterialTypeList();
         }
 
         public override void Register()
@@ -94,41 +100,25 @@ namespace Sim_FrameWork {
         }
 
 
-        //Rarity
-        public static List<string> GetAllMaterialRarityList()
-        {
-            List<string> result = new List<string>();
-            foreach(var data in maConfig.rarityDataList)
-            {
-                if (result.Contains(data.RarityLevel))
-                {
-                    Debug.LogError("Find Same RarityID ,ID=" + data.RarityLevel);
-                    continue;
-                }
-                else
-                {
-                    result.Add(data.RarityLevel);
-                }
-            }
-            return result;
-        }
-
-        public static string GetMaterialRarity(int materialID)
-        {
-            return GetMaterialRarityData(materialID).RarityLevel;
-        }
         /// <summary>
         /// 获取稀有度信息
         /// </summary>
         /// <param name="materialID"></param>
         /// <returns></returns>
-        public static MaterialConfig.MaterialRarityData GetMaterialRarityData(int materialID)
+        public static MaterialRarity GetMaterialRarityData(int materialID)
         {
-            MaterialConfig.MaterialRarityData data = null;
+            MaterialRarity data = null;
             string rarity = GetMaterialByMaterialID(materialID).Rarity;
-            if (AllMaterialRarityList.Contains(rarity))
+
+            var result= maConfig.rarityDataList.Find(x => x.RarityLevel == rarity);
+            if (result != null)
             {
-                return maConfig.rarityDataList.Find(x => x.RarityLevel == rarity);
+                data = new MaterialRarity
+                {
+                    RarityColor = result.RarityColor,
+                    RarityLevel = result.RarityLevel,
+                    RarityName = result.RarityName
+                };
             }
             else
             {
@@ -136,7 +126,7 @@ namespace Sim_FrameWork {
             }
             return data;
         }
-        public static string GetMaterialRarityName(MaterialConfig.MaterialRarityData data)
+        public static string GetMaterialRarityName(MaterialRarity data)
         {
             return MultiLanguage.Instance.GetTextValue(data.RarityName);
         }
@@ -155,183 +145,136 @@ namespace Sim_FrameWork {
             }
             return result;
         }
-        //Type
-
-        /// <summary>
-        /// 获取所有主要材料类型
-        /// </summary>
-        /// <returns></returns>
-        public static List<string> GetAllMainMaterialTypeList()
+        public Color TryParseRarityColor(int materialID)
         {
-            List<string> result = new List<string>();
-            foreach(var data in maConfig.materialTypeList)
-            {
-                if (result.Contains(data.Type))
-                {
-                    Debug.LogError("Find Same Material Main Type!  TypeName=" + data.Type);
-                    continue;
-                }
-                else
-                {
-                    result.Add(data.Type);
-                }
-            }
-            return result;
-           
+            return TryParseRarityColor(GetMaterialByMaterialID(materialID));
         }
 
-        public static MaterialConfig.MaterialType GetMaterialTypeData(string tagName)
-        {
-            return maConfig.materialTypeList.Find(x => x.Type == tagName);
-        }
-        /// <summary>
-        /// 获取所有副类型
-        /// </summary>
-        /// <param name="mainTypeName"></param>
-        /// <returns></returns>
-        public static List<string> GetMaterialSubTypeList(string mainTypeName)
-        {
-            List<string> result = new List<string>();
-            if (AllMaterialTypeList.Contains(mainTypeName))
-            {
-                var list = maConfig.materialTypeList.Find(x => x.Type == mainTypeName);
-                if (list != null)
-                {
-                    if (list.SubTypeList == null)
-                    {
-                        return result;
-                    }
-                    foreach(var subData in list.SubTypeList)
-                    {
-                        if (result.Contains(subData.SubTypeName))
-                        {
-                            Debug.LogError("Find Same SubTypeName !  name=" + subData.SubTypeName);
-                            continue;
-                        }
-                        result.Add(subData.Type);
-                    }
-                }
-                else
-                {
-                    Debug.LogError("Get Sub Type Error!  MainType=" + mainTypeName);
-                }
-            }
-            else
-            {
-                Debug.LogError("MainType Error,Can not find SubType Data ,MainType=" + mainTypeName);
-            }
-            return result;
-        }
-
-        public static List<MaterialConfig.MaterialType.MaterialSubType> GetMaterialSubTypeDataList(string tagName)
-        {
-            List<MaterialConfig.MaterialType.MaterialSubType> result = new List<MaterialConfig.MaterialType.MaterialSubType>();
-            MaterialConfig.MaterialType type = GetMaterialTypeData(tagName);
-            List<string> subTag = GetMaterialSubTypeList(tagName);
-            if (subTag != null)
-            {
-                for(int i = 0; i < subTag.Count; i++)
-                {
-                    result.Add(type.SubTypeList.Find(x => x.Type == subTag[i]));
-                }
-            }
-            return result;
-        }
         /// <summary>
         /// 获取主分类
         /// </summary>
         /// <param name="materialID"></param>
         /// <returns></returns>
-        public static MaterialConfig.MaterialType GetMaterialMainType(int materialID)
+        public static MaterialType GetMaterialType(int materialID)
         {
+            MaterialType type = null;
             string mainType = GetMaterialByMaterialID(materialID).Type;
-            if (AllMaterialTypeList.Contains(mainType))
+            MaterialTypeDic.TryGetValue(mainType, out type);
+            if (type == null)
             {
-                return maConfig.materialTypeList.Find(x => x.Type == mainType);
+                Debug.LogError("Material Type Error! type=" + mainType);
             }
-            else
-            {
-                Debug.LogError("Material Main Type Error! type=" + mainType);
-                return null;
-            }
+            return type;
         }
-        public static MaterialConfig.MaterialType GetMaterialMainType(Material ma)
+        public static MaterialType GetMaterialType(Material ma)
         {
-            return GetMaterialMainType(ma.MaterialID);
+            return GetMaterialType(ma.MaterialID);
         }
 
-        public static string GetMaterialMainTypeName(MaterialConfig.MaterialType type)
+        public static string GetMaterialTypeName(MaterialType type)
         {
             return MultiLanguage.Instance.GetTextValue(type.TypeName);
         }
-        public static string GetMaterialMainTypeName(Material ma)
+        public static string GetMaterialTypeName(Material ma)
         {
-            return MultiLanguage.Instance.GetTextValue(GetMaterialMainType(ma).TypeName);
+            return MultiLanguage.Instance.GetTextValue(GetMaterialType(ma).TypeName);
         }
-        public static string GetMaterialMainTypeDesc(MaterialConfig.MaterialType type)
+        public static string GetMaterialTypeDesc(MaterialType type)
         {
             return MultiLanguage.Instance.GetTextValue(type.TypeDesc);
         }
 
-        public static Sprite GetMaterialMainTypeSprite(MaterialConfig.MaterialType type)
+        public static Sprite GetMaterialTypeSprite(MaterialType type)
         {
-            return Utility.LoadSprite(type.TypeIconPath, Utility.SpriteType.png);
+            return Utility.LoadSprite(type.TypeIcon, Utility.SpriteType.png);
         }
 
-        public static Sprite GetMaterialMainTypeSprite(Material ma)
+        public static Sprite GetMaterialTypeSprite(Material ma)
         {
-            return Utility.LoadSprite(GetMaterialMainType(ma.MaterialID).TypeIconPath, Utility.SpriteType.png);
+            return Utility.LoadSprite(GetMaterialType(ma.MaterialID).TypeIcon, Utility.SpriteType.png);
         }
+
         /// <summary>
         /// 获取副分类
         /// </summary>
         /// <param name="materialID"></param>
         /// <returns></returns>
-        public static MaterialConfig.MaterialType.MaterialSubType GetMaterialSubType(int materialID)
+        public static MaterialSubType GetMaterialSubType(int materialID)
         {
-            MaterialConfig.MaterialType mainType = GetMaterialMainType(materialID);
+            var mainType = GetMaterialType(materialID);
             string subtype = GetMaterialByMaterialID(materialID).SubType;
-            if (GetMaterialSubTypeList(mainType.Type).Contains(subtype))
-            {
-                return mainType.SubTypeList.Find(x => x.Type == subtype);
-            }
-            else
-            {
-                Debug.LogError("GetSubType Error ! SubType=" + subtype);
-                return null;
-            }
+            //Check Value
+            var result = GetMaterialSubTypeList(mainType).Find(x => x.SubType == subtype);
+            if (result != null)
+                return result;
+            return null;
         }
-        public static MaterialConfig.MaterialType.MaterialSubType GetMaterialSubType(Material ma)
+
+        public static List<MaterialSubType> GetMaterialSubTypeList(MaterialType type)
+        {
+            List<MaterialSubType> result = new List<MaterialSubType>();
+            var list= Utility.TryParseStringList(type.SubTypeList, ',');
+            for(int i = 0; i < list.Count; i++)
+            {
+                var subType = MaterialSubTypeList.Find(x => x.SubType == list[i]);
+                if (subType != null)
+                {
+                    result.Add(subType);
+                }
+                else
+                {
+                    Debug.LogError("illegal Material Sub Type, subTypeName=" + list[i]);
+                }
+            }
+            return result;
+        }
+
+
+
+        public static MaterialSubType GetMaterialSubType(Material ma)
         {
             return GetMaterialSubType(ma.MaterialID);
         }
 
-        public static string GetMaterialSubTypeName(MaterialConfig.MaterialType.MaterialSubType subtype)
+        public static string GetMaterialSubTypeName(MaterialSubType subtype)
         {
-            return MultiLanguage.Instance.GetTextValue(subtype.SubTypeName);
+            return MultiLanguage.Instance.GetTextValue(subtype.TypeName);
         }
         public static string GetMaterialSubTypeName(Material ma)
         {
-            return MultiLanguage.Instance.GetTextValue(GetMaterialSubType(ma.MaterialID).SubTypeName);
+            return MultiLanguage.Instance.GetTextValue(GetMaterialSubType(ma.MaterialID).TypeName);
         }
-        public static string GetMaterialSubTypeDesc(MaterialConfig.MaterialType.MaterialSubType subtype)
+        public static string GetMaterialSubTypeDesc(MaterialSubType subtype)
         {
-            return MultiLanguage.Instance.GetTextValue(subtype.SubTypeDesc);
+            return MultiLanguage.Instance.GetTextValue(subtype.TypeDesc);
         }
 
-        public static Sprite GetMaterialSubTypeIcon(MaterialConfig.MaterialType.MaterialSubType subtype)
+        public static Sprite GetMaterialSubTypeIcon(MaterialSubType subtype)
         {
-            return Utility.LoadSprite(subtype.SubTypeIcon, Utility.SpriteType.png);
+            return Utility.LoadSprite(subtype.TypeIcon, Utility.SpriteType.png);
         }
         public static Sprite GetMaterialSubTypeIcon(Material ma)
         {
-            return Utility.LoadSprite(GetMaterialSubType(ma.MaterialID).SubTypeIcon, Utility.SpriteType.png);
+            return Utility.LoadSprite(GetMaterialSubType(ma.MaterialID).TypeIcon, Utility.SpriteType.png);
         }
         #endregion
 
 
         #region Method
 
+        public List<List<BaseDataModel>> InitMaterialStorageModel(List<MaterialStorageItem> items)
+        {
+            List<List<BaseDataModel>> result = new List<List<BaseDataModel>>();
+            for(int i = 0; i < items.Count; i++)
+            {
+                List<BaseDataModel> list = new List<BaseDataModel>();
+                MaterialStorageModel model = new MaterialStorageModel();
+                model.Create(items[i].info.ID);
+                list.Add((BaseDataModel)model);
+                result.Add(list);
+            }
+            return result;
+        }
     
 
 
@@ -343,17 +286,13 @@ namespace Sim_FrameWork {
     {
         //材料稀有度
         public List<MaterialRarityData> rarityDataList;
-        //材料分类
-        public List<MaterialType> materialTypeList;
-
-
+     
         public MaterialConfig LoadConfigData()
         {
             Config.JsonReader reader = new Config.JsonReader();
 
             MaterialConfig config= reader.LoadJsonDataConfig<MaterialConfig>(Config.JsonConfigPath.MaterialConfigJsonPath);
             rarityDataList = config.rarityDataList;
-            materialTypeList = config.materialTypeList;
 
             return config;
         }
@@ -365,27 +304,14 @@ namespace Sim_FrameWork {
             public string RarityColor;
             public string RarityName;
         }
-
-        public class MaterialType
-        {
-            public string Type;
-            public string TypeName;
-            public string TypeDesc;
-            public string TypeIconPath;
-            public List<MaterialSubType> SubTypeList;
-
-            public class MaterialSubType
-            {
-                public string Type;
-                public string SubTypeName;
-                public string SubTypeDesc;
-                public string SubTypeIcon;
-            }
-        }
-
-
     }
 
+    public class MaterialRarity
+    {
+        public string RarityLevel;
+        public string RarityColor;
+        public string RarityName;
+    }
 
 
 }

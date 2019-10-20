@@ -18,4 +18,25 @@
 		</list>
 	</variable>
 
+	<variable  name="AllMaterialTypeList" type="list">
+		<list name = "MaterialType" sheetname="MaterialType" mainKey = "Type">
+			<variable  name="Type" col = "Type" type="string"/>
+			<variable  name="DefaultShow" col = "DefaultShow" type="bool"/>
+			<variable  name="TypeName" col = "TypeName" type="string"/>
+			<variable  name="TypeDesc" col = "TypeDesc" type="string"/>
+			<variable  name="TypeIcon" col = "TypeIcon" type="string"/>
+			<variable  name="SubTypeList" col = "SubTypeList" type="string"/>
+		</list>
+	</variable>
+
+	<variable  name="AllMaterialSubTypeList" type="list">
+		<list name = "MaterialSubType" sheetname="MaterialSubType" mainKey = "Type">
+			<variable  name="SubType" col = "SubType" type="string"/>
+			<variable  name="DefaultShow" col = "DefaultShow" type="bool"/>
+			<variable  name="TypeName" col = "TypeName" type="string"/>
+			<variable  name="TypeDesc" col = "TypeDesc" type="string"/>
+			<variable  name="TypeIcon" col = "TypeIcon" type="string"/>
+		</list>
+	</variable>
+
 </data>

@@ -14,15 +14,15 @@ namespace Sim_FrameWork.UI
         public GameObject Highlight;
             
        
-        public void InitWareHouseMainTag(MaterialConfig.MaterialType type,Transform setParent)
+        public void InitWareHouseMainTag(MaterialType type,Transform setParent)
         {
             Highlight.SetActive(false);
-            Icon.sprite = MaterialModule.GetMaterialMainTypeSprite(type);
-            Name.text = MaterialModule.GetMaterialMainTypeName(type);
+            Icon.sprite = MaterialModule.GetMaterialTypeSprite(type);
+            Name.text = MaterialModule.GetMaterialTypeName(type);
             gameObject.transform.SetParent(setParent, false);
         }
 
-        public void InitWareHouseSubTag(MaterialConfig.MaterialType.MaterialSubType subType, Transform setParent)
+        public void InitWareHouseSubTag(MaterialSubType subType, Transform setParent)
         {
             Highlight.SetActive(false);
             Icon.sprite = MaterialModule.GetMaterialSubTypeIcon(subType);

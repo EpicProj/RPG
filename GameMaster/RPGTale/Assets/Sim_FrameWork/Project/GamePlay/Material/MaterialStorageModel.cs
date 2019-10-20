@@ -40,8 +40,29 @@ namespace Sim_FrameWork
             }
             set { }
         }
-    
 
+        private int _count;
+        public int Count
+        {
+            get
+            {
+                _count= PlayerManager.Instance.GetMaterialStoreCount(_id);
+                return _count;
+            }
+            set { }
+        }
+
+        private Color _color;
+        public Color Color
+        {
+            get
+            {
+                if (_color == null)
+                    _color = MaterialModule.Instance.TryParseRarityColor(_id);
+                return _color;
+            }
+            set { }
+        }
       
     }
 }

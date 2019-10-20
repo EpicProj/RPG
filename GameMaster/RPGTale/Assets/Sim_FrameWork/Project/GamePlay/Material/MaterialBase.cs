@@ -26,8 +26,8 @@ namespace Sim_FrameWork
         public int ID;
         public Material material;
         public MaterialDataModel dataModel;
-        public MaterialConfig.MaterialType mainType;
-        public MaterialConfig.MaterialType.MaterialSubType subType;
+        public MaterialType mainType;
+        public MaterialSubType subType;
 
 
         public MaterialInfo(int id)
@@ -38,7 +38,7 @@ namespace Sim_FrameWork
                 ID = id;
                 dataModel = new MaterialDataModel();
                 dataModel.Create(ID);
-                mainType = MaterialModule.GetMaterialMainType(id);
+                mainType = MaterialModule.GetMaterialType(id);
                 subType = MaterialModule.GetMaterialSubType(id);
             }
        

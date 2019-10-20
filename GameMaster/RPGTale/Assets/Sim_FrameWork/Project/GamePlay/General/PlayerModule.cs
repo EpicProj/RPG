@@ -64,9 +64,6 @@ namespace Sim_FrameWork
             //Init Camp
             playerData.campData.AddJusticeValue(CampModule.campConfig.Player_OriginValue_Default);
 
-            //Init wareHouse
-            playerData.InitMaterialType();
-            playerData.InitSubTagType();
 
             return playerData;
 

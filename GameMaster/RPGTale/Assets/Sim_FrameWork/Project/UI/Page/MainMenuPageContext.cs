@@ -233,7 +233,7 @@ namespace Sim_FrameWork.UI
         {
             AddButtonClickListener(m_page.MaterialBtn, ()=>
             {
-                UIManager.Instance.PopUpWnd(UIPath.WareHouse_Page, WindowType.Page, true, PlayerManager.Instance.playerData.wareHouseInfo);
+                UIManager.Instance.PopUpWnd(UIPath.WareHouse_Page, WindowType.Page, true);
             });
             AddButtonClickListener(PauseBtn, () =>
             {

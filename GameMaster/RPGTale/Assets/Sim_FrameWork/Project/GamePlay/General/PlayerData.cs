@@ -7,21 +7,9 @@ namespace Sim_FrameWork
 {
     public class PlayerData 
     {
-        public class WareHouseInfo
-        {
-            //存储物资
-            public Dictionary<int, MaterialStorageItem> materialStorageDataDic =new Dictionary<int, MaterialStorageItem> ();
-            //材料分类
-            public List<MaterialConfig.MaterialType> materialTagList =new List<MaterialConfig.MaterialType> ();
-
-            public Dictionary<MaterialConfig.MaterialType, List<MaterialConfig.MaterialType.MaterialSubType>> materialSubTagDic = new Dictionary<MaterialConfig.MaterialType, List<MaterialConfig.MaterialType.MaterialSubType>>();
-
-        }
-       
 
         public List<BuildingPanelData> AllBuildingPanelDataList = new List<BuildingPanelData>();
         public List<BuildingPanelData> UnLockBuildingPanelDataList = new List<BuildingPanelData>();
-        public WareHouseInfo wareHouseInfo = new WareHouseInfo();
         public PlayerResourceData resourceData = new PlayerResourceData();
         public PlayerCampData campData = new PlayerCampData();
 
@@ -32,70 +20,8 @@ namespace Sim_FrameWork
         private float _technologyConversionRate;
         public float TechnologyConversionRate { get { return _technologyConversionRate; } protected set { } }
 
-        public void AddMaterialStoreData(int materialID,ushort count)
-        {
-            Action<MaterialStorageItem> sendMsg = (m) =>
-            {
-                UIManager.Instance.SendMessageToWnd(UIPath.WareHouse_Page, new UIMessage(UIMsgType.UpdateWarehouseData, new List<object>(1) { m }));
-            };
+       
 
-            if (wareHouseInfo.materialStorageDataDic.ContainsKey(materialID))
-            {
-                var material = wareHouseInfo.materialStorageDataDic[materialID];
-                material.count += count;
-                if (material.count > material.info.material.BlockCapacity)
-                {
-                    //超出上限 ,TODO
-                    sendMsg(material);
-                }
-                else if (material.count <= 0)
-                {
-                    wareHouseInfo.materialStorageDataDic.Remove(materialID);
-                }
-                else
-                {
-                    sendMsg(material);
-                }
-            }
-            else
-            {
-                MaterialInfo info = new MaterialInfo(materialID);
-                if (info.ID != 0)
-                {
-                    MaterialStorageItem data = new MaterialStorageItem(info, count);
-                    wareHouseInfo.materialStorageDataDic.Add(materialID,data);
-                    sendMsg(data);
-                }
-            }
-
-        }
-
-        public void InitMaterialType()
-        {
-            List<string> mainTag = MaterialModule.GetAllMainMaterialTypeList();
-            if (mainTag != null)
-            {
-                for(int i = 0; i < mainTag.Count; i++)
-                {
-                    MaterialConfig.MaterialType type = MaterialModule.GetMaterialTypeData(mainTag[i]);
-                    if (type != null)
-                    {
-                        wareHouseInfo.materialTagList.Add(type);
-                    }
-                }
-            }
-        }
-
-        public void InitSubTagType()
-        {
-            if (wareHouseInfo.materialTagList != null)
-            {
-                for(int i = 0; i < wareHouseInfo.materialTagList.Count; i++)
-                {
-                    wareHouseInfo.materialSubTagDic.Add(wareHouseInfo.materialTagList[i], MaterialModule.GetMaterialSubTypeDataList(wareHouseInfo.materialTagList[i].Type));
-                }
-            }
-        }
 
         public class PlayerCampData
         {

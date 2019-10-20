@@ -2,25 +2,21 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using System.Linq;
 
 namespace Sim_FrameWork.UI
 {
     public class WareHousePageContext : WindowBase {
 
         public WareHousePage m_page;
-        public PlayerData.WareHouseInfo info;
         public List<string> mainTagList;
 
         //当前选中的主页签
-        public Dictionary<GameObject, MaterialConfig.MaterialType> currentMainTagDic = new Dictionary<GameObject, MaterialConfig.MaterialType>();
-        public Dictionary<GameObject, MaterialConfig.MaterialType.MaterialSubType> currentSubTagDic = new Dictionary<GameObject, MaterialConfig.MaterialType.MaterialSubType>();
 
-
-        public MaterialConfig.MaterialType currentSelectMainType;
-        public MaterialConfig.MaterialType.MaterialSubType currentSelectSubType;
+        public MaterialType currentSelectMainType;
+        public MaterialSubType currentSelectSubType;
         public override void Awake(params object[] paralist)
         {
-            info = (PlayerData.WareHouseInfo)paralist[0];
             m_page = GameObject.GetComponent<WareHousePage>();
             //AddBtnListener();
             //InitMainTag();
@@ -29,8 +25,6 @@ namespace Sim_FrameWork.UI
 
         public override void OnShow(params object[] paralist)
         {
-            info = (PlayerData.WareHouseInfo)paralist[0];
-            //TODO
             //InitSotrageItem();
         }
 
@@ -73,101 +67,111 @@ namespace Sim_FrameWork.UI
         /// </summary>
         public void InitMainTag()
         {
-            for(int i = 0; i < info.materialTagList.Count; i++)
+            var List = MaterialModule.MaterialTypeList;
+            for(int i = 0; i < List.Count; i++)
             {
                 GameObject mainTag = ObjectManager.Instance.InstantiateObject(UIPath.WareHouse_Maintag_Prefab_Path);
                 GeneralTagElement element = mainTag.GetComponent<GeneralTagElement>();
                 //element.InitWareHouseMainTag(info.materialTagList[i], m_page.MainTagContent.transform.transform);
                 //Add Btn
                 AddButtonClickListener(element.btn, delegate () {
-                    SelectMainTag(mainTag);
+                    //SelectMainTag(mainTag);
                 });
-                currentMainTagDic.Add(mainTag, info.materialTagList[i]);
+
             }
-            //Set Default Select Tag
-            currentSelectMainType = info.materialTagList[0];
-            InitSubTag(currentSelectMainType);
+
         }
 
-        /// <summary>
-        /// 生成副标签
-        /// </summary>
-        /// <param name="type"></param>
-        public void InitSubTag(MaterialConfig.MaterialType type)
-        {
-            List<MaterialConfig.MaterialType.MaterialSubType> subList = new List<MaterialConfig.MaterialType.MaterialSubType>();
-            info.materialSubTagDic.TryGetValue(type, out subList);
-            if (subList != null)
-            {
-                //foreach(Transform trans in m_page.SubTagContent.transform)
-                //{
-                //    GameObject.Destroy(trans.gameObject);
-                //}
-                currentSubTagDic.Clear();
-                for (int i = 0; i < subList.Count; i++)
-                {
-                    GameObject subTag = ObjectManager.Instance.InstantiateObject(UIPath.WareHouse_Subtag_Prefab_Path);
-                    GeneralTagElement element = subTag.GetComponent<GeneralTagElement>();
-                    //element.InitWareHouseSubTag(subList[i], m_page.SubTagContent.transform);
-                    AddButtonClickListener(element.btn, delegate ()
-                    {
-                        SelectSubTag(subTag);
-                    });
-                    currentSubTagDic.Add(subTag, subList[i]);
-                }
-                //Set Default Select Sub Tag
-                if (subList.Count == 0)
-                {
-                    currentSelectSubType = new MaterialConfig.MaterialType.MaterialSubType
-                    {
-                        Type = "Total"
-                    };
-                }
-                else
-                {
-                    currentSelectSubType = subList[0];
-                }
-                InitSotrageItem();
-            }
-        }
+        ///// <summary>
+        ///// 生成副标签
+        ///// </summary>
+        ///// <param name="type"></param>
+        //public void InitSubTag(MaterialType type)
+        //{
+        //    List<MaterialConfig.MaterialType.MaterialSubType> subList = new List<MaterialConfig.MaterialType.MaterialSubType>();
+        //    info.materialSubTagDic.TryGetValue(type, out subList);
+        //    if (subList != null)
+        //    {
+        //        //foreach(Transform trans in m_page.SubTagContent.transform)
+        //        //{
+        //        //    GameObject.Destroy(trans.gameObject);
+        //        //}
+        //        currentSubTagDic.Clear();
+        //        for (int i = 0; i < subList.Count; i++)
+        //        {
+        //            GameObject subTag = ObjectManager.Instance.InstantiateObject(UIPath.WareHouse_Subtag_Prefab_Path);
+        //            GeneralTagElement element = subTag.GetComponent<GeneralTagElement>();
+        //            //element.InitWareHouseSubTag(subList[i], m_page.SubTagContent.transform);
+        //            AddButtonClickListener(element.btn, delegate ()
+        //            {
+        //                SelectSubTag(subTag);
+        //            });
+        //            currentSubTagDic.Add(subTag, subList[i]);
+        //        }
+        //        //Set Default Select Sub Tag
+        //        if (subList.Count == 0)
+        //        {
+        //            currentSelectSubType = new MaterialConfig.MaterialType.MaterialSubType
+        //            {
+        //                Type = "Total"
+        //            };
+        //        }
+        //        else
+        //        {
+        //            currentSelectSubType = subList[0];
+        //        }
+        //        InitSotrageItem();
+        //    }
+        //}
 
-        public void SelectMainTag(GameObject obj)
-        {
-            //foreach (Transform trans in m_page.MainTagContent.transform)
-            //{
-            //    trans.GetComponent<GeneralTagElement>().DimObj();
-            //}
-            MaterialConfig.MaterialType type = null;
-            currentMainTagDic.TryGetValue(obj, out type);
-            if (type != null)
-            {
-                currentSelectMainType = type;
-                //Init Select Info
-                obj.GetComponent<GeneralTagElement>().HighlightObj();
-                //Init Sub Tag
-                InitSubTag(currentSelectMainType);
-            }
-        }
+        //public void SelectMainTag(GameObject obj)
+        //{
+        //    //foreach (Transform trans in m_page.MainTagContent.transform)
+        //    //{
+        //    //    trans.GetComponent<GeneralTagElement>().DimObj();
+        //    //}
+        //    MaterialConfig.MaterialType type = null;
+        //    currentMainTagDic.TryGetValue(obj, out type);
+        //    if (type != null)
+        //    {
+        //        currentSelectMainType = type;
+        //        //Init Select Info
+        //        obj.GetComponent<GeneralTagElement>().HighlightObj();
+        //        //Init Sub Tag
+        //        InitSubTag(currentSelectMainType);
+        //    }
+        //}
 
-        public void SelectSubTag(GameObject obj)
-        {
-            //foreach(Transform trans in m_page.SubTagContent.transform)
-            //{
-            //    trans.GetComponent<GeneralTagElement>().DimObj();
-            //}
-            MaterialConfig.MaterialType.MaterialSubType type = null;
-            currentSubTagDic.TryGetValue(obj, out type);
-            if (type != null)
-            {
-                currentSelectSubType = type;
-                obj.GetComponent<GeneralTagElement>().HighlightObj();
-                InitSotrageItem();
-            }
-        }
+        //public void SelectSubTag(GameObject obj)
+        //{
+        //    //foreach(Transform trans in m_page.SubTagContent.transform)
+        //    //{
+        //    //    trans.GetComponent<GeneralTagElement>().DimObj();
+        //    //}
+        //    MaterialConfig.MaterialType.MaterialSubType type = null;
+        //    currentSubTagDic.TryGetValue(obj, out type);
+        //    if (type != null)
+        //    {
+        //        currentSelectSubType = type;
+        //        obj.GetComponent<GeneralTagElement>().HighlightObj();
+        //        InitSotrageItem();
+        //    }
+        //}
 
         private void InitSotrageItem()
         {
+            var allDic = PlayerManager.Instance.storageData.materialStorageDataDic;
+            var loopList = UIUtility.SafeGetComponent<GridLoopList>(m_page.MaterialScrollView.transform);
+            if (currentSelectMainType == null)
+            {
+                //Init All 
+                var modelList = MaterialModule.Instance.InitMaterialStorageModel(allDic.Select(x => x.Value).ToList());
+                loopList.InitData(modelList);
+            }
+            else
+            {
 
+            }
         }
 
         private void UpdateStorageItem(MaterialStorageItem item)

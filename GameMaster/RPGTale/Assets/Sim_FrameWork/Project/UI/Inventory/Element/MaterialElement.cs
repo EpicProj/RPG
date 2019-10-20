@@ -27,7 +27,9 @@ namespace Sim_FrameWork.UI
         public void InitMaterialElement()
         {
             Icon.sprite = _model.MaModel.Icon;
-
+            Num.text = _model.Count.ToString();
+            RareLine.color = _model.Color;
+            RareLight.color = _model.Color;
         }
 
         public override void OnPointerEnter(PointerEventData eventData)
