@@ -10,6 +10,15 @@ namespace Sim_FrameWork
         public GameObject MaterialContent;
         public GameObject MaterialScrollView;
 
+        public GameObject TypeFilterContent;
+
+        [Header("Detail")]
+        public GameObject DetailContent;
+        public Image DetailBG;
+        public Text DetailName;
+        public Text DetailDesc;
+        public GameObject DetailRarity;
+
         [Header("Button")]
         public Button CloseBtn;
     }

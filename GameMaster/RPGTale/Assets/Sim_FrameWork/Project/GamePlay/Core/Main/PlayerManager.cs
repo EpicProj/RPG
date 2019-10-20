@@ -28,6 +28,9 @@ namespace Sim_FrameWork
             base.Awake();
             playerData = PlayerModule.Instance.InitPlayerData();
             storageData = new MaterialStorageData();
+            //For Test
+            AddMaterialData(100, 10);
+            AddMaterialData(101, 500);
         }
 
         private void Start()

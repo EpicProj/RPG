@@ -83,6 +83,7 @@ namespace Sim_FrameWork
             _verticalItemNum = verticalItemNum;
             _gridSepConfig = config;
             _gridLoopType = type;
+            ChangeID(id);
         }
 
 
@@ -181,6 +182,7 @@ namespace Sim_FrameWork
                 switch (_gridLoopType)
                 {
                     case GridLoopList.LoopType.Vertical:
+                        //TODO 
                         var x = _id * Rect.rect.width + _gridSepConfig.HorizontalSep;
                         var y = Mathf.CeilToInt(_id / _horizontalItemNum) * Rect.rect.height;
                         Rect.anchoredPosition = new Vector2(x, y);

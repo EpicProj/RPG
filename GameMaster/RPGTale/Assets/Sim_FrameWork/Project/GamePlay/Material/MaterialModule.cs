@@ -261,7 +261,11 @@ namespace Sim_FrameWork {
 
 
         #region Method
-
+        /// <summary>
+        /// 材料存储数据
+        /// </summary>
+        /// <param name="items"></param>
+        /// <returns></returns>
         public List<List<BaseDataModel>> InitMaterialStorageModel(List<MaterialStorageItem> items)
         {
             List<List<BaseDataModel>> result = new List<List<BaseDataModel>>();

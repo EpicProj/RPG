@@ -59,7 +59,7 @@ namespace Sim_FrameWork
                 _itemWidth = UIUtility.SafeGetComponent<RectTransform>(_item.transform).rect.width;
             }  
             _content = UIUtility.SafeGetComponent<RectTransform>(transform.Find("Viewport/Content"));
-
+            
         }
 
         public void InitData(List<List<BaseDataModel>> modelData)
@@ -127,7 +127,6 @@ namespace Sim_FrameWork
             foreach(var element in _elementList)
             {
                 element.OnValueChange();
-
             }
         }
 

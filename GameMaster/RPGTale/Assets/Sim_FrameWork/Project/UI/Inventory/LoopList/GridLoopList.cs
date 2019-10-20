@@ -108,8 +108,10 @@ namespace Sim_FrameWork
         {
             var scrollRect = UIUtility.SafeGetComponent<RectTransform>(transform).rect;
             var width = scrollRect.width;
+            Debug.Log(width);
             int horizontalCount = Mathf.CeilToInt(width / (_itemWidth + sepConfig.HorizontalSep) + 1);
             var height = scrollRect.height;
+            Debug.Log(height);
             int verticalCount = Mathf.CeilToInt(height / (_itemHeight + sepConfig.VerticalSep) + 1);
             return horizontalCount * verticalCount;
         }
@@ -141,7 +143,8 @@ namespace Sim_FrameWork
             switch (loopType)
             {
                 case LoopType.Vertical:
-                    var count = _modelList.Count / GetHorizontalItemNum();
+                    var count = Mathf.CeilToInt((float) _modelList.Count /(float) GetHorizontalItemNum());
+                    Debug.Log(count);
                     var y = count * _itemHeight;
                     _content.sizeDelta = new Vector2(_content.sizeDelta.x, y);
                     break;

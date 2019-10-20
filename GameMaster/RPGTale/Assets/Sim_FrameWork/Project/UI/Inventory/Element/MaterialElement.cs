@@ -28,18 +28,18 @@ namespace Sim_FrameWork.UI
         {
             Icon.sprite = _model.MaModel.Icon;
             Num.text = _model.Count.ToString();
-            RareLine.color = _model.Color;
-            RareLight.color = _model.Color;
+            RareLine.color = _model.MaModel.Color;
+            RareLight.color = _model.MaModel.Color;
         }
 
         public override void OnPointerEnter(PointerEventData eventData)
         {
-           
+            UIManager.Instance.SendMessageToWnd(UIPath.WareHouse_Page, new UIMessage(UIMsgType.WareHouse_Refresh_Detail, new List<object>() { _model.MaModel }));
         }
 
         public override void OnPointerExit(PointerEventData eventData)
         {
-            InventoryManager.Instance.HideMaterialInfoTip();
+            UIManager.Instance.SendMessageToWnd(UIPath.WareHouse_Page, new UIMessage(UIMsgType.WareHouse_Hide_Detail));
         }
 
 

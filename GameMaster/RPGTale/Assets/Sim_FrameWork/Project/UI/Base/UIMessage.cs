@@ -46,5 +46,9 @@ namespace Sim_FrameWork
         ///Order
         RefreshOrder,
         OrderPage_Select_Organization,
+
+        ///WareHouse
+        WareHouse_Refresh_Detail,
+        WareHouse_Hide_Detail,
     }
 }

@@ -143,6 +143,7 @@
      <Compile Include="Assets\Sim_FrameWork\Project\GamePlay\Material\MaterialBase.cs" />
      <Compile Include="Assets\Sim_FrameWork\Project\GamePlay\Material\MaterialDataModel.cs" />
      <Compile Include="Assets\Sim_FrameWork\Project\GamePlay\Material\MaterialModule.cs" />
+     <Compile Include="Assets\Sim_FrameWork\Project\GamePlay\Material\MaterialStorageData.cs" />
      <Compile Include="Assets\Sim_FrameWork\Project\GamePlay\Material\MaterialStorageModel.cs" />
      <Compile Include="Assets\Sim_FrameWork\Project\GamePlay\Modifier\FunctionBlockModifier.cs" />
      <Compile Include="Assets\Sim_FrameWork\Project\GamePlay\Modifier\ModifierBase.cs" />
@@ -179,7 +180,6 @@
      <Compile Include="Assets\Sim_FrameWork\Project\UI\Inventory\Element\ConstructMainTabElement.cs" />
      <Compile Include="Assets\Sim_FrameWork\Project\UI\Inventory\Element\DistrictBuildElement.cs" />
      <Compile Include="Assets\Sim_FrameWork\Project\UI\Inventory\Element\GeneralOrganizationElement.cs" />
-     <Compile Include="Assets\Sim_FrameWork\Project\UI\Inventory\Element\GeneralTagElement.cs" />
      <Compile Include="Assets\Sim_FrameWork\Project\UI\Inventory\Element\MaterialElement.cs" />
      <Compile Include="Assets\Sim_FrameWork\Project\UI\Inventory\Element\OrderDetailElement.cs" />
      <Compile Include="Assets\Sim_FrameWork\Project\UI\Inventory\Element\OrderReceiveElement.cs" />
@@ -197,6 +197,8 @@
      <Compile Include="Assets\Sim_FrameWork\Project\UI\Inventory\Slot\ManufactMaterialSlot.cs" />
      <Compile Include="Assets\Sim_FrameWork\Project\UI\Inventory\Slot\Slot.cs" />
      <Compile Include="Assets\Sim_FrameWork\Project\UI\Inventory\Slot\SlotItem.cs" />
+     <Compile Include="Assets\Sim_FrameWork\Project\UI\Misc\WareHouseMainTagCmpt.cs" />
+     <Compile Include="Assets\Sim_FrameWork\Project\UI\Misc\WareHouseSubTagCmpt.cs" />
      <Compile Include="Assets\Sim_FrameWork\Project\UI\Page\ConsolePage.cs" />
      <Compile Include="Assets\Sim_FrameWork\Project\UI\Page\ConsolePageContext.cs" />
      <Compile Include="Assets\Sim_FrameWork\Project\UI\Page\GameEntryPage.cs" />

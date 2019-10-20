@@ -52,17 +52,6 @@ namespace Sim_FrameWork
             set { }
         }
 
-        private Color _color;
-        public Color Color
-        {
-            get
-            {
-                if (_color == null)
-                    _color = MaterialModule.Instance.TryParseRarityColor(_id);
-                return _color;
-            }
-            set { }
-        }
       
     }
 }
