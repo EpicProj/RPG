@@ -14,7 +14,7 @@ namespace Sim_FrameWork
 
         public void SaveData()
         {
-            Chunk chunk = GetComponent<Chunk>();
+            Chunk chunk = UIUtility.SafeGetComponent<Chunk>(transform);
             string Data = CompressData(chunk);
             //TODO
         }
@@ -37,7 +37,7 @@ namespace Sim_FrameWork
 
             foreach(var chunk in chunksToSave)
             {
-                chunk.gameObject.GetComponent<ChunkDataFile>().SaveData();
+                UIUtility.SafeGetComponent<ChunkDataFile>(chunk.gameObject.transform).SaveData();
                 count++;
                 if (count > MapGenerator.MaxChunkSaves)
                 {

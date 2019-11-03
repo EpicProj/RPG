@@ -17,7 +17,7 @@ namespace Sim_FrameWork
 
             if (currentPos.IsEqual(LastPos) == false)
             {
-                ChunkManager.SpawnChunks(currentPos.x, currentPos.y, currentPos.z);
+                ChunkManager.SpawnChunks(currentPos.x, currentPos.y);
             }
 
             LastPos = currentPos;

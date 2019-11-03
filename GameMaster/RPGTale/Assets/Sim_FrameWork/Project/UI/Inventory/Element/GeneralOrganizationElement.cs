@@ -38,7 +38,7 @@ namespace Sim_FrameWork
             AreaText.text = _model.TypeModel.Name;
             AddButtonClickListener(Btn, () =>
             {
-                 UIManager.Instance.SendMessageToWnd(UIPath.Order_Receive_Main_Page, new UIMessage(UIMsgType.OrderPage_Select_Organization, new List<object>(1) { _model.ID }));   
+                 UIManager.Instance.SendMessageToWnd(UIPath.WindowPath.Order_Receive_Main_Page, new UIMessage(UIMsgType.OrderPage_Select_Organization, new List<object>(1) { _model.ID }));   
             });
         }
 

@@ -30,8 +30,8 @@ namespace Sim_FrameWork.UI
             AddButtonClickListener(m_dialog.BackBtn, () =>
             {
 
-                UIManager.Instance.HideWnd(UIPath.MainMenu_GameLoad_Dialog);
-                UIManager.Instance.SendMessageToWnd(UIPath.Game_Entry_Page, new UIMessage(UIMsgType.PlayMenuAnim));
+                UIManager.Instance.HideWnd(UIPath.WindowPath.MainMenu_GameLoad_Dialog);
+                UIManager.Instance.SendMessageToWnd(UIPath.WindowPath.Game_Entry_Page, new UIMessage(UIMsgType.PlayMenuAnim));
             });
         }
 

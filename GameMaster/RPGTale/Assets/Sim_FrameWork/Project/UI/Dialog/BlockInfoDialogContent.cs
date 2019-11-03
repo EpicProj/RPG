@@ -143,7 +143,7 @@ namespace Sim_FrameWork.UI
             UpdateProgress(manufactoryInfo.formulaInfo);
             if (Input.GetKeyDown(KeyCode.Escape))
             {
-                UIManager.Instance.HideWnd(UIPath.FUNCTIONBLOCK_INFO_DIALOG);
+                UIManager.Instance.HideWnd(UIPath.WindowPath.FUNCTIONBLOCK_INFO_DIALOG);
             }
         }
 
@@ -227,7 +227,7 @@ namespace Sim_FrameWork.UI
 
         private void HideInfoDialog()
         {
-            UIManager.Instance.HideWnd(UIPath.FUNCTIONBLOCK_INFO_DIALOG);
+            UIManager.Instance.HideWnd(UIPath.WindowPath.FUNCTIONBLOCK_INFO_DIALOG);
         }
 
      

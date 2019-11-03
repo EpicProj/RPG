@@ -83,15 +83,15 @@ namespace Sim_FrameWork.UI
             {
                 if (GlobalEventManager.Instance.ReceiveOrder(_model.GUID))
                 {
-                    UIManager.Instance.HideWnd(UIPath.General_Confirm_Dialog);
+                    UIManager.Instance.HideWnd(UIPath.WindowPath.General_Confirm_Dialog);
                     GeneralHintDialogItem hint = new GeneralHintDialogItem(Order_Receive_Hint_Text, 1);
-                    UIManager.Instance.PopUpWnd(UIPath.General_Hint_Dialog, WindowType.Dialog,true,hint);
+                    UIManager.Instance.PopUpWnd(UIPath.WindowPath.General_Hint_Dialog, WindowType.Dialog,true,hint);
                 }
                
             };
 
             GeneralConfirmDialogItem item = new GeneralConfirmDialogItem(Confirm_Title_Text, Confirm_Content_Text,confirmAction);
-            UIManager.Instance.PopUpWnd(UIPath.General_Confirm_Dialog, WindowType.Dialog, true, item);
+            UIManager.Instance.PopUpWnd(UIPath.WindowPath.General_Confirm_Dialog, WindowType.Dialog, true, item);
         }
 
 

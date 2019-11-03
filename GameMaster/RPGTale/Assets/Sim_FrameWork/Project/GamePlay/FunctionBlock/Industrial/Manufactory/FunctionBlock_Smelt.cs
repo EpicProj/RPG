@@ -28,7 +28,7 @@ namespace Sim_FrameWork
         {
             CheckMouseButtonDown(delegate()
             {
-                UIManager.Instance.PopUpWnd(UIPath.FUNCTIONBLOCK_INFO_DIALOG, WindowType.Dialog, true, info, manufactoryInfo);
+                UIManager.Instance.PopUpWnd(UIPath.WindowPath.FUNCTIONBLOCK_INFO_DIALOG, WindowType.Dialog, true, info, manufactoryInfo);
             });
             if (Input.GetKeyDown(KeyCode.Space))
             {
@@ -37,12 +37,12 @@ namespace Sim_FrameWork
             if (Input.GetKeyDown(KeyCode.F))
             {
                 info.levelInfo.AddCurrentBlockEXP(100);
-                UIManager.Instance.SendMessageToWnd(UIPath.FUNCTIONBLOCK_INFO_DIALOG, new UIMessage(UIMsgType.UpdateLevelInfo, new List<object>(1) {info.levelInfo }));
+                UIManager.Instance.SendMessageToWnd(UIPath.WindowPath.FUNCTIONBLOCK_INFO_DIALOG, new UIMessage(UIMsgType.UpdateLevelInfo, new List<object>(1) {info.levelInfo }));
             }
             if (Input.GetKeyDown(KeyCode.A))
             {
                 AddMaterialToInputSlot(100, 2);
-                UIManager.Instance.SendMessageToWnd(UIPath.FUNCTIONBLOCK_INFO_DIALOG, new UIMessage(UIMsgType.UpdateManuSlot, new List<object>(1) { manufactoryInfo.formulaInfo }));
+                UIManager.Instance.SendMessageToWnd(UIPath.WindowPath.FUNCTIONBLOCK_INFO_DIALOG, new UIMessage(UIMsgType.UpdateManuSlot, new List<object>(1) { manufactoryInfo.formulaInfo }));
             }
         }
         public override void InitData()
