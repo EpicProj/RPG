@@ -34,12 +34,12 @@ namespace Sim_FrameWork.UI
 
         public override void OnPointerEnter(PointerEventData eventData)
         {
-            UIManager.Instance.SendMessageToWnd(UIPath.WareHouse_Page, new UIMessage(UIMsgType.WareHouse_Refresh_Detail, new List<object>() { _model.MaModel }));
+            UIManager.Instance.SendMessageToWnd(UIPath.WindowPath.WareHouse_Page, new UIMessage(UIMsgType.WareHouse_Refresh_Detail, new List<object>() { _model.MaModel }));
         }
 
         public override void OnPointerExit(PointerEventData eventData)
         {
-            UIManager.Instance.SendMessageToWnd(UIPath.WareHouse_Page, new UIMessage(UIMsgType.WareHouse_Hide_Detail));
+            UIManager.Instance.SendMessageToWnd(UIPath.WindowPath.WareHouse_Page, new UIMessage(UIMsgType.WareHouse_Hide_Detail));
         }
 
 

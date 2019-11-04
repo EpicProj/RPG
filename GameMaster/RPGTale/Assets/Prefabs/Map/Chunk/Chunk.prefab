@@ -22,7 +22,6 @@ GameObject:
   - component: {fileID: 23156568878894880}
   - component: {fileID: 64773561897986940}
   - component: {fileID: 114481624772541070}
-  - component: {fileID: 114576200882524538}
   - component: {fileID: 114564032227860390}
   - component: {fileID: 114765352201712830}
   - component: {fileID: 33824943219856546}
@@ -60,7 +59,7 @@ MeshRenderer:
   m_LightProbeUsage: 0
   m_ReflectionProbeUsage: 1
   m_Materials:
-  - {fileID: 2100000, guid: 4b24088171a2390469fede11b013cfaa, type: 2}
+  - {fileID: 21445308202684472, guid: f580264a69cf4d24cacb7abdb38698ea, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -86,7 +85,7 @@ MeshFilter:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1761412473825876}
-  m_Mesh: {fileID: 0}
+  m_Mesh: {fileID: 4300000, guid: 3b03781385ae4b34e9c13103ab5752d2, type: 3}
 --- !u!64 &64773561897986940
 MeshCollider:
   m_ObjectHideFlags: 1
@@ -122,8 +121,6 @@ MonoBehaviour:
   SideLength: 0
   BlockDown: 0
   FlaggedToUpdate: 0
-  MeshContainer: {fileID: 1533128994481598, guid: d2a9ecebdcd233e4ea00584bf9b25c01,
-    type: 2}
   ChunkCollider: {fileID: 1442679286955614, guid: 4343dad382a631e4ab22ae485a261f34,
     type: 2}
 --- !u!114 &114564032227860390
@@ -137,18 +134,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 081a353f234323e439a67df55e48b98b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!114 &114576200882524538
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1761412473825876}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3572c72ce49ad39499286b380752caa7, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  cube: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
 --- !u!114 &114765352201712830
 MonoBehaviour:
   m_ObjectHideFlags: 1

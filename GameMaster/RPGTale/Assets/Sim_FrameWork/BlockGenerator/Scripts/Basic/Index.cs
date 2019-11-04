@@ -35,11 +35,7 @@ namespace Sim_FrameWork
         //Get nearby Index
         public Index GetNearbyChunkIndex(Direction direction)
         {
-            if (direction == Direction.down)
-                return new Index(x, y - 1, z);
-            else if (direction == Direction.up)
-                return new Index(x, y + 1, z);
-            else if (direction == Direction.left)
+            if (direction == Direction.left)
                 return new Index(x - 1, y, z);
             else if (direction == Direction.right)
                 return new Index(x + 1, y, z);

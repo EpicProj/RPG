@@ -16,8 +16,6 @@ namespace Sim_FrameWork
     }
     public enum Direction
     {
-        up,
-        down,
         left,
         right,
         forward,
@@ -53,25 +51,19 @@ namespace Sim_FrameWork
         public GameObject[] m_Blocks;
 
         //生成设置
-        public static int HeightRange, SpawnDistance, ChunkSideLegth, DespewnDistance;
-        public int m_HeightRange, m_SpawnDistance, m_ChunkSideLegth, m_DespewnDistance;
+        public static int  SpawnDistance, ChunkSideLegth;
+        public int  m_SpawnDistance, m_ChunkSideLegth;
 
 
         //performace
         public static int MaxChunkSaves, TargetFPS;
         public int m_MaxChunkSaves, m_TargetFPS;
 
-        //Textrue
-        public static float TextureUnit, TexturePadding;
-        public float m_TextureUnit, m_TexturePadding;
 
         //General Setting
-        public static bool GenerateColliders,GenerateMeshs,ShowBorderFaces, SaveBlockData;
-        public bool m_GenerateColliders, m_GenerateMeshs, m_ShowBorderFaces, m_SaveBlockData;
+        public static bool GenerateColliders,ShowBorderFaces, SaveBlockData;
+        public bool m_GenerateColliders, m_ShowBorderFaces, m_SaveBlockData;
 
-        public static bool EnableChunkTimeout;
-        public static float ChunkTimeout;
-        public float m_ChunkTimeout;
 
         public static ChunkManager ChunkManagerInstance;
         public static Vector3 ChunkScale;
@@ -139,20 +131,13 @@ namespace Sim_FrameWork
             MaxChunkSaves = m_MaxChunkSaves;
 
             SpawnDistance = m_SpawnDistance;
-            HeightRange = m_HeightRange;
-            DespewnDistance = m_DespewnDistance;
+
             ChunkSideLegth = m_ChunkSideLegth;
 
-            TextureUnit = m_TextureUnit;
-            TexturePadding = m_TexturePadding;
-
-            SquaredSideLength = m_ChunkSideLegth * m_ChunkSideLegth;
             SaveBlockData = m_SaveBlockData;
 
             GenerateColliders = m_GenerateColliders;
-            GenerateMeshs = m_GenerateMeshs;
             ShowBorderFaces = m_ShowBorderFaces;
-            ChunkTimeout = m_ChunkTimeout;
         }
 
         public static GameObject GetBlockGameObj(ushort BlockID)

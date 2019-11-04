@@ -22,29 +22,24 @@ namespace Sim_FrameWork
 
         //区块大小
         public int SideLength;
-        private int SquaredSideLength;
 
         //Queue
         public bool BlockDown;
         public bool FlaggedToUpdate;
 
-        private ChunkMeshCreator MeshCreator;
-        public GameObject MeshContainer;
         public GameObject ChunkCollider;
 
         public void Awake()
         {
             ChunkIndex = new Index(transform.position);
             SideLength = MapGenerator.ChunkSideLegth;
-            SquaredSideLength = SideLength * SideLength;
-            //[0] Up ; [1] down ; [2] right ; [3] left ; [4] forward ; [5] back
-            NearbyChunks = new Chunk[6];
+            // [1] right ; [2] left ; [3] forward ; [4] back
+            NearbyChunks = new Chunk[4];
 
-            MeshCreator = GetComponent<ChunkMeshCreator>();
             Fresh = true;
             ChunkManager.RegisterChunk(this);
 
-            BlockData = new ushort[SideLength * SideLength * SideLength];
+            BlockData = new ushort[SideLength * SideLength];
             transform.position = ChunkIndex.ToVector3() * SideLength;
             //Scale
             transform.position = new Vector3(transform.position.x * transform.localScale.x, transform.position.y * transform.localScale.y, transform.position.z * transform.localScale.z);
@@ -65,58 +60,16 @@ namespace Sim_FrameWork
         }
         public void LateUpdate()
         {
-            if (MapGenerator.EnableChunkTimeout && EnableTimeout)
-            {
-                LifeTime += Time.deltaTime;
-                if (LifeTime > MapGenerator.ChunkTimeout)
-                {
-                    FlaggedToRemove = true;
-                }
-            }
 
-            if(FlaggedToUpdate && BlockDown && !DisableMesh && MapGenerator.GenerateMeshs)
-            {
-                FlaggedToUpdate = false;
-                RebuildMesh();
-            }
-            if (FlaggedToRemove)
-            {
-                if (MapGenerator.SaveBlockData)
-                {
-                    if (ChunkDataFile.SavingChunks == false)
-                    {
-                        //如果区块最近未被存储，销毁
-                        if (ChunkManager.SavesThisFrame < MapGenerator.MaxChunkSaves)
-                        {
-                            ChunkManager.SavesThisFrame++;
-                            SaveData();
-                            Destroy(this.gameObject);
-                        }
-                    }
-                }
-                else
-                {
-                    //存储禁用则直接销毁
-                    Destroy(this.gameObject);
-                }
-            }
         }
         
 
-        public void FlagToRemove()
-        {
-            FlaggedToRemove = true;
-        }
+
         public void FlagToUpdate()
         {
             FlaggedToUpdate = true;
         }
 
-        public void RebuildMesh()
-        {
-            MeshCreator.RebuildMesh();
-            ConnectNearbyChunks();
-        }
 
         public void SetBlock(int x,int y,int z,ushort data,bool updateMesh)
         {
@@ -132,20 +85,6 @@ namespace Sim_FrameWork
                 if (NearbyChunks[(int)Direction.right] != null)
                 {
                     NearbyChunks[(int)Direction.right].SetBlock(x - SideLength, y, z, data, updateMesh);
-                    return;
-                }
-            }else if (y < 0)
-            {
-                if (NearbyChunks[(int)Direction.down] != null)
-                {
-                    NearbyChunks[(int)Direction.down].SetBlock(x, y + SideLength, z, data, updateMesh);
-                    return;
-                }
-            }else if (y >= SideLength)
-            {
-                if (NearbyChunks[(int)Direction.up] != null)
-                {
-                    NearbyChunks[(int)Direction.up].SetBlock(x, y - SideLength, z, data, updateMesh);
                     return;
                 }
             }else if (z < 0)
@@ -164,7 +103,7 @@ namespace Sim_FrameWork
                 }
             }
             
-            BlockData[(z * SquaredSideLength) + (y * SideLength) + x] = data;
+            BlockData[ (z * SideLength) + x] = data;
             if (updateMesh)
             {
                 UpdateNearbyIfNeeded(x,y,z);
@@ -186,14 +125,6 @@ namespace Sim_FrameWork
             else if (x == SideLength-1 && NearbyChunks[(int)Direction.right] != null)
             {
                 NearbyChunks[(int)Direction.right].GetComponent<Chunk>().FlagToUpdate();
-            }
-            else if (y == 0 && NearbyChunks[(int)Direction.down] != null)
-            {
-                NearbyChunks[(int)Direction.down].GetComponent<Chunk>().FlagToUpdate();
-            }
-            else if (y == SideLength - 1 && NearbyChunks[(int)Direction.up] != null)
-            {
-                NearbyChunks[(int)Direction.up].GetComponent<Chunk>().FlagToUpdate();
             }
             else if (z == 0 && NearbyChunks[(int)Direction.back] != null)
             {
@@ -255,20 +186,6 @@ namespace Sim_FrameWork
                     return NearbyChunks[(int)Direction.right].GetBlock(x - SideLength, y, z);
                 }
                 else return ushort.MaxValue;
-            }else if (y < 0)
-            {
-                if (NearbyChunks[(int)Direction.down] != null)
-                {
-                    return NearbyChunks[(int)Direction.down].GetBlock(x , y + SideLength, z);
-                }
-                else return ushort.MaxValue;
-            }else if (y >= SideLength)
-            {
-                if (NearbyChunks[(int)Direction.up] != null)
-                {
-                    return NearbyChunks[(int)Direction.up].GetBlock(x, y - SideLength, z);
-                }
-                else return ushort.MaxValue;
             }else if (z < 0)
             {
                 if (NearbyChunks[(int)Direction.back] != null)
@@ -286,7 +203,7 @@ namespace Sim_FrameWork
             }
             else
             {
-                return BlockData[(z * SquaredSideLength) + (y * SideLength) + x];
+                return BlockData[ (z * SideLength) + x];
             } 
         }
 
@@ -300,11 +217,11 @@ namespace Sim_FrameWork
         }
         public ushort GetBlockSimpleData(int x,int y , int z)
         {
-            return BlockData[(z * SquaredSideLength) + (y * SideLength) + x];
+            return BlockData[(z * SideLength) + x];
         }
         public ushort GetBlockSimpleData(Index index)
         {
-            return BlockData[(index.z * SquaredSideLength) + (index.y * SideLength) + index.x];
+            return BlockData[(index.z * SideLength) + index.x];
         }
 
         //set Block
@@ -315,11 +232,11 @@ namespace Sim_FrameWork
 
         public void SetBlockSimple(int x,int y,int z,ushort data)
         {
-            BlockData[(z * SquaredSideLength) + (y * SideLength) + x] = data;
+            BlockData[ (z * SideLength) + x] = data;
         }
         public void SetBlockSimple(Index index,ushort data)
         {
-            BlockData[(index.z * SquaredSideLength) + (index.y * SideLength) + index.x] = data;
+            BlockData[(index.z * SideLength) + index.x] = data;
         }
 
         //Pos
@@ -344,17 +261,13 @@ namespace Sim_FrameWork
             int y = ChunkIndex.y;
             int z = ChunkIndex.z;
             if (NearbyChunks[0] == null)
-                NearbyChunks[0] = ChunkManager.GetChunkComponent(x, y + 1, z);
+                NearbyChunks[0] = ChunkManager.GetChunkComponent(x + 1, y, z);
             if (NearbyChunks[1] == null)
-                NearbyChunks[1] = ChunkManager.GetChunkComponent(x, y - 1, z);
+                NearbyChunks[1] = ChunkManager.GetChunkComponent(x - 1, y, z);
             if (NearbyChunks[2] == null)
-                NearbyChunks[2] = ChunkManager.GetChunkComponent(x + 1, y, z);
+                NearbyChunks[2] = ChunkManager.GetChunkComponent(x, y, z + 1);
             if (NearbyChunks[3] == null)
-                NearbyChunks[3] = ChunkManager.GetChunkComponent(x - 1, y, z);
-            if (NearbyChunks[4] == null)
-                NearbyChunks[4] = ChunkManager.GetChunkComponent(x, y, z + 1);
-            if (NearbyChunks[5] == null)
-                NearbyChunks[5] = ChunkManager.GetChunkComponent(x, y, z - 1);
+                NearbyChunks[3] = ChunkManager.GetChunkComponent(x, y, z - 1);
 
         }
         public Index GetNearbyChunkIndex(Index index,Direction direction)
@@ -364,11 +277,7 @@ namespace Sim_FrameWork
 
         public Index GetNearbyChunkIndex(int x, int y, int z, Direction direction)
         {
-            if (direction == Direction.down)
-                return new Index(x, y - 1, z);
-            else if (direction == Direction.up)
-                return new Index(x, y + 1, z);
-            else if (direction == Direction.left)
+            if (direction == Direction.left)
                 return new Index(x - 1, y, z);
             else if (direction == Direction.right)
                 return new Index(x + 1, y, z);
@@ -382,34 +291,6 @@ namespace Sim_FrameWork
                 return new Index(x, y, z);
             }
         }
-
-        public void ConnectNearbyChunks()
-        {
-            int loop = 0;
-            int i = loop;
-            while (loop < 6)
-            {
-                if(loop % 2 == 0)
-                {
-                    i = loop + 1;
-                }
-                else
-                {
-                    i = loop - 1;
-                }
-
-                if(NearbyChunks[loop]!=null && NearbyChunks[loop].gameObject.GetComponent<MeshFilter>().sharedMesh != null)
-                {
-                    if (NearbyChunks[loop].NearbyChunks[i] == null)
-                    {
-                        NearbyChunks[loop].AddToQueueWhenReady();
-                        NearbyChunks[loop].NearbyChunks[i] = this;
-                    }
-                }
-                loop++;
-            }
-        }
-
 
         #endregion
 

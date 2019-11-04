@@ -18,7 +18,7 @@ namespace Sim_FrameWork
         public Transparency m_Transparency;
         public ColliderType m_ColliderType;
         public int m_submeshIndex;
-        public MeshRotation m_Rotation;
+
 
         public static void DestoryBlock(BlockInfo blockInfo)
         {

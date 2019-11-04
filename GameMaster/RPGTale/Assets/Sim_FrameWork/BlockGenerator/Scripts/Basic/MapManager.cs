@@ -6,12 +6,10 @@ namespace Sim_FrameWork
 {
     public class MapManager : MonoBehaviour
     {
-        private Transform center;
         private Index lastIndex;
 
         private void Start()
         {
-            center = GameObject.Find("Center").transform;
             InvokeRepeating("InitMap", 1, 0.5f);
         }
 
@@ -19,10 +17,10 @@ namespace Sim_FrameWork
         {
             if (MapGenerator.Inited == false || ChunkManager.Inited == false)
                 return;
-            Index currentIndex = MapGenerator.PositionToChunkIndex(center.position);
+            Index currentIndex = MapGenerator.PositionToChunkIndex(transform.position);
             if (lastIndex != currentIndex)
             {
-                ChunkManager.SpawnChunks(center.position);
+                ChunkManager.SpawnChunks(transform.position);
                 lastIndex = currentIndex;
             }
         }

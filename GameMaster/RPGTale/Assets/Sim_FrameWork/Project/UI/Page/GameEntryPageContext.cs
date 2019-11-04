@@ -36,7 +36,7 @@ namespace Sim_FrameWork.UI
         {
             AddButtonClickListener(m_page.StartButton, () =>
             {
-                ScenesManager.Instance.LoadingScene(UIPath.Scene_Test);
+                ScenesManager.Instance.LoadingScene(UIPath.ScenePath.Scene_Test);
             });
             AddButtonClickListener(m_page.QuitButton, () =>
             {
@@ -51,7 +51,7 @@ namespace Sim_FrameWork.UI
 
         void OnLoadGameBtnClick()
         {
-            UIManager.Instance.PopUpWnd(UIPath.MainMenu_GameLoad_Dialog, WindowType.Dialog);
+            UIManager.Instance.PopUpWnd(UIPath.WindowPath.MainMenu_GameLoad_Dialog, WindowType.Dialog);
             m_page.Menu.gameObject.SetActive(false);
         }
         bool PlayMenuAnim()

@@ -57,7 +57,7 @@ namespace Sim_FrameWork
             AlreadyLoadScene = false;
 
             /// LoadScene
-            AsyncOperation unLoadScene = SceneManager.LoadSceneAsync(UIPath.Scene_Loading, LoadSceneMode.Single);
+            AsyncOperation unLoadScene = SceneManager.LoadSceneAsync(UIPath.ScenePath.Scene_Loading, LoadSceneMode.Single);
             while(unLoadScene !=null && !unLoadScene.isDone)
             {
                 yield return new WaitForEndOfFrame();
