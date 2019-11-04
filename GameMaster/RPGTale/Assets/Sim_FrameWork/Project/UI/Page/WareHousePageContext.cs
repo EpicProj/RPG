@@ -61,7 +61,7 @@ namespace Sim_FrameWork.UI
         {
             if (Input.GetKeyDown(KeyCode.Escape))
             {
-                UIManager.Instance.HideWnd(UIPath.WindowPath.WareHouse_Page);
+                UIManager.Instance.HideWnd(UIPath.WareHouse_Page);
             }
         }
 
@@ -70,7 +70,7 @@ namespace Sim_FrameWork.UI
         {
             AddButtonClickListener(m_page.CloseBtn, delegate ()
             {
-                UIManager.Instance.HideWnd(UIPath.WindowPath.WareHouse_Page);
+                UIManager.Instance.HideWnd(UIPath.WareHouse_Page);
             });
         }
 

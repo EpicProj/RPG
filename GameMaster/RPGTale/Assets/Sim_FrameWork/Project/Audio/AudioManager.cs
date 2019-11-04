@@ -2,14 +2,15 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace Sim_FrameWork {
-    public class AudioManager : MonoSingleton<AudioManager> {
+public class AudioManager : MonoBehaviour {
 
-        private void Start()
-        {
-            
-        }
-
-
-    }
+	// Use this for initialization
+	void Start () {
+		
+	}
+	
+	// Update is called once per frame
+	void Update () {
+		
+	}
 }

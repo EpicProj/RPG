@@ -233,7 +233,7 @@ namespace Sim_FrameWork.UI
         {
             AddButtonClickListener(m_page.MaterialBtn, ()=>
             {
-                UIManager.Instance.PopUpWnd(UIPath.WindowPath.WareHouse_Page, WindowType.Page, true);
+                UIManager.Instance.PopUpWnd(UIPath.WareHouse_Page, WindowType.Page, true);
             });
             AddButtonClickListener(PauseBtn, () =>
             {
@@ -243,8 +243,8 @@ namespace Sim_FrameWork.UI
             /// Order Receive Page
             AddButtonClickListener(m_page.OrderBtn, () =>
             {
-                UIManager.Instance.Register<OrderReceiveMainPageContext>(UIPath.WindowPath.Order_Receive_Main_Page);
-                UIManager.Instance.PopUpWnd(UIPath.WindowPath.Order_Receive_Main_Page, WindowType.Page, true);
+                UIManager.Instance.Register<OrderReceiveMainPageContext>(UIPath.Order_Receive_Main_Page);
+                UIManager.Instance.PopUpWnd(UIPath.Order_Receive_Main_Page, WindowType.Page, true);
             });
         }
 

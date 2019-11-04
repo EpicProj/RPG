@@ -279,7 +279,7 @@ namespace Sim_FrameWork {
                 AddOrderModel(GUID, OrderDicType.Received);
                 UnRegisterOrder(GUID, OrderDicType.All);            
                 //UpdateUI
-                UIManager.Instance.SendMessageToWnd(UIPath.WindowPath.Order_Receive_Main_Page, new UIMessage(UIMsgType.RefreshOrder));
+                UIManager.Instance.SendMessageToWnd(UIPath.Order_Receive_Main_Page, new UIMessage(UIMsgType.RefreshOrder));
                 
                 Debug.Log("成功接取订单");
                 return true;

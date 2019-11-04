@@ -47,16 +47,11 @@ namespace Sim_FrameWork.UI
             {
                 OnLoadGameBtnClick();
             });
-            //Test
-            AddButtonClickListener(m_page.SetButton, () =>
-            {
-
-            });
         }
 
         void OnLoadGameBtnClick()
         {
-            UIManager.Instance.PopUpWnd(UIPath.WindowPath.MainMenu_GameLoad_Dialog, WindowType.Dialog);
+            UIManager.Instance.PopUpWnd(UIPath.MainMenu_GameLoad_Dialog, WindowType.Dialog);
             m_page.Menu.gameObject.SetActive(false);
         }
         bool PlayMenuAnim()

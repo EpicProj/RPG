@@ -19,9 +19,11 @@ namespace Sim_FrameWork
         up,
         down,
         left,
-        right
+        right,
+        forward,
+        back
     }
-    public enum Transparency 
+    public enum Transparency //透明度
     {
         solid, //不透明
         semiTransparent,//半透明
@@ -51,8 +53,8 @@ namespace Sim_FrameWork
         public GameObject[] m_Blocks;
 
         //生成设置
-        public static int SpawnDistance, ChunkSideLegth;
-        public int  m_SpawnDistance, m_ChunkSideLegth;
+        public static int HeightRange, SpawnDistance, ChunkSideLegth, DespewnDistance;
+        public int m_HeightRange, m_SpawnDistance, m_ChunkSideLegth, m_DespewnDistance;
 
 
         //performace
@@ -67,6 +69,9 @@ namespace Sim_FrameWork
         public static bool GenerateColliders,GenerateMeshs,ShowBorderFaces, SaveBlockData;
         public bool m_GenerateColliders, m_GenerateMeshs, m_ShowBorderFaces, m_SaveBlockData;
 
+        public static bool EnableChunkTimeout;
+        public static float ChunkTimeout;
+        public float m_ChunkTimeout;
 
         public static ChunkManager ChunkManagerInstance;
         public static Vector3 ChunkScale;
@@ -134,6 +139,8 @@ namespace Sim_FrameWork
             MaxChunkSaves = m_MaxChunkSaves;
 
             SpawnDistance = m_SpawnDistance;
+            HeightRange = m_HeightRange;
+            DespewnDistance = m_DespewnDistance;
             ChunkSideLegth = m_ChunkSideLegth;
 
             TextureUnit = m_TextureUnit;
@@ -145,7 +152,7 @@ namespace Sim_FrameWork
             GenerateColliders = m_GenerateColliders;
             GenerateMeshs = m_GenerateMeshs;
             ShowBorderFaces = m_ShowBorderFaces;
-
+            ChunkTimeout = m_ChunkTimeout;
         }
 
         public static GameObject GetBlockGameObj(ushort BlockID)
@@ -204,9 +211,9 @@ namespace Sim_FrameWork
 
 
         #region Position Change
-        public static Index PositionToChunkIndex(Vector2 position)
+        public static Index PositionToChunkIndex(Vector3 position)
         {
-            Index index = new Index(Mathf.RoundToInt(position.x / ChunkScale.x) / ChunkSideLegth, Mathf.RoundToInt(position.y / ChunkScale.y) / ChunkSideLegth);
+            Index index = new Index(Mathf.RoundToInt(position.x / ChunkScale.x) / ChunkSideLegth, Mathf.RoundToInt(position.y / ChunkScale.y) / ChunkSideLegth, Mathf.RoundToInt(position.z / ChunkScale.z) / ChunkSideLegth);
             return index;
         }
 

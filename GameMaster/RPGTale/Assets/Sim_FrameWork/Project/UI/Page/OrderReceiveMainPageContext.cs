@@ -64,8 +64,8 @@ namespace Sim_FrameWork.UI
         {
             AddButtonClickListener(m_page.BackBtn,  () =>
             {
-                UIManager.Instance.HideWnd(UIPath.WindowPath.Order_Receive_Main_Page);
-                UIManager.Instance.ShowWnd(UIPath.WindowPath.MainMenu_Page);
+                UIManager.Instance.HideWnd(UIPath.Order_Receive_Main_Page);
+                UIManager.Instance.ShowWnd(UIPath.MainMenu_Page);
             });
         }
 

@@ -33,7 +33,7 @@ namespace Sim_FrameWork.UI
             {
                 //TODO
                 timer = 0;
-                UIManager.Instance.HideWnd(UIPath.WindowPath.General_Hint_Dialog);
+                UIManager.Instance.HideWnd(UIPath.General_Hint_Dialog);
             }
         }
 

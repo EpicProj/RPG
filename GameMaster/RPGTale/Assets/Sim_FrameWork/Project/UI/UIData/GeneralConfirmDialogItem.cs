@@ -23,7 +23,7 @@ namespace Sim_FrameWork
             {
                 OnCancelClick = () =>
                 {
-                    UIManager.Instance.HideWnd(UIPath.WindowPath.General_Confirm_Dialog);
+                    UIManager.Instance.HideWnd(UIPath.General_Confirm_Dialog);
                 };
             }
             else

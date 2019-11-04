@@ -28,14 +28,14 @@ namespace Sim_FrameWork {
 
         public void RegisterUI()
         {
-            UIManager.Instance.Register<BlockInfoDialogContent>(UIPath.WindowPath.FUNCTIONBLOCK_INFO_DIALOG);
-            UIManager.Instance.Register<WareHousePageContext>(UIPath.WindowPath.WareHouse_Page);
-            UIManager.Instance.Register<MainMenuPageContext>(UIPath.WindowPath.MainMenu_Page);
-            UIManager.Instance.Register<GameEntryPageContext>(UIPath.WindowPath.Game_Entry_Page);
-            UIManager.Instance.Register<GeneralConfirmDialogContext>(UIPath.WindowPath.General_Confirm_Dialog);
-            UIManager.Instance.Register<GeneralHintDialogContent>(UIPath.WindowPath.General_Hint_Dialog);
-            UIManager.Instance.Register<ConsolePageContext>(UIPath.WindowPath.Console_Page);
-            UIManager.Instance.Register<GameLoadDialogContext>(UIPath.WindowPath.MainMenu_GameLoad_Dialog);
+            UIManager.Instance.Register<BlockInfoDialogContent>(UIPath.FUNCTIONBLOCK_INFO_DIALOG);
+            UIManager.Instance.Register<WareHousePageContext>(UIPath.WareHouse_Page);
+            UIManager.Instance.Register<MainMenuPageContext>(UIPath.MainMenu_Page);
+            UIManager.Instance.Register<GameEntryPageContext>(UIPath.Game_Entry_Page);
+            UIManager.Instance.Register<GeneralConfirmDialogContext>(UIPath.General_Confirm_Dialog);
+            UIManager.Instance.Register<GeneralHintDialogContent>(UIPath.General_Hint_Dialog);
+            UIManager.Instance.Register<ConsolePageContext>(UIPath.Console_Page);
+            UIManager.Instance.Register<GameLoadDialogContext>(UIPath.MainMenu_GameLoad_Dialog);
         }
 
     }

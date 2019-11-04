@@ -46,7 +46,7 @@ namespace Sim_FrameWork
         void Start()
         {
             InitBaseData();
-            UIManager.Instance.PopUpWnd(UIPath.WindowPath.Game_Entry_Page);
+            UIManager.Instance.PopUpWnd(UIPath.Game_Entry_Page);
         }
 
         public void InitBaseData()
@@ -66,12 +66,12 @@ namespace Sim_FrameWork
             {
                 if (ConsolePageShow)
                 {
-                    UIManager.Instance.HideWnd(UIPath.WindowPath.Console_Page);
+                    UIManager.Instance.HideWnd(UIPath.Console_Page);
                     ConsolePageShow = false;
                 }
                 else
                 {
-                    UIManager.Instance.PopUpWnd(UIPath.WindowPath.Console_Page, WindowType.Page);
+                    UIManager.Instance.PopUpWnd(UIPath.Console_Page, WindowType.Page);
                     ConsolePageShow = true;
                 }
             }

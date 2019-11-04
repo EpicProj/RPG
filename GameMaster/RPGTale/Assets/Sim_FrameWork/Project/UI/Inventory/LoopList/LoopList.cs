@@ -100,13 +100,13 @@ namespace Sim_FrameWork
             Debug.Log(num);
             if (_modelList.Count<num && _content.childCount<_modelList.Count)
             {
-                ///小于实际数量,生成多的
+                //小于实际数量,生成多的
                 SpawnItem(_modelList.Count - _content.childCount, _content.childCount - 1, num);
                 RefreshItem();
             }
             else if(_modelList.Count<num && _content.childCount > _modelList.Count)
             {
-                ///大于实际数量,销毁
+                //大于实际数量,销毁
                 for(int i = 0; i < _content.childCount - _modelList.Count;i++)
                 {
                     var obj = _content.GetChild(_content.childCount - i - 1);

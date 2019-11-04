@@ -11,13 +11,13 @@ namespace Sim_FrameWork
             Index nearbyIndex = info.chunk.GetNearbyChunkIndex(info.index, Direction.up);
             if (info.chunk.GetBlock(nearbyIndex) != 0)
             {
-                info.chunk.SetBlock(info.index, 1);
+                info.chunk.SetBlock(info.index, 1, true);
             }
 
-            Index below = new Index(info.index.x, info.index.y - 1);
+            Index below = new Index(info.index.x, info.index.y - 1, info.index.z);
             if (info.GetBlockType().m_Transparency == Transparency.solid && info.chunk.GetBlock(below) == 2)
             {
-                info.chunk.SetBlock(below, 1);
+                info.chunk.SetBlock(below, 1, true);
             }
         }
 

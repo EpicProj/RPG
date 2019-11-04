@@ -132,11 +132,11 @@ namespace Sim_FrameWork
             //Add OutPut
             AddOutputSlotNum();
             //UpdateUI
-            UIManager.Instance.SendMessageToWnd(UIPath.WindowPath.FUNCTIONBLOCK_INFO_DIALOG, new UIMessage(UIMsgType.UpdateManuSlot, new List<object>(1) { manufactoryInfo.formulaInfo }));
+            UIManager.Instance.SendMessageToWnd(UIPath.FUNCTIONBLOCK_INFO_DIALOG, new UIMessage(UIMsgType.UpdateManuSlot, new List<object>(1) { manufactoryInfo.formulaInfo }));
 
             //UpdateEXP
             info.levelInfo.AddCurrentBlockEXP(manufactoryInfo.formulaInfo.currentFormulaData.EXP);
-            UIManager.Instance.SendMessageToWnd(UIPath.WindowPath.FUNCTIONBLOCK_INFO_DIALOG, new UIMessage(UIMsgType.UpdateLevelInfo, new List<object>(1) { info.levelInfo }));
+            UIManager.Instance.SendMessageToWnd(UIPath.FUNCTIONBLOCK_INFO_DIALOG, new UIMessage(UIMsgType.UpdateLevelInfo, new List<object>(1) { info.levelInfo }));
 
             StartManufact();
         }

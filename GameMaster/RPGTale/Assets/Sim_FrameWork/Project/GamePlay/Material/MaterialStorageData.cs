@@ -13,7 +13,7 @@ namespace Sim_FrameWork
         {
             Action<MaterialStorageItem> sendMsg = (m) =>
             {
-                UIManager.Instance.SendMessageToWnd(UIPath.WindowPath.WareHouse_Page, new UIMessage(UIMsgType.UpdateWarehouseData, new List<object>(1) { m }));
+                UIManager.Instance.SendMessageToWnd(UIPath.WareHouse_Page, new UIMessage(UIMsgType.UpdateWarehouseData, new List<object>(1) { m }));
             };
 
             if (materialStorageDataDic.ContainsKey(materialID))

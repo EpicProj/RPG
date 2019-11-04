@@ -6,50 +6,47 @@ namespace Sim_FrameWork
 {
     public class UIPath
     {
-        public struct WindowPath
-        {
-            #region DialogPath
-            public const string FUNCTIONBLOCK_INFO_DIALOG = "Dialog/FunctionBlock/BlockInfoDialog";
+        #region DialogPath
+        public const string FUNCTIONBLOCK_INFO_DIALOG = "Dialog/FunctionBlock/BlockInfoDialog";
+    
+        /// <summary>
+        /// 信息确认框
+        /// </summary>
+        public const string General_Confirm_Dialog = "Dialog/Main/GeneralConfirmDialog";
+        public const string General_Hint_Dialog = "Dialog/Main/GeneralHint";
+        /// <summary>
+        /// 载入存档
+        /// </summary>
+        public const string MainMenu_GameLoad_Dialog = "Dialog/Main/GameLoadDialog";
 
-            /// <summary>
-            /// 信息确认框
-            /// </summary>
-            public const string General_Confirm_Dialog = "Dialog/Main/GeneralConfirmDialog";
-            public const string General_Hint_Dialog = "Dialog/Main/GeneralHint";
-            /// <summary>
-            /// 载入存档
-            /// </summary>
-            public const string MainMenu_GameLoad_Dialog = "Dialog/Main/GameLoadDialog";
+        #endregion
 
-            #endregion
+        #region PagePath
+        /// <summary>
+        /// 主界面
+        /// </summary>
+        public const string MainMenu_Page= "Page/MainMenuPage";
+        /// <summary>
+        /// 订单接收界面
+        /// </summary>
+        public const string Order_Receive_Main_Page = "Page/OrderReceiveMainPage";
+        /// <summary>
+        /// 开始界面
+        /// </summary>
+        public const string Game_Entry_Page = "Page/GameEntryPage";
+        /// <summary>
+        /// 场景加载界面
+        /// </summary>
+        public const string Loading_Scene_Page = "Page/LoadingPage";
 
-            #region PagePath
-            /// <summary>
-            /// 主界面
-            /// </summary>
-            public const string MainMenu_Page = "Page/MainMenuPage";
-            /// <summary>
-            /// 订单接收界面
-            /// </summary>
-            public const string Order_Receive_Main_Page = "Page/OrderReceiveMainPage";
-            /// <summary>
-            /// 开始界面
-            /// </summary>
-            public const string Game_Entry_Page = "Page/GameEntryPage";
-            /// <summary>
-            /// 场景加载界面
-            /// </summary>
-            public const string Loading_Scene_Page = "Page/LoadingPage";
+        public const string Console_Page = "Page/ConsolePage";
 
-            public const string Console_Page = "Page/ConsolePage";
+        /// <summary>
+        /// 仓库界面
+        /// </summary>
+        public const string WareHouse_Page = "Page/WareHousePage";
+        #endregion
 
-            /// <summary>
-            /// 仓库界面
-            /// </summary>
-            public const string WareHouse_Page = "Page/WareHousePage";
-            #endregion
-
-        }
 
 
         #region ItemPath
