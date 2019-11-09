@@ -39,6 +39,16 @@ namespace Sim_FrameWork
             return trans;
         }
 
+        public static bool SafeSetActive(Transform trans,bool active)
+        {
+            if (trans != null)
+            {
+                trans.gameObject.SetActive(active);
+                return true;
+            }
+            return false;
+        }
+
         /// <summary>
         /// Reset Transform
         /// </summary>

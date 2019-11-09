@@ -18,7 +18,7 @@ namespace Sim_FrameWork
         protected override void Awake()
         {
             base.Awake();
-            BlockSelectionUI = UIUtility.FindTransfrom(transform,"UI/SelectionUI").gameObject;
+            BlockSelectionUI = UIUtility.FindTransfrom(transform, "Content/UI/SelectionUI").gameObject;
         }
 
         public bool showNodes;

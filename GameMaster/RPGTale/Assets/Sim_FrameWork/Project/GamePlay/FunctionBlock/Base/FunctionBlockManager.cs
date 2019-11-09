@@ -10,7 +10,7 @@ namespace Sim_FrameWork
         private Dictionary<int, FunctionBlockBase> _functionBlockInstances;
 
         private GameObject FunctionBlockContainer;
-        private string BaseFunctionBlockPath = "";
+        private string BaseFunctionBlockPath = "Assets/Prefabs/FunctionBlock/FunctionBlockBase.prefab";
 
         protected override void Awake()
         {
@@ -26,8 +26,13 @@ namespace Sim_FrameWork
 
         #region FunctionBlock
 
-
-        public FunctionBlockBase AddFunctionBlock(int functionBlockID,int instanceID)
+        /// <summary>
+        /// Add Block
+        /// </summary>
+        /// <param name="functionBlockID"></param>
+        /// <param name="instanceID"></param>
+        /// <returns></returns>
+        public FunctionBlockBase AddFunctionBlock(int functionBlockID,int instanceID,int posX,int posZ)
         {
 
             FunctionBlockBase instance = UIUtility.SafeGetComponent<FunctionBlockBase>(Utility.CreateInstace(BaseFunctionBlockPath, FunctionBlockContainer, true).transform);
@@ -39,10 +44,31 @@ namespace Sim_FrameWork
             instance.instanceID = instanceID;
             _functionBlockInstances.Add(instanceID, instance);
 
-            instance.InitData();
+            instance.InitData(functionBlockID,posX,posZ);
 
             return instance;
         }
+
+        public FunctionBlockBase AddFunctionBlock(int functionBlockID)
+        {
+            int posX = 0;
+            int posZ = 0;
+            return AddFunctionBlock(functionBlockID, -1, posX, posZ);
+        }
+
+        public void RemoveItem(FunctionBlockBase block)
+        {
+            if (_functionBlockInstances.ContainsKey(block.instanceID))
+            {
+                _functionBlockInstances.Remove(block.instanceID);
+            }
+            if (block != null)
+            {
+                ObjectManager.Instance.ReleaseObject(block.gameObject);
+            }
+           
+        }
+
 
 
         private int getUnUsedInstanceID()
@@ -55,17 +81,17 @@ namespace Sim_FrameWork
             return instanceId;
         }
 
+        #endregion
 
-        //Place Block
-        public void PlaceFunctionBlock(int blockID, Vector3 checkpos)
+        public List<FunctionBlockBase> GetAllBlocks()
         {
-            var block = FunctionBlockModule.GetFunctionBlockByBlockID(blockID);
-            if (block == null)
-                return;
-
-
+            List<FunctionBlockBase> blocks = new List<FunctionBlockBase>();
+            foreach(KeyValuePair<int,FunctionBlockBase> kvp in _functionBlockInstances)
+            {
+                blocks.Add(kvp.Value);
+            }
+            return blocks;
         }
 
-        #endregion
     }
 }

@@ -16,12 +16,12 @@ namespace Sim_FrameWork
         private int _currentFormulaID = 0;
         public int CurrentFormulaID { get { return _currentFormulaID; }  }
 
-        public override void InitData()
-        {
-            base.InitData();
-            manufactoryInfo = new ManufactoryInfo(info.block);
-            InitFormula();
-        }
+        //public override void InitData()
+        //{
+        //    base.InitData();
+        //    manufactoryInfo = new ManufactoryInfo(info.block);
+        //    InitFormula();
+        //}
 
         public void InitFormula()
         {

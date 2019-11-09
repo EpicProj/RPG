@@ -26,10 +26,7 @@ namespace Sim_FrameWork
 
         public override void Update()
         {
-            CheckMouseButtonDown(delegate()
-            {
-                UIManager.Instance.PopUpWnd(UIPath.WindowPath.FUNCTIONBLOCK_INFO_DIALOG, WindowType.Dialog, true, info, manufactoryInfo);
-            });
+
             if (Input.GetKeyDown(KeyCode.Space))
             {
                 info.blockModifier.DoManufactModifier(manufactoryInfo,info,"AddManuSpeed");
@@ -45,10 +42,7 @@ namespace Sim_FrameWork
                 UIManager.Instance.SendMessageToWnd(UIPath.WindowPath.FUNCTIONBLOCK_INFO_DIALOG, new UIMessage(UIMsgType.UpdateManuSlot, new List<object>(1) { manufactoryInfo.formulaInfo }));
             }
         }
-        public override void InitData()
-        {
-            base.InitData();
-        }
+
 
         public void Product()
         {

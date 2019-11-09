@@ -11,6 +11,7 @@ namespace Sim_FrameWork
 
         public FunctionBlock functionBlock;
 
+        [HideInInspector]
         public FunctionBlockInfoData info;
 
         private BoxCollider BlockCollider;
@@ -22,10 +23,8 @@ namespace Sim_FrameWork
         public GameObject UIRoot;
 
 
-        public BlockUIScriptInfo UIinfo;
+        private BlockUIScriptInfo UIinfo;
 
-
-        RaycastHit hit;
 
         public int instanceID;
 
@@ -37,14 +36,17 @@ namespace Sim_FrameWork
         }
         
 
-        public virtual void InitData()
+        public virtual void InitData(int blockID,int posX,int posZ)
         {
+            functionBlock = FunctionBlockModule.GetFunctionBlockByBlockID(blockID);
 
+            UIinfo = UIUtility.SafeGetComponent<BlockUIScriptInfo>(transform);
             UIinfo.SetData(this);
 
-            //TODO
-            functionBlock = FunctionBlockModule.GetFunctionBlockByBlockID(100);
-            //TODO
+            gameObject.name = blockID + "[Block]";
+
+            SetPosition(new Vector3( posX, 0, posZ));
+
             blockModifier = GetComponent<FunctionBlockModifier>();
             info = FunctionBlockInfoData.CreateBaseInfo(transform.position,functionBlock,blockModifier);
             InitBaseInfo();
@@ -71,7 +73,47 @@ namespace Sim_FrameWork
             return transform.localPosition;
         }
 
+        /// <summary>
+        /// Set Postion
+        /// </summary>
+        /// <param name="pos"></param>
+        public void SetPosition(Vector3 pos)
+        {
+            transform.localPosition = pos;
+        }
+        public int GetPosX()
+        {
+            return (int)GetPosition().x;
+        }
 
+        public int GetPosZ()
+        {
+            return (int)GetPosition().z;
+        }
+
+
+        /// <summary>
+        /// Set Select State
+        /// </summary>
+        /// <param name="select"></param>
+        public void SetSelect(bool select)
+        {
+            UIinfo.ShowSelectionUI(select);
+            if (!select)
+            {
+                if (!InPlacablePosition())
+                {
+                    SetPosition(_oldPosition);
+                    OnBlockDragEnd(null);
+                }
+            }
+            if (select)
+            {
+                AudioManager.Instance.PlaySound(AudioClipPath.ItemEffect.Block_Select);
+                //Open UI TODO
+            }
+
+        }
 
 
         #endregion
@@ -79,6 +121,7 @@ namespace Sim_FrameWork
         #region Action
 
         private Vector3 _oldPosition;
+        private Vector3 _deltaDistance;
 
         private bool InPlacablePosition()
         {
@@ -89,8 +132,9 @@ namespace Sim_FrameWork
         /// <summary>
         /// Move Block
         /// </summary>
-        public void OnBlockDragStart()
+        public void OnBlockDragStart(CameraManager.CameraEvent camera)
         {
+            _deltaDistance = GetPosition() - camera.point;
             GridManager.Instance.UpdateFunctionBlockNodes(this, GridManager.Action.REMOVE);
 
             bool canPlace = InPlacablePosition();
@@ -104,30 +148,46 @@ namespace Sim_FrameWork
             }
         }
 
-
-
-        public void CheckMouseButtonDown(Action callback)
+        public void OnBlockDrag(CameraManager.CameraEvent camera)
         {
-            if (Input.GetMouseButtonDown(0))
+            var point = camera.point + _deltaDistance;
+            point.x = Mathf.Floor(point.x);
+            point.z = Mathf.Floor(point.z);
+
+            if(point!= transform.localPosition)
             {
-                if (CheckUIRaycast())
-                    return ;
-                var ray = Camera.main.ScreenPointToRay(Input.mousePosition);
-                if(Physics.Raycast(ray, out hit))
+                SetPosition(new Vector3(Mathf.Floor(point.x), 0, Mathf.Floor(point.z)));
+
+                bool canPlace = InPlacablePosition();
+                if (canPlace)
                 {
-                    callback();
+                    UIinfo.selectionUIInstance.SetGridColor(SelectionUIObject.PlaceState.CanPlace);
                 }
+                else
+                {
+                    UIinfo.selectionUIInstance.SetGridColor(SelectionUIObject.PlaceState.CanNotPlace);
+                }
+
+                AudioManager.Instance.PlaySound(AudioClipPath.ItemEffect.Block_Move);
             }
         }
-        bool CheckUIRaycast()
+
+        public void OnBlockDragEnd(CameraManager.CameraEvent camera)
         {
-            PointerEventData data = new PointerEventData(EventSystem.current);
-            data.pressPosition = Input.mousePosition;
-            data.position = Input.mousePosition;
-            List<RaycastResult> result = new List<RaycastResult>();
-            GameManager.Instance.raycaster.Raycast(data, result);
-            return result.Count > 0;
+            bool canPlace = InPlacablePosition();
+            if (canPlace)
+            {
+                if (UIinfo.selectionUIInstance != null)
+                {
+                    UIinfo.selectionUIInstance.ShowGrid(false);
+                }
+
+                GridManager.Instance.UpdateFunctionBlockNodes(this, GridManager.Action.ADD);
+
+                AudioManager.Instance.PlaySound(AudioClipPath.ItemEffect.Block_Place);
+            }
         }
+
 
         #endregion
 

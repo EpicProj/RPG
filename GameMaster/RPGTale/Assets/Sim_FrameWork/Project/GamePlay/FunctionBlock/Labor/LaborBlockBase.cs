@@ -7,10 +7,6 @@ namespace Sim_FrameWork {
 
         public LaborBlockInfo laborInfo;
 
-        public override void InitData()
-        {
-            base.InitData();
-        }
 
     }
 
