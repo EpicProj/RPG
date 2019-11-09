@@ -102,7 +102,7 @@ namespace Sim_FrameWork.UI
         public void InitEmptyDisBlock(DistrictAreaBase info)
         {
             //ContainEmptyInfo
-            GameObject EmptySlot = ObjectManager.Instance.InstantiateObject(UIPath.DISTRICTSLOT_PREFAB_PATH);
+            GameObject EmptySlot = ObjectManager.Instance.InstantiateObject(UIPath.PrefabPath.DISTRICTSLOT_PREFAB_PATH);
             EmptySlot.GetComponent<Image>().sprite = info.sprite;
             EmptySlot.transform.SetParent(transform, false);
             EmptySlot.transform.localScale = Vector3.one;
@@ -114,7 +114,7 @@ namespace Sim_FrameWork.UI
 
         public void InitUnlockDisBlock(DistrictAreaBase info)
         {
-            GameObject UnlockSlot = ObjectManager.Instance.InstantiateObject(UIPath.DISTRICTSLOT_PREFAB_PATH);
+            GameObject UnlockSlot = ObjectManager.Instance.InstantiateObject(UIPath.PrefabPath.DISTRICTSLOT_PREFAB_PATH);
             UnlockSlot.transform.SetParent(transform, false);
             UnlockSlot.GetComponent<DistrictSlot>().InitBaseInfo(info);
         }

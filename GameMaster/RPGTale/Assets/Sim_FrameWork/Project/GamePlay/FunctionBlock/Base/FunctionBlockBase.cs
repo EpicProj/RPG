@@ -17,12 +17,13 @@ namespace Sim_FrameWork
         private FunctionBlockModifier blockModifier;
         RaycastHit hit;
 
+        public int instanceID;
 
         public virtual void Update() { }
         public virtual void FixedUpdate() { }
         public virtual void Awake()
         {
-            InitData();
+
         }
         
 
@@ -45,13 +46,38 @@ namespace Sim_FrameWork
         }
 
 
-        #region InitBaseInfo
+        #region BaseInfo
 
         private void SetBlockColliderSize(Vector3 size)
         {
             BlockCollider.size = size;
         }
 
+        public Vector3 GetPosition()
+        {
+            return transform.localPosition;
+        }
+
+        /// <summary>
+        /// 最大大小
+        /// </summary>
+        /// <returns></returns>
+        public Vector3 GetSizeMax()
+        {
+            if (functionBlock == null)
+            {
+                Debug.LogError("FunctionBlock Data is null");
+                return Vector3.zero;
+            }
+
+            string size = functionBlock.AreaMax;
+            var result = Utility.TryParseIntList(size, ',');
+            if (result.Count == 2)
+            {
+                return new Vector3(result[0], 0, result[1]);
+            }
+            return Vector3.zero;
+        }
 
         #endregion 
         public void CheckMouseButtonDown(Action callback)

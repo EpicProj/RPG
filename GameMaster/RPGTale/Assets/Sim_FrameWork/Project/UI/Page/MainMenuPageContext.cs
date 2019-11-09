@@ -300,7 +300,7 @@ namespace Sim_FrameWork.UI
         {
             for(int i = 0; i < PlayerManager.Instance.playerData.UnLockBuildingPanelDataList.Count; i++)
             {
-                GameObject buildObj = ObjectManager.Instance.InstantiateObject(UIPath.BUILD_ELEMENT_PREFAB_PATH);
+                GameObject buildObj = ObjectManager.Instance.InstantiateObject(UIPath.PrefabPath.BUILD_ELEMENT_PREFAB_PATH);
                 BlockBuildElement element = UIUtility.SafeGetComponent<BlockBuildElement>(buildObj.transform);
                 element.InitBuildElement(PlayerManager.Instance.playerData.UnLockBuildingPanelDataList[i]);
                 buildObj.transform.SetParent(m_page.BuildContent.transform, false);
@@ -312,7 +312,7 @@ namespace Sim_FrameWork.UI
             List<FunctionBlockTypeData> mainTypeList = FunctionBlockModule.GetInitMainType();
             for(int i = 0; i < mainTypeList.Count; i++)
             {
-                GameObject mainTab = ObjectManager.Instance.InstantiateObject(UIPath.Construct_MainTab_Element_Path);
+                GameObject mainTab = ObjectManager.Instance.InstantiateObject(UIPath.PrefabPath.Construct_MainTab_Element_Path);
                 ConstructMainTabElement element = UIUtility.SafeGetComponent<ConstructMainTabElement>(mainTab.transform);
                 element.InitMainTabElement(mainTypeList[i]);
                 mainTab.transform.SetParent(m_page.BuildTabContent.transform, false);

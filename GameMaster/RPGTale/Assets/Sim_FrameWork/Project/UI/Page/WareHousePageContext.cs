@@ -86,7 +86,7 @@ namespace Sim_FrameWork.UI
             var List = MaterialModule.MaterialTypeList;
             for(int i = 0; i < List.Count; i++)
             {
-                var mainTag = ObjectManager.Instance.InstantiateObject(UIPath.WareHouse_Maintag_Prefab_Path);
+                var mainTag = ObjectManager.Instance.InstantiateObject(UIPath.PrefabPath.WareHouse_Maintag_Prefab_Path);
                 var cmpt = UIUtility.SafeGetComponent<WareHouseMainTagCmpt>(mainTag.transform);
                 cmpt.InitTagElement(List[i]);
                 cmpt.toggle.group = filterToggleGroup;

@@ -105,7 +105,7 @@ namespace Sim_FrameWork.UI
             var dic = orderModel.OrderContentDic;
             foreach(KeyValuePair<MaterialDataModel,int> kvp in dic)
             {
-                var obj = ObjectManager.Instance.InstantiateObject(UIPath.Order_Detail_Element);
+                var obj = ObjectManager.Instance.InstantiateObject(UIPath.PrefabPath.Order_Detail_Element);
                 var element = UIUtility.SafeGetComponent<OrderDetailElement>(obj.transform);
                 element.InitOrderDetailElement(kvp.Key, kvp.Value);
                 obj.transform.SetParent(OrderContent.transform,false);

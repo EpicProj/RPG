@@ -7,35 +7,53 @@ namespace Sim_FrameWork
 {
     public class FunctionBlockManager : MonoSingleton<FunctionBlockManager>
     {
-        public Dictionary<string, FunctionBlockBase> FunctionBlockDic = new Dictionary<string, FunctionBlockBase>();
+        private Dictionary<int, FunctionBlockBase> _functionBlockInstances;
 
+        private GameObject FunctionBlockContainer;
+        private string BaseFunctionBlockPath = "";
 
         protected override void Awake()
         {
             base.Awake();
+            _functionBlockInstances = new Dictionary<int, FunctionBlockBase>();
+            FunctionBlockContainer = Utility.SafeFindGameobject("MapContainer/FunctionBlockContainer");
         }
 
+        public Dictionary<int,FunctionBlockBase> GetBlockInstances()
+        {
+            return _functionBlockInstances;
+        }
 
         #region FunctionBlock
 
 
-        public void AddFunctionBlockData(string blockUID,FunctionBlockBase blockBase)
+        public FunctionBlockBase AddFunctionBlock(int functionBlockID,int instanceID)
         {
-            if (!FunctionBlockDic.ContainsKey(blockUID))
+
+            FunctionBlockBase instance = UIUtility.SafeGetComponent<FunctionBlockBase>(Utility.CreateInstace(BaseFunctionBlockPath, FunctionBlockContainer, true).transform);
+
+            if (instanceID == -1)
             {
-                FunctionBlockDic.Add(blockUID,blockBase);
+                instanceID = getUnUsedInstanceID();
             }
+            instance.instanceID = instanceID;
+            _functionBlockInstances.Add(instanceID, instance);
+
+            instance.InitData();
+
+            return instance;
         }
 
-        public FunctionBlockBase GetBlockByUID(string UID)
+
+        private int getUnUsedInstanceID()
         {
-            FunctionBlockBase block = null;
-            FunctionBlockDic.TryGetValue(UID, out block);
-            if (block == null)
-                Debug.LogError("GetBlock Error UID=" + UID);
-            return block;
+            int instanceId = UnityEngine.Random.Range(10000, 99999);
+            if (_functionBlockInstances.ContainsKey(instanceId))
+            {
+                return getUnUsedInstanceID();
+            }
+            return instanceId;
         }
-
 
 
         //Place Block

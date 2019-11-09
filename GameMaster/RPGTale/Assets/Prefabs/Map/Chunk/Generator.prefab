@@ -58,19 +58,13 @@ MonoBehaviour:
   - {fileID: 1351540055673560, guid: e9adc23230f4b4f42bd9d5f377d50054, type: 2}
   - {fileID: 1037649022179058, guid: b6fb95eddb332f84282fd70744877800, type: 2}
   - {fileID: 1468675324725752, guid: bbb2415b9519efc4ca65daa571fcf01e, type: 2}
-  m_HeightRange: 3
-  m_SpawnDistance: 5
-  m_ChunkSideLegth: 6
-  m_DespewnDistance: 3
+  m_SpawnDistance: 10
+  m_ChunkSideLegth: 15
   m_MaxChunkSaves: 50
   m_TargetFPS: 60
-  m_TextureUnit: 0.125
-  m_TexturePadding: 0
   m_GenerateColliders: 1
-  m_GenerateMeshs: 1
   m_ShowBorderFaces: 0
   m_SaveBlockData: 1
-  m_ChunkTimeout: 0
 --- !u!114 &114910009470883466
 MonoBehaviour:
   m_ObjectHideFlags: 1

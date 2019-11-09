@@ -312,7 +312,7 @@ namespace Sim_FrameWork.UI
         {
             for(int i = 0; i < blockInfo.ActiveDistrictBuildList.Count; i++)
             {
-                var districtBuild = ObjectManager.Instance.InstantiateObject(UIPath.DISTRICT_BUILD_PREFAB_PATH);
+                var districtBuild = ObjectManager.Instance.InstantiateObject(UIPath.PrefabPath.DISTRICT_BUILD_PREFAB_PATH);
                 var element = UIUtility.SafeGetComponent<DistrictBuildElement>(districtBuild.transform);
                 element.InitCostElementData(blockInfo.ActiveDistrictBuildList[i]);
                 districtBuild.transform.SetParent(m_dialog.BuildContent.transform, false);

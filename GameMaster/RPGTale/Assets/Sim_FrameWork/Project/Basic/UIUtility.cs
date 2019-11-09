@@ -29,6 +29,16 @@ namespace Sim_FrameWork
          
         }
 
+        public static Transform FindTransfrom(Transform transfrom, string name)
+        {
+            var trans = transfrom.Find(name);
+            if (trans == null)
+            {
+                Debug.LogError("Find Transfrom is null !  name= " + name);
+            }
+            return trans;
+        }
+
         /// <summary>
         /// Reset Transform
         /// </summary>

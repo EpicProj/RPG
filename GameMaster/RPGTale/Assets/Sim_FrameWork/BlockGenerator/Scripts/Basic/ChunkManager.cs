@@ -30,7 +30,7 @@ namespace Sim_FrameWork
 
         void Start()
         {
-            Map = GameObject.Find("Map").transform;
+            Map = GameObject.Find("MapContainer/Map").transform;
             Chunks = new Dictionary<string, Chunk>();
             ChunkUpdateList = new List<Chunk>();
             FrameDuration = 1f / MapGenerator.TargetFPS;
@@ -114,13 +114,13 @@ namespace Sim_FrameWork
         /// <param name="x"></param>
         /// <param name="y"></param>
         /// <param name="z"></param>
-        public static void SpawnChunks(int x,int y,int z)
+        public static void SpawnChunks(int x,int z)
         {
-            MapGenerator.ChunkManagerInstance.TrySpawnChunks(x,y,z);
+            MapGenerator.ChunkManagerInstance.TrySpawnChunks(x,z);
         }
         public static void SpawnChunks(Index index)
         {
-            MapGenerator.ChunkManagerInstance.TrySpawnChunks(index.x, index.y, index.z);
+            MapGenerator.ChunkManagerInstance.TrySpawnChunks(index.x, index.z);
         }
         public static void SpawnChunks(Vector3 pos)
         {
@@ -130,17 +130,17 @@ namespace Sim_FrameWork
 
         private void TrySpawnChunks(Index index)
         {
-            TrySpawnChunks(index.x, index.y, index.z);
+            TrySpawnChunks(index.x,index.z);
         }
-        private void TrySpawnChunks(int x,int y,int z)//XYZ为生成基点
+        private void TrySpawnChunks(int x,int z)//XYZ为生成基点
         {
             if (isFinish == true)
             {
-                StartSpawnChunks(x, y, z);
+                StartSpawnChunks(x, z);
             }
             else
             {
-                lastRequest = new Index(x, y, z);
+                lastRequest = new Index(x,0,z);
                 SpawnQueue = 1;
                 StopSpawning = true;
                 ChunkUpdateList.Clear();
@@ -153,7 +153,7 @@ namespace Sim_FrameWork
             if(SpawnQueue==1 && isFinish == true)
             {
                 SpawnQueue = 0;
-                StartSpawnChunks(lastRequest.x, lastRequest.y, lastRequest.z);
+                StartSpawnChunks(lastRequest.x, lastRequest.z);
             }
             if(!isSpawningChunks&&!ProcessChunkQueueLoopActive && ChunkUpdateList!=null && ChunkUpdateList.Count > 0)
             {
@@ -169,70 +169,44 @@ namespace Sim_FrameWork
             stopWatch.Start();
         }
 
-        private void StartSpawnChunks(int x,int y,int z)
+        private void StartSpawnChunks(int x,int z)
         {
             isSpawningChunks = true;
             isFinish = false;
-            int range = MapGenerator.SpawnDistance;
-            StartCoroutine(GenerateCurrentChunks(x, y, z, range));
+            StartCoroutine(GenerateCurrentChunks(x,z));
         }
 
-        //生成Chunk
-        private IEnumerator GenerateCurrentChunks(int originX,int originY,int originZ,int range)
+        /// <summary>
+        /// Chunk Generator
+        /// </summary>
+        /// <param name="originX"></param>
+        /// <param name="originZ"></param>
+        /// <returns></returns>
+        private IEnumerator GenerateCurrentChunks(int originX,int originZ)
         {
 
             ChunkUpdateList = new List<Chunk>();
+            int mapWidth = MapGenerator.MapWidth;
+            int mapLength = MapGenerator.MapLength;
 
-            for(int currentLoop = 0; currentLoop <= range; currentLoop++)
+            for (var x = originX - mapWidth ; x <= originX + mapWidth; x++)
             {
-                for (var x = originX - currentLoop; x <= originX + currentLoop; x++)
+                for (var z = originZ - mapLength; z <= originZ + mapLength; z++)
                 {
-                    for (var z = originZ - currentLoop; z <= originZ + currentLoop; z++)
+
+                    while (ChunkUpdateList.Count > 0)
                     {
-
-                        while (ChunkUpdateList.Count > 0)
+                        ProcessChunkList();
+                        if (stopWatch.Elapsed.TotalSeconds >= FrameDuration)
                         {
-                            ProcessChunkList();
-                            if (stopWatch.Elapsed.TotalSeconds >= FrameDuration)
-                            {
-                                yield return new WaitForEndOfFrame();
-                            }
+                            yield return new WaitForEndOfFrame();
                         }
-                        Chunk currentChunk = GetChunkComponent(x, 0, z);
-                        if (currentChunk != null)
+                    }
+                    Chunk currentChunk = GetChunkComponent(x, 0, z);
+                    if (currentChunk != null)
+                    {
+                        if (currentChunk.Fresh)
                         {
-                            if (currentChunk.Fresh)
-                            {
-                                for (int i = 0; i < 4; i++)
-                                {
-                                    Index nearbyIndex = currentChunk.ChunkIndex.GetNearbyChunkIndex((Direction)i);
-                                    GameObject nearbyChunk = GetChunk(nearbyIndex);
-                                    if (nearbyChunk == null)
-                                    {
-                                        nearbyChunk = Instantiate(ChunkObject, nearbyIndex.ToVector3(), transform.rotation) as GameObject;
-                                        nearbyChunk.transform.SetParent(Map);
-                                    }
-                                    currentChunk.NearbyChunks[i] = nearbyChunk.GetComponent<Chunk>();
-                                    if (stopWatch.Elapsed.TotalSeconds >= FrameDuration)
-                                    {
-                                        yield return new WaitForEndOfFrame();
-                                    }
-                                    if (StopSpawning)
-                                    {
-                                        EndSequence();
-                                        yield break;
-                                    }
-                                }
-
-                                if (currentChunk != null)
-                                    currentChunk.AddToQueueWhenReady();
-                            }
-                        }
-                        else
-                        {
-                            GameObject newChunk = Instantiate(ChunkObject, new Vector3(x, 0, z), transform.rotation) as GameObject;
-                            newChunk.transform.SetParent(Map);
-                            currentChunk = UIUtility.SafeGetComponent<Chunk>(newChunk.transform);
                             for (int i = 0; i < 4; i++)
                             {
                                 Index nearbyIndex = currentChunk.ChunkIndex.GetNearbyChunkIndex((Direction)i);
@@ -240,25 +214,58 @@ namespace Sim_FrameWork
                                 if (nearbyChunk == null)
                                 {
                                     nearbyChunk = Instantiate(ChunkObject, nearbyIndex.ToVector3(), transform.rotation) as GameObject;
+                                    nearbyChunk.transform.SetParent(Map);
+                                    nearbyChunk.name = new Vector2(nearbyChunk.transform.position.x, nearbyChunk.transform.position.z).ToString();
                                 }
                                 currentChunk.NearbyChunks[i] = UIUtility.SafeGetComponent<Chunk>(nearbyChunk.transform);
-
                                 if (stopWatch.Elapsed.TotalSeconds >= FrameDuration)
                                 {
                                     yield return new WaitForEndOfFrame();
                                 }
-
                                 if (StopSpawning)
                                 {
                                     EndSequence();
                                     yield break;
                                 }
                             }
+
                             if (currentChunk != null)
                                 currentChunk.AddToQueueWhenReady();
                         }
-
                     }
+                    else
+                    {
+                        GameObject newChunk = Instantiate(ChunkObject, new Vector3(x, 0, z), transform.rotation) as GameObject;
+                        newChunk.transform.SetParent(Map);
+                        newChunk.name = new Vector2(newChunk.transform.position.x, newChunk.transform.position.z).ToString();
+                        currentChunk = UIUtility.SafeGetComponent<Chunk>(newChunk.transform);
+                        for (int i = 0; i < 4; i++)
+                        {
+                            Index nearbyIndex = currentChunk.ChunkIndex.GetNearbyChunkIndex((Direction)i);
+                            GameObject nearbyChunk = GetChunk(nearbyIndex);
+                            if (nearbyChunk == null)
+                            {
+                                nearbyChunk = Instantiate(ChunkObject, nearbyIndex.ToVector3(), transform.rotation) as GameObject;
+                                nearbyChunk.transform.SetParent(Map);
+                                nearbyChunk.name = new Vector2(nearbyChunk.transform.position.x, nearbyChunk.transform.position.z).ToString();
+                            }
+                            currentChunk.NearbyChunks[i] = UIUtility.SafeGetComponent<Chunk>(nearbyChunk.transform);
+
+                            if (stopWatch.Elapsed.TotalSeconds >= FrameDuration)
+                            {
+                                yield return new WaitForEndOfFrame();
+                            }
+
+                            if (StopSpawning)
+                            {
+                                EndSequence();
+                                yield break;
+                            }
+                        }
+                        if (currentChunk != null)
+                            currentChunk.AddToQueueWhenReady();
+                    }
+
                 }
                 if (stopWatch.Elapsed.TotalSeconds >= FrameDuration)
                 {

@@ -16,6 +16,7 @@ namespace Sim_FrameWork
     }
     public enum Direction
     {
+
         left,
         right,
         forward,
@@ -51,13 +52,13 @@ namespace Sim_FrameWork
         public GameObject[] m_Blocks;
 
         //生成设置
-        public static int  SpawnDistance, ChunkSideLegth;
-        public int  m_SpawnDistance, m_ChunkSideLegth;
+        public static int   MapLength, MapWidth,  ChunkSideLegth;
+        public int m_mapLength,m_mapWidth, m_ChunkSideLegth;
 
 
         //performace
         public static int MaxChunkSaves, TargetFPS;
-        public int m_MaxChunkSaves, m_TargetFPS;
+        public int m_MaxChunkSaves, m_TargetFPS ;
 
 
         //General Setting
@@ -130,10 +131,12 @@ namespace Sim_FrameWork
             TargetFPS = m_TargetFPS;
             MaxChunkSaves = m_MaxChunkSaves;
 
-            SpawnDistance = m_SpawnDistance;
-
             ChunkSideLegth = m_ChunkSideLegth;
 
+            MapLength = m_mapLength;
+            MapWidth = m_mapWidth;
+
+            SquaredSideLength = m_ChunkSideLegth * m_ChunkSideLegth;
             SaveBlockData = m_SaveBlockData;
 
             GenerateColliders = m_GenerateColliders;

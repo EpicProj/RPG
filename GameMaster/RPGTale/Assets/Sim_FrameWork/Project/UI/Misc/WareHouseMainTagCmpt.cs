@@ -50,7 +50,7 @@ namespace Sim_FrameWork
 
             for (int i = 0; i < list.Count; i++)
             {
-                var obj = ObjectManager.Instance.InstantiateObject(UIPath.WareHouse_Subtag_Prefab_Path);
+                var obj = ObjectManager.Instance.InstantiateObject(UIPath.PrefabPath.WareHouse_Subtag_Prefab_Path);
                 var cmpt = UIUtility.SafeGetComponent<WareHouseSubTagCmpt>(obj.transform);
                 subTagHeight = UIUtility.SafeGetComponent<RectTransform>(obj.transform).rect.height;
                 cmpt.toggle.group = subToggleGroup;

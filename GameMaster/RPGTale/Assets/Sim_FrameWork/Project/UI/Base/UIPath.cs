@@ -51,38 +51,43 @@ namespace Sim_FrameWork
 
         }
 
-        #region ItemPath
-        //区划格
-        public const string DISTRICT_PREFAB_PATH = "Assets/Prefabs/Object/District/District.prefab";
-        //区划底格
-        public const string DISTRICTSLOT_PREFAB_PATH = "Assets/Prefabs/Object/District/BlockGrid.prefab";
-        //材料单位
-        public const string MATERIAL_PREFAB_PATH = "Assets/Prefabs/Object/Material/MaterialItem.prefab";
-        //区划建造单位
-        public const string DISTRICT_BUILD_PREFAB_PATH= "Assets/Prefabs/Object/District/DistrictBuildElemet.prefab";
-        //区划建造花费
-        public const string DISTRICT_BUILD_COST_PREFAB_PATH = "Assets/Prefabs/Object/District/CostElement.prefab";
 
 
-        //仓库主分类
-        public const string WareHouse_Maintag_Prefab_Path = "Assets/Prefabs/Object/Main/WareHouseMainTag.prefab";
-        //仓库副分类
-        public const string WareHouse_Subtag_Prefab_Path= "Assets/Prefabs/Object/Main/WareHouseSubTag.prefab";
+        public struct PrefabPath
+        {
+            #region ItemPath
+            //区划格
+            public const string DISTRICT_PREFAB_PATH = "Assets/Prefabs/Object/District/District.prefab";
+            //区划底格
+            public const string DISTRICTSLOT_PREFAB_PATH = "Assets/Prefabs/Object/District/BlockGrid.prefab";
+            //材料单位
+            public const string MATERIAL_PREFAB_PATH = "Assets/Prefabs/Object/Material/MaterialItem.prefab";
+            //区划建造单位
+            public const string DISTRICT_BUILD_PREFAB_PATH = "Assets/Prefabs/Object/District/DistrictBuildElemet.prefab";
+            //区划建造花费
+            public const string DISTRICT_BUILD_COST_PREFAB_PATH = "Assets/Prefabs/Object/District/CostElement.prefab";
 
 
-        //建造面板中区块
-        public const string BUILD_ELEMENT_PREFAB_PATH= "Assets/Prefabs/Object/Main/BlockBuildElement.prefab";
+            //仓库主分类
+            public const string WareHouse_Maintag_Prefab_Path = "Assets/Prefabs/Object/Main/WareHouseMainTag.prefab";
+            //仓库副分类
+            public const string WareHouse_Subtag_Prefab_Path = "Assets/Prefabs/Object/Main/WareHouseSubTag.prefab";
 
 
+            //建造面板中区块
+            public const string BUILD_ELEMENT_PREFAB_PATH = "Assets/Prefabs/Object/Main/BlockBuildElement.prefab";
 
+            public const string map_chunk_prefab_path = "Assets/Prefabs/Map/Chunk/Chunk.prefab";
 
-        #endregion
+            #endregion
 
-        #region ElementPath
-        ///建造主页签
-        public const string Construct_MainTab_Element_Path = "Assets/Prefabs/Object/Main/ConstructMainTabElement.prefab";
-        public const string Order_Detail_Element = "Assets/Prefabs/Object/Order/OrderDetailElement.prefab";
-        #endregion
+            #region ElementPath
+            ///建造主页签
+            public const string Construct_MainTab_Element_Path = "Assets/Prefabs/Object/Main/ConstructMainTabElement.prefab";
+            public const string Order_Detail_Element = "Assets/Prefabs/Object/Order/OrderDetailElement.prefab";
+            #endregion
+
+        }
 
 
         public struct ScenePath

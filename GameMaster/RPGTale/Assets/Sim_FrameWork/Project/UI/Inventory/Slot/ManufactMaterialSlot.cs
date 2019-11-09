@@ -15,7 +15,7 @@ namespace Sim_FrameWork.UI
         {
             if (transform.childCount == 0)
             {
-                GameObject itemObj = ObjectManager.Instance.InstantiateObject(UIPath.MATERIAL_PREFAB_PATH);
+                GameObject itemObj = ObjectManager.Instance.InstantiateObject(UIPath.PrefabPath.MATERIAL_PREFAB_PATH);
                 itemObj.transform.SetParent(transform, false);
                 itemObj.transform.localScale = Vector3.one;
                 itemObj.transform.localPosition = Vector3.zero;

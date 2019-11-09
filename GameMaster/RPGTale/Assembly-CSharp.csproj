@@ -75,6 +75,7 @@
      <Compile Include="Assets\Sim_FrameWork\BlockGenerator\Scripts\Block\BlockGrass.cs" />
      <Compile Include="Assets\Sim_FrameWork\BlockGenerator\Scripts\Function\BaseTerrainGenerator.cs" />
      <Compile Include="Assets\Sim_FrameWork\BlockGenerator\Scripts\Function\GenerateTest.cs" />
+     <Compile Include="Assets\Sim_FrameWork\BlockGenerator\Scripts\Grid\GridManager.cs" />
      <Compile Include="Assets\Sim_FrameWork\Data\Config\BinarySerializeOpt.cs" />
      <Compile Include="Assets\Sim_FrameWork\Data\Config\ConfigManager.cs" />
      <Compile Include="Assets\Sim_FrameWork\Data\Config\ExcelBase.cs" />
@@ -101,8 +102,10 @@
      <Compile Include="Assets\Sim_FrameWork\Data\MetaData\TechnologyMetaDataReader.cs" />
      <Compile Include="Assets\Sim_FrameWork\Data\MetaData\TerrainMetaData.cs" />
      <Compile Include="Assets\Sim_FrameWork\Data\MetaData\TerrainMetaDataReader.cs" />
+     <Compile Include="Assets\Sim_FrameWork\Miscs\FPSCounter.cs" />
      <Compile Include="Assets\Sim_FrameWork\Mono\MonoSingleton.cs" />
      <Compile Include="Assets\Sim_FrameWork\Mono\Singleton.cs" />
+     <Compile Include="Assets\Sim_FrameWork\Project\Audio\AudioClipPath.cs" />
      <Compile Include="Assets\Sim_FrameWork\Project\Audio\AudioManager.cs" />
      <Compile Include="Assets\Sim_FrameWork\Project\Basic\BaseModule.cs" />
      <Compile Include="Assets\Sim_FrameWork\Project\Basic\BasicMiscsTool.cs" />
