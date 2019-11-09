@@ -30,7 +30,7 @@ namespace Sim_FrameWork
 
         void Start()
         {
-            Map = GameObject.Find("MapContainer/Map").transform;
+            Map = GameObject.Find("MapManager/MapContainer").transform;
             Chunks = new Dictionary<string, Chunk>();
             ChunkUpdateList = new List<Chunk>();
             FrameDuration = 1f / MapGenerator.TargetFPS;

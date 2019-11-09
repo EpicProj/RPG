@@ -15,6 +15,16 @@ namespace Sim_FrameWork
 
         private BoxCollider BlockCollider;
         private FunctionBlockModifier blockModifier;
+
+        /// <summary>
+        /// UI ROOT
+        /// </summary>
+        public GameObject UIRoot;
+
+
+        public BlockUIScriptInfo UIinfo;
+
+
         RaycastHit hit;
 
         public int instanceID;
@@ -29,6 +39,9 @@ namespace Sim_FrameWork
 
         public virtual void InitData()
         {
+
+            UIinfo.SetData(this);
+
             //TODO
             functionBlock = FunctionBlockModule.GetFunctionBlockByBlockID(100);
             //TODO
@@ -58,28 +71,41 @@ namespace Sim_FrameWork
             return transform.localPosition;
         }
 
-        /// <summary>
-        /// 最大大小
-        /// </summary>
-        /// <returns></returns>
-        public Vector3 GetSizeMax()
-        {
-            if (functionBlock == null)
-            {
-                Debug.LogError("FunctionBlock Data is null");
-                return Vector3.zero;
-            }
 
-            string size = functionBlock.AreaMax;
-            var result = Utility.TryParseIntList(size, ',');
-            if (result.Count == 2)
-            {
-                return new Vector3(result[0], 0, result[1]);
-            }
-            return Vector3.zero;
+
+
+        #endregion
+
+        #region Action
+
+        private Vector3 _oldPosition;
+
+        private bool InPlacablePosition()
+        {
+            bool canPlace = GridManager.Instance.PositionCanPlace(GetPosition(), (int)info.districtAreaMax.x, (int)info.districtAreaMax.y, instanceID);
+            return canPlace;
         }
 
-        #endregion 
+        /// <summary>
+        /// Move Block
+        /// </summary>
+        public void OnBlockDragStart()
+        {
+            GridManager.Instance.UpdateFunctionBlockNodes(this, GridManager.Action.REMOVE);
+
+            bool canPlace = InPlacablePosition();
+            if (canPlace)
+            {
+                if (UIinfo.selectionUIInstance != null)
+                {
+                    UIinfo.selectionUIInstance.ShowGrid(true);
+                }
+                _oldPosition = GetPosition();
+            }
+        }
+
+
+
         public void CheckMouseButtonDown(Action callback)
         {
             if (Input.GetMouseButtonDown(0))
@@ -103,6 +129,8 @@ namespace Sim_FrameWork
             return result.Count > 0;
         }
 
+        #endregion
+
     }
 
 
@@ -112,6 +140,7 @@ namespace Sim_FrameWork
         void OnHoldFunctionBlock();
         void OnDestoryFunctionBlock();
         void OnSelectFunctionBlock();
+
     }
 
 

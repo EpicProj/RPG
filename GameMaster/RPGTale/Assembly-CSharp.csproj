@@ -52,6 +52,7 @@
   </ItemGroup>
   <ItemGroup>
      <Compile Include="Assets\Sim_FrameWork\Basic\Camera\CameraFollow.cs" />
+     <Compile Include="Assets\Sim_FrameWork\Basic\Camera\CameraManager.cs" />
      <Compile Include="Assets\Sim_FrameWork\Basic\Camera\EntryCameraNavigator.cs" />
      <Compile Include="Assets\Sim_FrameWork\Basic\MonoBehaviourSimplify.cs" />
      <Compile Include="Assets\Sim_FrameWork\Basic\MsgDisPatcher.cs" />
@@ -122,6 +123,7 @@
      <Compile Include="Assets\Sim_FrameWork\Project\GamePlay\District\DistrictModule.cs" />
      <Compile Include="Assets\Sim_FrameWork\Project\GamePlay\Formula\FormulaModule.cs" />
      <Compile Include="Assets\Sim_FrameWork\Project\GamePlay\FunctionBlock\Base\BlockBaseInfoData.cs" />
+     <Compile Include="Assets\Sim_FrameWork\Project\GamePlay\FunctionBlock\Base\BlockUIScriptInfo.cs" />
      <Compile Include="Assets\Sim_FrameWork\Project\GamePlay\FunctionBlock\Base\FunctionBlockBase.cs" />
      <Compile Include="Assets\Sim_FrameWork\Project\GamePlay\FunctionBlock\Base\FunctionBlockDataModel.cs" />
      <Compile Include="Assets\Sim_FrameWork\Project\GamePlay\FunctionBlock\Base\FunctionBlockManager.cs" />
@@ -198,6 +200,7 @@
      <Compile Include="Assets\Sim_FrameWork\Project\UI\Inventory\Slot\ManufactMaterialSlot.cs" />
      <Compile Include="Assets\Sim_FrameWork\Project\UI\Inventory\Slot\Slot.cs" />
      <Compile Include="Assets\Sim_FrameWork\Project\UI\Inventory\Slot\SlotItem.cs" />
+     <Compile Include="Assets\Sim_FrameWork\Project\UI\Misc\SelectionUIObject.cs" />
      <Compile Include="Assets\Sim_FrameWork\Project\UI\Misc\WareHouseMainTagCmpt.cs" />
      <Compile Include="Assets\Sim_FrameWork\Project\UI\Misc\WareHouseSubTagCmpt.cs" />
      <Compile Include="Assets\Sim_FrameWork\Project\UI\Page\ConsolePage.cs" />

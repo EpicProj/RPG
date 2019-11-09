@@ -16,7 +16,7 @@ namespace Sim_FrameWork
         {
             base.Awake();
             _functionBlockInstances = new Dictionary<int, FunctionBlockBase>();
-            FunctionBlockContainer = Utility.SafeFindGameobject("MapContainer/FunctionBlockContainer");
+            FunctionBlockContainer = Utility.SafeFindGameobject("MapManager/FunctionBlockContainer");
         }
 
         public Dictionary<int,FunctionBlockBase> GetBlockInstances()

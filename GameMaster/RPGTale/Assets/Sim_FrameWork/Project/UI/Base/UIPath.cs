@@ -98,6 +98,12 @@ namespace Sim_FrameWork
 
         }
 
+
+        public struct Misc
+        {
+            public const string Block_Selection_UI = "Assets/Prefabs/UI/Map/SelectionUI.prefab";
+        }
+
     }
 
 }
