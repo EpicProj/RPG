@@ -90,7 +90,8 @@ namespace Sim_FrameWork.UI
                
             };
 
-            GeneralConfirmDialogItem item = new GeneralConfirmDialogItem(Confirm_Title_Text, Confirm_Content_Text,confirmAction);
+            var content = Utility.ParseStringParams(Confirm_Content_Text, new string[1] { _model.Name});
+            GeneralConfirmDialogItem item = new GeneralConfirmDialogItem(Confirm_Title_Text,content ,confirmAction);
             UIManager.Instance.PopUpWnd(UIPath.WindowPath.General_Confirm_Dialog, WindowType.Dialog, true, item);
         }
 

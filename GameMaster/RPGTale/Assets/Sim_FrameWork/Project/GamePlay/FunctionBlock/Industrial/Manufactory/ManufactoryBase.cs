@@ -5,10 +5,11 @@ using UnityEngine;
 namespace Sim_FrameWork
 {
 
-    public class ManufactoryBase : FunctionBlockBase
+    public class ManufactoryBase : MonoBehaviour
     {
 
         public ManufactoryInfo manufactoryInfo;
+        public FunctionBlockBase _blockBase;
 
         /// <summary>
         /// 当前配方
@@ -16,19 +17,15 @@ namespace Sim_FrameWork
         private int _currentFormulaID = 0;
         public int CurrentFormulaID { get { return _currentFormulaID; }  }
 
-        //public override void InitData()
-        //{
-        //    base.InitData();
-        //    manufactoryInfo = new ManufactoryInfo(info.block);
-        //    InitFormula();
-        //}
 
-        public void InitFormula()
+        public void SetData(FunctionBlockBase block)
         {
-            List<FormulaData> formulaData = FunctionBlockModule.GetFormulaList(info.block);
+            _blockBase = block;
+
+            List<FormulaData> formulaData = FunctionBlockModule.GetFormulaList(_blockBase.info.block);
             if (formulaData.Count == 1)
             {
-                manufactoryInfo.formulaInfo = new ManufactFormulaInfo(formulaData[0].FormulaID, info.block);
+                manufactoryInfo.formulaInfo = new ManufactFormulaInfo(formulaData[0].FormulaID, _blockBase.info.block);
             }
 
             foreach(var material in manufactoryInfo.formulaInfo.currentInputMaterialFormulaDic.Keys)
@@ -135,8 +132,8 @@ namespace Sim_FrameWork
             UIManager.Instance.SendMessageToWnd(UIPath.WindowPath.FUNCTIONBLOCK_INFO_DIALOG, new UIMessage(UIMsgType.UpdateManuSlot, new List<object>(1) { manufactoryInfo.formulaInfo }));
 
             //UpdateEXP
-            info.levelInfo.AddCurrentBlockEXP(manufactoryInfo.formulaInfo.currentFormulaData.EXP);
-            UIManager.Instance.SendMessageToWnd(UIPath.WindowPath.FUNCTIONBLOCK_INFO_DIALOG, new UIMessage(UIMsgType.UpdateLevelInfo, new List<object>(1) { info.levelInfo }));
+            _blockBase.info.levelInfo.AddCurrentBlockEXP(manufactoryInfo.formulaInfo.currentFormulaData.EXP);
+            UIManager.Instance.SendMessageToWnd(UIPath.WindowPath.FUNCTIONBLOCK_INFO_DIALOG, new UIMessage(UIMsgType.UpdateLevelInfo, new List<object>(1) { _blockBase.info.levelInfo }));
 
             StartManufact();
         }

@@ -48,6 +48,7 @@ namespace Sim_FrameWork.UI
         public override void OnShow(params object[] paralist)
         {
             RefreshOrderContent();
+            AudioManager.Instance.PlaySound(AudioClipPath.UISound.Page_Open);
         }
 
         void InitBaseData()
@@ -65,7 +66,8 @@ namespace Sim_FrameWork.UI
             AddButtonClickListener(m_page.BackBtn,  () =>
             {
                 UIManager.Instance.HideWnd(UIPath.WindowPath.Order_Receive_Main_Page);
-                UIManager.Instance.ShowWnd(UIPath.WindowPath.MainMenu_Page);
+
+                AudioManager.Instance.PlaySound(AudioClipPath.UISound.Btn_Close, false);
             });
         }
 

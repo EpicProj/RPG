@@ -8,7 +8,12 @@ namespace Sim_FrameWork
 {
     public class FunctionBlockBase : MonoBehaviour
     {
-
+        public enum BlockState
+        {
+            Idle,
+            Building,
+            Build_Wait
+        }
         public FunctionBlock functionBlock;
 
         [HideInInspector]
@@ -17,6 +22,7 @@ namespace Sim_FrameWork
         private BoxCollider BlockCollider;
         private FunctionBlockModifier blockModifier;
 
+        private GameObject ModelRoot;
         /// <summary>
         /// UI ROOT
         /// </summary>
@@ -27,25 +33,19 @@ namespace Sim_FrameWork
 
 
         public int instanceID;
+      
 
-        public virtual void Update() { }
-        public virtual void FixedUpdate() { }
-        public virtual void Awake()
-        {
-
-        }
-        
-
-        public virtual void InitData(int blockID,int posX,int posZ)
+        public void InitData(int blockID,int posX,int posZ)
         {
             functionBlock = FunctionBlockModule.GetFunctionBlockByBlockID(blockID);
 
             UIinfo = UIUtility.SafeGetComponent<BlockUIScriptInfo>(transform);
             UIinfo.SetData(this);
+            ModelRoot = UIUtility.FindTransfrom(transform, "Root/Model").gameObject;
 
             gameObject.name = blockID + "[Block]";
 
-            SetPosition(new Vector3( posX, 0, posZ));
+            SetPosition(new Vector3( posX, transform.localScale.y/2 , posZ));
 
             blockModifier = GetComponent<FunctionBlockModifier>();
             info = FunctionBlockInfoData.CreateBaseInfo(transform.position,functionBlock,blockModifier);
@@ -55,8 +55,8 @@ namespace Sim_FrameWork
         private void InitBaseInfo()
         {
             //Set Collider
-            BlockCollider = gameObject.GetComponent<BoxCollider>();
-            SetBlockColliderSize(FunctionBlockModule.Instance.InitFunctionBlockBoxCollider(functionBlock));
+            BlockCollider = UIUtility.SafeGetComponent<BoxCollider>(transform);
+            SetBlockColliderSize(FunctionBlockModule.Instance.InitFunctionBlockBoxCollider(functionBlock,3.0f));
 
         }
 
@@ -156,7 +156,7 @@ namespace Sim_FrameWork
 
             if(point!= transform.localPosition)
             {
-                SetPosition(new Vector3(Mathf.Floor(point.x), 0, Mathf.Floor(point.z)));
+                SetPosition(new Vector3(Mathf.Floor(point.x), transform.localScale.y/2 , Mathf.Floor(point.z)));
 
                 bool canPlace = InPlacablePosition();
                 if (canPlace)
@@ -190,16 +190,6 @@ namespace Sim_FrameWork
 
 
         #endregion
-
-    }
-
-
-    public interface IFunctionBlockAction
-    {
-        void OnPlaceFunctionBlock();
-        void OnHoldFunctionBlock();
-        void OnDestoryFunctionBlock();
-        void OnSelectFunctionBlock();
 
     }
 

@@ -38,6 +38,7 @@ GameObject:
   - component: {fileID: 224685649516961456}
   - component: {fileID: 114338646818682000}
   - component: {fileID: 225603860622606630}
+  - component: {fileID: 111994048378278718}
   m_Layer: 5
   m_Name: WareHousePage
   m_TagString: Untagged
@@ -820,6 +821,21 @@ Animator:
   m_WarningMessage: 
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
+--- !u!111 &111994048378278718
+Animation:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1059096061020930}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Animation: {fileID: 7400000, guid: c69589cfc52ab0c449525827ca10f06d, type: 2}
+  m_Animations:
+  - {fileID: 7400000, guid: c69589cfc52ab0c449525827ca10f06d, type: 2}
+  m_WrapMode: 0
+  m_PlayAutomatically: 1
+  m_AnimatePhysics: 0
+  m_CullingType: 0
 --- !u!114 &114004078219926050
 MonoBehaviour:
   m_ObjectHideFlags: 1

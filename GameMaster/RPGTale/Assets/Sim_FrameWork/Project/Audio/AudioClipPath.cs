@@ -11,6 +11,9 @@ namespace Sim_FrameWork
         public struct UISound
         {
             public const string Btn_Close = EffectBasePath + "UI/Btn_Close.wav";
+            public const string Hint_Open = EffectBasePath + "UI/Hint_Open.mp3";
+            public const string Button_Click = EffectBasePath + "UI/Button_Click.mp3";
+            public const string Page_Open = EffectBasePath + "UI/Page_Open.mp3";
         }
 
         public struct ItemEffect

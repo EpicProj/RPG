@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace Sim_FrameWork
 {
-    public class FunctionBlock_Smelt : ManufactoryBase,IFunctionBlockAction
+    public class FunctionBlock_Smelt : ManufactoryBase
     {
         public List<BlockLevelData> leveldata;
         private string InputDesc;
@@ -16,25 +16,19 @@ namespace Sim_FrameWork
 
         //Factory
 
-        public override void Awake()
-        {
-            base.Awake();
-           
 
 
-        }
-
-        public override void Update()
+        public void Update()
         {
 
             if (Input.GetKeyDown(KeyCode.Space))
             {
-                info.blockModifier.DoManufactModifier(manufactoryInfo,info,"AddManuSpeed");
+                _blockBase.info.blockModifier.DoManufactModifier(manufactoryInfo, _blockBase.info, "AddManuSpeed");
             }
             if (Input.GetKeyDown(KeyCode.F))
             {
-                info.levelInfo.AddCurrentBlockEXP(100);
-                UIManager.Instance.SendMessageToWnd(UIPath.WindowPath.FUNCTIONBLOCK_INFO_DIALOG, new UIMessage(UIMsgType.UpdateLevelInfo, new List<object>(1) {info.levelInfo }));
+                _blockBase.info.levelInfo.AddCurrentBlockEXP(100);
+                UIManager.Instance.SendMessageToWnd(UIPath.WindowPath.FUNCTIONBLOCK_INFO_DIALOG, new UIMessage(UIMsgType.UpdateLevelInfo, new List<object>(1) { _blockBase.info.levelInfo }));
             }
             if (Input.GetKeyDown(KeyCode.A))
             {
@@ -44,30 +38,6 @@ namespace Sim_FrameWork
         }
 
 
-        public void Product()
-        {
-
-        }
-
-        public void OnPlaceFunctionBlock()
-        {
-           
-        }
-
-        public void OnHoldFunctionBlock()
-        {
-            
-        }
-
-        public void OnDestoryFunctionBlock()
-        {
-            
-        }
-
-        public void OnSelectFunctionBlock()
-        {
-           
-        }
     }
 
     public class FunctionBlock_Smelt_Config

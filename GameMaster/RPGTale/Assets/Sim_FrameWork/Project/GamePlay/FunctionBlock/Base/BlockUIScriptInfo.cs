@@ -34,7 +34,7 @@ namespace Sim_FrameWork
             {
                 if (selectionUIInstance != null)
                 {
-                    Destroy(selectionUIInstance.gameObject);
+                    ObjectManager.Instance.ReleaseObject(selectionUIInstance.gameObject);
                     selectionUIInstance = null;
                 }
             }

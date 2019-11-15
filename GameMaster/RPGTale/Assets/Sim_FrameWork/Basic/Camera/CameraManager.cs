@@ -62,6 +62,7 @@ namespace Sim_FrameWork
                 return;
             UpdateBlockSelect();
             UpdateBlockMove();
+            UpdateGroundSelect();
         }
 
         public bool UsingUI()
@@ -78,7 +79,7 @@ namespace Sim_FrameWork
             if (!Input.GetMouseButtonUp(0))
                 return;
 
-            if (_isSelectFunctionBlock)
+            if (_isDraggingFunctionBlock)
                 return;
 
             if (UsingUI())

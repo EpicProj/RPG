@@ -7,17 +7,7 @@ using UnityEngine.UI;
 namespace Sim_FrameWork {
     public class FunctionBlockModule : BaseModule<FunctionBlockModule> {
 
-        public enum FunctionBlockType
-        {
-            None,
-            Industry,
-            Agriculture,
-            Science,
-            Alchemy,
-            Energy,
-            Labor,
-            Unique
-        }
+    
 
         /// <summary>
         /// 格子类型
@@ -96,7 +86,7 @@ namespace Sim_FrameWork {
         #region Type
         private static bool CheckTypeValid(string type)
         {
-            if (Enum.IsDefined(typeof(FunctionBlockType), type) == false)
+            if (Enum.IsDefined(typeof(FunctionBlockType.Type), type) == false)
             {
                 Debug.LogError("FacotyType InValid! Type=" + type);
                 return false;
@@ -104,16 +94,16 @@ namespace Sim_FrameWork {
             return true;
         }
         //Get FunctionBlockType
-        public static FunctionBlockType GetFunctionBlockType(int blockID)
+        public static FunctionBlockType.Type GetFunctionBlockType(int blockID)
         {
             FunctionBlock functionBlock = GetFunctionBlockByBlockID(blockID);
             if (CheckTypeValid(functionBlock.FunctionBlockType) == false)
-                return FunctionBlockType.None;
-            return (FunctionBlockType)Enum.Parse(typeof(FunctionBlockType), functionBlock.FunctionBlockType);
+                return FunctionBlockType.Type.None;
+            return (FunctionBlockType.Type)Enum.Parse(typeof(FunctionBlockType.Type), functionBlock.FunctionBlockType);
         }
 
         //Get Type Data
-        public static FunctionBlockTypeData GetFacotryTypeData(FunctionBlockType type)
+        public static FunctionBlockTypeData GetFacotryTypeData(FunctionBlockType.Type type)
         {
             FunctionBlockTypeData typeData = null;
             FunctionBlockTypeDataDic.TryGetValue(type.ToString(), out typeData);
@@ -189,15 +179,15 @@ namespace Sim_FrameWork {
         {
             switch (GetFunctionBlockType(functionBlockID))
             {
-                case FunctionBlockType.Industry:
+                case FunctionBlockType.Type.Industry:
                     return GetFunctionBlock_IndustryData(GetFunctionBlockByBlockID(functionBlockID).FunctionBlockTypeIndex) as T;
                 //case FunctionBlockType.Raw:
                 //    return GetFacotryRawData(GetFunctionBlockByBlockID(functionBlockID).FunctionBlockTypeIndex) as T;
-                case FunctionBlockType.Science:
+                case FunctionBlockType.Type.Science:
                     return GetFunctionBlock_ScienceData(GetFunctionBlockByBlockID(functionBlockID).FunctionBlockTypeIndex) as T;
-                case FunctionBlockType.Energy:
+                case FunctionBlockType.Type.Energy:
                     return GetFunctionBlock_EnergyData(GetFunctionBlockByBlockID(functionBlockID).FunctionBlockTypeIndex) as T;
-                case FunctionBlockType.Labor:
+                case FunctionBlockType.Type.Labor:
                     return GetFunctionBlock_LaborData(GetFunctionBlockByBlockID(functionBlockID).FunctionBlockTypeIndex) as T;
                 default:
                     Debug.LogError("Fetch FacotryType Error facotryID=" + functionBlockID);
@@ -626,34 +616,17 @@ namespace Sim_FrameWork {
         }
 
 
-  
-
-
-
-        public bool CheckBlockCanPlace(FunctionBlock block,Vector3 checkPos)
-        {
-            //Todo
-            return true;
-        }
-
-
-        public void InitDistrictBlockModel<T>(FunctionBlock block) where T:class
-        {
-
-
-          
-        }
-
+ 
         /// <summary>
         /// Init Block Box Collider
         /// </summary>
         /// <typeparam name="T"></typeparam>
         /// <param name="block"></param>
         /// <returns></returns>
-        public Vector3 InitFunctionBlockBoxCollider(FunctionBlock block)
+        public Vector3 InitFunctionBlockBoxCollider(FunctionBlock block,float height)
         {
             Vector2 area = GetFunctionBlockAreaMax(block);
-            return new Vector3(area.x, 3.0f, area.y);
+            return new Vector3(area.x, height, area.y);
         }
 
         #region BlockInfoData
@@ -713,11 +686,11 @@ namespace Sim_FrameWork {
         /// <param name="id"></param>
         /// <param name="type"></param>
         /// <returns></returns>
-        private static List<int> GetBlockEXPMapData(string id ,FunctionBlockType type)
+        private static List<int> GetBlockEXPMapData(string id ,FunctionBlockType.Type type)
         {
             switch (type)
             {
-                case FunctionBlockType.Industry:
+                case FunctionBlockType.Type.Industry:
                     List<BlockLevelData> manuData = manufactoryBaseInfoData.BlockLevelDatas;
                     if (manuData == null)
                     {
@@ -725,7 +698,7 @@ namespace Sim_FrameWork {
                         return null;
                     }
                     return manuData.Find(x => x.ID == id).EXPMap;
-                case FunctionBlockType.Labor:
+                case FunctionBlockType.Type.Labor:
                     List<BlockLevelData> laborData = laborBaseInfoData.BlockLevelDatas;
                     if (laborData == null)
                     {
@@ -741,12 +714,12 @@ namespace Sim_FrameWork {
 
         public static List<int> GetBlockEXPMapData(int blockid)
         {
-            FunctionBlockType type = GetFunctionBlockType(blockid);
+            FunctionBlockType.Type type = GetFunctionBlockType(blockid);
             switch (type)
             {
-                case FunctionBlockType.Industry:
+                case FunctionBlockType.Type.Industry:
                     return GetBlockEXPMapData(GetFunctionBlockByBlockID(blockid).EXPDataJsonIndex,type);
-                case FunctionBlockType.Labor:
+                case FunctionBlockType.Type.Labor:
                     return GetBlockEXPMapData(GetFunctionBlockByBlockID(blockid).EXPDataJsonIndex,type);
                 default:
                     return null;
@@ -772,11 +745,11 @@ namespace Sim_FrameWork {
             }
         }
 
-        private static List<BlockDistrictUnlockData.DistrictUnlockData> GetManuBlockDistrictUnlockData(string id , FunctionBlockType type)
+        private static List<BlockDistrictUnlockData.DistrictUnlockData> GetManuBlockDistrictUnlockData(string id , FunctionBlockType.Type type)
         {
             switch (type)
             {
-                case FunctionBlockType.Industry:
+                case FunctionBlockType.Type.Industry:
                     List < BlockDistrictUnlockData .DistrictUnlockData> manuData= manufactoryBaseInfoData.DistrictUnlockDatas.Find(x => x.ID == id).UnlockData;
                     if (manuData == null)
                     {
@@ -785,7 +758,7 @@ namespace Sim_FrameWork {
                     }
                     return manuData;
 
-                case FunctionBlockType.Labor:
+                case FunctionBlockType.Type.Labor:
                     List<BlockDistrictUnlockData.DistrictUnlockData> laborData = laborBaseInfoData.DistrictUnlockDatas.Find(x => x.ID == id).UnlockData;
                     if (laborData == null)
                     {
@@ -808,7 +781,7 @@ namespace Sim_FrameWork {
         /// <returns></returns>
         public static List<BlockDistrictUnlockData.DistrictUnlockData> GetManuBlockDistrictUnlockData(int blockid)
         {
-            FunctionBlockType type = GetFunctionBlockType(blockid);
+            FunctionBlockType.Type type = GetFunctionBlockType(blockid);
             return GetManuBlockDistrictUnlockData(GetFunctionBlockByBlockID(blockid).DistrictData,type);
         }
 

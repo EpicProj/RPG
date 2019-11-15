@@ -47,6 +47,13 @@ namespace Sim_FrameWork
             /// 仓库界面
             /// </summary>
             public const string WareHouse_Page = "Page/WareHousePage";
+
+            /// <summary>
+            ///  Block Page
+            /// </summary>
+            public const string BlockManu_Page = "Page/BlockManuPage";
+
+
             #endregion
 
         }

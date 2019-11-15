@@ -39,7 +39,8 @@ namespace Sim_FrameWork.UI
                 return;
             StorageValue.text = Utility.ParseStringParams(MultiLanguage.Instance.GetTextValue(OrderDetail_Storage_Text),new string[1] {count.ToString()});
             slider.value = count / _count;
-            Progress.text = (count / _count) * 100 + "%";
+            var progress = (count / _count) * 100;
+            Progress.text = progress >= 100 ? "100%" : progress + "%";
         }
        
     }

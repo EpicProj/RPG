@@ -17,9 +17,9 @@ namespace Sim_FrameWork.UI
 
         public void InitManuInputMaterialSlot(Material ma,int amount)
         {
-            foreach(Slot slot in slotList)
+            foreach(BaseElement slot in _elementList)
             {
-                ManufactMaterialSlot materialSlot = (ManufactMaterialSlot)slot;
+                ManuSlotElement materialSlot = (ManuSlotElement)slot;
                 if(materialSlot.SlotType == FormulaModule.MaterialProductType.Input)
                 {
                     if (materialSlot.transform.childCount > 0)
@@ -39,9 +39,9 @@ namespace Sim_FrameWork.UI
         }
         public void InitManuOutputMaterialSlot(Material ma,int amount)
         {
-            foreach(Slot slot in slotList)
+            foreach(BaseElement slot in _elementList)
             {
-                ManufactMaterialSlot materialSlot = (ManufactMaterialSlot)slot;
+                ManuSlotElement materialSlot = (ManuSlotElement)slot;
                 if (materialSlot.SlotType == FormulaModule.MaterialProductType.Output)
                 {
                     if (materialSlot.transform.childCount > 0)

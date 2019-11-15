@@ -17,6 +17,7 @@ namespace Sim_FrameWork.UI
         public override void OnShow(params object[] paralist)
         {
             InitSaveList();
+            AudioManager.Instance.PlaySound(AudioClipPath.UISound.Page_Open);
         }
 
         public override void OnUpdate()

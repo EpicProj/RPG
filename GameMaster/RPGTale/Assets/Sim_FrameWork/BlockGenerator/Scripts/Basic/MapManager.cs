@@ -15,6 +15,11 @@ namespace Sim_FrameWork
             ContentObj = UIUtility.FindTransfrom(transform, "Content");
             UIUtility.SafeSetActive(ContentObj, false);
 
+           
+        }
+
+        private void Start()
+        {
             CameraManager.Instance.OnBlockSelect += OnBlockSelect;
             CameraManager.Instance.OnBlockDragStart += OnBlockDragStart;
             CameraManager.Instance.OnBlockDrag += OnBlockDrag;
@@ -22,11 +27,7 @@ namespace Sim_FrameWork
             CameraManager.Instance.OnGroundSelect += OnGroundSelect;
 
             GridManager.Instance.UpdateAllNodes();
-        }
-
-        private void Start()
-        {
-            InvokeRepeating("InitMap", 1, 0.5f);
+            //InvokeRepeating("InitMap", 1, 0.5f);
         }
 
         void Update()

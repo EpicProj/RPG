@@ -46,8 +46,12 @@ namespace Sim_FrameWork
 
             instance.InitData(functionBlockID,posX,posZ);
 
+            
+
             return instance;
         }
+
+
 
         public FunctionBlockBase AddFunctionBlock(int functionBlockID)
         {
@@ -55,6 +59,8 @@ namespace Sim_FrameWork
             int posZ = 0;
             return AddFunctionBlock(functionBlockID, -1, posX, posZ);
         }
+
+
 
         public void RemoveItem(FunctionBlockBase block)
         {

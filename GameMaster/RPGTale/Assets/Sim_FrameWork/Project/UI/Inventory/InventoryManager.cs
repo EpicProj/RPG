@@ -20,7 +20,6 @@ namespace Sim_FrameWork
         private Canvas mainCanvas;
         private Camera uiCamera;
 
-        private MaterialInfoTip maInfoTip;
         private bool isInfoTipShow = false;
 
         void Start()
@@ -29,15 +28,12 @@ namespace Sim_FrameWork
             uiCamera = mainCanvas.transform.Find("UICamera").GetComponent<Camera>();
             pickedItem = mainCanvas.transform.Find("SPContent/PickedDistrict").GetComponent<SlotItem>();
             pickedItem.Hide();
-            maInfoTip= mainCanvas.transform.Find("SPContent/MaterialInfoTip").GetComponent<MaterialInfoTip>();
+
         }
 
         void Update()
         {
-            if (isInfoTipShow)
-            {
-                maInfoTip.SetLocalPosition(GetCurrentMousePos());
-            }
+
         }
 
         protected override void Awake()
@@ -116,13 +112,11 @@ namespace Sim_FrameWork
         public void ShowMaterialInfoTip(MaterialDataModel model)
         {
             isInfoTipShow = true;
-            maInfoTip.OnShow(model);
-            maInfoTip.transform.SetAsLastSibling();
+
         }
         public void HideMaterialInfoTip()
         {
             isInfoTipShow = false;
-            maInfoTip.Hide();
         }
 
 

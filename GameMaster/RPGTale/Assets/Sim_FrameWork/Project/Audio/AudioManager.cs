@@ -7,10 +7,13 @@ namespace Sim_FrameWork {
     {
         private AudioListener audioListener;
 
+        private AudioSource BGMSource;
+
         protected override void Awake()
         {
             base.Awake();
             audioListener = UIUtility.SafeGetComponent<AudioListener>(transform);
+            BGMSource = UIUtility.SafeGetComponent<AudioSource>(UIUtility.FindTransfrom(transform, "BGM"));
         }
 
         public void PlaySound(AudioClip clip, bool loop = false)
@@ -33,6 +36,30 @@ namespace Sim_FrameWork {
         {
             var clip = ResourceManager.Instance.LoadResource<AudioClip>(path);
             PlaySound(clip, loop);
+        }
+
+
+        public void PlayBGM(AudioClip clip,bool loop = true)
+        {
+            if (clip == null)
+                return;
+            if (BGMSource != null)
+            {
+                BGMSource.clip = clip;
+                BGMSource.Play();
+                BGMSource.loop = loop;
+            }
+        }
+        public void PlayBGM(string path,bool loop = true)
+        {
+            var clip = ResourceManager.Instance.LoadResource<AudioClip>(path);
+            PlayBGM(clip, loop);
+        }
+
+        public void StopBGM()
+        {
+            BGMSource.Stop();
+            ResourceManager.Instance.ReleaseResource(BGMSource.clip);
         }
 
 

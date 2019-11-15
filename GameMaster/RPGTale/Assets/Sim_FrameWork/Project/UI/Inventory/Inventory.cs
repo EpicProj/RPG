@@ -6,7 +6,7 @@ namespace Sim_FrameWork.UI
 {
     public class InventoryBase : MonoBehaviour
     {
-        protected Slot[] slotList;
+        protected BaseElement[] _elementList;
         private CanvasGroup canvasGroup;
 
         public virtual void Awake()
@@ -15,20 +15,20 @@ namespace Sim_FrameWork.UI
 
         public void InitData()
         {
-            slotList = GetComponentsInChildren<Slot>();
+            _elementList = GetComponentsInChildren<BaseElement>();
             canvasGroup = GetComponent<CanvasGroup>();
         }
 
         void Update() { }
 
 
-        public Slot FindEmptySlot()
+        public BaseElement FindEmptySlot()
         {
-            foreach(Slot slot in slotList)
+            foreach(BaseElement element in _elementList)
             {
-                if (slot.transform.childCount == 0)
+                if (element.transform.childCount == 0)
                 {
-                    return slot;
+                    return element;
                 }
             }
             return null;

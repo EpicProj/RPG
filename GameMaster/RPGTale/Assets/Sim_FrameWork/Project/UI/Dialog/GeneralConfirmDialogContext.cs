@@ -24,6 +24,7 @@ namespace Sim_FrameWork.UI
             _item = (GeneralConfirmDialogItem)paralist[0];
             AddBtnListener();
             InitText();
+            AudioManager.Instance.PlaySound(AudioClipPath.UISound.Hint_Open, false);
         }
 
 
@@ -40,10 +41,12 @@ namespace Sim_FrameWork.UI
             AddButtonClickListener(m_dialog.ConfirmBtn, () =>
             {
                 _item.OnConfirmClick?.Invoke();
+                AudioManager.Instance.PlaySound(AudioClipPath.UISound.Button_Click, false);
             });
             AddButtonClickListener(m_dialog.CancelBtn, () =>
             {
                 _item.OnCancelClick?.Invoke();
+                AudioManager.Instance.PlaySound(AudioClipPath.UISound.Button_Click, false);
             });
         }
 

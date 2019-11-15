@@ -64,7 +64,7 @@ namespace Sim_FrameWork.UI
             foreach (KeyValuePair<Vector2, DistrictAreaInfo> kvp in blockInfo.currentDistrictDataDic)
             {
                 int index = FunctionBlockModule.GetDistrictAreaIndex(blockInfo.districtAreaMax, kvp.Key);
-                if (slotList.Length < index)
+                if (_elementList.Length < index)
                 {
                     Debug.LogError("Area Error!");
                     continue;
@@ -75,7 +75,7 @@ namespace Sim_FrameWork.UI
                     {
                         //Init Small District
                       
-                        DistrictSlot slot = (DistrictSlot)slotList[index - 1];
+                        DistrictSlot slot = (DistrictSlot)_elementList[index - 1];
                         slot.InitDistrictAreaSlot(kvp.Value); 
                     }
                     else if (kvp.Value.isLargeDistrict == true && kvp.Value.OriginCoordinate == kvp.Key)
@@ -86,7 +86,7 @@ namespace Sim_FrameWork.UI
                         for (int i = 0; i < v2.Count; i++)
                         {
                             int pos = FunctionBlockModule.GetDistrictAreaIndex(blockInfo.districtAreaMax, v2[i]);
-                            DistrictSlot slot = (DistrictSlot)slotList[pos];
+                            DistrictSlot slot = (DistrictSlot)_elementList[pos];
                             slot.InitDistrictAreaSlot(kvp.Value);
                         }
                     }

@@ -717,6 +717,7 @@ GameObject:
   - component: {fileID: 224698728197507340}
   - component: {fileID: 225760740567065958}
   - component: {fileID: 114202513412050476}
+  - component: {fileID: 111068807934402208}
   m_Layer: 5
   m_Name: OrderReceiveMainPage
   m_TagString: Untagged
@@ -1848,6 +1849,7 @@ GameObject:
   - component: {fileID: 222052206488695812}
   - component: {fileID: 114679091731726972}
   - component: {fileID: 114506854837976570}
+  - component: {fileID: 95206284621175742}
   m_Layer: 5
   m_Name: Back
   m_TagString: Untagged
@@ -1988,6 +1990,38 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
+--- !u!95 &95206284621175742
+Animator:
+  serializedVersion: 3
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1928705444414316}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 35576518154f76e418379034c4e7c8cb, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+--- !u!111 &111068807934402208
+Animation:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1372966501938276}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Animation: {fileID: 7400000, guid: 610745d35b4bbfb4ea59f79425ad541b, type: 2}
+  m_Animations:
+  - {fileID: 7400000, guid: 610745d35b4bbfb4ea59f79425ad541b, type: 2}
+  m_WrapMode: 0
+  m_PlayAutomatically: 1
+  m_AnimatePhysics: 0
+  m_CullingType: 0
 --- !u!114 &114003982860484884
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -3633,7 +3667,7 @@ MonoBehaviour:
     m_SelectOnDown: {fileID: 0}
     m_SelectOnLeft: {fileID: 0}
     m_SelectOnRight: {fileID: 0}
-  m_Transition: 1
+  m_Transition: 3
   m_Colors:
     m_NormalColor: {r: 1, g: 1, b: 1, a: 1}
     m_HighlightedColor: {r: 0.9607843, g: 0.9607843, b: 0.9607843, a: 1}
@@ -6271,7 +6305,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: -0.00007910488, y: 0.0000032818464}
+  m_AnchoredPosition: {x: -0.000018043627, y: -0.000008360095}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0, y: 1}
 --- !u!224 &224213838225537524
@@ -7703,7 +7737,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: -0.000061035156, y: -25}
+  m_AnchoredPosition: {x: 0, y: -25}
   m_SizeDelta: {x: 0, y: -25}
   m_Pivot: {x: 0, y: 1}
 --- !u!224 &224780259011631916

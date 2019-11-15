@@ -38,6 +38,7 @@ namespace Sim_FrameWork.UI
         {
             ResetDetailContent();
             InitSotrageItem();
+            AudioManager.Instance.PlaySound(AudioClipPath.UISound.Page_Open);
         }
 
         public override bool OnMessage(UIMessage msg)
