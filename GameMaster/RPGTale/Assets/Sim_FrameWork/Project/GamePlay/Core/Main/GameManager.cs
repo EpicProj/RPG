@@ -75,6 +75,20 @@ namespace Sim_FrameWork
                     ConsolePageShow = true;
                 }
             }
+
+            //UIClose
+            if (Input.GetKeyDown(KeyCode.Escape))
+            {
+                var list = UIManager.Instance._currentWindowNameList;
+                for (int i = list.Count -1 ; i >= 0; i--)
+                {
+                    if (string.Compare(list[i], UIPath.WindowPath.MainMenu_Page) == 0)
+                        continue;
+                    UIManager.Instance.HideWnd(list[i]);
+                    AudioManager.Instance.PlaySound(AudioClipPath.UISound.Btn_Close);
+                }
+            }
+
         }
 
         #region MainFunction

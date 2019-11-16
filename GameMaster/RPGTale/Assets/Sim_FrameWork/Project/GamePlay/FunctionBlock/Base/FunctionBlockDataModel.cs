@@ -66,6 +66,42 @@ namespace Sim_FrameWork
             set { }
         }
 
+        private FunctionBlockType.Type _blockType;
+        public FunctionBlockType.Type BlockType
+        {
+            get
+            {
+                if (_blockType == FunctionBlockType.Type.None)
+                    _blockType = FunctionBlockModule.GetFunctionBlockType(_id);
+                return _blockType;
+            }
+            set { }
+        }
+
+
+        private Sprite _icon;
+        public Sprite Icon
+        {
+            get
+            {
+                if (_icon == null)
+                    _icon = FunctionBlockModule.GetFunctionBlockIcon(_id);
+                return _icon;
+            }
+            set { }
+        }
+
+        private Sprite _bg;
+        public Sprite BG
+        {
+            get
+            {
+                if (_bg == null)
+                    _bg = FunctionBlockModule.GetFunctionBlockBG(_id);
+                return _bg;
+            }
+            set { }
+        }
  
    
     }

@@ -35,6 +35,8 @@ namespace Sim_FrameWork {
         //打开的窗口列表
         private List<WindowBase> m_WindowList = new List<WindowBase>();
 
+        public List<string> _currentWindowNameList=new List<string> ();
+
         /// <summary>
         /// 初始化
         /// </summary>
@@ -216,10 +218,12 @@ namespace Sim_FrameWork {
 
                 wnd.OnShow(paralist);
                 wnd.currentStates = WindowBase.WindowStates.show;
+                _currentWindowNameList.Add(wndName);
             }
             else
             {
                 ShowWnd(wndName, bTop ,paralist);
+                _currentWindowNameList.Add(wndName);
             }
 
             return wnd;
@@ -247,6 +251,10 @@ namespace Sim_FrameWork {
             {
                 window.OnDisable();
                 window.OnClose();
+                if (_currentWindowNameList.Contains(window.Name))
+                {
+                    _currentWindowNameList.Remove(window.Name);
+                }
                 if (m_WindowDic.ContainsKey(window.Name))
                 {
                     m_WindowDic.Remove(window.Name);
@@ -308,6 +316,10 @@ namespace Sim_FrameWork {
                 wnd.GameObject.SetActive(false);
                 wnd.OnDisable();
                 wnd.currentStates = WindowBase.WindowStates.hide;
+                if (_currentWindowNameList.Contains(wnd.Name))
+                {
+                    _currentWindowNameList.Remove(wnd.Name);
+                }
             }
         }
 

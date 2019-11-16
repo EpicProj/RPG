@@ -1,31 +1,78 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 namespace Sim_FrameWork.UI
 {
     public class BlockManuPageContext : WindowBase
     {
-        private BlockManuPage _page;
+        public enum InfoType
+        {
+            Speed,
+            Energy,
+            Maintain,
+            Worker,
+        }
 
+        private BlockManuPage m_page;
 
+        private FunctionBlockInfoData blockInfo;
+        private ManufactoryInfo manufactoryInfo;
+
+        private Text SpeedText;
+        private Text EnergyText;
+        private Text MaintianText;
+        private Text WorkerText;
 
         public override void Awake(params object[] paralist)
         {
-            _page = UIUtility.SafeGetComponent<BlockManuPage>(Transform);
+            blockInfo = (FunctionBlockInfoData)paralist[0];
+            manufactoryInfo = (ManufactoryInfo)paralist[1];
 
+            m_page = UIUtility.SafeGetComponent<BlockManuPage>(Transform);
+
+            AddButtonListener();
+            InitInfoPanel();
         }
 
 
 
         public override void OnShow(params object[] paralist)
-        {
-            base.OnShow(paralist);
+        {         
+            blockInfo = (FunctionBlockInfoData)paralist[0];
+            manufactoryInfo = (ManufactoryInfo)paralist[1];
+            AudioManager.Instance.PlaySound(AudioClipPath.UISound.Page_Open);
         }
 
         public override bool OnMessage(UIMessage msg)
         {
-            return base.OnMessage(msg);
+            switch (msg.type)
+            {
+                case UIMsgType.UpdateManuSlot:
+                    ManufactFormulaInfo formulaInfo = (ManufactFormulaInfo)msg.content[0];
+                    //Update Info
+                    manufactoryInfo.formulaInfo = formulaInfo;
+
+                    UpdateManuMaterialSlot(formulaInfo);
+                    return true;
+                case UIMsgType.UpdateLevelInfo:
+                    FunctionBlockLevelInfo levelInfo = (FunctionBlockLevelInfo)msg.content[0];
+                    //Update Info
+                    blockInfo.levelInfo = levelInfo;
+                    //UpdateLevel(levelInfo);
+                    return true;
+                case UIMsgType.UpdateSpeedText:
+                    //UpdateSpeed
+                    float Addspeed = (float)msg.content[0];
+                    manufactoryInfo.AddCurrentSpeed(Addspeed);
+                    RefreshInfoText(manufactoryInfo.CurrentSpeed, InfoType.Speed);
+                    return true;
+
+                default:
+                    Debug.LogError("UI msg Error , msgID=" + msg.type);
+                    return false;
+            }
         }
 
 
@@ -34,5 +81,77 @@ namespace Sim_FrameWork.UI
         {
            
         }
+
+
+        void AddButtonListener()
+        {
+            AddButtonClickListener(m_page.BackBtn, () =>
+            {
+                UIManager.Instance.HideWnd(UIPath.WindowPath.BlockManu_Page);
+            });
+        }
+
+
+        private void InitInfoPanel()
+        {
+            if (blockInfo == null)
+                return;
+
+            SpeedText = UIUtility.SafeGetComponent<Text>(m_page.BlockInfoContent.transform.Find("BaseInfo/Speed/Value"));
+            EnergyText = UIUtility.SafeGetComponent<Text>(m_page.BlockInfoContent.Find("BaseInfo/Energy/Value"));
+            MaintianText = UIUtility.SafeGetComponent<Text>(m_page.BlockInfoContent.Find("BaseInfo/Maintain/Value"));
+            WorkerText = UIUtility.SafeGetComponent<Text>(m_page.BlockInfoContent.Find("BaseInfo/Worker/Value"));
+           
+            RefreshInfoText(manufactoryInfo.CurrentSpeed, InfoType.Speed);
+            RefreshInfoText(manufactoryInfo.EnergyCostNormal, InfoType.Energy);
+            RefreshInfoText(manufactoryInfo.WorkerNum, InfoType.Worker);
+            RefreshInfoText(manufactoryInfo.Maintain, InfoType.Maintain);
+
+            m_page.Title.transform.Find("Text").GetComponent<Text>().text = blockInfo.dataModel.Name;
+            m_page.Title.transform.Find("Text/Icon").GetComponent<Image>().sprite = blockInfo.dataModel.Icon;
+            m_page.BlockBG.sprite = blockInfo.dataModel.BG;
+            m_page.BlockDesc.text = blockInfo.dataModel.Desc;
+        }
+
+        public void RefreshInfoText(float value, InfoType type)
+        {
+            switch (type)
+            {
+                case InfoType.Energy:
+                    EnergyText.text = value.ToString();
+                    break;
+                case InfoType.Maintain:
+                    MaintianText.text = value.ToString();
+                    break;
+                case InfoType.Speed:
+                    SpeedText.text = value.ToString();
+                    break;
+                case InfoType.Worker:
+                    WorkerText.text = value.ToString();
+                    break;
+                default:
+                    break;
+            }
+        }
+
+        public void UpdateManuMaterialSlot(ManufactFormulaInfo info)
+        {
+            Dictionary<Material, ushort> InputDic = info.realInputDataDic;
+            Dictionary<Material, ushort> OutputDic = info.realOutputDataDic;
+            //Update Input
+            //foreach (KeyValuePair<Material, ushort> kvp in InputDic)
+            //{
+            //    manuSlotPanel.InitManuInputMaterialSlot(kvp.Key, kvp.Value);
+            //}
+            //Update Output
+            //foreach (KeyValuePair<Material, ushort> kvp in OutputDic)
+            //{
+            //    manuSlotPanel.InitManuOutputMaterialSlot(kvp.Key, kvp.Value);
+            //}
+
+
+        }
+
+
     }
 }

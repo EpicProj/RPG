@@ -12,7 +12,8 @@ namespace Sim_FrameWork
         {
             Idle,
             Building,
-            Build_Wait
+            Build_Wait,
+            Move
         }
         public FunctionBlock functionBlock;
 
@@ -27,12 +28,12 @@ namespace Sim_FrameWork
         /// UI ROOT
         /// </summary>
         public GameObject UIRoot;
-
-
         private BlockUIScriptInfo UIinfo;
 
+        public BlockState currentState = BlockState.Idle;
 
         public int instanceID;
+        public Action OnBlockSelectAction;
       
 
         public void InitData(int blockID,int posX,int posZ)
@@ -42,13 +43,30 @@ namespace Sim_FrameWork
             UIinfo = UIUtility.SafeGetComponent<BlockUIScriptInfo>(transform);
             UIinfo.SetData(this);
             ModelRoot = UIUtility.FindTransfrom(transform, "Root/Model").gameObject;
-
             gameObject.name = blockID + "[Block]";
 
             SetPosition(new Vector3( posX, transform.localScale.y/2 , posZ));
 
             blockModifier = GetComponent<FunctionBlockModifier>();
             info = FunctionBlockInfoData.CreateBaseInfo(transform.position,functionBlock,blockModifier);
+
+            switch (info.dataModel.BlockType)
+            {
+                case FunctionBlockType.Type.Industry:
+                    var subType = FunctionBlockModule.GetIndustryType(info.BlockID);
+                    if(subType == FunctionBlockType.SubType_Industry.None)
+                    {
+                        Debug.LogError("Block SubType Error!,BlockID=" + info.BlockID + "   Add Empty Script!");
+                    }else if(subType== FunctionBlockType.SubType_Industry.Manufacture)
+                    {
+                        var manuBase= transform.gameObject.AddComponent<ManufactoryBase>();
+                        manuBase.SetData();
+                    }
+                    break;
+                default:
+                    break;
+                        
+            }
             InitBaseInfo();
         }
 
@@ -99,6 +117,7 @@ namespace Sim_FrameWork
         public void SetSelect(bool select)
         {
             UIinfo.ShowSelectionUI(select);
+
             if (!select)
             {
                 if (!InPlacablePosition())
@@ -109,10 +128,11 @@ namespace Sim_FrameWork
             }
             if (select)
             {
-                AudioManager.Instance.PlaySound(AudioClipPath.ItemEffect.Block_Select);
-                //Open UI TODO
+                if (currentState != BlockState.Move)
+                {
+                    OnBlockSelectAction();
+                }
             }
-
         }
 
 

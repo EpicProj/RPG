@@ -18,10 +18,10 @@ namespace Sim_FrameWork
         public int CurrentFormulaID { get { return _currentFormulaID; }  }
 
 
-        public void SetData(FunctionBlockBase block)
+        public void SetData()
         {
-            _blockBase = block;
-
+            _blockBase = UIUtility.SafeGetComponent<FunctionBlockBase>(transform);
+            manufactoryInfo = new ManufactoryInfo(_blockBase.functionBlock);
             List<FormulaData> formulaData = FunctionBlockModule.GetFormulaList(_blockBase.info.block);
             if (formulaData.Count == 1)
             {
@@ -38,6 +38,13 @@ namespace Sim_FrameWork
             }
             //获取材料列表
             manufactoryInfo.formulaInfo.currentNeedTime = GetCurrentFormulaNeedTime();
+            _blockBase.OnBlockSelectAction += Onselect;
+
+        }
+
+        private void Onselect()
+        {
+            UIManager.Instance.PopUpWnd(UIPath.WindowPath.BlockManu_Page, WindowType.Page, true, _blockBase.info, manufactoryInfo);
         }
 
         /// <summary>

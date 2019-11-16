@@ -16,16 +16,6 @@ namespace Sim_FrameWork.UI
             Worker,
         }
 
-        private const string INFOPANEL_MANUSPEED_TITLE = "FuntionBlockInfoDialog_Info_Manufact_Speed_Title";
-        private const string INFOPANEL_ENERGY_TITLE = "FuntionBlockInfoDialog_Info_Energy_Title";
-        private const string INFOPANEL_MAINTAIN_TITLE = "FuntionBlockInfoDialog_Info_Maintain_Title";
-        private const string INFOPANEL_WOEKER_TITLE = "FuntionBlockInfoDialog_Info_Worker_Title";
-  
-
-        private Text SpeedText;
-        private Text EnergyText;
-        private Text MaintianText;
-        private Text WorkerText;
 
         private Text ProcessIndicator;
         private Image ProgressImage;
@@ -75,7 +65,6 @@ namespace Sim_FrameWork.UI
             ProgressImage = UIUtility.SafeGetComponent<Image>(m_dialog.Processbar.transform.Find("Progress"));
             ProcessIndicator = UIUtility.SafeGetComponent<Text>(m_dialog.Processbar.transform.Find("Indicator"));
             AddBtnListener();
-            InitInfoPanel();
             InitBaseData();
             currentManuSpeed = manufactoryInfo.CurrentSpeed;
         }
@@ -84,13 +73,6 @@ namespace Sim_FrameWork.UI
 
         public override void OnShow(params object[] paralist)
         {
-            //Init Text
-            m_dialog.Title.transform.Find("BG2/Desc/FacotryName").GetComponent<Text>().text = FunctionBlockModule.GetFunctionBlockName(blockInfo.block);
-            m_dialog.BlockInfoDesc.text = FunctionBlockModule.GetFunctionBlockDesc(blockInfo.block);
-            blockInfo = (FunctionBlockInfoData)paralist[0];
-            manufactoryInfo = (ManufactoryInfo)paralist[1];
-            //Init Sprite
-            //m_dialog.FactoryBG.GetComponent<Image>().sprite = FunctionBlockModule.Instance.GetFunctionBlockIcon(currentBlock.FunctionBlockID);
         }
 
         private void InitBaseData()
@@ -168,7 +150,6 @@ namespace Sim_FrameWork.UI
                     //UpdateSpeed
                     float Addspeed = (float)msg.content[0];
                     manufactoryInfo.AddCurrentSpeed(Addspeed);
-                    RefreshInfoText(manufactoryInfo.CurrentSpeed, InfoType.Speed);
                     return true;
 
                 default:
@@ -179,44 +160,6 @@ namespace Sim_FrameWork.UI
         }
 
     
-
-        private void InitInfoPanel()
-        {
-            UIUtility.SafeGetComponent<Text>(m_dialog.InfoData.transform.Find("Speed/Info/Item/Text")).text = MultiLanguage.Instance.GetTextValue(INFOPANEL_MANUSPEED_TITLE);
-            SpeedText = UIUtility.SafeGetComponent<Text>(m_dialog.InfoData.transform.Find("Speed/Value/Value"));
-            UIUtility.SafeGetComponent<Text>(m_dialog.InfoData.transform.Find("Energy/Info/Item/Text")).text = MultiLanguage.Instance.GetTextValue(INFOPANEL_ENERGY_TITLE);
-            EnergyText = UIUtility.SafeGetComponent<Text>(m_dialog.InfoData.transform.Find("Energy/Value/Value"));
-            UIUtility.SafeGetComponent<Text>(m_dialog.InfoData.transform.Find("Maintain/Info/Item/Text")).text = MultiLanguage.Instance.GetTextValue(INFOPANEL_MAINTAIN_TITLE);
-            MaintianText = UIUtility.SafeGetComponent<Text>(m_dialog.InfoData.transform.Find("Maintain/Value/Value"));
-            UIUtility.SafeGetComponent<Text>(m_dialog.InfoData.transform.Find("Worker/Info/Item/Text")).text = MultiLanguage.Instance.GetTextValue(INFOPANEL_WOEKER_TITLE);
-            WorkerText = UIUtility.SafeGetComponent<Text>(m_dialog.InfoData.transform.Find("Worker/Value/Value"));
-            RefreshInfoText(manufactoryInfo.CurrentSpeed, InfoType.Speed);
-            RefreshInfoText(manufactoryInfo.EnergyCostNormal, InfoType.Energy);
-            RefreshInfoText(manufactoryInfo.WorkerNum, InfoType.Worker);
-            RefreshInfoText(manufactoryInfo.Maintain, InfoType.Maintain);
-        }
-
-        public void RefreshInfoText(float value, InfoType type)
-        {
-            switch (type)
-            {
-                case InfoType.Energy:
-                    EnergyText.text = value.ToString();
-                    break;
-                case InfoType.Maintain:
-                    MaintianText.text = value.ToString();
-                    break;
-                case InfoType.Speed:
-                    SpeedText.text = value.ToString();
-                    break;
-                case InfoType.Worker:
-                    WorkerText.text = value.ToString();
-                    break;
-                default:
-                    break;
-            }   
-        }
-
 
 
         //Button
@@ -287,7 +230,6 @@ namespace Sim_FrameWork.UI
                 ProgressImage.fillAmount = 0;
                 ProcessIndicator.text = ((int)currentProcess).ToString() + "%";
             }
-          
         }
 
         public void UpdateManuMaterialSlot(ManufactFormulaInfo info)

@@ -246,6 +246,12 @@ namespace Sim_FrameWork.UI
                 UIManager.Instance.Register<OrderReceiveMainPageContext>(UIPath.WindowPath.Order_Receive_Main_Page);
                 UIManager.Instance.PopUpWnd(UIPath.WindowPath.Order_Receive_Main_Page, WindowType.Page, true);
             });
+
+            AddButtonClickListener(m_page.RoadBtn, () =>
+            {
+                UIManager.Instance.PopUpWnd(UIPath.WindowPath.BlockManu_Page, WindowType.Page, true);
+            });
+
         }
 
         private void OnPauseBtnClick()

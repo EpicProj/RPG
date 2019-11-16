@@ -88,19 +88,50 @@ namespace Sim_FrameWork {
         {
             if (Enum.IsDefined(typeof(FunctionBlockType.Type), type) == false)
             {
-                Debug.LogError("FacotyType InValid! Type=" + type);
+                Debug.LogError("FactoryType InValid! Type=" + type);
                 return false;
             }
             return true;
         }
+
+        private static bool CheckSubTypeValid(string type, FunctionBlockType.Type mainType)
+        {
+            switch (mainType)
+            {
+                case FunctionBlockType.Type.Industry:
+                    if (Enum.IsDefined(typeof(FunctionBlockType.SubType_Industry), type) == false)
+                    {
+                        Debug.LogError("FactoryType Industry InValid! Type=" + type);
+                        return false;
+                    }
+                    return true;
+                default:
+                    return false;
+            }
+        }
+
         //Get FunctionBlockType
         public static FunctionBlockType.Type GetFunctionBlockType(int blockID)
         {
-            FunctionBlock functionBlock = GetFunctionBlockByBlockID(blockID);
-            if (CheckTypeValid(functionBlock.FunctionBlockType) == false)
+            var block = GetFunctionBlockByBlockID(blockID);
+            if (CheckTypeValid(block.FunctionBlockType) == false)
                 return FunctionBlockType.Type.None;
-            return (FunctionBlockType.Type)Enum.Parse(typeof(FunctionBlockType.Type), functionBlock.FunctionBlockType);
+            return (FunctionBlockType.Type)Enum.Parse(typeof(FunctionBlockType.Type), block.FunctionBlockType);
         }
+
+        public static FunctionBlockType.SubType_Industry GetIndustryType(int blockID)
+        {
+            var block = GetFunctionBlockByBlockID(blockID);
+            if (GetFunctionBlockType(blockID) != FunctionBlockType.Type.Industry)
+                return FunctionBlockType.SubType_Industry.None;
+            if (CheckSubTypeValid(block.SubType, FunctionBlockType.Type.Industry) == false)
+                return FunctionBlockType.SubType_Industry.None;
+            return (FunctionBlockType.SubType_Industry)Enum.Parse(typeof(FunctionBlockType.SubType_Industry), block.SubType);
+        }
+
+
+
+
 
         //Get Type Data
         public static FunctionBlockTypeData GetFacotryTypeData(FunctionBlockType.Type type)
@@ -334,7 +365,7 @@ namespace Sim_FrameWork {
                         Locked = false,
                         slotType = UI.DistrictSlotType.Empty,
                         Coordinate = kvp.Key,
-                        sprite = DistrictModule.GetDistrictIconSpriteList(kvp.Value.DistrictID)[0]
+                        //sprite = DistrictModule.GetDistrictIconSpriteList(kvp.Value.DistrictID)[0]
                     };
                     result.Add(kvp.Key, info);
                 }
