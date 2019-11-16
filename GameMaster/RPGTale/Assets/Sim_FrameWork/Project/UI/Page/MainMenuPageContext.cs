@@ -150,7 +150,7 @@ namespace Sim_FrameWork.UI
             CurrentMonthText.text = timedata.currentMonth.ToString();
             CurrentYearText.text = timedata.currentYear.ToString();
             CurrentSeasonText.text = PlayerModule.Instance.GetSeasonName((int)PlayerManager.Instance.playerData.timeData.currentSeason);
-            SeasonSprite.sprite = PlayerModule.Instance.GetSeasonSprite((int)PlayerManager.Instance.playerData.timeData.currentSeason);
+            //SeasonSprite.sprite = PlayerModule.Instance.GetSeasonSprite((int)PlayerManager.Instance.playerData.timeData.currentSeason);
             return true;
         }
         private void UpdateTimeProgress()

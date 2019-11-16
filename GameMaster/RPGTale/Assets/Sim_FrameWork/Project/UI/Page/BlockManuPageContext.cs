@@ -25,12 +25,28 @@ namespace Sim_FrameWork.UI
         private Text MaintianText;
         private Text WorkerText;
 
+        //Progress
+        private float targetProgress = 100.0f;
+        private float currentProgress = 0f;
+        private Image ProgressRingImage;
+        private Text ProgressValueText;
+
+        //Level & EXP
+        private Text EXPValueText;
+        private Text EXPValuePercentText;
+        private Text LVText;
+
         public override void Awake(params object[] paralist)
         {
             blockInfo = (FunctionBlockInfoData)paralist[0];
             manufactoryInfo = (ManufactoryInfo)paralist[1];
 
             m_page = UIUtility.SafeGetComponent<BlockManuPage>(Transform);
+            ProgressRingImage = UIUtility.SafeGetComponent<Image>(UIUtility.FindTransfrom(m_page.ProgressTrans, "Ring"));
+            ProgressValueText = UIUtility.SafeGetComponent<Text>(UIUtility.FindTransfrom(m_page.ProgressTrans, "Value"));
+            EXPValueText = UIUtility.SafeGetComponent<Text>(UIUtility.FindTransfrom(m_page.EXPContent, "Value"));
+            EXPValuePercentText = UIUtility.SafeGetComponent<Text>(UIUtility.FindTransfrom(m_page.EXPContent, "Percent"));
+            LVText = UIUtility.SafeGetComponent<Text>(UIUtility.FindTransfrom(m_page.BlockLevelInfo, "Value"));
 
             AddButtonListener();
             InitInfoPanel();
@@ -79,7 +95,7 @@ namespace Sim_FrameWork.UI
 
         public override void OnUpdate()
         {
-           
+            UpdateProgress(manufactoryInfo.formulaInfo);
         }
 
 
@@ -152,6 +168,56 @@ namespace Sim_FrameWork.UI
 
         }
 
+        /// <summary>
+        /// 更新生产进度条
+        /// </summary>
+        /// <param name="info"></param>
+        public void UpdateProgress(ManufactFormulaInfo info)
+        {
+            if (info.inProgress)
+            {
+                if (currentProgress < targetProgress)
+                {
+                    currentProgress += (100.0f * Time.deltaTime) / info.currentNeedTime;
+
+                    ProgressValueText.text = ((int)currentProgress).ToString() + "%";
+                    ProgressRingImage.fillAmount = currentProgress / 100.0f;
+                }
+                else if (currentProgress > targetProgress)
+                {
+                    // Complete
+                    currentProgress = 0;
+                    ProgressRingImage.fillAmount = 0;
+                    ProgressValueText.text = ((int)currentProgress).ToString() + "%";
+                }
+            }
+            else
+            {
+                currentProgress = 0;
+                ProgressRingImage.fillAmount = 0;
+                ProgressValueText.text = ((int)currentProgress).ToString() + "%";
+            }
+        }
+
+        /// <summary>
+        /// LV Info
+        /// </summary>
+        /// <param name="info"></param>
+        private void SetLvValue(FunctionBlockLevelInfo info)
+        {
+            EXPValueText.text = string.Format("{0}/{1}", info.CurrentBlockExp.ToString(), info.CurrentBlockMaxEXP.ToString());
+        }
+
+        public void UpdateLevel(FunctionBlockLevelInfo info)
+        {
+            SetLevel(info.currentBlockLevel);
+            //SetCurrentLvSlider(info);
+            SetLvValue(info);
+        }
+        private void SetLevel(int level)
+        {
+            LVText.text = level.ToString();
+        }
 
     }
 }

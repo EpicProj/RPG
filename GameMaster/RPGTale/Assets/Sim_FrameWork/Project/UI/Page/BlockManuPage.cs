@@ -9,12 +9,23 @@ namespace Sim_FrameWork
     {
         [Header("Button")]
         public Button BackBtn;
+        public Button FormulaChange;
 
         [Header("Info")]
         public Transform Title;
         public Transform BlockInfoContent;
         public Image BlockBG;
         public Text BlockDesc;
+        public Transform BlockLevelInfo;
+        public Transform LevelEffectContent;
+        public Transform EXPContent;
+
+
+        [Header("Product")]
+        public Transform Product_LeftTab;
+        public Transform ManuContent;
+        public Transform ProgressTrans;
+
 
     }
 }

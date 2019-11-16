@@ -65,14 +65,6 @@ namespace Sim_FrameWork {
                          });
                     }
                     break;
-                case ModifierFunctionBlockType.EnergyCostMagic:
-                    if (!IsAddFcuntionBlockModifier(baseInfo, modifierBase)){
-                        data = ModifierData.Create(modifierBase, delegate
-                         {
-                             manuInfo.AddEnergyCostMagic(modifierBase.Value);
-                         });
-                    }
-                    break;
 
             }
 

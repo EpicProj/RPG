@@ -120,15 +120,6 @@ namespace Sim_FrameWork.UI
             }
         }
 
-        public override void OnUpdate()
-        {
-            UpdateProgress(manufactoryInfo.formulaInfo);
-            if (Input.GetKeyDown(KeyCode.Escape))
-            {
-                UIManager.Instance.HideWnd(UIPath.WindowPath.FUNCTIONBLOCK_INFO_DIALOG);
-            }
-        }
-
         public override bool OnMessage(UIMessage msg)
         {
             switch (msg.type)
@@ -179,7 +170,6 @@ namespace Sim_FrameWork.UI
         {
             SetLevel(info.currentBlockLevel);
             SetCurrentLvSlider(info);
-            SetLvValue(info);
         }
 
         private void SetLevel(int level)
@@ -197,10 +187,7 @@ namespace Sim_FrameWork.UI
            
            
         }
-        private void SetLvValue(FunctionBlockLevelInfo info)
-        {
-            LvValue.text = string.Format("{0} / {1}", info.CurrentBlockExp.ToString(), info.CurrentBlockMaxEXP.ToString());
-        }
+
 
  
 

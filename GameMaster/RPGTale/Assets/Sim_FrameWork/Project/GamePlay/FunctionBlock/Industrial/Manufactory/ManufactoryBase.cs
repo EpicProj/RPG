@@ -217,14 +217,6 @@ namespace Sim_FrameWork
                 _energyCostNormal = 0;
             }
         }
-        public void AddEnergyCostMagic(float num)
-        {
-            _energyCostMagic += num;
-            if (_energyCostMagic < 0)
-            {
-                _energyCostMagic = 0;
-            }
-        }
 
 
 
@@ -234,7 +226,6 @@ namespace Sim_FrameWork
             inherentLevelData = FunctionBlockModule.GetManuInherentLevelData(IndustryData);
             AddWorkerNum(int.Parse(IndustryData.MaintenanceBase));
             AddEnergyCostNormal(Utility.TryParseIntList(IndustryData.EnergyConsumptionBase, ',')[0]);
-            AddEnergyCostMagic(Utility.TryParseIntList(IndustryData.EnergyConsumptionBase, ',')[1]);
             AddMaintain(float.Parse(IndustryData.MaintenanceBase));
             AddCurrentSpeed(FunctionBlockModule.GetIndustrySpeed(block.FunctionBlockID));
         }
