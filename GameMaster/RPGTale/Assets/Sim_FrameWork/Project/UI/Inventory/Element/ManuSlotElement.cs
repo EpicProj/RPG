@@ -54,6 +54,7 @@ namespace Sim_FrameWork
             }
             else if (currentAmount == 1)
             {
+                SetElementState(true);
                 materialCountText.gameObject.SetActive(false);
             }
             else
@@ -67,15 +68,11 @@ namespace Sim_FrameWork
 
         void SetElementState(bool active)
         {
-            if (active)
+            materialIcon.gameObject.SetActive(active);
+            materialCountText.gameObject.SetActive(active);
+            if (SlotType == FormulaModule.MaterialProductType.Enhance)
             {
-                materialIcon.gameObject.SetActive(true);
-                materialCountText.gameObject.SetActive(true);
-            }
-            else
-            {
-                materialIcon.gameObject.SetActive(false);
-                materialCountText.gameObject.SetActive(false);
+                UIUtility.FindTransfrom(transform, "Bottom").gameObject.SetActive(active);
             }
         }
 

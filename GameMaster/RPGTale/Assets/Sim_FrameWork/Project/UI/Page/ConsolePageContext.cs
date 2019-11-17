@@ -43,7 +43,6 @@ namespace Sim_FrameWork.UI {
                     }
                     var value = Utility.TryParseFloat(split[1]);
                     PlayerManager.Instance.AddCurrency(value, PlayerManager.ResourceAddType.current);
-                    PrintConsole(c, "Add Currency Success! Value= " + value);
                     break;
                 case "AddMaterial":
                     if (split.Length != 3)
@@ -59,7 +58,6 @@ namespace Sim_FrameWork.UI {
                     }
                     var valueMa = Utility.TryParseInt(split[2]);
                     PlayerManager.Instance.AddMaterialData(materialID, (ushort)valueMa);
-                    PrintConsole(c, "Add Material Success! ID=" + materialID + "  Value=  " + valueMa);
                     break;
             }
         }

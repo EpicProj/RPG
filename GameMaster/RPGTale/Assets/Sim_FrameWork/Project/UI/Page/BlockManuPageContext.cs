@@ -42,10 +42,8 @@ namespace Sim_FrameWork.UI
         private Transform OutputContent;
         private Transform EnhanceContent;
 
-        private Transform Input_Mid_Trans;
-        private Transform Input_Left_Trans;
-        private Transform Input_Right_Trans;
         private Transform Enhance_Trans;
+        private Transform Output_Trans;
 
         #region Override Method
         public override void Awake(params object[] paralist)
@@ -72,6 +70,8 @@ namespace Sim_FrameWork.UI
 
             AudioManager.Instance.PlaySound(AudioClipPath.UISound.Page_Open);
             RefreshInfoAll(manufactoryInfo);
+            RefreshFormulaSlotNum(formulaInfo);
+            UpdateLevel();
         }
 
         public override bool OnMessage(UIMessage msg)
@@ -85,10 +85,8 @@ namespace Sim_FrameWork.UI
                     RefreshFormulaSlotNum(formulaInfo);
                     return true;
                 case UIMsgType.UpdateLevelInfo:
-                    FunctionBlockLevelInfo levelInfo = (FunctionBlockLevelInfo)msg.content[0];
-                    //Update Info
-                    blockInfo.levelInfo = levelInfo;
-                    //UpdateLevel(levelInfo);
+                    blockInfo.levelInfo = (FunctionBlockLevelInfo)msg.content[0];
+                    UpdateLevel();
                     return true;
                 case UIMsgType.UpdateSpeedText:
                     //UpdateSpeed
@@ -126,10 +124,8 @@ namespace Sim_FrameWork.UI
             OutputContent = UIUtility.FindTransfrom(m_page.ManuContent, "Output");
             EnhanceContent = UIUtility.FindTransfrom(m_page.ManuContent, "Enhance");
 
-            Input_Mid_Trans = UIUtility.FindTransfrom(InputContent, "Mid");
-            Input_Left_Trans = UIUtility.FindTransfrom(InputContent, "Left");
-            Input_Right_Trans = UIUtility.FindTransfrom(InputContent, "Right");
             Enhance_Trans = UIUtility.FindTransfrom(EnhanceContent, "ManuSlotElement");
+            Output_Trans = UIUtility.FindTransfrom(OutputContent, "ManuSlotElement");
         }
 
         void AddButtonListener()
@@ -226,7 +222,17 @@ namespace Sim_FrameWork.UI
                 element.SetUpElement(info.currentInputItem[i].model, info.currentInputItem[i].count, info.realInputItem[i].count);
             }
 
+            ///Enhance
+            if (info.currentEnhanceItem != null)
+            {
+                var element = UIUtility.SafeGetComponent<ManuSlotElement>(Enhance_Trans);
+                element.SetUpElement(info.currentEnhanceItem.model, info.currentEnhanceItem.count, info.realEnhanceItem.count);
+            }
 
+            ///OutPut
+            var outputElement = UIUtility.SafeGetComponent<ManuSlotElement>(Output_Trans);
+            outputElement.SetUpElement(info.currentOutputItem.model, info.currentOutputItem.count, info.realOutputItem.count);
+          
         }
 
         public void RefreshFormulaSlotNum(ManufactFormulaInfo info)
@@ -236,6 +242,10 @@ namespace Sim_FrameWork.UI
                 var element = UIUtility.SafeGetComponent<ManuSlotElement>(InputContent.GetChild(i));
                 element.RefreshCount(info.currentInputItem[i].model,info.realInputItem[i].count);
             }
+
+            var outputElement = UIUtility.SafeGetComponent<ManuSlotElement>(Output_Trans);
+            outputElement.RefreshCount(info.currentOutputItem.model, info.realOutputItem.count);
+
         }
 
 
@@ -272,23 +282,22 @@ namespace Sim_FrameWork.UI
         }
 
         /// <summary>
-        /// LV Info
+        /// 更新等级
         /// </summary>
-        /// <param name="info"></param>
-        private void SetLvValue(FunctionBlockLevelInfo info)
+        public void UpdateLevel()
         {
-            EXPValueText.text = string.Format("{0}/{1}", info.CurrentBlockExp.ToString(), info.CurrentBlockMaxEXP.ToString());
+            LVText.text =blockInfo.levelInfo.currentBlockLevel.ToString();
+            SetLVSlider();
+            EXPValueText.text = string.Format("{0}/{1}", blockInfo.levelInfo.CurrentBlockExp.ToString(), blockInfo.levelInfo.CurrentBlockMaxEXP.ToString());
         }
 
-        public void UpdateLevel(FunctionBlockLevelInfo info)
+
+        private void SetLVSlider()
         {
-            SetLevel(info.currentBlockLevel);
-            //SetCurrentLvSlider(info);
-            SetLvValue(info);
-        }
-        private void SetLevel(int level)
-        {
-            LVText.text = level.ToString();
+            var sliderGroup = UIUtility.SafeGetComponent<SliderGroup>(UIUtility.FindTransfrom(m_page.EXPContent, "Content"));
+            float progress = (float)blockInfo.levelInfo.CurrentBlockExp / (float)blockInfo.levelInfo.CurrentBlockMaxEXP;
+            sliderGroup.RefreshSlider(progress);
+            UIUtility.SafeGetComponent<Text>(UIUtility.FindTransfrom(m_page.EXPContent, "Percent")).text = ((int)(progress * 100)).ToString();
         }
 
     }

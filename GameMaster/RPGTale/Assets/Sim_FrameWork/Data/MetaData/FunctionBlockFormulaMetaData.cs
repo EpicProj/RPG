@@ -20,7 +20,7 @@ public class FunctionBlockFormulaMetaData : ExcelBase
             data.ProductSpeed = i;
             data.EXP = (ushort)i;
             data.InputMaterialList = "";
-            data.OutputMaterialList = "";
+            data.OutputMaterial = "";
             data.EnhanceMaterial = "";
             AllFormulaDataList.Add(data);
         }
@@ -92,7 +92,7 @@ public class FormulaData
     [XmlElement]
     public string InputMaterialList { get; set; }
     [XmlElement]
-    public string OutputMaterialList { get; set; }
+    public string OutputMaterial { get; set; }
     [XmlElement]
     public string EnhanceMaterial { get; set; }
 

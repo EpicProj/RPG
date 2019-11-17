@@ -72,7 +72,7 @@ namespace Sim_FrameWork
 
 
         /// <summary>
-        /// 获取原料，产出或副产物列表
+        /// 获取原料列表
         /// </summary>
         /// <param name="formulaID"></param>
         /// <param name="Gettype"></param>
@@ -93,6 +93,11 @@ namespace Sim_FrameWork
             return result;
         }
 
+        /// <summary>
+        /// 获取增幅材料
+        /// </summary>
+        /// <param name="formulaID"></param>
+        /// <returns></returns>
         public static FormulaItem GetFormulaEnhanceMaterial(int formulaID)
         {
             var list= GetFormulaItemList(formulaID, MaterialProductType.Enhance);
@@ -100,13 +105,29 @@ namespace Sim_FrameWork
             {
                 return list[0];
             }
-            return null;
+            return new FormulaItem(new MaterialDataModel(), 0);
         }
 
-        public static Dictionary<int, ushort> GetFormulaMaterialList(int formulaID, MaterialProductType Gettype)
+        /// <summary>
+        /// 获取 产出材料
+        /// </summary>
+        /// <param name="formulaID"></param>
+        /// <returns></returns>
+        public static FormulaItem GetFormulaOutputMaterial(int formulaID)
+        {
+            var list = GetFormulaItemList(formulaID, MaterialProductType.Output);
+            if (list.Count == 1)
+            {
+                return list[0];
+            }
+            return new FormulaItem(new MaterialDataModel(), 0);
+        }
+
+
+        private static Dictionary<int, ushort> GetFormulaMaterialList(int formulaID, MaterialProductType Gettype)
         {
             FormulaData fm = GetFormulaDataByID(formulaID);
-            if (string.IsNullOrEmpty(fm.InputMaterialList) || string.IsNullOrEmpty(fm.OutputMaterialList))
+            if (string.IsNullOrEmpty(fm.InputMaterialList) || string.IsNullOrEmpty(fm.OutputMaterial))
             {
                 Debug.LogError("Manufacture List is null , formulaID  = " + formulaID);
             }
@@ -129,7 +150,16 @@ namespace Sim_FrameWork
                         Debug.LogError("FormulaLimit Error Input Max is 3! formulaID=" + formulaID);
                     return inputDic;
                 case MaterialProductType.Output:
-                    return TryParseMaterialList(fm.OutputMaterialList);
+                    var outputDic= TryParseMaterialList(fm.OutputMaterial);
+                    if (outputDic.Count == 1)
+                    {
+                        return outputDic;
+                    }
+                    else
+                    {
+                        Debug.LogError("Get OutPut Material Error ! formulaID=" + formulaID);
+                        return new Dictionary<int, ushort>();
+                    }
                 default:
                     Debug.LogError("GetManufactureMaterialList Type Error !");
                     return null;

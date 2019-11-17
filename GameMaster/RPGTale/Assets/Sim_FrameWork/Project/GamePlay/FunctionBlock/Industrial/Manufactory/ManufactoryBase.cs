@@ -19,6 +19,14 @@ namespace Sim_FrameWork
         public int CurrentFormulaID { get { return _currentFormulaID; }  }
 
 
+        private void Update()
+        {
+            if (Input.GetKeyDown(KeyCode.M))
+            {
+                AddMaterialToInputSlot(100, 10);
+            }
+        }
+
         public void SetData()
         {
             _blockBase = UIUtility.SafeGetComponent<FunctionBlockBase>(transform);
@@ -35,12 +43,8 @@ namespace Sim_FrameWork
                 formulaInfo.realInputItem.Add(new FormulaItem(info.currentInputItem[i].model,0));
             }
 
-            for (int i = 0; i < info.currentOutputItem.Count; i++)
-            {
-                formulaInfo.realOutputItem.Add(new FormulaItem(info.currentOutputItem[i].model, 0));
-            }
-
-            formulaInfo.realEnhanceItem = info.currentEnhanceItem;
+            formulaInfo.realOutputItem = new FormulaItem(info.currentOutputItem.model, 0);
+            formulaInfo.realEnhanceItem = new FormulaItem(info.currentEnhanceItem.model,0) ;
 
 
             formulaInfo.currentNeedTime = GetCurrentFormulaNeedTime();
@@ -69,14 +73,15 @@ namespace Sim_FrameWork
         /// </summary>
         /// <param name="item"></param>
         /// <param name="addCount"></param>
-        public void AddMaterialToInputSlot(FormulaItem item,ushort addCount)
+        public void AddMaterialToInputSlot(int MaterialID,ushort addCount)
         {
             for (int i = 0; i < formulaInfo.currentInputItem.Count; i++)
             {
-                if (item == formulaInfo.currentInputItem[i])
+                if (MaterialID == formulaInfo.currentInputItem[i].model.ID)
                 {
                     //计算格子容量 TODO
                     formulaInfo.realInputItem[i].count += addCount;
+                    SendMessage(UIMsgType.UpdateManuSlot);
                     StartManufact();
                 }
             }
@@ -84,13 +89,10 @@ namespace Sim_FrameWork
 
         private void AddOutputSlotNum()
         {
-            for(int i = 0; i < formulaInfo.currentOutputItem.Count; i++)
-            {
-                ushort count = formulaInfo.currentInputItem[i].count;
-                formulaInfo.realOutputItem[i].count += count;
-                //Add to PlayerData
-                PlayerManager.Instance.AddMaterialData(formulaInfo.currentOutputItem[i].model.ID, count);
-            }
+            ushort count = formulaInfo.currentOutputItem.count;
+            formulaInfo.realOutputItem.count += count;
+            //Add to PlayerData
+            PlayerManager.Instance.AddMaterialData(formulaInfo.currentOutputItem.model.ID, count);
         }
 
         private void StartManufact()
@@ -126,13 +128,23 @@ namespace Sim_FrameWork
             AddOutputSlotNum();
 
             ///UpdateUI
-            UIManager.Instance.SendMessageToWnd(UIPath.WindowPath.BlockManu_Page, new UIMessage(UIMsgType.UpdateManuSlot, new List<object>(1) { formulaInfo }));
+            SendMessage(UIMsgType.UpdateManuSlot);
 
             ///UpdateEXP
             _blockBase.info.levelInfo.AddCurrentBlockEXP(formulaInfo.currentFormulaData.EXP);
             UIManager.Instance.SendMessageToWnd(UIPath.WindowPath.BlockManu_Page, new UIMessage(UIMsgType.UpdateLevelInfo, new List<object>(1) { _blockBase.info.levelInfo }));
 
             StartManufact();
+        }
+
+        private void SendMessage(UIMsgType type)
+        {
+            switch (type)
+            {
+                case UIMsgType.UpdateManuSlot:
+                    UIManager.Instance.SendMessageToWnd(UIPath.WindowPath.BlockManu_Page, new UIMessage(UIMsgType.UpdateManuSlot, new List<object>(1) { formulaInfo }));
+                    break;
+            }
         }
 
         private void ReduceInputSlotNum()
@@ -250,13 +262,13 @@ namespace Sim_FrameWork
         /// 配方所需材料
         /// </summary> 
         public List<FormulaItem> currentInputItem;
-        public List<FormulaItem> currentOutputItem;
+        public FormulaItem currentOutputItem;
         public FormulaItem  currentEnhanceItem;
         /// <summary>
         /// 实际输入材料
         /// </summary>
         public List<FormulaItem> realInputItem = new List<FormulaItem>();
-        public List<FormulaItem> realOutputItem = new List<FormulaItem>();
+        public FormulaItem realOutputItem;
         public FormulaItem realEnhanceItem;
 
 
@@ -266,7 +278,7 @@ namespace Sim_FrameWork
             FormulaChooseList = FunctionBlockModule.GetFormulaList(block);
             currentFormulaData = FormulaModule.GetFormulaDataByID(currentFormulaID);
             currentInputItem = FormulaModule.GetFormulaItemList(currentFormulaID, FormulaModule.MaterialProductType.Input);
-            currentOutputItem = FormulaModule.GetFormulaItemList(currentFormulaID, FormulaModule.MaterialProductType.Output);
+            currentOutputItem = FormulaModule.GetFormulaOutputMaterial(currentFormulaID);
             currentEnhanceItem = FormulaModule.GetFormulaEnhanceMaterial(currentFormulaID);
 
         }
@@ -279,7 +291,7 @@ namespace Sim_FrameWork
             CurrentFormulaID = formulaID;
             currentFormulaData = FormulaModule.GetFormulaDataByID(formulaID);
             currentInputItem = FormulaModule.GetFormulaItemList(formulaID, FormulaModule.MaterialProductType.Input);
-            currentOutputItem = FormulaModule.GetFormulaItemList(formulaID, FormulaModule.MaterialProductType.Output);
+            currentOutputItem = FormulaModule.GetFormulaOutputMaterial(formulaID);
             currentEnhanceItem = FormulaModule.GetFormulaEnhanceMaterial(CurrentFormulaID);
 
         }
