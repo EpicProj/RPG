@@ -11,7 +11,7 @@ namespace Sim_FrameWork
         {
             Input,
             Output,
-            Byproduct
+            Enhance
         }
         public enum FormulaInfoType
         {
@@ -68,38 +68,66 @@ namespace Sim_FrameWork
         {
             return GetFormulaDataByID(formulaID).ProductSpeed;
         }
-        
 
 
-        //获取原料，产出或副产物列表
-        public static Dictionary<Material,ushort> GetFormulaMaterialDic(int formulaID, MaterialProductType Gettype)
+
+        /// <summary>
+        /// 获取原料，产出或副产物列表
+        /// </summary>
+        /// <param name="formulaID"></param>
+        /// <param name="Gettype"></param>
+        /// <returns></returns>
+        public static List<FormulaItem> GetFormulaItemList(int formulaID, MaterialProductType Gettype)
         {
-            Dictionary<Material, ushort> result = new Dictionary<Material, ushort>();
+            List<FormulaItem> result = new List<FormulaItem>();
             Dictionary<int, ushort> infoDic = GetFormulaMaterialList(formulaID, Gettype);
             if (infoDic != null)
             {
                 foreach(KeyValuePair<int,ushort> kvp in infoDic)
                 {
                     Material ma = MaterialModule.GetMaterialByMaterialID(kvp.Key);
-                    result.Add(ma, kvp.Value);
+                    FormulaItem item = new FormulaItem(ma, kvp.Value);
+                    result.Add(item);
                 }
             }
             return result;
         }
 
+        public static FormulaItem GetFormulaEnhanceMaterial(int formulaID)
+        {
+            var list= GetFormulaItemList(formulaID, MaterialProductType.Enhance);
+            if (list.Count == 1)
+            {
+                return list[0];
+            }
+            return null;
+        }
+
         public static Dictionary<int, ushort> GetFormulaMaterialList(int formulaID, MaterialProductType Gettype)
         {
             FormulaData fm = GetFormulaDataByID(formulaID);
-            if (string.IsNullOrEmpty(fm.InputMaterialList) || string.IsNullOrEmpty(fm.OutputMaterialList) || string.IsNullOrEmpty(fm.ByProductList))
+            if (string.IsNullOrEmpty(fm.InputMaterialList) || string.IsNullOrEmpty(fm.OutputMaterialList))
             {
                 Debug.LogError("Manufacture List is null , formulaID  = " + formulaID);
             }
             switch (Gettype)
             {
-                case MaterialProductType.Byproduct:
-                    return TryParseMaterialList(fm.ByProductList);
+                case MaterialProductType.Enhance:
+                    var dic= TryParseMaterialList(fm.EnhanceMaterial);
+                    if (dic == null || dic.Count == 1)
+                    {
+                        return dic;
+                    }
+                    else
+                    {
+                        Debug.LogError("GetEnhanceMaterial Error ! formulaID="+formulaID);
+                        return new Dictionary<int, ushort>();
+                    }
                 case MaterialProductType.Input:
-                    return TryParseMaterialList(fm.InputMaterialList);
+                    var inputDic= TryParseMaterialList(fm.InputMaterialList);
+                    if (inputDic.Count > 3)
+                        Debug.LogError("FormulaLimit Error Input Max is 3! formulaID=" + formulaID);
+                    return inputDic;
                 case MaterialProductType.Output:
                     return TryParseMaterialList(fm.OutputMaterialList);
                 default:
@@ -185,20 +213,8 @@ namespace Sim_FrameWork
             return result;
         }
 
-        public static List<Material> GetFormulaTotalMaterialList(int formulaID, MaterialProductType Gettype)
-        {
-            List<Material> result = new List<Material>();
-            foreach( var id in  GetFormulaMaterialList(formulaID, Gettype).Keys)
-            {
-                result.Add(MaterialModule.GetMaterialByMaterialID(id));
-            }
-            return result;
-        }
         #endregion
 
-        #region Method
-
-        #endregion
     }
 
 

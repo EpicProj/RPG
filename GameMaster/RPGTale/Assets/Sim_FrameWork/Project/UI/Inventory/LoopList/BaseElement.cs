@@ -12,7 +12,7 @@ namespace Sim_FrameWork
         Normal,
         Grid
     }
-    public class BaseElement : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler, IPointerDownHandler, IDragHandler, IBeginDragHandler, IEndDragHandler
+    public class BaseElement : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler, IPointerDownHandler
     {
         /// <summary>
         /// 数据ID索引
@@ -240,8 +240,6 @@ namespace Sim_FrameWork
         public virtual void OnPointerEnter(PointerEventData eventData){}
         public virtual void OnPointerDown(PointerEventData eventData){}
 
-        public virtual void OnBeginDrag(PointerEventData eventData) { }
-        public virtual void OnDrag(PointerEventData eventData) { }
-        public virtual void OnEndDrag(PointerEventData eventData) { }
+
     }
 }

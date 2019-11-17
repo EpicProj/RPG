@@ -28,7 +28,6 @@ namespace Sim_FrameWork {
 
         public void RegisterUI()
         {
-            UIManager.Instance.Register<BlockInfoDialogContent>(UIPath.WindowPath.FUNCTIONBLOCK_INFO_DIALOG);
             UIManager.Instance.Register<WareHousePageContext>(UIPath.WindowPath.WareHouse_Page);
             UIManager.Instance.Register<MainMenuPageContext>(UIPath.WindowPath.MainMenu_Page);
             UIManager.Instance.Register<GameEntryPageContext>(UIPath.WindowPath.Game_Entry_Page);

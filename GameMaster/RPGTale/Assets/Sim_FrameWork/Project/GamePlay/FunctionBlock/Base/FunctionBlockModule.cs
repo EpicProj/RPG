@@ -819,18 +819,6 @@ namespace Sim_FrameWork {
         #endregion
 
         //Formula
-        public static List<Dictionary<Material,ushort>> GetFunctionBlockFormulaDataList(FunctionBlock block,FormulaModule.MaterialProductType GetType)
-        {
-            List<Dictionary<Material, ushort>> result = new List<Dictionary<Material, ushort>>();
-
-            List<FormulaData> data = GetFormulaList(block);
-            for (int i = 0; i < data.Count; i++)
-            {
-                Dictionary<Material, ushort> maDic = FormulaModule.GetFormulaMaterialDic(data[i].FormulaID, GetType);
-                result.Add(maDic);
-            }
-            return result;
-        }
 
         public static List<FormulaData> GetFormulaList(FunctionBlock block)
         {

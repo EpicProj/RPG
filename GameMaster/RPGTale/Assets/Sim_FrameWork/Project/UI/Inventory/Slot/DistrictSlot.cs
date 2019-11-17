@@ -5,7 +5,7 @@ using UnityEngine.EventSystems;
 
 namespace Sim_FrameWork.UI
 {
-    public class DistrictSlot : BaseElement {
+    public class DistrictSlot : BaseElementDrag {
 
       
         public DistrictAreaBase infoBase;

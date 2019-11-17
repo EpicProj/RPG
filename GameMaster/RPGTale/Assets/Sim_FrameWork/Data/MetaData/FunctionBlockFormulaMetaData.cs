@@ -21,7 +21,7 @@ public class FunctionBlockFormulaMetaData : ExcelBase
             data.EXP = (ushort)i;
             data.InputMaterialList = "";
             data.OutputMaterialList = "";
-            data.ByProductList = "";
+            data.EnhanceMaterial = "";
             AllFormulaDataList.Add(data);
         }
         AllFormulaInfoList = new List<FormulaInfo>();
@@ -94,7 +94,7 @@ public class FormulaData
     [XmlElement]
     public string OutputMaterialList { get; set; }
     [XmlElement]
-    public string ByProductList { get; set; }
+    public string EnhanceMaterial { get; set; }
 
 }
 [System.Serializable]

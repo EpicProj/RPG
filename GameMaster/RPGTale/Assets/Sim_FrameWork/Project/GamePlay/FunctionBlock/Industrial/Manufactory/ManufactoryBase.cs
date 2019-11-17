@@ -9,6 +9,7 @@ namespace Sim_FrameWork
     {
 
         public ManufactoryInfo manufactoryInfo;
+        public ManufactFormulaInfo formulaInfo;
         public FunctionBlockBase _blockBase;
 
         /// <summary>
@@ -25,26 +26,31 @@ namespace Sim_FrameWork
             List<FormulaData> formulaData = FunctionBlockModule.GetFormulaList(_blockBase.info.block);
             if (formulaData.Count == 1)
             {
-                manufactoryInfo.formulaInfo = new ManufactFormulaInfo(formulaData[0].FormulaID, _blockBase.info.block);
+                formulaInfo = new ManufactFormulaInfo(formulaData[0].FormulaID, _blockBase.info.block);
             }
 
-            foreach(var material in manufactoryInfo.formulaInfo.currentInputMaterialFormulaDic.Keys)
+            var info = formulaInfo;
+            for (int i = 0; i < info.currentInputItem.Count; i++)
             {
-                manufactoryInfo.formulaInfo.realInputDataDic.Add(material, 0);
+                formulaInfo.realInputItem.Add(new FormulaItem(info.currentInputItem[i].model,0));
             }
-            foreach(var material in manufactoryInfo.formulaInfo.currentOutputMaterialFormulaDic.Keys)
+
+            for (int i = 0; i < info.currentOutputItem.Count; i++)
             {
-                manufactoryInfo.formulaInfo.realOutputDataDic.Add(material, 0);
+                formulaInfo.realOutputItem.Add(new FormulaItem(info.currentOutputItem[i].model, 0));
             }
-            //获取材料列表
-            manufactoryInfo.formulaInfo.currentNeedTime = GetCurrentFormulaNeedTime();
+
+            formulaInfo.realEnhanceItem = info.currentEnhanceItem;
+
+
+            formulaInfo.currentNeedTime = GetCurrentFormulaNeedTime();
             _blockBase.OnBlockSelectAction += Onselect;
 
         }
 
         private void Onselect()
         {
-            UIManager.Instance.PopUpWnd(UIPath.WindowPath.BlockManu_Page, WindowType.Page, true, _blockBase.info, manufactoryInfo);
+            UIManager.Instance.PopUpWnd(UIPath.WindowPath.BlockManu_Page, WindowType.Page, true, _blockBase.info, manufactoryInfo,formulaInfo);
         }
 
         /// <summary>
@@ -54,72 +60,55 @@ namespace Sim_FrameWork
         public void ChangeFormula(int formulaID)
         {
             _currentFormulaID = formulaID;
-            manufactoryInfo.formulaInfo.RefreshFormulaID(formulaID);
+            formulaInfo.RefreshFormula(formulaID);
         }
 
         #region Manufact
         /// <summary>
         /// 增加材料到输入栏
         /// </summary>
-        /// <param name="id"></param>
-        /// <param name="count"></param>
-        /// <param name="info"></param>
-        public void AddMaterialToInputSlot(int id,ushort count)
+        /// <param name="item"></param>
+        /// <param name="addCount"></param>
+        public void AddMaterialToInputSlot(FormulaItem item,ushort addCount)
         {
-            //是否有效输入
-            //需要优化
-            Material ma = MaterialModule.GetMaterialByMaterialID(id);
-            if (manufactoryInfo.formulaInfo.currentInputMaterialFormulaDic.ContainsKey(ma))
+            for (int i = 0; i < formulaInfo.currentInputItem.Count; i++)
             {
-                if (manufactoryInfo.formulaInfo.realInputDataDic[ma] +count > ma.BlockCapacity)
+                if (item == formulaInfo.currentInputItem[i])
                 {
-                    return;
+                    //计算格子容量 TODO
+                    formulaInfo.realInputItem[i].count += addCount;
+                    StartManufact();
                 }
-                manufactoryInfo.formulaInfo.realInputDataDic[ma] += count;
-                StartManufact();
-            }
-            else
-            {
-                //非配方
-                return;
             }
         }
 
-        public void ReduceInputSlotNum()
+        private void AddOutputSlotNum()
         {
-           for(int i = 0; i <manufactoryInfo.formulaInfo.inputMaList.Count; i++)
-           {
-                manufactoryInfo.formulaInfo.realInputDataDic[manufactoryInfo.formulaInfo.inputMaList[i]] -= manufactoryInfo.formulaInfo.currentInputMaterialFormulaDic[manufactoryInfo.formulaInfo.inputMaList[i]];
-           }
-
-        }
-
-        public void AddOutputSlotNum()
-        {
-            for(int i = 0; i < manufactoryInfo.formulaInfo.outputMaList.Count; i++)
+            for(int i = 0; i < formulaInfo.currentOutputItem.Count; i++)
             {
-                ushort count = manufactoryInfo.formulaInfo.currentOutputMaterialFormulaDic[manufactoryInfo.formulaInfo.outputMaList[i]];
-                manufactoryInfo.formulaInfo.realOutputDataDic[manufactoryInfo.formulaInfo.outputMaList[i]] += count;
+                ushort count = formulaInfo.currentInputItem[i].count;
+                formulaInfo.realOutputItem[i].count += count;
                 //Add to PlayerData
-                PlayerManager.Instance.AddMaterialData(manufactoryInfo.formulaInfo.outputMaList[i].MaterialID, count);
+                PlayerManager.Instance.AddMaterialData(formulaInfo.currentOutputItem[i].model.ID, count);
             }
         }
-        public void StartManufact()
+
+        private void StartManufact()
         {
-            if (CheckCanproduce() && manufactoryInfo.formulaInfo.inProgress == false)
+            if (CheckCanproduce() && formulaInfo.inProgress == false)
             {
-                manufactoryInfo.formulaInfo.inProgress = true;
+                formulaInfo.inProgress = true;
                 StartCoroutine(WaitManufactFinish());
             }
         }
 
-        public bool CheckCanproduce()
+        private bool CheckCanproduce()
         {
-            foreach (KeyValuePair<Material, ushort> kvp in manufactoryInfo.formulaInfo.realInputDataDic)
+            for(int i = 0; i < formulaInfo.realInputItem.Count; i++)
             {
-                if (kvp.Value < manufactoryInfo.formulaInfo.currentInputMaterialFormulaDic[kvp.Key])
+                if (formulaInfo.realInputItem[i].count < formulaInfo.currentInputItem[i].count)
                 {
-                    manufactoryInfo.formulaInfo.inProgress = false;
+                    formulaInfo.inProgress = false;
                     return false;
                 }
             }
@@ -130,24 +119,33 @@ namespace Sim_FrameWork
         IEnumerator WaitManufactFinish()
         {
             yield return new WaitForSeconds(GetCurrentFormulaNeedTime());
-            manufactoryInfo.formulaInfo.inProgress = false;
-            //Reduce Input num
+            formulaInfo.inProgress = false;
+            ///Reduce Input num
             ReduceInputSlotNum();
-            //Add OutPut
+            ///Add OutPut
             AddOutputSlotNum();
-            //UpdateUI
-            UIManager.Instance.SendMessageToWnd(UIPath.WindowPath.FUNCTIONBLOCK_INFO_DIALOG, new UIMessage(UIMsgType.UpdateManuSlot, new List<object>(1) { manufactoryInfo.formulaInfo }));
 
-            //UpdateEXP
-            _blockBase.info.levelInfo.AddCurrentBlockEXP(manufactoryInfo.formulaInfo.currentFormulaData.EXP);
-            UIManager.Instance.SendMessageToWnd(UIPath.WindowPath.FUNCTIONBLOCK_INFO_DIALOG, new UIMessage(UIMsgType.UpdateLevelInfo, new List<object>(1) { _blockBase.info.levelInfo }));
+            ///UpdateUI
+            UIManager.Instance.SendMessageToWnd(UIPath.WindowPath.BlockManu_Page, new UIMessage(UIMsgType.UpdateManuSlot, new List<object>(1) { formulaInfo }));
+
+            ///UpdateEXP
+            _blockBase.info.levelInfo.AddCurrentBlockEXP(formulaInfo.currentFormulaData.EXP);
+            UIManager.Instance.SendMessageToWnd(UIPath.WindowPath.BlockManu_Page, new UIMessage(UIMsgType.UpdateLevelInfo, new List<object>(1) { _blockBase.info.levelInfo }));
 
             StartManufact();
         }
 
-        public float GetCurrentFormulaNeedTime()
+        private void ReduceInputSlotNum()
         {
-            float totalTime = manufactoryInfo.formulaInfo.currentFormulaData.ProductSpeed;
+            for (int i = 0; i < formulaInfo.currentInputItem.Count; i++)
+            {
+                formulaInfo.realInputItem[i].count -= formulaInfo.currentInputItem[i].count;
+            }
+        }
+
+        private float GetCurrentFormulaNeedTime()
+        {
+            float totalTime = formulaInfo.currentFormulaData.ProductSpeed;
             float time = totalTime / manufactoryInfo.CurrentSpeed;
             return time;
         }
@@ -157,8 +155,6 @@ namespace Sim_FrameWork
     }
     public class ManufactoryInfo
     {
-
-        public ManufactFormulaInfo formulaInfo;
         public FunctionBlock_Industry IndustryData;
         public ManufactoryBaseInfoData.ManufactureInherentLevelData inherentLevelData;
 
@@ -237,65 +233,76 @@ namespace Sim_FrameWork
 
     public class ManufactFormulaInfo
     {
-
-
-        public List<FormulaData> FormulaIDList = new List<FormulaData>();
+        /// <summary>
+        /// 可选配方列表
+        /// </summary>
+        public List<FormulaData> FormulaChooseList = new List<FormulaData>();
         public int CurrentFormulaID;
         public FormulaData currentFormulaData;
         public bool inProgress = false;
+        /// <summary>
+        /// 当前生产所需最大时长
+        /// </summary>
         public float currentNeedTime;
 
 
-        public List<Material> inputMaList = new List<Material>();
-        public List<Material> outputMaList = new List<Material>();
-
         /// <summary>
-        /// 实际槽位中的物品
+        /// 配方所需材料
         /// </summary> 
-        public Dictionary<Material, ushort> currentInputMaterialFormulaDic;
-        public Dictionary<Material, ushort> currentOutputMaterialFormulaDic;
-        public Dictionary<Material, ushort> currentBypruductMaterialFormulaDic;
+        public List<FormulaItem> currentInputItem;
+        public List<FormulaItem> currentOutputItem;
+        public FormulaItem  currentEnhanceItem;
         /// <summary>
-        /// 配方槽位物品
+        /// 实际输入材料
         /// </summary>
-        public Dictionary<Material, ushort> realInputDataDic = new Dictionary<Material, ushort>();
-        public Dictionary<Material, ushort> realOutputDataDic = new Dictionary<Material, ushort>();
-        public Dictionary<Material, ushort> realBypruductDataDic = new Dictionary<Material, ushort>();
+        public List<FormulaItem> realInputItem = new List<FormulaItem>();
+        public List<FormulaItem> realOutputItem = new List<FormulaItem>();
+        public FormulaItem realEnhanceItem;
 
-        /// <summary>
-        /// 所有配方列表
-        /// </summary>
-        public List<Dictionary<Material, ushort>> InputMaterialFormulaList = new List<Dictionary<Material, ushort>>();
-        public List<Dictionary<Material, ushort>> OutputMaterialFormulaList = new List<Dictionary<Material, ushort>>();
-        public List<Dictionary<Material, ushort>> BypruductMaterialFormulaList = new List<Dictionary<Material, ushort>>();
 
         public ManufactFormulaInfo(int currentFormulaID,FunctionBlock block)
         {
             CurrentFormulaID = currentFormulaID;
-            FormulaIDList = FunctionBlockModule.GetFormulaList(block);
+            FormulaChooseList = FunctionBlockModule.GetFormulaList(block);
             currentFormulaData = FormulaModule.GetFormulaDataByID(currentFormulaID);
-            currentInputMaterialFormulaDic = FormulaModule.GetFormulaMaterialDic(currentFormulaID, FormulaModule.MaterialProductType.Input);
-            currentOutputMaterialFormulaDic = FormulaModule.GetFormulaMaterialDic(currentFormulaID, FormulaModule.MaterialProductType.Output);
-            currentBypruductMaterialFormulaDic = FormulaModule.GetFormulaMaterialDic(currentFormulaID, FormulaModule.MaterialProductType.Byproduct);
+            currentInputItem = FormulaModule.GetFormulaItemList(currentFormulaID, FormulaModule.MaterialProductType.Input);
+            currentOutputItem = FormulaModule.GetFormulaItemList(currentFormulaID, FormulaModule.MaterialProductType.Output);
+            currentEnhanceItem = FormulaModule.GetFormulaEnhanceMaterial(currentFormulaID);
 
-            InputMaterialFormulaList = FunctionBlockModule.GetFunctionBlockFormulaDataList(block, FormulaModule.MaterialProductType.Input);
-            OutputMaterialFormulaList = FunctionBlockModule.GetFunctionBlockFormulaDataList(block, FormulaModule.MaterialProductType.Output);
-            BypruductMaterialFormulaList = FunctionBlockModule.GetFunctionBlockFormulaDataList(block, FormulaModule.MaterialProductType.Byproduct);
-            //INIT SLOT
-            inputMaList = FormulaModule.GetFormulaTotalMaterialList(currentFormulaID, FormulaModule.MaterialProductType.Input);
-            outputMaList = FormulaModule.GetFormulaTotalMaterialList(currentFormulaID, FormulaModule.MaterialProductType.Output);
         }
 
-        public void RefreshFormulaID(int formulaID)
+
+
+        public void RefreshFormula(int formulaID)
         {
+
             CurrentFormulaID = formulaID;
             currentFormulaData = FormulaModule.GetFormulaDataByID(formulaID);
-            currentInputMaterialFormulaDic = FormulaModule.GetFormulaMaterialDic(formulaID, FormulaModule.MaterialProductType.Input);
-            currentOutputMaterialFormulaDic = FormulaModule.GetFormulaMaterialDic(formulaID, FormulaModule.MaterialProductType.Output);
-            currentBypruductMaterialFormulaDic = FormulaModule.GetFormulaMaterialDic(formulaID, FormulaModule.MaterialProductType.Byproduct);
-            //INIT SLOT
-            inputMaList = FormulaModule.GetFormulaTotalMaterialList(formulaID, FormulaModule.MaterialProductType.Input);
-            outputMaList = FormulaModule.GetFormulaTotalMaterialList(formulaID, FormulaModule.MaterialProductType.Output);
+            currentInputItem = FormulaModule.GetFormulaItemList(formulaID, FormulaModule.MaterialProductType.Input);
+            currentOutputItem = FormulaModule.GetFormulaItemList(formulaID, FormulaModule.MaterialProductType.Output);
+            currentEnhanceItem = FormulaModule.GetFormulaEnhanceMaterial(CurrentFormulaID);
+
+        }
+
+    }
+
+    public class FormulaItem
+    {
+        public MaterialDataModel model;
+        public ushort count;
+
+        public FormulaItem(MaterialDataModel Model, ushort Count)
+        {
+            model = Model;
+            count = Count;
+        }
+
+        public FormulaItem(Material ma, ushort Count)
+        {
+            MaterialDataModel _model = new MaterialDataModel();
+            _model.Create(ma.MaterialID);
+            model = _model;
+            count = Count;
         }
 
     }

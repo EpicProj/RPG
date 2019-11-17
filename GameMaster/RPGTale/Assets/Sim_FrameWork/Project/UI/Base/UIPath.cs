@@ -9,7 +9,6 @@ namespace Sim_FrameWork
         public struct WindowPath
         {
             #region DialogPath
-            public const string FUNCTIONBLOCK_INFO_DIALOG = "Dialog/FunctionBlock/BlockInfoDialog";
 
             /// <summary>
             /// 信息确认框
@@ -67,8 +66,6 @@ namespace Sim_FrameWork
             public const string DISTRICT_PREFAB_PATH = "Assets/Prefabs/Object/District/District.prefab";
             //区划底格
             public const string DISTRICTSLOT_PREFAB_PATH = "Assets/Prefabs/Object/District/BlockGrid.prefab";
-            //材料单位
-            public const string MATERIAL_PREFAB_PATH = "Assets/Prefabs/Object/Material/MaterialItem.prefab";
             //区划建造单位
             public const string DISTRICT_BUILD_PREFAB_PATH = "Assets/Prefabs/Object/District/DistrictBuildElemet.prefab";
             //区划建造花费
