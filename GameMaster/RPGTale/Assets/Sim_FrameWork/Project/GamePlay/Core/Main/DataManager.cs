@@ -36,6 +36,7 @@ namespace Sim_FrameWork {
             UIManager.Instance.Register<ConsolePageContext>(UIPath.WindowPath.Console_Page);
             UIManager.Instance.Register<GameLoadDialogContext>(UIPath.WindowPath.MainMenu_GameLoad_Dialog);
             UIManager.Instance.Register<BlockManuPageContext>(UIPath.WindowPath.BlockManu_Page);
+            UIManager.Instance.Register<MaterialInfoUIContext>(UIPath.WindowPath.Material_Info_UI);
         }
 
     }

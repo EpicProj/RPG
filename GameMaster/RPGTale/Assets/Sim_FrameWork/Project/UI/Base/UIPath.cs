@@ -55,6 +55,15 @@ namespace Sim_FrameWork
 
             #endregion
 
+
+            #region Misc
+            /// <summary>
+            /// 材料详情
+            /// </summary>
+            public const string Material_Info_UI = "Misc/MaterialInfoUI";
+
+            #endregion
+
         }
 
 
