@@ -1,16 +1,15 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
-public class ProductLineChangeDialog : MonoBehaviour {
+namespace Sim_FrameWork
+{
+    public class ProductLineChangeDialog : MonoBehaviour
+    {
+        public Button ConfirmBtn;
+        public Button CloseBtn;
+        public Text Title;
 
-	// Use this for initialization
-	void Start () {
-		
-	}
-	
-	// Update is called once per frame
-	void Update () {
-		
-	}
+    }
 }

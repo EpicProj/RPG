@@ -20,21 +20,19 @@ namespace Sim_FrameWork
         private Canvas mainCanvas;
         private Camera uiCamera;
 
-        private bool isInfoTipShow = false;
+
+        
 
         void Start()
         {
-            mainCanvas = GameObject.Find("MainCanvas").GetComponent<Canvas>();
-            uiCamera = mainCanvas.transform.Find("UICamera").GetComponent<Camera>();
+            mainCanvas = UIUtility.SafeGetComponent<Canvas>(Utility.SafeFindGameobject("MainCanvas").transform);
+            uiCamera = UIUtility.SafeGetComponent<Camera>(Utility.SafeFindGameobject("MainCanvas/UICamera").transform);
             pickedItem = mainCanvas.transform.Find("SPContent/PickedDistrict").GetComponent<SlotItem>();
             pickedItem.Hide();
 
         }
 
-        void Update()
-        {
 
-        }
 
         protected override void Awake()
         {
@@ -44,13 +42,6 @@ namespace Sim_FrameWork
 
 
         //Pick Item
-        public void PickUpFunctionBlock(FunctionBlock block, int amount = 1)
-        {
-            pickedItem.SetFunctionBlock(block, amount);
-            isPickedItem = true;
-            pickedItem.Show();
-            pickedItem.SetLocalPosition(GetCurrentMousePos());
-        }
 
         public void PickUpDistrictArea(DistrictAreaInfo info)
         {
@@ -69,7 +60,7 @@ namespace Sim_FrameWork
         /// 获取当前鼠标位置
         /// </summary>
         /// <returns></returns>
-        Vector2 GetCurrentMousePos()
+        public Vector2 GetCurrentMousePos()
         {
             Vector2 position;
             RectTransformUtility.ScreenPointToLocalPointInRectangle(mainCanvas.transform as RectTransform, Input.mousePosition, uiCamera, out position);
@@ -108,17 +99,6 @@ namespace Sim_FrameWork
                 pickedItem.Hide();
             }
         }
-
-        public void ShowMaterialInfoTip(MaterialDataModel model)
-        {
-            isInfoTipShow = true;
-
-        }
-        public void HideMaterialInfoTip()
-        {
-            isInfoTipShow = false;
-        }
-
 
        
     }

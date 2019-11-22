@@ -19,6 +19,10 @@ namespace Sim_FrameWork
             /// 载入存档
             /// </summary>
             public const string MainMenu_GameLoad_Dialog = "Dialog/Main/GameLoadDialog";
+            /// <summary>
+            /// 生产线选择
+            /// </summary>
+            public const string ProductLine_Change_Dialog = "Dialog/FunctionBlock/ProductLineChangeDialog";
 
             #endregion
 

@@ -9,7 +9,8 @@ namespace Sim_FrameWork {
     public enum WindowType
     {
         Page,
-        Dialog
+        Dialog,
+        SPContent,
     }
 
     public class UIManager : Singleton<UIManager> {
@@ -19,6 +20,7 @@ namespace Sim_FrameWork {
         //窗口节点
         private RectTransform m_WndRoot;
         private RectTransform m_DialogRoot;
+        private RectTransform m_SpcontentRoot;
 
         //UI摄像机
         private Camera m_UICamera;
@@ -43,11 +45,12 @@ namespace Sim_FrameWork {
         /// <param name="uiRoot">UI父节点</param>
         /// <param name="wndRoot">窗口父节点</param>
         /// <param name="uiCamera">UI摄像机</param>
-        public void Init(RectTransform uiRoot, RectTransform wndRoot, RectTransform dialogRoot,  Camera uiCamera, EventSystem eventSystem)
+        public void Init(RectTransform uiRoot, RectTransform wndRoot, RectTransform dialogRoot,RectTransform spContentRoot,  Camera uiCamera, EventSystem eventSystem)
         {
             m_UiRoot = uiRoot;
             m_WndRoot = wndRoot;
             m_DialogRoot = dialogRoot;
+            m_SpcontentRoot = spContentRoot;
             m_UICamera = uiCamera;
             m_EventSystem = eventSystem;
             m_CanvasRate = Screen.height / (m_UICamera.orthographicSize * 2);
@@ -207,9 +210,11 @@ namespace Sim_FrameWork {
                 else if(type == WindowType.Dialog)
                 {
                     wndObj.transform.SetParent(m_DialogRoot, false);
+                }else if(type== WindowType.SPContent)
+                {
+                    wndObj.transform.SetParent(m_SpcontentRoot, false);
                 }
                
-
 
                 if (bTop)
                 {

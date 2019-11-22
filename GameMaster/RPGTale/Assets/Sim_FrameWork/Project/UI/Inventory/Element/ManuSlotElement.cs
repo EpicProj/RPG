@@ -13,6 +13,9 @@ namespace Sim_FrameWork
         private Text materialCountText;
         private Text TitleText;
 
+        private MaterialDataModel _model;
+        private ushort _count = 0;
+
         private const string ManuSlotElement_Enhance_Title = "ManuSlotElement_Enhance_Title";
 
         public override void Awake()
@@ -23,8 +26,10 @@ namespace Sim_FrameWork
         }
 
 
-        public void SetUpElement(MaterialDataModel model, int needAmount,int currentAmount)
+        public void SetUpElement(MaterialDataModel model, ushort needAmount,ushort currentAmount)
         {
+            _model = model;
+            _count = currentAmount;
             if(SlotType== FormulaModule.MaterialProductType.Enhance)
             {
                 TitleText.text = MultiLanguage.Instance.GetTextValue(ManuSlotElement_Enhance_Title);
@@ -46,7 +51,7 @@ namespace Sim_FrameWork
             }
         }
 
-        public void RefreshCount(MaterialDataModel model,int currentAmount)
+        public void RefreshCount(MaterialDataModel model,ushort currentAmount)
         {
             if (currentAmount <= 0)
             {
@@ -59,9 +64,11 @@ namespace Sim_FrameWork
             }
             else
             {
+
                 SetElementState(true);
                 materialCountText.text = currentAmount.ToString();
             }
+            _count = currentAmount;
         }
 
 
@@ -79,11 +86,15 @@ namespace Sim_FrameWork
 
         public override void OnPointerEnter(PointerEventData eventData)
         {
+            if (_model.ID != 0 && _count!=0)
+            {
+                UIManager.Instance.PopUpWnd(UIPath.WindowPath.Material_Info_UI, WindowType.SPContent, true, _model);
+            }
         }
 
         public override void OnPointerExit(PointerEventData eventData)
         {
-            InventoryManager.Instance.HideMaterialInfoTip();
+            UIManager.Instance.HideWnd(UIPath.WindowPath.Material_Info_UI);
         }
 
     }

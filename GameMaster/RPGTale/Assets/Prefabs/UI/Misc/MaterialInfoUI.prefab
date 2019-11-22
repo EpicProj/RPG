@@ -154,7 +154,7 @@ GameObject:
   - component: {fileID: 224147983601834926}
   - component: {fileID: 114891235603468090}
   m_Layer: 5
-  m_Name: MaterialInfo
+  m_Name: MaterialInfoUI
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -545,6 +545,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 51c40de3338be8a4cbf6e2e900fbf4ee, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  Name: {fileID: 114650882773579422}
+  Desc: {fileID: 114487248310889102}
+  BG: {fileID: 114556040612004970}
+  RemainNum: {fileID: 114508128731758498}
+  RareTrans: {fileID: 224439084089899262}
 --- !u!114 &114925303912632228
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -701,9 +706,9 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -381.00003, y: -93}
+  m_AnchoredPosition: {x: -396.00006, y: -85.499985}
   m_SizeDelta: {x: 300, y: 150}
-  m_Pivot: {x: 0, y: 1}
+  m_Pivot: {x: -0.05, y: 1.05}
 --- !u!224 &224167736669296224
 RectTransform:
   m_ObjectHideFlags: 1

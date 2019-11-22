@@ -45,6 +45,9 @@ namespace Sim_FrameWork.UI
         private Transform Enhance_Trans;
         private Transform Output_Trans;
 
+        //Formula
+        bool isfirstChoose = true;
+
         #region Override Method
         public override void Awake(params object[] paralist)
         {
@@ -133,6 +136,11 @@ namespace Sim_FrameWork.UI
             AddButtonClickListener(m_page.BackBtn, () =>
             {
                 UIManager.Instance.HideWnd(UIPath.WindowPath.BlockManu_Page);
+            });
+            AddButtonClickListener(m_page.FormulaChange, () =>
+            {
+                UIManager.Instance.PopUpWnd(UIPath.WindowPath.ProductLine_Change_Dialog, WindowType.Dialog, true, formulaInfo.FormulaChooseList, isfirstChoose);
+                AudioManager.Instance.PlaySound(AudioClipPath.UISound.Page_Open);
             });
         }
 
