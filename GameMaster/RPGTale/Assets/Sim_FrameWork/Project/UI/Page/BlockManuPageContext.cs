@@ -37,14 +37,7 @@ namespace Sim_FrameWork.UI
         private Text EXPValuePercentText;
         private Text LVText;
 
-        //ManuCore
-        private Transform InputContent;
-        private Transform OutputContent;
-        private Transform EnhanceContent;
-
-        private Transform Enhance_Trans;
-        private Transform Output_Trans;
-
+        private FormulaContentCmpt _formulaContentCpmt;
         //Formula
         bool isfirstChoose = true;
 
@@ -60,8 +53,6 @@ namespace Sim_FrameWork.UI
             InitTransformRef();
             AddButtonListener();
             InitInfoPanel();
-            RefreshManuElementTrans(formulaInfo);
-            InitFormulaSlot(formulaInfo);
         }
 
 
@@ -73,7 +64,7 @@ namespace Sim_FrameWork.UI
 
             AudioManager.Instance.PlaySound(AudioClipPath.UISound.Page_Open);
             RefreshInfoAll(manufactoryInfo);
-            RefreshFormulaSlotNum(formulaInfo);
+            _formulaContentCpmt.RefreshFormulaSlotNum(formulaInfo);
             UpdateLevel();
         }
 
@@ -85,7 +76,7 @@ namespace Sim_FrameWork.UI
                     ManufactFormulaInfo info = (ManufactFormulaInfo)msg.content[0];
                     //Update Info
                     formulaInfo = info;
-                    RefreshFormulaSlotNum(formulaInfo);
+                    _formulaContentCpmt.RefreshFormulaSlotNum(formulaInfo);
                     return true;
                 case UIMsgType.UpdateLevelInfo:
                     blockInfo.levelInfo = (FunctionBlockLevelInfo)msg.content[0];
@@ -123,12 +114,8 @@ namespace Sim_FrameWork.UI
             EXPValuePercentText = UIUtility.SafeGetComponent<Text>(UIUtility.FindTransfrom(m_page.EXPContent, "Percent"));
             LVText = UIUtility.SafeGetComponent<Text>(UIUtility.FindTransfrom(m_page.BlockLevelInfo, "Value"));
 
-            InputContent = UIUtility.FindTransfrom(m_page.ManuContent, "Input");
-            OutputContent = UIUtility.FindTransfrom(m_page.ManuContent, "Output");
-            EnhanceContent = UIUtility.FindTransfrom(m_page.ManuContent, "Enhance");
-
-            Enhance_Trans = UIUtility.FindTransfrom(EnhanceContent, "ManuSlotElement");
-            Output_Trans = UIUtility.FindTransfrom(OutputContent, "ManuSlotElement");
+            _formulaContentCpmt = UIUtility.SafeGetComponent<FormulaContentCmpt>(m_page.ManuContent);
+            _formulaContentCpmt.Init(formulaInfo, FormulaContentCmpt.InitType.Normal);
         }
 
         void AddButtonListener()
@@ -160,6 +147,7 @@ namespace Sim_FrameWork.UI
             m_page.Title.transform.Find("Text/Icon").GetComponent<Image>().sprite = blockInfo.dataModel.Icon;
             m_page.BlockBG.sprite = blockInfo.dataModel.BG;
             m_page.BlockDesc.text = blockInfo.dataModel.Desc;
+
         }
 
 
@@ -193,68 +181,6 @@ namespace Sim_FrameWork.UI
             RefreshInfoText(info.Maintain, InfoType.Maintain);
         }
 
-        private void RefreshManuElementTrans(ManufactFormulaInfo info)
-        {
-            var inputCount = info.currentInputItem.Count;
-            foreach(Transform trans in InputContent)
-            {
-                trans.gameObject.SetActive(false);
-            }
-            for(int i = 0; i < inputCount; i++)
-            {
-                InputContent.GetChild(i).gameObject.SetActive(true);
-            }
-            
-            ///Enhance
-            if (info.currentEnhanceItem == null)
-            {
-                Enhance_Trans.gameObject.SetActive(false);
-            }
-            else
-            {
-                Enhance_Trans.gameObject.SetActive(true);
-            }
-
-        }
-
-        /// <summary>
-        /// 初始化格子
-        /// </summary>
-        /// <param name="info"></param>
-        public void InitFormulaSlot(ManufactFormulaInfo info)
-        {
-            ///Input
-            for(int i = 0; i < info.currentInputItem.Count; i++)
-            {
-                var element = UIUtility.SafeGetComponent<ManuSlotElement>(InputContent.GetChild(i));
-                element.SetUpElement(info.currentInputItem[i].model, info.currentInputItem[i].count, info.realInputItem[i].count);
-            }
-
-            ///Enhance
-            if (info.currentEnhanceItem != null)
-            {
-                var element = UIUtility.SafeGetComponent<ManuSlotElement>(Enhance_Trans);
-                element.SetUpElement(info.currentEnhanceItem.model, info.currentEnhanceItem.count, info.realEnhanceItem.count);
-            }
-
-            ///OutPut
-            var outputElement = UIUtility.SafeGetComponent<ManuSlotElement>(Output_Trans);
-            outputElement.SetUpElement(info.currentOutputItem.model, info.currentOutputItem.count, info.realOutputItem.count);
-          
-        }
-
-        public void RefreshFormulaSlotNum(ManufactFormulaInfo info)
-        {
-            for (int i = 0; i < info.currentInputItem.Count; i++)
-            {
-                var element = UIUtility.SafeGetComponent<ManuSlotElement>(InputContent.GetChild(i));
-                element.RefreshCount(info.currentInputItem[i].model,info.realInputItem[i].count);
-            }
-
-            var outputElement = UIUtility.SafeGetComponent<ManuSlotElement>(Output_Trans);
-            outputElement.RefreshCount(info.currentOutputItem.model, info.realOutputItem.count);
-
-        }
 
 
 

@@ -5,7 +5,7 @@ using System;
 
 namespace Sim_FrameWork
 {
-    public class BasicMiscsTool : MonoBehaviour
+    public static class BasicMiscsTool 
     {
 
         //PercentTool Random

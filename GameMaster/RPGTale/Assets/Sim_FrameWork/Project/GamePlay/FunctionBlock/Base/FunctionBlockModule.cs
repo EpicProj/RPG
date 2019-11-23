@@ -824,7 +824,6 @@ namespace Sim_FrameWork {
         {
             return FormulaModule.GetFormulaDataList(FetchFunctionBlockTypeIndex<FunctionBlock_Industry>(block.FunctionBlockID).FormulaInfoID);
         }
-
         #endregion
     }
 

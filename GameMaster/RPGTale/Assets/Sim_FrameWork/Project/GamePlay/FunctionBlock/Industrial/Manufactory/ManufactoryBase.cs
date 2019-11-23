@@ -32,7 +32,7 @@ namespace Sim_FrameWork
             _blockBase = UIUtility.SafeGetComponent<FunctionBlockBase>(transform);
             manufactoryInfo = new ManufactoryInfo(_blockBase.functionBlock);
             List<FormulaData> formulaData = FunctionBlockModule.GetFormulaList(_blockBase.info.block);
-            if (formulaData.Count == 1)
+            if (formulaData.Count >= 1)
             {
                 formulaInfo = new ManufactFormulaInfo(formulaData[0].FormulaID, _blockBase.info.block);
             }
@@ -256,7 +256,7 @@ namespace Sim_FrameWork
         /// 当前生产所需最大时长
         /// </summary>
         public float currentNeedTime;
-
+        public float MaxNeedTime;
 
         /// <summary>
         /// 配方所需材料
@@ -280,7 +280,17 @@ namespace Sim_FrameWork
             currentInputItem = FormulaModule.GetFormulaItemList(currentFormulaID, FormulaModule.MaterialProductType.Input);
             currentOutputItem = FormulaModule.GetFormulaOutputMaterial(currentFormulaID);
             currentEnhanceItem = FormulaModule.GetFormulaEnhanceMaterial(currentFormulaID);
+            MaxNeedTime = currentFormulaData.ProductSpeed;
+        }
 
+        public ManufactFormulaInfo(int currentFormulaID)
+        {
+            CurrentFormulaID = currentFormulaID;
+            currentFormulaData = FormulaModule.GetFormulaDataByID(currentFormulaID);
+            currentInputItem = FormulaModule.GetFormulaItemList(currentFormulaID, FormulaModule.MaterialProductType.Input);
+            currentOutputItem = FormulaModule.GetFormulaOutputMaterial(currentFormulaID);
+            currentEnhanceItem = FormulaModule.GetFormulaEnhanceMaterial(currentFormulaID);
+            MaxNeedTime = currentFormulaData.ProductSpeed;
         }
 
 

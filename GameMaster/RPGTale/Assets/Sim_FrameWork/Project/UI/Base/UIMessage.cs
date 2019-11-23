@@ -27,6 +27,7 @@ namespace Sim_FrameWork
         UpdateLevelInfo,//更新等级
         UpdateSpeedText,//更新速度
         UpdateWarehouseData,//更新仓库
+        ProductLine_Formula_Change,//更新生产线
 
         /// <summary>
         /// Update Resource

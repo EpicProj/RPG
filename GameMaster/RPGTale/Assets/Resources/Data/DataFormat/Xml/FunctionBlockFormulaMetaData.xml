@@ -4,6 +4,7 @@
     <FormulaID>100</FormulaID>
     <FormulaName>FormulaName_100</FormulaName>
     <FormulaDesc>FormulaDesc_100</FormulaDesc>
+    <IconPath>SpriteOutput/FunctionBlock/Formula/Icon/MTL_003</IconPath>
     <ProductSpeed>10</ProductSpeed>
     <EXP>110</EXP>
     <InputMaterialList>100:2</InputMaterialList>
@@ -14,6 +15,7 @@
     <FormulaID>101</FormulaID>
     <FormulaName>FormulaName_101</FormulaName>
     <FormulaDesc>FormulaDesc_101</FormulaDesc>
+    <IconPath>SpriteOutput/FunctionBlock/Formula/Icon/MTL_001</IconPath>
     <ProductSpeed>10</ProductSpeed>
     <EXP>110</EXP>
     <InputMaterialList>100:10,101:10</InputMaterialList>
@@ -23,6 +25,6 @@
   <AllFormulaInfoList>
     <InfoID>100</InfoID>
     <InfoType>1</InfoType>
-    <FormulaList>100</FormulaList>
+    <FormulaList>100,101</FormulaList>
   </AllFormulaInfoList>
 </FunctionBlockFormulaMetaData>

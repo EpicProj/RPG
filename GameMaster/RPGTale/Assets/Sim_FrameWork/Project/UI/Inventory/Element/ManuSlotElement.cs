@@ -51,6 +51,26 @@ namespace Sim_FrameWork
             }
         }
 
+        /// <summary>
+        /// 初始化更换生产线
+        /// </summary>
+        /// <param name="model"></param>
+        /// <param name="count"></param>
+        public void SetUpFormulaChangeElement(MaterialDataModel model,ushort count)
+        {
+            _model = model;
+            _count = count;
+            if(SlotType == FormulaModule.MaterialProductType.Enhance)
+            {
+                TitleText.text = MultiLanguage.Instance.GetTextValue(ManuSlotElement_Enhance_Title);
+            }else if (SlotType== FormulaModule.MaterialProductType.Input)
+            {
+                TitleText.text = model.Name;
+            }
+            materialIcon.sprite = model.Icon;
+            materialCountText.text = count.ToString();
+        }
+
         public void RefreshCount(MaterialDataModel model,ushort currentAmount)
         {
             if (currentAmount <= 0)

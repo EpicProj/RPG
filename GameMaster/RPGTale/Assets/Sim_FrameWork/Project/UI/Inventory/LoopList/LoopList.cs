@@ -43,6 +43,8 @@ namespace Sim_FrameWork
         private GameObject _item;
         private List<BaseElement> _elementList;
 
+        public List<BaseElement> ElementList { get { return _elementList; } }
+
         /// <summary>
         /// Element Data
         /// </summary>
@@ -199,7 +201,7 @@ namespace Sim_FrameWork
                 default:
                     break;
             }
-       
         }
+
     }
 }

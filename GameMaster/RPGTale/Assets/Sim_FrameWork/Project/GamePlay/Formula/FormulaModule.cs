@@ -63,6 +63,15 @@ namespace Sim_FrameWork
         {
             return MultiLanguage.Instance.GetTextValue(GetFormulaDataByID(formulaID).FormulaDesc);
         }
+        public static Sprite GetFormulaIcon(FormulaData data)
+        {
+            return Utility.LoadSprite(data.IconPath, Utility.SpriteType.png);
+        }
+        public static Sprite GetFormulaIcon(int formulaID)
+        {
+            return GetFormulaIcon(GetFormulaDataByID(formulaID));
+        }
+
         //Speed Base
         public static float GetProductSpeed(int formulaID)
         {

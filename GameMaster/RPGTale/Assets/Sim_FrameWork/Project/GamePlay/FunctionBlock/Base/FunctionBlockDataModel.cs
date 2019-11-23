@@ -11,7 +11,7 @@ namespace Sim_FrameWork
         {
             if (FunctionBlockModule.GetFunctionBlockByBlockID(id) == null)
                 return false;
-            ID = id;
+            _id = id;
             return true;
         }
 

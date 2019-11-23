@@ -86,6 +86,7 @@ namespace Sim_FrameWork
                         continue;
                     UIManager.Instance.HideWnd(list[i]);
                     AudioManager.Instance.PlaySound(AudioClipPath.UISound.Btn_Close);
+                    break;
                 }
             }
 
