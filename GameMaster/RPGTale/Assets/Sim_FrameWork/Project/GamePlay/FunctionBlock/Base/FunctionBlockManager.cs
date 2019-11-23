@@ -48,7 +48,19 @@ namespace Sim_FrameWork
 
             return instance;
         }
+        public FunctionBlockBase AddFunctionBlock(int functionBlockID)
+        {
+            int posX = 0;
+            int posZ = 0;
+            return AddFunctionBlock(functionBlockID, -1, posX, posZ);
+        }
 
+
+        /// <summary>
+        /// 获取工厂物体
+        /// </summary>
+        /// <param name="instanceID"></param>
+        /// <returns></returns>
         public GameObject GetFunctionBlockObject(int instanceID)
         {
             var obj= FunctionBlockContainer.transform.Find(instanceID.ToString()+ "[Block]");
@@ -59,13 +71,14 @@ namespace Sim_FrameWork
             return null;
         }
 
-        public FunctionBlockBase AddFunctionBlock(int functionBlockID)
+        public FunctionBlockBase GetFunctionBlockBase(int instanceID)
         {
-            int posX = 0;
-            int posZ = 0;
-            return AddFunctionBlock(functionBlockID, -1, posX, posZ);
+            if (_functionBlockInstances.ContainsKey(instanceID))
+            {
+                return _functionBlockInstances[instanceID];
+            }
+            return null;
         }
-
 
 
         public void RemoveItem(FunctionBlockBase block)
@@ -104,6 +117,23 @@ namespace Sim_FrameWork
             }
             return blocks;
         }
+
+        #region ManuBlock
+        public ManufactoryBase GetManuBlockBase(int instanceID)
+        {
+            var obj = GetFunctionBlockObject(instanceID);
+            if (obj != null)
+            {
+                var manuBase = UIUtility.SafeGetComponent<ManufactoryBase>(obj.transform);
+                if (manuBase != null)
+                    return manuBase;
+            }
+            return null;
+        }
+
+
+        #endregion
+
 
     }
 }

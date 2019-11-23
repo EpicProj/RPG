@@ -19,6 +19,7 @@ namespace Sim_FrameWork.UI
         private Text _timeText;
         private Text _desc;
         private LoopList _loopList;
+        private TypeWriterEffect typeWriter;
 
         private const string FormulaChange_Dialog_Title_Change = "FormulaChange_Dialog_Title_Change";
         private const string FormulaChange_Dialog_Title_Choose = "FormulaChange_Dialog_Title_Choose";
@@ -42,6 +43,11 @@ namespace Sim_FrameWork.UI
             _formulaList = (List<FormulaData>)paralist[0];
             _isFirstChoose = (bool)paralist[1];
             
+        }
+
+        public override void OnClose()
+        {
+            AudioManager.Instance.PlaySound(AudioClipPath.UISound.Btn_Close);
         }
 
         public override bool OnMessage(UIMessage msg)
@@ -83,6 +89,7 @@ namespace Sim_FrameWork.UI
             _formulaContentCmpt = UIUtility.SafeGetComponent<FormulaContentCmpt>(UIUtility.FindTransfrom(m_dialog.ManuContent, "FormulaContent"));
             _desc = UIUtility.SafeGetComponent<Text>(UIUtility.FindTransfrom(m_dialog.ManuContent, "Desc"));
             _loopList = UIUtility.SafeGetComponent<LoopList>(m_dialog.ScrollViewTrans);
+            typeWriter = UIUtility.SafeGetComponent<TypeWriterEffect>(_desc.transform);
         }
 
 
@@ -102,8 +109,8 @@ namespace Sim_FrameWork.UI
             var currentFormulaData = FormulaModule.GetFormulaDataByID(_currentFormulaID);
             _timeText.text =currentFormulaData.ProductSpeed.ToString("0.0");
             _formulaName.text = FormulaModule.GetFormulaName(currentFormulaData);
-            _desc.text = FormulaModule.GetFormulaDesc(currentFormulaData); 
-
+            _desc.text = FormulaModule.GetFormulaDesc(currentFormulaData);
+            typeWriter.StartEffect();
             return true;
         }
 
@@ -136,6 +143,7 @@ namespace Sim_FrameWork.UI
             FormulaChooseElement element = (FormulaChooseElement)_loopList.ElementList[_loopList.ElementList.Count-1];
             element.Select(true);
         }
+        
 
         List<List<BaseDataModel>> GetFormulaModel()
         {

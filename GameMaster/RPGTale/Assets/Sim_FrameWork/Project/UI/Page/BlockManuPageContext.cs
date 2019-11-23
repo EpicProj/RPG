@@ -229,17 +229,17 @@ namespace Sim_FrameWork.UI
             if (FormulaModule.GetFormulaDataByID(formulaID) == null)
                 return false;
             ManufactFormulaInfo info = new ManufactFormulaInfo(formulaID, blockBase.info.block);
+            ///这里需要初始化一下制造时间
+            info.currentNeedTime = (float)info.currentFormulaData.ProductSpeed /(float)manufactoryInfo.CurrentSpeed;
+
             formulaInfo = info;
             isfirstChoose = false;
             RefreshFormulaChoose();
             _formulaContentCpmt.Init(info, FormulaContentCmpt.InitType.Normal);
-        
-            var block= FunctionBlockManager.Instance.GetFunctionBlockObject(blockBase.instanceID);
-            if (block != null)
-            {
-                var manuBase = UIUtility.SafeGetComponent<ManufactoryBase>(block.transform);
+
+            var manuBase = FunctionBlockManager.Instance.GetManuBlockBase(blockBase.instanceID);
+            if(manuBase!=null)
                 manuBase.formulaInfo = info;
-            }
 
             return true;
         }

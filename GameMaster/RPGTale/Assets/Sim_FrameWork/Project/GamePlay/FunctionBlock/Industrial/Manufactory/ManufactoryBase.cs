@@ -18,7 +18,6 @@ namespace Sim_FrameWork
         private int _currentFormulaID = 0;
         public int CurrentFormulaID { get { return _currentFormulaID; }  }
 
-
         private void Update()
         {
             if (Input.GetKeyDown(KeyCode.M))
@@ -120,6 +119,8 @@ namespace Sim_FrameWork
 
             StartManufact();
         }
+
+
 
         private void SendMessage(UIMsgType type)
         {

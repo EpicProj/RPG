@@ -63,7 +63,9 @@ namespace Sim_FrameWork
             if(SlotType == FormulaModule.MaterialProductType.Enhance)
             {
                 TitleText.text = MultiLanguage.Instance.GetTextValue(ManuSlotElement_Enhance_Title);
-            }else if (SlotType== FormulaModule.MaterialProductType.Input)
+                UIUtility.FindTransfrom(transform, "Bottom").gameObject.SetActive(false);
+            }
+            else if (SlotType== FormulaModule.MaterialProductType.Input)
             {
                 TitleText.text = model.Name;
             }
