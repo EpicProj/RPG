@@ -17,7 +17,7 @@ namespace Sim_FrameWork.UI
 
         private BlockManuPage m_page;
 
-        private FunctionBlockInfoData blockInfo;
+        private FunctionBlockBase blockBase;
         private ManufactoryInfo manufactoryInfo;
         private ManufactFormulaInfo formulaInfo;
 
@@ -44,10 +44,9 @@ namespace Sim_FrameWork.UI
         #region Override Method
         public override void Awake(params object[] paralist)
         {
-            blockInfo = (FunctionBlockInfoData)paralist[0];
+            blockBase = (FunctionBlockBase)paralist[0];
             manufactoryInfo = (ManufactoryInfo)paralist[1];
             formulaInfo = (ManufactFormulaInfo)paralist[2];
-
             m_page = UIUtility.SafeGetComponent<BlockManuPage>(Transform);
 
             InitTransformRef();
@@ -57,15 +56,19 @@ namespace Sim_FrameWork.UI
 
 
         public override void OnShow(params object[] paralist)
-        {         
-            blockInfo = (FunctionBlockInfoData)paralist[0];
+        {
+            blockBase = (FunctionBlockBase)paralist[0];
             manufactoryInfo = (ManufactoryInfo)paralist[1];
             formulaInfo = (ManufactFormulaInfo)paralist[2];
 
             AudioManager.Instance.PlaySound(AudioClipPath.UISound.Page_Open);
             RefreshInfoAll(manufactoryInfo);
-            _formulaContentCpmt.RefreshFormulaSlotNum(formulaInfo);
+            if (!formulaInfo.NotChoose)
+            {
+                _formulaContentCpmt.RefreshFormulaSlotNum(formulaInfo);
+            }
             UpdateLevel();
+            RefreshFormulaChoose();
         }
 
         public override bool OnMessage(UIMessage msg)
@@ -79,7 +82,7 @@ namespace Sim_FrameWork.UI
                     _formulaContentCpmt.RefreshFormulaSlotNum(formulaInfo);
                     return true;
                 case UIMsgType.UpdateLevelInfo:
-                    blockInfo.levelInfo = (FunctionBlockLevelInfo)msg.content[0];
+                    blockBase.info.levelInfo = (FunctionBlockLevelInfo)msg.content[0];
                     UpdateLevel();
                     return true;
                 case UIMsgType.UpdateSpeedText:
@@ -89,6 +92,9 @@ namespace Sim_FrameWork.UI
                     RefreshInfoText(manufactoryInfo.CurrentSpeed, InfoType.Speed);
                     return true;
 
+                case UIMsgType.ProductLine_Formula_Change:
+                    int formulaID = (int)msg.content[0];
+                    return RefreshFormula(formulaID);
                 default:
                     Debug.LogError("UI msg Error , msgID=" + msg.type);
                     return false;
@@ -115,7 +121,6 @@ namespace Sim_FrameWork.UI
             LVText = UIUtility.SafeGetComponent<Text>(UIUtility.FindTransfrom(m_page.BlockLevelInfo, "Value"));
 
             _formulaContentCpmt = UIUtility.SafeGetComponent<FormulaContentCmpt>(m_page.ManuContent);
-            _formulaContentCpmt.Init(formulaInfo, FormulaContentCmpt.InitType.Normal);
         }
 
         void AddButtonListener()
@@ -126,15 +131,21 @@ namespace Sim_FrameWork.UI
             });
             AddButtonClickListener(m_page.FormulaChange, () =>
             {
-                UIManager.Instance.PopUpWnd(UIPath.WindowPath.ProductLine_Change_Dialog, WindowType.Dialog, true, formulaInfo.FormulaChooseList, isfirstChoose);
-                AudioManager.Instance.PlaySound(AudioClipPath.UISound.Page_Open);
+                PopUpFormulaChooseDialog();
+            });
+
+            ///初始化选择
+            AddButtonClickListener(m_page.FormulaChooseBtn, () =>
+            {
+                PopUpFormulaChooseDialog();
             });
         }
 
 
+
         void InitInfoPanel()
         {
-            if (blockInfo == null)
+            if (blockBase == null)
                 return;
 
             SpeedText = UIUtility.SafeGetComponent<Text>(m_page.BlockInfoContent.transform.Find("BaseInfo/Speed/Value"));
@@ -143,10 +154,10 @@ namespace Sim_FrameWork.UI
             WorkerText = UIUtility.SafeGetComponent<Text>(m_page.BlockInfoContent.Find("BaseInfo/Worker/Value"));
 
             RefreshInfoAll(manufactoryInfo);
-            m_page.Title.transform.Find("Text").GetComponent<Text>().text = blockInfo.dataModel.Name;
-            m_page.Title.transform.Find("Text/Icon").GetComponent<Image>().sprite = blockInfo.dataModel.Icon;
-            m_page.BlockBG.sprite = blockInfo.dataModel.BG;
-            m_page.BlockDesc.text = blockInfo.dataModel.Desc;
+            m_page.Title.transform.Find("Text").GetComponent<Text>().text = blockBase.info.dataModel.Name;
+            m_page.Title.transform.Find("Text/Icon").GetComponent<Image>().sprite = blockBase.info.dataModel.Icon;
+            m_page.BlockBG.sprite = blockBase.info.dataModel.BG;
+            m_page.BlockDesc.text = blockBase.info.dataModel.Desc;
 
         }
 
@@ -182,6 +193,56 @@ namespace Sim_FrameWork.UI
         }
 
 
+        void RefreshFormulaChoose()
+        {
+            var manu = UIUtility.SafeGetComponent<CanvasGroup>(m_page.ManuContent);
+            var choose = UIUtility.SafeGetComponent<CanvasGroup>(m_page.FormulaChooseBtn.transform);
+            if (isfirstChoose)
+            {
+                UIUtility.ActiveCanvasGroup(manu, false);
+                m_page.FormulaChange.gameObject.SetActive(false);
+
+                UIUtility.ActiveCanvasGroup(choose, true);
+            }
+            else
+            {
+                UIUtility.ActiveCanvasGroup(manu, true);
+                m_page.FormulaChange.gameObject.SetActive(true);
+
+                UIUtility.ActiveCanvasGroup(choose, false);
+            }
+        }
+
+        void PopUpFormulaChooseDialog()
+        {
+            UIManager.Instance.PopUpWnd(UIPath.WindowPath.ProductLine_Change_Dialog, WindowType.Dialog, true, formulaInfo.FormulaChooseList, isfirstChoose);
+            AudioManager.Instance.PlaySound(AudioClipPath.UISound.Page_Open);
+        }
+
+        /// <summary>
+        /// 更换生产线
+        /// </summary>
+        /// <param name="formulaID"></param>
+        /// <returns></returns>
+        bool RefreshFormula(int formulaID)
+        {
+            if (FormulaModule.GetFormulaDataByID(formulaID) == null)
+                return false;
+            ManufactFormulaInfo info = new ManufactFormulaInfo(formulaID, blockBase.info.block);
+            formulaInfo = info;
+            isfirstChoose = false;
+            RefreshFormulaChoose();
+            _formulaContentCpmt.Init(info, FormulaContentCmpt.InitType.Normal);
+        
+            var block= FunctionBlockManager.Instance.GetFunctionBlockObject(blockBase.instanceID);
+            if (block != null)
+            {
+                var manuBase = UIUtility.SafeGetComponent<ManufactoryBase>(block.transform);
+                manuBase.formulaInfo = info;
+            }
+
+            return true;
+        }
 
 
         /// <summary>
@@ -190,6 +251,8 @@ namespace Sim_FrameWork.UI
         /// <param name="info"></param>
         public void UpdateProgress(ManufactFormulaInfo info)
         {
+            if (info.NotChoose)
+                return;
             if (info.inProgress)
             {
                 if (currentProgress < targetProgress)
@@ -220,16 +283,16 @@ namespace Sim_FrameWork.UI
         /// </summary>
         public void UpdateLevel()
         {
-            LVText.text =blockInfo.levelInfo.currentBlockLevel.ToString();
+            LVText.text = blockBase.info.levelInfo.currentBlockLevel.ToString();
             SetLVSlider();
-            EXPValueText.text = string.Format("{0}/{1}", blockInfo.levelInfo.CurrentBlockExp.ToString(), blockInfo.levelInfo.CurrentBlockMaxEXP.ToString());
+            EXPValueText.text = string.Format("{0}/{1}", blockBase.info.levelInfo.CurrentBlockExp.ToString(), blockBase.info.levelInfo.CurrentBlockMaxEXP.ToString());
         }
 
 
         private void SetLVSlider()
         {
             var sliderGroup = UIUtility.SafeGetComponent<SliderGroup>(UIUtility.FindTransfrom(m_page.EXPContent, "Content"));
-            float progress = (float)blockInfo.levelInfo.CurrentBlockExp / (float)blockInfo.levelInfo.CurrentBlockMaxEXP;
+            float progress = (float)blockBase.info.levelInfo.CurrentBlockExp / (float)blockBase.info.levelInfo.CurrentBlockMaxEXP;
             sliderGroup.RefreshSlider(progress);
             UIUtility.SafeGetComponent<Text>(UIUtility.FindTransfrom(m_page.EXPContent, "Percent")).text = ((int)(progress * 100)).ToString();
         }

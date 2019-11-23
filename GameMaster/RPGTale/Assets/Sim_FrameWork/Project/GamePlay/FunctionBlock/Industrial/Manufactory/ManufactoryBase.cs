@@ -31,30 +31,14 @@ namespace Sim_FrameWork
         {
             _blockBase = UIUtility.SafeGetComponent<FunctionBlockBase>(transform);
             manufactoryInfo = new ManufactoryInfo(_blockBase.functionBlock);
-            List<FormulaData> formulaData = FunctionBlockModule.GetFormulaList(_blockBase.info.block);
-            if (formulaData.Count >= 1)
-            {
-                formulaInfo = new ManufactFormulaInfo(formulaData[0].FormulaID, _blockBase.info.block);
-            }
-
-            var info = formulaInfo;
-            for (int i = 0; i < info.currentInputItem.Count; i++)
-            {
-                formulaInfo.realInputItem.Add(new FormulaItem(info.currentInputItem[i].model,0));
-            }
-
-            formulaInfo.realOutputItem = new FormulaItem(info.currentOutputItem.model, 0);
-            formulaInfo.realEnhanceItem = new FormulaItem(info.currentEnhanceItem.model,0) ;
-
-
-            formulaInfo.currentNeedTime = GetCurrentFormulaNeedTime();
+            formulaInfo = new ManufactFormulaInfo(_blockBase.functionBlock);
             _blockBase.OnBlockSelectAction += Onselect;
 
         }
 
         private void Onselect()
         {
-            UIManager.Instance.PopUpWnd(UIPath.WindowPath.BlockManu_Page, WindowType.Page, true, _blockBase.info, manufactoryInfo,formulaInfo);
+            UIManager.Instance.PopUpWnd(UIPath.WindowPath.BlockManu_Page, WindowType.Page, true, _blockBase,manufactoryInfo,formulaInfo);
         }
 
         /// <summary>
@@ -245,6 +229,8 @@ namespace Sim_FrameWork
 
     public class ManufactFormulaInfo
     {
+        public bool NotChoose;
+
         /// <summary>
         /// 可选配方列表
         /// </summary>
@@ -281,6 +267,15 @@ namespace Sim_FrameWork
             currentOutputItem = FormulaModule.GetFormulaOutputMaterial(currentFormulaID);
             currentEnhanceItem = FormulaModule.GetFormulaEnhanceMaterial(currentFormulaID);
             MaxNeedTime = currentFormulaData.ProductSpeed;
+
+            for (int i = 0; i < currentInputItem.Count; i++)
+            {
+                realInputItem.Add(new FormulaItem(currentInputItem[i].model, 0));
+            }
+
+            realOutputItem = new FormulaItem(currentOutputItem.model, 0);
+            realEnhanceItem = new FormulaItem(currentEnhanceItem.model, 0);
+            NotChoose = false;
         }
 
         public ManufactFormulaInfo(int currentFormulaID)
@@ -291,6 +286,13 @@ namespace Sim_FrameWork
             currentOutputItem = FormulaModule.GetFormulaOutputMaterial(currentFormulaID);
             currentEnhanceItem = FormulaModule.GetFormulaEnhanceMaterial(currentFormulaID);
             MaxNeedTime = currentFormulaData.ProductSpeed;
+            NotChoose = false;
+        }
+
+        public ManufactFormulaInfo(FunctionBlock block)
+        {
+            FormulaChooseList = FunctionBlockModule.GetFormulaList(block);
+            NotChoose = true;
         }
 
 

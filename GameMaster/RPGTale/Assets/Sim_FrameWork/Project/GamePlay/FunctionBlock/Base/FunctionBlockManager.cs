@@ -19,7 +19,7 @@ namespace Sim_FrameWork
             FunctionBlockContainer = Utility.SafeFindGameobject("MapManager/FunctionBlockContainer");
         }
 
-        public Dictionary<int,FunctionBlockBase> GetBlockInstances()
+        public Dictionary<int,FunctionBlockBase> GetBlockInstancesDic()
         {
             return _functionBlockInstances;
         }
@@ -34,24 +34,30 @@ namespace Sim_FrameWork
         /// <returns></returns>
         public FunctionBlockBase AddFunctionBlock(int functionBlockID,int instanceID,int posX,int posZ)
         {
-
-            FunctionBlockBase instance = UIUtility.SafeGetComponent<FunctionBlockBase>(Utility.CreateInstace(BaseFunctionBlockPath, FunctionBlockContainer, true).transform);
-
             if (instanceID == -1)
             {
                 instanceID = getUnUsedInstanceID();
             }
+
+            FunctionBlockBase instance = UIUtility.SafeGetComponent<FunctionBlockBase>(Utility.CreateInstace(BaseFunctionBlockPath, FunctionBlockContainer, true).transform);
+
             instance.instanceID = instanceID;
             _functionBlockInstances.Add(instanceID, instance);
 
             instance.InitData(functionBlockID,posX,posZ);
 
-            
-
             return instance;
         }
 
-
+        public GameObject GetFunctionBlockObject(int instanceID)
+        {
+            var obj= FunctionBlockContainer.transform.Find(instanceID.ToString()+ "[Block]");
+            if (obj != null)
+            {
+                return obj.gameObject;
+            }
+            return null;
+        }
 
         public FunctionBlockBase AddFunctionBlock(int functionBlockID)
         {

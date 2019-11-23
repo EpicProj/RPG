@@ -43,7 +43,7 @@ namespace Sim_FrameWork
             UIinfo = UIUtility.SafeGetComponent<BlockUIScriptInfo>(transform);
             UIinfo.SetData(this);
             ModelRoot = UIUtility.FindTransfrom(transform, "Root/Model").gameObject;
-            gameObject.name = blockID + "[Block]";
+            gameObject.name = instanceID + "[Block]";
 
             SetPosition(new Vector3( posX, transform.localScale.y/2 , posZ));
 

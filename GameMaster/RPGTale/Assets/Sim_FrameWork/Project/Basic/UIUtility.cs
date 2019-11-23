@@ -59,5 +59,20 @@ namespace Sim_FrameWork
             trans.localScale = Vector3.one;
             trans.localRotation = Quaternion.identity;
         }
+
+        public static void ActiveCanvasGroup(CanvasGroup group,bool active)
+        {
+            if (active)
+            {
+                group.alpha = 1;
+            }
+            else
+            {
+                group.alpha = 0;
+            }
+            group.interactable = active;
+            group.blocksRaycasts = active;
+        }
+
     }
 }

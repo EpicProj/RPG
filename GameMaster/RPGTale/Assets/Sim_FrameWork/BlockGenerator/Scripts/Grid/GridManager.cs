@@ -52,7 +52,7 @@ namespace Sim_FrameWork
                 }
             }
 
-            foreach( KeyValuePair<int,FunctionBlockBase> kvp in FunctionBlockManager.Instance.GetBlockInstances())
+            foreach( KeyValuePair<int,FunctionBlockBase> kvp in FunctionBlockManager.Instance.GetBlockInstancesDic())
             {
                 FunctionBlockBase block = kvp.Value;
                 UpdateFunctionBlockNodes(block,Action.ADD);

@@ -17,10 +17,13 @@ namespace Sim_FrameWork.UI
 
         private Text _formulaName;
         private Text _timeText;
+        private Text _desc;
         private LoopList _loopList;
 
         private const string FormulaChange_Dialog_Title_Change = "FormulaChange_Dialog_Title_Change";
         private const string FormulaChange_Dialog_Title_Choose = "FormulaChange_Dialog_Title_Choose";
+
+        private const string FormulaChange_Success_Hint_Text = "FormulaChange_Success_Hint_Text";
 
         public override void Awake(params object[] paralist)
         {
@@ -62,12 +65,23 @@ namespace Sim_FrameWork.UI
             {
                 UIManager.Instance.HideWnd(UIPath.WindowPath.ProductLine_Change_Dialog);
             });
+
+            AddButtonClickListener(m_dialog.ConfirmBtn, () =>
+            {
+                UIManager.Instance.SendMessageToWnd(UIPath.WindowPath.BlockManu_Page, new UIMessage(UIMsgType.ProductLine_Formula_Change, new List<object>(1) { _currentFormulaID }));
+                AudioManager.Instance.PlaySound(AudioClipPath.UISound.Button_Click);
+
+                GeneralHintDialogItem item = new GeneralHintDialogItem(FormulaChange_Success_Hint_Text, 1.0f);
+                UIManager.Instance.HideWnd(UIPath.WindowPath.ProductLine_Change_Dialog);
+                UIManager.Instance.PopUpWnd(UIPath.WindowPath.General_Hint_Dialog, WindowType.Dialog,true,item);
+            });
         }
         private void InitRef()
         {
             _formulaName = UIUtility.SafeGetComponent<Text>(UIUtility.FindTransfrom(m_dialog.ManuContent,"Name"));
             _timeText = UIUtility.SafeGetComponent<Text>(UIUtility.FindTransfrom(m_dialog.ManuContent, "Time"));
             _formulaContentCmpt = UIUtility.SafeGetComponent<FormulaContentCmpt>(UIUtility.FindTransfrom(m_dialog.ManuContent, "FormulaContent"));
+            _desc = UIUtility.SafeGetComponent<Text>(UIUtility.FindTransfrom(m_dialog.ManuContent, "Desc"));
             _loopList = UIUtility.SafeGetComponent<LoopList>(m_dialog.ScrollViewTrans);
         }
 
@@ -86,8 +100,9 @@ namespace Sim_FrameWork.UI
             }
 
             var currentFormulaData = FormulaModule.GetFormulaDataByID(_currentFormulaID);
-            _timeText.text = currentFormulaData.ProductSpeed.ToString();
+            _timeText.text =currentFormulaData.ProductSpeed.ToString("0.0");
             _formulaName.text = FormulaModule.GetFormulaName(currentFormulaData);
+            _desc.text = FormulaModule.GetFormulaDesc(currentFormulaData); 
 
             return true;
         }

@@ -10,6 +10,7 @@ namespace Sim_FrameWork
         [Header("Button")]
         public Button BackBtn;
         public Button FormulaChange;
+        public Button FormulaChooseBtn;
 
         [Header("Info")]
         public Transform Title;
