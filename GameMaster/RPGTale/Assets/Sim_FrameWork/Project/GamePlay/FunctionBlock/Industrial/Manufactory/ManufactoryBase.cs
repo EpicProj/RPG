@@ -8,9 +8,11 @@ namespace Sim_FrameWork
     public class ManufactoryBase : MonoBehaviour
     {
 
+
         public ManufactoryInfo manufactoryInfo;
         public ManufactFormulaInfo formulaInfo;
         public FunctionBlockBase _blockBase;
+
 
         /// <summary>
         /// 当前配方
@@ -24,6 +26,10 @@ namespace Sim_FrameWork
             {
                 AddMaterialToInputSlot(100, 10);
             }
+            if (Input.GetKeyDown(KeyCode.N))
+            {
+                InitMiningState();
+            }
         }
 
         public void SetData()
@@ -31,8 +37,8 @@ namespace Sim_FrameWork
             _blockBase = UIUtility.SafeGetComponent<FunctionBlockBase>(transform);
             manufactoryInfo = new ManufactoryInfo(_blockBase.functionBlock);
             formulaInfo = new ManufactFormulaInfo(_blockBase.functionBlock);
+           
             _blockBase.OnBlockSelectAction += Onselect;
-
         }
 
         private void Onselect()
@@ -48,6 +54,50 @@ namespace Sim_FrameWork
         {
             _currentFormulaID = formulaID;
             formulaInfo.RefreshFormula(formulaID);
+        }
+
+        private void AddOutputSlotNum()
+        {
+            ushort count = formulaInfo.currentOutputItem.count;
+            formulaInfo.realOutputItem.count += count;
+            //Add to PlayerData
+            PlayerManager.Instance.AddMaterialData(formulaInfo.currentOutputItem.model.ID, count);
+        }
+
+        IEnumerator WaitManufactFinish()
+        {
+            yield return new WaitForSeconds(GetCurrentFormulaNeedTime());
+            formulaInfo.inProgress = false;
+            ///Reduce Input num
+            ReduceInputSlotNum();
+            ///Add OutPut
+            AddOutputSlotNum();
+
+            ///UpdateUI
+            SendMessage(UIMsgType.UpdateManuSlot);
+
+            ///UpdateEXP
+            _blockBase.info.levelInfo.AddCurrentBlockEXP(formulaInfo.currentFormulaData.EXP);
+            UIManager.Instance.SendMessageToWnd(UIPath.WindowPath.BlockManu_Page, new UIMessage(UIMsgType.UpdateLevelInfo, new List<object>(1) { _blockBase.info.levelInfo }));
+
+            StartManufact();
+        }
+
+        private void SendMessage(UIMsgType type)
+        {
+            switch (type)
+            {
+                case UIMsgType.UpdateManuSlot:
+                    UIManager.Instance.SendMessageToWnd(UIPath.WindowPath.BlockManu_Page, new UIMessage(UIMsgType.UpdateManuSlot, new List<object>(1) { formulaInfo }));
+                    break;
+            }
+        }
+
+        private float GetCurrentFormulaNeedTime()
+        {
+            float totalTime = formulaInfo.currentFormulaData.ProductSpeed;
+            float time = totalTime / manufactoryInfo.CurrentSpeed;
+            return time;
         }
 
         #region Manufact
@@ -70,24 +120,16 @@ namespace Sim_FrameWork
             }
         }
 
-        private void AddOutputSlotNum()
-        {
-            ushort count = formulaInfo.currentOutputItem.count;
-            formulaInfo.realOutputItem.count += count;
-            //Add to PlayerData
-            PlayerManager.Instance.AddMaterialData(formulaInfo.currentOutputItem.model.ID, count);
-        }
-
         private void StartManufact()
         {
-            if (CheckCanproduce() && formulaInfo.inProgress == false)
+            if (CheckCanproduce_Manufacture() && formulaInfo.inProgress == false)
             {
                 formulaInfo.inProgress = true;
                 StartCoroutine(WaitManufactFinish());
             }
         }
 
-        private bool CheckCanproduce()
+        private bool CheckCanproduce_Manufacture()
         {
             for(int i = 0; i < formulaInfo.realInputItem.Count; i++)
             {
@@ -100,38 +142,6 @@ namespace Sim_FrameWork
             return true;
         }
 
-
-        IEnumerator WaitManufactFinish()
-        {
-            yield return new WaitForSeconds(GetCurrentFormulaNeedTime());
-            formulaInfo.inProgress = false;
-            ///Reduce Input num
-            ReduceInputSlotNum();
-            ///Add OutPut
-            AddOutputSlotNum();
-
-            ///UpdateUI
-            SendMessage(UIMsgType.UpdateManuSlot);
-
-            ///UpdateEXP
-            _blockBase.info.levelInfo.AddCurrentBlockEXP(formulaInfo.currentFormulaData.EXP);
-            UIManager.Instance.SendMessageToWnd(UIPath.WindowPath.BlockManu_Page, new UIMessage(UIMsgType.UpdateLevelInfo, new List<object>(1) { _blockBase.info.levelInfo }));
-
-            StartManufact();
-        }
-
-
-
-        private void SendMessage(UIMsgType type)
-        {
-            switch (type)
-            {
-                case UIMsgType.UpdateManuSlot:
-                    UIManager.Instance.SendMessageToWnd(UIPath.WindowPath.BlockManu_Page, new UIMessage(UIMsgType.UpdateManuSlot, new List<object>(1) { formulaInfo }));
-                    break;
-            }
-        }
-
         private void ReduceInputSlotNum()
         {
             for (int i = 0; i < formulaInfo.currentInputItem.Count; i++)
@@ -140,12 +150,52 @@ namespace Sim_FrameWork
             }
         }
 
-        private float GetCurrentFormulaNeedTime()
+        #endregion
+        /// <summary>
+        /// 初始化挖矿
+        /// </summary>
+        public void InitMiningState()
         {
-            float totalTime = formulaInfo.currentFormulaData.ProductSpeed;
-            float time = totalTime / manufactoryInfo.CurrentSpeed;
-            return time;
+            AddRawMineralToInputSlot();
+            StartMining();
         }
+
+
+        private bool CheckCanProduce_Raw()
+        {
+            if (formulaInfo.realInputItem[0].count <= formulaInfo.currentInputItem[0].count)
+            {
+                return false;
+            }
+            return true;
+        }
+
+        private void StartMining()
+        {
+            if(CheckCanProduce_Raw()&& formulaInfo.inProgress == false)
+            {
+                formulaInfo.inProgress = true;
+                StartCoroutine(WaitManufactFinish());
+            }
+        }
+
+        private void AddRawMineralToInputSlot()
+        {
+            int mineralCount = 10000;
+            if(manufactoryInfo.blockType== FunctionBlockType.SubType_Industry.Raw)
+            {
+                if (formulaInfo.currentInputItem.Count == 1)
+                {
+                    AddMaterialToInputSlot(formulaInfo.currentInputItem[0].model.ID, (ushort)mineralCount);
+                }
+            }
+        }
+
+
+        #region Raw
+
+
+
 
         #endregion
 
@@ -154,6 +204,7 @@ namespace Sim_FrameWork
     {
         public FunctionBlock_Industry IndustryData;
         public ManufactoryBaseInfoData.ManufactureInherentLevelData inherentLevelData;
+        public FunctionBlockType.SubType_Industry blockType;
 
         /// <summary>
         /// current Manu Speed
@@ -166,8 +217,8 @@ namespace Sim_FrameWork
         /// WorkerNum
         /// </summary>
         [SerializeField]
-        private int _workerNum = 0;
-        public int WorkerNum { get { return _workerNum; } protected set { } }
+        private float _workerNum = 0;
+        public float WorkerNum { get { return _workerNum; } protected set { } }
 
         private float _maintain = 0;
         public float Maintain { get { return _maintain; } protected set { } }
@@ -189,7 +240,7 @@ namespace Sim_FrameWork
             if (_currentSpeed <= 0)
                 _currentSpeed = 0;
         }
-        public void AddWorkerNum(int num)
+        public void AddWorkerNum(float num)
         {
             _workerNum += num;
             if (_workerNum <= 0)
@@ -217,15 +268,15 @@ namespace Sim_FrameWork
         {
             IndustryData = FunctionBlockModule.FetchFunctionBlockTypeIndex<FunctionBlock_Industry>(block.FunctionBlockID);
             inherentLevelData = FunctionBlockModule.GetManuInherentLevelData(IndustryData);
-            AddWorkerNum(int.Parse(IndustryData.MaintenanceBase));
-            AddEnergyCostNormal(Utility.TryParseIntList(IndustryData.EnergyConsumptionBase, ',')[0]);
-            AddMaintain(float.Parse(IndustryData.MaintenanceBase));
+            AddWorkerNum(IndustryData.WorkerBase);
+            AddEnergyCostNormal(IndustryData.EnergyConsumptionBase);
+            AddMaintain(IndustryData.MaintenanceBase);
             AddCurrentSpeed(FunctionBlockModule.GetIndustrySpeed(block.FunctionBlockID));
+            blockType = FunctionBlockModule.GetIndustryType(block.FunctionBlockID);
         }
 
 
     }
-
 
 
     public class ManufactFormulaInfo

@@ -16,6 +16,7 @@ namespace Sim_FrameWork
         private Transform InputContent;
         private Transform OutputContent;
         private Transform EnhanceContent;
+        private Transform EnhanceLine;
 
         private Transform Enhance_Trans;
         private Transform Output_Trans;
@@ -27,6 +28,7 @@ namespace Sim_FrameWork
             InputContent = UIUtility.FindTransfrom(transform, "Input");
             OutputContent = UIUtility.FindTransfrom(transform, "Output");
             EnhanceContent = UIUtility.FindTransfrom(transform, "Enhance");
+            
 
             Enhance_Trans = UIUtility.FindTransfrom(EnhanceContent, "ManuSlotElement");
             Output_Trans = UIUtility.FindTransfrom(OutputContent, "ManuSlotElement");
@@ -38,11 +40,12 @@ namespace Sim_FrameWork
             switch (type)
             {
                 case InitType.FormulaChange:
+                    EnhanceLine = UIUtility.FindTransfrom(transform, "EnhanceLine");
                     InitFormulaSlot(InitType.FormulaChange);  
                     break;
                 case InitType.Normal:
                     InitFormulaSlot(InitType.Normal);
-                    RefreshManuElementTrans(_info);
+                    RefreshManuElementTrans(_info,type);
                     break;
             }  
         }
@@ -68,10 +71,11 @@ namespace Sim_FrameWork
             }
 
             ///Enhance
-            if (_info.currentEnhanceItem != null)
+            if (_info.currentEnhanceItem.model.ID != 0 && _info.currentEnhanceItem != null)
             {
+                Enhance_Trans.gameObject.SetActive(true);
                 var element = UIUtility.SafeGetComponent<ManuSlotElement>(Enhance_Trans);
-                if(type== InitType.Normal)
+                if (type == InitType.Normal)
                 {
                     element.SetUpElement(_info.currentEnhanceItem.model, _info.currentEnhanceItem.count, _info.realEnhanceItem.count);
                 }
@@ -97,7 +101,7 @@ namespace Sim_FrameWork
         /// <summary>
         /// Refresh
         /// </summary>
-        public void RefreshManuElementTrans(ManufactFormulaInfo info)
+        public void RefreshManuElementTrans(ManufactFormulaInfo info,InitType type)
         {
             _info = info;
             if (_info == null)
@@ -113,13 +117,21 @@ namespace Sim_FrameWork
             }
 
             ///Enhance
-            if (_info.currentEnhanceItem == null)
+            if (_info.currentEnhanceItem.model.ID == 0)
             {
                 Enhance_Trans.gameObject.SetActive(false);
+                if(type== InitType.FormulaChange)
+                {
+                    EnhanceLine.gameObject.SetActive(false);
+                }
             }
             else
             {
                 Enhance_Trans.gameObject.SetActive(true);
+                if(type== InitType.FormulaChange)
+                {
+                    EnhanceLine.gameObject.SetActive(true);
+                }
             }
         }
 

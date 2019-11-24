@@ -2,15 +2,10 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class BlockUpgradeDialog : MonoBehaviour {
+namespace Sim_FrameWork
+{
+    public class BlockUpgradeDialog : MonoBehaviour
+    {
 
-	// Use this for initialization
-	void Start () {
-		
-	}
-	
-	// Update is called once per frame
-	void Update () {
-		
-	}
+    }
 }

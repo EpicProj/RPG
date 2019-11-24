@@ -21,7 +21,8 @@ namespace Sim_FrameWork
         public enum SubType_Industry
         {
             None,
-            Manufacture
+            Manufacture,
+            Raw
         }
     }
 }

@@ -83,12 +83,13 @@ namespace Sim_FrameWork
             {
                 SetElementState(true);
                 materialCountText.gameObject.SetActive(false);
+                materialIcon.sprite = model.Icon;
             }
             else
             {
-
                 SetElementState(true);
                 materialCountText.text = currentAmount.ToString();
+                materialIcon.sprite = model.Icon;
             }
             _count = currentAmount;
         }

@@ -103,7 +103,7 @@ namespace Sim_FrameWork.UI
             if (_formulaContentCmpt != null)
             {
                 _formulaContentCmpt.Init(info, FormulaContentCmpt.InitType.FormulaChange);
-                _formulaContentCmpt.RefreshManuElementTrans(info);
+                _formulaContentCmpt.RefreshManuElementTrans(info, FormulaContentCmpt.InitType.FormulaChange);
             }
 
             var currentFormulaData = FormulaModule.GetFormulaDataByID(_currentFormulaID);

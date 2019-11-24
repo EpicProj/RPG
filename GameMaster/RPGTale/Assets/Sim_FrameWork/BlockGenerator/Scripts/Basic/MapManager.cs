@@ -36,6 +36,10 @@ namespace Sim_FrameWork
             {
                 FunctionBlockManager.Instance.AddFunctionBlock(100);
             }
+            if (Input.GetKeyDown(KeyCode.Y))
+            {
+                FunctionBlockManager.Instance.AddFunctionBlock(101);
+            }
         }
 
         private void InitBaseData()

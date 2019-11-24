@@ -13,9 +13,6 @@ namespace Sim_FrameWork
         public static List<FunctionBlock_Labor> FunctionBlock_LaborList;
         public static Dictionary<int, FunctionBlock_Labor> FunctionBlock_LaborDic;
 
-        public static List<FunctionBlock_Raw> FunctionBlock_RawList;
-        public static Dictionary<int, FunctionBlock_Raw> FunctionBlock_RawDic;
-
         public static List<FunctionBlock_Industry> FunctionBlock_IndustryList;
         public static Dictionary<int, FunctionBlock_Industry> FunctionBlock_IndustryDic;
 
@@ -44,8 +41,6 @@ namespace Sim_FrameWork
             FunctionBlockDataDic = config.AllFunctionBlockDic;
             FunctionBlock_LaborList = config.AllFunctionBlock_LaborList;
             FunctionBlock_LaborDic = config.AllFunctionBlock_LaborDic;
-            FunctionBlock_RawList = config.AllFunctionBlock_RawList;
-            FunctionBlock_RawDic = config.AllFunctionBlock_RawDic;
             FunctionBlock_IndustryList = config.AllFunctionBlock_IndustryList;
             FunctionBlock_IndustryDic = config.AllFunctionBlock_IndustryDic;
             FunctionBlock_ScienceList = config.AllFunctionBlock_ScienceList;
@@ -69,11 +64,6 @@ namespace Sim_FrameWork
         {
             LoadData();
             return FunctionBlock_LaborList;
-        }
-        public static List<FunctionBlock_Raw> GetFunctionBlockRowData()
-        {
-            LoadData();
-            return FunctionBlock_RawList;
         }
         public static List<FunctionBlock_Industry> GetFunctionBlock_IndustryData()
         {
@@ -115,11 +105,6 @@ namespace Sim_FrameWork
         {
             LoadData();
             return FunctionBlockTypeDataDic;
-        }
-        public static Dictionary<int, FunctionBlock_Raw> GetFunctionBlock_RawDic()
-        {
-            LoadData();
-            return FunctionBlock_RawDic;
         }
         public static Dictionary<int, FunctionBlock_Industry> GetFunctionBlock_IndustryDic()
         {

@@ -25,8 +25,6 @@ namespace Sim_FrameWork {
 
         protected static List<FunctionBlock_Labor> FunctionBlock_LaborList;
         protected static Dictionary<int, FunctionBlock_Labor> FunctionBlock_LaborDic;
-        protected static List<FunctionBlock_Raw> FunctionBlock_RawList;
-        protected static Dictionary<int, FunctionBlock_Raw> FunctionBlock_RawDic;
         protected static List<FunctionBlock_Industry> FunctionBlock_IndustryList;
         protected static Dictionary<int, FunctionBlock_Industry> FunctionBlock_IndustryDic;
         protected static List<FunctionBlock_Science> FunctionBlock_ScienceList;
@@ -51,8 +49,6 @@ namespace Sim_FrameWork {
             FunctionBlockDic = FunctionBlockMetaDataReader.GetFunctionBlockDataDic();
             FunctionBlock_LaborList = FunctionBlockMetaDataReader.GetFunctionBlock_LaborData();
             FunctionBlock_LaborDic = FunctionBlockMetaDataReader.GetFunctionBlock_LaborDic();
-            FunctionBlock_RawList = FunctionBlockMetaDataReader.GetFunctionBlockRowData();
-            FunctionBlock_RawDic = FunctionBlockMetaDataReader.GetFunctionBlock_RawDic();
             FunctionBlock_IndustryList = FunctionBlockMetaDataReader.GetFunctionBlock_IndustryData();
             FunctionBlock_IndustryDic = FunctionBlockMetaDataReader.GetFunctionBlock_IndustryDic();
             FunctionBlock_ScienceList = FunctionBlockMetaDataReader.GetFunctionBlock_ScienceData();
@@ -212,8 +208,6 @@ namespace Sim_FrameWork {
             {
                 case FunctionBlockType.Type.Industry:
                     return GetFunctionBlock_IndustryData(GetFunctionBlockByBlockID(functionBlockID).FunctionBlockTypeIndex) as T;
-                //case FunctionBlockType.Raw:
-                //    return GetFacotryRawData(GetFunctionBlockByBlockID(functionBlockID).FunctionBlockTypeIndex) as T;
                 case FunctionBlockType.Type.Science:
                     return GetFunctionBlock_ScienceData(GetFunctionBlockByBlockID(functionBlockID).FunctionBlockTypeIndex) as T;
                 case FunctionBlockType.Type.Energy:
@@ -246,18 +240,6 @@ namespace Sim_FrameWork {
                 Debug.LogError("Get functionBlock_Industry Error , Id=" + id);
             }
             return functionBlock_Industry;
-        }
-
-        public static FunctionBlock_Raw GetFacotryRawData(int rawID)
-        {
-            FunctionBlock_Raw functionBlock_Raw = null;
-            FunctionBlock_RawDic.TryGetValue(rawID, out functionBlock_Raw);
-            if (functionBlock_Raw == null)
-            {
-                Debug.LogError("Get FunctionBlock_Raw Error , rawID=" + rawID);
-                return null;
-            }
-            return functionBlock_Raw;
         }
 
         public static FunctionBlock_Science GetFunctionBlock_ScienceData(int scienceID)
@@ -638,6 +620,7 @@ namespace Sim_FrameWork {
             return parse(block.OriginArea);
         }
         #endregion
+
 
         #region Main Function
 

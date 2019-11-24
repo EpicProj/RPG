@@ -1,10 +1,10 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <FunctionBlockMetaData xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
   <AllFunctionBlockList FunctionBlockID="100" BlockName="FunctionBlockName_100" BlockBG="SpriteOutput/FunctionBlock/Background/FBG" BlockIcon="SpriteOutput/FunctionBlock/Icon/BlockIcon_01" BlockDesc="FunctionBlockDesc_100" PreLevelBlock="0" FunctionBlockType="Industry" SubType="Manufacture" FunctionBlockTypeIndex="100" MaxLevel="1" AreaDetailDefault="-2,-2,-2,-2,-2,-2;-1,-1,-1,-1,-1,-1;-2,-2,-2,-2,-2,-2;-2,-2,-2,-2,-2,-2;-2,-2,-2,-2,-2,-2" OriginArea="1,3,100;1,0,101" AreaMax="6,5" EXPDataJsonIndex="100" DistrictData="100" />
-  <AllFunctionBlockList FunctionBlockID="101" BlockName="FunctionBlockName_101" BlockBG="SpriteOutput/FunctionBlock/Background/FBG" BlockIcon="SpriteOutput/FunctionBlock/Icon/BlockIcon_01" BlockDesc="FunctionBlockDesc_101" PreLevelBlock="100" FunctionBlockType="Industry" SubType="Manufacture" FunctionBlockTypeIndex="100" MaxLevel="1" AreaDetailDefault="-2,-2,-2,-2,-2,-2;-1,-1,-1,-1,-1,-1;-2,-2,-2,-2,-2,-2;-2,-2,-2,-2,-2,-2;-2,-2,-2,-2,-2,-2" OriginArea="1,3,100;1,0,101" AreaMax="6,5" EXPDataJsonIndex="100" DistrictData="100" />
+  <AllFunctionBlockList FunctionBlockID="101" BlockName="FunctionBlockName_101" BlockBG="SpriteOutput/FunctionBlock/Background/FBG" BlockIcon="SpriteOutput/FunctionBlock/Icon/BlockIcon_01" BlockDesc="FunctionBlockDesc_101" PreLevelBlock="100" FunctionBlockType="Industry" SubType="Raw" FunctionBlockTypeIndex="101" MaxLevel="1" AreaDetailDefault="-2,-2,-2,-2,-2,-2;-1,-1,-1,-1,-1,-1;-2,-2,-2,-2,-2,-2;-2,-2,-2,-2,-2,-2;-2,-2,-2,-2,-2,-2" OriginArea="1,3,100;1,0,101" AreaMax="6,5" EXPDataJsonIndex="100" DistrictData="100" />
   <AllFunctionBlock_LaborList LaborID="1" InherentLevel="sss" BasePopulation="1" FoodConsumBase="1" MaintainBase="1" EnergyBase="1" />
-  <AllFunctionBlock_RawList RawID="100" RawType="100" InherentLevel="sss" CollectMaterialList="1,1,1" />
-  <AllFunctionBlock_IndustryList ID="100" Type="Smelt" InherentLevel="Manufactory_InherentLevel_Smelt_Level_1" SpeedBase="2" FormulaInfoID="100" MaintenanceBase="50" WorkerBase="50" EnergyConsumptionBase="100,0" />
+  <AllFunctionBlock_IndustryList ID="100" InherentLevel="Manufactory_InherentLevel_Smelt_Level_1" SpeedBase="2" FormulaInfoID="100" MaintenanceBase="50" WorkerBase="50" EnergyConsumptionBase="100" />
+  <AllFunctionBlock_IndustryList ID="101" InherentLevel="Manufactory_InherentLevel_Smelt_Level_1" SpeedBase="4" FormulaInfoID="101" MaintenanceBase="50" WorkerBase="50" EnergyConsumptionBase="100" />
   <AllFunctionBlock_ScienceList ScienceID="100" InherentLevel="sss" />
   <AllFunctionBlock_EnergyList EnergyID="100" InherentLevel="sss" EnergyType="100" />
   <AllFunctionBlockTypeDataList Type="Industry" DefaultShow="true" TypeName="BlockTypeName_Industry" TypeDesc="BlockTypeDesc_Industry" TypeIcon="SpriteOutput/FunctionBlock/TypeIcon/TabIcon_Industry" SubTypeList="Manufacture" />
@@ -15,4 +15,5 @@
   <AllFunctionBlockTypeDataList Type="Energy" DefaultShow="true" TypeName="BlockTypeName_Energy" TypeDesc="BlockTypeDesc_Energy" TypeIcon="SpriteOutput/FunctionBlock/TypeIcon/TabIcon_Energy" SubTypeList="Manufacture" />
   <AllFunctionBlockTypeDataList Type="Unique" DefaultShow="false" TypeName="BlockTypeName_Unique" TypeDesc="BlockTypeDesc_Unique" TypeIcon="SpriteOutput/FunctionBlock/TypeIcon/TabIcon_Energy" SubTypeList="Manufacture" />
   <AllFunctionBlockSubTypeDataList SubType="Manufacture" DefaultShow="true" TypeName="BlockSubTypeName_Manufacture" TypeDesc="BlockSubTypeDesc_Manufacture" TypeIcon="SpriteOutput/FunctionBlock/TypeIcon/SubType_Light_Industory" />
+  <AllFunctionBlockSubTypeDataList SubType="Raw" DefaultShow="true" TypeName="BlockSubTypeName_Raw" TypeDesc="BlockSubTypeDesc_Raw" TypeIcon="SpriteOutput/FunctionBlock/TypeIcon/SubType_Light_Industory" />
 </FunctionBlockMetaData>

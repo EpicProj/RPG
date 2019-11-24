@@ -43,29 +43,17 @@ public class FunctionBlockMetaData : ExcelBase {
             AllFunctionBlock_LaborList.Add(labor);
         }
 
-        AllFunctionBlock_RawList = new List<FunctionBlock_Raw>();
-        for(int i = 0; i < 2; i++)
-        {
-            FunctionBlock_Raw row = new FunctionBlock_Raw();
-            row.RawID = i;
-            row.RawType = (ushort)i;
-            row.InherentLevel = "";
-            row.CollectMaterialList = "";
-            AllFunctionBlock_RawList.Add(row);
-        }
-
         AllFunctionBlock_IndustryList = new List<FunctionBlock_Industry>();
         for(int i = 0; i < 2; i++)
         {
             FunctionBlock_Industry manu = new FunctionBlock_Industry();
             manu.ID = i;
-            manu.Type = "";
             manu.InherentLevel = "";
             manu.SpeedBase = i;
             manu.FormulaInfoID = i;
-            manu.MaintenanceBase = "";
+            manu.MaintenanceBase = i;
             manu.WorkerBase = i;
-            manu.EnergyConsumptionBase = "";
+            manu.EnergyConsumptionBase = i;
             AllFunctionBlock_IndustryList.Add(manu);
         }
 
@@ -121,7 +109,6 @@ public class FunctionBlockMetaData : ExcelBase {
         AllFunctionBlockTypeDataDic.Clear();
         AllFunctionBlock_EnergyDic.Clear();
         AllFunctionBlock_IndustryDic.Clear();
-        AllFunctionBlock_RawDic.Clear();
         AllFunctionBlock_ScienceDic.Clear();
         AllFunctionBlockSubTypeDataDic.Clear();
 
@@ -145,17 +132,6 @@ public class FunctionBlockMetaData : ExcelBase {
             else
             {
                 AllFunctionBlock_LaborDic.Add(data.LaborID, data);
-            }
-        }
-        foreach (var data in AllFunctionBlock_RawList)
-        {
-            if (AllFunctionBlock_RawDic.ContainsKey(data.RawID))
-            {
-                Debug.LogError("Find Same Row , Row ID = " + data.RawID);
-            }
-            else
-            {
-                AllFunctionBlock_RawDic.Add(data.RawID, data);
             }
         }
         foreach (var data in AllFunctionBlock_IndustryList)
@@ -222,8 +198,6 @@ public class FunctionBlockMetaData : ExcelBase {
     [XmlIgnore]
     public Dictionary<int, FunctionBlock_Labor> AllFunctionBlock_LaborDic = new Dictionary<int, FunctionBlock_Labor>();
     [XmlIgnore]
-    public Dictionary<int, FunctionBlock_Raw> AllFunctionBlock_RawDic = new Dictionary<int, FunctionBlock_Raw>();
-    [XmlIgnore]
     public Dictionary<int, FunctionBlock_Industry> AllFunctionBlock_IndustryDic = new Dictionary<int, FunctionBlock_Industry>();
     [XmlIgnore]
     public Dictionary<int, FunctionBlock_Science> AllFunctionBlock_ScienceDic = new Dictionary<int, FunctionBlock_Science>();
@@ -238,8 +212,6 @@ public class FunctionBlockMetaData : ExcelBase {
     public List<FunctionBlock> AllFunctionBlockList { get; set; }
     [XmlElement]
     public List<FunctionBlock_Labor> AllFunctionBlock_LaborList { get; set; }
-    [XmlElement]
-    public List<FunctionBlock_Raw> AllFunctionBlock_RawList { get; set; }
     [XmlElement]
     public List<FunctionBlock_Industry> AllFunctionBlock_IndustryList { get; set; }
     [XmlElement]
@@ -309,29 +281,12 @@ public class FunctionBlock_Labor
     public float EnergyBase { get; set; }
 }
 
-[System.Serializable]
-public class FunctionBlock_Raw 
-{
-    //原料生产
-    [XmlAttribute]
-    public int RawID { get; set; }
-    [XmlAttribute]
-    public ushort RawType { get; set; }
-    [XmlAttribute]
-    public string InherentLevel { get; set; }
-    [XmlAttribute]
-    public string CollectMaterialList { get; set; }
-
-}
-
 [System.Serializable] 
 public class FunctionBlock_Industry
 {
     //制造
     [XmlAttribute]
     public int ID { get; set; }
-    [XmlAttribute]
-    public string Type { get; set; }
     [XmlAttribute]
     public string InherentLevel { get; set; }
     [XmlAttribute]
@@ -340,11 +295,11 @@ public class FunctionBlock_Industry
     public int FormulaInfoID { get; set; }
     [XmlAttribute]
     //维护成本
-    public string MaintenanceBase { get; set; }
+    public float MaintenanceBase { get; set; }
     [XmlAttribute]
     public float WorkerBase { get; set; }
     [XmlAttribute]
-    public string EnergyConsumptionBase { get; set; }
+    public float EnergyConsumptionBase { get; set; }
 }
 
 [System.Serializable] 

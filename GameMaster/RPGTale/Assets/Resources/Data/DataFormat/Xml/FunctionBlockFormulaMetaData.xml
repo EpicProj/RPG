@@ -22,9 +22,25 @@
     <OutputMaterial>102:10</OutputMaterial>
     <EnhanceMaterial>102:5</EnhanceMaterial>
   </AllFormulaDataList>
+  <AllFormulaDataList>
+    <FormulaID>200</FormulaID>
+    <FormulaName>FormulaName_200</FormulaName>
+    <FormulaDesc>FormulaDesc_200</FormulaDesc>
+    <IconPath>SpriteOutput/FunctionBlock/Formula/Icon/MTL_005</IconPath>
+    <ProductSpeed>10</ProductSpeed>
+    <EXP>10</EXP>
+    <InputMaterialList>104:1</InputMaterialList>
+    <OutputMaterial>105:2</OutputMaterial>
+    <EnhanceMaterial>0</EnhanceMaterial>
+  </AllFormulaDataList>
   <AllFormulaInfoList>
     <InfoID>100</InfoID>
     <InfoType>1</InfoType>
     <FormulaList>100,101</FormulaList>
+  </AllFormulaInfoList>
+  <AllFormulaInfoList>
+    <InfoID>101</InfoID>
+    <InfoType>2</InfoType>
+    <FormulaList>200</FormulaList>
   </AllFormulaInfoList>
 </FunctionBlockFormulaMetaData>

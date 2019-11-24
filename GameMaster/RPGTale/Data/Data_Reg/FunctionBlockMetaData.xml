@@ -31,25 +31,15 @@
 		</list>
 	</variable>
 
-	<variable  name="AllFunctionBlock_RawList" type="list">
-		<list name = "FunctionBlock_Raw" sheetname="FunctionBlock_Raw" mainKey = "RawID">
-			<variable  name="RawID" col = "RawID" type="int"/>
-			<variable  name="RawType" col = "RawType" type="ushort"/>
-			<variable  name="InherentLevel" col = "InherentLevel" type="string"/>
-			<variable  name="CollectMaterialList" col = "CollectMaterialList" type="string"/>
-		</list>
-	</variable>
-
 	<variable  name="AllFunctionBlock_IndustryList" type="list">
 		<list name = "FunctionBlock_Industry" sheetname="FunctionBlock_Industry" mainKey = "ID">
 			<variable  name="ID" col = "ID" type="int"/>
-			<variable  name="Type" col = "Type" type="string"/>
 			<variable  name="InherentLevel" col = "InherentLevel" type="string"/>
 			<variable  name="SpeedBase" col = "SpeedBase" type="float"/>
 			<variable  name="FormulaInfoID" col = "FormulaInfoID" type="int"/>
-			<variable  name="MaintenanceBase" col = "MaintenanceBase" type="string"/>
+			<variable  name="MaintenanceBase" col = "MaintenanceBase" type="float"/>
 			<variable  name="WorkerBase" col = "WorkerBase" type="float"/>
-			<variable  name="EnergyConsumptionBase" col = "EnergyConsumptionBase" type="string"/>
+			<variable  name="EnergyConsumptionBase" col = "EnergyConsumptionBase" type="float"/>
 		</list>
 	</variable>
 

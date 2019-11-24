@@ -15,10 +15,8 @@ namespace Sim_FrameWork
         }
         public enum FormulaInfoType
         {
-            //可选的
-            OPtional,
-            //自动适配
-            Automatic
+            Manufacture,
+            RawMaterial
         }
 
         public static List<FormulaData> FormulaDataList;
@@ -90,6 +88,8 @@ namespace Sim_FrameWork
         {
             List<FormulaItem> result = new List<FormulaItem>();
             Dictionary<int, ushort> infoDic = GetFormulaMaterialList(formulaID, Gettype);
+            if (infoDic.Count == 0)
+                return result;
             if (infoDic != null)
             {
                 foreach(KeyValuePair<int,ushort> kvp in infoDic)
@@ -144,7 +144,7 @@ namespace Sim_FrameWork
             {
                 case MaterialProductType.Enhance:
                     var dic= TryParseMaterialList(fm.EnhanceMaterial);
-                    if (dic == null || dic.Count == 1)
+                    if (dic.Count==0 || dic.Count == 1)
                     {
                         return dic;
                     }
@@ -177,7 +177,10 @@ namespace Sim_FrameWork
 
         public static Dictionary<int, ushort> TryParseMaterialList(string s)
         {
+        
             Dictionary<int, ushort> materialDic = new Dictionary<int, ushort>();
+            if (string.Compare(s, "0") == 0)
+                return materialDic;
             try
             {
                 string[] info = s.Split(',');
@@ -221,12 +224,12 @@ namespace Sim_FrameWork
             switch (GetFormulaInfoByID(infoID).InfoType)
             {
                 case 1:
-                    return FormulaInfoType.Automatic;
+                    return FormulaInfoType.Manufacture;
                 case 2:
-                    return FormulaInfoType.OPtional;
+                    return FormulaInfoType.RawMaterial;
                 default:
                     Debug.LogError("FormulaInfo Type Error ,info ID=" + infoID);
-                    return FormulaInfoType.Automatic;
+                    return FormulaInfoType.Manufacture;
             }
         }
 
