@@ -7,7 +7,7 @@ namespace Sim_FrameWork {
         {
             if (MaterialModule.GetMaterialByMaterialID(id) == null)
                 return false;
-            ID = id;
+            _id = id;
             return true;
         }
         public void CleanUp()
