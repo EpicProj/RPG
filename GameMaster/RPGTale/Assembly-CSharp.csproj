@@ -185,6 +185,8 @@
      <Compile Include="Assets\Sim_FrameWork\Project\UI\Dialog\GeneralHintDialogContent.cs" />
      <Compile Include="Assets\Sim_FrameWork\Project\UI\Dialog\MainMenu\GameLoadDialog.cs" />
      <Compile Include="Assets\Sim_FrameWork\Project\UI\Dialog\MainMenu\GameLoadDialogContext.cs" />
+     <Compile Include="Assets\Sim_FrameWork\Project\UI\Dialog\Technology\TechnologyDetailDialog.cs" />
+     <Compile Include="Assets\Sim_FrameWork\Project\UI\Dialog\Technology\TechnologyDetailDialogContext.cs" />
      <Compile Include="Assets\Sim_FrameWork\Project\UI\Effect\UIGradient.cs" />
      <Compile Include="Assets\Sim_FrameWork\Project\UI\Inventory\Element\BaseElementDrag.cs" />
      <Compile Include="Assets\Sim_FrameWork\Project\UI\Inventory\Element\BaseElementSimple.cs" />
@@ -193,6 +195,7 @@
      <Compile Include="Assets\Sim_FrameWork\Project\UI\Inventory\Element\OrderDetailElement.cs" />
      <Compile Include="Assets\Sim_FrameWork\Project\UI\Inventory\Element\RewardElement.cs" />
      <Compile Include="Assets\Sim_FrameWork\Project\UI\Inventory\Element\SaveElement.cs" />
+     <Compile Include="Assets\Sim_FrameWork\Project\UI\Inventory\Element\TechObjectElement.cs" />
      <Compile Include="Assets\Sim_FrameWork\Project\UI\Inventory\InventoryManager.cs" />
      <Compile Include="Assets\Sim_FrameWork\Project\UI\Inventory\InventoryPanel\DistrictContentSlotPanel.cs" />
      <Compile Include="Assets\Sim_FrameWork\Project\UI\Inventory\LoopList\BaseElement.cs" />
@@ -225,6 +228,8 @@
      <Compile Include="Assets\Sim_FrameWork\Project\UI\Page\MainMenuPageContext.cs" />
      <Compile Include="Assets\Sim_FrameWork\Project\UI\Page\OrderReceiveMainPage.cs" />
      <Compile Include="Assets\Sim_FrameWork\Project\UI\Page\OrderReceiveMainPageContext.cs" />
+     <Compile Include="Assets\Sim_FrameWork\Project\UI\Page\TechnologyMainPage.cs" />
+     <Compile Include="Assets\Sim_FrameWork\Project\UI\Page\TechnologyMainPageContext.cs" />
      <Compile Include="Assets\Sim_FrameWork\Project\UI\Page\WareHousePage.cs" />
      <Compile Include="Assets\Sim_FrameWork\Project\UI\Page\WareHousePageContext.cs" />
      <Compile Include="Assets\Sim_FrameWork\Project\UI\Text\SpriteItem.cs" />

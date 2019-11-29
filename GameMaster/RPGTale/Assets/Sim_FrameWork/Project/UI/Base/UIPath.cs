@@ -23,6 +23,10 @@ namespace Sim_FrameWork
             /// 生产线选择
             /// </summary>
             public const string ProductLine_Change_Dialog = "Dialog/FunctionBlock/ProductLineChangeDialog";
+            /// <summary>
+            /// Tech Detail
+            /// </summary>
+            public const string Technology_Detail_Dialog = "Dialog/Technology/TechnologyDetailDialog";
 
             #endregion
 
@@ -55,6 +59,11 @@ namespace Sim_FrameWork
             ///  Block Page
             /// </summary>
             public const string BlockManu_Page = "Page/BlockManuPage";
+
+            /// <summary>
+            /// Tech Page
+            /// </summary>
+            public const string Technology_Page = "Page/TechnologyMainPage";
 
 
             #endregion
