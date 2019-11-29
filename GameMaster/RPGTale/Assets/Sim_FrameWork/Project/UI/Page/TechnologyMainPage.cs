@@ -6,7 +6,7 @@ namespace Sim_FrameWork
 {
     public class TechnologyMainPage : MonoBehaviour
     {
-
+        public Transform TechScrollView;
 
     }
 }

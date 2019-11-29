@@ -9,8 +9,7 @@
 			<variable  name="TechDesc" col = "TechDesc" type="string"/>
 			<variable  name="TechIcon" col = "TechIcon" type="string"/>
 			<variable  name="TechCostMaterialList" col = "TechCostMaterialList" type="string"/>
-			<variable  name="TechCostUnitMin" col = "TechCostUnitMin" type="string"/>
-			<variable  name="ResearchTime" col = "ResearchTime" type="float"/>
+			<variable  name="Cost" col = "Cost" type="ushort"/>
 			<variable  name="PreTechList" col = "PreTechList" type="string"/>
 		</list>
 	</variable>

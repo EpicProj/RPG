@@ -252,6 +252,11 @@ namespace Sim_FrameWork.UI
                 UIManager.Instance.PopUpWnd(UIPath.WindowPath.BlockManu_Page, WindowType.Page, true);
             });
 
+            AddButtonClickListener(m_page.ConstructBtn, () =>
+            {
+                UIManager.Instance.PopUpWnd(UIPath.WindowPath.Technology_Page, WindowType.Page, true);
+            });
+
         }
 
         private void OnPauseBtnClick()

@@ -51,5 +51,8 @@ namespace Sim_FrameWork.Config
         //Order
         public static string OrderConfigJsonPath= Application.streamingAssetsPath + "/Data/JsonData/Order" + "/OrderConfig.json";
 
+        //TechGroup
+        public static string TechGroupConfigJsonPath = Application.streamingAssetsPath + "/Data/JsonData/Technology/Group" + "/TechGroupConfig.json";
+
     }
 }

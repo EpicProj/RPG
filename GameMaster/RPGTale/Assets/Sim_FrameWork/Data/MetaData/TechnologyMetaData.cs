@@ -20,8 +20,7 @@ public class TechnologyMetaData : ExcelBase {
             te.TechDesc = "";
             te.TechIcon = "";
             te.TechCostMaterialList = "";
-            te.TechCostUnitMin = "";
-            te.ResearchTime = i;
+            te.Cost = (ushort)i;
             te.PreTechList = "";
             AllTechnologyList.Add(te);
         }
@@ -99,9 +98,7 @@ public class Technology
     [XmlAttribute]
     public string TechCostMaterialList { get; set; }
     [XmlAttribute]
-    public string TechCostUnitMin { get; set; }
-    [XmlAttribute]
-    public float ResearchTime { get; set; }
+    public ushort Cost { get; set; }
     [XmlAttribute]
     public string PreTechList { get; set; }
 }
