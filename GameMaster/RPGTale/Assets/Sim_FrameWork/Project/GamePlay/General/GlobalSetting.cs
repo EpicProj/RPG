@@ -6,26 +6,23 @@ namespace Sim_FrameWork.Config
 {
     public class GlobalSetting 
     {
-
-        public class BasicSpriteConfig
-        {
-
-            public string PauseBtn_Sprite_Path;
-            public string StartBtn_Sprite_Path;
-        }
-
-        public BasicSpriteConfig basicSpriteConfig;
-
-
-
+        public List<RarityConfig> rarityConfig;
         public GlobalSetting LoadGlobalSettting()
         {
             Config.JsonReader config = new Config.JsonReader();
             GlobalSetting settting = config.LoadJsonDataConfig<GlobalSetting>(Config.JsonConfigPath.GlobalSettingJsonPath);
-            basicSpriteConfig = settting.basicSpriteConfig;
+            rarityConfig = settting.rarityConfig;
 
             return settting;
         }
+
+        public class RarityConfig
+        {
+            public ushort Level;
+            public string Color;
+        }
+
+     
 
 
 

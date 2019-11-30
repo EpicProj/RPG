@@ -75,4 +75,12 @@ namespace Sim_FrameWork
         }
 
     }
+
+    public class GeneralMaterial
+    {
+        /// <summary>
+        /// 通用颜色变化材质
+        /// </summary>
+        public const string ImageColor_Mat_Path = "Assets/Material/UI/ImageColor.mat";
+    }
 }

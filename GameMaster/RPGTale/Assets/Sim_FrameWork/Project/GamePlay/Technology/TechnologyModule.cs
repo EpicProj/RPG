@@ -26,6 +26,18 @@ namespace Sim_FrameWork
             InitData();
         }
 
+        public TechGroupConfig.GroupConfig GetTechGroupConfig(int index)
+        {
+            if (config.configList.Count != 0)
+            {
+                var result = config.configList.Find(x => x.groupIndex == index);
+                if (result != null)
+                    return result;
+            }
+            return null;
+        }
+
+
         #region Data
         public static Technology GetTechDataByID(int techID)
         {
@@ -60,15 +72,9 @@ namespace Sim_FrameWork
             return Utility.LoadSprite(GetTechDataByID(techID).TechIcon, Utility.SpriteType.png);
         }
 
-        public TechGroupConfig.GroupConfig GetTechGroupConfig(int index)
+        public static GeneralRarity GetTechRarity(int techID)
         {
-            if (config.configList.Count != 0)
-            {
-                var result= config.configList.Find(x => x.groupIndex == index);
-                if (result != null)
-                    return result;
-            }
-            return null;
+            return GeneralModule.Instance.GetRarity(GetTechDataByID(techID).Rarity);
         }
 
         #endregion

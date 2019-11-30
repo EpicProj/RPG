@@ -355,5 +355,18 @@ namespace Sim_FrameWork {
                 wnd.currentStates = WindowBase.WindowStates.show;
             }
         }
+
+        /// <summary>
+        /// 显示通用提示条
+        /// </summary>
+        /// <param name="textID"></param>
+        /// <param name="duration"></param>
+        public void ShowGeneralHint(string textID,float duration)
+        {
+            GeneralHintDialogItem item = new GeneralHintDialogItem(textID, duration);
+            PopUpWnd(UIPath.WindowPath.General_Hint_Dialog, WindowType.Dialog, true, item);
+        }
+
+
     }
 }

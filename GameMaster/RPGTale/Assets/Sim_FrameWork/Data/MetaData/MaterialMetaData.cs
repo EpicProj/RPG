@@ -24,7 +24,7 @@ public class MaterialMetaData : ExcelBase {
             mat.MaterialIcon = "";
             mat.BG = "";
             mat.UnitName = "";
-            mat.Rarity = "";
+            mat.Rarity = (ushort)i;
             mat.ModelPath = "";
             AllMaterialList.Add(mat);
         }
@@ -138,7 +138,7 @@ public class Material
     [XmlAttribute]
     public string UnitName { get; set; }
     [XmlAttribute]
-    public string Rarity { get; set; }
+    public ushort Rarity { get; set; }
     [XmlAttribute]
     public string ModelPath { get; set; }
 }

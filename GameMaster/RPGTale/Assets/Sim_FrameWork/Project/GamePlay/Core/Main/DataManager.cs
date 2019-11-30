@@ -16,6 +16,7 @@ namespace Sim_FrameWork {
 
         public void RegisterModule()
         {
+            GeneralModule.Instance.Register();
             FunctionBlockModule.Instance.Register();
             MaterialModule.Instance.Register();
             DistrictModule.Instance.Register();

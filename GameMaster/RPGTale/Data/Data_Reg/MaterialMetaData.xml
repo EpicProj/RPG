@@ -13,7 +13,7 @@
 			<variable  name="MaterialIcon" col = "MaterialIcon" type="string"/>
 			<variable  name="BG" col = "BG" type="string"/>
 			<variable  name="UnitName" col = "UnitName" type="string"/>
-			<variable  name="Rarity" col = "Rarity" type="string"/>
+			<variable  name="Rarity" col = "Rarity" type="ushort"/>
 			<variable  name="ModelPath" col = "ModelPath" type="string"/>
 		</list>
 	</variable>

@@ -105,50 +105,12 @@ namespace Sim_FrameWork {
         /// </summary>
         /// <param name="materialID"></param>
         /// <returns></returns>
-        public static MaterialRarity GetMaterialRarityData(int materialID)
+        public static GeneralRarity GetMaterialRarityData(int materialID)
         {
-            MaterialRarity data = null;
-            string rarity = GetMaterialByMaterialID(materialID).Rarity;
-
-            var result= maConfig.rarityDataList.Find(x => x.RarityLevel == rarity);
-            if (result != null)
-            {
-                data = new MaterialRarity
-                {
-                    RarityColor = result.RarityColor,
-                    RarityLevel = result.RarityLevel,
-                    RarityName = result.RarityName
-                };
-            }
-            else
-            {
-                Debug.LogError("Material Rarity Error!");
-            }
-            return data;
-        }
-        public static string GetMaterialRarityName(MaterialRarity data)
-        {
-            return MultiLanguage.Instance.GetTextValue(data.RarityName);
-        }
-        public string GetMaterialRarityName(Material ma)
-        {
-            return MultiLanguage.Instance.GetTextValue(GetMaterialRarityData(ma.MaterialID).RarityName);
+            return GeneralModule.Instance.GetRarity(GetMaterialByMaterialID(materialID).Rarity);
         }
 
-        public Color TryParseRarityColor(Material ma)
-        {
-            Color result = new Color();
-            ColorUtility.TryParseHtmlString(GetMaterialRarityData(ma.MaterialID).RarityColor, out result);
-            if (result == null)
-            {
-                Debug.LogError("Parse Color Error! color=" + GetMaterialRarityData(ma.MaterialID).RarityColor);
-            }
-            return result;
-        }
-        public Color TryParseRarityColor(int materialID)
-        {
-            return TryParseRarityColor(GetMaterialByMaterialID(materialID));
-        }
+
 
         /// <summary>
         /// 获取主分类
@@ -288,34 +250,20 @@ namespace Sim_FrameWork {
 
     public class MaterialConfig
     {
-        //材料稀有度
-        public List<MaterialRarityData> rarityDataList;
-     
+
         public MaterialConfig LoadConfigData()
         {
             Config.JsonReader reader = new Config.JsonReader();
 
             MaterialConfig config= reader.LoadJsonDataConfig<MaterialConfig>(Config.JsonConfigPath.MaterialConfigJsonPath);
-            rarityDataList = config.rarityDataList;
 
             return config;
         }
 
 
-        public class MaterialRarityData
-        {
-            public string RarityLevel;
-            public string RarityColor;
-            public string RarityName;
-        }
     }
 
-    public class MaterialRarity
-    {
-        public string RarityLevel;
-        public string RarityColor;
-        public string RarityName;
-    }
+
 
 
 }

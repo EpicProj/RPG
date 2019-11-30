@@ -1,11 +1,16 @@
 {
-	"basicSpriteConfig":{
-		"PauseBtn_Sprite_Path":"SpriteOutput/Material/bone",
-		"StartBtn_Sprite_Path":"SpriteOutput/Material/book_normal"
-	}
-
-
-
-
+	"rarityConfig":[{
+		"Level":1,
+		"Color":"#FFFFFFFF"
+	},{
+		"Level":2,
+		"Color":"#00DFFFFF"
+	},{
+		"Level":3,
+		"Color":"#BC00FFFF"
+	},{
+		"Level":4,
+		"Color":"#FF7900FF"
+	}]
 
 }

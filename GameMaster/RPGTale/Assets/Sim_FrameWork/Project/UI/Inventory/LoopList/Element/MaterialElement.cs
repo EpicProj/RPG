@@ -28,8 +28,8 @@ namespace Sim_FrameWork.UI
         {
             Icon.sprite = _model.MaModel.Icon;
             Num.text = _model.Count.ToString();
-            RareLine.color = _model.MaModel.Color;
-            RareLight.color = _model.MaModel.Color;
+            RareLine.color = _model.MaModel.Rarity.color;
+            RareLight.color = _model.MaModel.Rarity.color;
         }
 
         public override void OnPointerEnter(PointerEventData eventData)

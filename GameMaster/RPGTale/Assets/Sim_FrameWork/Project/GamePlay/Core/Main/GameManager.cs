@@ -28,16 +28,12 @@ namespace Sim_FrameWork
         public GameStates gameStates { get { return _gameStates; } }
         private bool ConsolePageShow = false;
 
-        public static Config.GlobalSetting globalSettings =new Config.GlobalSetting ();
-
         protected override void Awake()
         {
             base.Awake();
             AssetBundleManager.Instance.LoadAssetBundleConfig();
             ResourceManager.Instance.Init(this);
             
-            globalSettings.LoadGlobalSettting();
-
             DataManager.Instance.InitData();
             DontDestroyOnLoad(gameObject);
             

@@ -69,7 +69,7 @@ namespace Sim_FrameWork.UI
         {
             AddButtonClickListener(m_dialog.CloseBtn, () =>
             {
-                UIManager.Instance.HideWnd(UIPath.WindowPath.ProductLine_Change_Dialog);
+                UIManager.Instance.HideWnd(this);
             });
 
             AddButtonClickListener(m_dialog.ConfirmBtn, () =>
@@ -77,9 +77,8 @@ namespace Sim_FrameWork.UI
                 UIManager.Instance.SendMessageToWnd(UIPath.WindowPath.BlockManu_Page, new UIMessage(UIMsgType.ProductLine_Formula_Change, new List<object>(1) { _currentFormulaID }));
                 AudioManager.Instance.PlaySound(AudioClipPath.UISound.Button_Click);
 
-                GeneralHintDialogItem item = new GeneralHintDialogItem(FormulaChange_Success_Hint_Text, 1.0f);
-                UIManager.Instance.HideWnd(UIPath.WindowPath.ProductLine_Change_Dialog);
-                UIManager.Instance.PopUpWnd(UIPath.WindowPath.General_Hint_Dialog, WindowType.Dialog,true,item);
+                UIManager.Instance.ShowGeneralHint(FormulaChange_Success_Hint_Text, 1.0f);
+                UIManager.Instance.HideWnd(this);
             });
         }
         private void InitRef()

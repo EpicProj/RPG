@@ -19,6 +19,7 @@ public class TechnologyMetaData : ExcelBase {
             te.TechName = "";
             te.TechDesc = "";
             te.TechIcon = "";
+            te.Rarity = (ushort)i;
             te.TechCostMaterialList = "";
             te.Cost = (ushort)i;
             te.PreTechList = "";
@@ -95,6 +96,8 @@ public class Technology
     public string TechDesc { get; set; }
     [XmlAttribute]
     public string TechIcon { get; set; }
+    [XmlAttribute]
+    public ushort Rarity { get; set; }
     [XmlAttribute]
     public string TechCostMaterialList { get; set; }
     [XmlAttribute]

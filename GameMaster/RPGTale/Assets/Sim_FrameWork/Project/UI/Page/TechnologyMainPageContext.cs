@@ -15,7 +15,7 @@ namespace Sim_FrameWork.UI
         {
             m_page = UIUtility.SafeGetComponent<TechnologyMainPage>(Transform);
             scrollViewContentTrans = UIUtility.FindTransfrom(m_page.TechScrollView, "Viewport/Content");
-
+            AddBtnClick();
             InitTechGroup();
         }
 
@@ -28,7 +28,22 @@ namespace Sim_FrameWork.UI
         {
             return base.OnMessage(msg);
         }
+
+        public override void OnClose()
+        {
+            AudioManager.Instance.PlaySound(AudioClipPath.UISound.Btn_Close);
+        }
+
         #endregion
+
+        private void AddBtnClick()
+        {
+            AddButtonClickListener(m_page.backBtn, () =>
+            {
+                UIManager.Instance.HideWnd(this);
+            });
+        }
+
 
         private void InitTechGroup()
         {

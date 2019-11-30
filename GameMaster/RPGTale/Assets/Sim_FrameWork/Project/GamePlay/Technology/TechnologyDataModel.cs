@@ -73,6 +73,18 @@ namespace Sim_FrameWork
             }
             set { }
         }
+
+        private GeneralRarity _rarity;
+        public GeneralRarity Rarity
+        {
+            get
+            {
+                if (_rarity == null)
+                    _rarity = TechnologyModule.GetTechRarity(_id);
+                return _rarity;
+            }
+            set { }
+        }
    
 
       
