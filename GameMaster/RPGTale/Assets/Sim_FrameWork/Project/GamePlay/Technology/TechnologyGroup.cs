@@ -11,10 +11,16 @@ namespace Sim_FrameWork
             Panel_3_1_1,
         }
 
+        public enum TechElementType
+        {
+            Simple,
+            Complex
+        }
+
         public GroupType groupType;
 
         public int groupIndex=0;
-        public TechObjectElement[] _techObjList;
+        public List<TechObjectElement> _techObjList;
 
 
        
@@ -29,19 +35,68 @@ namespace Sim_FrameWork
             var config = TechnologyModule.Instance.GetTechGroupConfig(index);
             if (config != null)
             {
-                _techObjList = GetComponentsInChildren<TechObjectElement>();
-                for(int i = 0; i < _techObjList.Length; i++)
+                for(int i = 0; i < config.ObjectNum; i++)
                 {
-                    TechnologyDataModel model = new TechnologyDataModel();
-                    if (!model.Create(config.techIDList[i]))
+                    var element = config.techElementList[i];
+                    GameObject obj = ObjectManager.Instance.InstantiateObject(GetElementTypePrefabPath(element));
+                    obj.name = "TechObject" + element.Index.ToString();
+                    ///Set Pos
+                    Vector3 newPos = new Vector3(element.posX, element.posY,0);
+                    Debug.Log(newPos);
+                    obj.transform.SetParent(transform, false);
+                    var rect = UIUtility.SafeGetComponent<RectTransform>(obj.transform).anchoredPosition = newPos;
+
+
+                    TechObjectElement objEle = UIUtility.SafeGetComponent<TechObjectElement>(obj.transform);
+                    if (objEle != null)
                     {
-                        return false;
+                        _techObjList.Add(objEle);
+                        TechnologyDataModel model = new TechnologyDataModel();
+                        if (!model.Create(element.TechID))
+                        {
+                            return false;
+                        }
+                        _techObjList[i].SetUpTech(model);
                     }
-                    _techObjList[i].SetUpTech(model);
+
                 }
             }
             return true;
         }
+
+        public void RefreshGroup()
+        {
+            for(int i = 0; i < _techObjList.Count; i++)
+            {
+                _techObjList[i].RefreshTech();
+            }
+        }
+
+
+        private TechElementType GetTechElementType(TechGroupConfig.TechElement element)
+        {
+            if (element.ElementType == 1)
+            {
+                return TechElementType.Simple;
+            }else if (element.ElementType == 2)
+            {
+                return TechElementType.Complex;
+            }
+            Debug.LogError("Parse Tech ElementType Error!  Index=" + element.Index);
+            return TechElementType.Simple;
+        }
+        private string GetElementTypePrefabPath(TechGroupConfig.TechElement element)
+        {
+            var type = GetTechElementType(element);
+            switch (type)
+            {
+                case TechElementType.Simple:
+                    return UIPath.PrefabPath.Tech_Element_Simple;
+                default:
+                    return null;
+            }
+        }
+
 
     }
 
@@ -57,6 +112,19 @@ namespace Sim_FrameWork
             TechGroupConfig config = reader.LoadJsonDataConfig<TechGroupConfig>(Config.JsonConfigPath.TechGroupConfigJsonPath);
             InitGroupIndexList = config.InitGroupIndexList;
             configList = config.configList;
+
+            for(int i = 0; i < configList.Count; i++)
+            {
+                if (configList[i].ObjectNum != configList[i].techElementList.Count)
+                {
+                    Debug.LogError("Parse TechGroupConfig Error! Num not Matching!  groupIndex=" + config.configList[i].groupIndex);
+                }
+            }
+            if(InitGroupIndexList.Count!= configList.Count)
+            {
+                Debug.LogError("Parse TechGroupConfig Error! Num not Matching!  InitGroupIndexListCount="+InitGroupIndexList.Count);
+            }
+
         }
 
         public class GroupConfig
@@ -67,7 +135,17 @@ namespace Sim_FrameWork
             public int posX;
             public int posY;
             public int ObjectNum;
-            public List<int> techIDList;
+            public List<TechElement> techElementList;
+
+        }
+
+        public class TechElement
+        {
+            public int Index;
+            public int TechID;
+            public int posX;
+            public int posY;
+            public ushort ElementType;
         }
     }
 }

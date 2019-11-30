@@ -21,7 +21,8 @@ namespace Sim_FrameWork.UI
 
         public override void OnShow(params object[] paralist)
         {
-            
+            AudioManager.Instance.PlaySound(AudioClipPath.UISound.Page_Open);
+            RefreshTechGroup();
         }
 
         public override bool OnMessage(UIMessage msg)
@@ -67,6 +68,15 @@ namespace Sim_FrameWork.UI
                         
                     }
                 }
+            }
+        }
+
+        private void RefreshTechGroup()
+        {
+            var group= scrollViewContentTrans.gameObject.GetComponentsInChildren<TechnologyGroup>();
+            for(int i = 0; i < group.Length; i++)
+            {
+                group[i].RefreshGroup();
             }
         }
 

@@ -32,10 +32,7 @@ public class MainMenuPage : MonoBehaviour {
 
     //Btn
     [Header("Button")]
-    public Button ConstructBtn;
-    public Button RoadBtn;
     public Button OrderBtn;
     public Button ReserachBtn;
-    public Button EventsBtn;
         
 }

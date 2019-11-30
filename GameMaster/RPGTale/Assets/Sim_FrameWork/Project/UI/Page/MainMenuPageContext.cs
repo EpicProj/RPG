@@ -247,12 +247,7 @@ namespace Sim_FrameWork.UI
                 UIManager.Instance.PopUpWnd(UIPath.WindowPath.Order_Receive_Main_Page, WindowType.Page, true);
             });
 
-            AddButtonClickListener(m_page.RoadBtn, () =>
-            {
-                UIManager.Instance.PopUpWnd(UIPath.WindowPath.BlockManu_Page, WindowType.Page, true);
-            });
-
-            AddButtonClickListener(m_page.ConstructBtn, () =>
+            AddButtonClickListener(m_page.ReserachBtn, () =>
             {
                 UIManager.Instance.PopUpWnd(UIPath.WindowPath.Technology_Page, WindowType.Page, true);
             });

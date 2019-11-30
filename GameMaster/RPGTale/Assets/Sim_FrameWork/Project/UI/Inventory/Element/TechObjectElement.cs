@@ -12,6 +12,8 @@ namespace Sim_FrameWork {
         private Transform lockTrans;
         private Animation selectAnim;
 
+        private CanvasGroup contentCanvasGroup;
+
         private Text _timeText;
         private Text _nameText;
         private Image _icon;
@@ -36,6 +38,8 @@ namespace Sim_FrameWork {
             _timeText = UIUtility.SafeGetComponent<Text>(UIUtility.FindTransfrom(transform, "Content/Time"));
             _icon = UIUtility.SafeGetComponent<Image>(UIUtility.FindTransfrom(transform, "Content/Icon/BG/Image"));
             _techCost = UIUtility.SafeGetComponent<Text>(UIUtility.FindTransfrom(transform, "Content/TechCost/Num"));
+
+            contentCanvasGroup = UIUtility.SafeGetComponent<CanvasGroup>(UIUtility.FindTransfrom(transform, "Content"));
 
             _rarityBG = UIUtility.SafeGetComponent<Image>(UIUtility.FindTransfrom(transform, "Content/Icon/BG"));
             _rarityEffect01 = UIUtility.SafeGetComponent<Image>(UIUtility.FindTransfrom(transform, "Content/Icon/Select/SelectEffect/Image"));
@@ -75,9 +79,23 @@ namespace Sim_FrameWork {
             _techCost.text = _dataModel.TechCost.ToString();
             _icon.sprite = _dataModel.Icon;
 
+            if (GlobalEventManager.Instance.GetTechInfo(_dataModel.ID).currentState== TechnologyInfo.TechState.Lock)
+            {
+                SetLockStates(true);
+            }
+
             InitRarity();
             AddBtnClickListener();
             
+        }
+
+        public void RefreshTech()
+        {
+            var info = GlobalEventManager.Instance.GetTechInfo(_dataModel.ID);
+            if (info.currentState != TechnologyInfo.TechState.Lock)
+            {
+                SetLockStates(false);
+            }
         }
 
         private void InitRarity()
@@ -88,6 +106,21 @@ namespace Sim_FrameWork {
             _rarityEffect03.color = _dataModel.Rarity.color; 
         }
 
+        private void SetLockStates(bool locked)
+        {
+            if (locked)
+            {
+                lockTrans.gameObject.SetActive(true);
+                if (contentCanvasGroup != null)
+                    contentCanvasGroup.alpha = 0.6f;
+            }
+            else
+            {
+                lockTrans.gameObject.SetActive(false);
+                if (contentCanvasGroup != null)
+                    contentCanvasGroup.alpha = 1.0f;
+            }
+        }
 
         private void AddBtnClickListener()
         {

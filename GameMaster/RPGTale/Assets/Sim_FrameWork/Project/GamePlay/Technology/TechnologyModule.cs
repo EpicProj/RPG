@@ -77,9 +77,43 @@ namespace Sim_FrameWork
             return GeneralModule.Instance.GetRarity(GetTechDataByID(techID).Rarity);
         }
 
+        public static TechnologyInfo.TechType GetTechBaseType(int techID)
+        {
+            var data = GetTechDataByID(techID);
+            switch (data.BaseType)
+            {
+                case 1:
+                    return TechnologyInfo.TechType.Unique;
+                case 2:
+                    return TechnologyInfo.TechType.Series;
+                default:
+                    return TechnologyInfo.TechType.Unique;
+
+            }
+        }
+
         #endregion
 
-
-
+        /// <summary>
+        /// 获取所有被用到的科技ID
+        /// </summary>
+        /// <returns></returns>
+        public List<int> GetAllTech()
+        {
+            List<int> result = new List<int>();
+            for(int i = 0; i < config.InitGroupIndexList.Count; i++)
+            {
+                var group = GetTechGroupConfig(config.InitGroupIndexList[i]);
+                for(int j = 0; j < group.techElementList.Count; j++)
+                {
+                    if (!result.Contains(group.techElementList[j].TechID))
+                    {
+                        result.Add(group.techElementList[j].TechID);
+                    }
+                }
+            }
+            return result;
+        }
     }
+
 }

@@ -14,6 +14,7 @@ public class TechnologyMetaData : ExcelBase {
         {
             Technology te = new Technology();
             te.TechnologyID = i;
+            te.BaseType = (ushort)i;
             te.TechType = "";
             te.TechGetType = "";
             te.TechName = "";
@@ -86,6 +87,8 @@ public class Technology
 {
     [XmlAttribute]
     public int TechnologyID { get; set; }
+    [XmlAttribute]
+    public ushort BaseType { get; set; }
     [XmlAttribute]
     public string TechType { get; set; }
     [XmlAttribute]

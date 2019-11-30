@@ -11,6 +11,31 @@ namespace Sim_FrameWork {
     /// </summary>
     public class GlobalEventManager : MonoSingleton<GlobalEventManager>
     {
+
+        protected override void Awake()
+        {
+            base.Awake();
+        }
+
+
+        void Start()
+        {
+            //For test
+            RegisterOrder(new OrderItemBase(1));
+            RegisterOrder(new OrderItemBase(2));
+            RegisterOrder(new OrderItemBase(1));
+            RegisterOrder(new OrderItemBase(2));
+
+            AddOrganization(1);
+
+            InitOrderModelData();
+            InitOrganizationModelData();
+
+            InitAllTechInfo();
+        }
+
+
+
         #region Order
         public enum OrderDicType
         {
@@ -35,27 +60,6 @@ namespace Sim_FrameWork {
 
         public Dictionary<int, OrganizationInfo> CurrentOrganization = new Dictionary<int, OrganizationInfo>();
         public List<List<BaseDataModel>> CurrrentOrganizationModel = new List<List<BaseDataModel>>();
-
-
-        protected override void Awake()
-        {
-            base.Awake();
-        }
-
-
-        void Start()
-        {
-            //For test
-            RegisterOrder(new OrderItemBase(1));
-            RegisterOrder(new OrderItemBase(2));
-            RegisterOrder(new OrderItemBase(1));
-            RegisterOrder(new OrderItemBase(2));
-
-            AddOrganization(1);
-
-            InitOrderModelData();
-            InitOrganizationModelData();
-        }
 
         /// <summary>
         /// 注册订单
@@ -476,6 +480,60 @@ namespace Sim_FrameWork {
         #endregion
 
         #region Technology
+
+        public Dictionary<int, TechnologyInfo> AllTechDataDic = new Dictionary<int, TechnologyInfo>();
+
+
+        public void InitAllTechInfo()
+        {
+            var list = TechnologyModule.Instance.GetAllTech();
+            for (int i = 0; i < list.Count; i++)
+            {
+                TechnologyInfo info = new TechnologyInfo(list[i]);
+                AllTechDataDic.Add(info.techID, info);
+            }
+        }
+
+        public TechnologyInfo GetTechInfo(int techID)
+        {
+            TechnologyInfo info = null;
+            AllTechDataDic.TryGetValue(techID, out info);
+            return info;
+        }
+
+        public List<int> GetTechStateInfoList(TechnologyInfo.TechState state)
+        {
+            List<int> result = new List<int>();
+            foreach(var info in AllTechDataDic)
+            {
+                if (info.Value.currentState == state)
+                    result.Add(info.Key);
+            }
+            return result;
+        }
+
+
+        /// <summary>
+        /// 科技研究完成
+        /// </summary>
+        /// <param name="techID"></param>
+        public void OnTechResearchFinish(int techID)
+        {
+            var info = GetTechInfo(techID);
+            if (info != null)
+            {
+                switch (info.baseType)
+                {
+                    case TechnologyInfo.TechType.Unique:
+                        info.currentState = TechnologyInfo.TechState.Done;
+                        break;
+                    case TechnologyInfo.TechType.Series:
+                        break;
+                }
+            }
+        }
+
+
 
         #endregion
 

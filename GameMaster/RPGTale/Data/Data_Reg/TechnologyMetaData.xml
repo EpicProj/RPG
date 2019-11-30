@@ -3,6 +3,7 @@
 	<variable  name="AllTechnologyList" type="list">
 		<list name = "Technology" sheetname="Technology" mainKey = "TechnologyID">
 			<variable  name="TechnologyID" col = "TechnologyID" type="int"/>
+			<variable  name="BaseType" col = "BaseType" type="ushort"/>
 			<variable  name="TechType" col = "TechType" type="string"/>
 			<variable  name="TechGetType" col = "TechGetType" type="string"/>
 			<variable  name="TechName" col = "TechName" type="string"/>
