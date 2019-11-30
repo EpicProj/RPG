@@ -8,6 +8,7 @@ namespace Sim_FrameWork
     {
         public enum TechState
         {
+            Unlock,
             Lock,
             OnResearch,
             PauseResearch,
@@ -29,8 +30,11 @@ namespace Sim_FrameWork
         public int techID;
         public TechnologyDataModel _model;
         public TechType baseType;
-
         public TechState currentState;
+        /// <summary>
+        /// 研究进度
+        /// </summary>
+        public float researchProgress = 0f;
 
         public TechnologyInfo(int techID)
         {
@@ -39,7 +43,14 @@ namespace Sim_FrameWork
                 return ;
             this.techID = techID;
             baseType = TechnologyModule.GetTechBaseType(techID);
-            currentState = TechState.Lock;
+            if (TechnologyModule.GetTechDataByID(techID).Unlock)
+            {
+                currentState = TechState.Unlock;
+            }
+            else
+            {
+                currentState = TechState.Lock;
+            }
         }
 
     }

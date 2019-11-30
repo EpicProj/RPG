@@ -114,6 +114,68 @@ namespace Sim_FrameWork
             }
             return result;
         }
+
+        public static TechCompleteEffect GetTechCompleteEffect(int techID)
+        {
+            var data = GetTechDataByID(techID);
+            if (data != null)
+            {
+                switch (data.TechEffect)
+                {
+                    case 1:
+                        return TechCompleteEffect.Unlock_Block;
+                    case 2:
+                        return TechCompleteEffect.Unlock_Tech;
+                }
+            }
+            return TechCompleteEffect.None;
+        }
+        
+        public static List<int> ParseTechParam_Unlock_Block(int techID)
+        {
+            List<int> result = new List<int>();
+            TechCompleteEffect effect = GetTechCompleteEffect(techID);
+            if (effect == TechCompleteEffect.Unlock_Block)
+            {
+                var str = GetTechDataByID(techID).EffectParam;
+                var list = Utility.TryParseIntList(str, ',');
+                for(int i = 0; i < list.Count; i++)
+                {
+                    if (FunctionBlockModule.GetFunctionBlockByBlockID(list[i]) != null)
+                    {
+                        result.Add(list[i]);
+                    }
+                }
+            }
+            return result;
+        }
+
+        public static List<int> ParseTechParam_Unlock_Tech(int techID)
+        {
+            List<int> result = new List<int>();
+            TechCompleteEffect effect = GetTechCompleteEffect(techID);
+            if (effect == TechCompleteEffect.Unlock_Tech)
+            {
+                var str = GetTechDataByID(techID).EffectParam;
+                var list = Utility.TryParseIntList(str, ',');
+                for (int i = 0; i < list.Count; i++)
+                {
+                    if (GetTechDataByID(list[i]) != null)
+                    {
+                        result.Add(list[i]);
+                    }
+                }
+            }
+            return result;
+        }
+
+    }
+
+    public enum TechCompleteEffect
+    {
+        None,
+        Unlock_Tech,
+        Unlock_Block,
     }
 
 }

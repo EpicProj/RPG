@@ -8,8 +8,6 @@ namespace Sim_FrameWork {
 
         public FunctionBlockTypeData typedata;
         public Image Icon;
-        public Text Name;
-        public GameObject SelectObj;
         public Button Btn;
 
 
@@ -17,7 +15,6 @@ namespace Sim_FrameWork {
         {
             typedata = data;
             Icon.sprite = FunctionBlockModule.GetMainTypeSprite(data);
-            Name.text = FunctionBlockModule.GetMainTypeName(data);
         }
        
 

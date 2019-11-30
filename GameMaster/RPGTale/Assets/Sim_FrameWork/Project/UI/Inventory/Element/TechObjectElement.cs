@@ -24,6 +24,11 @@ namespace Sim_FrameWork {
         private Image _rarityEffect02;
         private Image _rarityEffect03;
 
+        private Transform progressTrans;
+        private Transform completeTrans;
+        private Transform techCostTrans;
+
+        private Scrollbar progressSlider;
 
         public TechnologyDataModel _dataModel;
 
@@ -45,6 +50,11 @@ namespace Sim_FrameWork {
             _rarityEffect01 = UIUtility.SafeGetComponent<Image>(UIUtility.FindTransfrom(transform, "Content/Icon/Select/SelectEffect/Image"));
             _rarityEffect02 = UIUtility.SafeGetComponent<Image>(UIUtility.FindTransfrom(transform, "Content/Icon/Select/SelectEffect2/Image"));
             _rarityEffect03 = UIUtility.SafeGetComponent<Image>(UIUtility.FindTransfrom(transform, "Content/Icon/Select/SelectEffect3/Image"));
+
+            progressTrans = UIUtility.FindTransfrom(transform, "Content/Progress");
+            completeTrans = UIUtility.FindTransfrom(transform, "Content/Complete");
+            techCostTrans = UIUtility.FindTransfrom(transform, "Content/TechCost");
+            progressSlider = UIUtility.SafeGetComponent<Scrollbar>(UIUtility.FindTransfrom(progressTrans, "Scrollbar"));
         }
 
 
@@ -92,9 +102,25 @@ namespace Sim_FrameWork {
         public void RefreshTech()
         {
             var info = GlobalEventManager.Instance.GetTechInfo(_dataModel.ID);
-            if (info.currentState != TechnologyInfo.TechState.Lock)
+            if (info.currentState == TechnologyInfo.TechState.Unlock)
             {
                 SetLockStates(false);
+                progressTrans.gameObject.SetActive(false);
+                completeTrans.gameObject.SetActive(false);
+                techCostTrans.gameObject.SetActive(true);
+            }
+            else if(info.currentState == TechnologyInfo.TechState.OnResearch)
+            {
+                progressTrans.gameObject.SetActive(true);
+                completeTrans.gameObject.SetActive(false);
+                techCostTrans.gameObject.SetActive(false);
+                UpdateProgress();
+            }
+            else if(info.currentState== TechnologyInfo.TechState.Done)
+            {
+                completeTrans.gameObject.SetActive(true);
+                progressTrans.gameObject.SetActive(false);            
+                techCostTrans.gameObject.SetActive(false);
             }
         }
 
@@ -119,6 +145,15 @@ namespace Sim_FrameWork {
                 lockTrans.gameObject.SetActive(false);
                 if (contentCanvasGroup != null)
                     contentCanvasGroup.alpha = 1.0f;
+            }
+        }
+
+        private void UpdateProgress()
+        {
+            var info = GlobalEventManager.Instance.GetTechInfo(_dataModel.ID);
+            if(info.currentState== TechnologyInfo.TechState.OnResearch && progressTrans.gameObject.activeSelf && progressSlider!=null)
+            {
+                progressSlider.size = info.researchProgress;
             }
         }
 

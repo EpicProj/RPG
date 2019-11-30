@@ -483,6 +483,8 @@ namespace Sim_FrameWork {
 
         public Dictionary<int, TechnologyInfo> AllTechDataDic = new Dictionary<int, TechnologyInfo>();
 
+        public List<TechnologyInfo> TechOnResearchList = new List<TechnologyInfo>();
+
 
         public void InitAllTechInfo()
         {
@@ -512,6 +514,20 @@ namespace Sim_FrameWork {
             return result;
         }
 
+        /// <summary>
+        /// 开始研究
+        /// </summary>
+        /// <param name="techID"></param>
+        public void OnTechResearchStart(int techID)
+        {
+            var info = GetTechInfo(techID);
+            if(info.currentState== TechnologyInfo.TechState.Unlock)
+            {
+                TechOnResearchList.Add(info);
+                info.currentState = TechnologyInfo.TechState.OnResearch;
+            }
+        }
+
 
         /// <summary>
         /// 科技研究完成
@@ -520,12 +536,18 @@ namespace Sim_FrameWork {
         public void OnTechResearchFinish(int techID)
         {
             var info = GetTechInfo(techID);
-            if (info != null)
+            if (info != null && info.researchProgress >= 100 && info.currentState == TechnologyInfo.TechState.OnResearch)
             {
+                if (TechOnResearchList.Contains(info))
+                {
+                    TechOnResearchList.Remove(info);
+                }
+                info.currentState = TechnologyInfo.TechState.Done;
                 switch (info.baseType)
                 {
                     case TechnologyInfo.TechType.Unique:
-                        info.currentState = TechnologyInfo.TechState.Done;
+                      
+                        HandleTechCompleteEvent(info.techID);
                         break;
                     case TechnologyInfo.TechType.Series:
                         break;
@@ -533,7 +555,25 @@ namespace Sim_FrameWork {
             }
         }
 
+        private void HandleTechCompleteEvent(int techID)
+        {
+            TechCompleteEffect effect = TechnologyModule.GetTechCompleteEffect(techID);
+            switch (effect)
+            {
+                case TechCompleteEffect.Unlock_Tech:
+                    var techList = TechnologyModule.ParseTechParam_Unlock_Tech(techID);
+                    for(int i = 0; i < techList.Count; i++)
+                    {
+                        var info = GetTechInfo(techList[i]);
+                        info.currentState = TechnologyInfo.TechState.Unlock;
+                    }
+                    break;
+                case TechCompleteEffect.Unlock_Block:
+                    var blockList = TechnologyModule.ParseTechParam_Unlock_Block(techID);
+                    break;
 
+            }
+        }
 
         #endregion
 

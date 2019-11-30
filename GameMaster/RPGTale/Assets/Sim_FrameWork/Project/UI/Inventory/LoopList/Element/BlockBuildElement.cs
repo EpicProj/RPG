@@ -10,12 +10,13 @@ namespace Sim_FrameWork.UI
         public Text Name;
         public Image BlockIcon;
 
+        public FunctionBlockDataModel model; 
 
-        public void InitBuildElement(BuildingPanelData data)
+        public void InitBuildElement(FunctionBlockDataModel _model)
         {
-            FunctionBlock block = PlayerModule.Instance.GetBuildFunctionBlock(data);
-            Name.text = FunctionBlockModule.GetFunctionBlockName(block);
-            BlockIcon.sprite = FunctionBlockModule.GetFunctionBlockIcon(block.FunctionBlockID);
+            model = _model;
+            Name.text = _model.Name;
+            BlockIcon.sprite = _model.Icon;
         }
 
     }

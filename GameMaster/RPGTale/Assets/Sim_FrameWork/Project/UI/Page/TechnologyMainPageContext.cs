@@ -27,7 +27,11 @@ namespace Sim_FrameWork.UI
 
         public override bool OnMessage(UIMessage msg)
         {
-            return base.OnMessage(msg);
+            switch (msg.type)
+            {
+                default:
+                    return false;
+            }
         }
 
         public override void OnClose()

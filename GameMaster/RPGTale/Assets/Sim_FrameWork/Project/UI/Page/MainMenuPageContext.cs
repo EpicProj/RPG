@@ -85,16 +85,6 @@ namespace Sim_FrameWork.UI
 
         }
 
-        void Start()
-        {
-            UpdateTimePanel();
-            InitCampData();
-            UpdateResData(ResourceType.All);
-            UpdateResMonthData(ResourceType.All);
-            InitBuildPanel();
-            InitBuildMainTab();
-        }
-
         public override void OnUpdate()
         {
             UpdateTimeProgress();
@@ -103,8 +93,12 @@ namespace Sim_FrameWork.UI
 
         public override void OnShow(params object[] paralist)
         {
-
-
+            UpdateTimePanel();
+            InitCampData();
+            UpdateResData(ResourceType.All);
+            UpdateResMonthData(ResourceType.All);
+            InitBuildPanel();
+            InitBuildMainTab();
         }
 
 
@@ -308,8 +302,13 @@ namespace Sim_FrameWork.UI
             {
                 GameObject buildObj = ObjectManager.Instance.InstantiateObject(UIPath.PrefabPath.BUILD_ELEMENT_PREFAB_PATH);
                 BlockBuildElement element = UIUtility.SafeGetComponent<BlockBuildElement>(buildObj.transform);
-                element.InitBuildElement(PlayerManager.Instance.playerData.UnLockBuildingPanelDataList[i]);
-                buildObj.transform.SetParent(m_page.BuildContent.transform, false);
+                var blockID = PlayerManager.Instance.playerData.UnLockBuildingPanelDataList[i].FunctionBlockID;
+                FunctionBlockDataModel model = new FunctionBlockDataModel();
+                if (model.Create(blockID))
+                {
+                    element.InitBuildElement(model);
+                    buildObj.transform.SetParent(m_page.BuildContent.transform, false);
+                }
             }
         }
 

@@ -51,5 +51,8 @@ namespace Sim_FrameWork
         ///WareHouse
         WareHouse_Refresh_Detail,
         WareHouse_Hide_Detail,
+
+        ///Technology
+        Tech_Research_Finish
     }
 }

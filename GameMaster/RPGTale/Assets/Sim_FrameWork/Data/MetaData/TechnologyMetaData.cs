@@ -21,9 +21,12 @@ public class TechnologyMetaData : ExcelBase {
             te.TechDesc = "";
             te.TechIcon = "";
             te.Rarity = (ushort)i;
+            te.Unlock = false;
             te.TechCostMaterialList = "";
             te.Cost = (ushort)i;
             te.PreTechList = "";
+            te.TechEffect = (ushort)i;
+            te.EffectParam = "";
             AllTechnologyList.Add(te);
         }
 
@@ -102,11 +105,17 @@ public class Technology
     [XmlAttribute]
     public ushort Rarity { get; set; }
     [XmlAttribute]
+    public bool Unlock { get; set; }
+    [XmlAttribute]
     public string TechCostMaterialList { get; set; }
     [XmlAttribute]
     public ushort Cost { get; set; }
     [XmlAttribute]
     public string PreTechList { get; set; }
+    [XmlAttribute]
+    public ushort TechEffect { get; set; }
+    [XmlAttribute]
+    public string EffectParam { get; set; }
 }
 
 [System.Serializable] 
