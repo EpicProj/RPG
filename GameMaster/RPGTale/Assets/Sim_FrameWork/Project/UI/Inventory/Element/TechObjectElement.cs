@@ -18,6 +18,7 @@ namespace Sim_FrameWork {
         private Text _nameText;
         private Image _icon;
         private Text _techCost;
+        private Text _progressText;
 
         private Image _rarityBG;
         private Image _rarityEffect01;
@@ -43,6 +44,7 @@ namespace Sim_FrameWork {
             _timeText = UIUtility.SafeGetComponent<Text>(UIUtility.FindTransfrom(transform, "Content/Time"));
             _icon = UIUtility.SafeGetComponent<Image>(UIUtility.FindTransfrom(transform, "Content/Icon/BG/Image"));
             _techCost = UIUtility.SafeGetComponent<Text>(UIUtility.FindTransfrom(transform, "Content/TechCost/Num"));
+            _progressText = UIUtility.SafeGetComponent<Text>(UIUtility.FindTransfrom(transform, "Content/Progress/Value"));
 
             contentCanvasGroup = UIUtility.SafeGetComponent<CanvasGroup>(UIUtility.FindTransfrom(transform, "Content"));
 
@@ -153,7 +155,8 @@ namespace Sim_FrameWork {
             var info = GlobalEventManager.Instance.GetTechInfo(_dataModel.ID);
             if(info.currentState== TechnologyInfo.TechState.OnResearch && progressTrans.gameObject.activeSelf && progressSlider!=null)
             {
-                progressSlider.size = info.researchProgress;
+                progressSlider.size = info.researchProgress/100f;
+                _progressText.text = ((int)info.researchProgress).ToString();
             }
         }
 

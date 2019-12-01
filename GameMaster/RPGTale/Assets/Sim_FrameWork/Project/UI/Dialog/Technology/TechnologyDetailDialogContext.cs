@@ -20,6 +20,7 @@ namespace Sim_FrameWork.UI
         private TypeWriterEffect descTypewriterEffect;
 
         private const string ResearchStart_Hint_Text = "ResearchStart_Hint_Text";
+        private const string Research_Require_Lack_Hint_Text = "Research_Require_Lack_Hint_Text";
         private const string Research_ConfirmBtn_Research_Text = "Research_ConfirmBtn_Research_Text";
         private const string Research_ConfirmBtn_Stop_Text = "Research_ConfirmBtn_Stop_Text";
         private const string Research_ConfirmBtn_Locked_Text = "Research_ConfirmBtn_Locked_Text";
@@ -36,8 +37,7 @@ namespace Sim_FrameWork.UI
 
         private TechnologyInfo techInfo;
 
-        private int MaxEffectElementCount =4;
-        private int MaxRequireElementCount = 4;
+  
 
         #region Override Method
 
@@ -90,6 +90,7 @@ namespace Sim_FrameWork.UI
 
         #endregion
 
+        #region Method
 
         private void AddBtnClick()
         {
@@ -99,9 +100,7 @@ namespace Sim_FrameWork.UI
             });
             AddButtonClickListener(m_dialog.confirmBtn, () =>
             {
-                UIManager.Instance.HideWnd(this);
-                UIManager.Instance.SendMessageToWnd(UIPath.WindowPath.Technology_Page, new UIMessage(UIMsgType.Tech_Research_Start, new List<object>() { techInfo._model.ID }));
-                UIManager.Instance.ShowGeneralHint(ResearchStart_Hint_Text, 1.0f);
+                OnConfirmBtnClick();
             });
         }
 
@@ -161,7 +160,7 @@ namespace Sim_FrameWork.UI
 
         private void InitTechEffectElement()
         {
-            for (int i = 0; i < MaxEffectElementCount; i++)
+            for (int i = 0; i < GlobalConfigData.TechDetail_Dialog_MaxEffect_Count; i++)
             {
                 var obj= ObjectManager.Instance.InstantiateObject(UIPath.PrefabPath.Tech_Effect_Element);
                 obj.transform.SetParent(m_dialog.EffectContentTrans,false);
@@ -241,18 +240,15 @@ namespace Sim_FrameWork.UI
         /// 初始化科技需求
         /// </summary>
 
-
         private void InitTechRequireElement()
         {
-            for (int i = 0; i < MaxRequireElementCount; i++)
+            for (int i = 0; i < GlobalConfigData.TechDetail_Dialog_MaxRequire_Count; i++)
             {
                 var obj = ObjectManager.Instance.InstantiateObject(UIPath.PrefabPath.Tech_Require_Element);
                 obj.transform.SetParent(m_dialog.RequireContentTrans,false);
                 obj.name = "TechRequireElement" + i;
             }
         }
-
-
 
         private void SetUpTechRequire()
         {
@@ -331,7 +327,24 @@ namespace Sim_FrameWork.UI
             }
         }
 
+        #endregion
+
+        #region BtnClickEvents
+        private void OnConfirmBtnClick()
+        {
+            if (GlobalEventManager.Instance.CheckTechCanResearch(techInfo.techID))
+            {
+                UIManager.Instance.HideWnd(this);
+                UIManager.Instance.SendMessageToWnd(UIPath.WindowPath.Technology_Page, new UIMessage(UIMsgType.Tech_Research_Start, new List<object>() { techInfo._model.ID }));
+                UIManager.Instance.ShowGeneralHint(ResearchStart_Hint_Text, 1.0f);
+            }
+            else
+            {
+                UIManager.Instance.ShowGeneralHint(Research_Require_Lack_Hint_Text, 1.0f);
+            }
+        }
 
 
+        #endregion
     }
 }

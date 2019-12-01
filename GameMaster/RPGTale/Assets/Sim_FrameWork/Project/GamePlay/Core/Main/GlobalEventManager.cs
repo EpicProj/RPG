@@ -521,10 +521,35 @@ namespace Sim_FrameWork {
         /// <returns></returns>
         public bool CheckTechCanResearch(int techID)
         {
+            bool canResearch = true;
+
             var requireList = TechnologyModule.Instance.GetTechRequireList(techID);
+            for(int i = 0; i < requireList.Count; i++)
+            {
+                var type = TechnologyModule.Instance.GetTechRequireType(requireList[i]);
+                switch (type)
+                {
+                    case TechRequireType.PreTech:
+                        var techList = TechnologyModule.ParseTechParam_Unlock_Tech(requireList[i].Param);
+                        for (int j = 0; j < techList.Count; j++)
+                        {
+                            var info = GetTechInfo(techList[j]);
+                            if (info.currentState == TechnologyInfo.TechState.Lock)
+                                canResearch = false;
+                        }
+                        continue;
+                    case TechRequireType.Material:
+                        var materialDic = TechnologyModule.parseTechParam_Require_Material(requireList[i].Param);
+                        foreach(KeyValuePair<int,int> kvp in materialDic)
+                        {
+                            if (PlayerManager.Instance.GetMaterialStoreCount(kvp.Key) < kvp.Value)
+                                canResearch = false;
+                        }
+                        continue;
+                }
+            }
 
-
-            return false;
+            return canResearch;
         }
 
 
@@ -532,14 +557,19 @@ namespace Sim_FrameWork {
         /// 开始研究
         /// </summary>
         /// <param name="techID"></param>
-        public void OnTechResearchStart(int techID)
+        public bool OnTechResearchStart(int techID)
         {
-            var info = GetTechInfo(techID);
-            if(info.currentState== TechnologyInfo.TechState.Unlock)
+            if (CheckTechCanResearch(techID))
             {
-                TechOnResearchList.Add(info);
-                info.currentState = TechnologyInfo.TechState.OnResearch;
+                var info = GetTechInfo(techID);
+                if (info.currentState == TechnologyInfo.TechState.Unlock)
+                {
+                    TechOnResearchList.Add(info);
+                    info.currentState = TechnologyInfo.TechState.OnResearch;
+                    return true;
+                }
             }
+            return false;
         }
 
 
@@ -560,12 +590,13 @@ namespace Sim_FrameWork {
                 switch (info.baseType)
                 {
                     case TechnologyInfo.TechType.Unique:
-                      
                         HandleTechCompleteEvent(info.techID);
                         break;
                     case TechnologyInfo.TechType.Series:
                         break;
                 }
+
+                UIManager.Instance.SendMessageToWnd(UIPath.WindowPath.Technology_Page, new UIMessage(UIMsgType.Tech_Research_Finish, new List<object>() { techID }));
             }
         }
 
@@ -595,6 +626,18 @@ namespace Sim_FrameWork {
 
         #endregion
 
+    }
+
+    public static class GlobalConfigData
+    {
+        /// <summary>
+        /// 最大效果数量
+        /// </summary>
+        public static readonly int  TechDetail_Dialog_MaxEffect_Count = 4;
+        /// <summary>
+        /// 科技最大要求数量
+        /// </summary>
+        public static readonly int TechDetail_Dialog_MaxRequire_Count = 4;
     }
 
 

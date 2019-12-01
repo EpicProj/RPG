@@ -10,10 +10,13 @@ namespace Sim_FrameWork.UI
 
         private Transform scrollViewContentTrans;
 
+        private List<TechnologyGroup> _groupList;
+
         #region Override Method
         public override void Awake(params object[] paralist)
         {
             m_page = UIUtility.SafeGetComponent<TechnologyMainPage>(Transform);
+            _groupList = new List<TechnologyGroup>();
             scrollViewContentTrans = UIUtility.FindTransfrom(m_page.TechScrollView, "Viewport/Content");
             AddBtnClick();
             InitTechGroup();
@@ -22,7 +25,7 @@ namespace Sim_FrameWork.UI
         public override void OnShow(params object[] paralist)
         {
             AudioManager.Instance.PlaySound(AudioClipPath.UISound.Page_Open);
-            RefreshTechGroup();
+            RefreshAllTechGroup();
         }
 
         public override bool OnMessage(UIMessage msg)
@@ -30,8 +33,15 @@ namespace Sim_FrameWork.UI
             switch (msg.type)
             {
                 case UIMsgType.Tech_Research_Start:
+                    ///研究开始
                     int techID = (int)msg.content[0];
                     return TechResearchStart(techID);
+
+                case UIMsgType.Tech_Research_Finish:
+                    ///研究结束
+                    int techFinishID = (int)msg.content[0];
+                    return RefreshTechGroupByTechID(techFinishID);
+
                 default:
                     return false;
             }
@@ -72,10 +82,19 @@ namespace Sim_FrameWork.UI
                         Debug.Log(configPos);
                         var rect = UIUtility.SafeGetComponent<RectTransform>(obj.transform);
                         rect.anchoredPosition = configPos;
-                        
+
+                        if (!_groupList.Contains(group))
+                        {
+                            _groupList.Add(group);
+                        }
                     }
                 }
             }
+        }
+
+        private TechnologyGroup FindTechGroupByID(int index)
+        {
+            return _groupList.Find(x => x.groupIndex == index);
         }
 
         private bool TechResearchStart(int techID)
@@ -83,17 +102,34 @@ namespace Sim_FrameWork.UI
             if (GlobalEventManager.Instance.GetTechInfo(techID) == null)
                 return false;
             GlobalEventManager.Instance.OnTechResearchStart(techID);
-            RefreshTechGroup();
+            RefreshTechGroupByTechID(techID);
             return true;
         }
 
-        private void RefreshTechGroup()
+        /// <summary>
+        /// 刷新所有科技状态
+        /// </summary>
+        private void RefreshAllTechGroup()
         {
-            var group= scrollViewContentTrans.gameObject.GetComponentsInChildren<TechnologyGroup>();
-            for(int i = 0; i < group.Length; i++)
+            for(int i = 0; i < _groupList.Count; i++)
             {
-                group[i].RefreshGroup();
+                _groupList[i].RefreshGroup(true);
             }
+        }
+
+        private bool RefreshTechGroupByTechID(int techID)
+        {
+            int index = TechnologyModule.Instance.GetTechGroupIndex(techID);
+            if (index != -1)
+            {
+                var group = FindTechGroupByID(index);
+                if (group != null)
+                {
+                    group.RefreshGroup(false,techID);
+                    return true;
+                }
+            }
+            return false;
         }
 
 

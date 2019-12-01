@@ -117,6 +117,25 @@ namespace Sim_FrameWork
             return result;
         }
 
+        /// <summary>
+        /// 获取科技所在的GroupID
+        /// </summary>
+        /// <param name="techID"></param>
+        /// <returns></returns>
+        public int GetTechGroupIndex(int techID)
+        {
+            for(int i = 0; i < config.InitGroupIndexList.Count; i++)
+            {
+                var group = GetTechGroupConfig(config.InitGroupIndexList[i]);
+                for(int j = 0; j < group.techElementList.Count; j++)
+                {
+                    if (group.techElementList[j].TechID == techID)
+                        return group.groupIndex;
+                }
+            }
+            return -1;
+        }
+
         #region TechFinish Effect
 
         /// <summary>
@@ -157,6 +176,10 @@ namespace Sim_FrameWork
             if (data != null)
             {
                 var finishEffect = GetTechFinishEffect(data.TechEffect);
+                if(finishEffect.techEffectList.Count> GlobalConfigData.TechDetail_Dialog_MaxEffect_Count)
+                {
+                    Debug.LogError("TechDetail_Dialog_MaxEffect_Count Cound not Larger than 4!  ID="+finishEffect.ID);
+                }
                 return finishEffect.techEffectList;
             }
             return null;
@@ -226,6 +249,10 @@ namespace Sim_FrameWork
                 var data = GetTechRequireData(tech.TechRequireID);
                 if (data != null)
                 {
+                    if (data.requireList.Count > GlobalConfigData.TechDetail_Dialog_MaxRequire_Count - 1)
+                    {
+                        Debug.LogError("TechDetail_Dialog_MaxRequire_Count Count not Larger than 3 !  ID="+data.ID);
+                    }
                     return data.requireList;
                 }
             }

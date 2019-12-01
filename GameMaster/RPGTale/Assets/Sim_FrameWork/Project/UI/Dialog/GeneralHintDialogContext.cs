@@ -5,16 +5,17 @@ using UnityEngine.UI;
 
 namespace Sim_FrameWork.UI
 {
-    public class GeneralHintDialogContent : WindowBase
+    public class GeneralHintDialogContext : WindowBase
     {
         private GeneralHintDialog m_dialog;
         private GeneralHintDialogItem _item;
 
-        private float timer;
+        private Animation _anim;
 
         public override void Awake(params object[] paralist)
         {
             m_dialog = UIUtility.SafeGetComponent<GeneralHintDialog>(Transform);
+            _anim = UIUtility.SafeGetComponent<Animation>(m_dialog.transform);
             _item = (GeneralHintDialogItem)paralist[0];
             
         }
@@ -22,19 +23,15 @@ namespace Sim_FrameWork.UI
         public override void OnShow(params object[] paralist)
         {
             _item = (GeneralHintDialogItem)paralist[0];
+            _anim.Play();
             InitContent();
+            Coroutine_Extend cor = new Coroutine_Extend(CloseHint(), true);
         }
-        public override void OnUpdate()
+
+        IEnumerator CloseHint()
         {
-            if (_item == null)
-                return;
-            timer += Time.deltaTime;
-            if (timer >= _item.time)
-            {
-                //TODO
-                timer = 0;
-                UIManager.Instance.HideWnd(UIPath.WindowPath.General_Hint_Dialog);
-            }
+            yield return new WaitForSeconds(_item.time);
+            UIManager.Instance.HideWnd(UIPath.WindowPath.General_Hint_Dialog);
         }
 
         private void InitContent()

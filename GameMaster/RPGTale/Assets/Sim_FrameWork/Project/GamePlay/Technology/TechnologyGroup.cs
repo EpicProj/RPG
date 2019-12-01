@@ -23,7 +23,6 @@ namespace Sim_FrameWork
         public List<TechObjectElement> _techObjList;
 
 
-       
         public void Awake()
         {
         }
@@ -64,14 +63,29 @@ namespace Sim_FrameWork
             return true;
         }
 
-        public void RefreshGroup()
+        public void RefreshGroup(bool total, int techID = -1)
         {
-            for(int i = 0; i < _techObjList.Count; i++)
+            if(total && techID == -1)
             {
-                _techObjList[i].RefreshTech();
+                for (int i = 0; i < _techObjList.Count; i++)
+                {
+                    _techObjList[i].RefreshTech();
+                }
+            }
+            else if(total ==false && techID != -1)
+            {
+                var element = GetTechObj(techID);
+                if (element != null)
+                {
+                    element.RefreshTech();
+                }
             }
         }
 
+        private TechObjectElement GetTechObj(int techID)
+        {
+            return _techObjList.Find(x => x._dataModel.ID == techID);
+        }
 
         private TechElementType GetTechElementType(TechGroupConfig.TechElement element)
         {
@@ -96,7 +110,6 @@ namespace Sim_FrameWork
                     return null;
             }
         }
-
 
     }
 
