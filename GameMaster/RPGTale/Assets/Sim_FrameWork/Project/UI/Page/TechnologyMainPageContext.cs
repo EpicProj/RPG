@@ -29,6 +29,9 @@ namespace Sim_FrameWork.UI
         {
             switch (msg.type)
             {
+                case UIMsgType.Tech_Research_Start:
+                    int techID = (int)msg.content[0];
+                    return TechResearchStart(techID);
                 default:
                     return false;
             }
@@ -73,6 +76,15 @@ namespace Sim_FrameWork.UI
                     }
                 }
             }
+        }
+
+        private bool TechResearchStart(int techID)
+        {
+            if (GlobalEventManager.Instance.GetTechInfo(techID) == null)
+                return false;
+            GlobalEventManager.Instance.OnTechResearchStart(techID);
+            RefreshTechGroup();
+            return true;
         }
 
         private void RefreshTechGroup()

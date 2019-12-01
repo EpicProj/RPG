@@ -113,6 +113,8 @@ namespace Sim_FrameWork
             public const string Order_Detail_Element = "Assets/Prefabs/Object/Order/OrderDetailElement.prefab";
 
             public const string Tech_Element_Simple = "Assets/Prefabs/Object/Technology/TechObject.prefab";
+
+            public const string Tech_Effect_Element = "Assets/Prefabs/Object/Technology/TechEffectElement.prefab";
             #endregion
 
         }

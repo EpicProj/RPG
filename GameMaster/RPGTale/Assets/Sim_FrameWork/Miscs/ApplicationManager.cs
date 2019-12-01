@@ -7,6 +7,12 @@ namespace Sim_FrameWork
     public class ApplicationManager : MonoSingleton<ApplicationManager>
     {
 
+        protected override void Awake()
+        {
+            base.Awake();
+            ObjectManager.Instance.Init(GameObject.Find("RecyclePoolTrs").transform, GameObject.Find("SceneTrs").transform);
+        }
+
         public static CoroutineState CreateCoroutine(IEnumerator enumerator)
         {
             return new CoroutineState(enumerator);

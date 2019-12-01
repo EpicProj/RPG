@@ -108,6 +108,8 @@ namespace Sim_FrameWork
         /// <param name="addCount"></param>
         public void AddMaterialToInputSlot(int MaterialID,ushort addCount)
         {
+            if (formulaInfo.currentInputItem == null)
+                return;
             for (int i = 0; i < formulaInfo.currentInputItem.Count; i++)
             {
                 if (MaterialID == formulaInfo.currentInputItem[i].model.ID)

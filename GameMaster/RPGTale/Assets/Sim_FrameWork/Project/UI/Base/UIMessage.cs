@@ -53,6 +53,7 @@ namespace Sim_FrameWork
         WareHouse_Hide_Detail,
 
         ///Technology
-        Tech_Research_Finish
+        Tech_Research_Finish,
+        Tech_Research_Start
     }
 }
