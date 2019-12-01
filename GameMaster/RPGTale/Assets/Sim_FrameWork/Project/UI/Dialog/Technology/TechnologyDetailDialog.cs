@@ -14,5 +14,6 @@ namespace Sim_FrameWork
         [Header("Content")]
         public Transform ContextTrans;
         public Transform EffectContentTrans;
+        public Transform RequireContentTrans;
     }
 }

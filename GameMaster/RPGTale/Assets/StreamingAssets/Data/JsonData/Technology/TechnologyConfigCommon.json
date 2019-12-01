@@ -1,0 +1,43 @@
+{
+"techFinishEffect":[{
+	"ID":100,
+	"techEffectList":[{
+		"effectType":1,
+		"effectParam":""
+	},{
+		"effectType":2,
+		"effectParam":"101"
+	}]
+
+},{
+	"ID":101,
+	"techEffectList":[{
+		"effectType":1,
+		"effectParam":""
+	},{
+		"effectType":2,
+		"effectParam":"100,102"
+	}]
+
+},{
+	"ID":102,
+	"techEffectList":[{
+		"effectType":1,
+		"effectParam":"101"
+	},{
+		"effectType":2,
+		"effectParam":"101"
+	}]
+
+}],
+"techRequireData":[{
+	"ID":100,
+	"requireList":[{
+		"Type":1,
+		"Param":"100,101"
+	},{
+		"Type":2,
+		"Param":"100:15"
+	}]
+}]
+}

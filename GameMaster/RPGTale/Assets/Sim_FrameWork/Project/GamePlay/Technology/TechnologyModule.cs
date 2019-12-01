@@ -10,12 +10,14 @@ namespace Sim_FrameWork
         public static Dictionary<int, Technology> TechnologyDic;
 
         public TechGroupConfig config = new TechGroupConfig();
+        public TechnologyConfigCommon configCommon = new TechnologyConfigCommon();
 
         public override void InitData()
         {
             TechnologyList = TechnologyMetaDataReader.GetTechnologyList();
             TechnologyDic = TechnologyMetaDataReader.GetTechnologyDic();
             config.LoadData();
+            configCommon.LoadData();
         }
         public override void Register()
         {
@@ -115,59 +117,158 @@ namespace Sim_FrameWork
             return result;
         }
 
-        public static TechCompleteEffect GetTechCompleteEffect(int techID)
+        #region TechFinish Effect
+
+        /// <summary>
+        /// 获取科技完成数据
+        /// </summary>
+        /// <param name="effectID"></param>
+        /// <returns></returns>
+        public TechFinishEffect GetTechFinishEffect(int effectID)
+        {
+            var effect = configCommon.techFinishEffect.Find(x => x.ID == effectID);
+            if (effect != null)
+            {
+                return effect;
+            }
+            else
+            {
+                Debug.LogError("Get Tech FinishEffect Data Error ! EffectID = " + effectID);
+            }
+            return null;
+        }
+
+        public TechCompleteEffect GetTechCompleteType(TechFinishEffect.TechEffect data)
+        {
+            switch (data.effectType)
+            {
+                case 1:
+                    return TechCompleteEffect.Unlock_Block;
+                case 2:
+                    return TechCompleteEffect.Unlock_Tech;
+                default:
+                    return TechCompleteEffect.None;
+            }
+        }
+
+        public List<TechFinishEffect.TechEffect> GetTechCompleteEffect(int techID)
         {
             var data = GetTechDataByID(techID);
             if (data != null)
             {
-                switch (data.TechEffect)
-                {
-                    case 1:
-                        return TechCompleteEffect.Unlock_Block;
-                    case 2:
-                        return TechCompleteEffect.Unlock_Tech;
-                }
+                var finishEffect = GetTechFinishEffect(data.TechEffect);
+                return finishEffect.techEffectList;
             }
-            return TechCompleteEffect.None;
+            return null;
         }
         
-        public static List<int> ParseTechParam_Unlock_Block(int techID)
+
+        public static List<int> ParseTechParam_Unlock_Block(string content)
         {
             List<int> result = new List<int>();
-            TechCompleteEffect effect = GetTechCompleteEffect(techID);
-            if (effect == TechCompleteEffect.Unlock_Block)
+            var list = Utility.TryParseIntList(content, ',');
+            for (int i = 0; i < list.Count; i++)
             {
-                var str = GetTechDataByID(techID).EffectParam;
-                var list = Utility.TryParseIntList(str, ',');
-                for(int i = 0; i < list.Count; i++)
+                if (FunctionBlockModule.GetFunctionBlockByBlockID(list[i]) != null)
                 {
-                    if (FunctionBlockModule.GetFunctionBlockByBlockID(list[i]) != null)
-                    {
-                        result.Add(list[i]);
-                    }
+                    result.Add(list[i]);
                 }
             }
             return result;
         }
 
-        public static List<int> ParseTechParam_Unlock_Tech(int techID)
+        public static List<int> ParseTechParam_Unlock_Tech(string content)
         {
             List<int> result = new List<int>();
-            TechCompleteEffect effect = GetTechCompleteEffect(techID);
-            if (effect == TechCompleteEffect.Unlock_Tech)
+            var list = Utility.TryParseIntList(content, ',');
+            for (int i = 0; i < list.Count; i++)
             {
-                var str = GetTechDataByID(techID).EffectParam;
-                var list = Utility.TryParseIntList(str, ',');
-                for (int i = 0; i < list.Count; i++)
+                if (GetTechDataByID(list[i]) != null)
                 {
-                    if (GetTechDataByID(list[i]) != null)
-                    {
-                        result.Add(list[i]);
-                    }
+                    result.Add(list[i]);
                 }
             }
             return result;
         }
+
+        #endregion
+
+        #region Tech Require Data
+
+        public TechRequireType GetTechRequireType(TechRequireData.Require data)
+        {
+            switch (data.Type)
+            {
+                case 1:
+                    return TechRequireType.PreTech;
+                case 2:
+                    return TechRequireType.Material;
+                default:
+                    return TechRequireType.None;
+            }
+        }
+
+        public TechRequireData GetTechRequireData(int requireID)
+        {
+            var data=configCommon.techRequireData.Find(x=>x.ID==requireID);
+            if (data == null)
+            {
+                Debug.LogError("Find Tech RequireData Error! requireID=" + requireID);
+            }
+            return data;
+        }
+
+        public List<TechRequireData.Require> GetTechRequireList(int techID)
+        {
+            var tech = GetTechDataByID(techID);
+            if (tech != null)
+            {
+                var data = GetTechRequireData(tech.TechRequireID);
+                if (data != null)
+                {
+                    return data.requireList;
+                }
+            }
+            return null;
+        }
+
+        public static List<int> ParseTechParam_Require_PreTech(string content)
+        {
+            List<int> result = new List<int>();
+            var list = Utility.TryParseIntList(content, ',');
+            for(int i = 0; i < list.Count; i++)
+            {
+                var techData = GetTechDataByID(list[i]);
+                if (techData != null)
+                {
+                    result.Add(list[i]);
+                }
+            }
+            return result;
+        }
+
+        public static Dictionary<int,int> parseTechParam_Require_Material(string content)
+        {
+            Dictionary<int, int> result = new Dictionary<int, int>();
+            var list = Utility.TryParseStringList(content, ',');
+            for (int i = 0; i < list.Count; i++)
+            {
+                var countList = Utility.TryParseIntList(list[i], ':');
+                if (countList.Count != 2)
+                {
+                    Debug.LogError("Parse TechRequire Error! content=" + content);
+                    break;
+                }
+                var maData = MaterialModule.GetMaterialByMaterialID(countList[0]);
+                if (maData != null)
+                {
+                    result.Add(countList[0], countList[1]);
+                }
+            }
+            return result;
+        }
+
+        #endregion
 
     }
 
@@ -176,6 +277,52 @@ namespace Sim_FrameWork
         None,
         Unlock_Tech,
         Unlock_Block,
+    }
+
+    public enum TechRequireType
+    {
+        None,
+        Material,
+        PreTech
+    }
+    
+
+    public class TechnologyConfigCommon
+    {
+        public List<TechFinishEffect> techFinishEffect;
+        public List<TechRequireData> techRequireData;
+
+
+        public void LoadData()
+        {
+            Config.JsonReader reader = new Config.JsonReader();
+            var config= reader.LoadJsonDataConfig<TechnologyConfigCommon>(Config.JsonConfigPath.TechnologyConfigCommon);
+            techFinishEffect = config.techFinishEffect;
+            techRequireData = config.techRequireData;
+        }
+    }
+
+    public class TechFinishEffect
+    {
+        public int ID;
+        public List<TechEffect> techEffectList;
+        public class TechEffect
+        {
+            public ushort effectType;
+            public string effectParam;
+        }
+    }
+
+    public class TechRequireData
+    {
+        public int ID;
+        public List<Require> requireList;
+
+        public class Require
+        {
+            public ushort Type;
+            public string Param;
+        }
     }
 
 }

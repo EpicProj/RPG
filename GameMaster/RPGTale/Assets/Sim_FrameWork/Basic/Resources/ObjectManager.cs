@@ -30,6 +30,8 @@ namespace Sim_FrameWork
             m_ResourceObjClassPool = GetOrCreatClassPool<ResouceObj>(1000);
             RecyclePoolTrs = recycleTrs;
             SceneTrs = sceneTrs;
+            RecyclePoolTrs.gameObject.SetActive(false);
+            SceneTrs.gameObject.SetActive(false);
         }
 
         /// <summary>
@@ -381,7 +383,7 @@ namespace Sim_FrameWork
                 {
                     if (recycleParent)
                     {
-                        resObj.m_CloneObj.transform.SetParent(RecyclePoolTrs);
+                        resObj.m_CloneObj.transform.SetParent(RecyclePoolTrs,false);
                     }
                     else
                     {

@@ -515,6 +515,20 @@ namespace Sim_FrameWork {
         }
 
         /// <summary>
+        /// 检查研究前置条件
+        /// </summary>
+        /// <param name="techID"></param>
+        /// <returns></returns>
+        public bool CheckTechCanResearch(int techID)
+        {
+            var requireList = TechnologyModule.Instance.GetTechRequireList(techID);
+
+
+            return false;
+        }
+
+
+        /// <summary>
         /// 开始研究
         /// </summary>
         /// <param name="techID"></param>
@@ -557,22 +571,26 @@ namespace Sim_FrameWork {
 
         private void HandleTechCompleteEvent(int techID)
         {
-            TechCompleteEffect effect = TechnologyModule.GetTechCompleteEffect(techID);
-            switch (effect)
+            var effect = TechnologyModule.Instance.GetTechCompleteEffect(techID);
+            for(int i = 0; i < effect.Count; i++)
             {
-                case TechCompleteEffect.Unlock_Tech:
-                    var techList = TechnologyModule.ParseTechParam_Unlock_Tech(techID);
-                    for(int i = 0; i < techList.Count; i++)
-                    {
-                        var info = GetTechInfo(techList[i]);
-                        info.currentState = TechnologyInfo.TechState.Unlock;
-                    }
-                    break;
-                case TechCompleteEffect.Unlock_Block:
-                    var blockList = TechnologyModule.ParseTechParam_Unlock_Block(techID);
-                    break;
-
+                var type = TechnologyModule.Instance.GetTechCompleteType(effect[i]);
+                switch (type)
+                {
+                    case TechCompleteEffect.Unlock_Tech:
+                        var techList = TechnologyModule.ParseTechParam_Unlock_Tech(effect[i].effectParam);
+                        for (int j = 0; j < techList.Count; j++)
+                        {
+                            var info = GetTechInfo(techList[j]);
+                            info.currentState = TechnologyInfo.TechState.Unlock;
+                        }
+                        break;
+                    case TechCompleteEffect.Unlock_Block:
+                        var blockList = TechnologyModule.ParseTechParam_Unlock_Block(effect[i].effectParam);
+                        break;
+                }
             }
+
         }
 
         #endregion

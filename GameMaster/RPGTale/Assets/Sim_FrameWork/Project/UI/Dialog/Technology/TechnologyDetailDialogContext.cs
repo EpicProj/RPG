@@ -15,6 +15,9 @@ namespace Sim_FrameWork.UI
         private Text _techTimeCost;
         private Text _techDesc;
         private Text _confirmBtnText;
+        private Image _rarityImage;
+
+        private TypeWriterEffect descTypewriterEffect;
 
         private const string ResearchStart_Hint_Text = "ResearchStart_Hint_Text";
         private const string Research_ConfirmBtn_Research_Text = "Research_ConfirmBtn_Research_Text";
@@ -29,10 +32,12 @@ namespace Sim_FrameWork.UI
         private const string Research_Effect_Unlock_Text_Block = "Research_Effect_Unlock_Text_Block";
         private const string Research_Effect_Unlock_Text_Tech = "Research_Effect_Unlock_Text_Tech";
 
+        private const string Research_Require_TechPoint_Text = "Research_Require_TechPoint_Text";
 
         private TechnologyInfo techInfo;
 
-        private int EffectElementCount;
+        private int MaxEffectElementCount =4;
+        private int MaxRequireElementCount = 4;
 
         #region Override Method
 
@@ -42,6 +47,8 @@ namespace Sim_FrameWork.UI
             techInfo = (TechnologyInfo)paralist[0];
             InitRef();
             AddBtnClick();
+            InitTechEffectElement();
+            InitTechRequireElement();
         }
 
         public override bool OnMessage(UIMessage msg)
@@ -56,11 +63,17 @@ namespace Sim_FrameWork.UI
             SetUpDialog();
             InitConfirmBtnState();
             SetUpTechEffect();
+            SetUpTechRequire();
         }
 
         public override void OnClose()
         {
+        
+        }
+        public override void OnDisable()
+        {
             AudioManager.Instance.PlaySound(AudioClipPath.UISound.Btn_Close);
+
         }
 
         private void InitRef()
@@ -71,6 +84,8 @@ namespace Sim_FrameWork.UI
             _techTimeCost = UIUtility.SafeGetComponent<Text>(UIUtility.FindTransfrom(m_dialog.ContextTrans, "Detail/Time/Value"));
             _techDesc = UIUtility.SafeGetComponent<Text>(UIUtility.FindTransfrom(m_dialog.ContextTrans, "Desc"));
             _confirmBtnText = UIUtility.SafeGetComponent<Text>(UIUtility.FindTransfrom(m_dialog.transform, "Content/ButtonGeneral/Text"));
+            descTypewriterEffect = UIUtility.SafeGetComponent<TypeWriterEffect>(UIUtility.FindTransfrom(m_dialog.ContextTrans, "Desc"));
+            _rarityImage = UIUtility.SafeGetComponent<Image>(UIUtility.FindTransfrom(m_dialog.ContextTrans, "Slot/Rarity"));
         }
 
         #endregion
@@ -100,7 +115,17 @@ namespace Sim_FrameWork.UI
             _techIcon.sprite = techInfo._model.Icon;
             _techDesc.text = techInfo._model.Desc;
             _techCost.text = techInfo._model.TechCost.ToString();
+
+            _rarityImage.color = new Color(techInfo._model.Rarity.color.r, techInfo._model.Rarity.color.g, techInfo._model.Rarity.color.b, 0.3f);
+
+            PlayDescTypeWriterEffect();
             return true;
+        }
+
+        void PlayDescTypeWriterEffect()
+        {
+            if (descTypewriterEffect != null)
+                descTypewriterEffect.StartEffect();
         }
 
 
@@ -134,16 +159,16 @@ namespace Sim_FrameWork.UI
         }
 
 
-        GameObject SetUpEffectElement(Sprite sp, string unlockName, string name)
+        private void InitTechEffectElement()
         {
-            var obj = ObjectManager.Instance.InstantiateObject(UIPath.PrefabPath.Tech_Effect_Element);
-            if (obj != null)
+            for (int i = 0; i < MaxEffectElementCount; i++)
             {
-                var element = UIUtility.SafeGetComponent<TechEffectElement>(obj.transform);
-                element.SetUpElement(sp, unlockName, name);
+                var obj= ObjectManager.Instance.InstantiateObject(UIPath.PrefabPath.Tech_Effect_Element);
+                obj.transform.SetParent(m_dialog.EffectContentTrans,false);
+                obj.name = "TechEffectObj" + i;
             }
-            return obj;
         }
+
         /// <summary>
         /// 初始化科技完成效果
         /// </summary>
@@ -151,57 +176,160 @@ namespace Sim_FrameWork.UI
         {
             if (techInfo == null)
                 return;
-            ///Recycle All Element
+            ///Init
             foreach(Transform trans in m_dialog.EffectContentTrans)
             {
-                ObjectManager.Instance.ReleaseObject(trans.gameObject);
-                Debug.Log("ReleaseObject " + trans.name);
+                trans.gameObject.SetActive(false);
             }
 
-            var effectType = TechnologyModule.GetTechCompleteEffect(techInfo.techID);
-            switch (effectType)
-            {
-                case TechCompleteEffect.Unlock_Block:
-                    var blockList = TechnologyModule.ParseTechParam_Unlock_Block(techInfo.techID);
-                    EffectElementCount = blockList.Count;
-                    for (int i = 0; i < blockList.Count; i++)
-                    {
-                        FunctionBlockDataModel model = new FunctionBlockDataModel();
-                        if (model.Create(blockList[i]))
-                        {
-                            var name = MultiLanguage.Instance.GetTextValue(Research_Effect_Unlock_Text_Block);
-                            var element= SetUpEffectElement(model.Icon, name, model.Name);
-                            element.transform.SetParent(m_dialog.EffectContentTrans,false);
-                        }
-                        else
-                        {
-                            break;
-                        }
-                    }
-                    break;
+            var effectlist = techInfo.techFinishEffectList;
 
-                case TechCompleteEffect.Unlock_Tech:
-                    var techList = TechnologyModule.ParseTechParam_Unlock_Tech(techInfo.techID);
-                    EffectElementCount = techList.Count;
-                    for (int i = 0; i < techList.Count; i++)
-                    {
-                        TechnologyDataModel model = new TechnologyDataModel();
-                        if (model.Create(techList[i]))
+            int totalIndex = 0;
+
+            for(int i = 0; i < effectlist.Count; i++)
+            {
+                var type = TechnologyModule.Instance.GetTechCompleteType(effectlist[i]);
+
+                switch (type)
+                {
+                    case TechCompleteEffect.Unlock_Block:
+                        var blockList = TechnologyModule.ParseTechParam_Unlock_Block(effectlist[i].effectParam);
+                        for (int j = 0; j < blockList.Count; j++)
                         {
-                            var name = MultiLanguage.Instance.GetTextValue(Research_Effect_Unlock_Text_Tech);
-                            var element= SetUpEffectElement(model.Icon, name, model.Name);
-                            element.transform.SetParent(m_dialog.EffectContentTrans,false);
+                            FunctionBlockDataModel model = new FunctionBlockDataModel();
+                            if (model.Create(blockList[j]))
+                            {
+                                var name = MultiLanguage.Instance.GetTextValue(Research_Effect_Unlock_Text_Block);
+                                var element = m_dialog.EffectContentTrans.GetChild(totalIndex);
+                                if (element != null)
+                                {
+                                    totalIndex++;
+                                    var cmpt = UIUtility.SafeGetComponent<TechEffectElement>(element.transform);
+                                    cmpt.SetUpElement(model.Icon, name, model.Name, Color.white);
+                                    element.gameObject.SetActive(true);
+                                }
+                            }
                         }
-                        else
+                        break;
+
+                    case TechCompleteEffect.Unlock_Tech:
+                        var techList = TechnologyModule.ParseTechParam_Unlock_Tech(effectlist[i].effectParam);
+                        for (int j = 0; j < techList.Count; j++)
                         {
-                            break;
+                            TechnologyDataModel model = new TechnologyDataModel();
+                            if (model.Create(techList[j]))
+                            {
+                                var name = MultiLanguage.Instance.GetTextValue(Research_Effect_Unlock_Text_Tech);
+                                var element = m_dialog.EffectContentTrans.GetChild(totalIndex);
+                                if (element != null)
+                                {
+                                    totalIndex++;
+                                    var cmpt = UIUtility.SafeGetComponent<TechEffectElement>(element.transform);
+                                    cmpt.SetUpElement(model.Icon, name, model.Name, model.Rarity.color);
+                                    element.gameObject.SetActive(true);
+                                }
+                            }
                         }
-                    }
-                    break;
+                        break;
+                }
+
+            }
+           
+        }
+
+        /// <summary>
+        /// 初始化科技需求
+        /// </summary>
+
+
+        private void InitTechRequireElement()
+        {
+            for (int i = 0; i < MaxRequireElementCount; i++)
+            {
+                var obj = ObjectManager.Instance.InstantiateObject(UIPath.PrefabPath.Tech_Require_Element);
+                obj.transform.SetParent(m_dialog.RequireContentTrans,false);
+                obj.name = "TechRequireElement" + i;
             }
         }
 
 
+
+        private void SetUpTechRequire()
+        {
+            if (techInfo == null)
+                return;
+            foreach(Transform trans in m_dialog.RequireContentTrans)
+            {
+                trans.gameObject.SetActive(false);
+            }
+
+            var requireList = techInfo.techRequireList;
+
+            int index = 0;
+
+            //Init Cost
+            var costObj = m_dialog.RequireContentTrans.GetChild(index);
+            if (costObj != null)
+            {
+                index++;
+                var cmpt = UIUtility.SafeGetComponent<TechRequireElement>(costObj);
+
+                var techPointImage = Utility.LoadSprite("SpriteOutput/UI/Main/Technology/TechPage_PointCost_Icon", Utility.SpriteType.png);
+                var costStr = MultiLanguage.Instance.GetTextValue(Research_Require_TechPoint_Text) + ": " + techInfo._model.TechCost;
+                cmpt.SetUpElement(techPointImage,Color.white, costStr, false);
+                costObj.gameObject.SetActive(true);
+            }
+
+            for(int i = 0; i < requireList.Count; i++)
+            {
+                var type = TechnologyModule.Instance.GetTechRequireType(requireList[i]);
+                switch (type)
+                {
+                    case TechRequireType.PreTech:
+                        ///Init PreTech 
+                        var techList = TechnologyModule.ParseTechParam_Require_PreTech(requireList[i].Param);
+                        for(int j = 0; j < techList.Count; j++)
+                        {
+                            TechnologyDataModel techModel = new TechnologyDataModel();
+                            if (techModel.Create(techList[j]))
+                            {
+                                var obj = m_dialog.RequireContentTrans.GetChild(index);
+                                if (obj != null)
+                                {
+                                    index++;
+                                    var element = UIUtility.SafeGetComponent<TechRequireElement>(obj);
+                                    bool warning = GlobalEventManager.Instance.GetTechInfo(techList[j]).currentState == TechnologyInfo.TechState.Lock ? true : false;
+                                    element.SetUpElement(techModel.Icon, techModel.Rarity.color, techModel.Name, warning);
+                                    obj.gameObject.SetActive(true);
+                                }
+                            }
+                        }
+                        break;
+                    case TechRequireType.Material:
+                        var materialDic = TechnologyModule.parseTechParam_Require_Material(requireList[i].Param);
+                        foreach(KeyValuePair<int,int> kvp in materialDic)
+                        {
+                            MaterialDataModel maModel = new MaterialDataModel();
+                            if (maModel.Create(kvp.Key))
+                            {
+                                var obj = m_dialog.RequireContentTrans.GetChild(index);
+                                if (obj != null)
+                                {
+                                    index++;
+                                    var element = UIUtility.SafeGetComponent<TechRequireElement>(obj);
+                                    bool warning = PlayerManager.Instance.GetMaterialStoreCount(kvp.Key) < kvp.Value ? true : false;
+                                    string maStr = maModel.Name + " X " + kvp.Value;
+                                    element.SetUpElement(maModel.Icon, maModel.Rarity.color, maStr, warning);
+                                    obj.gameObject.SetActive(true);
+                                }
+                            }
+                        }
+
+                        break;
+
+                }
+            }
+        }
 
 
 

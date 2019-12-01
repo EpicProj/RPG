@@ -12,6 +12,7 @@ namespace Sim_FrameWork
             Lock,
             OnResearch,
             PauseResearch,
+            Require_Lack,
             Done,
         }
 
@@ -31,6 +32,10 @@ namespace Sim_FrameWork
         public TechnologyDataModel _model;
         public TechType baseType;
         public TechState currentState;
+
+        public List<TechRequireData.Require> techRequireList;
+        public List<TechFinishEffect.TechEffect> techFinishEffectList;
+
         /// <summary>
         /// 研究进度
         /// </summary>
@@ -43,6 +48,10 @@ namespace Sim_FrameWork
                 return ;
             this.techID = techID;
             baseType = TechnologyModule.GetTechBaseType(techID);
+
+            techRequireList = TechnologyModule.Instance.GetTechRequireList(techID);
+            techFinishEffectList = TechnologyModule.Instance.GetTechCompleteEffect(techID);
+
             if (TechnologyModule.GetTechDataByID(techID).Unlock)
             {
                 currentState = TechState.Unlock;

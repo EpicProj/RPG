@@ -22,7 +22,7 @@ public class TechnologyMetaData : ExcelBase {
             te.TechIcon = "";
             te.Rarity = (ushort)i;
             te.Unlock = false;
-            te.TechCostMaterialList = "";
+            te.TechRequireID = i;
             te.Cost = (ushort)i;
             te.PreTechList = "";
             te.TechEffect = (ushort)i;
@@ -107,7 +107,7 @@ public class Technology
     [XmlAttribute]
     public bool Unlock { get; set; }
     [XmlAttribute]
-    public string TechCostMaterialList { get; set; }
+    public int TechRequireID { get; set; }
     [XmlAttribute]
     public ushort Cost { get; set; }
     [XmlAttribute]

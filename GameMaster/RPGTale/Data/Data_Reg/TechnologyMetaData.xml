@@ -11,7 +11,7 @@
 			<variable  name="TechIcon" col = "TechIcon" type="string"/>
 			<variable  name="Rarity" col = "Rarity" type="ushort"/>
 			<variable  name="Unlock" col = "Unlock" type="bool"/>
-			<variable  name="TechCostMaterialList" col = "TechCostMaterialList" type="string"/>
+			<variable  name="TechRequireID" col = "TechRequireID" type="int"/>
 			<variable  name="Cost" col = "Cost" type="ushort"/>
 			<variable  name="PreTechList" col = "PreTechList" type="string"/>
 			<variable  name="TechEffect" col = "TechEffect" type="ushort"/>
