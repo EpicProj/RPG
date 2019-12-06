@@ -1,10 +1,46 @@
 {
-	"InitGroupIndexList":[1],
+	"InitGroupIndexList":[1,2],
 	"configList":[{
 		"groupIndex":1,
 		"groupType":"Panel_3_1_1",
-		"elementPath":"Assets/Prefabs/Object/Technology/TechGroupPanel_3-1-1.prefab",
 		"posX":-300,
+		"posY":-600,
+		"ObjectNum":5,
+		"techElementList":[{
+			"Index":0,
+			"TechID":100,
+			"posX":-200,
+			"posY":-288,
+			"ElementType":1
+		},{
+			"Index":1,
+			"TechID":101,
+			"posX": 0,
+			"posY":-288,
+			"ElementType":1
+		},{
+			"Index":2,
+			"TechID":102,
+			"posX": 200,
+			"posY":-288,
+			"ElementType":1
+		},{
+			"Index":3,
+			"TechID":103,
+			"posX": 0,
+			"posY":-6,
+			"ElementType":1
+		},{
+			"Index":4,
+			"TechID":100,
+			"posX":0,
+			"posY":275,
+			"ElementType":1
+		}]
+	},{
+		"groupIndex":2,
+		"groupType":"Panel_3_1_1",
+		"posX":300,
 		"posY":-600,
 		"ObjectNum":5,
 		"techElementList":[{

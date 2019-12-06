@@ -136,6 +136,23 @@ namespace Sim_FrameWork
             return -1;
         }
 
+        public TechnologyGroup.GroupType GetTechGroupType(int index)
+        {
+            var groupData = config.configList.Find(x => x.groupIndex == index);
+            if (groupData != null)
+            {
+                switch (groupData.groupType)
+                {
+                    case "Panel_3_1_1":
+                        return TechnologyGroup.GroupType.Panel_3_1_1;
+                    default:
+                        return TechnologyGroup.GroupType.None;
+                }
+            }
+            return TechnologyGroup.GroupType.None;
+        }
+
+
         #region TechFinish Effect
 
         /// <summary>
@@ -303,6 +320,9 @@ namespace Sim_FrameWork
     {
         None,
         Unlock_Tech,
+        /// <summary>
+        /// 解锁Build ID
+        /// </summary>
         Unlock_Block,
     }
 

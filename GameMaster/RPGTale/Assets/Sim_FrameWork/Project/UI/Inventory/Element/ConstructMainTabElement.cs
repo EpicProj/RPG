@@ -15,9 +15,15 @@ namespace Sim_FrameWork {
         {
             typedata = data;
             Icon.sprite = FunctionBlockModule.GetMainTypeSprite(data);
-        }
-       
+            Btn.onClick.AddListener(OnTabClick);
 
-      
+        }
+
+        void OnTabClick()
+        {
+            if (typedata == null)
+                return;
+            UIManager.Instance.SendMessageToWnd(UIPath.WindowPath.MainMenu_Page, new UIMessage(UIMsgType.MenuPage_Update_BuildPanel, new List<object>() { typedata }));
+        }
     }
 }

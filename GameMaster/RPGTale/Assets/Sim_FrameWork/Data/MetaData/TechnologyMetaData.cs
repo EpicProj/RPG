@@ -26,7 +26,6 @@ public class TechnologyMetaData : ExcelBase {
             te.Cost = (ushort)i;
             te.PreTechList = "";
             te.TechEffect = (ushort)i;
-            te.EffectParam = "";
             AllTechnologyList.Add(te);
         }
 
@@ -114,8 +113,6 @@ public class Technology
     public string PreTechList { get; set; }
     [XmlAttribute]
     public ushort TechEffect { get; set; }
-    [XmlAttribute]
-    public string EffectParam { get; set; }
 }
 
 [System.Serializable] 

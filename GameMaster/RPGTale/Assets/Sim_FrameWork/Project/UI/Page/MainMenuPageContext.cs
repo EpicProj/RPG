@@ -12,7 +12,6 @@ namespace Sim_FrameWork.UI
         {
             All,
             Currency,
-            Food,
             Labor,
             Energy,
             Material
@@ -32,8 +31,6 @@ namespace Sim_FrameWork.UI
         /// Resource
         /// </summary>
         private Text CurrencyNumText;
-        private Text FoodNumText;
-        private Text FoodAddNumText;
         private Text LaborNumText;
         private Text LaborAddNumText;
         private Text EnergyNumText;
@@ -65,8 +62,6 @@ namespace Sim_FrameWork.UI
             m_page = UIUtility.SafeGetComponent<MainMenuPage>(Transform);
             //Resource
             CurrencyNumText = UIUtility.SafeGetComponent<Text>(m_page.Currency.transform.Find("Num"));
-            FoodNumText = UIUtility.SafeGetComponent<Text>(m_page.Food.transform.Find("Num"));
-            FoodAddNumText = UIUtility.SafeGetComponent<Text>(m_page.Food.transform.Find("AddNum"));
             LaborNumText = UIUtility.SafeGetComponent<Text>(m_page.Labor.transform.Find("Num"));
             LaborAddNumText = UIUtility.SafeGetComponent<Text>(m_page.Labor.transform.Find("AddNum"));
             EnergyNumText = UIUtility.SafeGetComponent<Text>(m_page.Energy.transform.Find("Num"));
@@ -97,7 +92,6 @@ namespace Sim_FrameWork.UI
             InitCampData();
             UpdateResData(ResourceType.All);
             UpdateResMonthData(ResourceType.All);
-            InitBuildPanel();
             InitBuildMainTab();
         }
 
@@ -109,10 +103,6 @@ namespace Sim_FrameWork.UI
                 #region Resource
                 case UIMsgType.Res_Currency:         
                     return UpdateResData(ResourceType.Currency);
-                case UIMsgType.Res_Food:
-                    return UpdateResData(ResourceType.Food);
-                case UIMsgType.Res_MonthFood:
-                    return UpdateResMonthData(ResourceType.Food);
                 case UIMsgType.Res_Labor:
                     return UpdateResData(ResourceType.Labor);
                 case UIMsgType.Res_MonthLabor:
@@ -122,9 +112,10 @@ namespace Sim_FrameWork.UI
                 case UIMsgType.Res_MonthEnergy:
                     return UpdateResMonthData(ResourceType.Energy);
                 #endregion
-                case UIMsgType.UpdateBuildPanelData:
-                    //更新建造列表
-                    return true;
+                case UIMsgType.MenuPage_Update_BuildPanel:
+                    FunctionBlockTypeData typeData = (FunctionBlockTypeData)msg.content[0];
+                    var type = FunctionBlockModule.GetBlockType(typeData);
+                    return RefreshBuildMainPanel(type);
                 case  UIMsgType.UpdateTime:
                     //更新时间
                     return UpdateTimePanel();
@@ -172,15 +163,11 @@ namespace Sim_FrameWork.UI
             {
                 case ResourceType.All:
                     CurrencyNumText.text = data.Currency.ToString();
-                    FoodNumText.text = data.Food.ToString();
                     LaborNumText.text = data.Labor.ToString();
                     EnergyNumText.text = data.Energy.ToString();
                     return true;
                 case ResourceType.Currency:
                     CurrencyNumText.text = data.Currency.ToString();
-                    return true;
-                case ResourceType.Food:
-                    FoodNumText.text = data.Food.ToString();
                     return true;
                 case ResourceType.Labor:
                     LaborNumText.text = data.Labor.ToString();
@@ -204,15 +191,11 @@ namespace Sim_FrameWork.UI
             switch (type)
             {
                 case ResourceType.All:
-                    FoodAddNumText.text = "+" + data.FoodPerMonth.ToString();
                     EnergyAddNumText.text = "+" + data.EnergyPerMonth.ToString();
                     LaborAddNumText.text = "+" + data.LaborPerMonth.ToString();
                     return true;
                 case ResourceType.Energy:
                     EnergyAddNumText.text = "+" + data.EnergyPerMonth.ToString();
-                    return true;
-                case ResourceType.Food:
-                    FoodAddNumText.text = "+" + data.FoodPerMonth.ToString();
                     return true;
                 case ResourceType.Labor:
                     LaborAddNumText.text = "+" + data.LaborPerMonth.ToString();
@@ -296,22 +279,33 @@ namespace Sim_FrameWork.UI
         #endregion
 
         #region BuildPanel
-        public void InitBuildPanel()
+        public bool RefreshBuildMainPanel(FunctionBlockType.Type type)
         {
-            for(int i = 0; i < PlayerManager.Instance.playerData.UnLockBuildingPanelDataList.Count; i++)
+            if (type == FunctionBlockType.Type.None)
+                return false;
+            var list = PlayerManager.Instance.GetBuildDataByMainType(type);
+            for (int i = 0; i <list.Count; i++)
             {
                 GameObject buildObj = ObjectManager.Instance.InstantiateObject(UIPath.PrefabPath.BUILD_ELEMENT_PREFAB_PATH);
                 BlockBuildElement element = UIUtility.SafeGetComponent<BlockBuildElement>(buildObj.transform);
-                var blockID = PlayerManager.Instance.playerData.UnLockBuildingPanelDataList[i].FunctionBlockID;
+                var blockID = list[i].FunctionBlockID;
                 FunctionBlockDataModel model = new FunctionBlockDataModel();
                 if (model.Create(blockID))
                 {
-                    element.InitBuildElement(model);
+                    element.InitBuildElement(model,list[i].BuildID);
                     buildObj.transform.SetParent(m_page.BuildContent.transform, false);
                 }
+                else
+                {
+                    return false;
+                }
             }
+            return true;
         }
 
+        /// <summary>
+        /// 初始化建造主页签
+        /// </summary>
         public void InitBuildMainTab()
         {
             List<FunctionBlockTypeData> mainTypeList = FunctionBlockModule.GetInitMainType();

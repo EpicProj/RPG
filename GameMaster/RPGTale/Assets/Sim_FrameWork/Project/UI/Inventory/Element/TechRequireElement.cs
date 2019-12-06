@@ -8,6 +8,14 @@ namespace Sim_FrameWork
 {
     public class TechRequireElement : BaseElementSimple
     {
+        public enum RequireType
+        {
+            Material,
+            PreTech,
+            ResearchPoint,
+        }
+
+
         private Transform titleWaringTrans;
         private Image rarityBG;
         private Image icon;
@@ -15,7 +23,12 @@ namespace Sim_FrameWork
         private Transform lockIconTrans;
 
         private Transform SelectEffectTrans;
+        private Animation anim;
 
+        public RequireType type;
+        private BaseDataModel _model;
+
+        private const string Research_Require_TechPoint_Text = "Research_Require_TechPoint_Text";
 
         public override void Awake()
         {
@@ -25,15 +38,59 @@ namespace Sim_FrameWork
             nameText = UIUtility.SafeGetComponent<Text>(UIUtility.FindTransfrom(transform, "Name"));
             lockIconTrans = UIUtility.FindTransfrom(transform, "Name/Icon");
             SelectEffectTrans = UIUtility.FindTransfrom(transform, "Select");
+            anim = UIUtility.SafeGetComponent<Animation>(transform);
         }
 
-        public void SetUpElement(Sprite sp, Color rarityColor, string name,bool showWarning)
+        void Start()
+        {
+           
+        }
+
+        public void SetUpElement(RequireType type,object[] param,bool showWarning)
+        {
+            this.type = type;
+            if(type== RequireType.Material)
+            {
+                int materialID = (int)param[0];
+                int count = (int)param[1];
+                MaterialDataModel maModel = new MaterialDataModel();
+                if (maModel.Create(materialID))
+                {
+                    _model = maModel;
+                    SetElementInfo(maModel.Icon, maModel.Name + " X" + count, maModel.Rarity.color);
+                    ShowLockWaring(showWarning);
+                }
+            }
+            else if(type== RequireType.PreTech)
+            {
+                int techID = (int)param[0];
+                TechnologyDataModel techModel = new TechnologyDataModel();
+                if (techModel.Create(techID))
+                {
+                    _model = techModel;
+                    SetElementInfo(techModel.Icon, techModel.Name, techModel.Rarity.color);
+                    ShowLockWaring(showWarning);
+                }
+            }
+            else if(type == RequireType.ResearchPoint)
+            {
+                ushort count = (ushort)param[0];
+                var techPointImage = Utility.LoadSprite("SpriteOutput/UI/Main/Technology/TechPage_PointCost_Icon", Utility.SpriteType.png);
+                string text = MultiLanguage.Instance.GetTextValue(Research_Require_TechPoint_Text) + ":" + count.ToString();
+                SetElementInfo(techPointImage, text, Color.white);
+                ShowLockWaring(showWarning);
+            }
+
+            if (anim != null)
+                anim.Play();
+        }
+
+        void SetElementInfo(Sprite sp,string name,Color rarityColor)
         {
             icon.sprite = sp;
             nameText.text = name;
             nameText.color = new Color(rarityColor.r, rarityColor.g, rarityColor.b, 0.8f);
-            rarityBG.color=new Color(rarityColor.r, rarityColor.g, rarityColor.b, 0.3f);
-            ShowLockWaring(showWarning);
+            rarityBG.color = new Color(rarityColor.r, rarityColor.g, rarityColor.b, 0.25f);
         }
 
 
@@ -44,16 +101,25 @@ namespace Sim_FrameWork
         }
 
 
-
-
         public override void OnPointerEnter(PointerEventData eventData)
         {
             SelectEffectTrans.gameObject.SetActive(true);
+            if(type== RequireType.Material)
+            {
+                UIManager.Instance.PopUpWnd(UIPath.WindowPath.Material_Info_UI, WindowType.SPContent,true,(MaterialDataModel)_model);
+            }
+
         }
 
         public override void OnPointerExit(PointerEventData eventData)
         {
             SelectEffectTrans.gameObject.SetActive(false);
+            if (type == RequireType.Material)
+            {
+                UIManager.Instance.HideWnd(UIPath.WindowPath.Material_Info_UI);
+            }
+
+
         }
 
 

@@ -72,37 +72,6 @@ namespace Sim_FrameWork
             }
             #endregion
 
-            #region Food
-            //当前食物
-            private float _food;
-            public float Food { get { return _food; } protected set { } }
-            //食物最大储量
-            private float _foodMax;
-            public float FoodMax { get { return _foodMax; } protected set { } }
-            //每月增加值
-            private float _foodPerMonth = 5;
-            public float FoodPerMonth { get { return _foodPerMonth; } protected set { } }
-
-            //Add Food
-            public void AddFood(float num)
-            {
-                _food += num;
-                if (_food > _foodMax)
-                    _food = _foodMax;
-            }
-            public void AddFoodMax(float num)
-            {
-                _foodMax += num;
-                if (_foodMax < 0)
-                    _foodMax = 0;
-            }
-            public void AddFoodPerMonth(float num)
-            {
-                _foodPerMonth += num;
-            }
-
-            #endregion
-
             #region Labor
             //当前劳动力
             private float _labor;

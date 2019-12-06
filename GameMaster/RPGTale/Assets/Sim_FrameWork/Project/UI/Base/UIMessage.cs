@@ -29,6 +29,12 @@ namespace Sim_FrameWork
         UpdateWarehouseData,//更新仓库
         ProductLine_Formula_Change,//更新生产线
 
+
+        ///MaimMenu
+        MenuPage_Update_BuildPanel,
+        UpdateTime,
+        MenuPage_Add_Build,
+
         /// <summary>
         /// Update Resource
         /// </summary>
@@ -41,9 +47,6 @@ namespace Sim_FrameWork
         Res_MonthLabor,
 
 
-        UpdateBuildPanelData, //更新建造列表
-        UpdateTime,//更新时间
-
         ///Order
         RefreshOrder,
         OrderPage_Select_Organization,
@@ -55,5 +58,6 @@ namespace Sim_FrameWork
         ///Technology
         Tech_Research_Finish,
         Tech_Research_Start
+
     }
 }

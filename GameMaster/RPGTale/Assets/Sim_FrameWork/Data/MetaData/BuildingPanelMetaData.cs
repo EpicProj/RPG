@@ -15,8 +15,6 @@ using System.Xml.Serialization;
                 BuildingPanelData data = new BuildingPanelData();
                 data.BuildID = i;
                 data.FunctionBlockID = i;
-                data.BuildType = "";
-                data.BuildSubType = "";
                 data.TimeCost = (ushort)i;
                 data.CurrencyCost = (ushort)i;
                 data.MaterialCost = "";
@@ -58,10 +56,6 @@ using System.Xml.Serialization;
         public int BuildID { get; set; }
         [XmlAttribute]
         public int FunctionBlockID { get; set; }
-        [XmlAttribute]
-        public string BuildType { get; set; }
-        [XmlAttribute]
-        public string BuildSubType { get; set; }
         [XmlAttribute]
         public ushort TimeCost { get; set; }
         [XmlAttribute]

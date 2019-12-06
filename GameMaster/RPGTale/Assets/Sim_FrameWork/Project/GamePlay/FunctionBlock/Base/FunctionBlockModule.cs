@@ -126,9 +126,6 @@ namespace Sim_FrameWork {
         }
 
 
-
-
-
         //Get Type Data
         public static FunctionBlockTypeData GetFacotryTypeData(FunctionBlockType.Type type)
         {
@@ -143,6 +140,13 @@ namespace Sim_FrameWork {
                 Debug.LogError("GetFunctionBlockType Error Type= " + type);
                 return null;
             }
+        }
+
+        public static FunctionBlockType.Type GetBlockType(FunctionBlockTypeData data)
+        {
+            FunctionBlockType.Type result = FunctionBlockType.Type.None;
+            Enum.TryParse<FunctionBlockType.Type>(data.Type, out result);
+            return result;
         }
 
         /// <summary>
@@ -208,11 +212,11 @@ namespace Sim_FrameWork {
             {
                 case FunctionBlockType.Type.Industry:
                     return GetFunctionBlock_IndustryData(GetFunctionBlockByBlockID(functionBlockID).FunctionBlockTypeIndex) as T;
-                case FunctionBlockType.Type.Science:
+                case FunctionBlockType.Type.Research:
                     return GetFunctionBlock_ScienceData(GetFunctionBlockByBlockID(functionBlockID).FunctionBlockTypeIndex) as T;
                 case FunctionBlockType.Type.Energy:
                     return GetFunctionBlock_EnergyData(GetFunctionBlockByBlockID(functionBlockID).FunctionBlockTypeIndex) as T;
-                case FunctionBlockType.Type.Labor:
+                case FunctionBlockType.Type.Arms:
                     return GetFunctionBlock_LaborData(GetFunctionBlockByBlockID(functionBlockID).FunctionBlockTypeIndex) as T;
                 default:
                     Debug.LogError("Fetch FacotryType Error facotryID=" + functionBlockID);
@@ -712,14 +716,6 @@ namespace Sim_FrameWork {
                         return null;
                     }
                     return manuData.Find(x => x.ID == id).EXPMap;
-                case FunctionBlockType.Type.Labor:
-                    List<BlockLevelData> laborData = laborBaseInfoData.BlockLevelDatas;
-                    if (laborData == null)
-                    {
-                        Debug.LogError("Can not Find LaborEXP Map  id=" + id);
-                        return null;
-                    }
-                    return laborData.Find(x => x.ID == id).EXPMap;
                 default:
                     return null;
             }
@@ -733,8 +729,7 @@ namespace Sim_FrameWork {
             {
                 case FunctionBlockType.Type.Industry:
                     return GetBlockEXPMapData(GetFunctionBlockByBlockID(blockid).EXPDataJsonIndex,type);
-                case FunctionBlockType.Type.Labor:
-                    return GetBlockEXPMapData(GetFunctionBlockByBlockID(blockid).EXPDataJsonIndex,type);
+
                 default:
                     return null;
             }
@@ -771,15 +766,6 @@ namespace Sim_FrameWork {
                         return null;
                     }
                     return manuData;
-
-                case FunctionBlockType.Type.Labor:
-                    List<BlockDistrictUnlockData.DistrictUnlockData> laborData = laborBaseInfoData.DistrictUnlockDatas.Find(x => x.ID == id).UnlockData;
-                    if (laborData == null)
-                    {
-                        Debug.LogError("can not find unlockdata,id=" + id);
-                        return null;
-                    }
-                    return laborData;
 
                 default:
                     return null;

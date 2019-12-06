@@ -10,11 +10,10 @@ namespace Sim_FrameWork
         {
             None,
             Industry,
-            Agriculture,
-            Science,
-            Alchemy,
+            Public,
+            Research,
             Energy,
-            Labor,
+            Arms,
             Unique
         }
 

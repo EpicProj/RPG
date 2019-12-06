@@ -68,29 +68,7 @@ namespace Sim_FrameWork
             }
 
         }
-        public void AddFood(float num, ResourceAddType type, Action callback = null)
-        {
-            switch (type)
-            {
-                case ResourceAddType.current:
-                    playerData.resourceData.AddFood(num);
-                    UIManager.Instance.SendMessageToWnd(UIPath.WindowPath.MainMenu_Page, new UIMessage(UIMsgType.Res_Food));
-                    callback?.Invoke();
-                    break;
-                case ResourceAddType.max:
-                    playerData.resourceData.AddFoodMax(num);
-                    callback?.Invoke();
-                    break;
-                case ResourceAddType.month:
-                    playerData.resourceData.AddFoodPerMonth(num);
-                    UIManager.Instance.SendMessageToWnd(UIPath.WindowPath.MainMenu_Page, new UIMessage(UIMsgType.Res_MonthFood));
-                    callback?.Invoke();
-                    break;
-                default:
-                    break;
-            }
 
-        }
         public void AddEnergy(float num, ResourceAddType type, Action callback = null)
         {
             switch (type)
@@ -176,6 +154,12 @@ namespace Sim_FrameWork
         }
         #endregion
 
+        #region BlockBuild Manager
+
+        /// <summary>
+        /// 增加解锁建筑
+        /// </summary>
+        /// <param name="data"></param>
         public void AddUnLockBuildData(BuildingPanelData data)
         {
             if (!playerData.UnLockBuildingPanelDataList.Contains(data))
@@ -183,8 +167,24 @@ namespace Sim_FrameWork
                 playerData.UnLockBuildingPanelDataList.Add(data);
             }
             //UpdateUI
-            UIManager.Instance.SendMessageToWnd(UIPath.WindowPath.MainMenu_Page, new UIMessage(UIMsgType.UpdateBuildPanelData));
+            UIManager.Instance.SendMessageToWnd(UIPath.WindowPath.MainMenu_Page, new UIMessage(UIMsgType.MenuPage_Add_Build));
         }
+
+        public List<BuildingPanelData> GetBuildDataByMainType(FunctionBlockType.Type type)
+        {
+            List<BuildingPanelData> result = new List<BuildingPanelData>();
+            for(int i = 0; i < playerData.UnLockBuildingPanelDataList.Count; i++)
+            {
+                var blockType = FunctionBlockModule.GetFunctionBlockType(playerData.UnLockBuildingPanelDataList[i].FunctionBlockID);
+                if (blockType == type)
+                {
+                    result.Add(playerData.UnLockBuildingPanelDataList[i]);
+                }
+            }
+            return result;
+        }
+
+        #endregion
 
         public void UpdateTime()
         {
@@ -229,7 +229,6 @@ namespace Sim_FrameWork
         /// </summary>
         private void DoMonthSettle()
         {
-            AddFood(playerData.resourceData.FoodPerMonth, ResourceAddType.current);
             AddEnergy(playerData.resourceData.EnergyPerMonth, ResourceAddType.current);
             AddLabor(playerData.resourceData.LaborPerMonth, ResourceAddType.current);
             GlobalEventManager.Instance.DoPlayerOrderMonthSettle();

@@ -28,7 +28,7 @@ namespace Sim_FrameWork
             Name.text = unlockName;
             Unlock.text = name;
             Unlock.color = rarityColor;
-            RarityImage.color = new Color(rarityColor.r, rarityColor.g, rarityColor.b, 0.6f);
+            RarityImage.color = new Color(rarityColor.r, rarityColor.g, rarityColor.b, 0.1f);
         }
 
         public override void OnPointerEnter(PointerEventData eventData)

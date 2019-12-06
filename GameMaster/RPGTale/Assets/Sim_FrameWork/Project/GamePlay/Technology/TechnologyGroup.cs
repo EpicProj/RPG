@@ -8,6 +8,7 @@ namespace Sim_FrameWork
     {
         public enum GroupType
         {
+            None,
             Panel_3_1_1,
         }
 
@@ -45,7 +46,6 @@ namespace Sim_FrameWork
                     obj.transform.SetParent(transform, false);
                     var rect = UIUtility.SafeGetComponent<RectTransform>(obj.transform).anchoredPosition = newPos;
 
-
                     TechObjectElement objEle = UIUtility.SafeGetComponent<TechObjectElement>(obj.transform);
                     if (objEle != null)
                     {
@@ -55,9 +55,8 @@ namespace Sim_FrameWork
                         {
                             return false;
                         }
-                        _techObjList[i].SetUpTech(model);
+                        objEle.SetUpTech(model);
                     }
-
                 }
             }
             return true;
@@ -111,12 +110,17 @@ namespace Sim_FrameWork
             }
         }
 
+
+
+
     }
 
     public class TechGroupConfig
     {
         public List<int> InitGroupIndexList;
         public List<GroupConfig> configList;
+
+        private List<int> indexCheck=new List<int> ();
 
 
         public void LoadData()
@@ -126,8 +130,18 @@ namespace Sim_FrameWork
             InitGroupIndexList = config.InitGroupIndexList;
             configList = config.configList;
 
+            indexCheck.Clear();
             for(int i = 0; i < configList.Count; i++)
             {
+                if(!indexCheck.Contains(configList[i].groupIndex))
+                {
+                    indexCheck.Add(configList[i].groupIndex);
+                }
+                else
+                {
+                    Debug.LogError("Parse TechGroupConfig Error! Index Can not be same! ");
+                }
+
                 if (configList[i].ObjectNum != configList[i].techElementList.Count)
                 {
                     Debug.LogError("Parse TechGroupConfig Error! Num not Matching!  groupIndex=" + config.configList[i].groupIndex);
@@ -144,7 +158,6 @@ namespace Sim_FrameWork
         {
             public int groupIndex;
             public string groupType;
-            public string elementPath;
             public int posX;
             public int posY;
             public int ObjectNum;

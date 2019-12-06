@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System;
 
 namespace Sim_FrameWork.UI
 {
@@ -65,13 +66,24 @@ namespace Sim_FrameWork.UI
 
         private void InitTechGroup()
         {
+            Func<TechnologyGroup.GroupType, GameObject> getGroupObject = (o) =>
+              {
+                  switch (o)
+                  {
+                      case TechnologyGroup.GroupType.Panel_3_1_1:
+                          return ObjectManager.Instance.InstantiateObject(UIPath.TechGroupPrefabPath(o));
+                      default:
+                          return null;
+                  }
+              };
+
             var groupList = TechnologyModule.Instance.config.InitGroupIndexList;
             for(int i = 0; i < groupList.Count; i++)
             {
                 var config = TechnologyModule.Instance.GetTechGroupConfig(groupList[i]);
                 if (config != null)
                 {
-                    GameObject obj = ObjectManager.Instance.InstantiateObject(config.elementPath);
+                    var obj = getGroupObject(TechnologyModule.Instance.GetTechGroupType(config.groupIndex));
                     TechnologyGroup group = UIUtility.SafeGetComponent<TechnologyGroup>(obj.transform);
                     if (group != null)
                     {
@@ -91,6 +103,9 @@ namespace Sim_FrameWork.UI
                 }
             }
         }
+
+
+
 
         private TechnologyGroup FindTechGroupByID(int index)
         {

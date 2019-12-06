@@ -33,7 +33,7 @@ namespace Sim_FrameWork.UI
         private const string Research_Effect_Unlock_Text_Block = "Research_Effect_Unlock_Text_Block";
         private const string Research_Effect_Unlock_Text_Tech = "Research_Effect_Unlock_Text_Tech";
 
-        private const string Research_Require_TechPoint_Text = "Research_Require_TechPoint_Text";
+       
 
         private TechnologyInfo techInfo;
 
@@ -269,10 +269,7 @@ namespace Sim_FrameWork.UI
             {
                 index++;
                 var cmpt = UIUtility.SafeGetComponent<TechRequireElement>(costObj);
-
-                var techPointImage = Utility.LoadSprite("SpriteOutput/UI/Main/Technology/TechPage_PointCost_Icon", Utility.SpriteType.png);
-                var costStr = MultiLanguage.Instance.GetTextValue(Research_Require_TechPoint_Text) + ": " + techInfo._model.TechCost;
-                cmpt.SetUpElement(techPointImage,Color.white, costStr, false);
+                cmpt.SetUpElement( TechRequireElement.RequireType.ResearchPoint, new object[] { techInfo._model.TechCost },false);
                 costObj.gameObject.SetActive(true);
             }
 
@@ -295,7 +292,7 @@ namespace Sim_FrameWork.UI
                                     index++;
                                     var element = UIUtility.SafeGetComponent<TechRequireElement>(obj);
                                     bool warning = GlobalEventManager.Instance.GetTechInfo(techList[j]).currentState == TechnologyInfo.TechState.Lock ? true : false;
-                                    element.SetUpElement(techModel.Icon, techModel.Rarity.color, techModel.Name, warning);
+                                    element.SetUpElement( TechRequireElement.RequireType.PreTech,new object[] { techModel.ID }, warning);
                                     obj.gameObject.SetActive(true);
                                 }
                             }
@@ -314,8 +311,7 @@ namespace Sim_FrameWork.UI
                                     index++;
                                     var element = UIUtility.SafeGetComponent<TechRequireElement>(obj);
                                     bool warning = PlayerManager.Instance.GetMaterialStoreCount(kvp.Key) < kvp.Value ? true : false;
-                                    string maStr = maModel.Name + " X " + kvp.Value;
-                                    element.SetUpElement(maModel.Icon, maModel.Rarity.color, maStr, warning);
+                                    element.SetUpElement( TechRequireElement.RequireType.Material,new object[] { maModel.ID,kvp.Value }, warning);
                                     obj.gameObject.SetActive(true);
                                 }
                             }

@@ -98,7 +98,6 @@ namespace Sim_FrameWork {
 
             InitRarity();
             AddBtnClickListener();
-            
         }
 
         public void RefreshTech()

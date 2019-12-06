@@ -41,9 +41,6 @@ namespace Sim_FrameWork
             HardLevelData data = config.GetHardlevelData(currentHardLevel);
             PlayerData playerData = new PlayerData();
             playerData.timeData = new TimeData(config.timeConfig);
-            //Init Food
-            playerData.resourceData.AddFoodMax(data.OriginalFoodMax);
-            playerData.resourceData.AddFood(data.OriginalFood);
             //Init Currency
             playerData.resourceData.AddCurrencyMax(data.OriginalCurrencyMax);
             playerData.resourceData.AddCurrency(data.OriginalCurrency);
@@ -110,7 +107,7 @@ namespace Sim_FrameWork
             }
             return result;
         }
-        //获取所有解锁的BuildID
+        ///获取所有解锁的BuildID
         public static List<BuildingPanelData> GetUnLockBuildData()
         {
             List<BuildingPanelData> result = new List<BuildingPanelData>();
@@ -123,6 +120,7 @@ namespace Sim_FrameWork
             }
             return result;
         }
+
         //获取所有解锁的区块ID
         public static List<FunctionBlock> GetUnLockBuildBlockID()
         {

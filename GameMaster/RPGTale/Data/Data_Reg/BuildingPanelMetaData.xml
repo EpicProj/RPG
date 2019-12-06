@@ -4,8 +4,6 @@
 		<list name = "BuildingPanelData" sheetname="BuildingPanelData" mainKey = "BuildID">
 			<variable  name="BuildID" col = "BuildID" type="int"/>
 			<variable  name="FunctionBlockID" col = "FunctionBlockID" type="int"/>
-			<variable  name="BuildType" col = "BuildType" type="string"/>
-			<variable  name="BuildSubType" col = "BuildSubType" type="string"/>
 			<variable  name="TimeCost" col = "TimeCost" type="ushort"/>
 			<variable  name="CurrencyCost" col = "CurrencyCost" type="ushort"/>
 			<variable  name="MaterialCost" col = "MaterialCost" type="string"/>

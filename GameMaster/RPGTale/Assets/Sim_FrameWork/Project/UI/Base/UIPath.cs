@@ -6,6 +6,20 @@ namespace Sim_FrameWork
 {
     public class UIPath
     {
+
+        public static string TechGroupPrefabPath(TechnologyGroup.GroupType type)
+        {
+            switch (type)
+            {
+                case TechnologyGroup.GroupType.Panel_3_1_1:
+                    return "Assets/Prefabs/Object/Technology/TechGroupPanel_3-1-1.prefab";
+                default:
+                    return string.Empty;
+
+            }
+        }
+
+
         public struct WindowPath
         {
             #region DialogPath
