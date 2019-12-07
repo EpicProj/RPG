@@ -47,6 +47,10 @@ namespace Sim_FrameWork.UI
         private Text CampValueCurrentText;
         private GameObject CampPointer;
 
+
+        private List<BuildingPanelData> buildPanelDataList = new List<BuildingPanelData>();
+        private List<ConstructMainTabElement> mainTabElementList = new List<ConstructMainTabElement>();
+
         //GameStates
         private Button PauseBtn;
 
@@ -283,23 +287,11 @@ namespace Sim_FrameWork.UI
         {
             if (type == FunctionBlockType.Type.None)
                 return false;
-            var list = PlayerManager.Instance.GetBuildDataByMainType(type);
-            for (int i = 0; i <list.Count; i++)
-            {
-                GameObject buildObj = ObjectManager.Instance.InstantiateObject(UIPath.PrefabPath.BUILD_ELEMENT_PREFAB_PATH);
-                BlockBuildElement element = UIUtility.SafeGetComponent<BlockBuildElement>(buildObj.transform);
-                var blockID = list[i].FunctionBlockID;
-                FunctionBlockDataModel model = new FunctionBlockDataModel();
-                if (model.Create(blockID))
-                {
-                    element.InitBuildElement(model,list[i].BuildID);
-                    buildObj.transform.SetParent(m_page.BuildContent.transform, false);
-                }
-                else
-                {
-                    return false;
-                }
-            }
+            var loopList = UIUtility.SafeGetComponent<LoopList>(m_page.BuildContent.transform);
+            var list =PlayerManager.Instance.GetBuildPanelModelData(type);
+            Debug.Log("BuildCount =" + list.Count);
+            loopList.RefrshData(list);
+
             return true;
         }
 
@@ -309,13 +301,26 @@ namespace Sim_FrameWork.UI
         public void InitBuildMainTab()
         {
             List<FunctionBlockTypeData> mainTypeList = FunctionBlockModule.GetInitMainType();
+            var toggleGroup = UIUtility.SafeGetComponent<ToggleGroup>(m_page.BuildTabContent.transform);
             for(int i = 0; i < mainTypeList.Count; i++)
             {
-                GameObject mainTab = ObjectManager.Instance.InstantiateObject(UIPath.PrefabPath.Construct_MainTab_Element_Path);
+                var mainTab = ObjectManager.Instance.InstantiateObject(UIPath.PrefabPath.Construct_MainTab_Element_Path);
                 ConstructMainTabElement element = UIUtility.SafeGetComponent<ConstructMainTabElement>(mainTab.transform);
+                if (toggleGroup != null)
+                {
+                    element.toggle.group = toggleGroup;
+                }
                 element.InitMainTabElement(mainTypeList[i]);
                 mainTab.transform.SetParent(m_page.BuildTabContent.transform, false);
+                mainTab.name = mainTypeList[i].Type.ToString();
+                mainTabElementList.Add(element);
             }
+            ///Set Default Select
+            if (mainTabElementList.Count != 0)
+            {
+                mainTabElementList[0].toggle.isOn = true;
+            }
+
         }
 
         #endregion

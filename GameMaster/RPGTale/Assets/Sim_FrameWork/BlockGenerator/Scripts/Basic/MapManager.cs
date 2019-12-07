@@ -9,13 +9,19 @@ namespace Sim_FrameWork
     {
         private Transform ContentObj;
 
+        public int currentSelectBuildID = -1;
+        public bool isSelectBlock_Panel=false;
+
+        private FunctionBlockBase currentInitBlock = null;
+
+        public bool _hasAddBlockToMap = false;
+
         protected override void Awake()
         {
             base.Awake();
             ContentObj = UIUtility.FindTransfrom(transform, "Content");
             UIUtility.SafeSetActive(ContentObj, false);
 
-           
         }
 
         private void Start()
@@ -32,6 +38,8 @@ namespace Sim_FrameWork
 
         void Update()
         {
+            HandleBlockPanelSelect();
+
             if (Input.GetKeyDown(KeyCode.T))
             {
                 FunctionBlockManager.Instance.AddFunctionBlock(100);
@@ -46,6 +54,7 @@ namespace Sim_FrameWork
         {
         }
 
+
         private void InitMap()
         {
             if (MapGenerator.Inited == false || ChunkManager.Inited == false)
@@ -55,6 +64,30 @@ namespace Sim_FrameWork
 
 
         #region Block Action
+
+        /// <summary>
+        /// 选择建筑，面板
+        /// </summary>
+        void HandleBlockPanelSelect()
+        {
+            if (isSelectBlock_Panel == true && currentSelectBuildID != -1)
+            {
+                if (CameraManager.Instance.InBlockPanelPos() == false)
+                    return;
+                if (_hasAddBlockToMap == false)
+                {
+                    currentInitBlock = FunctionBlockManager.Instance.AddFunctionBlock(PlayerModule.GetBuildingPanelDataByKey(currentSelectBuildID).FunctionBlockID);
+                    _hasAddBlockToMap = true;
+                    currentInitBlock.SetSelect(true);
+                    CameraManager.Instance.currentBlockMode = CameraManager.BlockMode.Move;
+                }
+                else if(_hasAddBlockToMap==true && currentInitBlock != null)
+                {
+                    CameraManager.Instance.UpdateBlockMove(currentInitBlock);
+                }
+            }
+        }
+
 
         public FunctionBlockBase selectBlock;
 

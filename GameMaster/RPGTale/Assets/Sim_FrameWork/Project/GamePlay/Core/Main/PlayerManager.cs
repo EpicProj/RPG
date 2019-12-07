@@ -184,6 +184,24 @@ namespace Sim_FrameWork
             return result;
         }
 
+        public List<List<BaseDataModel>> GetBuildPanelModelData(FunctionBlockType.Type type)
+        {
+            List<List<BaseDataModel>> result = new List<List<BaseDataModel>>();
+           
+            for (int i = 0; i < playerData.UnLockBuildingPanelDataList.Count; i++)
+            {
+                if (FunctionBlockModule.GetFunctionBlockType(playerData.UnLockBuildingPanelDataList[i].FunctionBlockID) == type)
+                {
+                    BuildPanelModel model = new BuildPanelModel();
+                    if (model.Create(playerData.UnLockBuildingPanelDataList[i].BuildID))
+                    {
+                        result.Add(new List<BaseDataModel>() { model });
+                    }
+                }
+            }
+            return result;
+        }
+
         #endregion
 
         public void UpdateTime()

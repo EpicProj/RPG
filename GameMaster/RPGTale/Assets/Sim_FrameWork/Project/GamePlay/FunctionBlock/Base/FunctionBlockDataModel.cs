@@ -91,6 +91,27 @@ namespace Sim_FrameWork
             set { }
         }
 
+        private Sprite _typeIcon;
+        public Sprite TypeIcon
+        {
+            get
+            {
+                if (_typeIcon == null)
+                    _typeIcon = FunctionBlockModule.GetFunctionBlockTypeIcon(_id);
+                return _typeIcon;
+            }
+            set { }
+        }
+        private Sprite _subTypeIcon;
+        public Sprite SubTypeIcon
+        {
+            get
+            {
+                return null;
+            }
+            set { }
+        }
+
         private Sprite _bg;
         public Sprite BG
         {

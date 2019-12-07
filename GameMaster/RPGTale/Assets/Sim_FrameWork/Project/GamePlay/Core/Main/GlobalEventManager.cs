@@ -620,7 +620,7 @@ namespace Sim_FrameWork {
                         var blockList = TechnologyModule.ParseTechParam_Unlock_Block(effect[i].effectParam);
                         for(int j = 0; j < blockList.Count; j++)
                         {
-                            var buildData = PlayerModule.Instance.GetBuildingPanelDataByKey(blockList[i]);
+                            var buildData = PlayerModule.GetBuildingPanelDataByKey(blockList[i]);
                             if (buildData != null)
                             {
                                 PlayerManager.Instance.AddUnLockBuildData(buildData);

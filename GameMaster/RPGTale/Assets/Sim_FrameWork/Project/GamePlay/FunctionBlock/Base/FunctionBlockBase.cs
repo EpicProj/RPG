@@ -42,7 +42,7 @@ namespace Sim_FrameWork
 
             UIinfo = UIUtility.SafeGetComponent<BlockUIScriptInfo>(transform);
             UIinfo.SetData(this);
-            ModelRoot = UIUtility.FindTransfrom(transform, "Root/Model").gameObject;
+            ModelRoot = UIUtility.FindTransfrom(transform, "Root/ModelRoot").gameObject;
             gameObject.name = instanceID + "[Block]";
 
             SetPosition(new Vector3( posX, transform.localScale.y/2 , posZ));
@@ -67,15 +67,15 @@ namespace Sim_FrameWork
                     break;
                         
             }
-            InitBaseInfo();
+            InitBase();
         }
 
-        private void InitBaseInfo()
+        private void InitBase()
         {
             //Set Collider
             BlockCollider = UIUtility.SafeGetComponent<BoxCollider>(transform);
             SetBlockColliderSize(FunctionBlockModule.Instance.InitFunctionBlockBoxCollider(functionBlock,3.0f));
-
+            InitDistrictModel();
         }
 
 
@@ -138,6 +138,33 @@ namespace Sim_FrameWork
 
         #endregion
 
+        #region Model
+        private void InitDistrictModel()
+        {
+            var vec2 = FunctionBlockModule.GetFunctionBlockAreaMax(info.block);
+            ModelRoot.transform.localPosition = new Vector3(-vec2.x / 2 + 0.5f, 0, -vec2.y / 2 + 0.5f);
+            foreach(KeyValuePair<Vector2,DistrictAreaInfo> kvp in info.currentDistrictDataDic)
+            {
+                if (!string.IsNullOrEmpty(kvp.Value.prefabModelPath))
+                {
+                    try
+                    {
+                        var obj = ObjectManager.Instance.InstantiateObject("Assets/" + kvp.Value.prefabModelPath + ".prefab");
+                        obj.transform.SetParent(ModelRoot.transform, false);
+                        Vector3 pos = new Vector3(kvp.Value.OriginCoordinate.x, 0, kvp.Value.OriginCoordinate.y);
+                        obj.transform.localPosition = pos;
+                    }catch(Exception e)
+                    {
+                        Debug.LogError(e);
+                        continue;
+                    }
+                }
+            }
+        }
+
+        #endregion
+
+
         #region Action
 
         private Vector3 _oldPosition;
@@ -171,13 +198,13 @@ namespace Sim_FrameWork
         public void OnBlockDrag(CameraManager.CameraEvent camera)
         {
             var point = camera.point + _deltaDistance;
+            
             point.x = Mathf.Floor(point.x);
             point.z = Mathf.Floor(point.z);
 
             if(point!= transform.localPosition)
             {
                 SetPosition(new Vector3(Mathf.Floor(point.x), transform.localScale.y/2 , Mathf.Floor(point.z)));
-
                 bool canPlace = InPlacablePosition();
                 if (canPlace)
                 {

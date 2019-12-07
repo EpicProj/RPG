@@ -18,34 +18,6 @@ namespace Sim_FrameWork.UI
 
 
         /// <summary>
-        /// 生成区划格基底
-        /// </summary>
-        public void InitDistrictDataSlot(FunctionBlockInfoData blockInfo)
-        {
-            if (blockInfo.currentDistrictBaseDic == null)
-                return;
-            foreach (KeyValuePair<Vector2, DistrictAreaBase> kvp in blockInfo.currentDistrictBaseDic)
-            {
-                var data = kvp.Value.data;
-                if (data.DistrictID == -1)
-                {
-                    //Init EmptySlot
-                    InitEmptyDisBlock(kvp.Value);
-                }
-                else if (data.DistrictID == -2)
-                {
-                    //Init UnlockSlot
-                    InitUnlockDisBlock(kvp.Value);
-                }
-                else
-                {
-                    Debug.LogError("Init District Slot Error! key=" + kvp.Key);
-                    continue;
-                }
-            }
-        }
-
-        /// <summary>
         /// 生成基础区划
         /// </summary>
         public void InitDistrictArea(FunctionBlockInfoData blockInfo)
@@ -88,31 +60,6 @@ namespace Sim_FrameWork.UI
 
             }
         }
-
-
-
-
-        public void InitEmptyDisBlock(DistrictAreaBase info)
-        {
-            //ContainEmptyInfo
-            GameObject EmptySlot = ObjectManager.Instance.InstantiateObject(UIPath.PrefabPath.DISTRICTSLOT_PREFAB_PATH);
-            EmptySlot.GetComponent<Image>().sprite = info.sprite;
-            EmptySlot.transform.SetParent(transform, false);
-            EmptySlot.transform.localScale = Vector3.one;
-            EmptySlot.transform.localPosition = Vector3.zero;
-            EmptySlot.transform.Find("EmptyInfo").gameObject.SetActive(true);
-            EmptySlot.GetComponent<DistrictSlot>().InitBaseInfo(info);
-        }
-
-
-        public void InitUnlockDisBlock(DistrictAreaBase info)
-        {
-            GameObject UnlockSlot = ObjectManager.Instance.InstantiateObject(UIPath.PrefabPath.DISTRICTSLOT_PREFAB_PATH);
-            UnlockSlot.transform.SetParent(transform, false);
-            UnlockSlot.GetComponent<DistrictSlot>().InitBaseInfo(info);
-        }
-
-
 
     }
 }

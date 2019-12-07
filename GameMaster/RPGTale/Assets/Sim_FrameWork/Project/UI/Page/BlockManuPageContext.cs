@@ -41,6 +41,10 @@ namespace Sim_FrameWork.UI
         //Formula
         bool isfirstChoose = true;
 
+        //District
+        private Transform DistrictPanel;
+
+
         #region Override Method
         public override void Awake(params object[] paralist)
         {
@@ -52,6 +56,7 @@ namespace Sim_FrameWork.UI
             InitTransformRef();
             AddButtonListener();
             InitInfoPanel();
+            InitDistrictPanel();
         }
 
 
@@ -69,6 +74,7 @@ namespace Sim_FrameWork.UI
             }
             UpdateLevel();
             RefreshFormulaChoose();
+
         }
 
         public override bool OnMessage(UIMessage msg)
@@ -121,6 +127,8 @@ namespace Sim_FrameWork.UI
             LVText = UIUtility.SafeGetComponent<Text>(UIUtility.FindTransfrom(m_page.BlockLevelInfo, "Value"));
 
             _formulaContentCpmt = UIUtility.SafeGetComponent<FormulaContentCmpt>(m_page.ManuContent);
+
+            DistrictPanel = UIUtility.FindTransfrom(m_page.DistrictPanel, "Content");
         }
 
         void AddButtonListener()
@@ -160,6 +168,16 @@ namespace Sim_FrameWork.UI
             m_page.BlockDesc.text = blockBase.info.dataModel.Desc;
 
         }
+
+        private void InitDistrictPanel()
+        {
+            var districtGroup = UIUtility.SafeGetComponent<DistrictGroup>(DistrictPanel);
+            if (districtGroup != null)
+            {
+                districtGroup.InitSlot(blockBase.info);
+            }
+        }
+
 
 
         #endregion
@@ -294,7 +312,7 @@ namespace Sim_FrameWork.UI
             var sliderGroup = UIUtility.SafeGetComponent<SliderGroup>(UIUtility.FindTransfrom(m_page.EXPContent, "Content"));
             float progress = (float)blockBase.info.levelInfo.CurrentBlockExp / (float)blockBase.info.levelInfo.CurrentBlockMaxEXP;
             sliderGroup.RefreshSlider(progress);
-            UIUtility.SafeGetComponent<Text>(UIUtility.FindTransfrom(m_page.EXPContent, "Percent")).text = ((int)(progress * 100)).ToString();
+            UIUtility.SafeGetComponent<Text>(UIUtility.FindTransfrom(m_page.EXPContent, "Percent")).text = ((int)(progress * 100)).ToString()+"%";
         }
 
     }

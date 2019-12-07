@@ -27,6 +27,9 @@ namespace Sim_FrameWork
         public Transform ManuContent;
         public Transform ProgressTrans;
 
+        [Header("District")]
+        public Transform DistrictPanel;
+
 
     }
 }

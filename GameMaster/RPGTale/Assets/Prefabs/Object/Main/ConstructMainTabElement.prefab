@@ -55,9 +55,9 @@ GameObject:
   - component: {fileID: 224588498726080866}
   - component: {fileID: 222316903845310644}
   - component: {fileID: 114905380107731006}
-  - component: {fileID: 114460662696108470}
   - component: {fileID: 114641125468813114}
-  - component: {fileID: 95739356875193302}
+  - component: {fileID: 114448618646958570}
+  - component: {fileID: 95194760862888040}
   m_Layer: 5
   m_Name: ConstructMainTabElement
   m_TagString: Untagged
@@ -65,7 +65,7 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!95 &95739356875193302
+--- !u!95 &95194760862888040
 Animator:
   serializedVersion: 3
   m_ObjectHideFlags: 1
@@ -82,7 +82,7 @@ Animator:
   m_WarningMessage: 
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
---- !u!114 &114460662696108470
+--- !u!114 &114448618646958570
 MonoBehaviour:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
@@ -90,7 +90,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 1929955003081288}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 1392445389, guid: f70555f144d8491a825f0804e09c671c, type: 3}
+  m_Script: {fileID: 2109663825, guid: f70555f144d8491a825f0804e09c671c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   m_Navigation:
@@ -118,11 +118,15 @@ MonoBehaviour:
     m_DisabledTrigger: Disabled
   m_Interactable: 1
   m_TargetGraphic: {fileID: 114905380107731006}
-  m_OnClick:
+  toggleTransition: 1
+  graphic: {fileID: 114905380107731006}
+  m_Group: {fileID: 0}
+  onValueChanged:
     m_PersistentCalls:
       m_Calls: []
-    m_TypeName: UnityEngine.UI.Button+ButtonClickedEvent, UnityEngine.UI, Version=1.0.0.0,
+    m_TypeName: UnityEngine.UI.Toggle+ToggleEvent, UnityEngine.UI, Version=1.0.0.0,
       Culture=neutral, PublicKeyToken=null
+  m_IsOn: 0
 --- !u!114 &114502047649436546
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -189,7 +193,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Icon: {fileID: 114629232733139378}
-  Btn: {fileID: 114460662696108470}
+  toggle: {fileID: 114448618646958570}
 --- !u!114 &114905380107731006
 MonoBehaviour:
   m_ObjectHideFlags: 1

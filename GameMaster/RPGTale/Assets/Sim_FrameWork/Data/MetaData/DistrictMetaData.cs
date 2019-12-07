@@ -21,7 +21,6 @@ public class DistrictMetaData : ExcelBase {
             data.CurrencyCost = i;
             data.MaterialCostList = "";
             data.TimeCost = i;
-            data.ParentList = "";
             data.EffectList = "";
             AllDistrictDataList.Add(data);
         }
@@ -33,6 +32,7 @@ public class DistrictMetaData : ExcelBase {
             type.TypeID = i;
             type.TypeShape = "";
             type.IconList = "";
+            type.ModelPath = "";
             AllDistrictTypeList.Add(type);
         }
         AllDistrictIconList = new List<DistrictIcon>();
@@ -42,14 +42,6 @@ public class DistrictMetaData : ExcelBase {
             icon.IconID = i;
             icon.IconPath = "";
             AllDistrictIconList.Add(icon);
-        }
-        AllDistrictModelList = new List<DistrictModel>();
-        for(int i = 0; i < 2; i++)
-        {
-            DistrictModel model = new DistrictModel();
-            model.ID = i;
-            model.ModelPath = "";
-            AllDistrictModelList.Add(model);
         }
     }
 
@@ -94,17 +86,7 @@ public class DistrictMetaData : ExcelBase {
                 AllDistrictIconDic.Add(data.IconID, data);
             }
         }
-        foreach (var data in AllDistrictModelList)
-        {
-            if (AllDistrictModelDic.ContainsKey(data.ID))
-            {
-                Debug.LogError("Find Same ID , ID  = " + data.ID);
-            }
-            else
-            {
-                AllDistrictModelDic.Add(data.ID, data);
-            }
-        }
+
     }
 
     [XmlIgnore]
@@ -113,8 +95,6 @@ public class DistrictMetaData : ExcelBase {
     public Dictionary<int, DistrictType> AllDistrictTypeDic = new Dictionary<int, DistrictType>();
     [XmlIgnore]
     public Dictionary<int, DistrictIcon> AllDistrictIconDic = new Dictionary<int, DistrictIcon>();
-    [XmlIgnore]
-    public Dictionary<int, DistrictModel> AllDistrictModelDic = new Dictionary<int, DistrictModel>();
 
     [XmlElement]
     public List<DistrictData> AllDistrictDataList { get; set; }
@@ -122,8 +102,6 @@ public class DistrictMetaData : ExcelBase {
     public List<DistrictType> AllDistrictTypeList { get; set; }
     [XmlElement]
     public List<DistrictIcon> AllDistrictIconList { get; set; }
-    [XmlElement]
-    public List<DistrictModel> AllDistrictModelList { get; set; }
 }
 
 
@@ -147,8 +125,6 @@ public class DistrictData
     [XmlAttribute]
     public int TimeCost { get; set; }
     [XmlAttribute]
-    public string ParentList { get; set; }
-    [XmlAttribute]
     public string EffectList { get; set; }
 
 }
@@ -163,7 +139,7 @@ public class DistrictType
     [XmlAttribute]
     public string IconList { get; set; }
     [XmlAttribute]
-    public string PrefabList { get; set; }
+    public string ModelPath { get; set; }
 }
 
 [System.Serializable]
@@ -175,11 +151,3 @@ public class DistrictIcon
     public string IconPath { get; set; }
 }
 
-[System.Serializable]
-public class DistrictModel
-{
-    [XmlAttribute]
-    public int ID { get; set; }
-    [XmlAttribute]
-    public string ModelPath { get; set; }
-}

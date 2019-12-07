@@ -7,13 +7,32 @@ namespace Sim_FrameWork.UI
 {
     public class DistrictSlot : BaseElementDrag {
 
-      
         public DistrictAreaBase infoBase;
+        private Transform lockTrans;
+        private Transform buildTrans;
+
+        void Awake()
+        {
+            lockTrans = UIUtility.FindTransfrom(transform, "LockInfo");
+            buildTrans = UIUtility.FindTransfrom(transform, "Build");
+        }
 
 
         public void InitBaseInfo(DistrictAreaBase baseInfo)
         {
             infoBase = baseInfo;
+            if (baseInfo.Locked)
+            {
+                lockTrans.gameObject.SetActive(true);
+                buildTrans.gameObject.SetActive(false);
+            }
+            else
+            {
+                lockTrans.gameObject.SetActive(false);
+                buildTrans.gameObject.SetActive(true);
+            }
+
+
         }
         public void InitDistrictAreaSlot(DistrictAreaInfo info)
         {

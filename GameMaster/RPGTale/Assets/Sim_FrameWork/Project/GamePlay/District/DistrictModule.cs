@@ -12,8 +12,6 @@ namespace Sim_FrameWork {
         public static Dictionary<int, DistrictType> DistrictTypeDic;
         public static List<DistrictIcon> DistrictIconList;
         public static Dictionary<int, DistrictIcon> DistrictIconDic;
-        public static List<DistrictModel> DistrictModelList;
-        public static Dictionary<int, DistrictModel> DistrictModelDic;
 
 
 
@@ -25,8 +23,6 @@ namespace Sim_FrameWork {
             DistrictTypeDic = DistrictMetaDataReader.GetDistrictTypeDic();
             DistrictIconList = DistrictMetaDataReader.GetDistrictIcon();
             DistrictIconDic = DistrictMetaDataReader.GetDistrictIconDic();
-            DistrictModelList = DistrictMetaDataReader.GetDistrictModel();
-            DistrictModelDic = DistrictMetaDataReader.GetDistrictModelDic();
         }
 
         public override void Register()
@@ -204,6 +200,19 @@ namespace Sim_FrameWork {
         }
 
 
+        /// <summary>
+        /// 获取区划模型
+        /// </summary>
+        /// <param name="districtID"></param>
+        /// <returns></returns>
+        public static GameObject GetDistrictPrefab(int districtID)
+        {
+            var data = GetDistrictType(districtID);
+            if (data != null)
+                return ObjectManager.Instance.InstantiateObject(data.ModelPath);
+            return
+                null;
+        }
         #endregion
 
         #region Function
@@ -227,7 +236,6 @@ namespace Sim_FrameWork {
         public List<string> GetDistrictEffectStrList(DistrictData data)
         {
             return Utility.TryParseStringList(data.EffectList, ',');
-
         }
 
 
@@ -241,11 +249,51 @@ namespace Sim_FrameWork {
     public class DistrictAreaInfo
     {
         public DistrictData data;
+
         public bool isLargeDistrict;
-        public int LargeDistrictIndex;
+
+        public List<Vector2> largeDistrictCoordinateList=new List<Vector2> ();
+
+        /// <summary>
+        /// 大型格子初始坐标
+        /// </summary>
         public Vector2 OriginCoordinate;
+        /// <summary>
+        /// 实际的坐标
+        /// </summary>
+        public Vector2 RealCoordinate;
+        /// <summary>
+        /// 规划格类型
+        /// </summary>
         public UI.DistrictSlotType slotType;
         public Sprite sprite;
+        public string prefabModelPath;
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="districtID"></param>
+        /// <param name="realPos"></param>  实际的坐标
+        /// <param name="originPos"></param>  大格 最初的坐标
+        public DistrictAreaInfo(int districtID,Vector2 realPos,Vector2 originPos)
+        {
+            data = DistrictModule.GetDistrictDataByKey(districtID);
+            var largeArea = DistrictModule.GetDistrictTypeArea(data);
+            isLargeDistrict = largeArea.Count > 1 ? false : true;
+            var districtList= DistrictModule.GetDistrictTypeArea(districtID);
+            for(int i = 0; i < districtList.Count; i++)
+            {
+                largeDistrictCoordinateList.Add(districtList[i] + originPos);
+            }
+            OriginCoordinate = originPos;
+            RealCoordinate = realPos;
+            slotType = isLargeDistrict ? UI.DistrictSlotType.LargeDistrict : UI.DistrictSlotType.NormalDistrict;
+            if (realPos == originPos)
+            {
+                prefabModelPath = DistrictModule.GetDistrictType(districtID).ModelPath;
+            }
+        }
+
     }
     public class DistrictAreaBase
     {
@@ -253,7 +301,6 @@ namespace Sim_FrameWork {
         public bool Locked;
         public Vector2 Coordinate;
         public UI.DistrictSlotType slotType;
-        public Sprite sprite;
     }
 
 

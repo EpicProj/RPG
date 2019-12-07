@@ -8,11 +8,18 @@ namespace Sim_FrameWork
 {
     public class CameraManager : MonoSingleton<CameraManager>
     {
-     
+
         public enum RaycastTarget
         {
             FunctionBlock,
             Ground
+        }
+
+        public enum BlockMode
+        {
+            None,
+            Move,
+            Destory
         }
         public class CameraEvent
         {
@@ -45,6 +52,8 @@ namespace Sim_FrameWork
 
 
         private FunctionBlockBase _selectFunctionBlock;
+        public BlockMode currentBlockMode = BlockMode.None;
+
 
         protected override void Awake()
         {
@@ -61,7 +70,6 @@ namespace Sim_FrameWork
             if (UsingUI())
                 return;
             UpdateBlockSelect();
-            UpdateBlockMove();
             UpdateGroundSelect();
         }
 
@@ -117,28 +125,32 @@ namespace Sim_FrameWork
         private Vector3 _selectBlockStartPos;
 
 
-        public void UpdateBlockMove()
+        public void UpdateBlockMove(FunctionBlockBase selectBlock)
         {
-            if (Input.GetMouseButtonDown(0))
+            if (currentBlockMode != BlockMode.Move)
+                return;
+
+            if (selectBlock != null)
             {
-                _selectBlockStartPos = TryGetRaycastHitGround(Input.mousePosition);
-                _selectStartRaycastBlock = TryGetRaycastHitBlock(Input.mousePosition);
-                _isDraggingFunctionBlock = false;
-                _isDragStart = false;
+                _isSelectFunctionBlock = true;
+            }
+            else
+            {
+                return;
             }
 
-            if(Input.GetMouseButton(0) && _selectBlockStartPos != InfinityVector)
+            if (_selectBlockStartPos != InfinityVector)
             {
-                if(_isSelectFunctionBlock && _selectFunctionBlock== _selectStartRaycastBlock)
+                if (_isSelectFunctionBlock  /*selectBlock == _selectStartRaycastBlock*/)
                 {
                     Vector3 currentSelectPos = TryGetRaycastHitGround(Input.mousePosition);
-                    if(Vector3.Distance(_selectBlockStartPos,currentSelectPos)>= _minMoveDistance)
+                    if (Vector3.Distance(_selectBlockStartPos, currentSelectPos) >= _minMoveDistance)
                     {
-                        //Start Move
+                        ///Start Move
                         CameraEvent camera = new CameraEvent()
                         {
                             point = currentSelectPos,
-                            blockBase = _selectFunctionBlock
+                            blockBase = selectBlock
                         };
 
                         if (!_isDragStart)
@@ -159,9 +171,12 @@ namespace Sim_FrameWork
                 }
             }
 
-            if (Input.GetMouseButtonUp(0))
+            /// 按下 放置方块
+            if (Input.GetMouseButtonDown(0))
             {
+                Debug.Log("Place!");
                 _selectBlockStartPos = InfinityVector;
+                _isSelectFunctionBlock = false;
                 if (_isDragStart)
                 {
                     _isDragStart = false;
@@ -170,8 +185,20 @@ namespace Sim_FrameWork
                     {
                         OnBlockDragEnd.Invoke(null);
                     }
+                    currentBlockMode = BlockMode.None;
                 }
             }
+
+
+            //if (Input.GetMouseButtonUp(0))
+            //{
+            //    _selectBlockStartPos = TryGetRaycastHitGround(Input.mousePosition);
+            //    _selectStartRaycastBlock = TryGetRaycastHitBlock(Input.mousePosition);
+            //    _isDraggingFunctionBlock = false;
+            //    _isDragStart = false;
+            //}
+
+
         }
 
 
@@ -199,6 +226,37 @@ namespace Sim_FrameWork
             }
         }
 
+        public bool InBlockPanelPos()
+        {
+            Vector3 currentPos = TryGetRaycastHitGround(Input.mousePosition);
+            if (currentPos != InfinityVector && IsPointerOverUI()==false)
+            {
+                return true;
+            }
+            return false;
+        }
+
+        /// <summary>
+        /// 鼠标是否有UI覆盖
+        /// </summary>
+        /// <returns></returns>
+        public bool IsPointerOverUI()
+        {
+            PointerEventData data = new PointerEventData(EventSystem.current);
+            data.position = new Vector2(Input.mousePosition.x, Input.mousePosition.y);
+            List<RaycastResult> results = new List<RaycastResult>();
+            if (EventSystem.current)
+            {
+                EventSystem.current.RaycastAll(data, results);
+            }
+            for(int i = 0; i < results.Count; i++)
+            {
+                if (results[i].gameObject.layer == LayerMask.NameToLayer("UI"))
+                    return true;
+            }
+            return false;
+        }
+
         /// <summary>
         /// Try Get Selecet Block
         /// </summary>
@@ -214,7 +272,7 @@ namespace Sim_FrameWork
             return null;
         }
 
-        private Vector3 TryGetRaycastHitGround(Vector2 touch)
+        public Vector3 TryGetRaycastHitGround(Vector2 touch)
         {
             RaycastHit hit;
             if(TryGetRaycastHit(touch,out hit, RaycastTarget.Ground))

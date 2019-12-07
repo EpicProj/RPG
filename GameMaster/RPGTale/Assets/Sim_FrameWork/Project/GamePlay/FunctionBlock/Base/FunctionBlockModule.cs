@@ -282,6 +282,17 @@ namespace Sim_FrameWork {
             return Utility.LoadSprite(path, Utility.SpriteType.png);
         }
 
+        public static Sprite GetFunctionBlockTypeIcon(int functionBlockID)
+        {
+            var type = GetFunctionBlockType(functionBlockID);
+            if(type!= FunctionBlockType.Type.None)
+            {
+                var typedata = GetFacotryTypeData(type);
+                if (typedata != null)
+                    return Utility.LoadSprite(typedata.TypeIcon, Utility.SpriteType.png);
+            }
+            return null;
+        }
         public static ushort GetFunctionBlockMaxLevel(int functionBlockID)
         {
             return GetFunctionBlockByBlockID(functionBlockID).MaxLevel;
@@ -386,64 +397,29 @@ namespace Sim_FrameWork {
         /// <returns></returns>
         public static Dictionary<Vector2, DistrictAreaInfo> GetFuntionBlockOriginAreaInfo(FunctionBlock block)
         {
-            Func<FunctionBlock, Dictionary<Vector2, DistrictData>> getOriginData = (b) =>
-            {
-                return GetFuntionBlockDistrictData(GetFuntionBlockOriginArea(b));
-            };
 
             Dictionary<Vector2, DistrictAreaInfo> result = new Dictionary<Vector2, DistrictAreaInfo>();
-            Dictionary<Vector2, DistrictData> dic = getOriginData(block);
+            Dictionary<Vector2, DistrictData> dic = GetFuntionBlockDistrictData(GetFuntionBlockOriginArea(block));
 
             if (dic == null)
                 return result;
             //Check Range
             if (CheckDistrictDataOutofRange(block, true) && CheckTargetDistrictNoLock(block, true))
             {
-                int largeDistrictIndex = 1;
                 foreach (KeyValuePair<Vector2, DistrictData> kvp in dic)
                 {
-                    //District Larger than 1X1
-                    var largeArea = DistrictModule.GetDistrictTypeArea(kvp.Value);
-                    if (largeArea.Count == 1)
+                    var type = DistrictModule.GetDistrictTypeArea(kvp.Value);
+                    if (type.Count == 1)
                     {
-                        //1x1 grid
-                        DistrictAreaInfo info = new DistrictAreaInfo
-                        {
-                            data = kvp.Value,
-                            isLargeDistrict = false,
-                            slotType = UI.DistrictSlotType.NormalDistrict,
-                            OriginCoordinate = kvp.Key,
-                            sprite = DistrictModule.GetDistrictIconSpriteList(kvp.Value.DistrictID)[0]
-                        };
+                        DistrictAreaInfo info = new DistrictAreaInfo(kvp.Value.DistrictID, kvp.Key,kvp.Key);
                         result.Add(kvp.Key, info);
-                        continue;
                     }
-                    else if (largeArea.Count > 1)
+                    else if (type.Count > 1)
                     {
-                        //Add Area List
-                        for (int i = 0; i < largeArea.Count; i++)
-                        {
-                            Vector2 currentPos = new Vector2(largeArea[i].x + kvp.Key.x, largeArea[i].y + kvp.Key.y);
-                            DistrictAreaInfo info = new DistrictAreaInfo
-                            {
-                                data = kvp.Value,
-                                isLargeDistrict = true,
-                                LargeDistrictIndex = largeDistrictIndex,
-                                slotType = UI.DistrictSlotType.LargeDistrict,
-                                OriginCoordinate = new Vector2(largeArea[0].x + kvp.Key.x, largeArea[0].y + kvp.Key.y),
-                                sprite = DistrictModule.GetDistrictIconSpriteList(kvp.Value.DistrictID)[i]
-                            };
-                            result.Add(currentPos, info);
-                        }
-                        largeDistrictIndex++;
-                    }
-                    else
-                    {
-                        Debug.LogError("DistrictData Area Error ,ID=" + kvp.Value.DistrictID);
-                        continue;
-                    }
-                }
 
+                    }
+                   
+                }
             }
             return result;
         }

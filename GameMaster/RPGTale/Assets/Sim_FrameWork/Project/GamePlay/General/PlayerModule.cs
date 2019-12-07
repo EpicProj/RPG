@@ -69,7 +69,7 @@ namespace Sim_FrameWork
 
 
         #region BuildPanel Data
-        public BuildingPanelData GetBuildingPanelDataByKey(int buildID)
+        public static BuildingPanelData GetBuildingPanelDataByKey(int buildID)
         {
             BuildingPanelData data = null;
             buildPanelDataDic.TryGetValue(buildID, out data);

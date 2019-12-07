@@ -38,7 +38,7 @@ namespace Sim_FrameWork
             manufactoryInfo = new ManufactoryInfo(_blockBase.functionBlock);
             formulaInfo = new ManufactFormulaInfo(_blockBase.functionBlock);
            
-            _blockBase.OnBlockSelectAction += Onselect;
+            //_blockBase.OnBlockSelectAction += Onselect;
         }
 
         private void Onselect()
