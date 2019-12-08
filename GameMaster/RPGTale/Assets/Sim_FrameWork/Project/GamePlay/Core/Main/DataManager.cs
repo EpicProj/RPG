@@ -42,6 +42,7 @@ namespace Sim_FrameWork {
             UIManager.Instance.Register<ProductLineChangeDialogContext>(UIPath.WindowPath.ProductLine_Change_Dialog);
             UIManager.Instance.Register<TechnologyMainPageContext>(UIPath.WindowPath.Technology_Page);
             UIManager.Instance.Register<TechnologyDetailDialogContext>(UIPath.WindowPath.Technology_Detail_Dialog);
+            UIManager.Instance.Register<BuildPanelDetailContext>(UIPath.WindowPath.BuildPanel_Detail_UI);
         }
 
     }

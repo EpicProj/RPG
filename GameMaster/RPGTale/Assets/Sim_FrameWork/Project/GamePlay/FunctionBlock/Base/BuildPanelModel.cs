@@ -39,6 +39,18 @@ namespace Sim_FrameWork
             }
             set { }
         }
-   
+
+        private string _desc;
+        public string Desc
+        {
+            get
+            {
+                if (string.IsNullOrEmpty(_desc))
+                    _desc = MultiLanguage.Instance.GetTextValue(BuildData.Desc);
+                return _desc;
+            }
+            set { }
+        }
+
     }
 }

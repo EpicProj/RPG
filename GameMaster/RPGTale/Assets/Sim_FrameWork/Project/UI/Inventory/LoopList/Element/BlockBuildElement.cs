@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
 namespace Sim_FrameWork.UI
@@ -72,6 +73,16 @@ namespace Sim_FrameWork.UI
                 BG.color = unSelectColor;
                 BG_Line.color = unSelectColor;
             }
+        }
+
+        public override void OnPointerEnter(PointerEventData eventData)
+        {
+            UIManager.Instance.PopUpWnd(UIPath.WindowPath.BuildPanel_Detail_UI, WindowType.SPContent, true, _model);
+        }
+
+        public override void OnPointerExit(PointerEventData eventData)
+        {
+            UIManager.Instance.HideWnd(UIPath.WindowPath.BuildPanel_Detail_UI);
         }
     }
 }

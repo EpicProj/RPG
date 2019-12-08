@@ -88,6 +88,10 @@ namespace Sim_FrameWork
             /// 材料详情
             /// </summary>
             public const string Material_Info_UI = "Misc/MaterialInfoUI";
+            /// <summary>
+            /// 建造栏信息详情
+            /// </summary>
+            public const string BuildPanel_Detail_UI = "Misc/BuildPanelDetail";
 
             #endregion
 
@@ -130,6 +134,13 @@ namespace Sim_FrameWork
 
             public const string Tech_Effect_Element = "Assets/Prefabs/Object/Technology/TechEffectElement.prefab";
             public const string Tech_Require_Element = "Assets/Prefabs/Object/Technology/TechRequireElement.prefab";
+
+            /// <summary>
+            /// 建造详情，区划格
+            /// </summary>
+            public const string BuildDetail_District_Element = "Assets/Prefabs/Object/District/BuildDetailDistrictElement.prefab";
+            public const string BuildDetail_Cost_Element = "Assets/Prefabs/Object/FunctionBlock/BuildRequireElement.prefab";
+
             #endregion
 
         }

@@ -648,6 +648,10 @@ namespace Sim_FrameWork {
         /// 科技最大要求数量
         /// </summary>
         public static readonly int TechDetail_Dialog_MaxRequire_Count = 4;
+
+        public static readonly int BuildDetail_Cost_MaxInit_Count = 4;
+
+        public static readonly int BuildDetail_District_Area_Max = 25;
     }
 
 

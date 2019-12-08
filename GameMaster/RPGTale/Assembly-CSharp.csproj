@@ -183,6 +183,8 @@
      <Compile Include="Assets\Sim_FrameWork\Project\UI\Dialog\BlockInfoDialog.cs" />
      <Compile Include="Assets\Sim_FrameWork\Project\UI\Dialog\FunctionBlock\BlockUpgradeDialog.cs" />
      <Compile Include="Assets\Sim_FrameWork\Project\UI\Dialog\FunctionBlock\BlockUpgradeDialogContext.cs" />
+     <Compile Include="Assets\Sim_FrameWork\Project\UI\Dialog\FunctionBlock\BuildPanelDetail.cs" />
+     <Compile Include="Assets\Sim_FrameWork\Project\UI\Dialog\FunctionBlock\BuildPanelDetailContext.cs" />
      <Compile Include="Assets\Sim_FrameWork\Project\UI\Dialog\FunctionBlock\ProductLineChangeDialog.cs" />
      <Compile Include="Assets\Sim_FrameWork\Project\UI\Dialog\FunctionBlock\ProductLineChangeDialogContext.cs" />
      <Compile Include="Assets\Sim_FrameWork\Project\UI\Dialog\GeneralConfirmDialog.cs" />
@@ -196,6 +198,8 @@
      <Compile Include="Assets\Sim_FrameWork\Project\UI\Effect\UIGradient.cs" />
      <Compile Include="Assets\Sim_FrameWork\Project\UI\Inventory\Element\BaseElementDrag.cs" />
      <Compile Include="Assets\Sim_FrameWork\Project\UI\Inventory\Element\BaseElementSimple.cs" />
+     <Compile Include="Assets\Sim_FrameWork\Project\UI\Inventory\Element\BuildDetailDistrictElement.cs" />
+     <Compile Include="Assets\Sim_FrameWork\Project\UI\Inventory\Element\BuildRequireElement.cs" />
      <Compile Include="Assets\Sim_FrameWork\Project\UI\Inventory\Element\ConstructMainTabElement.cs" />
      <Compile Include="Assets\Sim_FrameWork\Project\UI\Inventory\Element\ManuSlotElement.cs" />
      <Compile Include="Assets\Sim_FrameWork\Project\UI\Inventory\Element\OrderDetailElement.cs" />

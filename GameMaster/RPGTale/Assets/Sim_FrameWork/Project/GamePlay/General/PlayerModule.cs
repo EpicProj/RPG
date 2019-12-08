@@ -90,11 +90,15 @@ namespace Sim_FrameWork
             return FunctionBlockModule.GetFunctionBlockByBlockID(data.FunctionBlockID);
         }
   
-
+        /// <summary>
+        /// 获取建造材料消耗
+        /// </summary>
+        /// <param name="data"></param>
+        /// <returns></returns>
         public Dictionary<Material,ushort> GetBuildMaterialCost(BuildingPanelData data)
         {
             Dictionary<Material, ushort> result = new Dictionary<Material, ushort>();
-            List<string> maList = Utility.TryParseStringList(data.MaterialCost, ';');
+            List<string> maList = Utility.TryParseStringList(data.MaterialCost, ',');
             for(int i = 0; i < maList.Count; i++)
             {
                 List<int> str = Utility.TryParseIntList(maList[i], ':');
