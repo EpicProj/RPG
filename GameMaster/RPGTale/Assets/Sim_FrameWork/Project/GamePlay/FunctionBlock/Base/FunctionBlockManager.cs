@@ -48,10 +48,8 @@ namespace Sim_FrameWork
 
             return instance;
         }
-        public FunctionBlockBase AddFunctionBlock(int functionBlockID)
+        public FunctionBlockBase AddFunctionBlock(int functionBlockID,int posX,int posZ)
         {
-            int posX = 0;
-            int posZ = 0;
             return AddFunctionBlock(functionBlockID, -1, posX, posZ);
         }
 
@@ -89,9 +87,9 @@ namespace Sim_FrameWork
             }
             if (block != null)
             {
-                ObjectManager.Instance.ReleaseObject(block.gameObject);
+                ObjectManager.Instance.ReleaseObject(block.gameObject,0,true);
             }
-           
+          
         }
 
 

@@ -39,21 +39,7 @@ namespace Sim_FrameWork
         void Update()
         {
             HandleBlockPanelSelect();
-
-            if (Input.GetKeyDown(KeyCode.T))
-            {
-                FunctionBlockManager.Instance.AddFunctionBlock(100);
-            }
-            if (Input.GetKeyDown(KeyCode.Y))
-            {
-                FunctionBlockManager.Instance.AddFunctionBlock(101);
-            }
         }
-
-        private void InitBaseData()
-        {
-        }
-
 
         private void InitMap()
         {
@@ -64,6 +50,12 @@ namespace Sim_FrameWork
 
 
         #region Block Action
+
+        public void InitBlockBuildPanelSelect(int buildID ,bool select)
+        {
+            currentSelectBuildID = buildID;
+            isSelectBlock_Panel = select;
+        }
 
         /// <summary>
         /// 选择建筑，面板
@@ -76,9 +68,11 @@ namespace Sim_FrameWork
                     return;
                 if (_hasAddBlockToMap == false)
                 {
-                    currentInitBlock = FunctionBlockManager.Instance.AddFunctionBlock(PlayerModule.GetBuildingPanelDataByKey(currentSelectBuildID).FunctionBlockID);
-                    _hasAddBlockToMap = true;
+                    var pos = CameraManager.Instance.TryGetRaycastHitGround(Input.mousePosition);
+                    currentInitBlock = FunctionBlockManager.Instance.AddFunctionBlock(PlayerModule.GetBuildingPanelDataByKey(currentSelectBuildID).FunctionBlockID,(int)pos.x,(int)pos.z);
+                    currentInitBlock.currentState = FunctionBlockBase.BlockState.Move;
                     currentInitBlock.SetSelect(true);
+                    _hasAddBlockToMap = true;
                     CameraManager.Instance.currentBlockMode = CameraManager.BlockMode.Move;
                 }
                 else if(_hasAddBlockToMap==true && currentInitBlock != null)
@@ -86,7 +80,22 @@ namespace Sim_FrameWork
                     CameraManager.Instance.UpdateBlockMove(currentInitBlock);
                 }
             }
+
+            /// ESC to  Delete
+            if (Input.GetKeyDown(KeyCode.Escape))
+            {
+                if (_hasAddBlockToMap == true)
+                {
+                    FunctionBlockManager.Instance.RemoveItem(currentInitBlock);
+                    currentInitBlock = null;
+                    _hasAddBlockToMap = false;
+                    InitBlockBuildPanelSelect(-1, false);
+                    CameraManager.Instance.currentBlockMode = CameraManager.BlockMode.None;
+                    CameraManager.Instance.ResetDragState();
+                }
+            }
         }
+
 
 
         public FunctionBlockBase selectBlock;
@@ -97,10 +106,10 @@ namespace Sim_FrameWork
             if (selectBlock != null)
             {
                 selectBlock.SetSelect(false);
+
             }
             selectBlock = block;
             block.SetSelect(true);
-
         }
 
         private FunctionBlockBase _dragBlock;

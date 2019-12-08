@@ -283,13 +283,18 @@ namespace Sim_FrameWork.UI
         #endregion
 
         #region BuildPanel
+
+        /// <summary>
+        /// 刷新建造面板
+        /// </summary>
+        /// <param name="type"></param>
+        /// <returns></returns>
         public bool RefreshBuildMainPanel(FunctionBlockType.Type type)
         {
             if (type == FunctionBlockType.Type.None)
                 return false;
             var loopList = UIUtility.SafeGetComponent<LoopList>(m_page.BuildContent.transform);
             var list =PlayerManager.Instance.GetBuildPanelModelData(type);
-            Debug.Log("BuildCount =" + list.Count);
             loopList.RefrshData(list);
 
             return true;

@@ -37,8 +37,8 @@ namespace Sim_FrameWork
             _blockBase = UIUtility.SafeGetComponent<FunctionBlockBase>(transform);
             manufactoryInfo = new ManufactoryInfo(_blockBase.functionBlock);
             formulaInfo = new ManufactFormulaInfo(_blockBase.functionBlock);
-           
-            //_blockBase.OnBlockSelectAction += Onselect;
+
+            _blockBase.OnBlockSelectAction += Onselect;
         }
 
         private void Onselect()

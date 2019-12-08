@@ -84,7 +84,7 @@ namespace Sim_FrameWork
 
         public void UpdateBlockSelect()
         {
-            if (!Input.GetMouseButtonUp(0))
+            if (!Input.GetMouseButtonDown(0))
                 return;
 
             if (_isDraggingFunctionBlock)
@@ -117,7 +117,6 @@ namespace Sim_FrameWork
 
         private FunctionBlockBase _selectStartRaycastBlock = null;
         private bool _isDragStart;
-        private bool _blockMove;
 
         /// <summary>
         /// Start Pos
@@ -133,6 +132,7 @@ namespace Sim_FrameWork
             if (selectBlock != null)
             {
                 _isSelectFunctionBlock = true;
+                selectBlock.currentState = FunctionBlockBase.BlockState.Move;
             }
             else
             {
@@ -186,6 +186,9 @@ namespace Sim_FrameWork
                         OnBlockDragEnd.Invoke(null);
                     }
                     currentBlockMode = BlockMode.None;
+                    MapManager.Instance.InitBlockBuildPanelSelect(-1, false);
+                    MapManager.Instance._hasAddBlockToMap = false;
+                    selectBlock.currentState = FunctionBlockBase.BlockState.Idle;
                 }
             }
 
@@ -199,6 +202,15 @@ namespace Sim_FrameWork
             //}
 
 
+        }
+
+        public void ResetDragState()
+        {
+            if (_isDragStart)
+            {
+                _isDragStart = false;
+                _isDraggingFunctionBlock = false;
+            }
         }
 
 

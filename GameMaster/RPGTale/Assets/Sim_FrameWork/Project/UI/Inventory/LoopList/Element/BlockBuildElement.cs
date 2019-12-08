@@ -53,8 +53,7 @@ namespace Sim_FrameWork.UI
             AudioManager.Instance.PlaySound(AudioClipPath.UISound.Button_Click);
             if (MapManager.Instance.isSelectBlock_Panel == false)
             {
-                MapManager.Instance.currentSelectBuildID = _model.ID;
-                MapManager.Instance.isSelectBlock_Panel = true;
+                MapManager.Instance.InitBlockBuildPanelSelect(_model.BuildData.BuildID, true);
                 SwitchSelectState(true);
             }
         }
