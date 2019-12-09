@@ -158,9 +158,6 @@ namespace Sim_FrameWork {
             m_WindowDic.Clear();
         }
 
-
-
-
         /// <summary>
         /// 打开窗口
         /// </summary>

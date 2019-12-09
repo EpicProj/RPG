@@ -36,7 +36,10 @@ namespace Sim_FrameWork.UI
             return true;
         }
 
-        public virtual void Awake(params object[] paralist) { }
+        public virtual void Awake(params object[] paralist)
+        {
+            InitUIRefrence();
+        }
 
         public virtual void OnShow(params object[] paralist) { }
 
@@ -44,12 +47,16 @@ namespace Sim_FrameWork.UI
 
         public virtual void OnUpdate() { }
 
+        protected virtual void InitUIRefrence() { }
+        protected virtual void ClearUIRefrence() { }
+
         public virtual void OnClose()
         {
             RemoveAllButtonListener();
             RemoveAllToggleListener();
             m_AllButton.Clear();
             m_AllToggle.Clear();
+            ClearUIRefrence();
         }
 
         /// <summary>

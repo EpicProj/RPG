@@ -6,7 +6,7 @@ using System;
 
 namespace Sim_FrameWork.UI
 {
-    public class MainMenuPageContext : WindowBase
+    public partial class MainMenuPageContext : WindowBase
     {
         public enum ResourceType
         {
@@ -18,33 +18,15 @@ namespace Sim_FrameWork.UI
         }
 
 
-        public MainMenuPage m_page;
 
-        //Time Data
-        private Text CurrentYearText;
-        private Text CurrentMonthText;
-        private Text CurrentSeasonText;
-        private Image SeasonSprite;
         private float currentTimeProgress = 0f;
-
-        /// <summary>
-        /// Resource
-        /// </summary>
-        private Text CurrencyNumText;
-        private Text LaborNumText;
-        private Text LaborAddNumText;
-        private Text EnergyNumText;
-        private Text EnergyAddNumText;
-
         /// <summary>
         /// Camp Data
         /// </summary>
         private const float CampRotateValue_Min = -62.0f;
         private const float CampRotateValue_Max = 117.0f;
         private const float CampRotateValue_Zero = 25.5f;
-        private Text CampValueMinText;
-        private Text CampValueMaxText;
-        private Text CampValueCurrentText;
+
         private GameObject CampPointer;
 
 
@@ -54,40 +36,18 @@ namespace Sim_FrameWork.UI
         //GameStates
         private Button PauseBtn;
 
+
+        #region Override Method
         public override void Awake(params object[] paralist)
         {
-            InitBaseData();
+            base.Awake();
             AddBtnListener();
         }
 
 
-        private void InitBaseData()
-        {
-            m_page = UIUtility.SafeGetComponent<MainMenuPage>(Transform);
-            //Resource
-            CurrencyNumText = UIUtility.SafeGetComponent<Text>(m_page.Currency.transform.Find("Num"));
-            LaborNumText = UIUtility.SafeGetComponent<Text>(m_page.Labor.transform.Find("Num"));
-            LaborAddNumText = UIUtility.SafeGetComponent<Text>(m_page.Labor.transform.Find("AddNum"));
-            EnergyNumText = UIUtility.SafeGetComponent<Text>(m_page.Energy.transform.Find("Num"));
-            EnergyAddNumText = UIUtility.SafeGetComponent<Text>(m_page.Energy.transform.Find("AddNum"));
-            //Camp
-            CampValueMinText = UIUtility.SafeGetComponent<Text>(m_page.CampValue.transform.Find("ValueMin"));
-            CampValueMaxText = UIUtility.SafeGetComponent<Text>(m_page.CampValue.transform.Find("ValueMax"));
-            CampValueCurrentText = UIUtility.SafeGetComponent<Text>(m_page.CampContent.transform.Find("Value"));
-            CampPointer = m_page.CampValue.transform.Find("Current").gameObject;
-
-            CurrentYearText = UIUtility.SafeGetComponent<Text>(m_page.TimePanel.transform.Find("Time/CurrentYear"));
-            CurrentMonthText = UIUtility.SafeGetComponent<Text>(m_page.TimePanel.transform.Find("Time/CurrentMonth"));
-            CurrentSeasonText = UIUtility.SafeGetComponent<Text>(m_page.TimePanel.transform.Find("Time/Season"));
-            SeasonSprite = UIUtility.SafeGetComponent<Image>(m_page.TimePanel.transform.Find("Time/SeasonIcon"));
-            PauseBtn = UIUtility.SafeGetComponent<Button>(m_page.GameStatesObj.transform.Find("Pause"));
-
-        }
-
         public override void OnUpdate()
         {
             UpdateTimeProgress();
-
         }
 
         public override void OnShow(params object[] paralist)
@@ -97,6 +57,11 @@ namespace Sim_FrameWork.UI
             UpdateResData(ResourceType.All);
             UpdateResMonthData(ResourceType.All);
             InitBuildMainTab();
+        }
+
+        public override void OnClose()
+        {
+            base.OnClose();
         }
 
 
@@ -126,10 +91,9 @@ namespace Sim_FrameWork.UI
                 default:
                     return false;
             }
-
-          
-            
         }
+
+        #endregion
 
         private bool UpdateTimePanel()
         {
@@ -330,5 +294,58 @@ namespace Sim_FrameWork.UI
 
         #endregion
 
+    }
+
+    public partial class MainMenuPageContext : WindowBase
+    {
+
+        private MainMenuPage m_page;
+
+        //Time Data
+        private Text CurrentYearText;
+        private Text CurrentMonthText;
+        private Text CurrentSeasonText;
+        private Image SeasonSprite;
+
+        /// <summary>
+        /// Resource
+        /// </summary>
+        private Text CurrencyNumText;
+        private Text LaborNumText;
+        private Text LaborAddNumText;
+        private Text EnergyNumText;
+        private Text EnergyAddNumText;
+
+        private Text CampValueMinText;
+        private Text CampValueMaxText;
+        private Text CampValueCurrentText;
+
+        protected override void InitUIRefrence()
+        {
+            m_page = UIUtility.SafeGetComponent<MainMenuPage>(Transform);
+            //Resource
+            CurrencyNumText = UIUtility.SafeGetComponent<Text>(m_page.Currency.transform.Find("Num"));
+            LaborNumText = UIUtility.SafeGetComponent<Text>(m_page.Labor.transform.Find("Num"));
+            LaborAddNumText = UIUtility.SafeGetComponent<Text>(m_page.Labor.transform.Find("AddNum"));
+            EnergyNumText = UIUtility.SafeGetComponent<Text>(m_page.Energy.transform.Find("Num"));
+            EnergyAddNumText = UIUtility.SafeGetComponent<Text>(m_page.Energy.transform.Find("AddNum"));
+            //Camp
+            CampValueMinText = UIUtility.SafeGetComponent<Text>(m_page.CampValue.transform.Find("ValueMin"));
+            CampValueMaxText = UIUtility.SafeGetComponent<Text>(m_page.CampValue.transform.Find("ValueMax"));
+            CampValueCurrentText = UIUtility.SafeGetComponent<Text>(m_page.CampContent.transform.Find("Value"));
+            CampPointer = m_page.CampValue.transform.Find("Current").gameObject;
+
+            CurrentYearText = UIUtility.SafeGetComponent<Text>(m_page.TimePanel.transform.Find("Time/CurrentYear"));
+            CurrentMonthText = UIUtility.SafeGetComponent<Text>(m_page.TimePanel.transform.Find("Time/CurrentMonth"));
+            CurrentSeasonText = UIUtility.SafeGetComponent<Text>(m_page.TimePanel.transform.Find("Time/Season"));
+            SeasonSprite = UIUtility.SafeGetComponent<Image>(m_page.TimePanel.transform.Find("Time/SeasonIcon"));
+            PauseBtn = UIUtility.SafeGetComponent<Button>(m_page.GameStatesObj.transform.Find("Pause"));
+        }
+
+        protected override void ClearUIRefrence()
+        {
+            m_page = null;
+            CurrencyNumText = null;
+        }
     }
 }
