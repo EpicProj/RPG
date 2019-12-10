@@ -243,10 +243,6 @@ namespace Sim_FrameWork
 
     public class FunctionBlockInfoData
     {
-        //BaseInfo
-        private static Stack<FunctionBlockInfoData> functionBlockInfoCache = new Stack<FunctionBlockInfoData>();
-
-        
         public int BlockID;
         public Vector3 BlockPos;
 
@@ -276,13 +272,6 @@ namespace Sim_FrameWork
         public List<DistrictData> ActiveDistrictBuildList=new List<DistrictData> ();
 
 
-        public static FunctionBlockInfoData Create()
-        {
-            if (functionBlockInfoCache.Count < 1)
-                return new FunctionBlockInfoData();
-            FunctionBlockInfoData info = functionBlockInfoCache.Pop();
-            return info;
-        }
         public static FunctionBlockInfoData CreateBaseInfo(Vector3 blockPos, FunctionBlock blockBase , FunctionBlockModifier modifier)
         {
 
@@ -314,34 +303,6 @@ namespace Sim_FrameWork
             //TODO
             return info;
         }
-
-        public void ClearBlockInfoData()
-        {
-
-            AddStack(this);
-        }
-
-
-        private static FunctionBlockInfoData Pop()
-        {
-            if (functionBlockInfoCache.Count < 1)
-            {
-                FunctionBlockInfoData data = new FunctionBlockInfoData();
-                return data;
-            }
-            FunctionBlockInfoData info = functionBlockInfoCache.Pop();
-            return info;
-        }
-
-        /// <summary>
-        /// Push Stack
-        /// </summary>
-        /// <param name="data"></param>
-        private static void AddStack(FunctionBlockInfoData data)
-        {
-            functionBlockInfoCache.Push(data);
-        }
-
     }
     public class FunctionBlockLevelInfo
     {

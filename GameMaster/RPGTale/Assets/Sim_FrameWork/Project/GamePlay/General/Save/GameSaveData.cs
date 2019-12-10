@@ -25,21 +25,21 @@ namespace Sim_FrameWork
 
         public class PlayerSaveData_Resource
         {
-            public float _currency;
-            public float _currency_max;
+            public int _currency;
+            public int _currency_max;
 
-            public float _labor;
-            public float _labor_max;
-            public float _labor_per_month;
+            public float _research;
+            public float _research_max;
+            public float _research_per_month;
 
             public PlayerSaveData_Resource(PlayerData data)
             {
                 _currency = data.resourceData.Currency;
                 _currency_max = data.resourceData.CurrencyMax;
 
-                _labor = data.resourceData.Labor;
-                _labor_max = data.resourceData.LaborMax;
-                _labor_per_month = data.resourceData.LaborPerMonth;
+                _research = data.resourceData.Research;
+                _research_max = data.resourceData.ResearchMax;
+                _research_per_month = data.resourceData.ResearchPerMonth;
 
             }
 

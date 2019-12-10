@@ -165,9 +165,7 @@ namespace Sim_FrameWork {
             {
                 Btn.onClick.AddListener(() =>
                 {
-                    var techInfo = GlobalEventManager.Instance.GetTechInfo(_dataModel.ID);
-                    if (techInfo != null)
-                        UIManager.Instance.PopUpWnd(UIPath.WindowPath.Technology_Detail_Dialog, WindowType.Dialog, true, techInfo);
+                    UIGuide.Instance.ShowTechDetailDialog(_dataModel.ID);
                 });
             }
         }

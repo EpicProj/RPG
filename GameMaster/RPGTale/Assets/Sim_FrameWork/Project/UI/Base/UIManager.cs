@@ -137,6 +137,24 @@ namespace Sim_FrameWork {
             return false;
         }
 
+        public bool SendMessage(UIMessage message)
+        {
+            for(int i = 0; i < _currentWindowNameList.Count;i++)
+            {
+                var wnd = FindWndByName<WindowBase>(_currentWindowNameList[i]);
+                if (wnd != null)
+                {
+                    wnd.OnMessage(message);
+                }
+                else
+                {
+                    return false;
+                }
+                continue;
+            }
+            return false;
+        }
+
         /// <summary>
         /// 根据窗口名查找窗口
         /// </summary>

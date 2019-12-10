@@ -42,7 +42,6 @@ namespace Sim_FrameWork
                     obj.name = "TechObject" + element.Index.ToString();
                     ///Set Pos
                     Vector3 newPos = new Vector3(element.posX, element.posY,0);
-                    Debug.Log(newPos);
                     obj.transform.SetParent(transform, false);
                     var rect = UIUtility.SafeGetComponent<RectTransform>(obj.transform).anchoredPosition = newPos;
 

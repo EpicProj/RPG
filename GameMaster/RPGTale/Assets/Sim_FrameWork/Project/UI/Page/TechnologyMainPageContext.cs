@@ -91,7 +91,6 @@ namespace Sim_FrameWork.UI
                             break;
                         obj.transform.SetParent(scrollViewContentTrans, false);
                         Vector3 configPos = new Vector3(config.posX, config.posY, 0);
-                        Debug.Log(configPos);
                         var rect = UIUtility.SafeGetComponent<RectTransform>(obj.transform);
                         rect.anchoredPosition = configPos;
 
@@ -103,9 +102,6 @@ namespace Sim_FrameWork.UI
                 }
             }
         }
-
-
-
 
         private TechnologyGroup FindTechGroupByID(int index)
         {

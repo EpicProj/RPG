@@ -41,7 +41,7 @@ namespace Sim_FrameWork.UI {
                         PrintConsole(c, "Input Error");
                         break;
                     }
-                    var value = Utility.TryParseFloat(split[1]);
+                    var value = Utility.TryParseInt(split[1]);
                     PlayerManager.Instance.AddCurrency(value, PlayerManager.ResourceAddType.current);
                     break;
                 case "AddMaterial":

@@ -12,24 +12,13 @@ namespace Sim_FrameWork.UI
         {
             All,
             Currency,
-            Labor,
+            Research,
             Energy,
-            Material
+            Builder,
+            RoCore,
         }
 
-
-
         private float currentTimeProgress = 0f;
-        /// <summary>
-        /// Camp Data
-        /// </summary>
-        private const float CampRotateValue_Min = -62.0f;
-        private const float CampRotateValue_Max = 117.0f;
-        private const float CampRotateValue_Zero = 25.5f;
-
-        private GameObject CampPointer;
-
-
         private List<BuildingPanelData> buildPanelDataList = new List<BuildingPanelData>();
         private List<ConstructMainTabElement> mainTabElementList = new List<ConstructMainTabElement>();
 
@@ -52,11 +41,11 @@ namespace Sim_FrameWork.UI
 
         public override void OnShow(params object[] paralist)
         {
-            UpdateTimePanel();
-            InitCampData();
+            //UpdateTimePanel();
             UpdateResData(ResourceType.All);
             UpdateResMonthData(ResourceType.All);
             InitBuildMainTab();
+            InitResImage();
         }
 
         public override void OnClose()
@@ -69,25 +58,26 @@ namespace Sim_FrameWork.UI
         {
             switch (msg.type)
             {
-                #region Resource
                 case UIMsgType.Res_Currency:         
                     return UpdateResData(ResourceType.Currency);
-                case UIMsgType.Res_Labor:
-                    return UpdateResData(ResourceType.Labor);
-                case UIMsgType.Res_MonthLabor:
-                    return UpdateResMonthData(ResourceType.Labor);
+                case UIMsgType.Res_MonthCurrency:
+                    return UpdateResMonthData(ResourceType.Currency);
+                case UIMsgType.Res_Research:
+                    return UpdateResData(ResourceType.Research);
+                case UIMsgType.Res_MonthResearch:
+                    return UpdateResMonthData(ResourceType.Research);
                 case UIMsgType.Res_Energy:
                     return UpdateResData(ResourceType.Energy);
                 case UIMsgType.Res_MonthEnergy:
                     return UpdateResMonthData(ResourceType.Energy);
-                #endregion
+                case UIMsgType.Res_Builder:
+                    return UpdateResData(ResourceType.Builder);
+                case UIMsgType.Res_RoCore:
+                    return UpdateResData(ResourceType.RoCore);
                 case UIMsgType.MenuPage_Update_BuildPanel:
                     FunctionBlockTypeData typeData = (FunctionBlockTypeData)msg.content[0];
                     var type = FunctionBlockModule.GetBlockType(typeData);
                     return RefreshBuildMainPanel(type);
-                case  UIMsgType.UpdateTime:
-                    //更新时间
-                    return UpdateTimePanel();
                 default:
                     return false;
             }
@@ -130,18 +120,24 @@ namespace Sim_FrameWork.UI
             switch (type)
             {
                 case ResourceType.All:
-                    CurrencyNumText.text = data.Currency.ToString();
-                    LaborNumText.text = data.Labor.ToString();
-                    EnergyNumText.text = data.Energy.ToString();
+                    _currencyNumText.text = data.Currency.ToString();
+                    _researchPointText.text = data.Research.ToString();
+                    _energyNumText.text = data.Energy.ToString();
                     return true;
                 case ResourceType.Currency:
-                    CurrencyNumText.text = data.Currency.ToString();
+                    _currencyNumText.text = data.Currency.ToString();
                     return true;
-                case ResourceType.Labor:
-                    LaborNumText.text = data.Labor.ToString();
+                case ResourceType.Research:
+                    _researchPointText.text = data.Research.ToString();
                     return true;
                 case ResourceType.Energy:
-                    EnergyNumText.text = data.Energy.ToString();
+                    _energyNumText.text = data.Energy.ToString();
+                    return true;
+                case ResourceType.Builder:
+                    _builderText.text = data.Builder.ToString();
+                    return true;
+                case ResourceType.RoCore:
+                    _roCoreText.text = data.RoCore.ToString();
                     return true;
                 default:
                     return false;
@@ -159,14 +155,14 @@ namespace Sim_FrameWork.UI
             switch (type)
             {
                 case ResourceType.All:
-                    EnergyAddNumText.text = "+" + data.EnergyPerMonth.ToString();
-                    LaborAddNumText.text = "+" + data.LaborPerMonth.ToString();
+                    _energyAddNumText.text = "+" + data.EnergyPerMonth.ToString();
+                    _currencyAddNumText.text = "+" + data.CurrencyPerMonth.ToString();
                     return true;
                 case ResourceType.Energy:
-                    EnergyAddNumText.text = "+" + data.EnergyPerMonth.ToString();
+                    _energyAddNumText.text = "+" + data.EnergyPerMonth.ToString();
                     return true;
-                case ResourceType.Labor:
-                    LaborAddNumText.text = "+" + data.LaborPerMonth.ToString();
+                case ResourceType.Research:
+                    _researchPointAddText.text = "+" + data.ResearchPerMonth.ToString();
                     return true;
                 default:
                     return false;
@@ -176,10 +172,6 @@ namespace Sim_FrameWork.UI
         //Button
         private void AddBtnListener()
         {
-            AddButtonClickListener(m_page.MaterialBtn, ()=>
-            {
-                UIManager.Instance.PopUpWnd(UIPath.WindowPath.WareHouse_Page, WindowType.Page, true);
-            });
             AddButtonClickListener(PauseBtn, () =>
             {
                 OnPauseBtnClick();
@@ -188,13 +180,12 @@ namespace Sim_FrameWork.UI
             /// Order Receive Page
             AddButtonClickListener(m_page.OrderBtn, () =>
             {
-                UIManager.Instance.Register<OrderReceiveMainPageContext>(UIPath.WindowPath.Order_Receive_Main_Page);
-                UIManager.Instance.PopUpWnd(UIPath.WindowPath.Order_Receive_Main_Page, WindowType.Page, true);
+                UIGuide.Instance.ShowOrderReceiveMainPage();
             });
 
             AddButtonClickListener(m_page.ReserachBtn, () =>
             {
-                UIManager.Instance.PopUpWnd(UIPath.WindowPath.Technology_Page, WindowType.Page, true);
+                UIGuide.Instance.ShowTechnologyMainPage();
             });
 
         }
@@ -210,41 +201,6 @@ namespace Sim_FrameWork.UI
                 GameManager.Instance.SetGameStates(GameManager.GameStates.Start);
             }
         }
-
-        #region Camp
-        private void InitCampData()
-        {
-            CampValueMinText.text = CampModule.campConfig.minValue.ToString();
-            CampValueMaxText.text = CampModule.campConfig.maxValue.ToString();
-            CampValueCurrentText.text = PlayerManager.Instance.playerData.campData.Current_Justice_Value.ToString();
-            
-            UpdateCampPointer();
-
-        }
-        private void UpdateCampPointer()
-        {
-            //更新指针
-            if (PlayerManager.Instance.playerData.campData.Current_Justice_Value == 0)
-            {
-                SetCampPointerPos(CampRotateValue_Zero);
-            }
-            else if (PlayerManager.Instance.playerData.campData.Current_Justice_Value > 0)
-            {
-                float ratio= PlayerManager.Instance.playerData.campData.Current_Justice_Value / Mathf.Abs(CampModule.campConfig.maxValue);
-                SetCampPointerPos((CampRotateValue_Max - CampRotateValue_Zero) * ratio);
-            }else if (PlayerManager.Instance.playerData.campData.Current_Justice_Value < 0)
-            {
-                float ratio = PlayerManager.Instance.playerData.campData.Current_Justice_Value / Mathf.Abs(CampModule.campConfig.minValue);
-                SetCampPointerPos((CampRotateValue_Zero - CampRotateValue_Min) * ratio);
-            }
-        }
-        private void SetCampPointerPos(float pos)
-        {
-            //TODO BUG
-            UIUtility.SafeGetComponent<RectTransform>(CampPointer.transform).localRotation = new Quaternion(0f, 0f,pos, 0f);
-        }
-
-        #endregion
 
         #region BuildPanel
 
@@ -310,42 +266,57 @@ namespace Sim_FrameWork.UI
         /// <summary>
         /// Resource
         /// </summary>
-        private Text CurrencyNumText;
-        private Text LaborNumText;
-        private Text LaborAddNumText;
-        private Text EnergyNumText;
-        private Text EnergyAddNumText;
+        private Text _currencyNumText;
+        private Text _currencyAddNumText;
+        private Image _currencyIcon;
 
-        private Text CampValueMinText;
-        private Text CampValueMaxText;
-        private Text CampValueCurrentText;
+        private Text _researchPointText;
+        private Text _researchPointAddText;
+        private Image _researchIcon;
+
+        private Text _energyNumText;
+        private Text _energyAddNumText;
+        private Image _energyIcon;
+
+        private Text _builderText;
+        private Image _builderIcon;
+
+        private Text _roCoreText;
+        private Image _roCoreIcon;
+
+
 
         protected override void InitUIRefrence()
         {
             m_page = UIUtility.SafeGetComponent<MainMenuPage>(Transform);
             //Resource
-            CurrencyNumText = UIUtility.SafeGetComponent<Text>(m_page.Currency.transform.Find("Num"));
-            LaborNumText = UIUtility.SafeGetComponent<Text>(m_page.Labor.transform.Find("Num"));
-            LaborAddNumText = UIUtility.SafeGetComponent<Text>(m_page.Labor.transform.Find("AddNum"));
-            EnergyNumText = UIUtility.SafeGetComponent<Text>(m_page.Energy.transform.Find("Num"));
-            EnergyAddNumText = UIUtility.SafeGetComponent<Text>(m_page.Energy.transform.Find("AddNum"));
-            //Camp
-            CampValueMinText = UIUtility.SafeGetComponent<Text>(m_page.CampValue.transform.Find("ValueMin"));
-            CampValueMaxText = UIUtility.SafeGetComponent<Text>(m_page.CampValue.transform.Find("ValueMax"));
-            CampValueCurrentText = UIUtility.SafeGetComponent<Text>(m_page.CampContent.transform.Find("Value"));
-            CampPointer = m_page.CampValue.transform.Find("Current").gameObject;
+            _currencyNumText = UIUtility.SafeGetComponent<Text>(UIUtility.FindTransfrom(m_page.ResourcePanel, "ResourceLeft/Currency/Value") );
+            _currencyAddNumText = UIUtility.SafeGetComponent<Text>(UIUtility.FindTransfrom(m_page.ResourcePanel, "ResourceLeft/Currency/Value/AddValue"));
+            _currencyIcon= UIUtility.SafeGetComponent<Image>(UIUtility.FindTransfrom(m_page.ResourcePanel, "ResourceLeft/Currency/Icon"));
 
-            CurrentYearText = UIUtility.SafeGetComponent<Text>(m_page.TimePanel.transform.Find("Time/CurrentYear"));
-            CurrentMonthText = UIUtility.SafeGetComponent<Text>(m_page.TimePanel.transform.Find("Time/CurrentMonth"));
-            CurrentSeasonText = UIUtility.SafeGetComponent<Text>(m_page.TimePanel.transform.Find("Time/Season"));
-            SeasonSprite = UIUtility.SafeGetComponent<Image>(m_page.TimePanel.transform.Find("Time/SeasonIcon"));
-            PauseBtn = UIUtility.SafeGetComponent<Button>(m_page.GameStatesObj.transform.Find("Pause"));
+            _researchPointText = UIUtility.SafeGetComponent<Text>(UIUtility.FindTransfrom(m_page.ResourcePanel, "ResourceLeft/Research/Value"));
+            _researchPointAddText = UIUtility.SafeGetComponent<Text>(UIUtility.FindTransfrom(m_page.ResourcePanel, "ResourceLeft/Research/Value/AddValue"));
+            _researchIcon= UIUtility.SafeGetComponent<Image>(UIUtility.FindTransfrom(m_page.ResourcePanel, "ResourceLeft/Research/Icon"));
+
+            _energyNumText = UIUtility.SafeGetComponent<Text>(UIUtility.FindTransfrom(m_page.ResourcePanel, "ResourceLeft/Energy/Value"));
+            _energyAddNumText = UIUtility.SafeGetComponent<Text>(UIUtility.FindTransfrom(m_page.ResourcePanel, "ResourceLeft/Energy/Value/AddValue"));
+            _energyIcon= UIUtility.SafeGetComponent<Image>(UIUtility.FindTransfrom(m_page.ResourcePanel, "ResourceLeft/Energy/Icon"));
+
+            _builderText = UIUtility.SafeGetComponent<Text>(UIUtility.FindTransfrom(m_page.ResourcePanel, "ResourceRight/Builder/Value"));
+            _builderIcon= UIUtility.SafeGetComponent<Image>(UIUtility.FindTransfrom(m_page.ResourcePanel, "ResourceRight/Builder/Icon"));
+
+            _roCoreText = UIUtility.SafeGetComponent<Text>(UIUtility.FindTransfrom(m_page.ResourcePanel, "ResourceRight/RoCore/Value"));
+            _roCoreIcon = UIUtility.SafeGetComponent<Image>(UIUtility.FindTransfrom(m_page.ResourcePanel, "ResourceRight/RoCore/Icon"));
         }
-
-        protected override void ClearUIRefrence()
+        
+        void InitResImage()
         {
-            m_page = null;
-            CurrencyNumText = null;
+            _currencyIcon.sprite = Utility.LoadSprite(GeneralModule.GlobalSetting.Resource_Currency_Icon_Path, Utility.SpriteType.png);
+            _energyIcon.sprite = Utility.LoadSprite(GeneralModule.GlobalSetting.Resource_Energy_Icon_Path, Utility.SpriteType.png);
+            _researchIcon.sprite = Utility.LoadSprite(GeneralModule.GlobalSetting.Resource_Research_Icon_Path, Utility.SpriteType.png);
+            _builderIcon.sprite = Utility.LoadSprite(GeneralModule.GlobalSetting.Resource_Builder_Icon_Path, Utility.SpriteType.png);
+            _roCoreIcon.sprite = Utility.LoadSprite(GeneralModule.GlobalSetting.Resource_Rocore_Icon_Path, Utility.SpriteType.png);
         }
+
     }
 }

@@ -41,18 +41,24 @@ namespace Sim_FrameWork
             HardLevelData data = config.GetHardlevelData(currentHardLevel);
             PlayerData playerData = new PlayerData();
             playerData.timeData = new TimeData(config.timeConfig);
-            //Init Currency
+
             playerData.resourceData.AddCurrencyMax(data.OriginalCurrencyMax);
             playerData.resourceData.AddCurrency(data.OriginalCurrency);
-            //Init Labor
-            playerData.resourceData.AddLaborMax(data.OriginalLaborMax);
-            playerData.resourceData.AddLabor(data.OriginalLabor);
-            //Init Reputation
+
+            playerData.resourceData.AddResearch(data.OriginalResearch);
+            playerData.resourceData.AddResearchMax(data.OriginalResearchMax);
+
             playerData.resourceData.AddReputationMax(data.OriginalReputationMax);
             playerData.resourceData.AddReputation(data.OriginalReputation);
-            //Init Energy
+
             playerData.resourceData.AddEnergyMax(data.OriginalEnergyMax);
             playerData.resourceData.AddEnergy(data.OriginalEnergy);
+
+            playerData.resourceData.AddBuilder(data.OriginalBuilder);
+            playerData.resourceData.AddBuilderMax(data.OriginalBuilderMax);
+
+            playerData.resourceData.AddRoCore(data.OriginalRoCore);
+            playerData.resourceData.AddRoCoreMax(data.OriginalRoCoreMax);
             
             //Init BuildPanel
             playerData.AllBuildingPanelDataList = buildPanelDataList;
@@ -326,23 +332,29 @@ namespace Sim_FrameWork
     public class HardLevelData
     {
         public string HardName;
-        //初始货币
-        public float OriginalCurrency;
-        public float OriginalCurrencyMax;
-        //初始食物
-        public float OriginalFood;
-        public float OriginalFoodMax;
-        //初始能量
+        ///初始货币
+        public int OriginalCurrency;
+        public int OriginalCurrencyMax;
+
+        ///初始能量
         public float OriginalEnergy;
         public float OriginalEnergyMax;
-        //初始劳动力
-        public float OriginalLabor;
-        public float OriginalLaborMax;
-        //初始信誉
+        ///初始研究
+        public float OriginalResearch;
+        public float OriginalResearchMax;
+        ///初始信誉
         public int OriginalReputation;
         public int OriginalReputationMax;
 
-        //初始科技转化率
+        ///初始建设者数量
+        public ushort OriginalBuilder;
+        public ushort OriginalBuilderMax;
+
+        ///初始智核数量
+        public ushort OriginalRoCore;
+        public ushort OriginalRoCoreMax;
+
+        ///初始科技转化率
         public float TechnologyConversionRate;
     }
 

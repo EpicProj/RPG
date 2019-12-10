@@ -6,10 +6,20 @@ namespace Sim_FrameWork
 {
     public class GeneralModule : BaseModule<GeneralModule>
     {
-        private Config.GlobalSetting globalSetting=new Config.GlobalSetting ();
+        private static Config.GlobalSetting _globalSetting=new Config.GlobalSetting ();
+        public static Config.GlobalSetting GlobalSetting
+        {
+            get
+            {
+                if (_globalSetting == null)
+                    _globalSetting.LoadGlobalSettting();
+                return _globalSetting;
+            }
+        }
+
         public override void InitData()
         {
-            globalSetting.LoadGlobalSettting();
+            _globalSetting.LoadGlobalSettting();
         }
         public override void Register()
         {
@@ -27,7 +37,7 @@ namespace Sim_FrameWork
         /// <returns></returns>
         public GeneralRarity GetRarity(int rarityID)
         {
-            var config = globalSetting.rarityConfig.Find(x => x.Level == rarityID);
+            var config = _globalSetting.rarityConfig.Find(x => x.Level == rarityID);
             if (config != null)
             {
                 var color = TryParseRarityColor(config.Color);

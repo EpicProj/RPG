@@ -52,51 +52,59 @@ namespace Sim_FrameWork
         {
             #region Currency
             //当前货币
-            private float _currency;
-            public float Currency { get { return _currency; } protected set { } }
+            private int _currency;
+            public int Currency { get { return _currency; } protected set { } }
             //最大货币储量
-            private float _currencyMax;
-            public float CurrencyMax { get { return _currencyMax; } protected set { } }
+            private int _currencyMax;
+            public int CurrencyMax { get { return _currencyMax; } protected set { } }
+
+            private int _currencyPerMonth;
+            public int CurrencyPerMonth { get { return _currencyPerMonth; } protected set { } }
+
             //Add Currenct
-            public void AddCurrency(float num)
+            public void AddCurrency(int num)
             {
                 _currency += num;
                 if (_currency > _currencyMax)
                     _currency = _currencyMax;
             }
-            public void AddCurrencyMax(float num)
+            public void AddCurrencyMax(int num)
             {
                 _currencyMax += num;
                 if (_currencyMax < 0)
                     _currencyMax = 0;
             }
+            public void AddCurrencyPerMonth(int num)
+            {
+                _currencyPerMonth += num;
+            }
             #endregion
 
-            #region Labor
-            //当前劳动力
-            private float _labor;
-            public float Labor { get { return _labor; } }
-            //劳动力最大值
-            private float _laborMax;
-            public float LaborMax { get { return _laborMax; } }
-            private float _laborPerMonth;
-            public float LaborPerMonth { get { return _laborPerMonth; } }
-            //Add Labor
-            public void AddLabor(float num)
+            #region Research
+            //当前研究点
+            private float _research;
+            public float Research { get { return _research; } }
+            //研究点最大值
+            private float _researchMax;
+            public float ResearchMax { get { return _researchMax; } }
+            private float _researchPerMonth;
+            public float ResearchPerMonth { get { return _researchMax; } }
+            //Add research
+            public void AddResearch(float num)
             {
-                _labor += num;
-                if (_labor > _laborMax)
-                    _labor = _laborMax;
+                _research += num;
+                if (_research > _researchMax)
+                    _research = _researchMax;
             }
-            public void AddLaborMax(float num)
+            public void AddResearchMax(float num)
             {
-                _laborMax += num;
-                if (_laborMax < 0)
-                    _laborMax = 0;
+                _researchMax += num;
+                if (_researchMax < 0)
+                    _researchMax = 0;
             }
-            public void AddLaborPerMonth(float num)
+            public void AddResearchPerMonth(float num)
             {
-                _laborPerMonth += num;
+                _researchPerMonth += num;
             }
             #endregion
 
@@ -151,6 +159,47 @@ namespace Sim_FrameWork
             }
             #endregion
 
+            #region Builder
+            private ushort _builder;
+            public ushort Builder { get { return _builder; } protected set { } }
+
+            private ushort _builderMax;
+            public ushort BuilderMax { get { return _builderMax; } protected set { } }
+            public void AddBuilder(ushort num)
+            {
+                _builder += num;
+                if (_builder >= _builderMax)
+                    _builder = _builderMax;
+            }
+            public void AddBuilderMax(ushort num)
+            {
+                _builderMax += num;
+                if (_builderMax < 0)
+                    _builderMax = 0;
+            }
+
+            #endregion
+
+            #region RoCore
+            private ushort _roCore;
+            public ushort RoCore { get { return _roCore; } protected set { } }
+
+            private ushort _roCoreMax;
+            public ushort RoCoreMax { get { return _roCoreMax; } protected set { } }
+            public void AddRoCore(ushort num)
+            {
+                _roCore += num;
+                if (_roCore >= _roCoreMax)
+                    _roCore = _roCoreMax;
+            }
+            public void AddRoCoreMax(ushort num)
+            {
+                _roCoreMax += num;
+                if (_roCoreMax < 0)
+                    _roCoreMax = 0;
+            }
+
+            #endregion
         }
 
     }

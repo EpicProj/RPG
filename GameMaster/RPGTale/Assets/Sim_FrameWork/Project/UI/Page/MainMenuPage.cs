@@ -14,25 +14,18 @@ public class MainMenuPage : MonoBehaviour {
     public GameObject GameStatesObj;
 
     [Header("Resources")]
-    //Resource
-    public GameObject ResouceContent;
-    public GameObject Currency;
-    public GameObject Food;
-    public GameObject Energy;
-    public GameObject Labor;
-    public Button MaterialBtn;
+    public Transform ResourcePanel;
+
 
     //BuildPanel
     public GameObject BuildTabContent;
     public GameObject BuildSubTabContent;
 
-    //Camp
-    public GameObject CampContent;
-    public GameObject CampValue;
 
     //Btn
     [Header("Button")]
     public Button OrderBtn;
     public Button ReserachBtn;
+    public Button MenuBtn;
         
 }

@@ -38,14 +38,14 @@ namespace Sim_FrameWork
         /// <summary>
         /// Update Resource
         /// </summary>
-        Res_Food,
-        Res_MonthFood,
         Res_Currency,
+        Res_MonthCurrency,
         Res_Energy,
         Res_MonthEnergy,
-        Res_Labor,
-        Res_MonthLabor,
-
+        Res_Research,
+        Res_MonthResearch,
+        Res_Builder,
+        Res_RoCore,
 
         ///Order
         RefreshOrder,

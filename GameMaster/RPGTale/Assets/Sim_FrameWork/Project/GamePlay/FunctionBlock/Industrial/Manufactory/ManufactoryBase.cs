@@ -43,7 +43,7 @@ namespace Sim_FrameWork
 
         private void Onselect()
         {
-            UIManager.Instance.PopUpWnd(UIPath.WindowPath.BlockManu_Page, WindowType.Page, true, _blockBase,manufactoryInfo,formulaInfo);
+            UIGuide.Instance.ShowBlockManuPage(this);
         }
 
         /// <summary>

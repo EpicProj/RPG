@@ -101,10 +101,8 @@ namespace Sim_FrameWork.UI
                 case UIMsgType.ProductLine_Formula_Change:
                     int formulaID = (int)msg.content[0];
                     return RefreshFormula(formulaID);
-                default:
-                    Debug.LogError("UI msg Error , msgID=" + msg.type);
-                    return false;
             }
+            return false;
         }
 
 

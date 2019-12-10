@@ -50,17 +50,22 @@ namespace Sim_FrameWork
 
 
         #region Resource Manager
-        public void AddCurrency(float num, ResourceAddType type, Action callback = null)
+        public void AddCurrency(int num, ResourceAddType type, Action callback = null)
         {
             switch (type)
             {
                 case ResourceAddType.current:
                     playerData.resourceData.AddCurrency(num);
-                    UIManager.Instance.SendMessageToWnd(UIPath.WindowPath.MainMenu_Page, new UIMessage(UIMsgType.Res_Currency));
+                    UIManager.Instance.SendMessage(new UIMessage(UIMsgType.Res_Currency));
                     callback?.Invoke();
                     break;
                 case ResourceAddType.max:
                     playerData.resourceData.AddCurrencyMax(num);
+                    callback?.Invoke();
+                    break;
+                case ResourceAddType.month:
+                    playerData.resourceData.AddCurrencyPerMonth(num);
+                    UIManager.Instance.SendMessage(new UIMessage(UIMsgType.Res_MonthCurrency));
                     callback?.Invoke();
                     break;
                 default:
@@ -75,7 +80,7 @@ namespace Sim_FrameWork
             {
                 case ResourceAddType.current:
                     playerData.resourceData.AddEnergy(num);
-                    UIManager.Instance.SendMessageToWnd(UIPath.WindowPath.MainMenu_Page, new UIMessage(UIMsgType.Res_Energy));
+                    UIManager.Instance.SendMessage(new UIMessage(UIMsgType.Res_Energy));
                     callback?.Invoke();
                     break;
                 case ResourceAddType.max:
@@ -84,7 +89,7 @@ namespace Sim_FrameWork
                     break;
                 case ResourceAddType.month:
                     playerData.resourceData.AddEnergyPerMonth(num);
-                    UIManager.Instance.SendMessageToWnd(UIPath.WindowPath.MainMenu_Page, new UIMessage(UIMsgType.Res_MonthEnergy));
+                    UIManager.Instance.SendMessage(new UIMessage(UIMsgType.Res_MonthEnergy));
                     callback?.Invoke();
                     break;
                 default:
@@ -92,22 +97,22 @@ namespace Sim_FrameWork
             }
 
         }
-        public void AddLabor(float num, ResourceAddType type, Action callback = null)
+        public void AddResearch(float num, ResourceAddType type, Action callback = null)
         {
             switch (type)
             {
                 case ResourceAddType.current:
-                    playerData.resourceData.AddLabor(num);
-                    UIManager.Instance.SendMessageToWnd(UIPath.WindowPath.MainMenu_Page, new UIMessage(UIMsgType.Res_Labor));
+                    playerData.resourceData.AddResearch(num);
+                    UIManager.Instance.SendMessage(new UIMessage(UIMsgType.Res_Research));
                     callback?.Invoke();
                     break;
                 case ResourceAddType.max:
-                    playerData.resourceData.AddLaborMax(num);
+                    playerData.resourceData.AddResearchMax(num);
                     callback?.Invoke();
                     break;
                 case ResourceAddType.month:
-                    playerData.resourceData.AddLaborPerMonth(num);
-                    UIManager.Instance.SendMessageToWnd(UIPath.WindowPath.MainMenu_Page, new UIMessage(UIMsgType.Res_MonthLabor));
+                    playerData.resourceData.AddResearchPerMonth(num);
+                    UIManager.Instance.SendMessage(new UIMessage(UIMsgType.Res_MonthResearch));
                     callback?.Invoke();
                     break;
                 default:
@@ -133,6 +138,39 @@ namespace Sim_FrameWork
             }
         }
 
+        public void AddBuilder(ushort num,ResourceAddType type,Action callback = null)
+        {
+            switch (type)
+            {
+                case ResourceAddType.current:
+                    playerData.resourceData.AddBuilder(num);
+                    callback?.Invoke();
+                    break;
+                case ResourceAddType.max:
+                    playerData.resourceData.AddBuilderMax(num);
+                    callback?.Invoke();
+                    break;
+                default:
+                    break;
+            }
+        }
+
+        public void AddRoCore(ushort num,ResourceAddType type,Action callback = null)
+        {
+            switch (type)
+            {
+                case ResourceAddType.current:
+                    playerData.resourceData.AddRoCore(num);
+                    callback?.Invoke();
+                    break;
+                case ResourceAddType.max:
+                    playerData.resourceData.AddRoCoreMax(num);
+                    callback?.Invoke();
+                    break;
+                default:
+                    break;
+            }
+        }
 
         public void AddMaterialData(int materialId, ushort count)
         {
@@ -248,7 +286,8 @@ namespace Sim_FrameWork
         private void DoMonthSettle()
         {
             AddEnergy(playerData.resourceData.EnergyPerMonth, ResourceAddType.current);
-            AddLabor(playerData.resourceData.LaborPerMonth, ResourceAddType.current);
+            AddResearch(playerData.resourceData.ResearchPerMonth, ResourceAddType.current);
+            AddCurrency(playerData.resourceData.CurrencyPerMonth, ResourceAddType.current);
             GlobalEventManager.Instance.DoPlayerOrderMonthSettle();
             
         }

@@ -294,7 +294,7 @@ namespace Sim_FrameWork
 
         public class OrderReward
         {
-            public float Reward_Currency;
+            public int Reward_Currency;
             public int Reward_Reputation;
             public Dictionary<string, ushort> Reward_Mateiral;
             

@@ -1,0 +1,50 @@
+﻿using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+
+namespace Sim_FrameWork
+{
+    public class UIGuide : Singleton<UIGuide>
+    {
+        /// <summary>
+        /// Tech Page
+        /// </summary>
+        public void ShowTechnologyMainPage()
+        {
+            UIManager.Instance.Register<UI.TechnologyMainPageContext>(UIPath.WindowPath.Technology_Page);
+            UIManager.Instance.PopUpWnd(UIPath.WindowPath.Technology_Page, WindowType.Page, true);
+        }
+
+        public void ShowTechDetailDialog(int techID)
+        {
+            var techInfo = GlobalEventManager.Instance.GetTechInfo(techID);
+            if (techInfo != null)
+            {
+                UIManager.Instance.Register<UI.TechnologyDetailDialogContext>(UIPath.WindowPath.Technology_Detail_Dialog);
+                UIManager.Instance.PopUpWnd(UIPath.WindowPath.Technology_Detail_Dialog, WindowType.Dialog, true, techInfo);
+            }
+        }
+
+        /// <summary>
+        /// Block Page
+        /// </summary>
+        public void ShowBlockManuPage(ManufactoryBase baseData)
+        {
+            UIManager.Instance.Register<UI.BlockManuPageContext>(UIPath.WindowPath.BlockManu_Page);
+            UIManager.Instance.PopUpWnd(UIPath.WindowPath.BlockManu_Page, WindowType.Page, true, baseData._blockBase, baseData.manufactoryInfo, baseData.formulaInfo);
+        }
+
+        public void ShowOrderReceiveMainPage()
+        {
+            UIManager.Instance.Register<UI.OrderReceiveMainPageContext>(UIPath.WindowPath.Order_Receive_Main_Page);
+            UIManager.Instance.PopUpWnd(UIPath.WindowPath.Order_Receive_Main_Page, WindowType.Page, true);
+        }
+
+        public void ShowWareHouseMainPage()
+        {
+            UIManager.Instance.Register<UI.WareHousePageContext>(UIPath.WindowPath.WareHouse_Page);
+            UIManager.Instance.PopUpWnd(UIPath.WindowPath.WareHouse_Page, WindowType.Page, true);
+        }
+
+    }
+}
