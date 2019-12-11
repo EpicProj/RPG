@@ -83,8 +83,6 @@
      <Compile Include="Assets\Sim_FrameWork\Data\Config\JsonReader.cs" />
      <Compile Include="Assets\Sim_FrameWork\Data\MetaData\BuildingPanelMetaData.cs" />
      <Compile Include="Assets\Sim_FrameWork\Data\MetaData\BuildingPanelMetaDataReader.cs" />
-     <Compile Include="Assets\Sim_FrameWork\Data\MetaData\CampMetaData.cs" />
-     <Compile Include="Assets\Sim_FrameWork\Data\MetaData\CampMetaDataReader.cs" />
      <Compile Include="Assets\Sim_FrameWork\Data\MetaData\DistrictMetaData.cs" />
      <Compile Include="Assets\Sim_FrameWork\Data\MetaData\DistrictMetaDataReader.cs" />
      <Compile Include="Assets\Sim_FrameWork\Data\MetaData\FunctionBlockFormulaMetaData.cs" />
@@ -115,7 +113,6 @@
      <Compile Include="Assets\Sim_FrameWork\Project\Basic\UIUtility.cs" />
      <Compile Include="Assets\Sim_FrameWork\Project\Basic\Utility.cs" />
      <Compile Include="Assets\Sim_FrameWork\Project\GamePlay\Achievement\AchievementModule.cs" />
-     <Compile Include="Assets\Sim_FrameWork\Project\GamePlay\Camp\CampModule.cs" />
      <Compile Include="Assets\Sim_FrameWork\Project\GamePlay\Core\Main\DataManager.cs" />
      <Compile Include="Assets\Sim_FrameWork\Project\GamePlay\Core\Main\GameManager.cs" />
      <Compile Include="Assets\Sim_FrameWork\Project\GamePlay\Core\Main\GeneralModule.cs" />
@@ -262,7 +259,6 @@
      <None Include="Assets\StreamingAssets\Data\Language\Language_CN\Order.txt" />
      <None Include="Assets\AssetBundleConfig.xml" />
      <None Include="Assets\Shader\Map\Planet\PlanetRender.shader" />
-     <None Include="Assets\Resources\Data\DataFormat\Xml\CampMetaData.xml" />
      <None Include="Assets\Resources\Data\DataFormat\Xml\TerrainMetaData.xml" />
      <None Include="Assets\StreamingAssets\Data\Language\Language_CN\Organization.txt" />
      <None Include="Assets\Resources\Data\DataFormat\Xml\BuildingPanelMetaData.xml" />

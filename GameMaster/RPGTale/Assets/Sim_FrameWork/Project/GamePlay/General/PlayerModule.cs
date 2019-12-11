@@ -64,10 +64,6 @@ namespace Sim_FrameWork
             playerData.AllBuildingPanelDataList = buildPanelDataList;
             playerData.UnLockBuildingPanelDataList = GetUnLockBuildData();
 
-            //Init Camp
-            playerData.campData.AddJusticeValue(CampModule.campConfig.Player_OriginValue_Default);
-
-
             return playerData;
 
         }

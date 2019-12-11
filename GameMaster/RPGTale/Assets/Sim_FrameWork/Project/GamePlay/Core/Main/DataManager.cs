@@ -22,7 +22,6 @@ namespace Sim_FrameWork {
             DistrictModule.Instance.Register();
             FormulaModule.Instance.Register();
             PlayerModule.Instance.Register();
-            CampModule.Instance.Register();
             OrganizationModule.Instance.Register();
             OrderModule.Instance.Register();
             TechnologyModule.Instance.Register();
