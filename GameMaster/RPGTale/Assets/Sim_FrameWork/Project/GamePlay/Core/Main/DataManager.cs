@@ -25,6 +25,8 @@ namespace Sim_FrameWork {
             OrganizationModule.Instance.Register();
             OrderModule.Instance.Register();
             TechnologyModule.Instance.Register();
+            RandomEventModule.Instance.Register();
+            ExploreModule.Instance.Register();
         }
 
         public void RegisterUI()

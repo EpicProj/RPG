@@ -41,6 +41,10 @@ namespace Sim_FrameWork
             /// Tech Detail
             /// </summary>
             public const string Technology_Detail_Dialog = "Dialog/Technology/TechnologyDetailDialog";
+            /// <summary>
+            /// Random Event Choose Dialog
+            /// </summary>
+            public const string RandomEvent_Dialog = "Dialog/Main/RandomEventDialog";
 
             #endregion
 

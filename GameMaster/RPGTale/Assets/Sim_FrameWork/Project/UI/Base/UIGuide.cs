@@ -54,5 +54,12 @@ namespace Sim_FrameWork
             UIManager.Instance.PopUpWnd(UIPath.WindowPath.WareHouse_Page, WindowType.Page, true);
         }
 
+        ///Random Event
+        public void ShowRandomEventDialog(UI.RandomEventDialogItem item)
+        {
+            UIManager.Instance.Register<UI.RandomEventDialogContext>(UIPath.WindowPath.RandomEvent_Dialog);
+            UIManager.Instance.PopUpWnd(UIPath.WindowPath.RandomEvent_Dialog, WindowType.Dialog, true, item);
+        }
+
     }
 }

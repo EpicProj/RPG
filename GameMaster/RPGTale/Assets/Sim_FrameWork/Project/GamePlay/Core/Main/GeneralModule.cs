@@ -18,9 +18,12 @@ namespace Sim_FrameWork
             }
         }
 
+        public RewardData rewardData;
+
         public override void InitData()
         {
             _globalSetting.LoadGlobalSettting();
+            LoadRewardData();
         }
         public override void Register()
         {
@@ -30,6 +33,15 @@ namespace Sim_FrameWork
         {
             InitData();
         }
+
+        public void LoadRewardData()
+        {
+            Config.JsonReader reader = new Config.JsonReader();
+            var data= reader.LoadJsonDataConfig<RewardData>(Config.JsonConfigPath.RewardDataJsonPath);
+            rewardData.rewardGroup = data.rewardGroup;
+        }
+
+
 
         /// <summary>
         /// Get Rarity Data
@@ -96,6 +108,48 @@ namespace Sim_FrameWork
 
         }
 
+    }
+
+    /// <summary>
+    /// Reward Item
+    /// </summary>
+    public class GeneralRewardItem
+    {
+        public enum RewardType
+        {
+            None,
+            /// <summary>
+            /// 虹石
+            /// </summary>
+            Currency,
+            /// <summary>
+            /// 科技点
+            /// </summary>
+            TechPoints,
+            Tech_Unlock,
+            /// <summary>
+            /// 材料
+            /// </summary>
+            Material,
+
+        }
+
+        public ushort type;
+        public int ItemID;
+        public int count;
+
+    }
+
+    public class RewardData
+    {
+        public List<RewardGroup> rewardGroup;
+
+        public class RewardGroup
+        {
+            public int GroupID;
+            public List<GeneralRewardItem> itemList;
+        }
+       
     }
 
 }

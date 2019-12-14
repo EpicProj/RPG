@@ -42,5 +42,46 @@ namespace Sim_FrameWork
             ExploreChooseDic = config.AllExploreChooseDic;
         }
 
+        public static List<ExploreArea> GetExploreAreaList()
+        {
+            LoadData();
+            return ExploreAreaList;
+        }
+
+        public static List<ExploreData> GetExploreDataList()
+        {
+            LoadData();
+            return ExploreDataList;
+        }
+        public static List<ExplorePoint> GetExplorePointList()
+        {
+            LoadData();
+            return ExplorePointList;
+        }
+        public static List<ExploreEvent> GetExploreEventList()
+        {
+            LoadData();
+            return ExploreEventList;
+        }
+        public static Dictionary<int, ExploreEvent> GetExploreEventDic()
+        {
+            LoadData();
+            return ExploreEventDic;
+        }
+
+
+        public static List<ExploreChoose> GetExploreChooseList()
+        {
+            LoadData();
+            return ExploreChooseList;
+        }
+        public static Dictionary<int,ExploreChoose> GetExploreChooseDic()
+        {
+            LoadData();
+            return ExploreChooseDic;
+        }
+
+
+
     }
 }

@@ -55,5 +55,10 @@ namespace Sim_FrameWork.Config
         public static string TechGroupConfigJsonPath = Application.streamingAssetsPath + "/Data/JsonData/Technology/Group" + "/TechGroupConfig.json";
         public static string TechnologyConfigCommon = Application.streamingAssetsPath + "/Data/JsonData/Technology/" + "TechnologyConfigCommon.json";
 
+        //RewardData
+        public static string RewardDataJsonPath = Application.streamingAssetsPath + "/Data/JsonData/Basic/RewardData.json";
+
+
+
     }
 }
