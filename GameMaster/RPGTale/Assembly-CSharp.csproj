@@ -85,6 +85,8 @@
      <Compile Include="Assets\Sim_FrameWork\Data\MetaData\BuildingPanelMetaDataReader.cs" />
      <Compile Include="Assets\Sim_FrameWork\Data\MetaData\DistrictMetaData.cs" />
      <Compile Include="Assets\Sim_FrameWork\Data\MetaData\DistrictMetaDataReader.cs" />
+     <Compile Include="Assets\Sim_FrameWork\Data\MetaData\ExploreMetaData.cs" />
+     <Compile Include="Assets\Sim_FrameWork\Data\MetaData\ExploreMetaDataReader.cs" />
      <Compile Include="Assets\Sim_FrameWork\Data\MetaData\FunctionBlockFormulaMetaData.cs" />
      <Compile Include="Assets\Sim_FrameWork\Data\MetaData\FunctionBlockFormulaMetaDataReader.cs" />
      <Compile Include="Assets\Sim_FrameWork\Data\MetaData\FunctionBlockMetaData.cs" />
@@ -122,6 +124,7 @@
      <Compile Include="Assets\Sim_FrameWork\Project\GamePlay\District\DistrictDataModel.cs" />
      <Compile Include="Assets\Sim_FrameWork\Project\GamePlay\District\DistrictGroup.cs" />
      <Compile Include="Assets\Sim_FrameWork\Project\GamePlay\District\DistrictModule.cs" />
+     <Compile Include="Assets\Sim_FrameWork\Project\GamePlay\Explore\ExploreModule.cs" />
      <Compile Include="Assets\Sim_FrameWork\Project\GamePlay\Formula\FormulaDataModel.cs" />
      <Compile Include="Assets\Sim_FrameWork\Project\GamePlay\Formula\FormulaModule.cs" />
      <Compile Include="Assets\Sim_FrameWork\Project\GamePlay\FunctionBlock\Base\BlockBaseInfoData.cs" />
@@ -266,6 +269,7 @@
      <None Include="Assets\Shader\Map\Planet\PlanetRender.shader" />
      <None Include="Assets\Resources\Data\DataFormat\Xml\TerrainMetaData.xml" />
      <None Include="Assets\StreamingAssets\Data\Language\Language_CN\Organization.txt" />
+     <None Include="Assets\Resources\Data\DataFormat\Xml\ExploreMetaData.xml" />
      <None Include="Assets\Resources\Data\DataFormat\Xml\BuildingPanelMetaData.xml" />
      <None Include="Assets\Resources\Data\DataFormat\Xml\TalentsMetaData.xml" />
      <None Include="Assets\StreamingAssets\Data\Language\Language_CN\FunctionBlock.txt" />

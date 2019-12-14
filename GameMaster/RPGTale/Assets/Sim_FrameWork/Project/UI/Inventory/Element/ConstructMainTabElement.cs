@@ -28,7 +28,6 @@ namespace Sim_FrameWork {
                 if (typedata == null)
                     return;
                 UIManager.Instance.SendMessageToWnd(UIPath.WindowPath.MainMenu_Page, new UIMessage(UIMsgType.MenuPage_Update_BuildPanel, new List<object>() { typedata }));
-                Debug.Log("OnBuildClick" );
             }
         }
     }

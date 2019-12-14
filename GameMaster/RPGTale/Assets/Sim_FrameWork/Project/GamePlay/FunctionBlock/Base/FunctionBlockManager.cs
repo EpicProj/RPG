@@ -96,7 +96,7 @@ namespace Sim_FrameWork
 
         private int getUnUsedInstanceID()
         {
-            int instanceId = UnityEngine.Random.Range(ushort.MaxValue, ushort.MaxValue);
+            int instanceId = UnityEngine.Random.Range(ushort.MinValue, ushort.MaxValue);
             if (_functionBlockInstances.ContainsKey(instanceId))
             {
                 return getUnUsedInstanceID();

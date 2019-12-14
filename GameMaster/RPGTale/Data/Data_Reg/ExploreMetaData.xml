@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<data name ="ExploreMetaData" from="ExploreMetaData.xlsx" to = "ExploreMetaData.xml">
+	<variable  name="AllExploreAreaList" type="list">
+		<list name = "ExploreArea" sheetname="ExploreArea" mainKey = "AreaID">
+			<variable  name="AreaID" col = "AreaID" type="int"/>
+			<variable  name="Name" col = "Name" type="string"/>
+			<variable  name="Desc" col = "Desc" type="string"/>
+			<variable  name="ExploreList" col = "ExploreList" type="string"/>
+		</list>
+	</variable>
+	
+	<variable  name="AllExploreDataList" type="list">
+		<list name = "ExploreData" sheetname="ExploreData" mainKey = "ExploreID">
+			<variable  name="ExploreID" col = "ExploreID" type="int"/>
+			<variable  name="UnLockValue" col = "UnLockValue" type="ushort"/>
+			<variable  name="RequirePreID" col = "RequirePreID" type="int"/>
+			<variable  name="HardLevel" col = "HardLevel" type="ushort"/>
+			<variable  name="Weight" col = "Weight" type="ushort"/>
+			<variable  name="Depth" col = "Depth" type="ushort"/>
+			<variable  name="SeriesID" col = "SeriesID" type="int"/>
+		</list>
+	</variable>
+
+	<variable  name="AllExplorePointList" type="list">
+		<list name = "ExplorePoint" sheetname="ExplorePoint" mainKey = "PointID">
+			<variable  name="PointID" col = "PointID" type="int"/>
+			<variable  name="SeriesID" col = "SeriesID" type="int"/>
+			<variable  name="Name" col = "Name" type="string"/>
+			<variable  name="Desc" col = "Desc" type="string"/>
+			<variable  name="ExploreValue" col = "ExploreValue" type="int"/>
+			<variable  name="DepthLevel" col = "DepthLevel" type="ushort"/>
+			<variable  name="PrePoint" col = "PrePoint" type="int"/>
+			<variable  name="EnergyCost" col = "EnergyCost" type="ushort"/>
+			<variable  name="EventID" col = "EventID" type="int"/>
+		</list>
+	</variable>
+
+	<variable  name="AllExploreEventList" type="list">
+		<list name = "ExploreEvent" sheetname="ExploreEvent" mainKey = "EventID">
+			<variable  name="EventID" col = "EventID" type="int"/>
+			<variable  name="Name" col = "Name" type="string"/>
+			<variable  name="Desc" col = "Desc" type="string"/>
+			<variable  name="ChooseList" col = "ChooseList" type="string"/>
+		</list>
+	</variable>
+
+	<variable  name="AllExploreChooseList" type="list">
+		<list name = "ExploreChoose" sheetname="ExploreChoose" mainKey = "ChooseID">
+			<variable  name="ChooseID" col = "ChooseID" type="int"/>
+			<variable  name="Content" col = "Content" type="string"/>
+			<variable  name="Result" col = "Result" type="string"/>
+			<variable  name="NextEvent" col = "NextEvent" type="int"/>
+		</list>
+	</variable>
+</data>

@@ -118,7 +118,6 @@ namespace Sim_FrameWork
             {
                 if (_enterInfo.SetUpEnterInfo(model,pos))
                     isShowBlockEnterInfo = true;
-                
             }
         }
         public void HideBlockEnterInfo()

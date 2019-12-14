@@ -45,6 +45,7 @@ namespace Sim_FrameWork
         private void Onselect()
         {
             UIGuide.Instance.ShowBlockManuPage(this);
+            InventoryManager.Instance.HideBlockEnterInfo();
         }
 
         private void OnBlockAreaEnter(bool enter)
