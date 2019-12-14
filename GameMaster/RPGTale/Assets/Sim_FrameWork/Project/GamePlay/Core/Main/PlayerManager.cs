@@ -15,7 +15,7 @@ namespace Sim_FrameWork
         }
 
         public PlayerData playerData;
-        public MaterialStorageData storageData;
+        public MaterialStorageData _storageData;
 
         /// <summary>
         /// Time Manager
@@ -27,7 +27,7 @@ namespace Sim_FrameWork
         {
             base.Awake();
             playerData = PlayerModule.Instance.InitPlayerData();
-            storageData = new MaterialStorageData();
+            _storageData = new MaterialStorageData();
             //For Test
             AddMaterialData(100, 10);
             AddMaterialData(101, 500);
@@ -174,7 +174,7 @@ namespace Sim_FrameWork
 
         public void AddMaterialData(int materialId, ushort count)
         {
-            storageData.AddMaterialStoreData(materialId, count);
+            _storageData.AddMaterialStoreData(materialId, count);
         }
 
         /// <summary>
@@ -184,9 +184,9 @@ namespace Sim_FrameWork
         /// <returns></returns>
         public int GetMaterialStoreCount(int materialID)
         {
-            if (storageData.materialStorageDataDic.ContainsKey(materialID))
+            if (_storageData.materialStorageDataDic.ContainsKey(materialID))
             {
-                return storageData.materialStorageDataDic[materialID].count;
+                return _storageData.materialStorageDataDic[materialID].count;
             }
             return 0;
         }

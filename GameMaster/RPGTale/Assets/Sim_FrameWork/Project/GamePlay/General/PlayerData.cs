@@ -175,15 +175,4 @@ namespace Sim_FrameWork
         }
 
     }
-
-    public class PlayerDataConfig
-    {
-       
-
-
-    }
-
-
-
-
 }

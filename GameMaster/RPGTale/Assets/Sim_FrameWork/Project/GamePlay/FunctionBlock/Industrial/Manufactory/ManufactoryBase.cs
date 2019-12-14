@@ -39,11 +39,25 @@ namespace Sim_FrameWork
             formulaInfo = new ManufactFormulaInfo(_blockBase.functionBlock);
 
             _blockBase.OnBlockSelectAction += Onselect;
+            _blockBase.OnBlockAreaEnterAction += OnBlockAreaEnter;
         }
 
         private void Onselect()
         {
             UIGuide.Instance.ShowBlockManuPage(this);
+        }
+
+        private void OnBlockAreaEnter(bool enter)
+        {
+            if (enter)
+            {
+                InventoryManager.Instance.ShowBlockEnterInfo(_blockBase.info.dataModel,_blockBase.CenterPositionScreen);
+            }
+            else
+            {
+                InventoryManager.Instance.HideBlockEnterInfo();
+            }
+            
         }
 
         /// <summary>

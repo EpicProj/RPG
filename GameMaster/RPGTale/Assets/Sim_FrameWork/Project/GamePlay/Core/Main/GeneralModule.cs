@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 namespace Sim_FrameWork
 {
@@ -66,6 +67,9 @@ namespace Sim_FrameWork
 
     }
 
+    /// <summary>
+    /// 通用稀有度
+    /// </summary>
     public class GeneralRarity
     {
         public ushort rarityLevel;
@@ -77,4 +81,21 @@ namespace Sim_FrameWork
             this.color = color;
         }
     }
+
+    /// <summary>
+    /// Loading 界面
+    /// </summary>
+    public class LoadingPageItem
+    {
+        public Image BG;
+        public string Title;
+        public string Content;
+
+        public LoadingPageItem(int itemID)
+        {
+
+        }
+
+    }
+
 }

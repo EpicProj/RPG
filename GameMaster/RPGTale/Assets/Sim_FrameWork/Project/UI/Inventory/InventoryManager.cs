@@ -20,18 +20,26 @@ namespace Sim_FrameWork
         private Canvas mainCanvas;
         private Camera uiCamera;
 
-
+        private BlockEnterInfo _enterInfo;
+        private bool isShowBlockEnterInfo;
+        public bool IsShowBlockEnterInfo { get { return isShowBlockEnterInfo; } }
         
 
         void Start()
         {
-            mainCanvas = UIUtility.SafeGetComponent<Canvas>(Utility.SafeFindGameobject("MainCanvas").transform);
-            uiCamera = UIUtility.SafeGetComponent<Camera>(Utility.SafeFindGameobject("MainCanvas/UICamera").transform);
-            pickedItem = mainCanvas.transform.Find("SPContent/PickedDistrict").GetComponent<SlotItem>();
+            InitRefrence();
             pickedItem.Hide();
 
         }
 
+
+        void InitRefrence()
+        {
+            mainCanvas = UIUtility.SafeGetComponent<Canvas>(Utility.SafeFindGameobject("MainCanvas").transform);
+            uiCamera = UIUtility.SafeGetComponent<Camera>(Utility.SafeFindGameobject("MainCanvas/UICamera").transform);
+            pickedItem = mainCanvas.transform.Find("SPContent/PickedDistrict").GetComponent<SlotItem>();
+            _enterInfo = UIUtility.SafeGetComponent<BlockEnterInfo>(UIUtility.FindTransfrom(mainCanvas.transform, "SPContent/BlockEnterInfo"));
+        }
 
 
         protected override void Awake()
@@ -101,5 +109,25 @@ namespace Sim_FrameWork
         }
 
        
+
+        ///Block Enter Info
+       
+        public void ShowBlockEnterInfo(FunctionBlockDataModel model,Vector3 pos)
+        {
+            if (_enterInfo != null)
+            {
+                if (_enterInfo.SetUpEnterInfo(model,pos))
+                    isShowBlockEnterInfo = true;
+                
+            }
+        }
+        public void HideBlockEnterInfo()
+        {
+            if (_enterInfo != null)
+            {
+                _enterInfo.HideInfo();
+                isShowBlockEnterInfo = false;
+            }
+        }
     }
 }

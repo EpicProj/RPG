@@ -29,11 +29,19 @@ namespace Sim_FrameWork
         }
 
         /* Camera Action  */
+        /* Select Block  */
         public UnityAction<CameraEvent> OnBlockSelect;
+        /* Drag Block Start  */
         public UnityAction<CameraEvent> OnBlockDragStart;
+        /* Drag Event  */
         public UnityAction<CameraEvent> OnBlockDrag;
+        /* Drag Block End  */
         public UnityAction<CameraEvent> OnBlockDragEnd;
+        /* Select Ground  */
         public UnityAction<CameraEvent> OnGroundSelect;
+        /* Block Area Enter . Show Info Tip  */
+        public UnityAction<CameraEvent> OnBlockAreaEnter;
+        public UnityAction<CameraEvent> OnBlockAreaExit;
 
 
         private Camera MainCamera;
@@ -44,6 +52,7 @@ namespace Sim_FrameWork
 
         private bool _isSelectFunctionBlock;
         private bool _isDraggingFunctionBlock;
+        private bool _isShowBlockTip=false;
         private Vector3 InfinityVector= new Vector3(float.PositiveInfinity, float.PositiveInfinity, float.PositiveInfinity);
         /// <summary>
         /// 最小移动距离，开始移动
@@ -71,7 +80,14 @@ namespace Sim_FrameWork
                 return;
             UpdateBlockSelect();
             UpdateGroundSelect();
+            UpdateBlockAreaEnter();
         }
+
+        public Vector3 WorldToViewportPoint(Vector3 pos)
+        {
+            return MainCamera.WorldToViewportPoint(pos);
+        }
+
 
         public bool UsingUI()
         {
@@ -79,6 +95,37 @@ namespace Sim_FrameWork
                 return false;
 
             return (eventSystems.IsPointerOverGameObject() || eventSystems.IsPointerOverGameObject(0));
+        }
+
+
+        public void UpdateBlockAreaEnter()
+        {
+            if (UsingUI())
+                return;
+            if (_isDraggingFunctionBlock || _isSelectFunctionBlock)
+                return;
+            FunctionBlockBase selectBlock = TryGetRaycastHitBlock(Input.mousePosition);
+            if (selectBlock != null && _isShowBlockTip ==false)
+            {
+                _isShowBlockTip = true;
+                CameraEvent camera = new CameraEvent()
+                {
+                    blockBase = selectBlock,
+                };
+                if (OnBlockAreaEnter != null)
+                {
+                    OnBlockAreaEnter.Invoke(camera);
+                }
+            }
+            else if(selectBlock==null)
+            {
+                CameraEvent camera = new CameraEvent()
+                {
+                    blockBase = null
+                };
+                _isShowBlockTip = false;
+                OnBlockAreaExit.Invoke(camera);
+            }
         }
 
 

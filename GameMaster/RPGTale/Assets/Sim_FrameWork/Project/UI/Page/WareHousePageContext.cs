@@ -98,7 +98,7 @@ namespace Sim_FrameWork.UI
 
         private void InitSotrageItem()
         {
-            var allDic = PlayerManager.Instance.storageData.materialStorageDataDic;
+            var allDic = PlayerManager.Instance._storageData.materialStorageDataDic;
             var loopList = UIUtility.SafeGetComponent<GridLoopList>(m_page.MaterialScrollView.transform);
             if (currentSelectMainType == null)
             {

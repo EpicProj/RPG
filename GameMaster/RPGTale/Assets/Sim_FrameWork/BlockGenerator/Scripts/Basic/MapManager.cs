@@ -31,6 +31,8 @@ namespace Sim_FrameWork
             CameraManager.Instance.OnBlockDrag += OnBlockDrag;
             CameraManager.Instance.OnBlockDragEnd += OnBlockDragEnd;
             CameraManager.Instance.OnGroundSelect += OnGroundSelect;
+            CameraManager.Instance.OnBlockAreaEnter += OnBlockAreaEnter;
+            CameraManager.Instance.OnBlockAreaExit += OnBlockAreaExit;
 
             GridManager.Instance.UpdateAllNodes();
             //InvokeRepeating("InitMap", 1, 0.5f);
@@ -156,6 +158,26 @@ namespace Sim_FrameWork
                 FunctionBlockBase temp = selectBlock;
                 selectBlock = null;
                 temp.SetSelect(false);
+            }
+        }
+
+        private FunctionBlockBase _currentEnterBlock;
+        public void OnBlockAreaEnter(CameraManager.CameraEvent camera)
+        {
+            _currentEnterBlock = camera.blockBase;
+            if (_currentEnterBlock != null)
+            {
+                _currentEnterBlock.SetBlockAreaEnter(true);
+            }
+        }
+
+        public void OnBlockAreaExit(CameraManager.CameraEvent camera)
+        {
+            if (_currentEnterBlock != null && camera.blockBase==null)
+            {
+                FunctionBlockBase temp = _currentEnterBlock;
+                _currentEnterBlock = null;
+                temp.SetBlockAreaEnter(false);
             }
         }
 

@@ -34,6 +34,14 @@ namespace Sim_FrameWork
             UIManager.Instance.PopUpWnd(UIPath.WindowPath.BlockManu_Page, WindowType.Page, true, baseData._blockBase, baseData.manufactoryInfo, baseData.formulaInfo);
         }
 
+        public void ShowDistrictDetail(DistrictDataModel  model)
+        {
+            if (model.ID == 0)
+                return;
+            UIManager.Instance.Register<UI.DistrictDetailUIContext>(UIPath.WindowPath.District_Detail_UI);
+            UIManager.Instance.PopUpWnd(UIPath.WindowPath.District_Detail_UI, WindowType.SPContent, true, model);
+        }
+
         public void ShowOrderReceiveMainPage()
         {
             UIManager.Instance.Register<UI.OrderReceiveMainPageContext>(UIPath.WindowPath.Order_Receive_Main_Page);

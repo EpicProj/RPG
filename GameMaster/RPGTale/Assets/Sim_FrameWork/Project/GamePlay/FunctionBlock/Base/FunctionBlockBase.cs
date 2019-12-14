@@ -34,6 +34,15 @@ namespace Sim_FrameWork
 
         public int instanceID;
         public Action OnBlockSelectAction;
+        public Action<bool> OnBlockAreaEnterAction;
+
+        public Vector3 CenterPositionScreen
+        {
+            get
+            {
+                return CameraManager.Instance.WorldToViewportPoint(transform.position);
+            }
+        }
       
 
         public void InitData(int blockID,int posX,int posZ)
@@ -135,6 +144,18 @@ namespace Sim_FrameWork
             }
         }
 
+        public void SetBlockAreaEnter(bool enter)
+        {
+            if (enter && currentState != BlockState.Move)
+            {
+                OnBlockAreaEnterAction?.Invoke(true);
+            }
+
+            if (!enter)
+            {
+                OnBlockAreaEnterAction?.Invoke(false);
+            }
+        }
 
         #endregion
 

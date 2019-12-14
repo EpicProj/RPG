@@ -7,6 +7,9 @@ namespace Sim_FrameWork
     public class ApplicationManager : MonoSingleton<ApplicationManager>
     {
 
+        ///*Game Version*///
+        public static readonly string GAME_VERSION = "1.0.0";
+
         protected override void Awake()
         {
             base.Awake();

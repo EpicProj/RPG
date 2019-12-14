@@ -92,6 +92,10 @@ namespace Sim_FrameWork
             /// 建造栏信息详情
             /// </summary>
             public const string BuildPanel_Detail_UI = "Misc/BuildPanelDetail";
+            /// <summary>
+            /// 区划详情
+            /// </summary>
+            public const string District_Detail_UI = "Misc/DistrictDetailUI";
 
             #endregion
 
