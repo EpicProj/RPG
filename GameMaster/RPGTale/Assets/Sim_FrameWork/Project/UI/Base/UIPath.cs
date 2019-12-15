@@ -149,6 +149,8 @@ namespace Sim_FrameWork
             public const string BuildDetail_District_Element = "Assets/Prefabs/Object/District/BuildDetailDistrictElement.prefab";
             public const string BuildDetail_Cost_Element = "Assets/Prefabs/Object/FunctionBlock/BuildRequireElement.prefab";
 
+            public const string Reward_Item = "Assets/Prefabs/Object/Main/RewardItem.prefab";
+
             #endregion
 
         }

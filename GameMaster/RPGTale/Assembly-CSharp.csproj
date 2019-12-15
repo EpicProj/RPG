@@ -108,6 +108,7 @@
      <Compile Include="Assets\Sim_FrameWork\Miscs\FPSCounter.cs" />
      <Compile Include="Assets\Sim_FrameWork\Mono\MonoSingleton.cs" />
      <Compile Include="Assets\Sim_FrameWork\Mono\Singleton.cs" />
+     <Compile Include="Assets\Sim_FrameWork\Project\Anim\AnimUtility.cs" />
      <Compile Include="Assets\Sim_FrameWork\Project\Audio\AudioClipPath.cs" />
      <Compile Include="Assets\Sim_FrameWork\Project\Audio\AudioManager.cs" />
      <Compile Include="Assets\Sim_FrameWork\Project\Basic\BaseModule.cs" />
@@ -206,7 +207,7 @@
      <Compile Include="Assets\Sim_FrameWork\Project\UI\Inventory\Element\ConstructMainTabElement.cs" />
      <Compile Include="Assets\Sim_FrameWork\Project\UI\Inventory\Element\ManuSlotElement.cs" />
      <Compile Include="Assets\Sim_FrameWork\Project\UI\Inventory\Element\OrderDetailElement.cs" />
-     <Compile Include="Assets\Sim_FrameWork\Project\UI\Inventory\Element\RewardElement.cs" />
+     <Compile Include="Assets\Sim_FrameWork\Project\UI\Inventory\Element\RewardItem.cs" />
      <Compile Include="Assets\Sim_FrameWork\Project\UI\Inventory\Element\SaveElement.cs" />
      <Compile Include="Assets\Sim_FrameWork\Project\UI\Inventory\Element\TechEffectElement.cs" />
      <Compile Include="Assets\Sim_FrameWork\Project\UI\Inventory\Element\TechObjectElement.cs" />

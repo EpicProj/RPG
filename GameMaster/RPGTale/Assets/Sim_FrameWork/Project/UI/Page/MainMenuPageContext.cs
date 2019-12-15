@@ -123,6 +123,8 @@ namespace Sim_FrameWork.UI
                     _currencyNumText.text = data.Currency.ToString();
                     _researchPointText.text = data.Research.ToString();
                     _energyNumText.text = data.Energy.ToString();
+                    _builderText.text = data.Builder.ToString();
+                    _roCoreText.text = data.RoCore.ToString();
                     return true;
                 case ResourceType.Currency:
                     _currencyNumText.text = data.Currency.ToString();

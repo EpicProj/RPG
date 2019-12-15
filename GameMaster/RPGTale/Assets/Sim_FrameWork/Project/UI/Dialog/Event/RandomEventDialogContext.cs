@@ -34,8 +34,18 @@ namespace Sim_FrameWork.UI
             base.OnClose();
         }
 
-     
-
+        public override bool OnMessage(UIMessage msg)
+        {
+            switch (msg.type)
+            {
+                case UIMsgType.RandomEventDialog_Update_Effect:
+                    int rewardID = (int)msg.content[0];
+                    var list = GeneralModule.GetRewardItem(rewardID);
+                    return SetUpReward(list);
+                default:
+                    return false;
+            }
+        }
 
         void SetUpDialog()
         {
@@ -62,6 +72,55 @@ namespace Sim_FrameWork.UI
             }
         }
 
+        void InitRewardElement()
+        {
+            for(int i = 0; i < Config.GlobalConfigData.RandomEvent_Dialog_Reward_Max; i++)
+            {
+                var obj = ObjectManager.Instance.InstantiateObject(UIPath.PrefabPath.Reward_Item);
+                if (obj != null)
+                {
+                    obj.transform.SetParent(_eventEffectContent,false);
+                }
+            }
+        }
+
+        bool SetUpReward(List<GeneralRewardItem> rewardItem)
+        {
+            if (_eventEffectContent.childCount != Config.GlobalConfigData.RandomEvent_Dialog_Reward_Max)
+            {
+                InitRewardElement();
+            }
+            foreach(Transform trans in _eventEffectContent)
+            {
+                trans.gameObject.SetActive(false);
+            }
+
+            if (rewardItem.Count == 0)
+            {
+                _effectLine.gameObject.SetActive(false);
+            }
+            else
+            {
+                _effectLine.gameObject.SetActive(true);
+                for (int i = 0; i < rewardItem.Count; i++)
+                {
+                    var rewardCmpt = UIUtility.SafeGetComponent<RewardItem>(_eventEffectContent.GetChild(i));
+                    if (rewardCmpt != null)
+                    {
+                        rewardCmpt.SetUpItem(rewardItem[i]);
+                        rewardCmpt.gameObject.SetActive(true);
+                    }
+                    else
+                    {
+                        return false;
+                    }
+                }
+                if (_effectAnim != null)
+                    _effectAnim.Play();
+            }
+            return true;
+        }
+
         #endregion
 
     }
@@ -77,7 +136,10 @@ namespace Sim_FrameWork.UI
         private Text _eventDesc;
 
         private Transform _eventEffectContent;
+        private Transform _effectLine;
+
         private TypeWriterEffect _typeEffect;
+        private Animation _effectAnim;
 
 
         protected override void InitUIRefrence()
@@ -91,7 +153,10 @@ namespace Sim_FrameWork.UI
             _eventDesc = UIUtility.SafeGetComponent<Text>(UIUtility.FindTransfrom(m_dialog.DetailContent, "Pic/Desc"));
 
             _eventEffectContent = UIUtility.FindTransfrom(m_dialog.DetailContent, "EffectContent");
+            _effectLine = UIUtility.FindTransfrom(m_dialog.DetailContent, "Line2");
             _typeEffect = UIUtility.SafeGetComponent<TypeWriterEffect>(_eventDesc.transform);
+
+            _effectAnim = UIUtility.SafeGetComponent<Animation>(_eventEffectContent);
         }
 
 

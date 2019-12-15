@@ -150,6 +150,7 @@ namespace Sim_FrameWork
             {
                 case ResourceAddType.current:
                     playerData.resourceData.AddBuilder(num);
+                    UIManager.Instance.SendMessage(new UIMessage(UIMsgType.Res_Builder));
                     callback?.Invoke();
                     break;
                 case ResourceAddType.max:
@@ -167,6 +168,7 @@ namespace Sim_FrameWork
             {
                 case ResourceAddType.current:
                     playerData.resourceData.AddRoCore(num);
+                    UIManager.Instance.SendMessage(new UIMessage(UIMsgType.Res_RoCore));
                     callback?.Invoke();
                     break;
                 case ResourceAddType.max:

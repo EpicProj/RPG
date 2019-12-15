@@ -634,6 +634,47 @@ namespace Sim_FrameWork {
 
         #endregion
 
+        #region ExploreEvent
+
+        private List<ExploreRandomItem> _currentFinishedExploreList = new List<ExploreRandomItem>();
+        public List<ExploreRandomItem> CurrentFinishedExploreList
+        {
+            get { return _currentFinishedExploreList; }
+        }
+
+        public ExploreRandomItem GetFinishedExploreRandomItem(int exploreID)
+        {
+            return _currentFinishedExploreList.Find(x => x.exploreID == exploreID);
+        }
+
+        /// <summary>
+        /// 开启一个点位
+        /// </summary>
+        /// <param name="pointID"></param>
+        public void DoExplorePoint(int pointID)
+        {
+            ExplorePointData pointData = new ExplorePointData(pointID);
+            ///CheckPrePoint
+        }
+
+
+        /// <summary>
+        /// 区域探索完成
+        /// </summary>
+        /// <param name="data"></param>
+        public void OnExploreAreaFinish(ExploreRandomItem explore)
+        {
+            if (!_currentFinishedExploreList.Contains(explore))
+            {
+                explore.finish = true;
+                _currentFinishedExploreList.Add(explore);
+            }
+        }
+
+
+
+
+        #endregion
 
         #region Reward
 
@@ -689,6 +730,8 @@ namespace Sim_FrameWork {
         }
 
         #endregion
+
+
 
     }
 

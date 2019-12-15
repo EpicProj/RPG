@@ -57,7 +57,12 @@ namespace Sim_FrameWork
 
         ///Technology
         Tech_Research_Finish,
-        Tech_Research_Start
+        Tech_Research_Start,
+
+        ///Random Event
+        RandomEventDialog_Update_Effect
+
+
 
     }
 }

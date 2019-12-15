@@ -8,6 +8,114 @@ namespace Sim_FrameWork
 {
     public class Utility 
     {
+        #region Math
+
+        public static int TryParseInt(string str)
+        {
+            int result;
+            if (int.TryParse(str, out result) == false)
+            {
+                Debug.LogError("Parse Int Error,str=" + str);
+            }
+            return result;
+        }
+
+        public static float TryParseFloat(string str)
+        {
+            float result;
+            if (float.TryParse(str, out result) == false)
+            {
+                Debug.LogError("Parse Float Error,Str=" + str);
+            }
+            return result;
+        }
+
+
+        public static List<int> TryParseIntList(string str, char split)
+        {
+            List<int> result = new List<int>();
+            if (string.IsNullOrEmpty(str))
+            {
+                Debug.LogWarning("Parse Int List Error");
+                return result;
+            }
+
+            string[] s = str.Split(split);
+            for (int i = 0; i < s.Length; i++)
+            {
+                int n;
+                if (int.TryParse(s[i], out n))
+                {
+                    result.Add(n);
+                }
+                else
+                {
+                    Debug.LogError("parse int error, string=" + s[i]);
+                    continue;
+                }
+            }
+            return result;
+        }
+
+        public static bool CheckValueInRange(float min, float max, float value, string debug = null)
+        {
+            if (value < min || value > max)
+            {
+                Debug.LogError("Value not in range,value=" + value + "  , DebugContent=" + debug);
+                return false;
+            }
+            return true;
+        }
+
+        /// <summary>
+        /// Random
+        /// </summary>
+        public static List<T> GetRandomList<T>(List<T> list, int count) where T : RandomObject
+        {
+            if (list == null || list.Count <= count || count <= 0)
+                return list;
+
+            int totalWeights = 0;
+            for(int i = 0; i < list.Count; i++)
+            {
+                totalWeights += list[i].Weight + 1;
+            }
+
+            System.Random ran = new System.Random(GetRandomSeed());
+            List<KeyValuePair<int, int>> wlist = new List<KeyValuePair<int, int>>();
+
+            for(int i = 0; i < list.Count; i++)
+            {
+                int w = (list[i].Weight + 1) + ran.Next(0, totalWeights);
+                wlist.Add(new KeyValuePair<int, int>(i, w));
+            }
+
+            wlist.Sort(delegate (KeyValuePair<int, int> kvp1, KeyValuePair<int, int> kvp2)
+            {
+                return kvp2.Value - kvp1.Value;
+            });
+
+            List<T> newList = new List<T>();
+            for(int i = 0; i < count; i++)
+            {
+                T en = list[wlist[i].Key];
+                newList.Add(en);
+            }
+            return newList;
+        }
+
+        private static int GetRandomSeed()
+        {
+            byte[] bytes = new byte[4];
+            System.Security.Cryptography.RNGCryptoServiceProvider rng = new System.Security.Cryptography.RNGCryptoServiceProvider();
+            rng.GetBytes(bytes);
+            return BitConverter.ToInt32(bytes, 0);
+        }
+
+
+        #endregion
+
+
         public enum SpriteType
         {
             png,
@@ -30,52 +138,7 @@ namespace Sim_FrameWork
             return sprite;
         }
 
-        public static int TryParseInt(string str)
-        {
-            int result;
-            if(int.TryParse(str, out result) == false)
-            {
-                Debug.LogError("Parse Int Error,str=" + str);
-            }
-            return result;
-        }
 
-        public static float TryParseFloat(string str)
-        {
-            float result ;
-            if(float.TryParse(str,out result) == false)
-            {
-                Debug.LogError("Parse Float Error,Str=" + str);
-            }
-            return result;
-        }
-
-
-        public static List<int> TryParseIntList(string str,char split)
-        {
-            List<int> result = new List<int> ();
-            if (string.IsNullOrEmpty(str))
-            {
-                Debug.LogWarning("Parse Int List Error");
-                return result;
-            }
-           
-            string[] s = str.Split(split);
-            for(int i = 0; i < s.Length; i++)
-            {
-                int n;
-                if( int.TryParse(s[i], out n))
-                {
-                    result.Add(n);
-                }
-                else
-                {
-                    Debug.LogError("parse int error, string=" + s[i]);
-                    continue;
-                }
-            }
-            return result;
-        }
         public static List<string> TryParseStringList(string str, char split)
         {
             List<string> result = new List<string> ();
@@ -114,16 +177,6 @@ namespace Sim_FrameWork
             return result;
         }
 
-        public static bool CheckValueInRange(float min,float max, float value,string debug=null)
-        {
-            if(value<min || value > max)
-            {
-                Debug.LogError("Value not in range,value=" + value +"  , DebugContent=" + debug);
-                return false;
-            }
-            return true;
-        }
-        
         public static string ParseStringParams(string content,string[] replaceValue)
         {
             int index = 1;
@@ -137,8 +190,6 @@ namespace Sim_FrameWork
             }
             return result;
         } 
-
-
         public static GameObject CreateInstace(string objPath,GameObject parent,bool isActive)
         {
             GameObject instance = ObjectManager.Instance.InstantiateObject(objPath);
@@ -162,6 +213,11 @@ namespace Sim_FrameWork
         }
 
 
+    }
+
+    public class RandomObject
+    {
+        public int Weight { get; set; }
     }
 
 

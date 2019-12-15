@@ -47,16 +47,33 @@ namespace Sim_FrameWork
             LoadData();
             return ExploreAreaList;
         }
+        public static Dictionary<int,ExploreArea> GetExploreAreaDic()
+        {
+            LoadData();
+            return ExploreAreaDic;
+        }
 
         public static List<ExploreData> GetExploreDataList()
         {
             LoadData();
             return ExploreDataList;
         }
+
+        public static Dictionary<int,ExploreData> GetExploreDataDic()
+        {
+            LoadData();
+            return ExploreDataDic;
+        }
         public static List<ExplorePoint> GetExplorePointList()
         {
             LoadData();
             return ExplorePointList;
+        }
+
+        public static Dictionary<int,ExplorePoint> GetExplorePointDic()
+        {
+            LoadData();
+            return ExplorePointDic;
         }
         public static List<ExploreEvent> GetExploreEventList()
         {

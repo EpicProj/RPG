@@ -54,6 +54,8 @@ namespace Sim_FrameWork.Config
         public static readonly int BuildDetail_Cost_MaxInit_Count = 4;
 
         public static readonly int BuildDetail_District_Area_Max = 25;
+
+        public static readonly int RandomEvent_Dialog_Reward_Max = 4;
     }
 
 
