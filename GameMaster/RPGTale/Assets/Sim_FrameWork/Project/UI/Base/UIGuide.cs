@@ -55,8 +55,16 @@ namespace Sim_FrameWork
         }
 
         ///Random Event
-        public void ShowRandomEventDialog(UI.RandomEventDialogItem item)
+        public void ShowRandomEventDialog(int eventID)
         {
+            UI.RandomEventDialogItem item = new UI.RandomEventDialogItem(
+                ExploreModule.GetEventName(eventID),
+                ExploreModule.GetEventTitleName(eventID),
+                ExploreModule.GetEventDesc(eventID),
+                ExploreModule.GetEventBG(eventID),
+                ExploreModule.GetChooseItem(eventID)
+                );
+
             UIManager.Instance.Register<UI.RandomEventDialogContext>(UIPath.WindowPath.RandomEvent_Dialog);
             UIManager.Instance.PopUpWnd(UIPath.WindowPath.RandomEvent_Dialog, WindowType.Dialog, true, item);
         }

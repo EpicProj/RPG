@@ -7,23 +7,9 @@ namespace Sim_FrameWork
 {
     public class GeneralModule : BaseModule<GeneralModule>
     {
-        private static Config.GlobalSetting _globalSetting=new Config.GlobalSetting ();
-        public static Config.GlobalSetting GlobalSetting
-        {
-            get
-            {
-                if (_globalSetting == null)
-                    _globalSetting.LoadGlobalSettting();
-                return _globalSetting;
-            }
-        }
-
-        public RewardData rewardData;
-
+  
         public override void InitData()
         {
-            _globalSetting.LoadGlobalSettting();
-            LoadRewardData();
         }
         public override void Register()
         {
@@ -34,14 +20,7 @@ namespace Sim_FrameWork
             InitData();
         }
 
-        public void LoadRewardData()
-        {
-            Config.JsonReader reader = new Config.JsonReader();
-            var data= reader.LoadJsonDataConfig<RewardData>(Config.JsonConfigPath.RewardDataJsonPath);
-            rewardData.rewardGroup = data.rewardGroup;
-        }
-
-
+ 
 
         /// <summary>
         /// Get Rarity Data
@@ -50,7 +29,7 @@ namespace Sim_FrameWork
         /// <returns></returns>
         public GeneralRarity GetRarity(int rarityID)
         {
-            var config = _globalSetting.rarityConfig.Find(x => x.Level == rarityID);
+            var config = Config.ConfigData.GlobalSetting.rarityConfig.Find(x => x.Level == rarityID);
             if (config != null)
             {
                 var color = TryParseRarityColor(config.Color);
@@ -75,6 +54,26 @@ namespace Sim_FrameWork
             }
             return result;
         }
+
+
+        public static List<GeneralRewardItem> GetRewardItem(int groupID)
+        {
+            List<GeneralRewardItem> result = new List<GeneralRewardItem>();
+            var group = Config.ConfigData.RewardData.rewardGroup.Find(x => x.GroupID == groupID);
+            if(group != null)
+            {
+                for(int i = 0; i < group.itemList.Count; i++)
+                {
+                    GeneralRewardItem item = new GeneralRewardItem(
+                        (GeneralRewardItem.RewardType)group.itemList[i].type,
+                        group.itemList[i].ItemID, 
+                        group.itemList[i].count);
+                    result.Add(item);
+                }
+            }
+            return result;
+        }
+
 
 
     }
@@ -118,38 +117,28 @@ namespace Sim_FrameWork
         public enum RewardType
         {
             None,
-            /// <summary>
             /// 虹石
-            /// </summary>
             Currency,
-            /// <summary>
+            /// Ro_Core
+            Ro_Core,
             /// 科技点
-            /// </summary>
             TechPoints,
             Tech_Unlock,
-            /// <summary>
             /// 材料
-            /// </summary>
             Material,
-
         }
 
-        public ushort type;
+        public RewardType type;
         public int ItemID;
         public int count;
 
-    }
-
-    public class RewardData
-    {
-        public List<RewardGroup> rewardGroup;
-
-        public class RewardGroup
+        public GeneralRewardItem(RewardType type,int itemID,int count)
         {
-            public int GroupID;
-            public List<GeneralRewardItem> itemList;
+            this.type = type;
+            this.ItemID = itemID;
+            this.count = count;
         }
-       
+
     }
 
 }

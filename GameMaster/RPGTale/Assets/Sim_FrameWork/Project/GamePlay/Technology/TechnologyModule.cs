@@ -193,7 +193,7 @@ namespace Sim_FrameWork
             if (data != null)
             {
                 var finishEffect = GetTechFinishEffect(data.TechEffect);
-                if(finishEffect.techEffectList.Count> GlobalConfigData.TechDetail_Dialog_MaxEffect_Count)
+                if(finishEffect.techEffectList.Count> Config.GlobalConfigData.TechDetail_Dialog_MaxEffect_Count)
                 {
                     Debug.LogError("TechDetail_Dialog_MaxEffect_Count Cound not Larger than 4!  ID="+finishEffect.ID);
                 }
@@ -266,7 +266,7 @@ namespace Sim_FrameWork
                 var data = GetTechRequireData(tech.TechRequireID);
                 if (data != null)
                 {
-                    if (data.requireList.Count > GlobalConfigData.TechDetail_Dialog_MaxRequire_Count - 1)
+                    if (data.requireList.Count > Config.GlobalConfigData.TechDetail_Dialog_MaxRequire_Count - 1)
                     {
                         Debug.LogError("TechDetail_Dialog_MaxRequire_Count Count not Larger than 3 !  ID="+data.ID);
                     }

@@ -160,7 +160,7 @@ namespace Sim_FrameWork.UI
 
         private void InitTechEffectElement()
         {
-            for (int i = 0; i < GlobalConfigData.TechDetail_Dialog_MaxEffect_Count; i++)
+            for (int i = 0; i < Config.GlobalConfigData.TechDetail_Dialog_MaxEffect_Count; i++)
             {
                 var obj= ObjectManager.Instance.InstantiateObject(UIPath.PrefabPath.Tech_Effect_Element);
                 obj.transform.SetParent(m_dialog.EffectContentTrans,false);
@@ -242,7 +242,7 @@ namespace Sim_FrameWork.UI
 
         private void InitTechRequireElement()
         {
-            for (int i = 0; i < GlobalConfigData.TechDetail_Dialog_MaxRequire_Count; i++)
+            for (int i = 0; i < Config.GlobalConfigData.TechDetail_Dialog_MaxRequire_Count; i++)
             {
                 var obj = ObjectManager.Instance.InstantiateObject(UIPath.PrefabPath.Tech_Require_Element);
                 obj.transform.SetParent(m_dialog.RequireContentTrans,false);

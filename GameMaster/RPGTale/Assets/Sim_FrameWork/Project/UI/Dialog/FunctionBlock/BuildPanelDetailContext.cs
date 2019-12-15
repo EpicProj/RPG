@@ -105,9 +105,9 @@ namespace Sim_FrameWork.UI
 
         void InitDistrictBuildObj()
         {
-            if (_gridContentTrans.childCount == GlobalConfigData.BuildDetail_District_Area_Max)
+            if (_gridContentTrans.childCount == Config.GlobalConfigData.BuildDetail_District_Area_Max)
                 return;
-            for (int i = 0; i < GlobalConfigData.BuildDetail_District_Area_Max; i++)
+            for (int i = 0; i < Config.GlobalConfigData.BuildDetail_District_Area_Max; i++)
             {
                 var obj = ObjectManager.Instance.InstantiateObject(UIPath.PrefabPath.BuildDetail_District_Element);
                 if (obj == null)
@@ -170,9 +170,9 @@ namespace Sim_FrameWork.UI
         /// </summary>
         void InitBuildCostElement()
         {
-            if (_buildCostContentTrans.childCount == GlobalConfigData.BuildDetail_Cost_MaxInit_Count)
+            if (_buildCostContentTrans.childCount == Config.GlobalConfigData.BuildDetail_Cost_MaxInit_Count)
                 return;
-            for(int i = 0; i < GlobalConfigData.BuildDetail_Cost_MaxInit_Count; i++)
+            for(int i = 0; i < Config.GlobalConfigData.BuildDetail_Cost_MaxInit_Count; i++)
             {
                 var obj = ObjectManager.Instance.InstantiateObject(UIPath.PrefabPath.BuildDetail_Cost_Element);
                 if (obj != null)

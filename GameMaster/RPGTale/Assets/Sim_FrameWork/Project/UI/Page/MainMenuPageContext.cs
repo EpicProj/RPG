@@ -311,11 +311,11 @@ namespace Sim_FrameWork.UI
         
         void InitResImage()
         {
-            _currencyIcon.sprite = Utility.LoadSprite(GeneralModule.GlobalSetting.Resource_Currency_Icon_Path, Utility.SpriteType.png);
-            _energyIcon.sprite = Utility.LoadSprite(GeneralModule.GlobalSetting.Resource_Energy_Icon_Path, Utility.SpriteType.png);
-            _researchIcon.sprite = Utility.LoadSprite(GeneralModule.GlobalSetting.Resource_Research_Icon_Path, Utility.SpriteType.png);
-            _builderIcon.sprite = Utility.LoadSprite(GeneralModule.GlobalSetting.Resource_Builder_Icon_Path, Utility.SpriteType.png);
-            _roCoreIcon.sprite = Utility.LoadSprite(GeneralModule.GlobalSetting.Resource_Rocore_Icon_Path, Utility.SpriteType.png);
+            _currencyIcon.sprite = Utility.LoadSprite(Config.ConfigData.GlobalSetting.Resource_Currency_Icon_Path, Utility.SpriteType.png);
+            _energyIcon.sprite = Utility.LoadSprite(Config.ConfigData.GlobalSetting.Resource_Energy_Icon_Path, Utility.SpriteType.png);
+            _researchIcon.sprite = Utility.LoadSprite(Config.ConfigData.GlobalSetting.Resource_Research_Icon_Path, Utility.SpriteType.png);
+            _builderIcon.sprite = Utility.LoadSprite(Config.ConfigData.GlobalSetting.Resource_Builder_Icon_Path, Utility.SpriteType.png);
+            _roCoreIcon.sprite = Utility.LoadSprite(Config.ConfigData.GlobalSetting.Resource_Rocore_Icon_Path, Utility.SpriteType.png);
         }
 
     }

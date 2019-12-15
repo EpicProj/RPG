@@ -208,61 +208,69 @@
   <AllExploreEventList>
     <EventID>1</EventID>
     <Name>ExploreEvent_Name_1</Name>
+    <TitleName>ExploreEvent_TitleName_1</TitleName>
     <Desc>ExploreEvent_Desc_1</Desc>
+    <EventBG>SpriteOutput/RandomEvent/BG/RandomEvent_Pic_001</EventBG>
     <ChooseList>1,2,3</ChooseList>
   </AllExploreEventList>
   <AllExploreEventList>
     <EventID>2</EventID>
     <Name>ExploreEvent_Name_2</Name>
+    <TitleName>ExploreEvent_TitleName_2</TitleName>
     <Desc>ExploreEvent_Desc_2</Desc>
+    <EventBG>SpriteOutput/RandomEvent/BG/RandomEvent_Pic_001</EventBG>
     <ChooseList>1,2</ChooseList>
   </AllExploreEventList>
   <AllExploreEventList>
     <EventID>3</EventID>
     <Name>ExploreEvent_Name_3</Name>
+    <TitleName>ExploreEvent_TitleName_3</TitleName>
     <Desc>ExploreEvent_Desc_3</Desc>
+    <EventBG>SpriteOutput/RandomEvent/BG/RandomEvent_Pic_001</EventBG>
     <ChooseList>1,2</ChooseList>
   </AllExploreEventList>
   <AllExploreEventList>
     <EventID>4</EventID>
     <Name>ExploreEvent_Name_4</Name>
+    <TitleName>ExploreEvent_TitleName_4</TitleName>
     <Desc>ExploreEvent_Desc_4</Desc>
+    <EventBG>SpriteOutput/RandomEvent/BG/RandomEvent_Pic_001</EventBG>
     <ChooseList>1,2</ChooseList>
   </AllExploreEventList>
   <AllExploreChooseList>
     <ChooseID>1</ChooseID>
     <Content>ExlopreChoose_Content_1</Content>
-    <Result>0</Result>
+    <RewardID>0</RewardID>
     <NextEvent>2</NextEvent>
   </AllExploreChooseList>
   <AllExploreChooseList>
     <ChooseID>2</ChooseID>
     <Content>ExlopreChoose_Content_2</Content>
-    <Result>0</Result>
+    <RewardID>1</RewardID>
     <NextEvent>3</NextEvent>
   </AllExploreChooseList>
   <AllExploreChooseList>
     <ChooseID>3</ChooseID>
     <Content>ExlopreChoose_Content_3</Content>
-    <Result>0</Result>
+    <RewardID>2</RewardID>
     <NextEvent>1</NextEvent>
   </AllExploreChooseList>
   <AllExploreChooseList>
     <ChooseID>4</ChooseID>
     <Content>ExlopreChoose_Content_4</Content>
-    <Result>0</Result>
+    <RewardID>0</RewardID>
     <NextEvent>1</NextEvent>
   </AllExploreChooseList>
   <AllExploreChooseList>
     <ChooseID>5</ChooseID>
     <Content>ExlopreChoose_Content_5</Content>
-    <Result>0</Result>
+    <RewardID>1</RewardID>
     <NextEvent>1</NextEvent>
   </AllExploreChooseList>
   <AllExploreChooseList>
     <ChooseID>6</ChooseID>
     <Content>ExlopreChoose_Content_6</Content>
-    <Result>0</Result>
+    <RewardID>1</RewardID>
     <NextEvent>1</NextEvent>
   </AllExploreChooseList>
 </ExploreMetaData>

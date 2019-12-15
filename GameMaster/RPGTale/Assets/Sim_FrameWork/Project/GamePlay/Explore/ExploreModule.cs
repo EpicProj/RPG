@@ -62,27 +62,38 @@ namespace Sim_FrameWork
         }
 
 
-        public static string GetEventName(int exploreID)
+        public static string GetEventName(int eventID)
         {
-            var data = GetExploreEventDataByKey(exploreID);
+            var data = GetExploreEventDataByKey(eventID);
             return MultiLanguage.Instance.GetTextValue(data.Name);
         }
-        public static string GetEventDesc(int exploreID)
+        public static string GetEventTitleName(int eventID)
         {
-            var data = GetExploreEventDataByKey(exploreID);
+            var data = GetExploreEventDataByKey(eventID);
+            return MultiLanguage.Instance.GetTextValue(data.TitleName);
+        }
+
+        public static string GetEventDesc(int eventID)
+        {
+            var data = GetExploreEventDataByKey(eventID);
             return MultiLanguage.Instance.GetTextValue(data.Desc);
+        }
+        public static Sprite GetEventBG(int eventID)
+        {
+            return Utility.LoadSprite(GetExploreEventDataByKey(eventID).EventBG, Utility.SpriteType.png);
         }
 
         public static string GetChooseContent(int chooseID)
         {
             return MultiLanguage.Instance.GetTextValue(GetExploreChooseDataByKey(chooseID).Content);
         }
+    
 
 
-        private static List<ExploreChoose> GetExploreChooseList(int exploreID)
+        private static List<ExploreChoose> GetExploreChooseList(int eventID)
         {
             List<ExploreChoose> result = new List<ExploreChoose>();
-            var data = GetExploreEventDataByKey(exploreID);
+            var data = GetExploreEventDataByKey(eventID);
             var contentList = Utility.TryParseIntList(data.ChooseList, ',');
             for(int i = 0; i < contentList.Count; i++)
             {
@@ -97,6 +108,23 @@ namespace Sim_FrameWork
 
 
         #endregion
+        /// <summary>
+        /// 获取事件选项
+        /// </summary>
+        /// <param name="eventID"></param>
+        /// <returns></returns>
+        public static List<ExploreChooseItem> GetChooseItem(int eventID)
+        {
+            List<ExploreChooseItem> result = new List<ExploreChooseItem>();
+            var List = GetExploreChooseList(eventID);
+            for(int i = 0; i < List.Count; i++)
+            {
+                ExploreChooseItem item = new ExploreChooseItem(
+                    List[i].ChooseID);
+                result.Add(item);
+            }
+            return result;
+        }
 
     }
 
@@ -105,9 +133,9 @@ namespace Sim_FrameWork
         public int ChooseID;
         public int nextEvent;
         public string content;
-        public UnityAction clickAction;
+        public int rewardID;
 
-        public ExploreChooseItem(int chooseID,UnityAction clickActon=null)
+        public ExploreChooseItem(int chooseID)
         {
             var data = ExploreModule.GetExploreChooseDataByKey(chooseID);
             if (data != null)
@@ -115,6 +143,7 @@ namespace Sim_FrameWork
                 ChooseID = chooseID;
                 nextEvent = data.NextEvent;
                 content = ExploreModule.GetChooseContent(chooseID);
+                this.rewardID = data.RewardID;
             }
         }
     }

@@ -626,8 +626,6 @@ namespace Sim_FrameWork {
                                 PlayerManager.Instance.AddUnLockBuildData(buildData);
                             }
                         }
-
-
                         break;
                 }
             }
@@ -636,26 +634,63 @@ namespace Sim_FrameWork {
 
         #endregion
 
-    }
 
-    public static class GlobalConfigData
-    {
+        #region Reward
+
         /// <summary>
-        /// 最大效果数量
+        /// 奖励处理
         /// </summary>
-        public static readonly int  TechDetail_Dialog_MaxEffect_Count = 4;
-        /// <summary>
-        /// 科技最大要求数量
-        /// </summary>
-        public static readonly int TechDetail_Dialog_MaxRequire_Count = 4;
+        /// <param name="itemList"></param>
+        public void HandleRewardDataItem(List<GeneralRewardItem> itemList)
+        {
+            for(int i = 0; i < itemList.Count; i++)
+            {
+                if(itemList[i].type == GeneralRewardItem.RewardType.Currency)
+                {
+                    ///Add Currency
+                    PlayerManager.Instance.AddCurrency(itemList[i].count, PlayerManager.ResourceAddType.current);
+                }
+                else if (itemList[i].type == GeneralRewardItem.RewardType.Ro_Core)
+                {
+                    PlayerManager.Instance.AddRoCore((ushort)itemList[i].count, PlayerManager.ResourceAddType.current);
+                }
+                else if(itemList[i].type == GeneralRewardItem.RewardType.Material)
+                {
+                    ///Add Material
+                    PlayerManager.Instance.AddMaterialData(itemList[i].ItemID, (ushort)itemList[i].count);
+                }
+                else if(itemList[i].type == GeneralRewardItem.RewardType.TechPoints)
+                {
+                    ///Add Tech Points
+                    PlayerManager.Instance.AddResearch(itemList[i].count, PlayerManager.ResourceAddType.current);
+                }
+                else if(itemList[i].type == GeneralRewardItem.RewardType.Tech_Unlock)
+                {
+                    ///UnLock Tech
+                    
+                }
+                else
+                {
+                    continue;
+                }
+            }
+        }
 
-        public static readonly int BuildDetail_Cost_MaxInit_Count = 4;
+        public void HandleRewardDataItem(int rewardGroupID)
+        {
+            ///Empty Reward
+            if (rewardGroupID == 0)
+                return;
+            var data = GeneralModule.GetRewardItem(rewardGroupID);
+            if (data.Count != 0)
+            {
+                HandleRewardDataItem(data);
+            }
+        }
 
-        public static readonly int BuildDetail_District_Area_Max = 25;
+        #endregion
+
     }
-
-
-
 
     public class OrderStatisticsItem
     {

@@ -56,7 +56,9 @@ public class ExploreMetaData : ExcelBase {
             ExploreEvent e = new ExploreEvent();
             e.EventID = i;
             e.Name = "";
+            e.TitleName = "";
             e.Desc = "";
+            e.EventBG = "";
             e.ChooseList = "";
             AllExploreEventList.Add(e);
         }
@@ -67,7 +69,7 @@ public class ExploreMetaData : ExcelBase {
             ExploreChoose choose = new ExploreChoose();
             choose.ChooseID = i;
             choose.Content = "";
-            choose.Result = "";
+            choose.RewardID = i;
             choose.NextEvent = i;
             AllExploreChooseList.Add(choose);
         }
@@ -224,7 +226,11 @@ public class ExploreEvent
     [XmlElement]
     public string Name { get; set; }
     [XmlElement]
+    public string TitleName { get; set; }
+    [XmlElement]
     public string Desc { get; set; }
+    [XmlElement]
+    public string EventBG { get; set; }
     [XmlElement]
     public string ChooseList { get; set; }
 }
@@ -237,7 +243,7 @@ public class ExploreChoose
     [XmlElement]
     public string Content { get; set; }
     [XmlElement]
-    public string Result { get; set; }
+    public int RewardID { get; set; }
     [XmlElement]
     public int NextEvent { get; set; }
 }

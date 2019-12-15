@@ -39,7 +39,9 @@
 		<list name = "ExploreEvent" sheetname="ExploreEvent" mainKey = "EventID">
 			<variable  name="EventID" col = "EventID" type="int"/>
 			<variable  name="Name" col = "Name" type="string"/>
+			<variable  name="TitleName" col = "TitleName" type="string"/>
 			<variable  name="Desc" col = "Desc" type="string"/>
+			<variable  name="EventBG" col = "EventBG" type="string"/>
 			<variable  name="ChooseList" col = "ChooseList" type="string"/>
 		</list>
 	</variable>
@@ -48,7 +50,7 @@
 		<list name = "ExploreChoose" sheetname="ExploreChoose" mainKey = "ChooseID">
 			<variable  name="ChooseID" col = "ChooseID" type="int"/>
 			<variable  name="Content" col = "Content" type="string"/>
-			<variable  name="Result" col = "Result" type="string"/>
+			<variable  name="RewardID" col = "RewardID" type="int"/>
 			<variable  name="NextEvent" col = "NextEvent" type="int"/>
 		</list>
 	</variable>
