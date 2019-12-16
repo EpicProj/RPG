@@ -182,6 +182,7 @@
      <Compile Include="Assets\Sim_FrameWork\Project\UI\Base\UIMessage.cs" />
      <Compile Include="Assets\Sim_FrameWork\Project\UI\Base\UIPath.cs" />
      <Compile Include="Assets\Sim_FrameWork\Project\UI\Base\WindowBase.cs" />
+     <Compile Include="Assets\Sim_FrameWork\Project\UI\Button\ExploreAreaSelectBtn.cs" />
      <Compile Include="Assets\Sim_FrameWork\Project\UI\Dialog\BlockInfoDialog.cs" />
      <Compile Include="Assets\Sim_FrameWork\Project\UI\Dialog\Event\RandomEventDialog.cs" />
      <Compile Include="Assets\Sim_FrameWork\Project\UI\Dialog\Event\RandomEventDialogContext.cs" />
@@ -242,6 +243,8 @@
      <Compile Include="Assets\Sim_FrameWork\Project\UI\Page\BlockManuPageContext.cs" />
      <Compile Include="Assets\Sim_FrameWork\Project\UI\Page\ConsolePage.cs" />
      <Compile Include="Assets\Sim_FrameWork\Project\UI\Page\ConsolePageContext.cs" />
+     <Compile Include="Assets\Sim_FrameWork\Project\UI\Page\ExploreMainPage.cs" />
+     <Compile Include="Assets\Sim_FrameWork\Project\UI\Page\ExploreMainPageContext.cs" />
      <Compile Include="Assets\Sim_FrameWork\Project\UI\Page\GameEntryPage.cs" />
      <Compile Include="Assets\Sim_FrameWork\Project\UI\Page\GameEntryPageContext.cs" />
      <Compile Include="Assets\Sim_FrameWork\Project\UI\Page\LoadingPage.cs" />
@@ -253,6 +256,7 @@
      <Compile Include="Assets\Sim_FrameWork\Project\UI\Page\TechnologyMainPageContext.cs" />
      <Compile Include="Assets\Sim_FrameWork\Project\UI\Page\WareHousePage.cs" />
      <Compile Include="Assets\Sim_FrameWork\Project\UI\Page\WareHousePageContext.cs" />
+     <Compile Include="Assets\Sim_FrameWork\Project\UI\Scene\ExploreUIManager.cs" />
      <Compile Include="Assets\Sim_FrameWork\Project\UI\Text\SpriteItem.cs" />
      <Compile Include="Assets\Sim_FrameWork\Project\UI\Text\TextAndGraphics.cs" />
      <Compile Include="Assets\Sim_FrameWork\Project\UI\Text\TGConfig.cs" />
