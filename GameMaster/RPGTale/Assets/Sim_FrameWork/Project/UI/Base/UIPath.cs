@@ -83,6 +83,11 @@ namespace Sim_FrameWork
             /// </summary>
             public const string Technology_Page = "Page/TechnologyMainPage";
 
+            /// <summary>
+            /// 探索主界面
+            /// </summary>
+            public const string Explore_Main_Page = "Page/ExploreMainPage";
+
 
             #endregion
 
@@ -150,6 +155,8 @@ namespace Sim_FrameWork
             public const string BuildDetail_Cost_Element = "Assets/Prefabs/Object/FunctionBlock/BuildRequireElement.prefab";
 
             public const string Reward_Item = "Assets/Prefabs/Object/Main/RewardItem.prefab";
+
+            public const string Explore_Area_Select_Btn = "Assets/Prefabs/Object/Explore/ExploreAreaSelectBtn.prefab";
 
             #endregion
 

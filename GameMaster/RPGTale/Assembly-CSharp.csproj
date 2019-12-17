@@ -206,6 +206,7 @@
      <Compile Include="Assets\Sim_FrameWork\Project\UI\Inventory\Element\BuildDetailDistrictElement.cs" />
      <Compile Include="Assets\Sim_FrameWork\Project\UI\Inventory\Element\BuildRequireElement.cs" />
      <Compile Include="Assets\Sim_FrameWork\Project\UI\Inventory\Element\ConstructMainTabElement.cs" />
+     <Compile Include="Assets\Sim_FrameWork\Project\UI\Inventory\Element\ExploreAreaMissionElement.cs" />
      <Compile Include="Assets\Sim_FrameWork\Project\UI\Inventory\Element\ManuSlotElement.cs" />
      <Compile Include="Assets\Sim_FrameWork\Project\UI\Inventory\Element\OrderDetailElement.cs" />
      <Compile Include="Assets\Sim_FrameWork\Project\UI\Inventory\Element\RewardItem.cs" />
@@ -262,6 +263,7 @@
      <Compile Include="Assets\Sim_FrameWork\Project\UI\Text\TGConfig.cs" />
      <Compile Include="Assets\Sim_FrameWork\Project\UI\Text\TypeWriterEffect.cs" />
      <Compile Include="Assets\Sim_FrameWork\Project\UI\Text\VideoItem.cs" />
+     <Compile Include="Assets\Sim_FrameWork\Project\UI\UIData\ExplorePageItem.cs" />
      <Compile Include="Assets\Sim_FrameWork\Project\UI\UIData\GeneralConfirmDialogItem.cs" />
      <Compile Include="Assets\Sim_FrameWork\Shader\PostEffectsBase.cs" />
      <Compile Include="Assets\Sim_FrameWork\Shader\SetImageAlpha.cs" />
@@ -274,6 +276,7 @@
      <None Include="Assets\StreamingAssets\Data\Language\Language_CN\District.txt" />
      <None Include="Assets\StreamingAssets\Data\Language\Language_CN\Order.txt" />
      <None Include="Assets\AssetBundleConfig.xml" />
+     <None Include="Assets\Shader\Map\Planet\PlanetStandard.shader" />
      <None Include="Assets\Shader\Map\Planet\PlanetRender.shader" />
      <None Include="Assets\Resources\Data\DataFormat\Xml\TerrainMetaData.xml" />
      <None Include="Assets\StreamingAssets\Data\Language\Language_CN\Organization.txt" />

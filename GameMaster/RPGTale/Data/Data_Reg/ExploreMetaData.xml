@@ -5,6 +5,7 @@
 			<variable  name="AreaID" col = "AreaID" type="int"/>
 			<variable  name="Name" col = "Name" type="string"/>
 			<variable  name="Desc" col = "Desc" type="string"/>
+			<variable  name="Unlock" col = "Unlock" type="bool"/>
 			<variable  name="ExploreList" col = "ExploreList" type="string"/>
 		</list>
 	</variable>

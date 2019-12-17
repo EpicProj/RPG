@@ -49,7 +49,6 @@
 					o.uv = TRANSFORM_TEX(v.uv, _MainTex);
 					return o;
 				}
-				//此方法取自Unity默认Sprite的Shader
 				fixed4 SampleSpriteTexture(float2 uv)
 				{
 					fixed4 color = tex2D(_MainTex, uv);

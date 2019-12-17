@@ -16,6 +16,7 @@ public class ExploreMetaData : ExcelBase {
             area.AreaID = i;
             area.Name = "";
             area.Desc = "";
+            area.Unlock = true;
             area.ExploreList = "";
             AllExploreAreaList.Add(area);
         }
@@ -172,6 +173,8 @@ public class ExploreArea
     public string Name { get; set; }
     [XmlElement]
     public string Desc { get; set; }
+    [XmlElement]
+    public bool Unlock { get; set; }
     [XmlElement]
     public string ExploreList { get; set; }
 }

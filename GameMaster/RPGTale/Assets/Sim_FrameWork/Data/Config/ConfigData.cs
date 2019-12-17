@@ -109,6 +109,13 @@ namespace Sim_FrameWork.Config
     public class GlobalSetting
     {
         public List<RarityConfig> rarityConfig;
+
+        /// <summary>
+        /// Default Area Explore
+        /// </summary>
+        public List<int> exploreArea_Space;
+        public List<int> exploreArea_Earth;
+
         public string Resource_Research_Icon_Path;
         public string Resource_Currency_Icon_Path;
         public string Resource_Energy_Icon_Path;
@@ -121,6 +128,8 @@ namespace Sim_FrameWork.Config
             JsonReader config = new JsonReader();
             GlobalSetting settting = config.LoadJsonDataConfig<GlobalSetting>(JsonConfigPath.GlobalSettingJsonPath);
             rarityConfig = settting.rarityConfig;
+            exploreArea_Space = settting.exploreArea_Space;
+            exploreArea_Earth = settting.exploreArea_Earth;
             Resource_Research_Icon_Path = settting.Resource_Research_Icon_Path;
             Resource_Currency_Icon_Path = settting.Resource_Currency_Icon_Path;
             Resource_Energy_Icon_Path = settting.Resource_Energy_Icon_Path;

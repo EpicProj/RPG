@@ -69,5 +69,15 @@ namespace Sim_FrameWork
             UIManager.Instance.PopUpWnd(UIPath.WindowPath.RandomEvent_Dialog, WindowType.Dialog, true, item);
         }
 
+
+        ///Explore 
+        public void ShowExploreMainPage()
+        {
+            UIManager.Instance.Register<UI.ExploreMainPageContext>(UIPath.WindowPath.Explore_Main_Page);
+
+            UIManager.Instance.HideWnd(UIPath.WindowPath.MainMenu_Page);
+            UIManager.Instance.PopUpWnd(UIPath.WindowPath.Explore_Main_Page, WindowType.Page, true);
+        }
+
     }
 }

@@ -32,6 +32,8 @@ namespace Sim_FrameWork {
             InitOrganizationModelData();
 
             InitAllTechInfo();
+
+            GenerateExploreArea();
         }
 
 
@@ -636,6 +638,10 @@ namespace Sim_FrameWork {
 
         #region ExploreEvent
 
+        public List<ExploreAreaData> ExploreAreaListSpace = new List<ExploreAreaData>();
+        public List<ExploreAreaData> ExploreAreaListEarth=new List<ExploreAreaData> ();
+
+
         private List<ExploreRandomItem> _currentFinishedExploreList = new List<ExploreRandomItem>();
         public List<ExploreRandomItem> CurrentFinishedExploreList
         {
@@ -646,6 +652,13 @@ namespace Sim_FrameWork {
         {
             return _currentFinishedExploreList.Find(x => x.exploreID == exploreID);
         }
+
+        void GenerateExploreArea()
+        {
+            ExploreAreaListSpace = ExploreModule.GetTotalExploreAreaData(ExploreAreaType.space);
+            ExploreAreaListEarth = ExploreModule.GetTotalExploreAreaData(ExploreAreaType.earth);
+        }
+
 
         /// <summary>
         /// 开启一个点位

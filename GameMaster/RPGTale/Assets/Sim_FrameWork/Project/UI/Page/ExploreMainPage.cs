@@ -1,16 +1,20 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
-public class ExploreMainPage : MonoBehaviour {
+namespace Sim_FrameWork
+{
+    public class ExploreMainPage : MonoBehaviour
+    {
+        [Header("Button")]
+        public Button backBtn;
 
-	// Use this for initialization
-	void Start () {
-		
-	}
-	
-	// Update is called once per frame
-	void Update () {
-		
-	}
+        [Header("Content")]
+        public Transform Title;
+        public Transform LeftPanel;
+        public Transform BottomPanel;
+
+      
+    }
 }

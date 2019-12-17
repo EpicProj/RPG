@@ -60,7 +60,10 @@ namespace Sim_FrameWork
         Tech_Research_Start,
 
         ///Random Event
-        RandomEventDialog_Update_Effect
+        RandomEventDialog_Update_Effect,
+
+        ///Explore
+        ExplorePage_ShowArea_Mission
 
 
 

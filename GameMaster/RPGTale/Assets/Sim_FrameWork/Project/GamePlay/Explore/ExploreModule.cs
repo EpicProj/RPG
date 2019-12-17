@@ -5,6 +5,12 @@ using UnityEngine.Events;
 
 namespace Sim_FrameWork
 {
+    public enum ExploreAreaType
+    {
+        space,
+        earth,
+    }
+
     public class ExploreModule : BaseModule<ExploreModule>
     {
         public static List<ExploreArea> ExploreAreaList;
@@ -115,7 +121,30 @@ namespace Sim_FrameWork
             return null;
         }
 
+        public static List<ExploreAreaData> GetTotalExploreAreaData(ExploreAreaType areaType)
+        {
+            List<ExploreAreaData> result = new List<ExploreAreaData>();
+            List<int> areaList = new List<int>();
+            if(areaType == ExploreAreaType.earth)
+            {
+                areaList = Config.ConfigData.GlobalSetting.exploreArea_Earth;
+             
+            }else if (areaType == ExploreAreaType.space)
+            {
+                areaList= Config.ConfigData.GlobalSetting.exploreArea_Space;
+            }
 
+            for (int i = 0; i < areaList.Count; i++)
+            {
+                if (GetExploreAreaDataByKey(areaList[i]) != null)
+                {
+                    ExploreAreaData data = new ExploreAreaData(areaList[i]);
+                    result.Add(data);
+                }
+            }
+
+            return result;
+        }
         
 
 
@@ -303,6 +332,11 @@ namespace Sim_FrameWork
         public string areaDesc;
 
         /// <summary>
+        /// 解锁状态
+        /// </summary>
+        public bool unlock;
+
+        /// <summary>
         /// 探索点位信息
         /// </summary>
         public List<ExplorePointData> pointList=new List<ExplorePointData> ();
@@ -316,6 +350,7 @@ namespace Sim_FrameWork
                 itemData = ExploreModule.GetRandomArea(areaID);
                 areaName = ExploreModule.GetExploreAreaName(areaID);
                 areaDesc = ExploreModule.GetExploreAreaDesc(areaID);
+                unlock = data.Unlock;
                 pointList = ExploreModule.GetExplorePointDataList(itemData.exploreID);
             }
         }

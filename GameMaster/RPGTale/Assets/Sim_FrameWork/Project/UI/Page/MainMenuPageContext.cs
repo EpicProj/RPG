@@ -189,6 +189,10 @@ namespace Sim_FrameWork.UI
             {
                 UIGuide.Instance.ShowTechnologyMainPage();
             });
+            AddButtonClickListener(m_page.ExploreBtn, () =>
+            {
+                UIGuide.Instance.ShowExploreMainPage();
+            });
 
         }
 
