@@ -291,7 +291,7 @@ namespace Sim_FrameWork.UI
                                 {
                                     index++;
                                     var element = UIUtility.SafeGetComponent<TechRequireElement>(obj);
-                                    bool warning = GlobalEventManager.Instance.GetTechInfo(techList[j]).currentState == TechnologyInfo.TechState.Lock ? true : false;
+                                    bool warning = TechnologyDataManager.Instance.GetTechInfo(techList[j]).currentState == TechnologyInfo.TechState.Lock ? true : false;
                                     element.SetUpElement( TechRequireElement.RequireType.PreTech,new object[] { techModel.ID }, warning);
                                     obj.gameObject.SetActive(true);
                                 }
@@ -328,7 +328,7 @@ namespace Sim_FrameWork.UI
         #region BtnClickEvents
         private void OnConfirmBtnClick()
         {
-            if (GlobalEventManager.Instance.CheckTechCanResearch(techInfo.techID))
+            if (TechnologyDataManager.Instance.CheckTechCanResearch(techInfo.techID))
             {
                 UIManager.Instance.HideWnd(this);
                 UIManager.Instance.SendMessageToWnd(UIPath.WindowPath.Technology_Page, new UIMessage(UIMsgType.Tech_Research_Start, new List<object>() { techInfo._model.ID }));

@@ -28,6 +28,10 @@ namespace Sim_FrameWork
         public static List<ExploreChoose> ExploreChooseList;
         public static Dictionary<int, ExploreChoose> ExploreChooseDic;
 
+
+        public static List<ExploreAreaData> ExploreAreaListSpace = new List<ExploreAreaData>();
+        public static List<ExploreAreaData> ExploreAreaListEarth = new List<ExploreAreaData>();
+
         public override void InitData()
         {
             ExploreAreaList = ExploreMetaDataReader.GetExploreAreaList();
@@ -44,6 +48,8 @@ namespace Sim_FrameWork
             
             ExploreChooseList = ExploreMetaDataReader.GetExploreChooseList();
             ExploreChooseDic = ExploreMetaDataReader.GetExploreChooseDic();
+
+            GenerateExploreArea();
         }
 
         public override void Register()
@@ -56,6 +62,13 @@ namespace Sim_FrameWork
         }
 
         #region Explore Area
+
+        void GenerateExploreArea()
+        {
+            ExploreAreaListSpace = GetTotalExploreAreaData(ExploreAreaType.space);
+            ExploreAreaListEarth = GetTotalExploreAreaData(ExploreAreaType.earth);
+        }
+
         public static ExploreArea GetExploreAreaDataByKey(int areaID)
         {
             ExploreArea area = null;
@@ -71,11 +84,19 @@ namespace Sim_FrameWork
         {
             return MultiLanguage.Instance.GetTextValue(GetExploreAreaDataByKey(areaID).Name);
         }
+
+        public static string GetExploreAreaTitleName(int areaID)
+        {
+            return MultiLanguage.Instance.GetTextValue(GetExploreAreaDataByKey(areaID).NameTitle);
+        }
         public static string GetExploreAreaDesc(int areaID)
         {
             return MultiLanguage.Instance.GetTextValue(GetExploreAreaDataByKey(areaID).Desc);
         }
-
+        public static Sprite GetExploreAreaIcon(int areaID)
+        {
+            return Utility.LoadSprite(GetExploreAreaDataByKey(areaID).IconPath, Utility.SpriteType.png);
+        }
 
 
         public static ExploreData GetExploreDataByKey(int exploreID)
@@ -93,15 +114,11 @@ namespace Sim_FrameWork
         /// 随机生成探索区域
         /// </summary>
         /// <param name="areaID"></param>
-        public ExploreAreaData GenerateExploreAreaData(int areaID)
+        public static List<ExploreRandomItem> GetRandomArea(int areaID , int maxCount)
         {
-            ExploreAreaData data = new ExploreAreaData(areaID);
-            return data;
-        }
+            if (maxCount <= 0)
+                return null;
 
-
-        public static ExploreRandomItem GetRandomArea(int areaID)
-        {
             List<ExploreRandomItem> tempList = new List<ExploreRandomItem>();
             var list = Utility.TryParseIntList(GetExploreAreaDataByKey(areaID).ExploreList,',');
             for(int i = 0; i < list.Count; i++)
@@ -113,12 +130,23 @@ namespace Sim_FrameWork
                     tempList.Add(item);
                 }
             }
-            if (tempList.Count >= 1)
+            ///Delect Doing Misson And Finished Mission
+            for(int i = 0; i < tempList.Count; i++)
             {
-                var result = Utility.GetRandomList<ExploreRandomItem>(tempList, 1);
-                return result[0];
+                if(ExploreEventManager.Instance.CheckMissionIsDoing(areaID,tempList[i].exploreID) == true || ExploreEventManager.Instance.CheckMissionIsFinish(areaID) == true)
+                {
+                    tempList.Remove(tempList[i]);
+                }
             }
-            return null;
+
+            if (tempList.Count >= maxCount)
+            {
+                return Utility.GetRandomList<ExploreRandomItem>(tempList, maxCount);
+            }
+            else
+            {
+                return tempList;
+            }
         }
 
         public static List<ExploreAreaData> GetTotalExploreAreaData(ExploreAreaType areaType)
@@ -327,18 +355,24 @@ namespace Sim_FrameWork
             get { return _currentDepth; }
         }
 
-        public ExploreRandomItem itemData;
+        public List<ExploreRandomItem> currentMissionList;
         public string areaName;
+        public string areaTitleName;
         public string areaDesc;
+        public Sprite areaIcon;
 
         /// <summary>
         /// 解锁状态
         /// </summary>
         public bool unlock;
-
         /// <summary>
-        /// 探索点位信息
+        /// 初始化解锁的任务数量
         /// </summary>
+        public ushort defaultMissionCount;
+
+        public bool InitData = false;
+
+        
         public List<ExplorePointData> pointList=new List<ExplorePointData> ();
 
         public ExploreAreaData(int areaID)
@@ -347,13 +381,38 @@ namespace Sim_FrameWork
             if (data != null)
             {
                 areaID = data.AreaID;
-                itemData = ExploreModule.GetRandomArea(areaID);
                 areaName = ExploreModule.GetExploreAreaName(areaID);
+                areaTitleName = ExploreModule.GetExploreAreaTitleName(areaID);
                 areaDesc = ExploreModule.GetExploreAreaDesc(areaID);
+                areaIcon = ExploreModule.GetExploreAreaIcon(areaID);
                 unlock = data.Unlock;
-                pointList = ExploreModule.GetExplorePointDataList(itemData.exploreID);
+                defaultMissionCount = data.DefaultMissionCount;
+                InitData = true;
             }
         }
+
+        /// <summary>
+        /// 生成随机任务
+        /// </summary>
+        public void GenerateRandomMission()
+        {
+            if (InitData)
+            {
+                currentMissionList = ExploreModule.GetRandomArea(areaID,defaultMissionCount);
+                if (currentMissionList != null)
+                {
+                    for(int i = 0; i < currentMissionList.Count; i++)
+                    {
+                        ExploreEventManager.Instance.AddExploreDoingMission(areaID, currentMissionList[i]);
+                    }
+                }
+            }
+            else
+            {
+                Debug.LogError("Can not GenerateMission withOut Init");
+            }
+        }
+
 
         public void AddCurrentDepth()
         {
@@ -373,6 +432,9 @@ namespace Sim_FrameWork
         /// </summary>
         public int requirePreExploreID;
 
+        /// <summary>
+        /// 探索点位信息
+        /// </summary>
         public List<ExplorePointData> pointList=new List<ExplorePointData> ();
 
         public bool finish = false;
@@ -391,6 +453,7 @@ namespace Sim_FrameWork
             {
                 this.exploreID = exploreData.ExploreID;
                 requirePreExploreID = exploreData.RequirePreID;
+                pointList = ExploreModule.GetExplorePointDataList(exploreID);
                 Weight = exploreData.Weight;
             }
         }

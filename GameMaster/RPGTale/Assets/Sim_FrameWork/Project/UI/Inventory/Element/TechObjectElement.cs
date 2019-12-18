@@ -91,7 +91,7 @@ namespace Sim_FrameWork {
             _techCost.text = _dataModel.TechCost.ToString();
             _icon.sprite = _dataModel.Icon;
 
-            if (GlobalEventManager.Instance.GetTechInfo(_dataModel.ID).currentState== TechnologyInfo.TechState.Lock)
+            if (TechnologyDataManager.Instance.GetTechInfo(_dataModel.ID).currentState== TechnologyInfo.TechState.Lock)
             {
                 SetLockStates(true);
             }
@@ -102,7 +102,7 @@ namespace Sim_FrameWork {
 
         public void RefreshTech()
         {
-            var info = GlobalEventManager.Instance.GetTechInfo(_dataModel.ID);
+            var info = TechnologyDataManager.Instance.GetTechInfo(_dataModel.ID);
             if (info.currentState == TechnologyInfo.TechState.Unlock)
             {
                 SetLockStates(false);
@@ -151,7 +151,7 @@ namespace Sim_FrameWork {
 
         private void UpdateProgress()
         {
-            var info = GlobalEventManager.Instance.GetTechInfo(_dataModel.ID);
+            var info = TechnologyDataManager.Instance.GetTechInfo(_dataModel.ID);
             if(info.currentState== TechnologyInfo.TechState.OnResearch && progressTrans.gameObject.activeSelf && progressSlider!=null)
             {
                 progressSlider.size = info.researchProgress/100f;

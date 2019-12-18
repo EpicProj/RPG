@@ -33,7 +33,7 @@ namespace Sim_FrameWork
             {
                 _data = data;
                 _name.text = data.areaName;
-
+                _icon.sprite = data.areaIcon;
                 _progressImage.fillAmount = data.areaTotalProgress;
                 _progressText.text = ((int)(data.areaTotalProgress * 100)).ToString()+"%";
 

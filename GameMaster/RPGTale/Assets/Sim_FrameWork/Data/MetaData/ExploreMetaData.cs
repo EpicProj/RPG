@@ -15,8 +15,11 @@ public class ExploreMetaData : ExcelBase {
             ExploreArea area = new ExploreArea();
             area.AreaID = i;
             area.Name = "";
+            area.NameTitle = "";
             area.Desc = "";
+            area.IconPath = "";
             area.Unlock = true;
+            area.DefaultMissionCount = (ushort)i;
             area.ExploreList = "";
             AllExploreAreaList.Add(area);
         }
@@ -172,11 +175,19 @@ public class ExploreArea
     [XmlElement]
     public string Name { get; set; }
     [XmlElement]
+    public string NameTitle { get; set; }
+    [XmlElement]
     public string Desc { get; set; }
+    [XmlElement]
+    public string IconPath { get; set; }
     [XmlElement]
     public bool Unlock { get; set; }
     [XmlElement]
+    public ushort DefaultMissionCount { get; set; }
+    [XmlElement]
     public string ExploreList { get; set; }
+
+    
 }
 
 [System.Serializable]

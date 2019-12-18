@@ -3,15 +3,21 @@
   <AllExploreAreaList>
     <AreaID>100</AreaID>
     <Name>ExploreArea_Name_100</Name>
+    <NameTitle>ExploreArea_NameTitle_100</NameTitle>
     <Desc>ExploreArea_Desc_100</Desc>
+    <IconPath>SpriteOutput/Explore/AreaIcon/Explore_Icon_Mars</IconPath>
     <Unlock>true</Unlock>
+    <DefaultMissionCount>3</DefaultMissionCount>
     <ExploreList>1,2,3,4,5</ExploreList>
   </AllExploreAreaList>
   <AllExploreAreaList>
     <AreaID>101</AreaID>
     <Name>ExploreArea_Name_101</Name>
+    <NameTitle>ExploreArea_NameTitle_101</NameTitle>
     <Desc>ExploreArea_Desc_101</Desc>
+    <IconPath>SpriteOutput/Explore/AreaIcon/Explore_Icon_Jupiter</IconPath>
     <Unlock>false</Unlock>
+    <DefaultMissionCount>2</DefaultMissionCount>
     <ExploreList>1,2,3,4,5</ExploreList>
   </AllExploreAreaList>
   <AllExploreDataList>

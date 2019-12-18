@@ -29,25 +29,34 @@ namespace Sim_FrameWork.UI
         {
             AudioManager.Instance.PlaySound(AudioClipPath.UISound.Page_Open);
             InitAreaExploreList(ExploreAreaType.space);
+
+            if (pageAnim != null)
+                pageAnim.Play();
+
         }
 
         public override void OnClose()
         {
-            base.OnClose();
+            UIGuide.Instance.ShowGameMainPage(true);
         }
 
         #endregion
 
+
+        bool RefreshAreaExploreProgress(ExploreAreaData data)
+        {
+            if (data != null)
+            {
+                progressText.text = ((int)(data.areaTotalProgress * 100)).ToString() + "%";
+                progressSlider.value = ((int)data.areaTotalProgress) * 100;
+                return true;
+            }
+            return false;
+        }
+
         void InitAreaExploreList(ExploreAreaType type)
         {
-            List<ExploreAreaData> list = new List<ExploreAreaData>();
-            if(type == ExploreAreaType.space)
-            {
-                list = GlobalEventManager.Instance.ExploreAreaListSpace;
-            }else if(type == ExploreAreaType.earth)
-            {
-                list = GlobalEventManager.Instance.ExploreAreaListEarth;
-            }
+            var list = ExploreEventManager.Instance.CurrentExploreAreaList(type);
 
             if (areaSelectTrans.childCount == list.Count)
                 return;
@@ -68,13 +77,19 @@ namespace Sim_FrameWork.UI
 
         bool ShowAreaMissionPanel(ExploreAreaData data)
         {
-            if (data == null)
-                return false;
-            if (exploreMissionAnim != null)
+            if(data != null)
             {
-                exploreMissionAnim.Play();
+                if (exploreMissionAnim != null)
+                {
+                    exploreMissionAnim.Play();
+                }
+                RefreshAreaExploreProgress(data);
+
+
+
+                return true;
             }
-            return true;
+            return false;
         }
 
 
@@ -97,11 +112,13 @@ namespace Sim_FrameWork.UI
         private Transform areaSelectTrans;
 
         private Animation exploreMissionAnim;
+        private Animation pageAnim;
 
 
         protected override void InitUIRefrence()
         {
             m_page = UIUtility.SafeGetComponent<ExploreMainPage>(Transform);
+            pageAnim = UIUtility.SafeGetComponent<Animation>(m_page.transform);
             areaTitle = UIUtility.SafeGetComponent<Text>(UIUtility.FindTransfrom(m_page.LeftPanel, "AreaName"));
             areaDesc= UIUtility.SafeGetComponent<Text>(UIUtility.FindTransfrom(m_page.LeftPanel, "Desc"));
             progressSlider = UIUtility.SafeGetComponent<Slider>(UIUtility.FindTransfrom(m_page.LeftPanel, "Progress/Slider"));

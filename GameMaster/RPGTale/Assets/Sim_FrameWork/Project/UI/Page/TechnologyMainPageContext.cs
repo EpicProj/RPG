@@ -110,9 +110,9 @@ namespace Sim_FrameWork.UI
 
         private bool TechResearchStart(int techID)
         {
-            if (GlobalEventManager.Instance.GetTechInfo(techID) == null)
+            if (TechnologyDataManager.Instance.GetTechInfo(techID) == null)
                 return false;
-            GlobalEventManager.Instance.OnTechResearchStart(techID);
+            TechnologyDataManager.Instance.OnTechResearchStart(techID);
             RefreshTechGroupByTechID(techID);
             return true;
         }

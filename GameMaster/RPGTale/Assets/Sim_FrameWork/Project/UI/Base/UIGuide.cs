@@ -7,6 +7,20 @@ namespace Sim_FrameWork
     public class UIGuide : Singleton<UIGuide>
     {
         /// <summary>
+        /// Show Main Page
+        /// </summary>
+        /// <param name="closeAll"></param>
+        public void ShowGameMainPage(bool closeAll)
+        {
+            if (closeAll)
+            {
+                UIManager.Instance.CloseAllWnd();
+            }
+            UIManager.Instance.Register<UI.MainMenuPageContext>(UIPath.WindowPath.MainMenu_Page);
+            UIManager.Instance.PopUpWnd(UIPath.WindowPath.MainMenu_Page, WindowType.Page, true);
+        }
+
+        /// <summary>
         /// Tech Page
         /// </summary>
         public void ShowTechnologyMainPage()
@@ -17,7 +31,7 @@ namespace Sim_FrameWork
 
         public void ShowTechDetailDialog(int techID)
         {
-            var techInfo = GlobalEventManager.Instance.GetTechInfo(techID);
+            var techInfo = TechnologyDataManager.Instance.GetTechInfo(techID);
             if (techInfo != null)
             {
                 UIManager.Instance.Register<UI.TechnologyDetailDialogContext>(UIPath.WindowPath.Technology_Detail_Dialog);

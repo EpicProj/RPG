@@ -35,6 +35,7 @@ namespace Sim_FrameWork
             ResourceManager.Instance.Init(this);
             
             DataManager.Instance.InitData();
+            GlobalEventManager.Instance.InitData();
             DontDestroyOnLoad(gameObject);
             
         }

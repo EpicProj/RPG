@@ -4,8 +4,11 @@
 		<list name = "ExploreArea" sheetname="ExploreArea" mainKey = "AreaID">
 			<variable  name="AreaID" col = "AreaID" type="int"/>
 			<variable  name="Name" col = "Name" type="string"/>
+			<variable  name="NameTitle" col = "NameTitle" type="string"/>
 			<variable  name="Desc" col = "Desc" type="string"/>
+			<variable  name="IconPath" col = "IconPath" type="string"/>
 			<variable  name="Unlock" col = "Unlock" type="bool"/>
+			<variable  name="DefaultMissionCount" col = "DefaultMissionCount" type="ushort"/>
 			<variable  name="ExploreList" col = "ExploreList" type="string"/>
 		</list>
 	</variable>
