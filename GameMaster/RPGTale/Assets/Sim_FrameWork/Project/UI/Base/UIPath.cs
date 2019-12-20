@@ -23,6 +23,10 @@ namespace Sim_FrameWork
         public struct WindowPath
         {
             #region DialogPath
+            /// <summary>
+            /// 菜单
+            /// </summary>
+            public const string Menu_Dialog = "Dialog/Main/MenuDialog";
 
             /// <summary>
             /// 信息确认框
@@ -157,6 +161,7 @@ namespace Sim_FrameWork
             public const string Reward_Item = "Assets/Prefabs/Object/Main/RewardItem.prefab";
 
             public const string Explore_Area_Select_Btn = "Assets/Prefabs/Object/Explore/ExploreAreaSelectBtn.prefab";
+            public const string Explore_Mission_Element = "Assets/Prefabs/Object/Explore/ExploreAreaMission.prefab";
 
             #endregion
 

@@ -7,6 +7,7 @@ namespace Sim_FrameWork.UI
 {
     public partial class ExploreMainPageContext : WindowBase
     {
+        private const float mission_Appear_time = 0.1f;
 
         #region Override Method
         public override void Awake(params object[] paralist)
@@ -29,7 +30,7 @@ namespace Sim_FrameWork.UI
         {
             AudioManager.Instance.PlaySound(AudioClipPath.UISound.Page_Open);
             InitAreaExploreList(ExploreAreaType.space);
-
+            InitMissionPanelElement();
             if (pageAnim != null)
                 pageAnim.Play();
 
@@ -39,6 +40,16 @@ namespace Sim_FrameWork.UI
         {
             UIGuide.Instance.ShowGameMainPage(true);
         }
+
+
+        public void AddBtnClick()
+        {
+            AddButtonClickListener(m_page.backBtn, () =>
+            {
+                UIGuide.Instance.ShowGameMainPage(true);
+            });
+        }
+
 
         #endregion
 
@@ -85,14 +96,57 @@ namespace Sim_FrameWork.UI
                 }
                 RefreshAreaExploreProgress(data);
 
+                areaTitle.text = data.areaName;
+                areaDesc.text = data.areaDesc;
+                if (areaDescTypeEffect != null)
+                    areaDescTypeEffect.StartEffect();
 
-
+                ///RefreshMission
+                foreach (Transform trans in missionPanelTrans)
+                {
+                    trans.gameObject.SetActive(false);
+                }
+                ApplicationManager.Instance.StartCoroutine(ShowMission(data, mission_Appear_time));
+              
                 return true;
             }
             return false;
         }
 
+        IEnumerator ShowMission(ExploreAreaData data, float waitTime)
+        {
+            if (data.currentMissionList == null)
+                yield return null;
+            for (int i = 0; i < data.currentMissionList.Count; i++)
+            {
+                if (i < Config.GlobalConfigData.ExplorePage_Mission_Max_Count)
+                {
+                    var element = UIUtility.SafeGetComponent<ExploreAreaMissionElement>(missionPanelTrans.GetChild(i));
+                    if (element != null)
+                    {
+                        yield return new WaitForSeconds(waitTime);
+                        element.SetUpElement(data.currentMissionList[i]);
+                        element.gameObject.SetActive(true);
+                        element.ShowMission();
+                    }
+                }
+            }
+        }
 
+        void InitMissionPanelElement()
+        {
+            if (missionPanelTrans.childCount == Config.GlobalConfigData.ExplorePage_Mission_Max_Count)
+                return;
+            for(int i = 0; i < Config.GlobalConfigData.ExplorePage_Mission_Max_Count; i++)
+            {
+                var obj = ObjectManager.Instance.InstantiateObject(UIPath.PrefabPath.Explore_Mission_Element);
+                if (obj != null)
+                {
+                    obj.transform.SetParent(missionPanelTrans);
+                    obj.name="Mission_"+i;
+                }
+            }
+        }
 
     }
 
@@ -110,10 +164,12 @@ namespace Sim_FrameWork.UI
         private Text progressText;
 
         private Transform areaSelectTrans;
+        private Transform missionPanelTrans;
 
         private Animation exploreMissionAnim;
         private Animation pageAnim;
 
+        private TypeWriterEffect areaDescTypeEffect;
 
         protected override void InitUIRefrence()
         {
@@ -125,8 +181,11 @@ namespace Sim_FrameWork.UI
             progressText = UIUtility.SafeGetComponent<Text>(UIUtility.FindTransfrom(m_page.LeftPanel, "Progress/Value"));
 
             areaSelectTrans = UIUtility.FindTransfrom(m_page.BottomPanel, "AreaSelect");
+            missionPanelTrans = UIUtility.FindTransfrom(m_page.LeftPanel, "Content");
 
             exploreMissionAnim = UIUtility.SafeGetComponent<Animation>(m_page.LeftPanel);
+
+            areaDescTypeEffect = UIUtility.SafeGetComponent<TypeWriterEffect>(areaDesc.transform);
         }
 
     }

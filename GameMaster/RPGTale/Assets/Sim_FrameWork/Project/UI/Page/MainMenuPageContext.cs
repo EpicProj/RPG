@@ -178,7 +178,10 @@ namespace Sim_FrameWork.UI
             {
                 OnPauseBtnClick();
             });
-
+            AddButtonClickListener(m_page.MenuBtn, () =>
+            {
+                UIGuide.Instance.ShowMenuDialog();
+            });
             /// Order Receive Page
             AddButtonClickListener(m_page.OrderBtn, () =>
             {
@@ -194,6 +197,7 @@ namespace Sim_FrameWork.UI
                 UIGuide.Instance.ShowExploreMainPage();
             });
 
+            
         }
 
         private void OnPauseBtnClick()

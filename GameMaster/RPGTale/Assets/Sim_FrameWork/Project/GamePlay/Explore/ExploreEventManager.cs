@@ -69,19 +69,22 @@ namespace Sim_FrameWork
         /// </summary>
         private void InitExploreArea(ExploreAreaType areaType)
         {
-            List<ExploreAreaData> list = new List<ExploreAreaData>();
+            List<int> list = new List<int>();
             if (areaType == ExploreAreaType.earth)
             {
                 list = ExploreModule.ExploreAreaListEarth;
                 for (int i = 0; i < list.Count; i++)
                 {
-                    ExploreAreaData data = new ExploreAreaData(list[i].areaID);
-                    _currentExploreAreaList_Earth.Add(data);
-                    ///Area Unlock
-                    if (list[i].unlock == true)
+                    ExploreAreaData data = new ExploreAreaData(list[i]);
+                    if (data.areaID != 0)
                     {
-                        _currentUnlockExploreAreaList.Add(list[i].areaID);
-                        data.GenerateRandomMission();
+                        _currentExploreAreaList_Earth.Add(data);
+                        ///Area Unlock
+                        if (data.unlock == true)
+                        {
+                            _currentUnlockExploreAreaList.Add(data.areaID);
+                            data.GenerateRandomMission();
+                        }
                     }
                 }
             }
@@ -90,13 +93,16 @@ namespace Sim_FrameWork
                 list = ExploreModule.ExploreAreaListSpace;
                 for (int i = 0; i < list.Count; i++)
                 {
-                    ExploreAreaData data = new ExploreAreaData(list[i].areaID);
-                    _currentExploreAreaList_Space.Add(data);
-                    ///Area Unlock
-                    if (list[i].unlock == true)
+                    ExploreAreaData data = new ExploreAreaData(list[i]);
+                    if (data.areaID != 0)
                     {
-                        _currentUnlockExploreAreaList.Add(list[i].areaID);
-                        data.GenerateRandomMission();
+                        _currentExploreAreaList_Space.Add(data);
+                        ///Area Unlock
+                        if (data.unlock == true)
+                        {
+                            _currentUnlockExploreAreaList.Add(data.areaID);
+                            data.GenerateRandomMission();
+                        }
                     }
                 }
             }
@@ -137,7 +143,7 @@ namespace Sim_FrameWork
         {
             List<ExploreRandomItem> list = new List<ExploreRandomItem>();
             _currentExploreMissionDic.TryGetValue(areaID, out list);
-            if (list.Count == 0)
+            if (list==null)
                 return false;
             for (int i = 0; i < list.Count; i++)
             {

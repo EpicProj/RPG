@@ -21,6 +21,15 @@ namespace Sim_FrameWork
         }
 
         /// <summary>
+        /// 菜单
+        /// </summary>
+        public void ShowMenuDialog()
+        {
+            UIManager.Instance.Register<UI.MenuDialogContext>(UIPath.WindowPath.Menu_Dialog);
+            UIManager.Instance.PopUpWnd(UIPath.WindowPath.Menu_Dialog, WindowType.Dialog, true);
+        }
+
+        /// <summary>
         /// Tech Page
         /// </summary>
         public void ShowTechnologyMainPage()

@@ -56,6 +56,11 @@ namespace Sim_FrameWork.Config
         public static readonly int BuildDetail_District_Area_Max = 25;
 
         public static readonly int RandomEvent_Dialog_Reward_Max = 4;
+
+        /// <summary>
+        /// 探索界面最大任务数量
+        /// </summary>
+        public static readonly int ExplorePage_Mission_Max_Count = 5;
     }
 
 

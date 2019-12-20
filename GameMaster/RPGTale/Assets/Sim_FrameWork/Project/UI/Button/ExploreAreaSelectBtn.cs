@@ -43,6 +43,7 @@ namespace Sim_FrameWork
 
         void OnBtnClick()
         {
+            AudioManager.Instance.PlaySound(AudioClipPath.UISound.Button_Click);
             UIManager.Instance.SendMessage(new UIMessage(UIMsgType.ExplorePage_ShowArea_Mission, new List<object>(1) { _data }));
         }
 

@@ -16,6 +16,8 @@
 	<variable  name="AllExploreDataList" type="list">
 		<list name = "ExploreData" sheetname="ExploreData" mainKey = "ExploreID">
 			<variable  name="ExploreID" col = "ExploreID" type="int"/>
+			<variable  name="MissionName" col = "MissionName" type="string"/>
+			<variable  name="AreaName" col = "AreaName" type="string"/>
 			<variable  name="UnLockValue" col = "UnLockValue" type="ushort"/>
 			<variable  name="RequirePreID" col = "RequirePreID" type="int"/>
 			<variable  name="HardLevel" col = "HardLevel" type="ushort"/>

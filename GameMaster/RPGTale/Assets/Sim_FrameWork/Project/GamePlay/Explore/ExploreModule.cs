@@ -29,8 +29,8 @@ namespace Sim_FrameWork
         public static Dictionary<int, ExploreChoose> ExploreChooseDic;
 
 
-        public static List<ExploreAreaData> ExploreAreaListSpace = new List<ExploreAreaData>();
-        public static List<ExploreAreaData> ExploreAreaListEarth = new List<ExploreAreaData>();
+        public static List<int> ExploreAreaListSpace = new List<int>();
+        public static List<int> ExploreAreaListEarth = new List<int>();
 
         public override void InitData()
         {
@@ -110,6 +110,15 @@ namespace Sim_FrameWork
             return data;
         }
 
+        public static string GetExploreMissionName(int exploreID)
+        {
+            return MultiLanguage.Instance.GetTextValue(GetExploreDataByKey(exploreID).MissionName);
+        }
+        public static string GetExplorMissionAreaName(int exploreID)
+        {
+            return MultiLanguage.Instance.GetTextValue(GetExploreDataByKey(exploreID).AreaName);
+        }
+
         /// <summary>
         /// 随机生成探索区域
         /// </summary>
@@ -149,29 +158,17 @@ namespace Sim_FrameWork
             }
         }
 
-        public static List<ExploreAreaData> GetTotalExploreAreaData(ExploreAreaType areaType)
+        public static List<int> GetTotalExploreAreaData(ExploreAreaType areaType)
         {
-            List<ExploreAreaData> result = new List<ExploreAreaData>();
-            List<int> areaList = new List<int>();
             if(areaType == ExploreAreaType.earth)
             {
-                areaList = Config.ConfigData.GlobalSetting.exploreArea_Earth;
+                return Config.ConfigData.GlobalSetting.exploreArea_Earth;
              
             }else if (areaType == ExploreAreaType.space)
             {
-                areaList= Config.ConfigData.GlobalSetting.exploreArea_Space;
+                return Config.ConfigData.GlobalSetting.exploreArea_Space;
             }
-
-            for (int i = 0; i < areaList.Count; i++)
-            {
-                if (GetExploreAreaDataByKey(areaList[i]) != null)
-                {
-                    ExploreAreaData data = new ExploreAreaData(areaList[i]);
-                    result.Add(data);
-                }
-            }
-
-            return result;
+            return null;
         }
         
 
@@ -380,7 +377,7 @@ namespace Sim_FrameWork
             var data = ExploreModule.GetExploreAreaDataByKey(areaID);
             if (data != null)
             {
-                areaID = data.AreaID;
+                this.areaID = data.AreaID;
                 areaName = ExploreModule.GetExploreAreaName(areaID);
                 areaTitleName = ExploreModule.GetExploreAreaTitleName(areaID);
                 areaDesc = ExploreModule.GetExploreAreaDesc(areaID);
@@ -403,6 +400,7 @@ namespace Sim_FrameWork
                 {
                     for(int i = 0; i < currentMissionList.Count; i++)
                     {
+                        Debug.Log("Add Mission, [AreaID] " + areaID +" ; [MissionID] " + currentMissionList[i].exploreID);
                         ExploreEventManager.Instance.AddExploreDoingMission(areaID, currentMissionList[i]);
                     }
                 }
@@ -439,6 +437,9 @@ namespace Sim_FrameWork
 
         public bool finish = false;
 
+        public string missionName;
+        public string missionAreaName;
+
         /// <summary>
         /// 难度等级
         /// </summary>
@@ -452,6 +453,8 @@ namespace Sim_FrameWork
             if (exploreData != null)
             {
                 this.exploreID = exploreData.ExploreID;
+                missionName = ExploreModule.GetExploreMissionName(exploreID);
+                missionAreaName = ExploreModule.GetExplorMissionAreaName(exploreID);
                 requirePreExploreID = exploreData.RequirePreID;
                 pointList = ExploreModule.GetExplorePointDataList(exploreID);
                 Weight = exploreData.Weight;
