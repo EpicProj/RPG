@@ -261,6 +261,31 @@ namespace Sim_FrameWork
             return result;
         }
 
+        public static void GetUnlockExplorePoint(List<ExplorePointData> rowData,ref List<ExplorePointData> data)
+        {
+            if (rowData == null)
+                return;
+            for (int i = 0; i < rowData.Count; i++)
+            {
+                if (rowData[i].PrePoint != 0)
+                {
+                    var pointData = rowData.Find(x => x.PointID == rowData[i].PrePoint);
+                    if (pointData != null)
+                    {
+                        if (pointData.currentState == ExplorePointData.PointState.Finish)
+                        {
+                            data.Add(pointData);
+                        }
+                    }
+                } else if (rowData[i].PrePoint == 0)
+                {
+                    data.Add(rowData[i]);
+                }
+            }
+        }
+
+
+
 
         #endregion
 
@@ -455,7 +480,9 @@ namespace Sim_FrameWork
         /// <summary>
         /// 探索点位信息
         /// </summary>
-        public List<ExplorePointData> pointList=new List<ExplorePointData> ();
+        private List<ExplorePointData> totalPointList=new List<ExplorePointData> ();
+
+        public List<ExplorePointData> currentUnlockPointlist = new List<ExplorePointData>();
 
         public string missionName;
         public string missionAreaName;
@@ -483,7 +510,7 @@ namespace Sim_FrameWork
                 missionDesc = ExploreModule.GetExploreMissionDesc(exploreID);
                 missionBG = ExploreModule.GetExploreMissionBG(exploreID);
                 requirePreExploreID = exploreData.RequirePreID;
-                pointList = ExploreModule.GetExplorePointDataList(exploreID);
+                totalPointList = ExploreModule.GetExplorePointDataList(exploreID);
 
                 areaHardLevel = exploreData.HardLevel;
                 maxTeamNum = exploreData.TeamMaxNum >= Config.GlobalConfigData.Explore_Mission_Max_Team_Count ? Config.GlobalConfigData.Explore_Mission_Max_Team_Count : exploreData.TeamMaxNum;
@@ -492,9 +519,20 @@ namespace Sim_FrameWork
                 teamData = new PlayerExploreTeamData();
 
                 currentState = ExploreMissionState.Init;
+
+                RefreshUnlockPoint();
             }
         }
 
+        /// <summary>
+        /// 刷新解锁点位
+        /// </summary>
+        public void RefreshUnlockPoint()
+        {
+            List<ExplorePointData> pointList = new List<ExplorePointData>();
+            ExploreModule.GetUnlockExplorePoint(totalPointList, ref pointList);
+            currentUnlockPointlist = pointList;
+        }
 
     }
 
@@ -504,6 +542,15 @@ namespace Sim_FrameWork
     /// </summary>
     public class ExplorePointData
     {
+        public enum PointState
+        {
+            None,
+            Lock,
+            Unlock,
+            Doing,
+            Finish
+        }
+        public int PointID;
         public int seriesID;
         public string pointName;
         public string pointDesc;
@@ -513,8 +560,7 @@ namespace Sim_FrameWork
         /// </summary>
         public ushort depthLevel;
 
-        public bool unlock = false;
-
+        public PointState currentState = PointState.None;
         /// <summary>
         /// 前置点位
         /// </summary>
@@ -534,8 +580,13 @@ namespace Sim_FrameWork
             var data = ExploreModule.GetExplorePointDataByKey(pointID);
             if (data != null)
             {
+                PointID = data.PointID;
                 seriesID = data.SeriesID;
                 PrePoint = data.PrePoint;
+                if (PrePoint == 0)
+                    currentState = PointState.Unlock;
+                else
+                    currentState = PointState.Lock;
                 pointName = ExploreModule.GetExplorePointName(pointID);
                 pointDesc = ExploreModule.GetExplorePointDesc(pointID);
                 depthLevel = data.DepthLevel;

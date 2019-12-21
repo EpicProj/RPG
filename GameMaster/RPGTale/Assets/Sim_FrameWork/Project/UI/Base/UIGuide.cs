@@ -102,5 +102,12 @@ namespace Sim_FrameWork
             UIManager.Instance.PopUpWnd(UIPath.WindowPath.Explore_Main_Page, WindowType.Page, true);
         }
 
+        public void ShowExplorePointPage(ExploreRandomItem item)
+        {
+            UIManager.Instance.Register<UI.ExplorePointPageContext>(UIPath.WindowPath.Explore_Point_Page);
+            UIManager.Instance.HideWnd(UIPath.WindowPath.Explore_Main_Page);
+            UIManager.Instance.PopUpWnd(UIPath.WindowPath.Explore_Point_Page, WindowType.Page, true,item);
+        }
+
     }
 }

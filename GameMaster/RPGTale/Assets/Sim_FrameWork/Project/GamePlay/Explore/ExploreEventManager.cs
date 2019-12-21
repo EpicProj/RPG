@@ -227,6 +227,9 @@ namespace Sim_FrameWork
                 {
                     missionData.currentState = ExploreRandomItem.ExploreMissionState.Doing;
                     missionData.teamData = teamData;
+
+                    UIGuide.Instance.ShowExplorePointPage(missionData);
+
                 }
             }
         }

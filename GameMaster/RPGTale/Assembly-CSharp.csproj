@@ -177,7 +177,9 @@
      <Compile Include="Assets\Sim_FrameWork\Project\GamePlay\Terrain\TerrainModule.cs" />
      <Compile Include="Assets\Sim_FrameWork\Project\Language\GetTextByID.cs" />
      <Compile Include="Assets\Sim_FrameWork\Project\Language\MultiLanguage.cs" />
+     <Compile Include="Assets\Sim_FrameWork\Project\ObjectMisc\Planet\PlanetPointGenerate.cs" />
      <Compile Include="Assets\Sim_FrameWork\Project\ObjectMisc\Planet\PlanetRotate.cs" />
+     <Compile Include="Assets\Sim_FrameWork\Project\ObjectMisc\SolarSystemManager.cs" />
      <Compile Include="Assets\Sim_FrameWork\Project\Scene\ScenesManager.cs" />
      <Compile Include="Assets\Sim_FrameWork\Project\UI\Base\UIGuide.cs" />
      <Compile Include="Assets\Sim_FrameWork\Project\UI\Base\UIManager.cs" />
@@ -251,6 +253,8 @@
      <Compile Include="Assets\Sim_FrameWork\Project\UI\Page\ConsolePageContext.cs" />
      <Compile Include="Assets\Sim_FrameWork\Project\UI\Page\ExploreMainPage.cs" />
      <Compile Include="Assets\Sim_FrameWork\Project\UI\Page\ExploreMainPageContext.cs" />
+     <Compile Include="Assets\Sim_FrameWork\Project\UI\Page\ExplorePointPage.cs" />
+     <Compile Include="Assets\Sim_FrameWork\Project\UI\Page\ExplorePointPageContext.cs" />
      <Compile Include="Assets\Sim_FrameWork\Project\UI\Page\GameEntryPage.cs" />
      <Compile Include="Assets\Sim_FrameWork\Project\UI\Page\GameEntryPageContext.cs" />
      <Compile Include="Assets\Sim_FrameWork\Project\UI\Page\LoadingPage.cs" />
@@ -268,7 +272,6 @@
      <Compile Include="Assets\Sim_FrameWork\Project\UI\Text\TGConfig.cs" />
      <Compile Include="Assets\Sim_FrameWork\Project\UI\Text\TypeWriterEffect.cs" />
      <Compile Include="Assets\Sim_FrameWork\Project\UI\Text\VideoItem.cs" />
-     <Compile Include="Assets\Sim_FrameWork\Project\UI\UIData\ExplorePageItem.cs" />
      <Compile Include="Assets\Sim_FrameWork\Project\UI\UIData\GeneralConfirmDialogItem.cs" />
      <Compile Include="Assets\Sim_FrameWork\Shader\PostEffectsBase.cs" />
      <Compile Include="Assets\Sim_FrameWork\Shader\SetImageAlpha.cs" />
