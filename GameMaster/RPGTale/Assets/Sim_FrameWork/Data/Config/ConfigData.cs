@@ -61,6 +61,7 @@ namespace Sim_FrameWork.Config
         /// 探索界面最大任务数量
         /// </summary>
         public static readonly int ExplorePage_Mission_Max_Count = 5;
+        public static readonly ushort Explore_Mission_Max_Team_Count = 3;
     }
 
 

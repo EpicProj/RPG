@@ -14,6 +14,7 @@ namespace Sim_FrameWork
             public const string Hint_Open = EffectBasePath + "UI/Hint_Open.mp3";
             public const string Button_Click = EffectBasePath + "UI/Button_Click.mp3";
             public const string Page_Open = EffectBasePath + "UI/Page_Open.mp3";
+            public const string Button_General = EffectBasePath + "UI/Button_General.mp3";
         }
 
         public struct ItemEffect

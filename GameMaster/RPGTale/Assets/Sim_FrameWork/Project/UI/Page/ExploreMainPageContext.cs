@@ -9,11 +9,17 @@ namespace Sim_FrameWork.UI
     {
         private const float mission_Appear_time = 0.1f;
 
+        private int currentSelectAreaID = 0;
+        private int currentSelectMissionID = 0;
+
+        private PlayerExploreTeamData teamData;
+
         #region Override Method
         public override void Awake(params object[] paralist)
         {
             base.Awake(paralist);
-
+            teamData = new PlayerExploreTeamData();
+            AddBtnClick();
         }
 
         public override bool OnMessage(UIMessage msg)
@@ -22,6 +28,10 @@ namespace Sim_FrameWork.UI
             {
                 ExploreAreaData data = (ExploreAreaData)msg.content[0];
                 return ShowAreaMissionPanel(data);
+            }else if(msg.type== UIMsgType.ExplorePage_Show_MissionDetail)
+            {
+                ExploreRandomItem item = (ExploreRandomItem)msg.content[0];
+                return ShowMissionAreaDetailPanel(item);
             }
             return false;
         }
@@ -29,8 +39,11 @@ namespace Sim_FrameWork.UI
         public override void OnShow(params object[] paralist)
         {
             AudioManager.Instance.PlaySound(AudioClipPath.UISound.Page_Open);
+            
             InitAreaExploreList(ExploreAreaType.space);
             InitMissionPanelElement();
+            InitMissionTeam();
+
             if (pageAnim != null)
                 pageAnim.Play();
 
@@ -48,6 +61,9 @@ namespace Sim_FrameWork.UI
             {
                 UIGuide.Instance.ShowGameMainPage(true);
             });
+            AddButtonClickListener(exploreBtn, OnExploreBtnClick);
+            AddButtonClickListener(energyAddBtn, OnEnergyAddBtnClick);
+            AddButtonClickListener(energyReduceBtn, OnEnergyReduceBtnClick);
         }
 
 
@@ -94,6 +110,7 @@ namespace Sim_FrameWork.UI
                 {
                     exploreMissionAnim.Play();
                 }
+                currentSelectAreaID = data.areaID;
                 RefreshAreaExploreProgress(data);
 
                 areaTitle.text = data.areaName;
@@ -148,6 +165,77 @@ namespace Sim_FrameWork.UI
             }
         }
 
+        bool ShowMissionAreaDetailPanel(ExploreRandomItem item)
+        {
+            if (item == null)
+                return false;
+            currentSelectMissionID = item.exploreID;
+
+            teamGoodsValue.text = "0";
+            missionDetailText.text = item.missionDesc;
+            missionDetailBG.sprite = item.missionBG;
+            if (missionDetailTypeEffect != null)
+                missionDetailTypeEffect.StartEffect();
+
+            ///SetUp Team
+            foreach (Transform trans in exploreTeamContentTrans)
+            {
+                trans.gameObject.SetActive(false);
+            }
+
+            for(int i = 0; i < item.maxTeamNum; i++)
+            {
+                var element = exploreTeamContentTrans.GetChild(i);
+                if (element != null)
+                {
+                    element.gameObject.SetActive(true);
+                }
+            }
+
+            if (exploreAreaDetailAnim != null)
+                exploreAreaDetailAnim.Play();
+            return true;
+        }
+
+        void InitMissionTeam()
+        {
+            if (exploreTeamContentTrans.childCount == Config.GlobalConfigData.Explore_Mission_Max_Team_Count)
+                return;
+            for(int i = 0; i < Config.GlobalConfigData.Explore_Mission_Max_Team_Count; i++)
+            {
+                var obj = ObjectManager.Instance.InstantiateObject(UIPath.PrefabPath.Explore_Mission_Team_Obj);
+                if (obj != null)
+                {
+                    obj.transform.SetParent(exploreTeamContentTrans, false);
+                    obj.name = "Team_" + i;
+                }
+            }
+        }
+
+        void OnExploreBtnClick()
+        {
+            teamData.EnergyStartNum = (ushort)Utility.TryParseInt(energyInputField.text);
+            AudioManager.Instance.PlaySound(AudioClipPath.UISound.Button_Click);
+
+            ExploreEventManager.Instance.StartExplore(currentSelectAreaID,currentSelectMissionID,teamData);
+        }
+
+        void OnEnergyReduceBtnClick()
+        {
+            AudioManager.Instance.PlaySound(AudioClipPath.UISound.Button_General);
+            if ((ushort)Utility.TryParseInt(energyInputField.text) <= 0)
+                return;
+            energyInputField.text= ((ushort)Utility.TryParseInt(energyInputField.text) -1).ToString() ;
+        }
+        void OnEnergyAddBtnClick()
+        {
+            AudioManager.Instance.PlaySound(AudioClipPath.UISound.Button_General);
+            if ((ushort)Utility.TryParseInt(energyInputField.text) >= 999)
+                return;
+            energyInputField.text = ((ushort)Utility.TryParseInt(energyInputField.text) +1).ToString();
+        }
+
+
     }
 
 
@@ -159,6 +247,12 @@ namespace Sim_FrameWork.UI
 
         private Text areaTitle;
         private Text areaDesc;
+        /// <summary>
+        /// Mission Detail
+        /// </summary>
+        private Text missionDetailText;
+        private Image missionDetailBG;
+        private Transform exploreTeamContentTrans;
 
         private Slider progressSlider;
         private Text progressText;
@@ -167,9 +261,17 @@ namespace Sim_FrameWork.UI
         private Transform missionPanelTrans;
 
         private Animation exploreMissionAnim;
+        private Animation exploreAreaDetailAnim;
         private Animation pageAnim;
 
         private TypeWriterEffect areaDescTypeEffect;
+        private TypeWriterEffect missionDetailTypeEffect;
+
+        private Button exploreBtn;
+        private InputField energyInputField;
+        private Button energyReduceBtn;
+        private Button energyAddBtn;
+        private Text teamGoodsValue;
 
         protected override void InitUIRefrence()
         {
@@ -180,12 +282,24 @@ namespace Sim_FrameWork.UI
             progressSlider = UIUtility.SafeGetComponent<Slider>(UIUtility.FindTransfrom(m_page.LeftPanel, "Progress/Slider"));
             progressText = UIUtility.SafeGetComponent<Text>(UIUtility.FindTransfrom(m_page.LeftPanel, "Progress/Value"));
 
+            missionDetailText = UIUtility.SafeGetComponent<Text>(UIUtility.FindTransfrom(m_page.RightPanel, "DetailContent/Desc"));
+            missionDetailBG = UIUtility.SafeGetComponent<Image>(UIUtility.FindTransfrom(m_page.RightPanel, "DetailContent/AreaBG"));
+            exploreTeamContentTrans = UIUtility.FindTransfrom(m_page.RightPanel, "TeamContent/Team");
+
             areaSelectTrans = UIUtility.FindTransfrom(m_page.BottomPanel, "AreaSelect");
             missionPanelTrans = UIUtility.FindTransfrom(m_page.LeftPanel, "Content");
 
             exploreMissionAnim = UIUtility.SafeGetComponent<Animation>(m_page.LeftPanel);
+            exploreAreaDetailAnim = UIUtility.SafeGetComponent<Animation>(m_page.RightPanel);
 
             areaDescTypeEffect = UIUtility.SafeGetComponent<TypeWriterEffect>(areaDesc.transform);
+            missionDetailTypeEffect = UIUtility.SafeGetComponent<TypeWriterEffect>(missionDetailText.transform);
+
+            exploreBtn = UIUtility.SafeGetComponent<Button>(UIUtility.FindTransfrom(m_page.RightPanel, "Confirm/Btn"));
+            energyInputField = UIUtility.SafeGetComponent<InputField>(UIUtility.FindTransfrom(m_page.RightPanel, "TeamContent/Detail/Energy/InputField"));
+            energyReduceBtn= UIUtility.SafeGetComponent<Button>(UIUtility.FindTransfrom(m_page.RightPanel, "TeamContent/Detail/Energy/InputField/Reduce"));
+            energyAddBtn = UIUtility.SafeGetComponent<Button>(UIUtility.FindTransfrom(m_page.RightPanel, "TeamContent/Detail/Energy/InputField/Add"));
+            teamGoodsValue = UIUtility.SafeGetComponent<Text>(UIUtility.FindTransfrom(m_page.RightPanel, "TeamContent/Detail/Goods/Value"));
         }
 
     }

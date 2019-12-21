@@ -18,13 +18,25 @@ namespace Sim_FrameWork
 
         /// <summary>
         /// Current Explore Misson 
-        /// State= Doing    Key=AreaID
+        /// State    Key=AreaID
         /// </summary>
         private Dictionary<int, List<ExploreRandomItem>> _currentExploreMissionDic = new Dictionary<int, List<ExploreRandomItem>>();
         public Dictionary<int, List<ExploreRandomItem>> CurrentExploreMissionDic
         {
             get { return _currentExploreMissionDic; }
         }
+
+        public ExploreRandomItem GetExploreMission(int areaID,int exploreID)
+        {
+            List<ExploreRandomItem> itemList = new List<ExploreRandomItem>();
+            _currentExploreMissionDic.TryGetValue(areaID, out itemList);
+            if (itemList != null)
+            {
+                return itemList.Find(x => x.exploreID == exploreID);
+            }
+            return null;
+        }
+
         /// <summary>
         /// Finished MissionList
         /// </summary>
@@ -39,6 +51,8 @@ namespace Sim_FrameWork
         {
             return _currentFinishedExploreList.Find(x => x.exploreID == exploreID);
         }
+
+      
 
         public List<int> _currentUnlockExploreAreaList = new List<int>();
 
@@ -131,8 +145,6 @@ namespace Sim_FrameWork
             }
         }
 
-
-
         /// <summary>
         /// 检查任务是否已经存在或完成
         /// </summary>
@@ -167,18 +179,20 @@ namespace Sim_FrameWork
         /// </summary>
         /// <param name="areaID"></param>
         /// <param name="item"></param>
-        public void AddExploreDoingMission(int areaID, ExploreRandomItem item)
+        public void AddExploreMission(int areaID, ExploreRandomItem item)
         {
             if (_currentExploreMissionDic.ContainsKey(areaID))
             {
                 if (!_currentExploreMissionDic[areaID].Contains(item))
                 {
+                    item.currentState = ExploreRandomItem.ExploreMissionState.Start;
                     _currentExploreMissionDic[areaID].Add(item);
                 }
             }
             else
             {
                 List<ExploreRandomItem> itemList = new List<ExploreRandomItem>();
+                item.currentState = ExploreRandomItem.ExploreMissionState.Start;
                 itemList.Add(item);
                 _currentExploreMissionDic.Add(areaID, itemList);
             }
@@ -198,6 +212,25 @@ namespace Sim_FrameWork
                 }
             }
         }
+
+        /// <summary>
+        /// 开始任务
+        /// </summary>
+        /// <param name="areaID"></param>
+        /// <param name="exploreID"></param>
+        public void StartExplore(int areaID , int exploreID, PlayerExploreTeamData teamData)
+        {
+            var missionData = GetExploreMission(areaID, exploreID);
+            if (missionData != null)
+            {
+                if(missionData.currentState == ExploreRandomItem.ExploreMissionState.Start)
+                {
+                    missionData.currentState = ExploreRandomItem.ExploreMissionState.Doing;
+                    missionData.teamData = teamData;
+                }
+            }
+        }
+
 
         #region Explore_Point
 
@@ -221,7 +254,7 @@ namespace Sim_FrameWork
         {
             if (!_currentFinishedExploreList.Contains(explore))
             {
-                explore.finish = true;
+                explore.currentState = ExploreRandomItem.ExploreMissionState.Finish;
                 _currentFinishedExploreList.Add(explore);
                 RemoveExploreDoingMission(areaID, explore.exploreID);
             }

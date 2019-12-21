@@ -31,6 +31,9 @@ public class ExploreMetaData : ExcelBase {
             data.ExploreID = i;
             data.MissionName = "";
             data.AreaName = "";
+            data.MissionDesc = "";
+            data.BGPath = "";
+            data.TeamMaxNum = (ushort)i;
             data.UnLockValue = (ushort)i;
             data.RequirePreID = i;
             data.HardLevel = (ushort)i;
@@ -201,6 +204,12 @@ public class ExploreData
     public string MissionName { get; set; }
     [XmlElement]
     public string AreaName { get; set; }
+    [XmlElement]
+    public string MissionDesc { get; set; }
+    [XmlElement]
+    public string BGPath { get; set; }
+    [XmlElement]
+    public ushort TeamMaxNum { get; set; }
     [XmlElement]
     public ushort UnLockValue { get; set; }
     [XmlElement]

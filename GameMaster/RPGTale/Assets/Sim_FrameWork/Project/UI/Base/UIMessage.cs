@@ -63,7 +63,8 @@ namespace Sim_FrameWork
         RandomEventDialog_Update_Effect,
 
         ///Explore
-        ExplorePage_ShowArea_Mission
+        ExplorePage_ShowArea_Mission,
+        ExplorePage_Show_MissionDetail,
 
 
 

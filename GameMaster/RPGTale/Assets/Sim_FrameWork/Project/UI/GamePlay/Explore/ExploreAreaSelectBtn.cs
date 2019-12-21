@@ -17,6 +17,10 @@ namespace Sim_FrameWork
         private Image _progressImage;
         private Text _progressText;
 
+        private Transform rotateEffect;
+
+        public bool isSelect = false;
+
         void Awake()
         {
             _btn = UIUtility.SafeGetComponent<Button>(transform);
@@ -25,6 +29,8 @@ namespace Sim_FrameWork
 
             _progressImage = UIUtility.SafeGetComponent<Image>(UIUtility.FindTransfrom(transform, "Item/Progress"));
             _progressText = UIUtility.SafeGetComponent<Text>(UIUtility.FindTransfrom(transform, "Item/Progress/Text"));
+
+            rotateEffect = UIUtility.FindTransfrom(transform, "Item/RotateEffect");
         }
 
         public void InitAreaItem(ExploreAreaData data)
@@ -45,8 +51,22 @@ namespace Sim_FrameWork
         {
             AudioManager.Instance.PlaySound(AudioClipPath.UISound.Button_Click);
             UIManager.Instance.SendMessage(new UIMessage(UIMsgType.ExplorePage_ShowArea_Mission, new List<object>(1) { _data }));
+            foreach (Transform trans in transform.parent)
+            {
+                var cmpt = UIUtility.SafeGetComponent<ExploreAreaSelectBtn>(trans);
+                if (cmpt != null)
+                {
+                    cmpt.SetSelect(false);
+                }
+            }
+            SetSelect(true);
         }
 
+        public void SetSelect(bool select)
+        {
+            rotateEffect.gameObject.SetActive(select);
+            isSelect = select;
+        }
 
 
 

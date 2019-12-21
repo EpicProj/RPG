@@ -13,6 +13,7 @@ namespace Sim_FrameWork
         [Header("Content")]
         public Transform Title;
         public Transform LeftPanel;
+        public Transform RightPanel;
         public Transform BottomPanel;
 
       

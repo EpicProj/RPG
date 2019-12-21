@@ -97,7 +97,7 @@ namespace Sim_FrameWork
         {
             return Utility.LoadSprite(GetExploreAreaDataByKey(areaID).IconPath, Utility.SpriteType.png);
         }
-
+      
 
         public static ExploreData GetExploreDataByKey(int exploreID)
         {
@@ -117,6 +117,14 @@ namespace Sim_FrameWork
         public static string GetExplorMissionAreaName(int exploreID)
         {
             return MultiLanguage.Instance.GetTextValue(GetExploreDataByKey(exploreID).AreaName);
+        }
+        public static string GetExploreMissionDesc(int exploreID)
+        {
+            return MultiLanguage.Instance.GetTextValue(GetExploreDataByKey(exploreID).MissionDesc);
+        }
+        public static Sprite GetExploreMissionBG(int exploreID)
+        {
+            return Utility.LoadSprite(GetExploreDataByKey(exploreID).BGPath, Utility.SpriteType.png);
         }
 
         /// <summary>
@@ -352,7 +360,7 @@ namespace Sim_FrameWork
             get { return _currentDepth; }
         }
 
-        public List<ExploreRandomItem> currentMissionList;
+        public List<ExploreRandomItem> currentMissionList =new List<ExploreRandomItem> ();
         public string areaName;
         public string areaTitleName;
         public string areaDesc;
@@ -401,7 +409,7 @@ namespace Sim_FrameWork
                     for(int i = 0; i < currentMissionList.Count; i++)
                     {
                         Debug.Log("Add Mission, [AreaID] " + areaID +" ; [MissionID] " + currentMissionList[i].exploreID);
-                        ExploreEventManager.Instance.AddExploreDoingMission(areaID, currentMissionList[i]);
+                        ExploreEventManager.Instance.AddExploreMission(areaID, currentMissionList[i]);
                     }
                 }
             }
@@ -421,6 +429,17 @@ namespace Sim_FrameWork
 
     public class ExploreRandomItem : RandomObject
     {
+        public enum ExploreMissionState
+        {
+            None,
+            Init,
+            Start,
+            Doing,
+            Finish
+        }
+
+        public ExploreMissionState currentState;
+
         /// <summary>
         /// 随机到的探索ID
         /// </summary>
@@ -429,35 +448,50 @@ namespace Sim_FrameWork
         /// 前置探索ID
         /// </summary>
         public int requirePreExploreID;
-
+        /// <summary>
+        /// 最大派遣队伍数量
+        /// </summary>
+        public ushort maxTeamNum;
         /// <summary>
         /// 探索点位信息
         /// </summary>
         public List<ExplorePointData> pointList=new List<ExplorePointData> ();
 
-        public bool finish = false;
-
         public string missionName;
         public string missionAreaName;
-
+        public string missionDesc;
+        public Sprite missionBG;
+        
         /// <summary>
         /// 难度等级
         /// </summary>
         public ushort areaHardLevel;
         public ushort Depth;
 
+        public PlayerExploreTeamData teamData;
 
         public ExploreRandomItem(int exploreID)
         {
             var exploreData = ExploreModule.GetExploreDataByKey(exploreID);
+            currentState = ExploreMissionState.None;
             if (exploreData != null)
             {
+                
                 this.exploreID = exploreData.ExploreID;
                 missionName = ExploreModule.GetExploreMissionName(exploreID);
                 missionAreaName = ExploreModule.GetExplorMissionAreaName(exploreID);
+                missionDesc = ExploreModule.GetExploreMissionDesc(exploreID);
+                missionBG = ExploreModule.GetExploreMissionBG(exploreID);
                 requirePreExploreID = exploreData.RequirePreID;
                 pointList = ExploreModule.GetExplorePointDataList(exploreID);
+
+                areaHardLevel = exploreData.HardLevel;
+                maxTeamNum = exploreData.TeamMaxNum >= Config.GlobalConfigData.Explore_Mission_Max_Team_Count ? Config.GlobalConfigData.Explore_Mission_Max_Team_Count : exploreData.TeamMaxNum;
+                
                 Weight = exploreData.Weight;
+                teamData = new PlayerExploreTeamData();
+
+                currentState = ExploreMissionState.Init;
             }
         }
 
@@ -508,6 +542,61 @@ namespace Sim_FrameWork
                 EnergyCost = data.EnergyCost;
             }
         }
+    }
+
+    public class PlayerExploreTeamData
+    {
+        /// <summary>
+        /// 初始携带能量
+        /// </summary>
+        public ushort EnergyStartNum;
+        /// <summary>
+        /// 当前携带能量
+        /// </summary>
+        private ushort _energyCurrentNum;
+        public ushort EnergyCurrentNum
+        {
+            get
+            {
+                return _energyCurrentNum;
+            }
+        }
+        public void ChangeEnergyNum(ushort count)
+        {
+            _energyCurrentNum += count;
+            if (_energyCurrentNum < 0)
+                _energyCurrentNum = 0;
+        }
+
+
+        /// <summary>
+        /// 最大负重上线
+        /// </summary>
+        public ushort GoodsMaxNum;
+        /// <summary>
+        /// 当前最大负重
+        /// </summary>
+        private ushort _goodsCurrentNum;
+        public ushort GoodsCurrentNum
+        {
+            get
+            {
+                return _goodsCurrentNum;
+            }
+        }
+
+        public void ChangeCurrentGoods(ushort count)
+        {
+            _goodsCurrentNum += count;
+            if (_goodsCurrentNum > GoodsMaxNum)
+            {
+                _goodsCurrentNum = GoodsMaxNum;
+            }
+            if (_goodsCurrentNum < 0)
+                _goodsCurrentNum = 0;
+        }
+
+
     }
 
    

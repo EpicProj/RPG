@@ -18,6 +18,9 @@
 			<variable  name="ExploreID" col = "ExploreID" type="int"/>
 			<variable  name="MissionName" col = "MissionName" type="string"/>
 			<variable  name="AreaName" col = "AreaName" type="string"/>
+			<variable  name="MissionDesc" col = "MissionDesc" type="string"/>
+			<variable  name="BGPath" col = "BGPath" type="string"/>
+			<variable  name="TeamMaxNum" col = "TeamMaxNum" type="ushort"/>
 			<variable  name="UnLockValue" col = "UnLockValue" type="ushort"/>
 			<variable  name="RequirePreID" col = "RequirePreID" type="int"/>
 			<variable  name="HardLevel" col = "HardLevel" type="ushort"/>

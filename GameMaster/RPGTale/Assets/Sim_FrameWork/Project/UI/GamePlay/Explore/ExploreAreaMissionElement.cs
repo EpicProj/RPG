@@ -1,11 +1,12 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
 namespace Sim_FrameWork
 {
-    public class ExploreAreaMissionElement : MonoBehaviour
+    public class ExploreAreaMissionElement : BaseElementSimple
     {
         private Animator anim;
 
@@ -26,12 +27,14 @@ namespace Sim_FrameWork
 
         public void SetUpElement(ExploreRandomItem item)
         {
+            btn.onClick.RemoveAllListeners();
             if (item != null)
             {
                 _item = item;
                 missionName.text = item.missionName;
                 areaLocation.text = item.missionAreaName;
                 missionLevel.text = item.areaHardLevel.ToString();
+                btn.onClick.AddListener(OnBtnClick);
             }
         }
 
@@ -41,6 +44,17 @@ namespace Sim_FrameWork
             {
                 anim.Play("ExploreMission_Show", 0, 0);
             }
+        }
+
+        void OnBtnClick()
+        {
+            AudioManager.Instance.PlaySound(AudioClipPath.UISound.Button_Click);
+            UIManager.Instance.SendMessageToWnd(UIPath.WindowPath.Explore_Main_Page, new UIMessage(UIMsgType.ExplorePage_Show_MissionDetail ,new List<object>(1) { _item }));
+        }
+
+        public override void OnPointerEnter(PointerEventData eventData)
+        {
+            AudioManager.Instance.PlaySound(AudioClipPath.UISound.Button_General);
         }
 
     }
