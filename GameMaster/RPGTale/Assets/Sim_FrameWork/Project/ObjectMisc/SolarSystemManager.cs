@@ -2,15 +2,16 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class SolarSystemManager : MonoBehaviour {
+namespace Sim_FrameWork
+{
+    public class SolarSystemManager : MonoSingleton<SolarSystemManager>
+    {
 
-	// Use this for initialization
-	void Start () {
-		
-	}
-	
-	// Update is called once per frame
-	void Update () {
-		
-	}
+        protected override void Awake()
+        {
+            base.Awake();
+        }
+
+
+    }
 }

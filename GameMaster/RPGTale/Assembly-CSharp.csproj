@@ -179,6 +179,7 @@
      <Compile Include="Assets\Sim_FrameWork\Project\Language\MultiLanguage.cs" />
      <Compile Include="Assets\Sim_FrameWork\Project\ObjectMisc\Planet\PlanetPointGenerate.cs" />
      <Compile Include="Assets\Sim_FrameWork\Project\ObjectMisc\Planet\PlanetRotate.cs" />
+     <Compile Include="Assets\Sim_FrameWork\Project\ObjectMisc\Planet\SolarSystemRotate.cs" />
      <Compile Include="Assets\Sim_FrameWork\Project\ObjectMisc\SolarSystemManager.cs" />
      <Compile Include="Assets\Sim_FrameWork\Project\Scene\ScenesManager.cs" />
      <Compile Include="Assets\Sim_FrameWork\Project\UI\Base\UIGuide.cs" />
@@ -277,6 +278,7 @@
      <Compile Include="Assets\Sim_FrameWork\Shader\SetImageAlpha.cs" />
      <None Include="Assets\Resources\Data\DataFormat\Xml\OrderMetaData.xml" />
      <None Include="Assets\StreamingAssets\Data\Language\Language_CN\Terrain.txt" />
+     <None Include="Assets\Shader\Map\Planet\Sun.shader" />
      <None Include="Assets\StreamingAssets\Data\Language\Language_CN\Technology.txt" />
      <None Include="Assets\StreamingAssets\Data\Language\Language_CN\Formula.txt" />
      <None Include="Assets\Shader\Simple\ImageColorRamp.shader" />
@@ -289,6 +291,7 @@
      <None Include="Assets\Resources\Data\DataFormat\Xml\TerrainMetaData.xml" />
      <None Include="Assets\StreamingAssets\Data\Language\Language_CN\Organization.txt" />
      <None Include="Assets\Resources\Data\DataFormat\Xml\ExploreMetaData.xml" />
+     <None Include="Assets\Shader\Map\Planet\SunCorona.shader" />
      <None Include="Assets\Resources\Data\DataFormat\Xml\BuildingPanelMetaData.xml" />
      <None Include="Assets\Resources\Data\DataFormat\Xml\TalentsMetaData.xml" />
      <None Include="Assets\StreamingAssets\Data\Language\Language_CN\FunctionBlock.txt" />

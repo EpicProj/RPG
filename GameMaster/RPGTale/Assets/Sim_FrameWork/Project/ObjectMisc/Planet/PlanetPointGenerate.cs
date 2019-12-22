@@ -24,7 +24,7 @@ namespace Sim_FrameWork {
                 Vector3 pos = new Vector3(Mathf.Cos(phi) * r * size, y * size, Mathf.Sin(phi) * r * size);
                 GameObject obj = new GameObject();
                 obj.transform.parent = UIUtility.FindTransfrom(transform, "PointContent");
-                obj.transform.localScale = new Vector3(0.1f, 0.1f, 0.1f);
+                obj.transform.localScale = new Vector3(1f, 1f, 1f);
                 obj.transform.localPosition = pos;
                 obj.gameObject.SetActive(true);
                 obj.name = "Point_" + i + "-" + pos;
