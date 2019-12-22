@@ -59,6 +59,20 @@ namespace Sim_FrameWork.UI {
                     var valueMa = Utility.TryParseInt(split[2]);
                     PlayerManager.Instance.AddMaterialData(materialID, (ushort)valueMa);
                     break;
+                case "ShowEvent":
+                    if (split.Length != 2)
+                    {
+                        PrintConsole(c, "Input Error");
+                        break;
+                    }
+                    var EventID = Utility.TryParseInt(split[1]);
+                    if (ExploreModule.GetExploreEventDataByKey(EventID) == null)
+                    {
+                        PrintConsole(c, "EventID Not Found!");
+                        break;
+                    }
+                    UIGuide.Instance.ShowRandomEventDialog(EventID);
+                    break;
             }
         }
 

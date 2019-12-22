@@ -49,7 +49,8 @@ namespace Sim_FrameWork
                             Debug.LogError("Text Format Error  string=" + line + "   txt=" + languageDataPath);
                             continue;
                         }
-                        TextData.Add(value[0], value[1]);
+                        var replaceStr= value[1].Replace("\\n", "\n");
+                        TextData.Add(value[0], replaceStr);
                     }
                 }
                 else

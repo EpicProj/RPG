@@ -74,6 +74,15 @@ namespace Sim_FrameWork
             RectTransformUtility.ScreenPointToLocalPointInRectangle(mainCanvas.transform as RectTransform, Input.mousePosition, uiCamera, out position);
             return position;
         }
+
+        public Vector2 ScreenPointToLocalPoint(Vector2 point)
+        {
+            Vector2 localPoint = new Vector2();
+            RectTransformUtility.ScreenPointToLocalPointInRectangle(mainCanvas.GetComponent<RectTransform>(), point, uiCamera, out localPoint);
+            return localPoint;
+        }
+
+
         //格子跟随
         public void UpdatePickedItemPos()
         {

@@ -34,14 +34,16 @@ namespace Sim_FrameWork
                 pointData = data;
                 _pointName.text = data.pointName;
                 _energyCost.text = data.EnergyCost.ToString();
+                var pos = SolarSystemManager.Instance.GetPointPositionUI(data);
+                transform.GetComponent<RectTransform>().anchoredPosition = pos;
+                _btn.onClick.AddListener(OnPointClick);
             }
         }
 
-        public void SetClick(bool click)
+        void OnPointClick()
         {
-
+            UIGuide.Instance.ShowRandomEventDialog(pointData.eventID);
         }
-
 
 
         public override void OnPointerEnter(PointerEventData eventData)

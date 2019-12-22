@@ -164,6 +164,7 @@ namespace Sim_FrameWork
             public const string Explore_Area_Select_Btn = "Assets/Prefabs/Object/Explore/ExploreAreaSelectBtn.prefab";
             public const string Explore_Mission_Element = "Assets/Prefabs/Object/Explore/ExploreAreaMission.prefab";
             public const string Explore_Mission_Team_Obj = "Assets/Prefabs/Object/Explore/ExploreTeam.prefab";
+            public const string Explore_Point_Element= "Assets/Prefabs/Object/Explore/ExplorePoint.prefab";
 
             #endregion
 

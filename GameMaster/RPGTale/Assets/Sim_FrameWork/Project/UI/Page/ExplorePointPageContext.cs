@@ -60,7 +60,16 @@ namespace Sim_FrameWork.UI
                 return;
             for(int i = 0; i < _item.currentUnlockPointlist.Count; i++)
             {
-                Debug.Log(_item.currentUnlockPointlist[i].pointName);
+                var obj = ObjectManager.Instance.InstantiateObject(UIPath.PrefabPath.Explore_Point_Element);
+                if (obj != null)
+                {
+                    var cmpt = UIUtility.SafeGetComponent<ExplorePointCmpt>(obj.transform);
+                    if (cmpt != null)
+                    {
+                        cmpt.InitPoint(_item.currentUnlockPointlist[i]);
+                        obj.transform.SetParent(pointContentTrans, false);
+                    }
+                }
             }
         }
 
@@ -73,10 +82,13 @@ namespace Sim_FrameWork.UI
 
         private Text currentEnergyValue;
 
+        private Transform pointContentTrans;
+
         protected override void InitUIRefrence()
         {
             m_page = UIUtility.SafeGetComponent<ExplorePointPage>(Transform);
             currentEnergyValue = UIUtility.SafeGetComponent<Text>(UIUtility.FindTransfrom(m_page.leftPanel, "TeamState/Energy/Value"));
+            pointContentTrans = UIUtility.FindTransfrom(Transform, "Content/PointContent");
         }
     }
 }

@@ -132,13 +132,13 @@ namespace Sim_FrameWork.Config
     /// </summary>
     public class ExploreGeneralConfig
     {
-
+        public Dictionary<string, int> planetAreaMap;
 
         public ExploreGeneralConfig LoadExploreConfigData()
         {
             JsonReader reader = new JsonReader();
             var data = reader.LoadJsonDataConfig<ExploreGeneralConfig>(JsonConfigPath.ExploreConfigDataJsonPath);
-
+            planetAreaMap = data.planetAreaMap;
             return data;
         }
     }

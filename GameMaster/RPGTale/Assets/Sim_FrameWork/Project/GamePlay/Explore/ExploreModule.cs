@@ -267,6 +267,20 @@ namespace Sim_FrameWork
         }
 
 
+        public static string GetPointMapData(int areaID)
+        {
+            if (GetExploreAreaDataByKey(areaID) != null)
+            {
+                var dic = Config.ConfigData.ExploreConfigData.planetAreaMap;
+                foreach(KeyValuePair<string,int> kvp in dic)
+                {
+                    if (kvp.Value == areaID)
+                        return kvp.Key;
+                }
+            }
+            return string.Empty;
+        }
+
         #endregion
 
 
@@ -305,8 +319,9 @@ namespace Sim_FrameWork
         }
 
         #endregion
-        #region Explore Point
 
+
+        #region Explore Point
 
         public static ExplorePoint GetExplorePointDataByKey(int pointID)
         {
@@ -370,7 +385,41 @@ namespace Sim_FrameWork
             }
         }
 
+        public static ushort GetMissionPointIndex(int pointID)
+        {
+            var pointData = GetExplorePointDataByKey(pointID);
+            if (pointData != null)
+            {
+                var list = Utility.TryParseIntList(pointData.PointNevigator, ',');
+                if (list.Count == 2)
+                {
+                    return (ushort)list[1];
+                }
+                else
+                {
+                    Debug.LogError("GetMissionPointIndex Error! pointID=" + pointID);
+                }
+            }
+            return 0;
+        }
 
+        public static int GetMissionAreaIndex(int pointID)
+        {
+            var pointData = GetExplorePointDataByKey(pointID);
+            if (pointData != null)
+            {
+                var list = Utility.TryParseIntList(pointData.PointNevigator, ',');
+                if (list.Count == 2)
+                {
+                    return list[0];
+                }
+                else
+                {
+                    Debug.LogError("GetMissionAreaIndex Error! pointID=" + pointID);
+                }
+            }
+            return 0;
+        }
 
 
         #endregion
@@ -660,6 +709,10 @@ namespace Sim_FrameWork
         /// </summary>
         public ushort EnergyCost;
 
+        public int PointAreaNevigator;
+        public ushort PointPlanetpointNevigator;
+
+        public Transform pointMapTrans;
 
         public ExplorePointData(int pointID)
         {
@@ -677,6 +730,10 @@ namespace Sim_FrameWork
                 pointDesc = ExploreModule.GetExplorePointDesc(pointID);
                 depthLevel = data.DepthLevel;
                 EnergyCost = data.EnergyCost;
+                eventID = data.EventID;
+                PointAreaNevigator = ExploreModule.GetMissionAreaIndex(pointID);
+                PointPlanetpointNevigator = ExploreModule.GetMissionPointIndex(pointID);
+                pointMapTrans = null;
             }
         }
     }
