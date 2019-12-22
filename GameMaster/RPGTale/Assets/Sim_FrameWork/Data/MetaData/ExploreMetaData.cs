@@ -33,6 +33,8 @@ public class ExploreMetaData : ExcelBase {
             data.AreaName = "";
             data.MissionDesc = "";
             data.BGPath = "";
+            data.CameraPos = "";
+            data.CameraRotation = "";
             data.TeamMaxNum = (ushort)i;
             data.UnLockValue = (ushort)i;
             data.RequirePreID = i;
@@ -52,6 +54,7 @@ public class ExploreMetaData : ExcelBase {
             point.Name = "";
             point.Desc = "";
             point.ExploreValue = (ushort)i;
+            point.PointNevigator = "";
             point.DepthLevel = (ushort)i;
             point.PrePoint = i;
             point.EnergyCost= (ushort)i;
@@ -209,6 +212,10 @@ public class ExploreData
     [XmlElement]
     public string BGPath { get; set; }
     [XmlElement]
+    public string CameraPos { get; set; }
+    [XmlElement]
+    public string CameraRotation { get; set; }
+    [XmlElement]
     public ushort TeamMaxNum { get; set; }
     [XmlElement]
     public ushort UnLockValue { get; set; }
@@ -237,6 +244,8 @@ public class ExplorePoint
     public string Desc { get; set; }
     [XmlElement]
     public int ExploreValue { get; set; }
+    [XmlElement]
+    public string PointNevigator { get; set; }
     [XmlElement]
     public ushort DepthLevel { get; set; }
     [XmlElement]

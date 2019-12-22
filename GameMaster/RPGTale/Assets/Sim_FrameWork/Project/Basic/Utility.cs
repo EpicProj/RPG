@@ -57,6 +57,33 @@ namespace Sim_FrameWork
             return result;
         }
 
+        public static List<float> TryParseFloatList(string str, char split)
+        {
+            List<float> result = new List<float>();
+            if (string.IsNullOrEmpty(str))
+            {
+                Debug.LogWarning("Parse Int List Error");
+                return result;
+            }
+
+            string[] s = str.Split(split);
+            for (int i = 0; i < s.Length; i++)
+            {
+                float n;
+                if (float.TryParse(s[i], out n))
+                {
+                    result.Add(n);
+                }
+                else
+                {
+                    Debug.LogError("parse int error, string=" + s[i]);
+                    continue;
+                }
+            }
+            return result;
+        }
+
+
         public static bool CheckValueInRange(float min, float max, float value, string debug = null)
         {
             if (value < min || value > max)

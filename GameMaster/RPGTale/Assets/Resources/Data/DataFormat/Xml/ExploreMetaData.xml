@@ -26,6 +26,8 @@
     <AreaName>ExploreMission_AreaName_1</AreaName>
     <MissionDesc>ExploreMission_Desc_1</MissionDesc>
     <BGPath>SpriteOutput/Explore/AreaBG/ExploreArea_BG_001</BGPath>
+    <CameraPos>11.3,210.3,-282.1</CameraPos>
+    <CameraRotation>14.47,0,0</CameraRotation>
     <TeamMaxNum>1</TeamMaxNum>
     <UnLockValue>0</UnLockValue>
     <RequirePreID>0</RequirePreID>
@@ -40,6 +42,8 @@
     <AreaName>ExploreMission_AreaName_2</AreaName>
     <MissionDesc>ExploreMission_Desc_2</MissionDesc>
     <BGPath>SpriteOutput/Explore/AreaBG/ExploreArea_BG_001</BGPath>
+    <CameraPos>16.4,210.3,-278.2</CameraPos>
+    <CameraRotation>14.506,-36.8,0</CameraRotation>
     <TeamMaxNum>2</TeamMaxNum>
     <UnLockValue>0</UnLockValue>
     <RequirePreID>0</RequirePreID>
@@ -54,6 +58,8 @@
     <AreaName>ExploreMission_AreaName_3</AreaName>
     <MissionDesc>ExploreMission_Desc_3</MissionDesc>
     <BGPath>SpriteOutput/Explore/AreaBG/ExploreArea_BG_001</BGPath>
+    <CameraPos>21.6,210.3,-264</CameraPos>
+    <CameraRotation>14.506,-102.7,0</CameraRotation>
     <TeamMaxNum>3</TeamMaxNum>
     <UnLockValue>50</UnLockValue>
     <RequirePreID>0</RequirePreID>
@@ -68,6 +74,8 @@
     <AreaName>ExploreMission_AreaName_4</AreaName>
     <MissionDesc>ExploreMission_Desc_4</MissionDesc>
     <BGPath>SpriteOutput/Explore/AreaBG/ExploreArea_BG_001</BGPath>
+    <CameraPos>16.4,210.3,-278.2</CameraPos>
+    <CameraRotation>14.506,-36.8,0</CameraRotation>
     <TeamMaxNum>1</TeamMaxNum>
     <UnLockValue>50</UnLockValue>
     <RequirePreID>0</RequirePreID>
@@ -82,6 +90,8 @@
     <AreaName>ExploreMission_AreaName_5</AreaName>
     <MissionDesc>ExploreMission_Desc_5</MissionDesc>
     <BGPath>SpriteOutput/Explore/AreaBG/ExploreArea_BG_001</BGPath>
+    <CameraPos>21.6,210.3,-264</CameraPos>
+    <CameraRotation>14.506,-102.7,0</CameraRotation>
     <TeamMaxNum>2</TeamMaxNum>
     <UnLockValue>100</UnLockValue>
     <RequirePreID>4</RequirePreID>
@@ -96,6 +106,7 @@
     <Name>ExplorePoint_Name_1</Name>
     <Desc>ExplorePoint_Desc_1</Desc>
     <ExploreValue>10</ExploreValue>
+    <PointNevigator>1,0</PointNevigator>
     <DepthLevel>1</DepthLevel>
     <PrePoint>0</PrePoint>
     <EnergyCost>10</EnergyCost>
@@ -107,6 +118,7 @@
     <Name>ExplorePoint_Name_2</Name>
     <Desc>ExplorePoint_Desc_2</Desc>
     <ExploreValue>10</ExploreValue>
+    <PointNevigator>1,1</PointNevigator>
     <DepthLevel>1</DepthLevel>
     <PrePoint>0</PrePoint>
     <EnergyCost>10</EnergyCost>
@@ -118,6 +130,7 @@
     <Name>ExplorePoint_Name_3</Name>
     <Desc>ExplorePoint_Desc_3</Desc>
     <ExploreValue>10</ExploreValue>
+    <PointNevigator>1,2</PointNevigator>
     <DepthLevel>1</DepthLevel>
     <PrePoint>0</PrePoint>
     <EnergyCost>10</EnergyCost>
@@ -129,6 +142,7 @@
     <Name>ExplorePoint_Name_4</Name>
     <Desc>ExplorePoint_Desc_4</Desc>
     <ExploreValue>10</ExploreValue>
+    <PointNevigator>1,3</PointNevigator>
     <DepthLevel>2</DepthLevel>
     <PrePoint>1</PrePoint>
     <EnergyCost>10</EnergyCost>
@@ -140,6 +154,7 @@
     <Name>ExplorePoint_Name_5</Name>
     <Desc>ExplorePoint_Desc_5</Desc>
     <ExploreValue>10</ExploreValue>
+    <PointNevigator>1,4</PointNevigator>
     <DepthLevel>2</DepthLevel>
     <PrePoint>2</PrePoint>
     <EnergyCost>10</EnergyCost>
@@ -151,6 +166,7 @@
     <Name>ExplorePoint_Name_6</Name>
     <Desc>ExplorePoint_Desc_6</Desc>
     <ExploreValue>10</ExploreValue>
+    <PointNevigator>1,5</PointNevigator>
     <DepthLevel>2</DepthLevel>
     <PrePoint>3</PrePoint>
     <EnergyCost>10</EnergyCost>
@@ -162,6 +178,7 @@
     <Name>ExplorePoint_Name_7</Name>
     <Desc>ExplorePoint_Desc_7</Desc>
     <ExploreValue>10</ExploreValue>
+    <PointNevigator>1,6</PointNevigator>
     <DepthLevel>3</DepthLevel>
     <PrePoint>4</PrePoint>
     <EnergyCost>10</EnergyCost>
@@ -173,6 +190,7 @@
     <Name>ExplorePoint_Name_8</Name>
     <Desc>ExplorePoint_Desc_8</Desc>
     <ExploreValue>10</ExploreValue>
+    <PointNevigator>1,7</PointNevigator>
     <DepthLevel>1</DepthLevel>
     <PrePoint>0</PrePoint>
     <EnergyCost>10</EnergyCost>
@@ -184,6 +202,7 @@
     <Name>ExplorePoint_Name_9</Name>
     <Desc>ExplorePoint_Desc_9</Desc>
     <ExploreValue>10</ExploreValue>
+    <PointNevigator>1,8</PointNevigator>
     <DepthLevel>1</DepthLevel>
     <PrePoint>0</PrePoint>
     <EnergyCost>10</EnergyCost>
@@ -195,6 +214,7 @@
     <Name>ExplorePoint_Name_10</Name>
     <Desc>ExplorePoint_Desc_10</Desc>
     <ExploreValue>10</ExploreValue>
+    <PointNevigator>1,9</PointNevigator>
     <DepthLevel>1</DepthLevel>
     <PrePoint>0</PrePoint>
     <EnergyCost>10</EnergyCost>
@@ -206,6 +226,7 @@
     <Name>ExplorePoint_Name_11</Name>
     <Desc>ExplorePoint_Desc_11</Desc>
     <ExploreValue>10</ExploreValue>
+    <PointNevigator>1,10</PointNevigator>
     <DepthLevel>2</DepthLevel>
     <PrePoint>1</PrePoint>
     <EnergyCost>10</EnergyCost>
@@ -217,6 +238,7 @@
     <Name>ExplorePoint_Name_12</Name>
     <Desc>ExplorePoint_Desc_12</Desc>
     <ExploreValue>10</ExploreValue>
+    <PointNevigator>1,11</PointNevigator>
     <DepthLevel>2</DepthLevel>
     <PrePoint>2</PrePoint>
     <EnergyCost>10</EnergyCost>
@@ -228,6 +250,7 @@
     <Name>ExplorePoint_Name_13</Name>
     <Desc>ExplorePoint_Desc_13</Desc>
     <ExploreValue>10</ExploreValue>
+    <PointNevigator>1,12</PointNevigator>
     <DepthLevel>2</DepthLevel>
     <PrePoint>3</PrePoint>
     <EnergyCost>10</EnergyCost>
@@ -239,6 +262,7 @@
     <Name>ExplorePoint_Name_14</Name>
     <Desc>ExplorePoint_Desc_14</Desc>
     <ExploreValue>10</ExploreValue>
+    <PointNevigator>1,13</PointNevigator>
     <DepthLevel>3</DepthLevel>
     <PrePoint>4</PrePoint>
     <EnergyCost>10</EnergyCost>

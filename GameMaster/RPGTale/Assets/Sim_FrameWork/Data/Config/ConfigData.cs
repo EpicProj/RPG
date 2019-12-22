@@ -30,11 +30,27 @@ namespace Sim_FrameWork.Config
             }
         }
 
+        private static ExploreGeneralConfig _exploreConfigData;
+        public static ExploreGeneralConfig ExploreConfigData
+        {
+            get
+            {
+                if (_exploreConfigData == null)
+                {
+                    _exploreConfigData = new ExploreGeneralConfig();
+                    _exploreConfigData.LoadExploreConfigData();
+                }
+                return _exploreConfigData;
+            }
+        }
+
+
 
         public void InitData()
         {
             _globalSetting.LoadGlobalSettting();
             _rewardData.LoadRewardData();
+            _exploreConfigData.LoadExploreConfigData();
         }
 
 
@@ -111,6 +127,22 @@ namespace Sim_FrameWork.Config
         }
     }
 
+    /// <summary>
+    /// Explore Config
+    /// </summary>
+    public class ExploreGeneralConfig
+    {
+
+
+        public ExploreGeneralConfig LoadExploreConfigData()
+        {
+            JsonReader reader = new JsonReader();
+            var data = reader.LoadJsonDataConfig<ExploreGeneralConfig>(JsonConfigPath.ExploreConfigDataJsonPath);
+
+            return data;
+        }
+    }
+
 
     public class GlobalSetting
     {
@@ -149,10 +181,6 @@ namespace Sim_FrameWork.Config
             public ushort Level;
             public string Color;
         }
-
-
-
-
-
     }
+
 }

@@ -61,8 +61,53 @@ namespace Sim_FrameWork
             InitData();
         }
 
-        #region Explore Area
+        public Vector3 GetPlanetNevigatorCameraPos(int pointID)
+        {
+            var pointData = GetExplorePointDataByKey(pointID);
+            if (pointData != null)
+            {
+                var list = Utility.TryParseIntList(pointData.PointNevigator, ',');
+                if (list.Count == 2)
+                {
+                    int missionID = list[0];
+                    var missionData = GetExploreDataByKey(missionID);
+                    if (missionData != null)
+                    {
+                        return GetExploreMissionCameraPos(missionData.ExploreID);
+                    }
+                }
+                else
+                {
+                    Debug.LogError("Point Nevigator Error! PointID=" + pointID);
+                }
+            }
+            return new Vector3();
+        }
 
+        public Quaternion GetPlanetNevigatorCameraRotation(int pointID)
+        {
+            var pointData = GetExplorePointDataByKey(pointID);
+            if (pointData != null)
+            {
+                var list = Utility.TryParseIntList(pointData.PointNevigator, ',');
+                if (list.Count == 2)
+                {
+                    int missionID = list[0];
+                    var missionData = GetExploreDataByKey(missionID);
+                    if (missionData != null)
+                    {
+                        return GetExploreMissionCameraRotation(missionData.ExploreID);
+                    }
+                }
+                else
+                {
+                    Debug.LogError("Point Nevigator Error! PointID=" + pointID);
+                }
+            }
+            return new Quaternion();
+        }
+
+        #region Explore Area
         void GenerateExploreArea()
         {
             ExploreAreaListSpace = GetTotalExploreAreaData(ExploreAreaType.space);
@@ -179,6 +224,47 @@ namespace Sim_FrameWork
             return null;
         }
         
+        /// <summary>
+        /// 获取任务相机位置信息
+        /// </summary>
+        /// <param name="exploreID"></param>
+        /// <returns></returns>
+        public static Vector3 GetExploreMissionCameraPos(int exploreID)
+        {
+            var exploreData = GetExploreDataByKey(exploreID);
+            if (exploreData != null)
+            {
+                var list = Utility.TryParseFloatList(exploreData.CameraPos, ',');
+                if (list.Count == 3)
+                {
+                    Vector3 pos = new Vector3(list[0],list[1],list[2]);
+                    return pos;
+                }
+                else
+                {
+                    Debug.LogError("ExploreMission Camera Pos Error! exploreID=" + exploreID);
+                }
+            }
+            return Vector3.zero;
+        }
+        public static Quaternion GetExploreMissionCameraRotation(int exploreID)
+        {
+            var exploreData = GetExploreDataByKey(exploreID);
+            if (exploreData != null)
+            {
+                var list = Utility.TryParseFloatList(exploreData.CameraRotation, ',');
+                if (list.Count == 3)
+                {
+                    Vector3 pos = new Vector3(list[0], list[1], list[2]);
+                    return Quaternion.Euler(pos);
+                }
+                else
+                {
+                    Debug.LogError("ExploreMission Camera Rotation Error! exploreID=" + exploreID);
+                }
+            }
+            return new Quaternion();
+        }
 
 
         #endregion

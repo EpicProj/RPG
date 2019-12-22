@@ -50,6 +50,7 @@ namespace Sim_FrameWork
         {
             AudioManager.Instance.PlaySound(AudioClipPath.UISound.Button_Click);
             UIManager.Instance.SendMessageToWnd(UIPath.WindowPath.Explore_Main_Page, new UIMessage(UIMsgType.ExplorePage_Show_MissionDetail ,new List<object>(1) { _item }));
+            SolarSystemManager.Instance.MoveToExploreMissionPoint(_item.exploreID);
         }
 
         public override void OnPointerEnter(PointerEventData eventData)
