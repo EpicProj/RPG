@@ -11,6 +11,10 @@ namespace Sim_FrameWork
         private bool isShowInfoTip=false;
 
         private Transform _infoTrans;
+
+        private Image _progressImage;
+        private Text _progressTimeText;
+
         private Animation _showAnim;
         private Text _pointName;
         private Text _energyCost;
@@ -25,6 +29,10 @@ namespace Sim_FrameWork
             _pointName = UIUtility.SafeGetComponent<Text>(UIUtility.FindTransfrom(_infoTrans, "Name"));
             _energyCost = UIUtility.SafeGetComponent<Text>(UIUtility.FindTransfrom(_infoTrans, "Energy/Value"));
             _btn = UIUtility.SafeGetComponent<Button>(transform);
+
+            _progressImage = UIUtility.SafeGetComponent<Image>(UIUtility.FindTransfrom(transform, "Ring/Fill"));
+            _progressImage.fillAmount = 0;
+            _progressTimeText = UIUtility.SafeGetComponent<Text>(UIUtility.FindTransfrom(transform, "Ring/Progress"));
         }
 
         public void InitPoint(ExplorePointData data)
@@ -34,6 +42,7 @@ namespace Sim_FrameWork
                 pointData = data;
                 _pointName.text = data.pointName;
                 _energyCost.text = data.EnergyCost.ToString();
+                _progressTimeText.text = Utility.TimeFormat(data.ExploreTimer.EndTime);
                 var pos = SolarSystemManager.Instance.GetPointPositionUI(data);
                 transform.GetComponent<RectTransform>().anchoredPosition = pos;
                 _btn.onClick.AddListener(OnPointClick);

@@ -16,6 +16,7 @@ namespace Sim_FrameWork
         /// </summary>
         public ExploreAreaType _currentExploreAreaType = ExploreAreaType.space;
 
+
         /// <summary>
         /// Current Explore Misson 
         /// State    Key=AreaID
@@ -237,14 +238,42 @@ namespace Sim_FrameWork
 
         #region Explore_Point
 
+        private Dictionary<int, ExplorePointData> _currenPointDataDic = new Dictionary<int, ExplorePointData>();
+        public Dictionary<int,ExplorePointData> CurrenPointDataDic
+        {
+            get { return _currenPointDataDic; }
+        }
+
+        public void AddExplorePointData(ExplorePointData data)
+        {
+            if (!_currenPointDataDic.ContainsKey(data.PointID))
+            {
+                _currenPointDataDic.Add(data.PointID, data);
+            }
+        }
+
+        public ExplorePointData GetExplorePointData(int  pointID)
+        {
+            ExplorePointData data = null;
+            _currenPointDataDic.TryGetValue(pointID, out data);
+            return data;
+
+        }
+
+
         /// <summary>
         /// 开启一个点位
         /// </summary>
         /// <param name="pointID"></param>
-        public void DoExplorePoint(int pointID)
+        public void StartExplorePoint(int pointID)
         {
-            ExplorePointData pointData = new ExplorePointData(pointID);
-            ///CheckPrePoint
+            var data = GetExplorePointData(pointID);
+            if (data != null)
+            {
+                data.currentState = ExplorePointData.PointState.Doing;
+             
+            }
+
         }
 
         #endregion

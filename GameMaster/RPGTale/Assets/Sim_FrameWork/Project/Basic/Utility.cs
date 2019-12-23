@@ -139,6 +139,31 @@ namespace Sim_FrameWork
             return BitConverter.ToInt32(bytes, 0);
         }
 
+        /// <summary>
+        /// 时间转化
+        /// </summary>
+        /// <param name="seconds"></param>
+        /// <returns></returns>
+        public static string TimeFormat(int seconds)
+        {
+            TimeSpan ts = new TimeSpan(0, 0, 0, Convert.ToInt32(seconds));
+            string str = "";
+            if (ts.Hours > 0)
+            {
+                str = ts.Hours.ToString().PadLeft(2, '0') + ":" + ts.Minutes.ToString().PadLeft(2, '0') + ":" + ts.Seconds.ToString().PadLeft(2, '0') ;
+            }
+            if(ts.Hours==0 && ts.Minutes > 0)
+            {
+                str = ts.Minutes.ToString().PadLeft(2, '0')+ ":" + ts.Seconds.ToString().PadLeft(2, '0'); 
+            }
+            if(ts.Hours==0 && ts.Minutes == 0)
+            {
+                str = "00:" + ts.Seconds.ToString().PadLeft(2,'0');
+            }
+            return str;
+        }
+
+
 
         #endregion
 

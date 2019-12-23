@@ -58,6 +58,7 @@ public class ExploreMetaData : ExcelBase {
             point.DepthLevel = (ushort)i;
             point.PrePoint = i;
             point.EnergyCost= (ushort)i;
+            point.Time = (ushort)i;
             point.EventID = i;
             AllExplorePointList.Add(point);
         }
@@ -252,6 +253,8 @@ public class ExplorePoint
     public int PrePoint { get; set; }
     [XmlElement]
     public ushort EnergyCost { get; set; }
+    [XmlElement]
+    public ushort Time { get; set; }
     [XmlElement]
     public int EventID { get; set; }
 }

@@ -355,6 +355,7 @@ namespace Sim_FrameWork
                     if (point.SeriesID == exploreData.SeriesID)
                     {
                         ExplorePointData data = new ExplorePointData(point.PointID);
+                        ExploreEventManager.Instance.AddExplorePointData(data);
                         result.Add(data);
                     }
                 }
@@ -362,6 +363,11 @@ namespace Sim_FrameWork
             return result;
         }
 
+        /// <summary>
+        /// 初始化点位生成
+        /// </summary>
+        /// <param name="rowData"></param>
+        /// <param name="data"></param>
         public static void GetUnlockExplorePoint(List<ExplorePointData> rowData,ref List<ExplorePointData> data)
         {
             if (rowData == null)
@@ -370,12 +376,12 @@ namespace Sim_FrameWork
             {
                 if (rowData[i].PrePoint != 0)
                 {
-                    var pointData = rowData.Find(x => x.PointID == rowData[i].PrePoint);
+                    var pointData = ExploreEventManager.Instance.GetExplorePointData(rowData[i].PrePoint);
                     if (pointData != null)
                     {
                         if (pointData.currentState == ExplorePointData.PointState.Finish)
                         {
-                            data.Add(pointData);
+                            data.Add(rowData[i]);
                         }
                     }
                 } else if (rowData[i].PrePoint == 0)
@@ -615,7 +621,7 @@ namespace Sim_FrameWork
         /// <summary>
         /// 探索点位信息
         /// </summary>
-        private List<ExplorePointData> totalPointList=new List<ExplorePointData> ();
+        public List<ExplorePointData> totalPointList=new List<ExplorePointData> ();
 
         public List<ExplorePointData> currentUnlockPointlist = new List<ExplorePointData>();
 
@@ -708,6 +714,11 @@ namespace Sim_FrameWork
         /// 资源消耗
         /// </summary>
         public ushort EnergyCost;
+        /// <summary>
+        /// 时间消耗
+        /// </summary>
+        public ushort TimeCost;
+        public Timer ExploreTimer;
 
         public int PointAreaNevigator;
         public ushort PointPlanetpointNevigator;
@@ -731,9 +742,13 @@ namespace Sim_FrameWork
                 depthLevel = data.DepthLevel;
                 EnergyCost = data.EnergyCost;
                 eventID = data.EventID;
+                TimeCost = data.Time;
                 PointAreaNevigator = ExploreModule.GetMissionAreaIndex(pointID);
                 PointPlanetpointNevigator = ExploreModule.GetMissionPointIndex(pointID);
                 pointMapTrans = null;
+
+                ExploreTimer = ApplicationManager.StartTimer(TimeCost, 100);
+                ExploreTimer.Pause();
             }
         }
     }
