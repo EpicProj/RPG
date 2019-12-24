@@ -29,6 +29,14 @@ namespace Sim_FrameWork
             UIManager.Instance.PopUpWnd(UIPath.WindowPath.Menu_Dialog, WindowType.Dialog, true);
         }
 
+        public void ShowGeneralHint(GeneralHintDialogItem item)
+        {
+            UIManager.Instance.Register<UI.GeneralHintDialogContext>(UIPath.WindowPath.General_Hint_Dialog);
+            UIManager.Instance.PopUpWnd(UIPath.WindowPath.General_Hint_Dialog, WindowType.SPContent, true, item);
+        }
+
+
+
         /// <summary>
         /// Tech Page
         /// </summary>
@@ -78,20 +86,12 @@ namespace Sim_FrameWork
         }
 
         ///Random Event
-        public void ShowRandomEventDialog(int eventID)
+        public void ShowRandomEventDialog(int eventID, int areaID,int exploreID,int pointID)
         {
-            UI.RandomEventDialogItem item = new UI.RandomEventDialogItem(
-                ExploreModule.GetEventName(eventID),
-                ExploreModule.GetEventTitleName(eventID),
-                ExploreModule.GetEventDesc(eventID),
-                ExploreModule.GetEventBG(eventID),
-                ExploreModule.GetChooseItem(eventID)
-                );
-
             UIManager.Instance.Register<UI.RandomEventDialogContext>(UIPath.WindowPath.RandomEvent_Dialog);
+            UI.RandomEventDialogItem item = new UI.RandomEventDialogItem(eventID, areaID, exploreID, pointID);
             UIManager.Instance.PopUpWnd(UIPath.WindowPath.RandomEvent_Dialog, WindowType.Dialog, true, item);
         }
-
 
         ///Explore 
         public void ShowExploreMainPage()

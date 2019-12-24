@@ -1,0 +1,41 @@
+{
+"eventConfigData":[
+	{
+	"EventID":1,
+	"Trigger":{
+		"Global":{
+			"flag_001":true,
+			"flag_002":false
+		},
+		"Player":{
+			"Currency":{
+				"Compare":"Larger",
+				"Value":10000
+			},
+			"Material":[{
+				"MaterialID":100,
+				"Compare":">=,100",	
+			},{
+				"MaterialID":101,
+				"Compare":"=,0",	
+			}],
+			"Technology":[{
+				"TechID":100,
+				"Compare":"Complete"
+			},{
+				"TechID":101,
+				"Compare":"Lock"
+			}]
+		},
+		"PreEvent":[101,102,103]
+	},
+	"Effect":{
+		"SetFlag":[{
+			"Name":"Flag_001",
+			"Time":100
+		}],
+		"RemoveFlag":["Flag_002"]
+	}
+	}
+
+]}

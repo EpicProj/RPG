@@ -44,6 +44,19 @@ namespace Sim_FrameWork.Config
             }
         }
 
+        private static EventConfig _eventConfigData;
+        public static EventConfig EventConfigData
+        {
+            get
+            {
+                if (_eventConfigData == null)
+                {
+                    _eventConfigData = new EventConfig();
+                    _eventConfigData.LoadEventConfigData();
+                }
+                return _eventConfigData;
+            }
+        }
 
 
         public void InitData()
@@ -51,6 +64,7 @@ namespace Sim_FrameWork.Config
             _globalSetting.LoadGlobalSettting();
             _rewardData.LoadRewardData();
             _exploreConfigData.LoadExploreConfigData();
+            _eventConfigData.LoadEventConfigData();
         }
 
 
@@ -78,6 +92,8 @@ namespace Sim_FrameWork.Config
         /// </summary>
         public static readonly int ExplorePage_Mission_Max_Count = 5;
         public static readonly ushort Explore_Mission_Max_Team_Count = 3;
+        public static readonly ushort Explore_Point_Max_HardLevel = 5;
+
     }
 
 
@@ -139,6 +155,22 @@ namespace Sim_FrameWork.Config
             JsonReader reader = new JsonReader();
             var data = reader.LoadJsonDataConfig<ExploreGeneralConfig>(JsonConfigPath.ExploreConfigDataJsonPath);
             planetAreaMap = data.planetAreaMap;
+            return data;
+        }
+    }
+
+    /// <summary>
+    /// 随机事件生成配置
+    /// </summary>
+
+    public class EventConfig
+    {
+        public List<EventConfigData> eventConfigData;
+        public EventConfig LoadEventConfigData()
+        {
+            JsonReader reader = new JsonReader();
+            var data = reader.LoadJsonDataConfig<EventConfig>(JsonConfigPath.EventConfigDataJsonPath);
+            eventConfigData = data.eventConfigData;
             return data;
         }
     }

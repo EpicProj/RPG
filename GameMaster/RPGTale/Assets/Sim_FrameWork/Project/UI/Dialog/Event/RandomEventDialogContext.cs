@@ -66,7 +66,7 @@ namespace Sim_FrameWork.UI
                 var eventCmpt = UIUtility.SafeGetComponent<EventChooseBtn>( m_dialog.ChooseContent.GetChild(i));
                 if (eventCmpt != null)
                 {
-                    eventCmpt.InitBtn(_item.itemList[i]);
+                    eventCmpt.InitBtn(_item,_item.itemList[i].ChooseID);
                     eventCmpt.gameObject.SetActive(true);
                 }
             }
@@ -164,19 +164,29 @@ namespace Sim_FrameWork.UI
 
     public class RandomEventDialogItem
     {
+        public int AreaID;
+        public int ExploreID;
+        public int PointID;
+
+        public int EventID;
         public List<ExploreChooseItem> itemList;
         public string eventName;
         public string eventTitleName;
         public string eventDesc;
         public Sprite eventBG;
 
-        public RandomEventDialogItem(string name,string eventTitleName, string desc,Sprite BG,List<ExploreChooseItem> itemList)
+        public RandomEventDialogItem(int eventID,int areaid,int exploreID,int pointID)
         {
-            eventName = name;
-            this.eventTitleName = eventTitleName;
-            eventDesc = desc;
-            eventBG = BG;
-            this.itemList = itemList;
+            AreaID = areaid;
+            ExploreID = exploreID;
+            PointID = pointID;
+
+            EventID = eventID;
+            eventName = ExploreModule.GetEventName(eventID);
+            eventTitleName = ExploreModule.GetEventTitleName(eventID);
+            eventDesc = ExploreModule.GetEventDesc(eventID);
+            eventBG = ExploreModule.GetEventBG(eventID);
+            itemList = ExploreModule.GetChooseItem(eventID);
         }
 
     }

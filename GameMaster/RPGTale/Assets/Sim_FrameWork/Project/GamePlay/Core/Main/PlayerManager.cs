@@ -46,12 +46,6 @@ namespace Sim_FrameWork
                 UpdateTime();
             }
 
-            ///Test
-            if (Input.GetKeyDown(KeyCode.R))
-            {
-                UIGuide.Instance.ShowRandomEventDialog(1);
-            }
-          
         }
 
 

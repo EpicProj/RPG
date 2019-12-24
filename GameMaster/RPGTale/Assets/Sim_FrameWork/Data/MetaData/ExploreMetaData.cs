@@ -56,6 +56,7 @@ public class ExploreMetaData : ExcelBase {
             point.ExploreValue = (ushort)i;
             point.PointNevigator = "";
             point.DepthLevel = (ushort)i;
+            point.HardLevel = (ushort)i;
             point.PrePoint = i;
             point.EnergyCost= (ushort)i;
             point.Time = (ushort)i;
@@ -249,6 +250,8 @@ public class ExplorePoint
     public string PointNevigator { get; set; }
     [XmlElement]
     public ushort DepthLevel { get; set; }
+    [XmlElement]
+    public ushort HardLevel { get; set; }
     [XmlElement]
     public int PrePoint { get; set; }
     [XmlElement]

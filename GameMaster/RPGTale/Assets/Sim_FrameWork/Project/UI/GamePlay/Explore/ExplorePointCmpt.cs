@@ -42,7 +42,7 @@ namespace Sim_FrameWork
                 pointData = data;
                 _pointName.text = data.pointName;
                 _energyCost.text = data.EnergyCost.ToString();
-                _progressTimeText.text = Utility.TimeFormat(data.ExploreTimer.EndTime);
+                _progressTimeText.text = Utility.TimeFormat(data.TimeCost);
                 var pos = SolarSystemManager.Instance.GetPointPositionUI(data);
                 transform.GetComponent<RectTransform>().anchoredPosition = pos;
                 _btn.onClick.AddListener(OnPointClick);
@@ -51,7 +51,7 @@ namespace Sim_FrameWork
 
         void OnPointClick()
         {
-            UIGuide.Instance.ShowRandomEventDialog(pointData.eventID);
+            UIManager.Instance.SendMessageToWnd(UIPath.WindowPath.Explore_Point_Page, new UIMessage(UIMsgType.ExplorePage_Show_PointDetail, new List<object>(1) { pointData }));
         }
 
 

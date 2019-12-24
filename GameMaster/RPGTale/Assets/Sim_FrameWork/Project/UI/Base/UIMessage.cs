@@ -65,6 +65,9 @@ namespace Sim_FrameWork
         ///Explore
         ExplorePage_ShowArea_Mission,
         ExplorePage_Show_MissionDetail,
+        ExplorePage_Show_PointDetail,
+        ExplorePage_Finish_Point,
+
 
 
 

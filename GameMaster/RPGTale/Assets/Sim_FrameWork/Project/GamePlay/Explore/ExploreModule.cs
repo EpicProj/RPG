@@ -188,14 +188,14 @@ namespace Sim_FrameWork
                 var exploreData = GetExploreDataByKey(list[i]);
                 if (exploreData != null)
                 {
-                    ExploreRandomItem item = new ExploreRandomItem(exploreData.ExploreID);
+                    ExploreRandomItem item = new ExploreRandomItem(areaID,exploreData.ExploreID);
                     tempList.Add(item);
                 }
             }
             ///Delect Doing Misson And Finished Mission
             for(int i = 0; i < tempList.Count; i++)
             {
-                if(ExploreEventManager.Instance.CheckMissionIsDoing(areaID,tempList[i].exploreID) == true || ExploreEventManager.Instance.CheckMissionIsFinish(areaID) == true)
+                if(ExploreEventManager.Instance.CheckMissionIsDoing(areaID,tempList[i].exploreID) == true || ExploreEventManager.Instance.CheckMissionIsFinish(areaID,tempList[i].exploreID) == true)
                 {
                     tempList.Remove(tempList[i]);
                 }
@@ -344,7 +344,7 @@ namespace Sim_FrameWork
             return MultiLanguage.Instance.GetTextValue(GetExplorePointDataByKey(pointID).Desc);
         }
 
-        public static List<ExplorePointData> GetExplorePointDataList(int exploreID)
+        public static List<ExplorePointData> GetExplorePointDataList(int areaID,int exploreID)
         {
             List<ExplorePointData> result = new List<ExplorePointData>();
             var exploreData = GetExploreDataByKey(exploreID);
@@ -354,8 +354,8 @@ namespace Sim_FrameWork
                 {
                     if (point.SeriesID == exploreData.SeriesID)
                     {
-                        ExplorePointData data = new ExplorePointData(point.PointID);
-                        ExploreEventManager.Instance.AddExplorePointData(data);
+                        ExplorePointData data = new ExplorePointData(areaID,exploreID,point.PointID);
+                        ExploreEventManager.Instance.AddExplorePointData(areaID,exploreID,data);
                         result.Add(data);
                     }
                 }
@@ -376,7 +376,7 @@ namespace Sim_FrameWork
             {
                 if (rowData[i].PrePoint != 0)
                 {
-                    var pointData = ExploreEventManager.Instance.GetExplorePointData(rowData[i].PrePoint);
+                    var pointData = ExploreEventManager.Instance.GetExplorePointData(rowData[i].AreaID,rowData[i].ExploreID,rowData[i].PrePoint);
                     if (pointData != null)
                     {
                         if (pointData.currentState == ExplorePointData.PointState.Finish)
@@ -527,6 +527,8 @@ namespace Sim_FrameWork
         }
 
         public List<ExploreRandomItem> currentMissionList =new List<ExploreRandomItem> ();
+        public List<ExploreRandomItem> finishedMissionList = new List<ExploreRandomItem>();
+
         public string areaName;
         public string areaTitleName;
         public string areaDesc;
@@ -599,12 +601,13 @@ namespace Sim_FrameWork
         {
             None,
             Init,
-            Start,
             Doing,
             Finish
         }
 
         public ExploreMissionState currentState;
+
+        public int AreaID;
 
         /// <summary>
         /// 随机到的探索ID
@@ -623,7 +626,9 @@ namespace Sim_FrameWork
         /// </summary>
         public List<ExplorePointData> totalPointList=new List<ExplorePointData> ();
 
-        public List<ExplorePointData> currentUnlockPointlist = new List<ExplorePointData>();
+        public List<ExplorePointData> currentPointlist = new List<ExplorePointData>();
+        public List<ExplorePointData> finishedPointList = new List<ExplorePointData>();
+
 
         public string missionName;
         public string missionAreaName;
@@ -638,20 +643,21 @@ namespace Sim_FrameWork
 
         public PlayerExploreTeamData teamData;
 
-        public ExploreRandomItem(int exploreID)
+        public ExploreRandomItem(int areaID, int exploreID)
         {
             var exploreData = ExploreModule.GetExploreDataByKey(exploreID);
             currentState = ExploreMissionState.None;
             if (exploreData != null)
             {
-                
+                AreaID = areaID;
+
                 this.exploreID = exploreData.ExploreID;
                 missionName = ExploreModule.GetExploreMissionName(exploreID);
                 missionAreaName = ExploreModule.GetExplorMissionAreaName(exploreID);
                 missionDesc = ExploreModule.GetExploreMissionDesc(exploreID);
                 missionBG = ExploreModule.GetExploreMissionBG(exploreID);
                 requirePreExploreID = exploreData.RequirePreID;
-                totalPointList = ExploreModule.GetExplorePointDataList(exploreID);
+                totalPointList = ExploreModule.GetExplorePointDataList(areaID,exploreID);
 
                 areaHardLevel = exploreData.HardLevel;
                 maxTeamNum = exploreData.TeamMaxNum >= Config.GlobalConfigData.Explore_Mission_Max_Team_Count ? Config.GlobalConfigData.Explore_Mission_Max_Team_Count : exploreData.TeamMaxNum;
@@ -672,7 +678,7 @@ namespace Sim_FrameWork
         {
             List<ExplorePointData> pointList = new List<ExplorePointData>();
             ExploreModule.GetUnlockExplorePoint(totalPointList, ref pointList);
-            currentUnlockPointlist = pointList;
+            currentPointlist = pointList;
         }
 
     }
@@ -691,6 +697,9 @@ namespace Sim_FrameWork
             Doing,
             Finish
         }
+        public int AreaID;
+        public int ExploreID;
+
         public int PointID;
         public int seriesID;
         public string pointName;
@@ -718,6 +727,8 @@ namespace Sim_FrameWork
         /// 时间消耗
         /// </summary>
         public ushort TimeCost;
+        public ushort HardLevel;
+
         public Timer ExploreTimer;
 
         public int PointAreaNevigator;
@@ -725,11 +736,14 @@ namespace Sim_FrameWork
 
         public Transform pointMapTrans;
 
-        public ExplorePointData(int pointID)
+        public ExplorePointData(int areaID,int exploreID, int pointID)
         {
             var data = ExploreModule.GetExplorePointDataByKey(pointID);
             if (data != null)
             {
+                AreaID = areaID;
+                ExploreID = exploreID;
+
                 PointID = data.PointID;
                 seriesID = data.SeriesID;
                 PrePoint = data.PrePoint;
@@ -743,6 +757,12 @@ namespace Sim_FrameWork
                 EnergyCost = data.EnergyCost;
                 eventID = data.EventID;
                 TimeCost = data.Time;
+
+                if (data.HardLevel > Config.GlobalConfigData.Explore_Point_Max_HardLevel)
+                    HardLevel = Config.GlobalConfigData.Explore_Point_Max_HardLevel;
+                else
+                    HardLevel = data.HardLevel;
+
                 PointAreaNevigator = ExploreModule.GetMissionAreaIndex(pointID);
                 PointPlanetpointNevigator = ExploreModule.GetMissionPointIndex(pointID);
                 pointMapTrans = null;
@@ -804,6 +824,37 @@ namespace Sim_FrameWork
             if (_goodsCurrentNum < 0)
                 _goodsCurrentNum = 0;
         }
+    }
+
+
+    public class EventConfigData
+    {
+        public int EventID;
+        
+
+
+
+
+
+
+
+
+        public class Trigger
+        {
+            public Dictionary<string, bool> Global;
+            public class Player
+            {
+
+            }
+
+
+
+        }
+
+        public class Effect
+        {
+        }
+
 
 
     }

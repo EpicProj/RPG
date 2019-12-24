@@ -12,7 +12,9 @@ namespace Sim_FrameWork
         private Button _btn;
         private Animator _anim;
 
-        private ExploreChooseItem exploreItem;
+        private UI.RandomEventDialogItem eventItem;
+        private ExploreChooseItem chooseItem;
+
         public override void Awake()
         {
             _content = UIUtility.SafeGetComponent<Text>(UIUtility.FindTransfrom(transform, "Text"));
@@ -20,34 +22,40 @@ namespace Sim_FrameWork
             _anim = UIUtility.SafeGetComponent<Animator>(transform);
         }
 
-        public void InitBtn(ExploreChooseItem item)
+        public void InitBtn(UI.RandomEventDialogItem item,int chooseID)
         {
-            exploreItem = item;
-            _content.text = exploreItem.content;
-            _btn.onClick.RemoveAllListeners();
-            _btn.onClick.AddListener(() =>
+            eventItem = item;
+            var exploreChooseItem = item.itemList.Find(x => x.ChooseID == chooseID);
+            if (exploreChooseItem != null)
             {
-                GlobalEventManager.Instance.HandleRewardDataItem(item.rewardID);
-                AudioManager.Instance.PlaySound(AudioClipPath.UISound.Button_Click);
-                if (item.nextEvent != 0 )
+                chooseItem = exploreChooseItem;
+                _content.text = exploreChooseItem.content;
+                _btn.onClick.RemoveAllListeners();
+                _btn.onClick.AddListener(() =>
                 {
-                    if (ExploreModule.GetExploreEventDataByKey(item.nextEvent) != null)
+                    GlobalEventManager.Instance.HandleRewardDataItem(exploreChooseItem.rewardID);
+                    AudioManager.Instance.PlaySound(AudioClipPath.UISound.Button_Click);
+                    if (exploreChooseItem.nextEvent != 0)
                     {
-                        UIGuide.Instance.ShowRandomEventDialog(item.nextEvent);
+                        if (ExploreModule.GetExploreEventDataByKey(exploreChooseItem.nextEvent) != null)
+                        {
+                            UIGuide.Instance.ShowRandomEventDialog(exploreChooseItem.nextEvent,item.AreaID,item.ExploreID, item.PointID);
+                        }
                     }
-                }
-                else
-                {
-                    UIManager.Instance.HideWnd(UIPath.WindowPath.RandomEvent_Dialog);
-                }
-            });
+                    else
+                    {
+                        ExploreEventManager.Instance.FinishExplorePoint(item.AreaID,item.ExploreID,item.PointID);
+                        UIManager.Instance.HideWnd(UIPath.WindowPath.RandomEvent_Dialog);
+                    }
+                });
+            }
         }
 
         public override void OnPointerEnter(PointerEventData eventData)
         {
-            if (exploreItem != null)
+            if (chooseItem != null)
             {
-                UIManager.Instance.SendMessage(new UIMessage(UIMsgType.RandomEventDialog_Update_Effect, new List<object>(1) { exploreItem.rewardID }));
+                UIManager.Instance.SendMessage(new UIMessage(UIMsgType.RandomEventDialog_Update_Effect, new List<object>(1) { chooseItem.rewardID }));
             }
         }
 

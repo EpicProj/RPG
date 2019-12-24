@@ -71,7 +71,7 @@ namespace Sim_FrameWork.UI {
                         PrintConsole(c, "EventID Not Found!");
                         break;
                     }
-                    UIGuide.Instance.ShowRandomEventDialog(EventID);
+                    UIGuide.Instance.ShowRandomEventDialog(EventID,0,0,0);
                     break;
             }
         }

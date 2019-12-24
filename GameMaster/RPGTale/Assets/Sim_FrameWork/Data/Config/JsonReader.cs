@@ -59,6 +59,7 @@ namespace Sim_FrameWork.Config
         public static string RewardDataJsonPath = Application.streamingAssetsPath + "/Data/JsonData/Basic/RewardData.json";
 
         public static string ExploreConfigDataJsonPath = Application.streamingAssetsPath + "/Data/JsonData/Explore/ExploreGeneralConfig.json";
+        public static string EventConfigDataJsonPath = Application.streamingAssetsPath + "/Data/JsonData/Explore/EventConfig.json";
 
 
     }
