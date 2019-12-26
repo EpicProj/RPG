@@ -301,10 +301,62 @@ namespace Sim_FrameWork
                 }
             }
         }
+        #endregion
+
+        #region ExploreEvent
+
+        private Dictionary<int, UI.RandomEventDialogItem> _finishedEventItemDic = new Dictionary<int, UI.RandomEventDialogItem>();
+        public Dictionary<int,UI.RandomEventDialogItem> FinishedEventItemDic
+        {
+            get
+            {
+                return _finishedEventItemDic;
+            }
+        }
+
+        public bool CheckRandomEventFinish(int eventID)
+        {
+            return _finishedEventItemDic.ContainsKey(eventID);
+        }
+
+        /// <summary>
+        /// 完成事件
+        /// </summary>
+        /// <param name="item"></param>
+        public void OnRandomEventFinish(UI.RandomEventDialogItem item)
+        {
+            var configData = ExploreModule.GetExploreEventConfigData(item.EventID);
+            if (configData != null)
+            {
+                var setFlagDic = configData.effect.SetFlag;
+                if (setFlagDic != null)
+                {
+                    foreach (var setFlag in setFlagDic)
+                    {
+                        GlobalEventManager.Instance.AddGlobalFlag(new GlobalFlagItem(
+                            setFlag.Key, Utility.TryParseInt(setFlag.Value)));
+                    }
+                }
+
+                var removeFlagDic = configData.effect.RemoveFlag;
+                if (removeFlagDic != null)
+                {
+                    foreach(var removeFlag in removeFlagDic)
+                    {
+                        GlobalEventManager.Instance.RemoveGlobalFlag(removeFlag);
+                    }
+                }
+            }
+
+            if (!_finishedEventItemDic.ContainsKey(item.EventID))
+            {
+                _finishedEventItemDic.Add(item.EventID, item);
+            }
+
+        }
 
 
         #endregion
-
 
 
 

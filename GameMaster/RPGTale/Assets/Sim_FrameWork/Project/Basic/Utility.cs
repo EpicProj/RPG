@@ -162,6 +162,50 @@ namespace Sim_FrameWork
             }
             return str;
         }
+        
+        /// <summary>
+        /// Parse Compare
+        /// </summary>
+        /// <param name="compareValue"></param>
+        /// <param name="parseStr"></param>
+        /// <returns></returns>
+        public static bool ParseGeneralCompare(int compareValue , string parseStr)
+        {
+            var strList = TryParseStringList(parseStr, ',');
+            if (strList.Count != 2 || strList==null)
+            {
+                Debug.LogError("Parse CompareData Error ,str= " + parseStr);
+                return true;
+            }
+            else
+            {
+                var value = TryParseInt(strList[1]);
+                if (string.Compare(strList[0], ">=") == 0)
+                {
+                    return compareValue >= value;
+                }else if (string.Compare(strList[0], ">") == 0)
+                {
+                    return compareValue > value;
+                }
+                else if (string.Compare(strList[0], "=") == 0)
+                {
+                    return compareValue == value;
+                }
+                else if (string.Compare(strList[0], "<=") == 0)
+                {
+                    return compareValue <= value;
+                }
+                else if (string.Compare(strList[0], "<") == 0)
+                {
+                    return compareValue < value;
+                }
+                else
+                {
+                    Debug.LogError("Parse CompareData Error ,str= " + parseStr);
+                    return true;
+                }
+            }
+        }
 
 
 

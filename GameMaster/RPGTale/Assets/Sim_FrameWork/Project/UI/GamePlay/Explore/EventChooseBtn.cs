@@ -35,6 +35,9 @@ namespace Sim_FrameWork
                 {
                     GlobalEventManager.Instance.HandleRewardDataItem(exploreChooseItem.rewardID);
                     AudioManager.Instance.PlaySound(AudioClipPath.UISound.Button_Click);
+
+                    ExploreEventManager.Instance.OnRandomEventFinish(item);
+
                     if (exploreChooseItem.nextEvent != 0)
                     {
                         if (ExploreModule.GetExploreEventDataByKey(exploreChooseItem.nextEvent) != null)

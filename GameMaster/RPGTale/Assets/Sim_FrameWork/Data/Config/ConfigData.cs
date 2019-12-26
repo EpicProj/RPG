@@ -165,12 +165,27 @@ namespace Sim_FrameWork.Config
 
     public class EventConfig
     {
-        public List<EventConfigData> eventConfigData;
+        public List<ExploreEventConfigData> exploreEventConfigData;
         public EventConfig LoadEventConfigData()
         {
             JsonReader reader = new JsonReader();
             var data = reader.LoadJsonDataConfig<EventConfig>(JsonConfigPath.EventConfigDataJsonPath);
-            eventConfigData = data.eventConfigData;
+            exploreEventConfigData = data.exploreEventConfigData;
+
+            List<int> eventList = new List<int>();
+            for(int i = 0; i < exploreEventConfigData.Count; i++)
+            {
+                if (!eventList.Contains(exploreEventConfigData[i].eventID))
+                {
+                    eventList.Add(exploreEventConfigData[i].eventID);
+                }
+                else
+                {
+                    Debug.LogError("Find Same ExploreEventID , ID=" + exploreEventConfigData[i].eventID);
+                }
+            
+            }
+
             return data;
         }
     }

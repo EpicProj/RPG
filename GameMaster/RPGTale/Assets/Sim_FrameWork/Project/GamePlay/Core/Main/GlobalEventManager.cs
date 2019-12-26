@@ -528,8 +528,54 @@ namespace Sim_FrameWork {
 
         #endregion
 
+        #region GlobalFlag
+
+        private Dictionary<string, GlobalFlagItem> _allGlobalFlagDic = new Dictionary<string, GlobalFlagItem>();
+        public Dictionary<string, GlobalFlagItem> AllGlobalFlagDic
+        {
+            get
+            {
+                return _allGlobalFlagDic;
+            }
+        }
+
+        public void AddGlobalFlag(GlobalFlagItem item)
+        {
+            if (!_allGlobalFlagDic.ContainsKey(item.flagName))
+            {
+                _allGlobalFlagDic.Add(item.flagName, item);
+            }
+        }
+
+        public void RemoveGlobalFlag(string flagName)
+        {
+            if (_allGlobalFlagDic.ContainsKey(flagName))
+                _allGlobalFlagDic.Remove(flagName);
+        }
+
+        public bool CheckGlobalFlagExist(GlobalFlagItem item)
+        {
+            return _allGlobalFlagDic.ContainsKey(item.flagName);
+        }
+        public bool CheckGlobalFlagExist(string flagName)
+        {
+            return _allGlobalFlagDic.ContainsKey(flagName);
+        }
+
+        #endregion
+
+    }
 
 
+    public class GlobalFlagItem
+    {
+        public string flagName;
+        public int durationTime;
+        public GlobalFlagItem(string flagName,int durationTime)
+        {
+            this.flagName = flagName;
+            this.durationTime = durationTime;
+        }
     }
 
     public class OrderStatisticsItem

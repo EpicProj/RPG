@@ -1,41 +1,113 @@
 {
-"eventConfigData":[
+"exploreEventConfigData":[
 	{
-	"EventID":1,
-	"Trigger":{
+	"eventID":1,
+	"trigger":{
 		"Global":{
 			"flag_001":true,
 			"flag_002":false
 		},
-		"Player":{
-			"Currency":{
-				"Compare":"Larger",
-				"Value":10000
+		"player":{
+			"CurrencyCompare":">=",
+			"CurrencyValue":10000,
+			"Material":{
+				"100":">=,100",
+				"101":"=,0"
 			},
-			"Material":[{
-				"MaterialID":100,
-				"Compare":">=,100",	
-			},{
-				"MaterialID":101,
-				"Compare":"=,0",	
-			}],
-			"Technology":[{
-				"TechID":100,
-				"Compare":"Complete"
-			},{
-				"TechID":101,
-				"Compare":"Lock"
-			}]
+			"Technology":{
+				"100":"Complete",
+				"101":"Lock"
+			}
 		},
 		"PreEvent":[101,102,103]
 	},
-	"Effect":{
-		"SetFlag":[{
-			"Name":"Flag_001",
-			"Time":100
-		}],
+	"effect":{
+		"SetFlag":{
+			"Flag_001":"100"
+			},
 		"RemoveFlag":["Flag_002"]
+		}
+	},{
+	"eventID":2,
+	"trigger":{
+		"Global":{
+			"flag_001":true,
+			"flag_002":false
+		},
+		"player":{
+			"CurrencyCompare":">=",
+			"CurrencyValue":10000,
+			"Material":{
+				"100":">=,100",
+				"101":"=,0"
+			},
+			"Technology":{
+				"100":"Complete",
+				"101":"Lock"
+			}
+		},
+		"PreEvent":[101,102,103]
+	},
+	"effect":{
+		"SetFlag":{
+			"Flag_001":"100"
+			},
+		"RemoveFlag":["Flag_002"]
+		}
+	},{
+	"eventID":3,
+	"trigger":{
+		"Global":{
+			"flag_001":true,
+			"flag_002":false
+		},
+		"player":{
+			"CurrencyCompare":">=",
+			"CurrencyValue":10000,
+			"Material":{
+				"100":">=,100",
+				"101":"=,0"
+			},
+			"Technology":{
+				"100":"Complete",
+				"101":"Lock"
+			}
+		},
+		"PreEvent":[101,102,103]
+	},
+	"effect":{
+		"SetFlag":{
+			"Flag_001":"100"
+			},
+		"RemoveFlag":["Flag_002"]
+		}
+	},{
+	"eventID":4,
+	"trigger":{
+		"Global":{
+			"flag_001":true,
+			"flag_002":false
+		},
+		"player":{
+			"CurrencyCompare":">=",
+			"CurrencyValue":10000,
+			"Material":{
+				"100":">=,100",
+				"101":"=,0"
+			},
+			"Technology":{
+				"100":"Complete",
+				"101":"Lock"
+			}
+		},
+		"PreEvent":[101,102,103]
+	},
+	"effect":{
+		"SetFlag":{
+			"Flag_001":"100"
+			},
+		"RemoveFlag":["Flag_002"]
+		}
 	}
-	}
-
-]}
+]
+}

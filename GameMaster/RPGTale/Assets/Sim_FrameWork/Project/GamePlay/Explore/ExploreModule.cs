@@ -485,7 +485,113 @@ namespace Sim_FrameWork
         #endregion
 
 
+        #region ExploreEventConfigData
 
+        public static ExploreEventConfigData GetExploreEventConfigData(int eventID)
+        {
+            ExploreEventConfigData data = null;
+            var configData = Config.ConfigData.EventConfigData;
+            if (configData != null)
+            {
+                data = configData.exploreEventConfigData.Find(x => x.eventID == eventID);
+                if (data == null)
+                    Debug.Log("Find Explore Event Config Empty!  EventID=" + eventID);
+            }
+            return data;
+        }
+
+        public static Dictionary<string,bool> GetExploreEventGlobalFlag(int eventID)
+        {
+            var data = GetExploreEventConfigData(eventID);
+            if (data != null)
+            {
+                return data.trigger.Global;
+            }
+            return null;
+        }
+
+
+        /// <summary>
+        /// 事件触发前置
+        /// </summary>
+        /// <param name="eventID"></param>
+        /// <returns></returns>
+        public static bool CheckEventTrigger(int eventID)
+        {
+            var playerData = GetExploreEventConfigData(eventID).trigger.player;
+            ///Check GlobalFlag
+            var trigger = GetExploreEventGlobalFlag(eventID);
+            if (trigger != null)
+            {
+                foreach (KeyValuePair<string, bool> kvp in trigger)
+                {
+                    if (!GlobalEventManager.Instance.CheckGlobalFlagExist(kvp.Key) == kvp.Value)
+                        return false;
+                }
+            }
+            ///Currency
+            if (playerData != null)
+            {
+                if (!string.IsNullOrEmpty(playerData.CurrencyCompare))
+                {
+                    if (!Utility.ParseGeneralCompare(playerData.CurrencyValue, playerData.CurrencyCompare))
+                        return false;
+                }
+                if (playerData.Material != null)
+                {
+                    foreach(KeyValuePair<string,string> kvp in playerData.Material)
+                    {
+                        int materialID = Utility.TryParseInt(kvp.Key);
+                        if (MaterialModule.GetMaterialByMaterialID(materialID) != null)
+                        {
+                            if (!Utility.ParseGeneralCompare(PlayerManager.Instance.GetMaterialStoreCount(materialID), kvp.Value))
+                                return false;
+                        }
+                    }
+                }
+                if (playerData.Technology != null)
+                {
+                    foreach(KeyValuePair<string,string> kvp in playerData.Technology)
+                    {
+                        int techID = Utility.TryParseInt(kvp.Value);
+                        if (TechnologyModule.GetTechDataByID(techID) != null)
+                        {
+                            var techData = TechnologyDataManager.Instance.GetTechInfo(techID);
+                            if (techData != null)
+                            {
+                                if(string.Compare(kvp.Value, "Complete") ==0)
+                                {
+                                    if (techData.currentState != TechnologyInfo.TechState.Done)
+                                        return false;
+                                }else if(string.Compare(kvp.Value, "Lock") == 0)
+                                {
+                                    if (techData.currentState != TechnologyInfo.TechState.Lock)
+                                        return false;
+                                }
+                                else
+                                {
+                                    Debug.LogError("ExploreEvent Tech Format Error! EventID=" + eventID);
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+            /// CheckPre Event
+            var preList = GetExploreEventConfigData(eventID).trigger.PreEvent;
+            if (preList != null)
+            {
+                for (int i = 0; i < preList.Count; i++)
+                {
+                    if (ExploreEventManager.Instance.CheckRandomEventFinish(eventID) == false)
+                        return false;
+                }
+            }
+            return true;
+        }
+
+
+        #endregion
     }
 
     public class ExploreChooseItem 
@@ -827,39 +933,39 @@ namespace Sim_FrameWork
     }
 
 
-    public class EventConfigData
+    public class ExploreEventConfigData
     {
-        public int EventID;
-        
-
-
-
-
-
-
-
+        public int eventID;
+        public Trigger trigger;
+        public Effect effect;
 
         public class Trigger
         {
             public Dictionary<string, bool> Global;
+            public Player player;
+            public List<int> PreEvent;
+
             public class Player
             {
+                public string CurrencyCompare;
+                public int CurrencyValue;
+                public Dictionary<string, string> Material;
+                public Dictionary<string, string> Technology;
 
             }
-
-
-
         }
 
         public class Effect
         {
+            public Dictionary<string, string> SetFlag;
+            public List<string> RemoveFlag;
         }
 
 
 
     }
 
-   
+
 
 
 }
