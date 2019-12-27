@@ -60,6 +60,7 @@ namespace Sim_FrameWork
                 }
             }
             SetSelect(true);
+            SolarSystemManager.Instance.MoveToAreaPoint(_data.areaID);
         }
 
         public void SetSelect(bool select)

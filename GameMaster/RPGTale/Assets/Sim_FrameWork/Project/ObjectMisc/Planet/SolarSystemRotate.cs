@@ -22,8 +22,11 @@ namespace Sim_FrameWork
 
         void Update()
         {
-            transform.RotateAround(Center.position, Vector3.up, Time.deltaTime * (defaultEarthYear / rotationAroundSunDays) * 1.0f * Time.deltaTime);
-            transform.Rotate(-Vector3.up * Time.deltaTime * planetSpeedRotation * 1.0f);
+            if (SolarSystemManager.Instance.SolarSystemRotate)
+            {
+                transform.RotateAround(Center.position, Vector3.up, Time.deltaTime * (defaultEarthYear / rotationAroundSunDays) * 1.0f * Time.deltaTime);
+                transform.Rotate(-Vector3.up * Time.deltaTime * planetSpeedRotation * 1.0f);
+            }
         }
 
 

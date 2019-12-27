@@ -32,7 +32,7 @@
 			"TechnologyConversionRate":10
 		},{
 			"HardName":"hard",
-		"OriginalCurrency":5000,
+			"OriginalCurrency":5000,
 			"OriginalCurrencyMax":10000,
 			"OriginalEnergy":100,
 			"OriginalEnergyMax":2000,
@@ -50,23 +50,7 @@
 	"timeConfig":{
 		"OriginalYear":1000,
 		"OriginalMonth":1,
-		"RealSecondsPerMonth":1,
-		"SeasonConfigList":[{
-			"SeasonIndex":1,
-			"SeasonName":"SeasonName_Spring",
-			"SeasonIconPath":"SpriteOutput/Material/beef_raw"
-		},{
-			"SeasonIndex":2,
-			"SeasonName":"SeasonName_Summer",
-			"SeasonIconPath":"SpriteOutput/Material/beef_cooked"
-		},{
-			"SeasonIndex":3,
-			"SeasonName":"SeasonName_Autumn",
-			"SeasonIconPath":"SpriteOutput/Material/bone"
-		},{
-			"SeasonIndex":4,
-			"SeasonName":"SeasonName_Winter",
-			"SeasonIconPath":"SpriteOutput/Material/book_normal"
-		}]
+		"OriginalDay":1,
+		"RealSecondsPerDay":3
 	}
 }

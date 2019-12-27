@@ -7,6 +7,10 @@ namespace Sim_FrameWork
     public class SolarSystemManager : MonoSingleton<SolarSystemManager>
     {
 
+        public bool SolarSystemRotate = false;
+
+
+
         protected override void Awake()
         {
             base.Awake();
@@ -35,6 +39,17 @@ namespace Sim_FrameWork
         float distance;
 
         bool cameraMove = false;
+
+
+        public void MoveToAreaPoint(int areaID)
+        {
+            targetCameraPos = ExploreModule.GetExploreAreaCameraPos(areaID);
+            targetCameraRotation = ExploreModule.GetExploreAreaCameraRotation(areaID);
+            distance= (CameraNevigator.position - targetCameraPos).magnitude;
+            cameraMove = true;
+            timer = 0;
+        }
+
 
         /// <summary>
         /// 行星移动

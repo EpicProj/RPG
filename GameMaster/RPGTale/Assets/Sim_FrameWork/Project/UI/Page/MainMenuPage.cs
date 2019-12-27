@@ -7,8 +7,7 @@ public class MainMenuPage : MonoBehaviour {
 
     public GameObject BuildContent;
     //Time
-    public GameObject TimePanel;
-    public Slider TimeSlider;
+    public Transform TimePanel;
 
     //GameStates
     public GameObject GameStatesObj;

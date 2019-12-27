@@ -325,6 +325,7 @@ namespace Sim_FrameWork
         /// <param name="item"></param>
         public void OnRandomEventFinish(UI.RandomEventDialogItem item)
         {
+            ///Trigger
             var configData = ExploreModule.GetExploreEventConfigData(item.EventID);
             if (configData != null)
             {

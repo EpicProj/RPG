@@ -5012,19 +5012,19 @@ Prefab:
     m_Modifications:
     - target: {fileID: 4320184184902340, guid: 2cee0bd8ca298834289721b8b9ce73fb, type: 2}
       propertyPath: m_LocalPosition.x
-      value: 28
+      value: -80.65
       objectReference: {fileID: 0}
     - target: {fileID: 4320184184902340, guid: 2cee0bd8ca298834289721b8b9ce73fb, type: 2}
       propertyPath: m_LocalPosition.y
-      value: 254
+      value: 211.5
       objectReference: {fileID: 0}
     - target: {fileID: 4320184184902340, guid: 2cee0bd8ca298834289721b8b9ce73fb, type: 2}
       propertyPath: m_LocalPosition.z
-      value: -315
+      value: -444.11
       objectReference: {fileID: 0}
     - target: {fileID: 4320184184902340, guid: 2cee0bd8ca298834289721b8b9ce73fb, type: 2}
       propertyPath: m_LocalRotation.x
-      value: 0.38268343
+      value: 0.39611673
       objectReference: {fileID: 0}
     - target: {fileID: 4320184184902340, guid: 2cee0bd8ca298834289721b8b9ce73fb, type: 2}
       propertyPath: m_LocalRotation.y
@@ -5036,7 +5036,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 4320184184902340, guid: 2cee0bd8ca298834289721b8b9ce73fb, type: 2}
       propertyPath: m_LocalRotation.w
-      value: 0.92387956
+      value: 0.9182002
       objectReference: {fileID: 0}
     - target: {fileID: 4320184184902340, guid: 2cee0bd8ca298834289721b8b9ce73fb, type: 2}
       propertyPath: m_RootOrder
@@ -5063,6 +5063,10 @@ Prefab:
     - target: {fileID: 4473631330604186, guid: 2cee0bd8ca298834289721b8b9ce73fb, type: 2}
       propertyPath: m_LocalPosition.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4320184184902340, guid: 2cee0bd8ca298834289721b8b9ce73fb, type: 2}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 46.671
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 2cee0bd8ca298834289721b8b9ce73fb, type: 2}
@@ -5320,6 +5324,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0184b1c4d87826942a6c7536b977a7d1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  SolarSystemRotate: 0
 --- !u!1 &1926346013
 GameObject:
   m_ObjectHideFlags: 0

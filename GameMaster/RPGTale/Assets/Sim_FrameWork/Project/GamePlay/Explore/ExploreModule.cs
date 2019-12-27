@@ -266,6 +266,42 @@ namespace Sim_FrameWork
             return new Quaternion();
         }
 
+        public static Vector3 GetExploreAreaCameraPos(int areaID)
+        {
+            var areaData = GetExploreAreaDataByKey(areaID);
+            if (areaData != null)
+            {
+                var list = Utility.TryParseFloatList(areaData.CameraPos, ',');
+                if (list.Count == 3)
+                {
+                    Vector3 pos = new Vector3(list[0], list[1], list[2]);
+                    return pos;
+                }
+                else
+                {
+                    Debug.LogError("ExploreArea Camera Pos Error! areaID=" + areaID);
+                }
+            }
+            return Vector3.zero;
+        }
+        public static Quaternion GetExploreAreaCameraRotation(int areaID)
+        {
+            var areaData = GetExploreAreaDataByKey(areaID);
+            if (areaData != null)
+            {
+                var list = Utility.TryParseFloatList(areaData.CameraRotation, ',');
+                if (list.Count == 3)
+                {
+                    Vector3 pos = new Vector3(list[0], list[1], list[2]);
+                    return Quaternion.Euler(pos);
+                }
+                else
+                {
+                    Debug.LogError("ExploreArea Camera Rotation Error! areaID=" + areaID);
+                }
+            }
+            return new Quaternion();
+        }
 
         public static string GetPointMapData(int areaID)
         {
@@ -960,12 +996,5 @@ namespace Sim_FrameWork
             public Dictionary<string, string> SetFlag;
             public List<string> RemoveFlag;
         }
-
-
-
     }
-
-
-
-
 }

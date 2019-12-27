@@ -342,8 +342,8 @@ namespace Sim_FrameWork {
                     item.orderCompleteData.Add(new OrderStatisticsItem.OrderCompleteItem
                     {
                         completeID = item.OrderCompleteCount + 1,
-                        completeMonth = time.currentMonth,
-                        completeYear=time.currentYear
+                        completeMonth = time.date.Month,
+                        completeYear=time.date.Year
                     });
                     return true;
                 }
@@ -606,8 +606,8 @@ namespace Sim_FrameWork {
                 OrderCompleteItem item = new OrderCompleteItem
                 {
                     completeID = 1,
-                    completeYear = data.currentYear,
-                    completeMonth = data.currentMonth
+                    completeYear = data.date.Year,
+                    completeMonth = data.date.Month
                 };
                 orderCompleteData.Add(item);
             }       

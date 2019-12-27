@@ -18,6 +18,8 @@ public class ExploreMetaData : ExcelBase {
             area.NameTitle = "";
             area.Desc = "";
             area.IconPath = "";
+            area.CameraPos = "";
+            area.CameraRotation = "";
             area.Unlock = true;
             area.DefaultMissionCount = (ushort)i;
             area.ExploreList = "";
@@ -190,6 +192,10 @@ public class ExploreArea
     public string Desc { get; set; }
     [XmlElement]
     public string IconPath { get; set; }
+    [XmlElement]
+    public string CameraPos { get; set; }
+    [XmlElement]
+    public string CameraRotation { get; set; }
     [XmlElement]
     public bool Unlock { get; set; }
     [XmlElement]

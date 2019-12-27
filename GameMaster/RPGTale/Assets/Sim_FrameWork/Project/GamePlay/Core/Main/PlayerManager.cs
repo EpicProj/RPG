@@ -247,18 +247,17 @@ namespace Sim_FrameWork
         public void UpdateTime()
         {
             timer += Time.deltaTime;
-            if (timer >= playerData.timeData.realSecondsPerMonth)
+            if (timer >= playerData.timeData.realSecondsPerDay)
             {
+                int currentMonth = playerData.timeData.date.Month;
                 timer = 0;
-                playerData.timeData.currentMonth++;
-                //MonthSettle
-                DoMonthSettle();
-                if (playerData.timeData.currentMonth >= 13)
+                DateTime newTime= playerData.timeData.date.AddDays(1);
+                playerData.timeData.date = newTime;
+                if(playerData.timeData.date.Month!= currentMonth)
                 {
-                    playerData.timeData.currentMonth = 1;
-                    playerData.timeData.currentYear++;
+                    //MonthSettle
+                    DoMonthSettle();
                 }
-                playerData.timeData.currentSeason = PlayerModule.ConvertMonthToSeason(playerData.timeData.currentMonth);
                 UIManager.Instance.SendMessageToWnd(UIPath.WindowPath.MainMenu_Page, new UIMessage(UIMsgType.UpdateTime));
             }
         }
@@ -272,15 +271,9 @@ namespace Sim_FrameWork
             return playerData.timeData;
         }
 
-        public int GetCurrentYearTime()
-        {
-            return playerData.timeData.currentYear;
-        }
-        public ushort GetCurrentMonthTime()
-        {
-            return playerData.timeData.currentMonth;
-        }
 
+
+        
 
         /// <summary>
         /// 月底结算

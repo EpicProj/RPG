@@ -41,7 +41,7 @@ namespace Sim_FrameWork.UI
 
         public override void OnShow(params object[] paralist)
         {
-            //UpdateTimePanel();
+            UpdateTimePanel();
             UpdateResData(ResourceType.All);
             UpdateResMonthData(ResourceType.All);
             InitBuildMainTab();
@@ -78,6 +78,8 @@ namespace Sim_FrameWork.UI
                     FunctionBlockTypeData typeData = (FunctionBlockTypeData)msg.content[0];
                     var type = FunctionBlockModule.GetBlockType(typeData);
                     return RefreshBuildMainPanel(type);
+                case UIMsgType.UpdateTime:
+                    return UpdateTimePanel();
                 default:
                     return false;
             }
@@ -90,10 +92,7 @@ namespace Sim_FrameWork.UI
             var timedata = PlayerManager.Instance.playerData.timeData;
             if (timedata == null)
                 return false;
-            CurrentMonthText.text = timedata.currentMonth.ToString();
-            CurrentYearText.text = timedata.currentYear.ToString();
-            CurrentSeasonText.text = PlayerModule.Instance.GetSeasonName((int)PlayerManager.Instance.playerData.timeData.currentSeason);
-            //SeasonSprite.sprite = PlayerModule.Instance.GetSeasonSprite((int)PlayerManager.Instance.playerData.timeData.currentSeason);
+            currentTimeText.text = string.Format("{0} . {1} . {2}", timedata.date.Year, timedata.date.Month, timedata.date.Day);
             return true;
         }
         private void UpdateTimeProgress()
@@ -101,11 +100,11 @@ namespace Sim_FrameWork.UI
             if (GameManager.Instance.gameStates == GameManager.GameStates.Pause)
                 return;
             currentTimeProgress+=Time.deltaTime;
-            if (currentTimeProgress >= PlayerManager.Instance.playerData.timeData.realSecondsPerMonth)
+            if (currentTimeProgress >= PlayerManager.Instance.playerData.timeData.realSecondsPerDay)
             {
                 currentTimeProgress = 0;
             }
-            m_page.TimeSlider.value = currentTimeProgress / PlayerManager.Instance.playerData.timeData.realSecondsPerMonth;
+            timeSlider.value = currentTimeProgress / PlayerManager.Instance.playerData.timeData.realSecondsPerDay;
         }
 
         /// <summary>
@@ -268,10 +267,8 @@ namespace Sim_FrameWork.UI
         private MainMenuPage m_page;
 
         //Time Data
-        private Text CurrentYearText;
-        private Text CurrentMonthText;
-        private Text CurrentSeasonText;
-        private Image SeasonSprite;
+        private Text currentTimeText;
+        private Slider timeSlider;
 
         /// <summary>
         /// Resource
@@ -317,6 +314,9 @@ namespace Sim_FrameWork.UI
 
             _roCoreText = UIUtility.SafeGetComponent<Text>(UIUtility.FindTransfrom(m_page.ResourcePanel, "ResourceRight/RoCore/Value"));
             _roCoreIcon = UIUtility.SafeGetComponent<Image>(UIUtility.FindTransfrom(m_page.ResourcePanel, "ResourceRight/RoCore/Icon"));
+
+            currentTimeText = UIUtility.SafeGetComponent<Text>(UIUtility.FindTransfrom(m_page.TimePanel, "Time/Text"));
+            timeSlider = UIUtility.SafeGetComponent<Slider>(UIUtility.FindTransfrom(m_page.TimePanel, "Slider"));
         }
         
         void InitResImage()

@@ -33,9 +33,10 @@ namespace Sim_FrameWork
                 _btn.onClick.RemoveAllListeners();
                 _btn.onClick.AddListener(() =>
                 {
-                    GlobalEventManager.Instance.HandleRewardDataItem(exploreChooseItem.rewardID);
                     AudioManager.Instance.PlaySound(AudioClipPath.UISound.Button_Click);
 
+                    ///Reward
+                    GlobalEventManager.Instance.HandleRewardDataItem(exploreChooseItem.rewardID);
                     ExploreEventManager.Instance.OnRandomEventFinish(item);
 
                     if (exploreChooseItem.nextEvent != 0)

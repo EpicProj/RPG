@@ -142,120 +142,20 @@ namespace Sim_FrameWork
  
 
         #endregion
-
-        #region Time
-       
-  
-        //季节转化
-        public static TimeData.Season ConvertMonthToSeason(int month)
-        {
-            switch (month)
-            {
-                case 3:
-                case 4:
-                case 5:
-                    return TimeData.Season.Spring;
-                case 6:
-                case 7:
-                case 8:
-                    return TimeData.Season.Summer;
-                case 9:
-                case 10:
-                case 11:
-                    return TimeData.Season.Autumn;
-                case 12:
-                case 1:
-                case 2:
-                    return TimeData.Season.Winter;
-                default:
-                    Debug.LogError("SeasonError ,month=" + month);
-                    return TimeData.Season.Spring;
-
-            }
-        }
-        public static TimeData.Season IntConvertToSeason(int i)
-        {
-            if (Enum.IsDefined(typeof(TimeData.Season), i))
-            {
-                return (TimeData.Season)Enum.ToObject(typeof(TimeData.Season), i);
-            }
-            Debug.LogError("SeasonConvertError Season=" + i);
-            return TimeData.Season.Spring;
-        }
-
-        public SeasonConfig GetSeasonConfig(int season)
-        {
-            SeasonConfig seasonConfig = null;
-            seasonConfig = config.timeConfig.SeasonConfigList.Find(x => x.SeasonIndex == season);
-            if (seasonConfig == null)
-            {
-                Debug.LogError("SeasonIndex Error, seasonID=" + season);
-            }
-            return seasonConfig;
-        }
-
-        public string GetSeasonName(int season)
-        {
-            return MultiLanguage.Instance.GetTextValue(GetSeasonConfig(season).SeasonName);
-        }
-
-        public Sprite GetSeasonSprite(int season)
-        {
-            return Utility.LoadSprite(GetSeasonConfig(season).SeasonIconPath, Utility.SpriteType.png);
-        }
-
-        #endregion
-
     
     }
     public class TimeData
     {
-        public enum Season
-        {
-            Spring = 1,
-            Summer = 2,
-            Autumn = 3,
-            Winter = 4
-        }
 
-        public enum Month
-        {
-            January = 1,
-            February = 2,
-            March = 3,
-            April = 4,
-            May = 5,
-            June = 6,
-            July = 7,
-            August = 8,
-            September = 9,
-            October = 10,
-            November = 11,
-            December = 12
-        }
-
-
-        //初始时间
-        public Season OriginSeason;
-        public Month OriginMonth;
-        public int OriginYear;
-        //当前时间
-        public Season currentSeason;
-        public ushort currentMonth;
-        public int currentYear;
-
-        public float realSecondsPerMonth;
+        public DateTime date; 
+        public float realSecondsPerDay;
 
 
         public TimeData(TimeDataConfig timeConfig)
         {
-            currentYear = timeConfig.OriginalYear;
-            currentMonth = timeConfig.OriginalMonth;
-            currentSeason = PlayerModule.ConvertMonthToSeason(timeConfig.OriginalMonth);
-            realSecondsPerMonth = timeConfig.RealSecondsPerMonth;
+            realSecondsPerDay = timeConfig.RealSecondsPerDay;
+            date = new DateTime(timeConfig.OriginalYear, timeConfig.OriginalMonth, timeConfig.OriginalDay);
         }
-        
-
     }
 
 
@@ -312,18 +212,11 @@ namespace Sim_FrameWork
     {
         public int OriginalYear;
         public ushort OriginalMonth;
-        public float RealSecondsPerMonth;
-        public List<SeasonConfig> SeasonConfigList;
+        public ushort OriginalDay;
+        public float RealSecondsPerDay;
 
     }
-    public class SeasonConfig
-    {
-        public int SeasonIndex;
-        //季节名
-        public string SeasonName;
-        //季节图标
-        public string SeasonIconPath;
-    }
+
 
     public class HardLevelData
     {
