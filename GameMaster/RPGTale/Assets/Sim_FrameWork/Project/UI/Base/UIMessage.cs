@@ -67,6 +67,7 @@ namespace Sim_FrameWork
         ExplorePage_Show_MissionDetail,
         ExplorePage_Show_PointDetail,
         ExplorePage_Finish_Point,
+        ExplorePage_Update_PointTimer,
 
 
 

@@ -303,11 +303,11 @@ namespace Sim_FrameWork
             else if (TriggerTime < 0)
             {
                 return;
-            }else if (CurrentTime > StartTime + TriggerTime * TriggerTime)
+            }else if (CurrentTime > StartTime + TriggerNum * TriggerTime)
             {
                 if (OnUpdate != null)
                 {
-                    OnUpdate(TriggerTime);
+                    OnUpdate(TriggerNum);
                     TriggerNum++;
                 }
             }

@@ -36,7 +36,7 @@ namespace Sim_FrameWork.UI
 
         private void InitContent()
         {
-            m_dialog.content.text = MultiLanguage.Instance.GetTextValue(_item.content);
+            m_dialog.content.text = _item.content;
         }
        
     }

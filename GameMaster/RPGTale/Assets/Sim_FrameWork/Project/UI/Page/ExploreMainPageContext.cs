@@ -12,13 +12,11 @@ namespace Sim_FrameWork.UI
         private int currentSelectAreaID = 0;
         private int currentSelectMissionID = 0;
 
-        private PlayerExploreTeamData teamData;
 
         #region Override Method
         public override void Awake(params object[] paralist)
         {
             base.Awake(paralist);
-            teamData = new PlayerExploreTeamData();
             AddBtnClick();
         }
 
@@ -214,7 +212,10 @@ namespace Sim_FrameWork.UI
 
         void OnExploreBtnClick()
         {
-            teamData.EnergyStartNum = (ushort)Utility.TryParseInt(energyInputField.text);
+            PlayerExploreTeamData teamData = new PlayerExploreTeamData(
+                (ushort)Utility.TryParseInt(energyInputField.text),
+                (ushort)Utility.TryParseInt(teamGoodsValue.text)
+                );
             AudioManager.Instance.PlaySound(AudioClipPath.UISound.Button_Click);
 
             ExploreEventManager.Instance.StartExplore(currentSelectAreaID,currentSelectMissionID,teamData);

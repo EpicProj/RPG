@@ -96,6 +96,26 @@ namespace Sim_FrameWork.Config
 
     }
 
+    public static class GeneralTextData
+    {
+        public static string Game_Time_Text_Day = "Game_Time_Text_Day";
+    }
+
+    public static class GeneralColorData
+    {
+        private static string General_Lack_Color_Red_Str = "#FF4949FF";
+        public static Color General_Lack_Color_Red
+        {
+            get { return GeneralModule.TryParseColor(General_Lack_Color_Red_Str); }
+        }
+
+        private static string General_Finish_Color_Gray_Str = "#909090FF";
+        public static Color General_Finish_Color_Gray
+        {
+            get { return GeneralModule.TryParseColor(General_Finish_Color_Gray_Str); }
+        }
+
+    }
 
 
     /// <summary>

@@ -32,7 +32,7 @@ namespace Sim_FrameWork
             var config = Config.ConfigData.GlobalSetting.rarityConfig.Find(x => x.Level == rarityID);
             if (config != null)
             {
-                var color = TryParseRarityColor(config.Color);
+                var color = TryParseColor(config.Color);
                 GeneralRarity rarity = new GeneralRarity(config.Level, color);
                 return rarity;
             }
@@ -44,7 +44,7 @@ namespace Sim_FrameWork
         }
 
 
-        private Color TryParseRarityColor(string color)
+        public static Color TryParseColor(string color)
         {
             Color result = new Color();
             ColorUtility.TryParseHtmlString(color, out result);

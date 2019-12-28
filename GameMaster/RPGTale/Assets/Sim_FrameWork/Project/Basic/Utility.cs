@@ -275,6 +275,8 @@ namespace Sim_FrameWork
 
         public static string ParseStringParams(string content,string[] replaceValue)
         {
+            if (string.IsNullOrEmpty(content))
+                return string.Empty;
             int index = 1;
             char split = '#';
             string result = content;

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using System.IO;
 using LitJson;
+using System.Text.RegularExpressions;
 
 namespace Sim_FrameWork
 {
@@ -39,7 +40,7 @@ namespace Sim_FrameWork
                         {
                             continue;
                         }
-                        string[] value = line.Split('=');
+                        string[] value = Regex.Split(line, "==", RegexOptions.IgnoreCase);
                         if (TextData.ContainsKey(value[0]))
                         {
                             Debug.LogError("FindSame TextID  TextID=" + line+"   txt="+ languageDataPath);

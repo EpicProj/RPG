@@ -8,6 +8,8 @@ namespace Sim_FrameWork
 {
     public class ExplorePointCmpt : BaseElementSimple
     {
+        private const string ExplorePoint_Finish_Text = "ExplorePoint_Finish_Text";
+
         private bool isShowInfoTip=false;
 
         private Transform _infoTrans;
@@ -18,9 +20,15 @@ namespace Sim_FrameWork
         private Animation _showAnim;
         private Text _pointName;
         private Text _energyCost;
+        private Text _timeCost;
         private Button _btn;
 
-        private ExplorePointData pointData;
+        public ExplorePointData pointData;
+
+        //Slider Lerp
+        private int lerpSpeed = 10;
+        private float currentTimeProgress = 0f;
+
 
         public override void Awake()
         {
@@ -28,10 +36,11 @@ namespace Sim_FrameWork
             _showAnim = UIUtility.SafeGetComponent<Animation>(_infoTrans);
             _pointName = UIUtility.SafeGetComponent<Text>(UIUtility.FindTransfrom(_infoTrans, "Name"));
             _energyCost = UIUtility.SafeGetComponent<Text>(UIUtility.FindTransfrom(_infoTrans, "Energy/Value"));
+            _timeCost = UIUtility.SafeGetComponent<Text>(UIUtility.FindTransfrom(_infoTrans, "Time/Value"));
             _btn = UIUtility.SafeGetComponent<Button>(transform);
 
             _progressImage = UIUtility.SafeGetComponent<Image>(UIUtility.FindTransfrom(transform, "Ring/Fill"));
-            _progressImage.fillAmount = 0;
+            _progressImage.fillAmount = currentTimeProgress;
             _progressTimeText = UIUtility.SafeGetComponent<Text>(UIUtility.FindTransfrom(transform, "Ring/Progress"));
         }
 
@@ -42,12 +51,49 @@ namespace Sim_FrameWork
                 pointData = data;
                 _pointName.text = data.pointName;
                 _energyCost.text = data.EnergyCost.ToString();
-                _progressTimeText.text = Utility.TimeFormat(data.TimeCost);
+                _timeCost.text = data.TimeCost.ToString();
+                _progressTimeText.text = "";
                 var pos = SolarSystemManager.Instance.GetPointPositionUI(data);
                 transform.GetComponent<RectTransform>().anchoredPosition = pos;
                 _btn.onClick.AddListener(OnPointClick);
             }
         }
+
+        public void RefreshPointTimer(ExplorePointData data)
+        {
+            if (data != null)
+            {
+                pointData = data;
+                if (pointData.RemainTime <= 0)
+                {
+                    _progressTimeText.text = MultiLanguage.Instance.GetTextValue(ExplorePoint_Finish_Text);
+                    _progressImage.fillAmount = 1;
+                }
+                else
+                {
+                    _progressTimeText.text = data.RemainTime.ToString() + " " + MultiLanguage.Instance.GetTextValue(Config.GeneralTextData.Game_Time_Text_Day);
+                    StartCoroutine(SlierLerp(1 - (float)data.RemainTime / (float)data.TimeCost, currentTimeProgress));
+                }
+              
+            }
+        }
+
+        IEnumerator SlierLerp(float maxNum,float minNum)
+        {
+            float delta = (maxNum - minNum) / lerpSpeed;
+            float result = minNum;
+
+            for(int i = 0; i < lerpSpeed; i++)
+            {
+                result += delta;
+                _progressImage.fillAmount = result;
+                yield return new WaitForSeconds(0.05f);
+            }
+            _progressImage.fillAmount = maxNum;
+            currentTimeProgress = maxNum;
+            StopCoroutine(SlierLerp(maxNum, minNum));
+        }
+
 
         void OnPointClick()
         {

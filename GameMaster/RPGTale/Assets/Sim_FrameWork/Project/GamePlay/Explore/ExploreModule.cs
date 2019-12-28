@@ -805,7 +805,6 @@ namespace Sim_FrameWork
                 maxTeamNum = exploreData.TeamMaxNum >= Config.GlobalConfigData.Explore_Mission_Max_Team_Count ? Config.GlobalConfigData.Explore_Mission_Max_Team_Count : exploreData.TeamMaxNum;
                 
                 Weight = exploreData.Weight;
-                teamData = new PlayerExploreTeamData();
 
                 currentState = ExploreMissionState.Init;
 
@@ -869,9 +868,11 @@ namespace Sim_FrameWork
         /// 时间消耗
         /// </summary>
         public ushort TimeCost;
+        public ushort RemainTime;
+        public Timer pointTimer;
+
         public ushort HardLevel;
 
-        public Timer ExploreTimer;
 
         public int PointAreaNevigator;
         public ushort PointPlanetpointNevigator;
@@ -899,6 +900,8 @@ namespace Sim_FrameWork
                 EnergyCost = data.EnergyCost;
                 eventID = data.EventID;
                 TimeCost = data.Time;
+                RemainTime = data.Time;
+
 
                 if (data.HardLevel > Config.GlobalConfigData.Explore_Point_Max_HardLevel)
                     HardLevel = Config.GlobalConfigData.Explore_Point_Max_HardLevel;
@@ -909,8 +912,6 @@ namespace Sim_FrameWork
                 PointPlanetpointNevigator = ExploreModule.GetMissionPointIndex(pointID);
                 pointMapTrans = null;
 
-                ExploreTimer = ApplicationManager.StartTimer(TimeCost, 100);
-                ExploreTimer.Pause();
             }
         }
     }
@@ -966,6 +967,13 @@ namespace Sim_FrameWork
             if (_goodsCurrentNum < 0)
                 _goodsCurrentNum = 0;
         }
+
+        public PlayerExploreTeamData(ushort energy,ushort goodsMax)
+        {
+            EnergyStartNum = energy;
+            GoodsMaxNum = goodsMax;
+        }
+
     }
 
 

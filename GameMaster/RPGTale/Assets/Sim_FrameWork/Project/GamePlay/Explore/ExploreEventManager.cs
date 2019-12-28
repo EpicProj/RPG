@@ -275,10 +275,26 @@ namespace Sim_FrameWork
             if (data != null)
             {
                 data.currentState = ExplorePointData.PointState.Doing;
-                data.ExploreTimer = ApplicationManager.StartTimer(data.TimeCost, 100);
-                data.ExploreTimer.Pause();
-             
+                data.pointTimer = ApplicationManager.StartTimer(
+                    (int)(PlayerManager.Instance.playerData.timeData.realSecondsPerDay)*data.TimeCost * 1000 ,
+                    (int)(PlayerManager.Instance.playerData.timeData.realSecondsPerDay * 1000),
+                    null, (i) =>
+                    {
+                        data.RemainTime --;
+                        UIManager.Instance.SendMessage(new UIMessage(UIMsgType.ExplorePage_Update_PointTimer, new List<object>(1) { data }));
+                    }, 
+                    ()=> {
+                        OnExplorePointComplete(data);
+                    });
+                data.pointTimer.StartTimer();
             }
+        }
+
+        void OnExplorePointComplete(ExplorePointData data)  
+        {
+            data.RemainTime = 0;
+            UIManager.Instance.SendMessage(new UIMessage(UIMsgType.ExplorePage_Update_PointTimer, new List<object>(1) { data }));
+            UIGuide.Instance.ShowRandomEventDialog(data.eventID, data.AreaID, data.ExploreID, data.PointID);
         }
 
         /// <summary>
@@ -296,7 +312,7 @@ namespace Sim_FrameWork
                     var exploreData = GetExploreMission(areaID, exploreID);
                     exploreData.finishedPointList.Add(data);
                     exploreData.currentPointlist.Remove(data);
-                    
+                    data.pointTimer.DestoryTimer();
                     UIManager.Instance.SendMessage(new UIMessage(UIMsgType.ExplorePage_Finish_Point));
                 }
             }
