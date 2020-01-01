@@ -4,13 +4,13 @@
 		"configData":[{
 			"Name":"Speed",
 			"PropertyName":"AssembleParts_100_PropertyName_01",
-			"PropertyIcon":"AssembleParts_100_PropertyName_01",
+			"PropertyIcon":"SpriteOutput/Assemble/Property/Assemble_Part_Property_Speed_Icon",
 			"PropertyRangeMin":0.5,
 			"PropertyRangeMax":5.5
 		},{
-			"configName":"Speed02",
+			"Name":"Speed02",
 			"PropertyName":"AssembleParts_100_PropertyName_02",
-			"PropertyIcon":"AssembleParts_100_PropertyName_01",
+			"PropertyIcon":"SpriteOutput/Assemble/Property/Assemble_Part_Property_Speed_Icon",
 			"PropertyRangeMin":0.5,
 			"PropertyRangeMax":5.5
 		}]
@@ -19,13 +19,13 @@
 		"configData":[{
 			"Name":"Speed",
 			"PropertyName":"AssembleParts_100_PropertyName_01",
-			"PropertyIcon":"AssembleParts_100_PropertyName_01",
+			"PropertyIcon":"SpriteOutput/Assemble/Property/Assemble_Part_Property_Speed_Icon",
 			"PropertyRangeMin":0.5,
 			"PropertyRangeMax":5.5
 		},{
-			"configName":"Speed02",
+			"Name":"Speed02",
 			"PropertyName":"AssembleParts_100_PropertyName_02",
-			"PropertyIcon":"AssembleParts_100_PropertyName_01",
+			"PropertyIcon":"SpriteOutput/Assemble/Property/Assemble_Part_Property_Speed_Icon",
 			"PropertyRangeMin":0.5,
 			"PropertyRangeMax":5.5
 		}]
@@ -34,10 +34,12 @@
 		"customName":"CustomConfig_Part_1",
 		"configData":[{
 			"CustomDataName":"AssembleParts_1_CustomDataName_01",
+			"PosX":-47.8,
+			"PoxY":-26.3,
+			"LineWidth":230,
 			"CustomDataRangeMin":0.6,
 			"CustomDataRangeMax":5.3,
 			"CustomDataDefaultValue":4.0,
-			"ValueChangeMinUnit":0.1,
 			"propertyLinkData":[{
 				"Name":"Speed",
 				"LinkDesc":"",

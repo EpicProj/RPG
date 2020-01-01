@@ -109,5 +109,12 @@ namespace Sim_FrameWork
             UIManager.Instance.PopUpWnd(UIPath.WindowPath.Explore_Point_Page, WindowType.Page, true,item);
         }
 
+        ///Assemble
+        public void ShowAssemblePartDesignPage(AssemblePartInfo info)
+        {
+            UIManager.Instance.Register<UI.AssemblePartDesignPageContext>(UIPath.WindowPath.Assemble_Part_Design_Page);
+            UIManager.Instance.PopUpWnd(UIPath.WindowPath.Assemble_Part_Design_Page, WindowType.Page,true,info);
+        }
+
     }
 }

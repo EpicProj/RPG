@@ -108,6 +108,12 @@ namespace Sim_FrameWork.Config
         public static readonly ushort Explore_Mission_Max_Team_Count = 3;
         public static readonly ushort Explore_Point_Max_HardLevel = 5;
 
+        /// <summary>
+        /// 部件设计
+        /// </summary>
+        public static readonly ushort AssemblePart_Max_PropertyNum = 5;
+        public static readonly ushort AssemblePart_Max_CustomNum = 4;
+
     }
 
     public static class GeneralTextData

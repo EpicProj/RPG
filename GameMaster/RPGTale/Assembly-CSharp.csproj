@@ -120,6 +120,8 @@
      <Compile Include="Assets\Sim_FrameWork\Project\Basic\Utility.cs" />
      <Compile Include="Assets\Sim_FrameWork\Project\GamePlay\Achievement\AchievementModule.cs" />
      <Compile Include="Assets\Sim_FrameWork\Project\GamePlay\Assemble\AssembleModule.cs" />
+     <Compile Include="Assets\Sim_FrameWork\Project\GamePlay\Assemble\AssemblePartCustomItem.cs" />
+     <Compile Include="Assets\Sim_FrameWork\Project\GamePlay\Assemble\AssemblePartPropertyItem.cs" />
      <Compile Include="Assets\Sim_FrameWork\Project\GamePlay\Core\Main\DataManager.cs" />
      <Compile Include="Assets\Sim_FrameWork\Project\GamePlay\Core\Main\GameManager.cs" />
      <Compile Include="Assets\Sim_FrameWork\Project\GamePlay\Core\Main\GeneralModule.cs" />
@@ -305,6 +307,7 @@
      <None Include="Assets\Resources\Data\DataFormat\Xml\FunctionBlockFormulaMetaData.xml" />
      <None Include="Assets\Shader\Map\Planet\PlanetAtmosphere.shader" />
      <None Include="Assets\StreamingAssets\Data\Language\Language_CN\Explore.txt" />
+     <None Include="Assets\StreamingAssets\Data\Language\Language_CN\Assemble.txt" />
      <None Include="Assets\Resources\Data\DataFormat\Xml\DistrictMetaData.xml" />
      <None Include="Assets\Resources\Data\DataFormat\Xml\FunctionBlockMetaData.xml" />
      <None Include="Assets\StreamingAssets\Data\Language\Language_CN\Material.txt" />

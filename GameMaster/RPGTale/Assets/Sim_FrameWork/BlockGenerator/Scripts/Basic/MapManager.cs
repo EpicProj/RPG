@@ -9,6 +9,9 @@ namespace Sim_FrameWork
     {
         private Transform ContentObj;
 
+        private Transform AssembleContainer;
+        private Transform AssembleContainerContentTrans;
+
         public int currentSelectBuildID = -1;
         public bool isSelectBlock_Panel=false;
 
@@ -20,8 +23,11 @@ namespace Sim_FrameWork
         {
             base.Awake();
             ContentObj = UIUtility.FindTransfrom(transform, "Content");
-            UIUtility.SafeSetActive(ContentObj, false);
+            AssembleContainer = UIUtility.FindTransfrom(transform, "AssembleContainer");
+            AssembleContainerContentTrans = UIUtility.FindTransfrom(AssembleContainer, "Content");
 
+            UIUtility.SafeSetActive(ContentObj, false);
+            UIUtility.SafeSetActive(AssembleContainer, false);
         }
 
         private void Start()
@@ -180,6 +186,23 @@ namespace Sim_FrameWork
                 temp.SetBlockAreaEnter(false);
             }
         }
+
+        #endregion
+
+        #region Assemble
+
+        public void InitAssemblePartsModel(AssemblePartInfo info)
+        {
+            if (info == null)
+                return;
+            UIUtility.SafeSetActive(AssembleContainer, true);
+            var Obj= ObjectManager.Instance.InstantiateObject("Assets/"+info.ModelPath + ".prefab");
+            if (Obj != null)
+            {
+                Obj.transform.SetParent(AssembleContainerContentTrans,false);
+            }
+        }
+
 
         #endregion
 

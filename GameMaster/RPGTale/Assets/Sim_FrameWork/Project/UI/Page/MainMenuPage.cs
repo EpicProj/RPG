@@ -27,5 +27,6 @@ public class MainMenuPage : MonoBehaviour {
     public Button ReserachBtn;
     public Button MenuBtn;
     public Button ExploreBtn;
+    public Button AssembleBtn;
         
 }

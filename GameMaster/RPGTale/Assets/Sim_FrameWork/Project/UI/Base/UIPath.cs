@@ -93,6 +93,7 @@ namespace Sim_FrameWork
             public const string Explore_Main_Page = "Page/ExploreMainPage";
             public const string Explore_Point_Page = "Page/ExplorePointPage";
 
+            public const string Assemble_Part_Design_Page = "Page/AssemblePartDesignPage";
 
             #endregion
 
@@ -165,6 +166,10 @@ namespace Sim_FrameWork
             public const string Explore_Mission_Element = "Assets/Prefabs/Object/Explore/ExploreAreaMission.prefab";
             public const string Explore_Mission_Team_Obj = "Assets/Prefabs/Object/Explore/ExploreTeam.prefab";
             public const string Explore_Point_Element= "Assets/Prefabs/Object/Explore/ExplorePoint.prefab";
+
+            /// Assemble
+            public const string Assemble_Part_PropertyItem = "Assets/Prefabs/Object/Assemble/AssemblePropertyItem.prefab";
+            public const string Assemble_Part_CustomItem = "Assets/Prefabs/Object/Assemble/AssemblePartCustomItem.prefab";
 
             #endregion
 

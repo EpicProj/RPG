@@ -195,7 +195,11 @@ namespace Sim_FrameWork.UI
             {
                 UIGuide.Instance.ShowExploreMainPage();
             });
-
+            AddButtonClickListener(m_page.AssembleBtn, () =>
+            {
+                AssemblePartInfo info = new AssemblePartInfo(1);
+                UIGuide.Instance.ShowAssemblePartDesignPage(info);
+            });
             
         }
 

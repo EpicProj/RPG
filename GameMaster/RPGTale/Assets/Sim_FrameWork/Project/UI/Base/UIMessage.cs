@@ -69,8 +69,8 @@ namespace Sim_FrameWork
         ExplorePage_Finish_Point,
         ExplorePage_Update_PointTimer,
 
-
-
+        ///Assemble
+        AssemblePartDesign_ModelLoadFinish,
 
     }
 }
