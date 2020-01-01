@@ -1,71 +1,5 @@
-{
-	"hardlevelData":[
-		{
-			"HardName":"easy",
-			"OriginalCurrency":5000,
-			"OriginalCurrencyMax":10000,
-			"OriginalEnergy":100,
-			"OriginalEnergyMax":2000,
-			"OriginalResearch":10,
-			"OriginalResearchMax":1000,
-			"OriginalReputation":0,
-			"OriginalReputationMax":100,
-			"OriginalBuilder":5,
-			"OriginalBuilderMax":10,
-			"OriginalRoCore":10,
-			"OriginalRoCoreMax":20,
-			"TechnologyConversionRate":10
-		},{
-			"HardName":"normal",
-			"OriginalCurrency":5000,
-			"OriginalCurrencyMax":10000,
-			"OriginalEnergy":100,
-			"OriginalEnergyMax":2000,
-			"OriginalResearch":10,
-			"OriginalResearchMax":1000,
-			"OriginalReputation":0,
-			"OriginalReputationMax":100,
-			"OriginalBuilder":5,
-			"OriginalBuilderMax":10,
-			"OriginalRoCore":10,
-			"OriginalRoCoreMax":20,
-			"TechnologyConversionRate":10
-		},{
-			"HardName":"hard",
-			"OriginalCurrency":5000,
-			"OriginalCurrencyMax":10000,
-			"OriginalEnergy":100,
-			"OriginalEnergyMax":2000,
-			"OriginalResearch":10,
-			"OriginalResearchMax":1000,
-			"OriginalReputation":0,
-			"OriginalReputationMax":100,
-			"OriginalBuilder":5,
-			"OriginalBuilderMax":10,
-			"OriginalRoCore":10,
-			"OriginalRoCoreMax":20,
-			"TechnologyConversionRate":10
-		}
-	],
-	"timeConfig":{
-		"OriginalYear":1000,
-		"OriginalMonth":1,
-		"OriginalDay":1,
-		"RealSecondsPerDay":3
-	}
-}
-			<variable  name="Type" col = "Type" type="ushort"/>
-			<variable  name="Class" col = "Class" type="int"/>
-			<variable  name="ShipScale" col = "ShipScale" type="ushort"/>
-			<variable  name="MaterialCost" col = "MaterialCost" type="string"/>
-			<variable  name="BaseTimeCost" col = "BaseTimeCost" type="ushort"/>
-			<variable  name="MaxModuleNum" col = "MaxModuleNum" type="ushort"/>
-			<variable  name="HPBase" col = "HPBase" type="int"/>
-			<variable  name="SpeedBase" col = "SpeedBase" type="float"/>
-			<variable  name="FirePowerBase" col = "FirePowerBase" type="float"/>
-			<variable  name="DetectBase" col = "DetectBase" type="float"/>
-			<variable  name="CrewMax" col = "CrewMax" type="ushort"/>
-			<variable  name="StorageBase" col = "StorageBase" type="ushort"/>
+<?xml version="1.0" encoding="utf-8"?>
+<data name ="AssembleMetaData" from="AssembleMetaData.xlsx" to = "AssembleMetaData.xml">
 
 	<variable  name="AllAssembleWarshipList" type="list">
 		<list name = "AssembleWarship" sheetname="AssembleWarship" mainKey = "WarShipID">
@@ -116,3 +50,4 @@
 			<variable  name="PropertyConfig" col = "PropertyConfig" type="string"/>
 		</list>
 	</variable>
+</data>

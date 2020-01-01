@@ -82,6 +82,8 @@
      <Compile Include="Assets\Sim_FrameWork\Data\Config\ConfigManager.cs" />
      <Compile Include="Assets\Sim_FrameWork\Data\Config\ExcelBase.cs" />
      <Compile Include="Assets\Sim_FrameWork\Data\Config\JsonReader.cs" />
+     <Compile Include="Assets\Sim_FrameWork\Data\MetaData\AssembleMetaData.cs" />
+     <Compile Include="Assets\Sim_FrameWork\Data\MetaData\AssembleMetaDataReader.cs" />
      <Compile Include="Assets\Sim_FrameWork\Data\MetaData\BuildingPanelMetaData.cs" />
      <Compile Include="Assets\Sim_FrameWork\Data\MetaData\BuildingPanelMetaDataReader.cs" />
      <Compile Include="Assets\Sim_FrameWork\Data\MetaData\DistrictMetaData.cs" />
@@ -117,6 +119,7 @@
      <Compile Include="Assets\Sim_FrameWork\Project\Basic\UIUtility.cs" />
      <Compile Include="Assets\Sim_FrameWork\Project\Basic\Utility.cs" />
      <Compile Include="Assets\Sim_FrameWork\Project\GamePlay\Achievement\AchievementModule.cs" />
+     <Compile Include="Assets\Sim_FrameWork\Project\GamePlay\Assemble\AssembleModule.cs" />
      <Compile Include="Assets\Sim_FrameWork\Project\GamePlay\Core\Main\DataManager.cs" />
      <Compile Include="Assets\Sim_FrameWork\Project\GamePlay\Core\Main\GameManager.cs" />
      <Compile Include="Assets\Sim_FrameWork\Project\GamePlay\Core\Main\GeneralModule.cs" />
@@ -249,6 +252,8 @@
      <Compile Include="Assets\Sim_FrameWork\Project\UI\Misc\SliderGroup.cs" />
      <Compile Include="Assets\Sim_FrameWork\Project\UI\Misc\WareHouseMainTagCmpt.cs" />
      <Compile Include="Assets\Sim_FrameWork\Project\UI\Misc\WareHouseSubTagCmpt.cs" />
+     <Compile Include="Assets\Sim_FrameWork\Project\UI\Page\AssemblePartDesignPage.cs" />
+     <Compile Include="Assets\Sim_FrameWork\Project\UI\Page\AssemblePartDesignPageContext.cs" />
      <Compile Include="Assets\Sim_FrameWork\Project\UI\Page\BlockManuPage.cs" />
      <Compile Include="Assets\Sim_FrameWork\Project\UI\Page\BlockManuPageContext.cs" />
      <Compile Include="Assets\Sim_FrameWork\Project\UI\Page\ConsolePage.cs" />
@@ -289,6 +294,7 @@
      <None Include="Assets\AssetBundleConfig.xml" />
      <None Include="Assets\Shader\Map\Planet\PlanetStandard.shader" />
      <None Include="Assets\Shader\Map\Planet\PlanetRender.shader" />
+     <None Include="Assets\Resources\Data\DataFormat\Xml\AssembleMetaData.xml" />
      <None Include="Assets\Resources\Data\DataFormat\Xml\TerrainMetaData.xml" />
      <None Include="Assets\StreamingAssets\Data\Language\Language_CN\Organization.txt" />
      <None Include="Assets\Resources\Data\DataFormat\Xml\ExploreMetaData.xml" />
@@ -355,10 +361,6 @@
  <Reference Include="UnityEngine.StandardEvents">
  <HintPath>C:/ProgramData/Unity/cache/packages/packages.unity.com/com.unity.standardevents@1.0.10/UnityEngine.StandardEvents.dll</HintPath>
  </Reference>
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="Assembly-CSharp-firstpass.csproj">
-      <Project>{2A7C3CB9-6650-1713-A04F-6F996F8CD6A9}</Project>      <Name>Assembly-CSharp-firstpass</Name>    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

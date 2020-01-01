@@ -58,6 +58,19 @@ namespace Sim_FrameWork.Config
             }
         }
 
+        private static AssemblePartsConfigData _assemblePartsConfigData;
+        public static AssemblePartsConfigData AssemblePartsConfigData
+        {
+            get
+            {
+                if (_assemblePartsConfigData == null)
+                {
+                    _assemblePartsConfigData = new AssemblePartsConfigData();
+                    _assemblePartsConfigData.LoadPartsCustomConfig();
+                }
+                return _assemblePartsConfigData;
+            }
+        }
 
         public void InitData()
         {
@@ -65,6 +78,7 @@ namespace Sim_FrameWork.Config
             _rewardData.LoadRewardData();
             _exploreConfigData.LoadExploreConfigData();
             _eventConfigData.LoadEventConfigData();
+            _assemblePartsConfigData.LoadPartsCustomConfig();
         }
 
 
@@ -209,6 +223,52 @@ namespace Sim_FrameWork.Config
             return data;
         }
     }
+
+    /// <summary>
+    /// DIY部件配置
+    /// </summary>
+    public class AssemblePartsConfigData
+    {
+        public List<PartsPropertyConfig> partsPropertyConfig;
+        public List<PartsCustomConfig> partsCustomConfig;
+
+        public AssemblePartsConfigData LoadPartsCustomConfig()
+        {
+            JsonReader reader = new JsonReader();
+            var data = reader.LoadJsonDataConfig<AssemblePartsConfigData>(JsonConfigPath.AssemblePartsConfigDataJsonPath);
+            partsPropertyConfig = data.partsPropertyConfig;
+            partsCustomConfig = data.partsCustomConfig;
+
+            List<string> partsPropertyNameList = new List<string>();
+            for(int i = 0; i < partsPropertyConfig.Count; i++)
+            {
+                if (!partsPropertyNameList.Contains(partsPropertyConfig[i].configName))
+                {
+                    partsPropertyNameList.Add(partsPropertyConfig[i].configName);
+                }
+                else
+                {
+                    Debug.LogError("Find Same partsPropertyName , name=" + partsPropertyConfig[i].configName);
+                }
+            }
+            List<string> partsCustomNameList = new List<string>();
+            for (int i = 0; i < partsCustomConfig.Count; i++)
+            {
+                if (!partsCustomNameList.Contains(partsCustomConfig[i].customName))
+                {
+                    partsCustomNameList.Add(partsCustomConfig[i].customName);
+                }
+                else
+                {
+                    Debug.LogError("Find Same partsCustomName , name=" + partsCustomConfig[i].customName);
+                }
+            }
+
+            return data;
+        }
+    }
+
+
 
 
     public class GlobalSetting

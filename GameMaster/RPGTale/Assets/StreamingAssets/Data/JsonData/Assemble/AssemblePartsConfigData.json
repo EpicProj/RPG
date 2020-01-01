@@ -1,0 +1,64 @@
+{
+	"partsPropertyConfig":[{
+		"configName":"PropertyConfig_100",
+		"configData":[{
+			"Name":"Speed",
+			"PropertyName":"AssembleParts_100_PropertyName_01",
+			"PropertyIcon":"AssembleParts_100_PropertyName_01",
+			"PropertyRangeMin":0.5,
+			"PropertyRangeMax":5.5
+		},{
+			"configName":"Speed02",
+			"PropertyName":"AssembleParts_100_PropertyName_02",
+			"PropertyIcon":"AssembleParts_100_PropertyName_01",
+			"PropertyRangeMin":0.5,
+			"PropertyRangeMax":5.5
+		}]
+	},{
+		"configName":"PropertyConfig_101",
+		"configData":[{
+			"Name":"Speed",
+			"PropertyName":"AssembleParts_100_PropertyName_01",
+			"PropertyIcon":"AssembleParts_100_PropertyName_01",
+			"PropertyRangeMin":0.5,
+			"PropertyRangeMax":5.5
+		},{
+			"configName":"Speed02",
+			"PropertyName":"AssembleParts_100_PropertyName_02",
+			"PropertyIcon":"AssembleParts_100_PropertyName_01",
+			"PropertyRangeMin":0.5,
+			"PropertyRangeMax":5.5
+		}]
+	}],
+	"partsCustomConfig":[{
+		"customName":"CustomConfig_Part_1",
+		"configData":[{
+			"CustomDataName":"AssembleParts_1_CustomDataName_01",
+			"CustomDataRangeMin":0.6,
+			"CustomDataRangeMax":5.3,
+			"CustomDataDefaultValue":4.0,
+			"ValueChangeMinUnit":0.1,
+			"propertyLinkData":[{
+				"Name":"Speed",
+				"LinkDesc":"",
+				"PropertyChangePerUnitMin":0.1,
+				"PropertyChangePerUnitMax":0.05
+			},{
+				"Name":"Speed02",
+				"LinkDesc":"",
+				"PropertyChangePerUnitMin":0.1,
+				"PropertyChangePerUnitMax":0.05
+			}],
+			"materialCostLinkData":[{
+
+
+
+			}]
+
+		}]
+
+
+	}]
+
+
+}
