@@ -1,8 +1,10 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <AssembleMetaData xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-  <AllAssembleWarshipList WarShipID="1" Type="1" Class="100" ShipScale="1" MaterialCost="sssda" BaseTimeCost="500" MaxModuleNum="6" HPBase="5000" SpeedBase="1.6" FirePowerBase="5.5" DetectBase="2.3" CrewMax="6" StorageBase="10" />
-  <AllAssembleWarshipList WarShipID="2" Type="2" Class="100" ShipScale="2" MaterialCost="asdada" BaseTimeCost="600" MaxModuleNum="5" HPBase="6000" SpeedBase="2" FirePowerBase="5" DetectBase="1.5" CrewMax="8" StorageBase="15" />
-  <AllAssembleWarshipClassList ClassID="100" ClassName="AssembleWarship_ClassName_100" ClassDesc="AssembleWarship_ClassDesc_100" ModelPath="sadad" />
+  <AllAssembleWarshipList WarShipID="1" Type="1" Class="100" ShipScale="1" MaterialCost="sssda" BaseTimeCost="500" HPBase="5000" SpeedBase="1.6" FirePowerBase="5.5" DetectBase="2.3" CrewMax="6" StorageBase="10" ConfigData="ShipPartConfig_1" />
+  <AllAssembleWarshipList WarShipID="2" Type="2" Class="100" ShipScale="2" MaterialCost="asdada" BaseTimeCost="600" HPBase="6000" SpeedBase="2" FirePowerBase="5" DetectBase="1.5" CrewMax="8" StorageBase="15" ConfigData="ShipPartConfig_2" />
+  <AllAssembleWarShipTypeList TypeID="1" Name="AssembleWarShipType_Explore" IconPath="SpriteOutput/Assemble/ShipType/Assemble_Ship_Type_Explore" />
+  <AllAssembleWarShipTypeList TypeID="2" Name="AssembleWarShipType_Fire" IconPath="SpriteOutput/Assemble/ShipType/Assemble_Ship_Type_Explore" />
+  <AllAssembleWarshipClassList ClassID="100" ClassName="AssembleWarship_ClassName_100" ClassDesc="AssembleWarship_ClassDesc_100" ModelPath="Objects/Assemble/Ship/Ship001/Ship001" />
   <AllAssemblePartsList PartID="1" ModelTypeID="100" BaseMaterialCost="101:10,102:3" BaseTimeCost="20" CustomData="CustomConfig_Part_1" />
   <AllAssemblePartsTypeList ModelTypeID="100" ModelTypeName="AssembleParts_ModelType_Name_100" ModelTypeDesc="AssembleParts_ModelType_Desc_100" ModelPath="Objects/Assemble/Parts/Parts001/AssembleParts_001" TypeID="Engine" TypeName="AssembleParts_Name_Engine" IconPath="SpriteOutput/Assemble/Type/Assemble_Part_Type_Engine" PropertyConfig="PropertyConfig_100" />
 </AssembleMetaData>

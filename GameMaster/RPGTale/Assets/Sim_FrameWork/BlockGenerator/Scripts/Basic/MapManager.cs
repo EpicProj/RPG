@@ -191,12 +191,10 @@ namespace Sim_FrameWork
 
         #region Assemble
 
-        public void InitAssemblePartsModel(AssemblePartInfo info)
+        public void InitAssembleModel(string modelPath)
         {
-            if (info == null)
-                return;
             UIUtility.SafeSetActive(AssembleContainer, true);
-            var Obj= ObjectManager.Instance.InstantiateObject("Assets/"+info.ModelPath + ".prefab");
+            var Obj= ObjectManager.Instance.InstantiateObject("Assets/"+ modelPath + ".prefab");
             if (Obj != null)
             {
                 Obj.transform.SetParent(AssembleContainerContentTrans,false);

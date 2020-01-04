@@ -64,7 +64,7 @@ namespace Sim_FrameWork.UI
             if (partDescTypeEffect != null)
                 partDescTypeEffect.StartEffect();
 
-            MapManager.Instance.InitAssemblePartsModel(_info);
+            MapManager.Instance.InitAssembleModel(_info.ModelPath);
 
             InitPartPropertyContent();
             InitPartCustomContent();

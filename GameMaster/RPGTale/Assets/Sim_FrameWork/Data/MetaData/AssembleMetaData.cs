@@ -19,7 +19,6 @@ public class AssembleMetaData : ExcelBase {
             ship.ShipScale = (ushort)i;
             ship.MaterialCost = "";
             ship.BaseTimeCost = (ushort)i;
-            ship.MaxModuleNum = (ushort)i;
             ship.HPBase = i;
             ship.SpeedBase = i;
             ship.FirePowerBase = i;
@@ -35,6 +34,7 @@ public class AssembleMetaData : ExcelBase {
     public override void Init()
     {
         AllAssembleWarshipDic.Clear();
+        AllAssemblePartsTypeDic.Clear();
         AllAssembleWarshipClassDic.Clear();
         AllAssemblePartsDic.Clear();
         AllAssemblePartsTypeDic.Clear();
@@ -48,6 +48,17 @@ public class AssembleMetaData : ExcelBase {
             else
             {
                 AllAssembleWarshipDic.Add(data.WarShipID, data);
+            }
+        }
+        foreach (var data in AllAssembleWarShipTypeList)
+        {
+            if (AllAssembleWarShipTypeDic.ContainsKey(data.TypeID))
+            {
+                Debug.LogError("Find Same WarShipTypeID , TypeID  = " + data.TypeID);
+            }
+            else
+            {
+                AllAssembleWarShipTypeDic.Add(data.TypeID, data);
             }
         }
         foreach (var data in AllAssembleWarshipClassList)
@@ -88,6 +99,8 @@ public class AssembleMetaData : ExcelBase {
     [XmlIgnore]
     public Dictionary<int, AssembleWarship> AllAssembleWarshipDic = new Dictionary<int, AssembleWarship>();
     [XmlIgnore]
+    public Dictionary<int, AssembleWarShipType> AllAssembleWarShipTypeDic = new Dictionary<int, AssembleWarShipType>();
+    [XmlIgnore]
     public Dictionary<int, AssembleWarshipClass> AllAssembleWarshipClassDic = new Dictionary<int, AssembleWarshipClass>();
     [XmlIgnore]
     public Dictionary<int, AssembleParts> AllAssemblePartsDic = new Dictionary<int, AssembleParts>();
@@ -96,6 +109,8 @@ public class AssembleMetaData : ExcelBase {
 
     [XmlElement]
     public List<AssembleWarship> AllAssembleWarshipList { get; set; }
+    [XmlElement]
+    public List<AssembleWarShipType> AllAssembleWarShipTypeList { get; set; }
     [XmlElement]
     public List<AssembleWarshipClass> AllAssembleWarshipClassList { get; set; }
     [XmlElement]
@@ -121,8 +136,6 @@ public class AssembleWarship
     [XmlAttribute]
     public ushort BaseTimeCost { get; set; }
     [XmlAttribute]
-    public ushort MaxModuleNum { get; set; }
-    [XmlAttribute]
     public int HPBase { get; set; }
     [XmlAttribute]
     public float SpeedBase { get; set; }
@@ -134,6 +147,20 @@ public class AssembleWarship
     public ushort CrewMax { get; set; }
     [XmlAttribute]
     public ushort StorageBase { get; set; }
+    [XmlAttribute]
+    public string ConfigData { get; set; }
+
+}
+
+[System.Serializable]
+public class AssembleWarShipType
+{
+    [XmlAttribute]
+    public int TypeID { get; set; }
+    [XmlAttribute]
+    public string Name { get; set; }
+    [XmlAttribute]
+    public string IconPath { get; set; }
 
 }
 

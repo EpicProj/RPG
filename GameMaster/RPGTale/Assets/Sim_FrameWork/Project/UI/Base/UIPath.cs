@@ -175,7 +175,8 @@ namespace Sim_FrameWork
             /// Assemble
             public const string Assemble_Part_PropertyItem = "Assets/Prefabs/Object/Assemble/AssemblePropertyItem.prefab";
             public const string Assemble_Part_CustomItem = "Assets/Prefabs/Object/Assemble/AssemblePartCustomItem.prefab";
-
+            public const string Assemble_Ship_Part_Top = "Assets/Prefabs/Object/Assemble/AssembleShipCustomPartItem_Top.prefab";
+            public const string Assemble_Ship_Part_Bottom= "Assets/Prefabs/Object/Assemble/AssembleShipCustomPartItem_Bottom.prefab";
             #endregion
 
         }

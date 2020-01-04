@@ -72,6 +72,21 @@ namespace Sim_FrameWork.Config
             }
         }
 
+        private static AssembleShipPartConfigData _assembleShipPartConfigData;
+        public static AssembleShipPartConfigData AssembleShipPartConfigData
+        {
+            get
+            {
+                if (_assembleShipPartConfigData == null)
+                {
+                    _assembleShipPartConfigData = new AssembleShipPartConfigData();
+                    _assembleShipPartConfigData.LoadAssembleShipPartConfigData();
+                }
+                return _assembleShipPartConfigData;
+            }
+        }
+
+
         public void InitData()
         {
             _globalSetting.LoadGlobalSettting();
@@ -79,6 +94,7 @@ namespace Sim_FrameWork.Config
             _exploreConfigData.LoadExploreConfigData();
             _eventConfigData.LoadEventConfigData();
             _assemblePartsConfigData.LoadPartsCustomConfig();
+            _assembleShipPartConfigData.LoadAssembleShipPartConfigData();
         }
 
 
@@ -272,6 +288,35 @@ namespace Sim_FrameWork.Config
 
             return data;
         }
+    }
+
+    public class AssembleShipPartConfigData
+    {
+
+        public List<AssembleShipPartConfig> shipPartConfig;
+
+        public AssembleShipPartConfigData LoadAssembleShipPartConfigData()
+        {
+            JsonReader reader = new JsonReader();
+            var data = reader.LoadJsonDataConfig<AssembleShipPartConfigData>(Config.JsonConfigPath.AssembleShipPartConfigDataJsonPath);
+            shipPartConfig = data.shipPartConfig;
+
+            List<string> shipPartConfigList = new List<string>();
+            for(int i = 0; i < shipPartConfig.Count; i++)
+            {
+                if (!shipPartConfigList.Contains(shipPartConfig[i].configName))
+                {
+                    shipPartConfigList.Add(shipPartConfig[i].configName);
+                }
+                else
+                {
+                    Debug.LogError("Find Same shipPartConfig , name=" + shipPartConfig[i].configName);
+                }
+            }
+            return data;
+        }
+
+
     }
 
 

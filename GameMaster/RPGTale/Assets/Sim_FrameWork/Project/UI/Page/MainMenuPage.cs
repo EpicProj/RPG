@@ -28,5 +28,6 @@ public class MainMenuPage : MonoBehaviour {
     public Button MenuBtn;
     public Button ExploreBtn;
     public Button AssembleBtn;
+    public Button ShipDesignBtn;
         
 }

@@ -200,6 +200,11 @@ namespace Sim_FrameWork.UI
                 AssemblePartInfo info = new AssemblePartInfo(1);
                 UIGuide.Instance.ShowAssemblePartDesignPage(info);
             });
+            AddButtonClickListener(m_page.ShipDesignBtn, () =>
+            {
+                AssembleShipInfo info = new AssembleShipInfo(1);
+                UIGuide.Instance.ShowAssembleShipDesignPage(info);
+            });
             
         }
 
