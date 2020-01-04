@@ -116,5 +116,17 @@ namespace Sim_FrameWork
             UIManager.Instance.PopUpWnd(UIPath.WindowPath.Assemble_Part_Design_Page, WindowType.Page,true,info);
         }
 
+        public void ShowAssembleShipDesignPage()
+        {
+            UIManager.Instance.Register<UI.AssembleShipDesignPageContext>(UIPath.WindowPath.Assemble_Ship_Design_Page);
+            UIManager.Instance.PopUpWnd(UIPath.WindowPath.Assemble_Ship_Design_Page, WindowType.Page);
+        }
+
+        public void ShowAssemblePartChooseDialog()
+        {
+            UIManager.Instance.Register<UI.AssemblePartChooseDialogContext>(UIPath.WindowPath.Assemble_Part_Choose_Dialog);
+            UIManager.Instance.PopUpWnd(UIPath.WindowPath.Assemble_Part_Choose_Dialog, WindowType.Dialog);
+        }
+
     }
 }

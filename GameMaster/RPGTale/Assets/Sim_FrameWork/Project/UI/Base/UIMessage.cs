@@ -70,7 +70,7 @@ namespace Sim_FrameWork
         ExplorePage_Update_PointTimer,
 
         ///Assemble
-        AssemblePartDesign_ModelLoadFinish,
+        Assemble_Part_PropertyChange,
 
     }
 }

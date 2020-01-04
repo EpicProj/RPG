@@ -12,22 +12,16 @@ namespace Sim_FrameWork
         private Text ValueMin;
         private Text ValueMax;
 
-        private string _propertyName;
-        public string PropertyName
+        public PartsPropertyConfig.ConfigData _configData;
+
+        public float CurrentValueMin
         {
-            get { return _propertyName; }
+            get { return Utility.TryParseFloat(ValueMin.text); }
         }
 
-        private float _min;
-        public float Min
+        public float CurrentValueMax
         {
-            get { return _min; }
-        }
-
-        private float _max;
-        public float Max
-        {
-            get { return _max; }
+            get { return Utility.TryParseFloat(ValueMax.text); }
         }
 
 
@@ -39,27 +33,24 @@ namespace Sim_FrameWork
             ValueMax = UIUtility.SafeGetComponent<Text>(UIUtility.FindTransfrom(transform, "ValueMax"));
         }
 
-        public void SetUpItem(string propertyName, Sprite icon,string name,float valueMin,float valueMax)
+        public void SetUpItem(PartsPropertyConfig.ConfigData config)
         {
-            _propertyName = propertyName;
-            Icon.sprite = icon;
-            Name.text = name;
-            ValueMin.text = valueMin.ToString();
-            ValueMax.text = valueMax.ToString();
-            _min = valueMin;
-            _max = valueMax;
+            if (config == null)
+                return;
+            _configData = config;
+            Icon.sprite = Utility.LoadSprite(config.PropertyIcon, Utility.SpriteType.png);
+            Name.text = MultiLanguage.Instance.GetTextValue(config.PropertyName);
         }
 
         public void ChangeValueMin(float value)
         {
-            _min = value;
-            ValueMin.text = value.ToString();
+            ValueMin.text = string.Format("{0:N2}", value);
         }
 
         public void ChangeValueMax(float value)
         {
-            _max = value;
-            ValueMax.text = value.ToString();
+
+            ValueMax.text = string.Format("{0:N2}", value);
         }
 
     }

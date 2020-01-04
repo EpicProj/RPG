@@ -50,6 +50,8 @@ namespace Sim_FrameWork
             /// </summary>
             public const string RandomEvent_Dialog = "Dialog/Main/RandomEventDialog";
 
+            public const string Assemble_Part_Choose_Dialog = "Dialog/Assemble/AssemblePartChooseDialog";
+
             #endregion
 
             #region PagePath
@@ -93,8 +95,11 @@ namespace Sim_FrameWork
             public const string Explore_Main_Page = "Page/ExploreMainPage";
             public const string Explore_Point_Page = "Page/ExplorePointPage";
 
-            public const string Assemble_Part_Design_Page = "Page/AssemblePartDesignPage";
-
+            /// <summary>
+            /// Assemble Design
+            /// </summary>
+            public const string Assemble_Part_Design_Page = "Page/Assemble/AssemblePartDesignPage";
+            public const string Assemble_Ship_Design_Page= "Page/Assemble/AssembleShipDesignPage";
             #endregion
 
 

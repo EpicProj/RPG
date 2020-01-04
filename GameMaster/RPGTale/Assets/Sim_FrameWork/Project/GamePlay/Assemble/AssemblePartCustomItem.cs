@@ -13,9 +13,11 @@ namespace Sim_FrameWork
         private Slider slider;
         private Text Value;
 
+        public PartsCustomConfig.ConfigData _config;
+
         public float CurrentValue
         {
-            get { return slider.value / 10; }
+            get { return slider.value/10; }
         }
 
         private void Awake()
@@ -30,6 +32,9 @@ namespace Sim_FrameWork
 
         public void SetUpItem(PartsCustomConfig.ConfigData config)
         {
+            if (config == null)
+                return;
+            _config = config;
             Name.text = MultiLanguage.Instance.GetTextValue(config.CustomDataName);
             transform.localPosition = new Vector3((float)config.PosX, (float)config.PosY, 0);
             Line.GetComponent<RectTransform>().sizeDelta = new Vector2((float)config.LineWidth, 1);
@@ -38,15 +43,16 @@ namespace Sim_FrameWork
             slider.maxValue = (float)config.CustomDataRangeMax*10;
             slider.value = (float)config.CustomDataDefaultValue * 10;
 
-            Value.text = config.CustomDataDefaultValue.ToString();
+            Value.text = string.Format("{0:N2}", config.CustomDataDefaultValue);
 
             slider.onValueChanged.AddListener((float value) => { OnSliderValueChanged(value); });
+
         }
 
         void OnSliderValueChanged(float value)
         {
-
-            Value.text = (value/10).ToString();
+            Value.text = string.Format("{0:N2}", value / 10);
+            UIManager.Instance.SendMessageToWnd(UIPath.WindowPath.Assemble_Part_Design_Page, new UIMessage(UIMsgType.Assemble_Part_PropertyChange, new List<object>(1) { _config ,CurrentValue}));
         }
 
       

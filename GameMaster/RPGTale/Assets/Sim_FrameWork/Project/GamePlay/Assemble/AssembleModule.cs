@@ -4,6 +4,7 @@ using UnityEngine;
 
 namespace Sim_FrameWork
 {
+
     public class AssembleModule : BaseModule<AssembleModule>
     {
         private static List<AssembleWarship> AssembleWarshipList;
@@ -164,6 +165,7 @@ namespace Sim_FrameWork
         public PartsCustomConfig partsConfig;
         public PartsPropertyConfig partsPropertyConfig;
 
+        public AssemblePartCustomDataInfo customDataInfo;
 
         public AssembleParts _partsMeta;
         public AssemblePartsType _partsTypeMeta;
@@ -187,6 +189,44 @@ namespace Sim_FrameWork
                 partsConfig = AssembleModule.GetPartsCustomConfigData(partID);
                 partsPropertyConfig = AssembleModule.GetPartsPropertyConfigData(partID);
             }
+        }
+
+    }
+
+    /// <summary>
+    /// 部件自定义数据
+    /// </summary>
+    public class AssemblePartCustomDataInfo
+    {
+        public int partID;
+        public string partNameCustomText;
+        public Dictionary<string, CustomData> propertyDic;
+        public Dictionary<string, float> customValueDic;
+
+
+        public AssemblePartCustomDataInfo(int partID,string partNameCustomText, Dictionary<string, CustomData> propertyDic, Dictionary<string, float> customValueDic)
+        {
+            this.partID = partID;
+            this.partNameCustomText = partNameCustomText;
+            this.propertyDic = propertyDic;
+            this.customValueDic = customValueDic;
+        }
+
+        public class CustomData
+        {
+            public string propertyNameText;
+            public Sprite propertyIcon;
+            public float propertyValueMin;
+            public float propertyValueMax;
+
+            public CustomData(PartsPropertyConfig.ConfigData config ,float min,float max)
+            {
+                propertyNameText = MultiLanguage.Instance.GetTextValue(config.PropertyName);
+                propertyIcon = Utility.LoadSprite(config.PropertyIcon, Utility.SpriteType.png);
+                propertyValueMin = min;
+                propertyValueMax = max;
+            }
+
         }
 
     }

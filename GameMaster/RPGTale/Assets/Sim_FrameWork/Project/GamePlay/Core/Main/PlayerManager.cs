@@ -272,9 +272,6 @@ namespace Sim_FrameWork
         }
 
 
-
-        
-
         /// <summary>
         /// 月底结算
         /// </summary>
@@ -287,6 +284,53 @@ namespace Sim_FrameWork
             
         }
 
-        
+
+        #region Assemble Design
+
+        private Dictionary<int, AssemblePartInfo> _assemblePartDesignDataDic=new Dictionary<int, AssemblePartInfo> ();
+        public Dictionary<int,AssemblePartInfo> AssemblePartDesignDataDic
+        {
+            get { return _assemblePartDesignDataDic; }
+        }
+
+        /// <summary>
+        /// 根据类型获取全部件
+        /// </summary>
+        /// <param name="typeID"></param>
+        /// <returns></returns>
+        public List<AssemblePartInfo> GetAssemblePartInfoByTypeID(string typeID)
+        {
+            List<AssemblePartInfo> result = new List<AssemblePartInfo>();
+            foreach(var info in _assemblePartDesignDataDic)
+            {
+                if (info.Value.TypeID == typeID)
+                {
+                    result.Add(info.Value);
+                }
+            }
+            return result;
+        }
+
+
+        public void AddAssemblePartDesign(AssemblePartInfo info)
+        {
+            int guid = getUnUsedInstanceID();
+            _assemblePartDesignDataDic.Add(guid, info);
+        }
+
+        private int getUnUsedInstanceID()
+        {
+            int instanceId = UnityEngine.Random.Range(ushort.MinValue, ushort.MaxValue);
+            if (_assemblePartDesignDataDic.ContainsKey(instanceId))
+            {
+                return getUnUsedInstanceID();
+            }
+            return instanceId;
+        }
+
+
+        #endregion
+
+
     }
 }

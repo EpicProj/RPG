@@ -201,6 +201,8 @@
     <Compile Include="Assets\Sim_FrameWork\Project\UI\Base\UIMessage.cs" />
     <Compile Include="Assets\Sim_FrameWork\Project\UI\Base\UIPath.cs" />
     <Compile Include="Assets\Sim_FrameWork\Project\UI\Base\WindowBase.cs" />
+    <Compile Include="Assets\Sim_FrameWork\Project\UI\Dialog\Assemble\AssemblePartChooseDialog.cs" />
+    <Compile Include="Assets\Sim_FrameWork\Project\UI\Dialog\Assemble\AssemblePartChooseDialogContext.cs" />
     <Compile Include="Assets\Sim_FrameWork\Project\UI\Dialog\BlockInfoDialog.cs" />
     <Compile Include="Assets\Sim_FrameWork\Project\UI\Dialog\Event\RandomEventDialog.cs" />
     <Compile Include="Assets\Sim_FrameWork\Project\UI\Dialog\Event\RandomEventDialogContext.cs" />
@@ -221,6 +223,7 @@
     <Compile Include="Assets\Sim_FrameWork\Project\UI\Dialog\Technology\TechnologyDetailDialog.cs" />
     <Compile Include="Assets\Sim_FrameWork\Project\UI\Dialog\Technology\TechnologyDetailDialogContext.cs" />
     <Compile Include="Assets\Sim_FrameWork\Project\UI\Effect\UIGradient.cs" />
+    <Compile Include="Assets\Sim_FrameWork\Project\UI\GamePlay\Assemble\AssemblePartChooseItem.cs" />
     <Compile Include="Assets\Sim_FrameWork\Project\UI\GamePlay\Explore\EventChooseBtn.cs" />
     <Compile Include="Assets\Sim_FrameWork\Project\UI\GamePlay\Explore\ExploreAreaMissionElement.cs" />
     <Compile Include="Assets\Sim_FrameWork\Project\UI\GamePlay\Explore\ExploreAreaSelectBtn.cs" />
@@ -263,8 +266,10 @@
     <Compile Include="Assets\Sim_FrameWork\Project\UI\Misc\SliderGroup.cs" />
     <Compile Include="Assets\Sim_FrameWork\Project\UI\Misc\WareHouseMainTagCmpt.cs" />
     <Compile Include="Assets\Sim_FrameWork\Project\UI\Misc\WareHouseSubTagCmpt.cs" />
-    <Compile Include="Assets\Sim_FrameWork\Project\UI\Page\AssemblePartDesignPage.cs" />
-    <Compile Include="Assets\Sim_FrameWork\Project\UI\Page\AssemblePartDesignPageContext.cs" />
+    <Compile Include="Assets\Sim_FrameWork\Project\UI\Page\Assemble\AssemblePartDesignPage.cs" />
+    <Compile Include="Assets\Sim_FrameWork\Project\UI\Page\Assemble\AssemblePartDesignPageContext.cs" />
+    <Compile Include="Assets\Sim_FrameWork\Project\UI\Page\Assemble\AssembleShipDesignPage.cs" />
+    <Compile Include="Assets\Sim_FrameWork\Project\UI\Page\Assemble\AssembleShipDesignPageContext.cs" />
     <Compile Include="Assets\Sim_FrameWork\Project\UI\Page\BlockManuPage.cs" />
     <Compile Include="Assets\Sim_FrameWork\Project\UI\Page\BlockManuPageContext.cs" />
     <Compile Include="Assets\Sim_FrameWork\Project\UI\Page\ConsolePage.cs" />
@@ -526,23 +531,20 @@
     <Reference Include="UnityEngine.SpatialTracking">
       <HintPath>C:/Program Files/Unity/Hub/Editor/2018.4.14f1/Editor/Data/UnityExtensions/Unity/UnitySpatialTracking/RuntimeEditor/UnityEngine.SpatialTracking.dll</HintPath>
     </Reference>
-    <Reference Include="LitJson">
-      <HintPath>D:/建造工程/Project/GameMaster/RPGTale/Assets/Plugins/LitJson.dll</HintPath>
-    </Reference>
     <Reference Include="EPPlus">
       <HintPath>D:/建造工程/Project/GameMaster/RPGTale/Assets/Sim_FrameWork/PlugIn/EPPlus.dll</HintPath>
     </Reference>
     <Reference Include="LitJson">
       <HintPath>D:/建造工程/Project/GameMaster/RPGTale/Assets/Sim_FrameWork/PlugIn/LitJson.dll</HintPath>
     </Reference>
-    <Reference Include="Unity.Analytics.Tracker">
-      <HintPath>D:/建造工程/Project/GameMaster/RPGTale/Library/PackageCache/com.unity.analytics@3.2.2/Unity.Analytics.Tracker.dll</HintPath>
+    <Reference Include="Unity.Analytics.Editor">
+      <HintPath>D:/建造工程/Project/GameMaster/RPGTale/Library/PackageCache/com.unity.analytics@3.2.2/Unity.Analytics.Editor.dll</HintPath>
     </Reference>
     <Reference Include="Unity.Analytics.StandardEvents">
       <HintPath>D:/建造工程/Project/GameMaster/RPGTale/Library/PackageCache/com.unity.analytics@3.2.2/Unity.Analytics.StandardEvents.dll</HintPath>
     </Reference>
-    <Reference Include="Unity.Analytics.Editor">
-      <HintPath>D:/建造工程/Project/GameMaster/RPGTale/Library/PackageCache/com.unity.analytics@3.2.2/Unity.Analytics.Editor.dll</HintPath>
+    <Reference Include="Unity.Analytics.Tracker">
+      <HintPath>D:/建造工程/Project/GameMaster/RPGTale/Library/PackageCache/com.unity.analytics@3.2.2/Unity.Analytics.Tracker.dll</HintPath>
     </Reference>
     <Reference Include="netstandard">
       <HintPath>C:/Program Files/Unity/Hub/Editor/2018.4.14f1/Editor/Data/NetStandard/ref/2.0.0/netstandard.dll</HintPath>
