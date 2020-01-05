@@ -11,6 +11,5 @@ namespace Sim_FrameWork
         public Transform LeftPanel;
         public Transform RightPanel;
 
-      
     }
 }

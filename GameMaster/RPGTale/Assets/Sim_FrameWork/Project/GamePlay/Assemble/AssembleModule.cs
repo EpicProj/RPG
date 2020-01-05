@@ -314,6 +314,11 @@ namespace Sim_FrameWork
         /// 基础时间花费
         /// </summary>
         public ushort baseTimeCost;
+        public ushort realTimeCost
+        {
+            get { return (ushort)(baseTimeCost + customDataInfo.addTimeCost); }
+        }
+
         public PartsCustomConfig partsConfig;
         public PartsPropertyConfig partsPropertyConfig;
 
@@ -357,6 +362,12 @@ namespace Sim_FrameWork
     {
         public int partID;
         public string partNameCustomText;
+
+        /// <summary>
+        /// 额外制造时长
+        /// </summary>
+        public ushort addTimeCost;
+
         public Dictionary<string, CustomData> propertyDic;
         public Dictionary<string, float> customValueDic;
 
@@ -387,10 +398,6 @@ namespace Sim_FrameWork
         }
 
     }
-
-
-
-
 
     public class PartsPropertyConfig
     {
@@ -424,6 +431,8 @@ namespace Sim_FrameWork
             public double CustomDataRangeMin;
             public double CustomDataRangeMax;
             public double CustomDataDefaultValue;
+
+            public ushort TimeCostPerUnit;
             public List<PropertyLinkData> propertyLinkData;
             public List<MaterialCostLinkData> materialCostLinkData;
 
@@ -449,6 +458,7 @@ namespace Sim_FrameWork
     public class AssembleShipInfo
     {
         public int warShipID;
+        public ushort UID;
         public string shipName;
 
         public Config.GlobalSetting.AssembleMainType mainTypeData;
@@ -575,9 +585,6 @@ namespace Sim_FrameWork
             partConfig = AssembleModule.GetShipPartConfigData(shipID);
 
         }
-
-
-
     }
 
     public class AssembleShipPartConfig

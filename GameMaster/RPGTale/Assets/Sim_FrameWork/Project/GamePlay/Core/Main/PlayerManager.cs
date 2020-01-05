@@ -285,7 +285,7 @@ namespace Sim_FrameWork
         }
 
 
-        #region Assemble Design
+        #region Assemble Part Design
 
         private Dictionary<ushort, AssemblePartInfo> _assemblePartDesignDataDic=new Dictionary<ushort, AssemblePartInfo> ();
         public Dictionary<ushort,AssemblePartInfo> AssemblePartDesignDataDic
@@ -350,17 +350,17 @@ namespace Sim_FrameWork
 
         public void AddAssemblePartDesign(AssemblePartInfo info)
         {
-            ushort guid = getUnUsedInstanceID();
+            ushort guid = getPartUnUsedInstanceID();
             info.UID = guid;
             _assemblePartDesignDataDic.Add(guid, info);
         }
 
-        private ushort getUnUsedInstanceID()
+        private ushort getPartUnUsedInstanceID()
         {
             ushort instanceId = (ushort)UnityEngine.Random.Range(ushort.MinValue, ushort.MaxValue);
             if (_assemblePartDesignDataDic.ContainsKey(instanceId))
             {
-                return getUnUsedInstanceID();
+                return getPartUnUsedInstanceID();
             }
             return instanceId;
         }
@@ -368,6 +368,38 @@ namespace Sim_FrameWork
 
         #endregion
 
+        #region Assemble Ship Design
+        private Dictionary<ushort, AssembleShipInfo> _assembleShipDesignDataDic = new Dictionary<ushort, AssembleShipInfo>();
+        public Dictionary<ushort,AssembleShipInfo> AssembleShipDesignDataDic
+        {
+            get { return _assembleShipDesignDataDic; }
+        }
+
+        public AssembleShipInfo GetAssembleShipInfo(ushort UID)
+        {
+            AssembleShipInfo info = null;
+            _assembleShipDesignDataDic.TryGetValue(UID, out info);
+            return info;
+        }
+
+        public void AddAssembleShipDesign(AssembleShipInfo info)
+        {
+            ushort guid = getShipUnUsedInstanceID();
+            info.UID = guid;
+            _assembleShipDesignDataDic.Add(guid, info);
+        }
+
+        private ushort getShipUnUsedInstanceID()
+        {
+            ushort instanceId = (ushort)UnityEngine.Random.Range(ushort.MinValue, ushort.MaxValue);
+            if (_assembleShipDesignDataDic.ContainsKey(instanceId))
+            {
+                return getShipUnUsedInstanceID();
+            }
+            return instanceId;
+        }
+
+        #endregion
 
     }
 }

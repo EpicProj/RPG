@@ -918,6 +918,10 @@ namespace Sim_FrameWork
 
     public class PlayerExploreTeamData
     {
+
+        public Dictionary<ushort, AssembleShipInfo> shipInfoDic = new Dictionary<ushort, AssembleShipInfo>();
+
+
         /// <summary>
         /// 初始携带能量
         /// </summary>
@@ -939,7 +943,6 @@ namespace Sim_FrameWork
             if (_energyCurrentNum < 0)
                 _energyCurrentNum = 0;
         }
-
 
         /// <summary>
         /// 最大负重上线

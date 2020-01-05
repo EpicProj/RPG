@@ -157,14 +157,18 @@ namespace Sim_FrameWork.UI
             if (config == null)
                 return false;
 
-            for(int i = 0; i < config.propertyLinkData.Count; i++)
+            int delta = (int)(currentValue * 10);
+            ushort realTime = (ushort)(_info.baseTimeCost + delta * config.TimeCostPerUnit);
+            timeCostText.text = realTime.ToString();
+
+            for (int i = 0; i < config.propertyLinkData.Count; i++)
             {
                 var propertyName = config.propertyLinkData[i].Name;
                 foreach(var item in _propertyItem)
                 {
                     if(item._configData.Name == propertyName)
                     {
-                        int delta = (int)(currentValue * 10);
+                        
                         float currentMin = delta * (float)config.propertyLinkData[i].PropertyChangePerUnitMin;
                         item.ChangeValueMin(currentMin+ (float)item._configData.PropertyRangeMin);
 
@@ -180,14 +184,15 @@ namespace Sim_FrameWork.UI
         {
             if (config == null)
                 return;
+
             for (int i = 0; i < config.propertyLinkData.Count; i++)
             {
                 var propertyName = config.propertyLinkData[i].Name;
                 foreach (var item in _propertyItem)
                 {
+                    int delta = (int)(config.CustomDataDefaultValue * 10);
                     if (item._configData.Name == propertyName)
                     {
-                        int delta = (int)(config.CustomDataDefaultValue * 10);
                         float currentMin = delta * (float)config.propertyLinkData[i].PropertyChangePerUnitMin;
                         item.ChangeValueMin(currentMin + (float)item._configData.PropertyRangeMin);
 
@@ -222,6 +227,9 @@ namespace Sim_FrameWork.UI
                     item._configData,
                     item.CurrentValueMin,
                     item.CurrentValueMax);
+                ///Get TimeCost
+                
+
                 dataDic.Add(propertyName, data);
             }
 
