@@ -38,7 +38,6 @@ namespace Sim_FrameWork {
             UIManager.Instance.Register<GeneralHintDialogContext>(UIPath.WindowPath.General_Hint_Dialog);
             UIManager.Instance.Register<ConsolePageContext>(UIPath.WindowPath.Console_Page);
             UIManager.Instance.Register<GameLoadDialogContext>(UIPath.WindowPath.MainMenu_GameLoad_Dialog);
-            UIManager.Instance.Register<MaterialInfoUIContext>(UIPath.WindowPath.Material_Info_UI);
             UIManager.Instance.Register<ProductLineChangeDialogContext>(UIPath.WindowPath.ProductLine_Change_Dialog);
             UIManager.Instance.Register<BuildPanelDetailContext>(UIPath.WindowPath.BuildPanel_Detail_UI);
         }

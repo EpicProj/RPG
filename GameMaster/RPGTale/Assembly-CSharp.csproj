@@ -128,6 +128,7 @@
     <Compile Include="Assets\Sim_FrameWork\Project\Basic\UIUtility.cs" />
     <Compile Include="Assets\Sim_FrameWork\Project\Basic\Utility.cs" />
     <Compile Include="Assets\Sim_FrameWork\Project\GamePlay\Achievement\AchievementModule.cs" />
+    <Compile Include="Assets\Sim_FrameWork\Project\GamePlay\Assemble\AssembleChooseItemModel.cs" />
     <Compile Include="Assets\Sim_FrameWork\Project\GamePlay\Assemble\AssembleModule.cs" />
     <Compile Include="Assets\Sim_FrameWork\Project\GamePlay\Assemble\AssemblePartCustomItem.cs" />
     <Compile Include="Assets\Sim_FrameWork\Project\GamePlay\Assemble\AssemblePartPropertyItem.cs" />
@@ -229,6 +230,10 @@
     <Compile Include="Assets\Sim_FrameWork\Project\UI\GamePlay\Explore\ExploreAreaSelectBtn.cs" />
     <Compile Include="Assets\Sim_FrameWork\Project\UI\GamePlay\Explore\ExplorePointCmpt.cs" />
     <Compile Include="Assets\Sim_FrameWork\Project\UI\GamePlay\Explore\ExploreTeamCmpt.cs" />
+    <Compile Include="Assets\Sim_FrameWork\Project\UI\GamePlay\Material\MaterialCostCmpt.cs" />
+    <Compile Include="Assets\Sim_FrameWork\Project\UI\GamePlay\Material\MaterialElement.cs" />
+    <Compile Include="Assets\Sim_FrameWork\Project\UI\GamePlay\Material\MaterialInfoUI.cs" />
+    <Compile Include="Assets\Sim_FrameWork\Project\UI\GamePlay\Material\MaterialInfoUIContext.cs" />
     <Compile Include="Assets\Sim_FrameWork\Project\UI\GamePlay\Technology\TechEffectElement.cs" />
     <Compile Include="Assets\Sim_FrameWork\Project\UI\GamePlay\Technology\TechnologyDetailUI.cs" />
     <Compile Include="Assets\Sim_FrameWork\Project\UI\GamePlay\Technology\TechnologyDetailUIContext.cs" />
@@ -250,7 +255,6 @@
     <Compile Include="Assets\Sim_FrameWork\Project\UI\Inventory\LoopList\Element\DistrictBuildElement.cs" />
     <Compile Include="Assets\Sim_FrameWork\Project\UI\Inventory\LoopList\Element\FormulaChooseElement.cs" />
     <Compile Include="Assets\Sim_FrameWork\Project\UI\Inventory\LoopList\Element\GeneralOrganizationElement.cs" />
-    <Compile Include="Assets\Sim_FrameWork\Project\UI\Inventory\LoopList\Element\MaterialElement.cs" />
     <Compile Include="Assets\Sim_FrameWork\Project\UI\Inventory\LoopList\Element\OrderReceiveElement.cs" />
     <Compile Include="Assets\Sim_FrameWork\Project\UI\Inventory\LoopList\GridLoopList.cs" />
     <Compile Include="Assets\Sim_FrameWork\Project\UI\Inventory\LoopList\LoopList.cs" />
@@ -260,8 +264,6 @@
     <Compile Include="Assets\Sim_FrameWork\Project\UI\Misc\DistrictDetailUI.cs" />
     <Compile Include="Assets\Sim_FrameWork\Project\UI\Misc\DistrictDetailUIContext.cs" />
     <Compile Include="Assets\Sim_FrameWork\Project\UI\Misc\FormulaContentCmpt.cs" />
-    <Compile Include="Assets\Sim_FrameWork\Project\UI\Misc\MaterialInfoUI.cs" />
-    <Compile Include="Assets\Sim_FrameWork\Project\UI\Misc\MaterialInfoUIContext.cs" />
     <Compile Include="Assets\Sim_FrameWork\Project\UI\Misc\SelectionUIObject.cs" />
     <Compile Include="Assets\Sim_FrameWork\Project\UI\Misc\SliderGroup.cs" />
     <Compile Include="Assets\Sim_FrameWork\Project\UI\Misc\WareHouseMainTagCmpt.cs" />

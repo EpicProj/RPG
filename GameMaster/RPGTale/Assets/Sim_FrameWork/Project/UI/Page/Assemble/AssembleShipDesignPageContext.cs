@@ -16,6 +16,7 @@ namespace Sim_FrameWork.UI
             base.Awake(paralist);
             _info = (AssembleShipInfo)paralist[0];
             _partItemList = new List<AssembleShipCustomPartItem>();
+            AddBtnClick();
         }
 
         public override bool OnMessage(UIMessage msg)
@@ -30,8 +31,21 @@ namespace Sim_FrameWork.UI
             SetUpPage();
         }
 
+        public override void OnDisable()
+        {
+            AudioManager.Instance.PlaySound(AudioClipPath.UISound.Btn_Close);
+            MapManager.Instance.ReleaseAssembleModel();
+        }
 
         #endregion
+
+        void AddBtnClick()
+        {
+            AddButtonClickListener(m_page.backBtn, () =>
+            {
+                UIManager.Instance.HideWnd(this);
+            });
+        }
 
 
         void SetUpPage()
@@ -65,8 +79,15 @@ namespace Sim_FrameWork.UI
 
         void InitShipPartItem()
         {
+            _partItemList.Clear();
             if (_info == null)
                 return;
+            
+            foreach(Transform trans in customContentTrans)
+            {
+                ObjectManager.Instance.ReleaseObject(trans.gameObject, 0);
+            }
+
             var configData = _info.partConfig.configData;
             for (int i=0;i< configData.Count; i++)
             {

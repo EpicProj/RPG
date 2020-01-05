@@ -111,7 +111,7 @@ namespace Sim_FrameWork
         {
             if (_model.ID != 0 && _count!=0)
             {
-                UIManager.Instance.PopUpWnd(UIPath.WindowPath.Material_Info_UI, WindowType.SPContent, true, _model);
+                UIGuide.Instance.ShowMaterialDetailInfo(_model);
             }
         }
 

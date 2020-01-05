@@ -166,6 +166,7 @@ namespace Sim_FrameWork
             public const string BuildDetail_Cost_Element = "Assets/Prefabs/Object/FunctionBlock/BuildRequireElement.prefab";
 
             public const string Reward_Item = "Assets/Prefabs/Object/Main/RewardItem.prefab";
+            public const string MaterialCost_Item = "Assets/Prefabs/Object/Material/MaterialCostElement.prefab";
 
             public const string Explore_Area_Select_Btn = "Assets/Prefabs/Object/Explore/ExploreAreaSelectBtn.prefab";
             public const string Explore_Mission_Element = "Assets/Prefabs/Object/Explore/ExploreAreaMission.prefab";
@@ -174,7 +175,8 @@ namespace Sim_FrameWork
 
             /// Assemble
             public const string Assemble_Part_PropertyItem = "Assets/Prefabs/Object/Assemble/AssemblePropertyItem.prefab";
-            public const string Assemble_Part_CustomItem = "Assets/Prefabs/Object/Assemble/AssemblePartCustomItem.prefab";
+            public const string Assemble_Part_CustomItem_Left = "Assets/Prefabs/Object/Assemble/AssemblePartCustomItem_Left.prefab";
+            public const string Assemble_Part_CustomItem_Right = "Assets/Prefabs/Object/Assemble/AssemblePartCustomItem_Right.prefab";
             public const string Assemble_Ship_Part_Top = "Assets/Prefabs/Object/Assemble/AssembleShipCustomPartItem_Top.prefab";
             public const string Assemble_Ship_Part_Bottom= "Assets/Prefabs/Object/Assemble/AssembleShipCustomPartItem_Bottom.prefab";
             #endregion

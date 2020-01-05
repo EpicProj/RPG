@@ -48,6 +48,7 @@ namespace Sim_FrameWork
         {
             InitData();
         }
+
         #region Assemble Part
         public static AssembleParts GetAssemblePartDataByKey(int partID)
         {
@@ -148,6 +149,62 @@ namespace Sim_FrameWork
             return string.Empty;
         }
 
+        /// <summary>
+        /// 获取部件可装配类型
+        /// </summary>
+        /// <param name="partID"></param>
+        /// <returns></returns>
+        public static List<string> GetAssemblePartEquipType(int partID)
+        {
+            List<string> result = new List<string>();
+            var partMeta = GetAssemblePartDataByKey(partID);
+            if (partMeta != null)
+            {
+                var list = Utility.TryParseStringList(partMeta.AssembleType,',');
+                for(int i = 0; i < list.Count; i++)
+                {
+                    if (GetAssembleMainTypeData(list[i]) != null)
+                        result.Add(list[i]);
+                }
+
+                if(list.Count> Config.GlobalConfigData.AssemblePart_Target_MaxNum)
+                {
+                    Debug.LogError("AssemblePartTarget can not largerThan " + Config.GlobalConfigData.AssemblePart_Target_MaxNum + "  Current partID is " + partID);
+                }
+            }
+            return result;
+        }
+
+        public static List<MaterialCostItem> GetPartMaterialCost(int partID)
+        {
+            List<MaterialCostItem> costList = new List<MaterialCostItem>();
+            var meta = GetAssemblePartDataByKey(partID);
+            if (meta != null)
+            {
+                var list = Utility.TryParseStringList(meta.BaseMaterialCost, ',');
+                if (list.Count > Config.GlobalConfigData.AssemblePart_MaterialCost_MaxNum)
+                    Debug.LogError("Assemble Parts MaterialCost Num can not be larger than " + Config.GlobalConfigData.AssemblePart_MaterialCost_MaxNum + "  PartID=" + partID);
+                for(int i = 0; i < list.Count; i++)
+                {
+                    var maData = Utility.TryParseStringList(list[i], ':');
+                    if (maData.Count == 2)
+                    {
+                        int materialID = Utility.TryParseInt(maData[0]);
+                        MaterialCostItem item = new MaterialCostItem(materialID, Utility.TryParseInt(maData[1]));
+                        if (item.InitSuccess)
+                        {
+                            costList.Add(item);
+                        }
+                    }
+                    else
+                    {
+                        Debug.LogError("Assemble Parts MaterialCost FormatError!  PartID=" + partID);
+                    }
+                }
+            }
+            return costList;
+        }
+
         #endregion
 
         #region Assemble Ship
@@ -212,6 +269,18 @@ namespace Sim_FrameWork
 
         #endregion
 
+        #region Misc
+
+        public static Config.GlobalSetting.AssembleMainType GetAssembleMainTypeData(string type)
+        {
+            var config = Config.ConfigData.GlobalSetting.assembleMainType;
+            return config.Find(x => x.Type == type);
+        }
+
+     
+
+        #endregion
+
     }
 
     #region Assemble Part Data
@@ -220,8 +289,15 @@ namespace Sim_FrameWork
     {
         public int partID;
 
+        /// <summary>
+        /// For Custom
+        /// </summary>
+        public ushort UID;
+
         public string partName;
         public string partDesc;
+        public Sprite partSprite;
+        public Sprite partIconSmall;
         /// <summary>
         /// Prefab Path
         /// </summary>
@@ -231,7 +307,8 @@ namespace Sim_FrameWork
         public Sprite TypeIcon;
         public string TypeName;
 
-        public Dictionary<int, ushort> materialCostDic = new Dictionary<int, ushort>();
+        public List<MaterialCostItem> materialCostItem = new List<MaterialCostItem>();
+        public List<string> partEquipType = new List<string>();
 
         /// <summary>
         /// 基础时间花费
@@ -256,6 +333,9 @@ namespace Sim_FrameWork
                 partName = AssembleModule.GetPartName(partID);
                 partDesc = AssembleModule.GetPartDesc(partID);
                 ModelPath = _partsTypeMeta.ModelPath;
+                partSprite = Utility.LoadSprite(_partsMeta.PartSprite, Utility.SpriteType.png);
+                partIconSmall = Utility.LoadSprite(_partsMeta.PartIconSmall, Utility.SpriteType.png);
+                materialCostItem = AssembleModule.GetPartMaterialCost(partID);
 
                 TypeID = _partsTypeMeta.TypeID;
                 TypeIcon = AssembleModule.GetPartTypeIcon(_partsTypeMeta.ModelTypeID);
@@ -263,6 +343,8 @@ namespace Sim_FrameWork
 
                 partsConfig = AssembleModule.GetPartsCustomConfigData(partID);
                 partsPropertyConfig = AssembleModule.GetPartsPropertyConfigData(partID);
+
+                partEquipType = AssembleModule.GetAssemblePartEquipType(partID);
             }
         }
 
@@ -334,6 +416,7 @@ namespace Sim_FrameWork
         {
             public string CustomDataName;
 
+            public string PosType;
             public double PosX;
             public double PosY;
             public double LineWidth;
@@ -367,6 +450,8 @@ namespace Sim_FrameWork
     {
         public int warShipID;
         public string shipName;
+
+        public Config.GlobalSetting.AssembleMainType mainTypeData;
 
         public string className;
         public string classDesc;
@@ -468,6 +553,8 @@ namespace Sim_FrameWork
             _metaType = AssembleModule.GetWarshipTypeDataByKey(_meta.Type);
             if (_meta == null || _metaClass == null || _metaType == null)
                 return;
+
+            mainTypeData = AssembleModule.GetAssembleMainTypeData(_meta.MainType);
 
             warShipID = _meta.WarShipID;
             className = MultiLanguage.Instance.GetTextValue(_metaClass.ClassName);

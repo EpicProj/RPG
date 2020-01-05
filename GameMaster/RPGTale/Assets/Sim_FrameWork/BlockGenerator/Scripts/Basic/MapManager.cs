@@ -201,6 +201,14 @@ namespace Sim_FrameWork
             }
         }
 
+        public void ReleaseAssembleModel()
+        {
+            foreach(Transform trans in AssembleContainerContentTrans)
+            {
+                ObjectManager.Instance.ReleaseObject(trans.gameObject, 0);
+            }
+        }
+
 
         #endregion
 

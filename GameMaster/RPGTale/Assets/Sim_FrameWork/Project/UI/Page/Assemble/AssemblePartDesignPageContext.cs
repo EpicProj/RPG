@@ -39,6 +39,12 @@ namespace Sim_FrameWork.UI
             return true;
         }
 
+        public override void OnDisable()
+        {
+            AudioManager.Instance.PlaySound(AudioClipPath.UISound.Btn_Close);
+            MapManager.Instance.ReleaseAssembleModel();
+        }
+
 
         #endregion
 
@@ -68,10 +74,13 @@ namespace Sim_FrameWork.UI
 
             InitPartPropertyContent();
             InitPartCustomContent();
+            InitAssembleTargetItem();
+            InitPartCostPanel();
         }
 
         void InitPartPropertyContent()
         {
+            _propertyItem.Clear();
             if (partPropertyContentTrans.childCount != Config.GlobalConfigData.AssemblePart_Max_PropertyNum)
             {
                 for(int i = 0; i < Config.GlobalConfigData.AssemblePart_Max_PropertyNum; i++)
@@ -107,37 +116,37 @@ namespace Sim_FrameWork.UI
 
         void InitPartCustomContent()
         {
-            if (customValueContentTrans.childCount != Config.GlobalConfigData.AssemblePart_Max_CustomNum)
-            {
-                for (int i = 0; i < Config.GlobalConfigData.AssemblePart_Max_CustomNum; i++)
-                {
-                    var obj = ObjectManager.Instance.InstantiateObject(UIPath.PrefabPath.Assemble_Part_CustomItem);
-                    if (obj != null)
-                    {
-                        obj.transform.SetParent(customValueContentTrans, false);
-                        obj.name = "CustomItem_" + i;
-                    }
-                }
-            }
+            _customItem.Clear();
 
             foreach(Transform trans in customValueContentTrans)
             {
-                UIUtility.SafeSetActive(trans, false);
+                ObjectManager.Instance.ReleaseObject(trans.gameObject, 0);
             }
 
             for(int i = 0; i < _info.partsConfig.configData.Count; i++)
             {
-                if (i > Config.GlobalConfigData.AssemblePart_Max_CustomNum)
-                    return;
-                var trans = customValueContentTrans.GetChild(i);
-                UIUtility.SafeSetActive(trans, true);
-                var itemCmpt = UIUtility.SafeGetComponent<AssemblePartCustomItem>(trans);
-                if (itemCmpt != null)
+                GameObject obj = null;
+                if (string.Compare(_info.partsConfig.configData[i].PosType, "Left") == 0)
                 {
-                    var configData = _info.partsConfig.configData[i];
-                    itemCmpt.SetUpItem(configData);
-                    CalculateDefaultValue(configData);
-                    _customItem.Add(itemCmpt);
+                    obj = ObjectManager.Instance.InstantiateObject(UIPath.PrefabPath.Assemble_Part_CustomItem_Left);
+                }
+                else if (string.Compare(_info.partsConfig.configData[i].PosType, "Right") == 0)
+                {
+                    obj = ObjectManager.Instance.InstantiateObject(UIPath.PrefabPath.Assemble_Part_CustomItem_Right);
+                }
+
+                if (obj != null)
+                {
+                    obj.transform.SetParent(customValueContentTrans, false);
+                    obj.name = "CustomItem_" + i;
+                    var itemCmpt = UIUtility.SafeGetComponent<AssemblePartCustomItem>(obj.transform);
+                    if (itemCmpt != null)
+                    {
+                        var configData = _info.partsConfig.configData[i];
+                        itemCmpt.SetUpItem(configData);
+                        CalculateDefaultValue(configData);
+                        _customItem.Add(itemCmpt);
+                    }
                 }
             }
         }
@@ -225,6 +234,67 @@ namespace Sim_FrameWork.UI
             return new AssemblePartCustomDataInfo(_info.partID, customNameInput.text, dataDic, customValueDic);
         }
 
+        /// <summary>
+        /// Assemble Target
+        /// </summary>
+        void InitAssembleTargetItem()
+        {
+            foreach(Transform trans in assembleTargetContentTrans)
+            {
+                trans.gameObject.SetActive(false);
+            }
+
+            for(int i = 0; i < _info.partEquipType.Count; i++)
+            {
+                if (i >= Config.GlobalConfigData.AssemblePart_Target_MaxNum)
+                    break;
+                var targetData = AssembleModule.GetAssembleMainTypeData(_info.partEquipType[i]);
+                if (targetData != null)
+                {
+                    var item = assembleTargetContentTrans.GetChild(i);
+                    UIUtility.SafeGetComponent<Image>(UIUtility.FindTransfrom(item, "Icon")).sprite = Utility.LoadSprite(targetData.IconPath, Utility.SpriteType.png);
+                    UIUtility.SafeGetComponent<Text>(UIUtility.FindTransfrom(item, "Name")).text = MultiLanguage.Instance.GetTextValue(targetData.TypeNameText);
+                    item.gameObject.SetActive(true);
+                }
+            }
+        }
+
+        void InitPartCostPanel()
+        {
+            timeCostText.text = _info.baseTimeCost.ToString();
+
+            if (materialCostTrans.childCount != Config.GlobalConfigData.AssemblePart_MaterialCost_MaxNum)
+            {
+                for(int i = 0; i < Config.GlobalConfigData.AssemblePart_MaterialCost_MaxNum; i++)
+                {
+                    var obj = ObjectManager.Instance.InstantiateObject(UIPath.PrefabPath.MaterialCost_Item);
+                    if (obj != null)
+                    {
+                        obj.name = "MaterialCostItem_" + i;
+                        obj.transform.SetParent(materialCostTrans, false);
+                    }
+                }
+            }
+
+            foreach(Transform trans in materialCostTrans)
+            {
+                trans.gameObject.SetActive(false);
+            }
+
+            for(int i = 0; i < _info.materialCostItem.Count; i++)
+            {
+                if (i >= Config.GlobalConfigData.AssemblePart_MaterialCost_MaxNum)
+                    break;
+                var cmpt = UIUtility.SafeGetComponent<MaterialCostCmpt>(materialCostTrans.GetChild(i));
+                if (cmpt != null)
+                {
+                    cmpt.SetUpItem(_info.materialCostItem[i]);
+                    cmpt.gameObject.SetActive(true);
+                }
+            }
+
+        }
+
     }
 
     public partial class AssemblePartDesignPageContext : WindowBase
@@ -237,11 +307,14 @@ namespace Sim_FrameWork.UI
 
         private Text partDescText;
         private TypeWriterEffect partDescTypeEffect;
-
         private InputField customNameInput;
 
         private Transform partPropertyContentTrans;
         private Transform customValueContentTrans;
+        private Transform assembleTargetContentTrans;
+
+        private Text timeCostText;
+        private Transform materialCostTrans;
 
         private Button SaveDesignBtn;
 
@@ -259,6 +332,10 @@ namespace Sim_FrameWork.UI
 
             partPropertyContentTrans = UIUtility.FindTransfrom(m_page.rightPanel, "PartProperty/Content");
             customValueContentTrans = UIUtility.FindTransfrom(m_page.customPanel, "Content");
+            assembleTargetContentTrans = UIUtility.FindTransfrom(m_page.leftPanel, "AssembleTarget/Content");
+            timeCostText = UIUtility.SafeGetComponent<Text>(UIUtility.FindTransfrom(m_page.leftPanel, "Cost/Time"));
+            materialCostTrans = UIUtility.FindTransfrom(m_page.leftPanel, "Cost/Content");
+
             SaveDesignBtn = UIUtility.SafeGetComponent<Button>(UIUtility.FindTransfrom(m_page.rightPanel, "Btn"));
         }
 

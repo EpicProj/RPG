@@ -247,6 +247,22 @@ namespace Sim_FrameWork {
         #endregion
     }
 
+    public class MaterialCostItem
+    {
+        public MaterialDataModel model;
+        public int count;
+
+        public bool InitSuccess = true;
+
+        public MaterialCostItem(int materialID,int count)
+        {
+            model = new MaterialDataModel();
+            if (!model.Create(materialID))
+                InitSuccess=false;
+            this.count = count;
+        }
+    }
+
 
     public class MaterialConfig
     {

@@ -128,6 +128,8 @@ public class AssembleWarship
     [XmlAttribute]
     public ushort Type { get; set; }
     [XmlAttribute]
+    public string MainType { get; set; }
+    [XmlAttribute]
     public int Class { get; set; }
     [XmlAttribute]
     public ushort ShipScale { get; set; }
@@ -185,9 +187,15 @@ public class AssembleParts
     [XmlAttribute]
     public int ModelTypeID { get; set; }
     [XmlAttribute]
+    public string PartIconSmall { get; set; }
+    [XmlAttribute]
+    public string PartSprite { get; set; }
+    [XmlAttribute]
     public string BaseMaterialCost { get; set; }
     [XmlAttribute]
     public ushort BaseTimeCost { get; set; }
+    [XmlAttribute]
+    public string AssembleType { get; set; }
     [XmlAttribute]
     public string CustomData { get; set; }
 }

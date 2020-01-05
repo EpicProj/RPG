@@ -51,7 +51,7 @@ namespace Sim_FrameWork
         void OnBtnClick()
         {
             AudioManager.Instance.PlaySound(AudioClipPath.UISound.Button_Click);
-            UIGuide.Instance.ShowAssemblePartChooseDialog();
+            UIGuide.Instance.ShowAssemblePartChooseDialog(_configData.EquipPartType);
         }
 
 

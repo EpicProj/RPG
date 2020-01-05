@@ -65,6 +65,13 @@ namespace Sim_FrameWork
             int totalNum = GetTotalItemNum();
             if (_content.childCount == totalNum)
                 return;
+
+            UIUtility.SafeGetComponent<ScrollRect>(transform).onValueChanged.RemoveAllListeners();
+            foreach (Transform trans in _content)
+            {
+                ObjectManager.Instance.ReleaseObject(trans.gameObject, 0);
+            }
+
             if (_modelList.Count < totalNum)
             {
                 SpawnItem(_modelList.Count, ItemPrefabPath);
@@ -107,12 +114,12 @@ namespace Sim_FrameWork
         private int GetTotalItemNum()
         {
             var scrollRect = UIUtility.SafeGetComponent<RectTransform>(transform).rect;
+
             var width = scrollRect.width;
-            Debug.Log(width);
-            int horizontalCount = Mathf.CeilToInt(width / (_itemWidth + sepConfig.HorizontalSep) + 1);
+            int horizontalCount = Mathf.CeilToInt(width / (_itemWidth + sepConfig.HorizontalSep)) - 1;
+
             var height = scrollRect.height;
-            Debug.Log(height);
-            int verticalCount = Mathf.CeilToInt(height / (_itemHeight + sepConfig.VerticalSep) + 1);
+            int verticalCount = Mathf.CeilToInt(height / (_itemHeight + sepConfig.VerticalSep)) + 1;
             return horizontalCount * verticalCount;
         }
 
@@ -120,14 +127,14 @@ namespace Sim_FrameWork
         {
             var scrollRect = UIUtility.SafeGetComponent<RectTransform>(transform).rect;
             var width = scrollRect.width;
-            return Mathf.CeilToInt(width / (_itemWidth + sepConfig.HorizontalSep) + 1);
+            return Mathf.CeilToInt(width / (_itemWidth + sepConfig.HorizontalSep)) - 1;
         }
 
         private int GetVerticalItemNum()
         {
             var scrollRect = UIUtility.SafeGetComponent<RectTransform>(transform).rect;
             var height = scrollRect.height;
-            return Mathf.CeilToInt(height / (_itemHeight + sepConfig.VerticalSep) + 1);
+            return Mathf.CeilToInt(height / (_itemHeight + sepConfig.VerticalSep)) + 1;
         }
 
         private List<BaseDataModel> GetData(int id)

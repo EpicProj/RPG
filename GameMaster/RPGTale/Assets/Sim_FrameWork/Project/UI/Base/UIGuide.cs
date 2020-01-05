@@ -6,6 +6,8 @@ namespace Sim_FrameWork
 {
     public class UIGuide : Singleton<UIGuide>
     {
+
+        #region General
         /// <summary>
         /// Show Main Page
         /// </summary>
@@ -35,7 +37,13 @@ namespace Sim_FrameWork
             UIManager.Instance.PopUpWnd(UIPath.WindowPath.General_Hint_Dialog, WindowType.SPContent, true, item);
         }
 
+        public void ShowMaterialDetailInfo(MaterialDataModel model)
+        {
+            UIManager.Instance.Register<UI.MaterialInfoUIContext>(UIPath.WindowPath.Material_Info_UI);
+            UIManager.Instance.PopUpWnd(UIPath.WindowPath.Material_Info_UI, WindowType.SPContent, true, model);
+        }
 
+        #endregion
 
         /// <summary>
         /// Tech Page
@@ -122,10 +130,10 @@ namespace Sim_FrameWork
             UIManager.Instance.PopUpWnd(UIPath.WindowPath.Assemble_Ship_Design_Page, WindowType.Page,true, info);
         }
 
-        public void ShowAssemblePartChooseDialog()
+        public void ShowAssemblePartChooseDialog(List<string> sortList)
         {
             UIManager.Instance.Register<UI.AssemblePartChooseDialogContext>(UIPath.WindowPath.Assemble_Part_Choose_Dialog);
-            UIManager.Instance.PopUpWnd(UIPath.WindowPath.Assemble_Part_Choose_Dialog, WindowType.Dialog);
+            UIManager.Instance.PopUpWnd(UIPath.WindowPath.Assemble_Part_Choose_Dialog, WindowType.Dialog,true, sortList);
         }
 
     }

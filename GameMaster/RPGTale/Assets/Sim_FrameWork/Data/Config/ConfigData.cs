@@ -127,8 +127,10 @@ namespace Sim_FrameWork.Config
         /// <summary>
         /// 部件设计
         /// </summary>
-        public static readonly ushort AssemblePart_Max_PropertyNum = 5;
-        public static readonly ushort AssemblePart_Max_CustomNum = 4;
+        public static readonly ushort AssemblePart_Max_PropertyNum = 4;
+        public static readonly ushort AssemblePart_Target_MaxNum = 4;
+        public static readonly ushort AssemblePart_MaterialCost_MaxNum = 4;
+
 
     }
 
@@ -272,6 +274,12 @@ namespace Sim_FrameWork.Config
                 {
                     Debug.LogError("Find Same partsPropertyName , name=" + partsPropertyConfig[i].configName);
                 }
+
+                if (partsPropertyConfig[i].configData.Count > GlobalConfigData.AssemblePart_Max_PropertyNum)
+                {
+                    Debug.LogError("AssemblePart_Max_PropertyNum is 4!   configName=" + partsPropertyConfig[i].configName);
+                }
+
             }
             List<string> partsCustomNameList = new List<string>();
             for (int i = 0; i < partsCustomConfig.Count; i++)
@@ -285,6 +293,8 @@ namespace Sim_FrameWork.Config
                     Debug.LogError("Find Same partsCustomName , name=" + partsCustomConfig[i].customName);
                 }
             }
+
+
 
             return data;
         }
@@ -325,6 +335,7 @@ namespace Sim_FrameWork.Config
     public class GlobalSetting
     {
         public List<RarityConfig> rarityConfig;
+        public List<AssembleMainType> assembleMainType;
 
         /// <summary>
         /// Default Area Explore
@@ -344,6 +355,7 @@ namespace Sim_FrameWork.Config
             JsonReader config = new JsonReader();
             GlobalSetting settting = config.LoadJsonDataConfig<GlobalSetting>(JsonConfigPath.GlobalSettingJsonPath);
             rarityConfig = settting.rarityConfig;
+            assembleMainType = settting.assembleMainType;
             exploreArea_Space = settting.exploreArea_Space;
             exploreArea_Earth = settting.exploreArea_Earth;
             Resource_Research_Icon_Path = settting.Resource_Research_Icon_Path;
@@ -351,6 +363,22 @@ namespace Sim_FrameWork.Config
             Resource_Energy_Icon_Path = settting.Resource_Energy_Icon_Path;
             Resource_Builder_Icon_Path = settting.Resource_Builder_Icon_Path;
             Resource_Rocore_Icon_Path = settting.Resource_Rocore_Icon_Path;
+
+            ///DataCheck
+
+            List<string> assembleTypeList = new List<string>();
+            for(int i = 0; i < assembleMainType.Count; i++)
+            {
+                if (!assembleTypeList.Contains(assembleMainType[i].Type))
+                {
+                    assembleTypeList.Add(assembleMainType[i].Type);
+                }
+                else
+                {
+                    Debug.LogError("GlobalConfig: Find Same AssembleMainType  Type=" + assembleMainType[i].Type);
+                }
+            }
+
             return settting;
         }
 
@@ -358,6 +386,13 @@ namespace Sim_FrameWork.Config
         {
             public ushort Level;
             public string Color;
+        }
+
+        public class AssembleMainType
+        {
+            public string Type;
+            public string TypeNameText;
+            public string IconPath;
         }
     }
 

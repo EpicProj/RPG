@@ -34,8 +34,9 @@
 		"customName":"CustomConfig_Part_1",
 		"configData":[{
 			"CustomDataName":"AssembleParts_1_CustomDataName_01",
+			"PosType":"Left",
 			"PosX":-47.8,
-			"PoxY":-26.3,
+			"PosY":-26.3,
 			"LineWidth":230,
 			"CustomDataRangeMin":0.6,
 			"CustomDataRangeMax":5.3,
@@ -53,10 +54,25 @@
 			}],
 			"materialCostLinkData":[{
 
-
+			}]
+		},{
+			"CustomDataName":"AssembleParts_1_CustomDataName_02",
+			"PosType":"Right",
+			"PosX":51,
+			"PosY":-122,
+			"LineWidth":230,
+			"CustomDataRangeMin":3.0,
+			"CustomDataRangeMax":4.0,
+			"CustomDataDefaultValue":3.5,
+			"propertyLinkData":[{
+				"Name":"Speed",
+				"LinkDesc":"",
+				"PropertyChangePerUnitMin":0.5,
+				"PropertyChangePerUnitMax":0.9
+			}],
+			"materialCostLinkData":[{
 
 			}]
-
 		}]
 
 

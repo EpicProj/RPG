@@ -287,11 +287,21 @@ namespace Sim_FrameWork
 
         #region Assemble Design
 
-        private Dictionary<int, AssemblePartInfo> _assemblePartDesignDataDic=new Dictionary<int, AssemblePartInfo> ();
-        public Dictionary<int,AssemblePartInfo> AssemblePartDesignDataDic
+        private Dictionary<ushort, AssemblePartInfo> _assemblePartDesignDataDic=new Dictionary<ushort, AssemblePartInfo> ();
+        public Dictionary<ushort,AssemblePartInfo> AssemblePartDesignDataDic
         {
             get { return _assemblePartDesignDataDic; }
         }
+
+        public AssemblePartInfo GetAssemblePartInfo(ushort uid)
+        {
+            AssemblePartInfo info = null;
+            _assemblePartDesignDataDic.TryGetValue(uid, out info);
+            if (info == null)
+                Debug.LogError("Get Assemble PartInfo Empty, UID=" + uid);
+            return info;
+        }
+
 
         /// <summary>
         /// 根据类型获取全部件
@@ -311,16 +321,43 @@ namespace Sim_FrameWork
             return result;
         }
 
+        public List<AssemblePartInfo> GetAssemblePartInfoByTypeList(List<string> typeList)
+        {
+            List<AssemblePartInfo> result = new List<AssemblePartInfo>();
+            for(int i = 0; i < typeList.Count; i++)
+            {
+                result.AddRange(GetAssemblePartInfoByTypeID(typeList[i]));
+            }
+            return result;
+        }
+
+        public List<List<BaseDataModel>> GetAssemblePartChooseModel(List<string> typelist)
+        {
+            List<List<BaseDataModel>> result = new List<List<BaseDataModel>>();
+
+            var list = GetAssemblePartInfoByTypeList(typelist);
+            for(int i = 0; i < list.Count; i++)
+            {
+                AssembleChooseItemModel model = new AssembleChooseItemModel();
+                if (model.Create(list[i].UID))
+                {
+                    result.Add(new List<BaseDataModel>() { model });
+                }
+            }
+            return result;
+        }
+
 
         public void AddAssemblePartDesign(AssemblePartInfo info)
         {
-            int guid = getUnUsedInstanceID();
+            ushort guid = getUnUsedInstanceID();
+            info.UID = guid;
             _assemblePartDesignDataDic.Add(guid, info);
         }
 
-        private int getUnUsedInstanceID()
+        private ushort getUnUsedInstanceID()
         {
-            int instanceId = UnityEngine.Random.Range(ushort.MinValue, ushort.MaxValue);
+            ushort instanceId = (ushort)UnityEngine.Random.Range(ushort.MinValue, ushort.MaxValue);
             if (_assemblePartDesignDataDic.ContainsKey(instanceId))
             {
                 return getUnUsedInstanceID();

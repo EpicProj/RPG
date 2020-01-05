@@ -106,7 +106,7 @@ namespace Sim_FrameWork
             SelectEffectTrans.gameObject.SetActive(true);
             if(type== RequireType.Material)
             {
-                UIManager.Instance.PopUpWnd(UIPath.WindowPath.Material_Info_UI, WindowType.SPContent,true,(MaterialDataModel)_model);
+                UIGuide.Instance.ShowMaterialDetailInfo((MaterialDataModel)_model);
             }
 
         }

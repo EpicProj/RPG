@@ -5,6 +5,7 @@
 		<list name = "AssembleWarship" sheetname="AssembleWarship" mainKey = "WarShipID">
 			<variable  name="WarShipID" col = "WarShipID" type="int"/>
 			<variable  name="Type" col = "Type" type="ushort"/>
+			<variable  name="MainType" col = "MainType" type="string"/>
 			<variable  name="Class" col = "Class" type="int"/>
 			<variable  name="ShipScale" col = "ShipScale" type="ushort"/>
 			<variable  name="MaterialCost" col = "MaterialCost" type="string"/>
@@ -40,8 +41,11 @@
 		<list name = "AssembleParts" sheetname="AssembleParts" mainKey = "PartID">
 			<variable  name="PartID" col = "PartID" type="int"/>
 			<variable  name="ModelTypeID" col = "ModelTypeID" type="int"/>
+			<variable  name="PartIconSmall" col = "PartIconSmall" type="string"/>
+			<variable  name="PartSprite" col = "PartSprite" type="string"/>
 			<variable  name="BaseMaterialCost" col = "BaseMaterialCost" type="string"/>
 			<variable  name="BaseTimeCost" col = "BaseTimeCost" type="ushort"/>
+			<variable  name="AssembleType" col = "AssembleType" type="string"/>
 			<variable  name="CustomData" col = "CustomData" type="string"/>
 		</list>
 	</variable>
