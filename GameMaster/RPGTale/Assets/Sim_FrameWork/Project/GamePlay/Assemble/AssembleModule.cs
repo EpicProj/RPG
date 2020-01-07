@@ -72,6 +72,13 @@ namespace Sim_FrameWork
         }
 
 
+        public static Config.AssemblePartMainType GetAssemblePartMainType(string type)
+        {
+            var configData = Config.ConfigData.AssembleConfig.assemblePartMainType;
+            return configData.Find(x => x.Type == type);
+        }
+
+
         public static PartsCustomConfig GetPartsCustomConfigData(int partID)
         {
             PartsCustomConfig config = null;
@@ -86,46 +93,39 @@ namespace Sim_FrameWork
             return config;
         }
 
-        public static PartsPropertyConfig GetPartsPropertyConfigData(int partID)
+        /// <summary>
+        /// 获取部件属性配置信息
+        /// </summary>
+        /// <param name="partID"></param>
+        /// <returns></returns>
+        public static PartsPropertyConfig GetPartsPropertyConfigData(int typeModelID)
         {
             PartsPropertyConfig config = null;
-            var meta = GetAssemblePartDataByKey(partID);
-            if (meta != null)
+            var typeMeta = GetAssemblePartTypeByKey(typeModelID);
+            if (typeMeta != null)
             {
-                var typeMeta = GetAssemblePartTypeByKey(meta.ModelTypeID);
-                if (typeMeta != null)
-                {
-                    config = Config.ConfigData.AssemblePartsConfigData.partsPropertyConfig.Find(x => x.configName == typeMeta.PropertyConfig);
-                }
+                config = Config.ConfigData.AssemblePartsConfigData.partsPropertyConfig.Find(x => x.configName == typeMeta.PropertyConfig);
             }
             if (config == null)
-                Debug.LogError("GetPartsPropertyConfigData Error!  partID=" + partID);
+                Debug.LogError("GetPartsPropertyConfigData Error!  typeModelID=" + typeModelID);
             return config;
         }
 
-        public static string GetPartName(int partID)
+        public static string GetPartName(int modelTypeName)
         {
-            var partMeta = GetAssemblePartDataByKey(partID);
-            if (partMeta != null)
+            var typeMeta = GetAssemblePartTypeByKey(modelTypeName);
+            if (typeMeta != null)
             {
-                var typeMeta = GetAssemblePartTypeByKey(partMeta.ModelTypeID);
-                if (typeMeta != null)
-                {
-                    return MultiLanguage.Instance.GetTextValue(typeMeta.ModelTypeName);
-                }
+                return MultiLanguage.Instance.GetTextValue(typeMeta.ModelTypeName);
             }
             return string.Empty;
         }
-        public static string GetPartDesc(int partID)
+        public static string GetPartDesc(int modelTypeID)
         {
-            var partMeta = GetAssemblePartDataByKey(partID);
-            if (partMeta != null)
+            var typeMeta = GetAssemblePartTypeByKey(modelTypeID);
+            if (typeMeta != null)
             {
-                var typeMeta = GetAssemblePartTypeByKey(partMeta.ModelTypeID);
-                if (typeMeta != null)
-                {
-                    return MultiLanguage.Instance.GetTextValue(typeMeta.ModelTypeDesc);
-                }
+                return MultiLanguage.Instance.GetTextValue(typeMeta.ModelTypeDesc);
             }
             return string.Empty;
         }
@@ -135,7 +135,9 @@ namespace Sim_FrameWork
             var meta = GetAssemblePartTypeByKey(ModelTypeID);
             if (meta != null)
             {
-                return Utility.LoadSprite(meta.IconPath, Utility.SpriteType.png);
+                var typeData = GetAssembleMainTypeData(meta.TypeID);
+                if (typeData != null)
+                    return Utility.LoadSprite(typeData.IconPath, Utility.SpriteType.png);
             }
             return null;
         }
@@ -144,7 +146,9 @@ namespace Sim_FrameWork
             var meta = GetAssemblePartTypeByKey(ModelTypeID);
             if (meta != null)
             {
-                return MultiLanguage.Instance.GetTextValue(meta.TypeName);
+                var typeData = GetAssembleMainTypeData(meta.TypeID);
+                if (typeData != null)
+                    return MultiLanguage.Instance.GetTextValue(typeData.TypeNameText);
             }
             return string.Empty;
         }
@@ -174,6 +178,24 @@ namespace Sim_FrameWork
             }
             return result;
         }
+
+        /// <summary>
+        /// 获取所有初始解锁状态的部件模板ID
+        /// </summary>
+        /// <returns></returns>
+        public static List<int> GetAllUnlockPartTypeID()
+        {
+            List<int> result = new List<int>();
+            for(int i = 0; i < AssemblePartsTypeList.Count; i++)
+            {
+                if (AssemblePartsTypeList[i].Unlock == true)
+                {
+                    result.Add(AssemblePartsTypeList[i].ModelTypeID);
+                }
+            }
+            return result;
+        }
+
 
         public static List<MaterialCostItem> GetPartMaterialCost(int partID)
         {
@@ -271,9 +293,9 @@ namespace Sim_FrameWork
 
         #region Misc
 
-        public static Config.GlobalSetting.AssembleMainType GetAssembleMainTypeData(string type)
+        public static Config.AssembleMainType GetAssembleMainTypeData(string type)
         {
-            var config = Config.ConfigData.GlobalSetting.assembleMainType;
+            var config = Config.ConfigData.AssembleConfig.assembleMainType;
             return config.Find(x => x.Type == type);
         }
 
@@ -293,19 +315,11 @@ namespace Sim_FrameWork
         /// For Custom
         /// </summary>
         public ushort UID;
-
-        public string partName;
-        public string partDesc;
-        public Sprite partSprite;
-        public Sprite partIconSmall;
-        /// <summary>
-        /// Prefab Path
-        /// </summary>
-        public string ModelPath;
-
-        public string TypeID;
-        public Sprite TypeIcon;
-        public string TypeName;
+        public string customNameText;
+        public string customName
+        {
+            get { return typePresetData.partName + customNameText; }
+        }
 
         public List<MaterialCostItem> materialCostItem = new List<MaterialCostItem>();
         public List<string> partEquipType = new List<string>();
@@ -320,39 +334,66 @@ namespace Sim_FrameWork
         }
 
         public PartsCustomConfig partsConfig;
-        public PartsPropertyConfig partsPropertyConfig;
-
-        public AssemblePartCustomDataInfo customDataInfo;
 
         public AssembleParts _partsMeta;
-        public AssemblePartsType _partsTypeMeta;
+        public AssemblePartCustomDataInfo customDataInfo;
+        public AssemblePartTypePresetData typePresetData;
 
         public AssemblePartInfo(int partID)
         {
             this.partID = partID;
             _partsMeta = AssembleModule.GetAssemblePartDataByKey(partID);
-            _partsTypeMeta = AssembleModule.GetAssemblePartTypeByKey(_partsMeta.ModelTypeID);
-            if (_partsMeta != null && _partsTypeMeta!=null)
+           
+            if (_partsMeta != null)
             {
                 baseTimeCost = _partsMeta.BaseTimeCost;
-                partName = AssembleModule.GetPartName(partID);
-                partDesc = AssembleModule.GetPartDesc(partID);
-                ModelPath = _partsTypeMeta.ModelPath;
-                partSprite = Utility.LoadSprite(_partsMeta.PartSprite, Utility.SpriteType.png);
-                partIconSmall = Utility.LoadSprite(_partsMeta.PartIconSmall, Utility.SpriteType.png);
                 materialCostItem = AssembleModule.GetPartMaterialCost(partID);
-
-                TypeID = _partsTypeMeta.TypeID;
-                TypeIcon = AssembleModule.GetPartTypeIcon(_partsTypeMeta.ModelTypeID);
-                TypeName = AssembleModule.GetPartTypeName(_partsTypeMeta.ModelTypeID);
-
                 partsConfig = AssembleModule.GetPartsCustomConfigData(partID);
-                partsPropertyConfig = AssembleModule.GetPartsPropertyConfigData(partID);
-
                 partEquipType = AssembleModule.GetAssemblePartEquipType(partID);
+                typePresetData = new AssemblePartTypePresetData(_partsMeta.ModelTypeID);
             }
         }
 
+    }
+
+    public class AssemblePartTypePresetData
+    {
+        public string TypeID;
+        public Sprite TypeIcon;
+        public string TypeName;
+
+        public Sprite partSprite;
+        public Sprite partIconSmall;
+
+        public string partDesc;
+        public string partName;
+
+        /// <summary>
+        /// Prefab Path
+        /// </summary>
+        public string ModelPath;
+
+        public AssemblePartsType _partsTypeMeta;
+        public PartsPropertyConfig partsPropertyConfig;
+      
+
+        public AssemblePartTypePresetData(int typeModelID)
+        {
+            _partsTypeMeta = AssembleModule.GetAssemblePartTypeByKey(typeModelID);
+
+            if (_partsTypeMeta != null)
+            {
+                ModelPath = _partsTypeMeta.ModelPath;
+                TypeID = _partsTypeMeta.TypeID;
+                partDesc = AssembleModule.GetPartDesc(_partsTypeMeta.ModelTypeID);
+                partName = AssembleModule.GetPartName(_partsTypeMeta.ModelTypeID);
+                TypeIcon = AssembleModule.GetPartTypeIcon(_partsTypeMeta.ModelTypeID);
+                TypeName = AssembleModule.GetPartTypeName(_partsTypeMeta.ModelTypeID);
+                partSprite = Utility.LoadSprite(_partsTypeMeta.PartSprite, Utility.SpriteType.png);
+                partIconSmall = Utility.LoadSprite(_partsTypeMeta.PartIconSmall, Utility.SpriteType.png);
+            }
+            partsPropertyConfig = AssembleModule.GetPartsPropertyConfigData(typeModelID);
+        }
     }
 
     /// <summary>
@@ -461,7 +502,7 @@ namespace Sim_FrameWork
         public ushort UID;
         public string shipName;
 
-        public Config.GlobalSetting.AssembleMainType mainTypeData;
+        public Config.AssembleMainType mainTypeData;
 
         public string className;
         public string classDesc;

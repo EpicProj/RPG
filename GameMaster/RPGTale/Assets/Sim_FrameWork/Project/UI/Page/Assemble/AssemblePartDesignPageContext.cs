@@ -11,6 +11,10 @@ namespace Sim_FrameWork.UI
         private List<AssemblePartPropertyItem> _propertyItem;
         private List<AssemblePartCustomItem> _customItem;
 
+        bool showPartChoosePanel = true;
+        private string currentSelectTab = "";
+        
+
         #region Override Method
         public override void Awake(params object[] paralist)
         {
@@ -25,7 +29,16 @@ namespace Sim_FrameWork.UI
         {
             _info = (AssemblePartInfo)paralist[0];
             AudioManager.Instance.PlaySound(AudioClipPath.UISound.Page_Open);
-            SetUpContent();
+
+            if (showPartChoosePanel)
+            {
+                SetUpPartChooseContent();
+            }
+            else
+            {
+                SetUpContent();
+            }
+
         }
 
         public override bool OnMessage(UIMessage msg)
@@ -35,6 +48,11 @@ namespace Sim_FrameWork.UI
                 PartsCustomConfig.ConfigData configData = (PartsCustomConfig.ConfigData)msg.content[0];
                 float currentValue = (float)msg.content[1];
                 return CalculateFinialProperty(configData,currentValue);
+            }
+            else if(msg.type== UIMsgType.Assemble_PartTab_Select)
+            {
+                string typeName = (string)msg.content[0];
+                return RefreshChooseContent(typeName);
             }
             return true;
         }
@@ -58,19 +76,23 @@ namespace Sim_FrameWork.UI
             });
         }
 
+        #region Content
         void SetUpContent()
         {
             if (_info == null)
                 return;
-            partTypeImage.sprite = _info.TypeIcon;
-            partTypeName.text = _info.TypeName;
-            partModelType.text = _info.partName;
 
-            partDescText.text = _info.partDesc;
+            UIUtility.ActiveCanvasGroup(contentCanvasGroup, true);
+
+            partTypeImage.sprite = _info.typePresetData.TypeIcon;
+            partTypeName.text = _info.typePresetData.TypeName;
+            partModelType.text = _info.typePresetData.partName;
+
+            partDescText.text = _info.typePresetData.partDesc;
             if (partDescTypeEffect != null)
                 partDescTypeEffect.StartEffect();
 
-            MapManager.Instance.InitAssembleModel(_info.ModelPath);
+            MapManager.Instance.InitAssembleModel(_info.typePresetData.ModelPath);
 
             InitPartPropertyContent();
             InitPartCustomContent();
@@ -99,7 +121,7 @@ namespace Sim_FrameWork.UI
                 UIUtility.SafeSetActive(trans, false);
             }
 
-            for(int i = 0; i < _info.partsPropertyConfig.configData.Count; i++)
+            for(int i = 0; i < _info.typePresetData.partsPropertyConfig.configData.Count; i++)
             {
                 if (i > Config.GlobalConfigData.AssemblePart_Max_PropertyNum)
                     return;
@@ -108,7 +130,7 @@ namespace Sim_FrameWork.UI
                 var itemCmpt = UIUtility.SafeGetComponent<AssemblePartPropertyItem>(trans);
                 if (itemCmpt != null)
                 {
-                    itemCmpt.SetUpItem(_info.partsPropertyConfig.configData[i]);
+                    itemCmpt.SetUpItem(_info.typePresetData.partsPropertyConfig.configData[i]);
                     _propertyItem.Add(itemCmpt);
                 }
             }
@@ -302,6 +324,58 @@ namespace Sim_FrameWork.UI
             }
 
         }
+        #endregion
+
+        #region Part Choose Content
+
+        void SetUpPartChooseContent()
+        {
+            UIUtility.ActiveCanvasGroup(partChooseCanvasGroup, true);
+            RefreshPartChooseTab();
+            InitDefaultTabSelect();
+        }
+
+        void RefreshPartChooseTab()
+        {
+            foreach(Transform trans in tabChooseTrans)
+            {
+                ObjectManager.Instance.ReleaseObject(trans.gameObject,0);
+            }
+
+            var unlockList = PlayerManager.Instance.GetTotalUnlockAssembleTypeData();
+            for(int i = 0; i < unlockList.Count; i++)
+            {
+                var obj = ObjectManager.Instance.InstantiateObject(UIPath.PrefabPath.Assemble_Part_ChooseTab);
+                if (obj != null)
+                {
+                    var cmpt = UIUtility.SafeGetComponent<AssemblePartChooseTab>(obj.transform);
+                    cmpt.SetUpTab(unlockList[i]);
+                    obj.name = "PartTab_" + i;
+                    obj.transform.SetParent(tabChooseTrans, false);
+                }
+            }
+        }
+
+        void InitDefaultTabSelect()
+        {
+            string typeID = Config.ConfigData.AssembleConfig.assemblePartPage_DefaultSelectTab;
+            if (AssembleModule.GetAssemblePartMainType(typeID) != null)
+            {
+                RefreshChooseContent(typeID);
+            }
+        }
+
+        bool RefreshChooseContent(string chooseType)
+        {
+            var partModelList = PlayerManager.Instance.GetAssemblePartPresetModelList(chooseType);
+            currentSelectTab = chooseType;
+            chooseLoopList.InitData(partModelList);
+            if (partChooseAnim != null)
+                partChooseAnim.Play();
+            return true;
+        }
+
+        #endregion
 
     }
 
@@ -309,6 +383,7 @@ namespace Sim_FrameWork.UI
     {
         private AssemblePartDesignPage m_page;
 
+        private CanvasGroup contentCanvasGroup;
         private Image partTypeImage;
         private Text partTypeName;
         private Text partModelType;
@@ -326,11 +401,17 @@ namespace Sim_FrameWork.UI
 
         private Button SaveDesignBtn;
 
+        private CanvasGroup partChooseCanvasGroup;
+        private Transform tabChooseTrans;
+        private LoopList chooseLoopList;
+        private Animation partChooseAnim;
+
         private const string Assemble_Design_Save_Success_Hint = "Assemble_Design_Save_Success_Hint";
 
         protected override void InitUIRefrence()
         {
             m_page = UIUtility.SafeGetComponent<AssemblePartDesignPage>(Transform);
+            contentCanvasGroup = UIUtility.SafeGetComponent<CanvasGroup>(UIUtility.FindTransfrom(Transform, "Content"));
             partTypeImage = UIUtility.SafeGetComponent<Image>(UIUtility.FindTransfrom(m_page.leftPanel, "PartInfo/Content/Type/Icon"));
             partTypeName = UIUtility.SafeGetComponent<Text>(UIUtility.FindTransfrom(m_page.leftPanel, "PartInfo/Content/Type/Name"));
             partModelType= UIUtility.SafeGetComponent<Text>(UIUtility.FindTransfrom(m_page.leftPanel, "PartInfo/Content/ModelType/Name"));
@@ -345,6 +426,10 @@ namespace Sim_FrameWork.UI
             materialCostTrans = UIUtility.FindTransfrom(m_page.leftPanel, "Cost/Content");
 
             SaveDesignBtn = UIUtility.SafeGetComponent<Button>(UIUtility.FindTransfrom(m_page.rightPanel, "Btn"));
+            partChooseCanvasGroup= UIUtility.SafeGetComponent<CanvasGroup>(UIUtility.FindTransfrom(Transform, "PartChooseContent"));
+            tabChooseTrans = UIUtility.FindTransfrom(Transform, "PartChooseContent/ChooseTab");
+            chooseLoopList = UIUtility.SafeGetComponent<LoopList>(UIUtility.FindTransfrom(Transform, "PartChooseContent/ChooseContent/Scroll View"));
+            partChooseAnim = UIUtility.SafeGetComponent<Animation>(UIUtility.FindTransfrom(Transform, "PartChooseContent"));
         }
 
 

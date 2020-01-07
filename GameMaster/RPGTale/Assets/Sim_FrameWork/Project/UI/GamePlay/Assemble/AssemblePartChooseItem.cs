@@ -43,10 +43,10 @@ namespace Sim_FrameWork
             _clickBtn.onClick.RemoveAllListeners();
             _detailBtn.onClick.RemoveAllListeners();
 
-            _icon.sprite = _model.Info.partSprite;
-            _typeIcon.sprite = _model.Info.TypeIcon;
-            _typeText.text = _model.Info.TypeName;
-            _name.text = _model.Info.partName;
+            _icon.sprite = _model.Info.typePresetData.partSprite;
+            _typeIcon.sprite = _model.Info.typePresetData.TypeIcon;
+            _typeText.text = _model.Info.typePresetData.TypeName;
+            _name.text = _model.Info.typePresetData.partName;
 
             foreach(Transform trans in _propertyContentTrans)
             {

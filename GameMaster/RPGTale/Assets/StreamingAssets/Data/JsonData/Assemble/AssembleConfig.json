@@ -1,0 +1,22 @@
+{
+	"assemblePartPage_DefaultSelectTab":"Engine",
+	
+	"assembleMainType":[{
+		"Type":"WarShip",
+		"TypeNameText":"AssembleMainType_WarShip",
+		"IconPath":"SpriteOutput/Assemble/Target/Assemble_Target_WarShip"
+	}],
+
+	"assemblePartMainType":[{
+		"Type":"Engine",
+		"TypeName":"AssembleParts_Name_Engine",
+		"IconPath":"SpriteOutput/Assemble/Type/Assemble_Part_Type_Engine",
+		"DefaultUnlock":true
+	},{
+		"Type":"Shield",
+		"TypeName":"AssembleParts_Name_Shield",
+		"IconPath":"SpriteOutput/Assemble/Type/Assemble_Part_Type_Engine",
+		"DefaultUnlock":true
+	}]
+
+}

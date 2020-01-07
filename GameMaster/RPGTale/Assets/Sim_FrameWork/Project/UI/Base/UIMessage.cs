@@ -71,6 +71,7 @@ namespace Sim_FrameWork
 
         ///Assemble
         Assemble_Part_PropertyChange,
+        Assemble_PartTab_Select,
 
     }
 }

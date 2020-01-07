@@ -68,6 +68,13 @@ namespace Sim_FrameWork
         {
             _modelList = modelData;
             int num = GetItemNum(_itemHeight, _itemWidth, offSet);
+
+            foreach(Transform trans in _content.transform)
+            {
+                ObjectManager.Instance.ReleaseObject(trans.gameObject, 0);
+                _elementList.Clear();
+            }
+
             if (_content.childCount == num)
                 return;
             if (_modelList.Count < num )
@@ -113,8 +120,7 @@ namespace Sim_FrameWork
                     var obj = _content.GetChild(_content.childCount - i - 1);
                     var elementcpt = UIUtility.SafeGetComponent<BaseElement>(obj.transform);
                     _elementList.Remove(elementcpt);
-                    GameObject.Destroy(_content.GetChild(_content.childCount - i - 1).gameObject);
-                    //ObjectManager.Instance.ReleaseObject(_content.GetChild(_content.childCount - i - 1).gameObject);
+                    ObjectManager.Instance.ReleaseObject(_content.GetChild(_content.childCount - i - 1).gameObject,0);
                 }
                 RefreshItem();
             }

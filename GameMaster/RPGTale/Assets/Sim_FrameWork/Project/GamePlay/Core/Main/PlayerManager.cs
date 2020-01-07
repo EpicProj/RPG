@@ -28,15 +28,18 @@ namespace Sim_FrameWork
             base.Awake();
             playerData = PlayerModule.Instance.InitPlayerData();
             _storageData = new MaterialStorageData();
+            InitAssemblePartTypeUnlockState();
+            InitUnlockAssemblePartList();
+
             //For Test
             AddMaterialData(100, 10);
             AddMaterialData(101, 500);
+           
         }
 
         private void Start()
         {
-            GameManager.Instance.InitBaseData();
-            UIManager.Instance.PopUpWnd(UIPath.WindowPath.MainMenu_Page, WindowType.Page, true, playerData);
+            UIGuide.Instance.ShowGameMainPage(false);
         }
 
         private void Update()
@@ -287,6 +290,146 @@ namespace Sim_FrameWork
 
         #region Assemble Part Design
 
+        /// <summary>
+        /// 部件种类解锁情况
+        /// </summary>
+        public Dictionary<string, Config.AssemblePartMainType> AssemblePartMainTypeDic = new Dictionary<string, Config.AssemblePartMainType>();
+
+        private void InitAssemblePartTypeUnlockState()
+        {
+            var configData = Config.ConfigData.AssembleConfig.assemblePartMainType;
+            for(int i = 0; i < configData.Count; i++)
+            {
+                if (!AssemblePartMainTypeDic.ContainsKey(configData[i].Type))
+                {
+                    AssemblePartMainTypeDic.Add(configData[i].Type, configData[i]);
+                }
+            }
+        }
+
+        public Config.AssemblePartMainType GetAssemblePartMainTypeData(string type)
+        {
+            Config.AssemblePartMainType typeData = null;
+            AssemblePartMainTypeDic.TryGetValue(type, out typeData);
+            return typeData;
+        }
+
+        public void AssemblePartTypeSetUnlock(string type, bool unlock)
+        {
+            var data = GetAssemblePartMainTypeData(type);
+            if (data != null)
+            {
+                data.DefaultUnlock = unlock;
+            }
+        }
+
+        /// <summary>
+        /// 获取所有解锁的部件类型
+        /// </summary>
+        /// <returns></returns>
+        public List<Config.AssemblePartMainType> GetTotalUnlockAssembleTypeData()
+        {
+            List<Config.AssemblePartMainType> result = new List<Config.AssemblePartMainType>();
+            foreach (var data in AssemblePartMainTypeDic)
+            {
+                if (data.Value.DefaultUnlock == true)
+                    result.Add(data.Value);
+            }
+            return result;
+        }
+
+        /// <summary>
+        /// 已解锁部件模板信息
+        /// </summary>
+        private List<int> _currentUnlockPartList = new List<int>();
+        public List<int> CurrentUnlockPartList
+        {
+            get { return _currentUnlockPartList; }
+        }
+
+        private void InitUnlockAssemblePartList()
+        {
+            _currentUnlockPartList = AssembleModule.GetAllUnlockPartTypeID();
+        }
+
+        /// <summary>
+        /// GetModelList
+        /// </summary>
+        /// <param name="typeIDList"></param>
+        /// <returns></returns>
+        public List<List<BaseDataModel>> GetAssemblePartPresetModelList(List<string> typeIDList)
+        {
+            List<List<BaseDataModel>> result = new List<List<BaseDataModel>>();
+
+            var list = GetUnlockAssemblePartTypeListByTypeIDList(typeIDList);
+            for (int i = 0; i < list.Count; i++)
+            {
+                AssembleTypePresetModel model = new AssembleTypePresetModel();
+                if (model.Create(list[i]))
+                {
+                    result.Add(new List<BaseDataModel>() { model });
+                }
+            }
+            return result;
+        }
+        public List<List<BaseDataModel>> GetAssemblePartPresetModelList(string typeID)
+        {
+            List<List<BaseDataModel>> result = new List<List<BaseDataModel>>();
+
+            var list = GetUnlockAssemblePartTypeListByTypeID(typeID);
+            for (int i = 0; i < list.Count; i++)
+            {
+                AssembleTypePresetModel model = new AssembleTypePresetModel();
+                if (model.Create(list[i]))
+                {
+                    result.Add(new List<BaseDataModel>() { model });
+                }
+            }
+            return result;
+        }
+
+        public void AddUnlockAssemblePartTypeID(int partModelTypeID)
+        {
+            if(! _currentUnlockPartList.Contains(partModelTypeID))
+            {
+                if (AssembleModule.GetAssemblePartTypeByKey(partModelTypeID) != null)
+                    _currentUnlockPartList.Add(partModelTypeID);
+
+            }
+        }
+
+        public bool CheckAssemblePartTypeIDUnlock(int partModelTypeID)
+        {
+            return _currentUnlockPartList.Contains(partModelTypeID);
+        }
+
+        public List<int> GetUnlockAssemblePartTypeListByTypeID(string typeID)
+        {
+            List<int> result = new List<int>();
+            for(int i = 0; i < _currentUnlockPartList.Count; i++)
+            {
+                var typemeta = AssembleModule.GetAssemblePartTypeByKey(_currentUnlockPartList[i]);
+                if (typemeta.TypeID == typeID)
+                    result.Add(_currentUnlockPartList[i]);
+            }
+            return result;
+        }
+        public List<int> GetUnlockAssemblePartTypeListByTypeIDList(List<string> typeIDList)
+        {
+            List<int> result = new List<int>();
+            for(int i = 0; i < typeIDList.Count; i++)
+            {
+                for(int j = 0; j < _currentUnlockPartList.Count; j++)
+                {
+                    var typemeta = AssembleModule.GetAssemblePartTypeByKey(_currentUnlockPartList[j]);
+                    if (typemeta.TypeID == typeIDList[i])
+                        result.Add(_currentUnlockPartList[j]);
+                }
+            }
+            return result;
+        }
+
+
         private Dictionary<ushort, AssemblePartInfo> _assemblePartDesignDataDic=new Dictionary<ushort, AssemblePartInfo> ();
         public Dictionary<ushort,AssemblePartInfo> AssemblePartDesignDataDic
         {
@@ -304,7 +447,7 @@ namespace Sim_FrameWork
 
 
         /// <summary>
-        /// 根据类型获取全部件
+        /// 根据类型获取全部件[已设计部件]
         /// </summary>
         /// <param name="typeID"></param>
         /// <returns></returns>
@@ -313,7 +456,7 @@ namespace Sim_FrameWork
             List<AssemblePartInfo> result = new List<AssemblePartInfo>();
             foreach(var info in _assemblePartDesignDataDic)
             {
-                if (info.Value.TypeID == typeID)
+                if (info.Value.typePresetData.TypeID == typeID)
                 {
                     result.Add(info.Value);
                 }

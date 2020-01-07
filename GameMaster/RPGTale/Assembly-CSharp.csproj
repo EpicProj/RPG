@@ -129,6 +129,7 @@
     <Compile Include="Assets\Sim_FrameWork\Project\Basic\Utility.cs" />
     <Compile Include="Assets\Sim_FrameWork\Project\GamePlay\Achievement\AchievementModule.cs" />
     <Compile Include="Assets\Sim_FrameWork\Project\GamePlay\Assemble\AssembleChooseItemModel.cs" />
+    <Compile Include="Assets\Sim_FrameWork\Project\GamePlay\Assemble\AssembleConfig.cs" />
     <Compile Include="Assets\Sim_FrameWork\Project\GamePlay\Assemble\AssembleModule.cs" />
     <Compile Include="Assets\Sim_FrameWork\Project\GamePlay\Assemble\AssemblePartCustomItem.cs" />
     <Compile Include="Assets\Sim_FrameWork\Project\GamePlay\Assemble\AssemblePartPropertyItem.cs" />
@@ -224,7 +225,9 @@
     <Compile Include="Assets\Sim_FrameWork\Project\UI\Dialog\Technology\TechnologyDetailDialog.cs" />
     <Compile Include="Assets\Sim_FrameWork\Project\UI\Dialog\Technology\TechnologyDetailDialogContext.cs" />
     <Compile Include="Assets\Sim_FrameWork\Project\UI\Effect\UIGradient.cs" />
+    <Compile Include="Assets\Sim_FrameWork\Project\UI\GamePlay\Assemble\AssemblePartCard.cs" />
     <Compile Include="Assets\Sim_FrameWork\Project\UI\GamePlay\Assemble\AssemblePartChooseItem.cs" />
+    <Compile Include="Assets\Sim_FrameWork\Project\UI\GamePlay\Assemble\AssemblePartChooseTab.cs" />
     <Compile Include="Assets\Sim_FrameWork\Project\UI\GamePlay\Explore\EventChooseBtn.cs" />
     <Compile Include="Assets\Sim_FrameWork\Project\UI\GamePlay\Explore\ExploreAreaMissionElement.cs" />
     <Compile Include="Assets\Sim_FrameWork\Project\UI\GamePlay\Explore\ExploreAreaSelectBtn.cs" />

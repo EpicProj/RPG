@@ -58,6 +58,20 @@ namespace Sim_FrameWork.Config
             }
         }
 
+        private static AssembleConfig _assembleConfig;
+        public static AssembleConfig AssembleConfig
+        {
+            get
+            {
+                if (_assembleConfig == null)
+                {
+                    _assembleConfig = new AssembleConfig();
+                    _assembleConfig.LoadAssembleConfigData();
+                }
+                return _assembleConfig;
+            }
+        }
+
         private static AssemblePartsConfigData _assemblePartsConfigData;
         public static AssemblePartsConfigData AssemblePartsConfigData
         {
@@ -93,6 +107,7 @@ namespace Sim_FrameWork.Config
             _rewardData.LoadRewardData();
             _exploreConfigData.LoadExploreConfigData();
             _eventConfigData.LoadEventConfigData();
+            _assembleConfig.LoadAssembleConfigData();
             _assemblePartsConfigData.LoadPartsCustomConfig();
             _assembleShipPartConfigData.LoadAssembleShipPartConfigData();
         }
@@ -248,94 +263,10 @@ namespace Sim_FrameWork.Config
         }
     }
 
-    /// <summary>
-    /// DIY部件配置
-    /// </summary>
-    public class AssemblePartsConfigData
-    {
-        public List<PartsPropertyConfig> partsPropertyConfig;
-        public List<PartsCustomConfig> partsCustomConfig;
-
-        public AssemblePartsConfigData LoadPartsCustomConfig()
-        {
-            JsonReader reader = new JsonReader();
-            var data = reader.LoadJsonDataConfig<AssemblePartsConfigData>(JsonConfigPath.AssemblePartsConfigDataJsonPath);
-            partsPropertyConfig = data.partsPropertyConfig;
-            partsCustomConfig = data.partsCustomConfig;
-
-            List<string> partsPropertyNameList = new List<string>();
-            for(int i = 0; i < partsPropertyConfig.Count; i++)
-            {
-                if (!partsPropertyNameList.Contains(partsPropertyConfig[i].configName))
-                {
-                    partsPropertyNameList.Add(partsPropertyConfig[i].configName);
-                }
-                else
-                {
-                    Debug.LogError("Find Same partsPropertyName , name=" + partsPropertyConfig[i].configName);
-                }
-
-                if (partsPropertyConfig[i].configData.Count > GlobalConfigData.AssemblePart_Max_PropertyNum)
-                {
-                    Debug.LogError("AssemblePart_Max_PropertyNum is 4!   configName=" + partsPropertyConfig[i].configName);
-                }
-
-            }
-            List<string> partsCustomNameList = new List<string>();
-            for (int i = 0; i < partsCustomConfig.Count; i++)
-            {
-                if (!partsCustomNameList.Contains(partsCustomConfig[i].customName))
-                {
-                    partsCustomNameList.Add(partsCustomConfig[i].customName);
-                }
-                else
-                {
-                    Debug.LogError("Find Same partsCustomName , name=" + partsCustomConfig[i].customName);
-                }
-            }
-
-
-
-            return data;
-        }
-    }
-
-    public class AssembleShipPartConfigData
-    {
-
-        public List<AssembleShipPartConfig> shipPartConfig;
-
-        public AssembleShipPartConfigData LoadAssembleShipPartConfigData()
-        {
-            JsonReader reader = new JsonReader();
-            var data = reader.LoadJsonDataConfig<AssembleShipPartConfigData>(Config.JsonConfigPath.AssembleShipPartConfigDataJsonPath);
-            shipPartConfig = data.shipPartConfig;
-
-            List<string> shipPartConfigList = new List<string>();
-            for(int i = 0; i < shipPartConfig.Count; i++)
-            {
-                if (!shipPartConfigList.Contains(shipPartConfig[i].configName))
-                {
-                    shipPartConfigList.Add(shipPartConfig[i].configName);
-                }
-                else
-                {
-                    Debug.LogError("Find Same shipPartConfig , name=" + shipPartConfig[i].configName);
-                }
-            }
-            return data;
-        }
-
-
-    }
-
-
-
 
     public class GlobalSetting
     {
         public List<RarityConfig> rarityConfig;
-        public List<AssembleMainType> assembleMainType;
 
         /// <summary>
         /// Default Area Explore
@@ -355,7 +286,7 @@ namespace Sim_FrameWork.Config
             JsonReader config = new JsonReader();
             GlobalSetting settting = config.LoadJsonDataConfig<GlobalSetting>(JsonConfigPath.GlobalSettingJsonPath);
             rarityConfig = settting.rarityConfig;
-            assembleMainType = settting.assembleMainType;
+       
             exploreArea_Space = settting.exploreArea_Space;
             exploreArea_Earth = settting.exploreArea_Earth;
             Resource_Research_Icon_Path = settting.Resource_Research_Icon_Path;
@@ -363,22 +294,6 @@ namespace Sim_FrameWork.Config
             Resource_Energy_Icon_Path = settting.Resource_Energy_Icon_Path;
             Resource_Builder_Icon_Path = settting.Resource_Builder_Icon_Path;
             Resource_Rocore_Icon_Path = settting.Resource_Rocore_Icon_Path;
-
-            ///DataCheck
-
-            List<string> assembleTypeList = new List<string>();
-            for(int i = 0; i < assembleMainType.Count; i++)
-            {
-                if (!assembleTypeList.Contains(assembleMainType[i].Type))
-                {
-                    assembleTypeList.Add(assembleMainType[i].Type);
-                }
-                else
-                {
-                    Debug.LogError("GlobalConfig: Find Same AssembleMainType  Type=" + assembleMainType[i].Type);
-                }
-            }
-
             return settting;
         }
 
@@ -388,12 +303,7 @@ namespace Sim_FrameWork.Config
             public string Color;
         }
 
-        public class AssembleMainType
-        {
-            public string Type;
-            public string TypeNameText;
-            public string IconPath;
-        }
+
     }
 
 }

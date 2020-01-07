@@ -187,10 +187,6 @@ public class AssembleParts
     [XmlAttribute]
     public int ModelTypeID { get; set; }
     [XmlAttribute]
-    public string PartIconSmall { get; set; }
-    [XmlAttribute]
-    public string PartSprite { get; set; }
-    [XmlAttribute]
     public string BaseMaterialCost { get; set; }
     [XmlAttribute]
     public ushort BaseTimeCost { get; set; }
@@ -205,6 +201,12 @@ public class AssemblePartsType
     [XmlAttribute]
     public int ModelTypeID { get; set; }
     [XmlAttribute]
+    public bool Unlock { get; set; }
+    [XmlAttribute]
+    public string PartIconSmall { get; set; }
+    [XmlAttribute]
+    public string PartSprite { get; set; }
+    [XmlAttribute]
     public string ModelTypeName { get; set; }
     [XmlAttribute]
     public string ModelTypeDesc { get; set; }
@@ -212,10 +214,6 @@ public class AssemblePartsType
     public string ModelPath { get; set; }
     [XmlAttribute]
     public string TypeID { get; set; }
-    [XmlAttribute]
-    public string TypeName { get; set; }
-    [XmlAttribute]
-    public string IconPath { get; set; }
     [XmlAttribute]
     public string PropertyConfig { get; set; }
 

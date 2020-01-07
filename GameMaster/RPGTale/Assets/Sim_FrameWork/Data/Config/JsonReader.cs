@@ -63,6 +63,7 @@ namespace Sim_FrameWork.Config
 
         public static string AssemblePartsConfigDataJsonPath= Application.streamingAssetsPath + "/Data/JsonData/Assemble/AssemblePartsConfigData.json";
         public static string AssembleShipPartConfigDataJsonPath= Application.streamingAssetsPath + "/Data/JsonData/Assemble/AssembleShipPartConfigData.json";
+        public static string AssembleConfigJsonPath= Application.streamingAssetsPath + "/Data/JsonData/Assemble/AssembleConfig.json";
 
 
     }
