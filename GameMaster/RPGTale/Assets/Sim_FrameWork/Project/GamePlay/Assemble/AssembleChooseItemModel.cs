@@ -42,7 +42,7 @@ namespace Sim_FrameWork
     {
         public bool Create(int id)
         {
-            if (AssembleModule.GetAssemblePartTypeByKey(id)==null)
+            if (AssembleModule.GetAssemblePartDataByKey(id)==null)
                 return false;
             ID = id;
             return true;
@@ -59,13 +59,24 @@ namespace Sim_FrameWork
             set { _id = value; }
         }
 
+        private AssembleParts _partsMeta;
+        public AssembleParts PartsMeta
+        {
+            get
+            {
+                if (_partsMeta == null)
+                    _partsMeta = AssembleModule.GetAssemblePartDataByKey(_id);
+                return _partsMeta;
+            }
+        }
+
         private AssemblePartTypePresetData _presetInfo;
         public AssemblePartTypePresetData PresetInfo
         {
             get
             {
                 if (_presetInfo == null)
-                    _presetInfo = new AssemblePartTypePresetData(_id);
+                    _presetInfo = new AssemblePartTypePresetData(PartsMeta.ModelTypeID);
                 return _presetInfo;
             }
             set { }

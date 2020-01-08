@@ -9,6 +9,7 @@ namespace Sim_FrameWork.Config
         public string assemblePartPage_DefaultSelectTab;
 
         public List<AssembleMainType> assembleMainType;
+        public List<AssembleShipMainType> assembleShipMainType;
         public List<AssemblePartMainType> assemblePartMainType;
 
         public AssembleConfig LoadAssembleConfigData()
@@ -17,6 +18,7 @@ namespace Sim_FrameWork.Config
             AssembleConfig settting = config.LoadJsonDataConfig<AssembleConfig>(JsonConfigPath.AssembleConfigJsonPath);
             assemblePartPage_DefaultSelectTab = settting.assemblePartPage_DefaultSelectTab;
             assembleMainType = settting.assembleMainType;
+            assembleShipMainType = settting.assembleShipMainType;
             assemblePartMainType = settting.assemblePartMainType;
 
             ///DataCheck
@@ -30,7 +32,20 @@ namespace Sim_FrameWork.Config
                 }
                 else
                 {
-                    Debug.LogError("GlobalConfig: Find Same AssembleMainType  Type=" + assembleMainType[i].Type);
+                    Debug.LogError("AssembleConfig: Find Same AssembleMainType  Type=" + assembleMainType[i].Type);
+                }
+            }
+
+            List<string> assembleShipTypeList = new List<string>();
+            for(int i = 0; i < assembleShipMainType.Count; i++)
+            {
+                if (!assembleShipTypeList.Contains(assembleShipMainType[i].Type))
+                {
+                    assembleShipTypeList.Add(assembleShipMainType[i].Type);
+                }
+                else
+                {
+                    Debug.LogError("AssembleConfig: Find Same assembleShipMainType  Type=" + assembleShipMainType[i].Type);
                 }
             }
 
@@ -43,7 +58,7 @@ namespace Sim_FrameWork.Config
                 }
                 else
                 {
-                    Debug.LogError("GlobalConfig: Find Same assemblePartMainType  Type=" + assemblePartMainType[i].Type);
+                    Debug.LogError("AssembleConfig: Find Same assemblePartMainType  Type=" + assemblePartMainType[i].Type);
                 }
             }
             return settting;
@@ -59,6 +74,14 @@ namespace Sim_FrameWork.Config
     }
 
     public class AssemblePartMainType
+    {
+        public string Type;
+        public string TypeName;
+        public string IconPath;
+        public bool DefaultUnlock;
+    }
+
+    public class AssembleShipMainType
     {
         public string Type;
         public string TypeName;

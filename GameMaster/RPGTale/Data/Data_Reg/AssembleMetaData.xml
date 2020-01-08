@@ -40,6 +40,7 @@
 	<variable  name="AllAssemblePartsList" type="list">
 		<list name = "AssembleParts" sheetname="AssembleParts" mainKey = "PartID">
 			<variable  name="PartID" col = "PartID" type="int"/>
+			<variable  name="Unlock" col = "Unlock" type="bool"/>
 			<variable  name="ModelTypeID" col = "ModelTypeID" type="int"/>
 			<variable  name="BaseMaterialCost" col = "BaseMaterialCost" type="string"/>
 			<variable  name="BaseTimeCost" col = "BaseTimeCost" type="ushort"/>
@@ -51,7 +52,6 @@
 	<variable  name="AllAssemblePartsTypeList" type="list">
 		<list name = "AssemblePartsType" sheetname="AssemblePartsType" mainKey = "ModelTypeID">
 			<variable  name="ModelTypeID" col = "ModelTypeID" type="int"/>
-			<variable  name="Unlock" col = "Unlock" type="bool"/>
 			<variable  name="PartIconSmall" col = "PartIconSmall" type="string"/>
 			<variable  name="PartSprite" col = "PartSprite" type="string"/>
 			<variable  name="ModelTypeName" col = "ModelTypeName" type="string"/>

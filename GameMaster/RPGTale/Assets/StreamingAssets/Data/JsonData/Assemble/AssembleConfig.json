@@ -7,6 +7,18 @@
 		"IconPath":"SpriteOutput/Assemble/Target/Assemble_Target_WarShip"
 	}],
 
+	"assembleShipMainType":[{
+		"Type":"Explorer",
+		"TypeName":"AssembleShip_Name_Explorer",
+		"IconPath":"SpriteOutput/Assemble/Type/Assemble_Part_Type_Engine",
+		"DefaultUnlock":true
+	},{
+		"Type":"Destroyer",
+		"TypeName":"AssembleShip_Name_Destroyer",
+		"IconPath":"SpriteOutput/Assemble/Type/Assemble_Part_Type_Engine",
+		"DefaultUnlock":true
+	}],
+
 	"assemblePartMainType":[{
 		"Type":"Engine",
 		"TypeName":"AssembleParts_Name_Engine",
@@ -15,6 +27,11 @@
 	},{
 		"Type":"Shield",
 		"TypeName":"AssembleParts_Name_Shield",
+		"IconPath":"SpriteOutput/Assemble/Type/Assemble_Part_Type_Engine",
+		"DefaultUnlock":true
+	},{
+		"Type":"Weapon",
+		"TypeName":"AssembleParts_Name_Weapon",
 		"IconPath":"SpriteOutput/Assemble/Type/Assemble_Part_Type_Engine",
 		"DefaultUnlock":true
 	}]

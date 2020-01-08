@@ -185,6 +185,8 @@ public class AssembleParts
     [XmlAttribute]
     public int PartID { get; set; }
     [XmlAttribute]
+    public bool Unlock { get; set; }
+    [XmlAttribute]
     public int ModelTypeID { get; set; }
     [XmlAttribute]
     public string BaseMaterialCost { get; set; }
@@ -200,8 +202,7 @@ public class AssemblePartsType
 {
     [XmlAttribute]
     public int ModelTypeID { get; set; }
-    [XmlAttribute]
-    public bool Unlock { get; set; }
+
     [XmlAttribute]
     public string PartIconSmall { get; set; }
     [XmlAttribute]

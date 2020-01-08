@@ -135,7 +135,7 @@ namespace Sim_FrameWork
             var meta = GetAssemblePartTypeByKey(ModelTypeID);
             if (meta != null)
             {
-                var typeData = GetAssembleMainTypeData(meta.TypeID);
+                var typeData = GetAssemblePartMainType(meta.TypeID);
                 if (typeData != null)
                     return Utility.LoadSprite(typeData.IconPath, Utility.SpriteType.png);
             }
@@ -146,9 +146,9 @@ namespace Sim_FrameWork
             var meta = GetAssemblePartTypeByKey(ModelTypeID);
             if (meta != null)
             {
-                var typeData = GetAssembleMainTypeData(meta.TypeID);
+                var typeData = GetAssemblePartMainType(meta.TypeID);
                 if (typeData != null)
-                    return MultiLanguage.Instance.GetTextValue(typeData.TypeNameText);
+                    return MultiLanguage.Instance.GetTextValue(typeData.TypeName);
             }
             return string.Empty;
         }
@@ -186,11 +186,11 @@ namespace Sim_FrameWork
         public static List<int> GetAllUnlockPartTypeID()
         {
             List<int> result = new List<int>();
-            for(int i = 0; i < AssemblePartsTypeList.Count; i++)
+            for(int i = 0; i < AssemblePartsList.Count; i++)
             {
-                if (AssemblePartsTypeList[i].Unlock == true)
+                if (AssemblePartsList[i].Unlock == true)
                 {
-                    result.Add(AssemblePartsTypeList[i].ModelTypeID);
+                    result.Add(AssemblePartsList[i].PartID);
                 }
             }
             return result;
@@ -299,6 +299,11 @@ namespace Sim_FrameWork
             return config.Find(x => x.Type == type);
         }
 
+        public static Config.AssembleShipMainType GetAssembleShipMianTypeData(string type)
+        {
+            var config = Config.ConfigData.AssembleConfig.assembleShipMainType;
+            return config.Find(x => x.Type == type);
+        }
      
 
         #endregion
@@ -627,6 +632,7 @@ namespace Sim_FrameWork
 
         }
     }
+
 
     public class AssembleShipPartConfig
     {

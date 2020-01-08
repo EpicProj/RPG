@@ -394,7 +394,6 @@ namespace Sim_FrameWork
             {
                 if (AssembleModule.GetAssemblePartTypeByKey(partModelTypeID) != null)
                     _currentUnlockPartList.Add(partModelTypeID);
-
             }
         }
 
@@ -408,9 +407,16 @@ namespace Sim_FrameWork
             List<int> result = new List<int>();
             for(int i = 0; i < _currentUnlockPartList.Count; i++)
             {
-                var typemeta = AssembleModule.GetAssemblePartTypeByKey(_currentUnlockPartList[i]);
-                if (typemeta.TypeID == typeID)
-                    result.Add(_currentUnlockPartList[i]);
+                var meta = AssembleModule.GetAssemblePartDataByKey(_currentUnlockPartList[i]);
+                if (meta != null)
+                {
+                    var typeMeta = AssembleModule.GetAssemblePartTypeByKey(meta.ModelTypeID);
+                    if (typeMeta != null)
+                    {
+                        if (typeMeta.TypeID == typeID)
+                            result.Add(_currentUnlockPartList[i]);
+                    }
+                }
             }
             return result;
         }
@@ -421,9 +427,16 @@ namespace Sim_FrameWork
             {
                 for(int j = 0; j < _currentUnlockPartList.Count; j++)
                 {
-                    var typemeta = AssembleModule.GetAssemblePartTypeByKey(_currentUnlockPartList[j]);
-                    if (typemeta.TypeID == typeIDList[i])
-                        result.Add(_currentUnlockPartList[j]);
+                    var meta = AssembleModule.GetAssemblePartDataByKey(_currentUnlockPartList[j]);
+                    if (meta != null)
+                    {
+                        var TypeMeta = AssembleModule.GetAssemblePartTypeByKey(meta.ModelTypeID);
+                        if (TypeMeta != null)
+                        {
+                            if (TypeMeta.TypeID == typeIDList[i])
+                                result.Add(_currentUnlockPartList[j]);
+                        }
+                    }
                 }
             }
             return result;

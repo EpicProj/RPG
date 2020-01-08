@@ -30,6 +30,7 @@ namespace Sim_FrameWork.UI
             _info = (AssemblePartInfo)paralist[0];
             AudioManager.Instance.PlaySound(AudioClipPath.UISound.Page_Open);
 
+            noDataTrans.gameObject.SetActive(false);
             if (showPartChoosePanel)
             {
                 SetUpPartChooseContent();
@@ -53,6 +54,15 @@ namespace Sim_FrameWork.UI
             {
                 string typeName = (string)msg.content[0];
                 return RefreshChooseContent(typeName);
+            }
+            else if (msg.type== UIMsgType.Assemble_PartPreset_Select)
+            {
+                AssemblePartInfo info = new AssemblePartInfo((int)msg.content[0]);
+                if (info._partsMeta != null)
+                {
+                    _info = info;
+                    SetUpContent();
+                }
             }
             return true;
         }
@@ -82,8 +92,9 @@ namespace Sim_FrameWork.UI
             if (_info == null)
                 return;
 
+            UIUtility.ActiveCanvasGroup(partChooseCanvasGroup, false);
             UIUtility.ActiveCanvasGroup(contentCanvasGroup, true);
-
+            
             partTypeImage.sprite = _info.typePresetData.TypeIcon;
             partTypeName.text = _info.typePresetData.TypeName;
             partModelType.text = _info.typePresetData.partName;
@@ -98,6 +109,9 @@ namespace Sim_FrameWork.UI
             InitPartCustomContent();
             InitAssembleTargetItem();
             InitPartCostPanel();
+
+            if (partContentAnim != null)
+                partContentAnim.Play();
         }
 
         void InitPartPropertyContent()
@@ -330,6 +344,7 @@ namespace Sim_FrameWork.UI
 
         void SetUpPartChooseContent()
         {
+            UIUtility.ActiveCanvasGroup(contentCanvasGroup, false);
             UIUtility.ActiveCanvasGroup(partChooseCanvasGroup, true);
             RefreshPartChooseTab();
             InitDefaultTabSelect();
@@ -368,10 +383,19 @@ namespace Sim_FrameWork.UI
         bool RefreshChooseContent(string chooseType)
         {
             var partModelList = PlayerManager.Instance.GetAssemblePartPresetModelList(chooseType);
-            currentSelectTab = chooseType;
-            chooseLoopList.InitData(partModelList);
-            if (partChooseAnim != null)
-                partChooseAnim.Play();
+            if (partModelList.Count == 0)
+            {
+                noDataTrans.gameObject.SetActive(true);
+                chooseLoopList.gameObject.SetActive(false);
+            }
+            else
+            {
+                chooseLoopList.gameObject.SetActive(true);
+                currentSelectTab = chooseType;
+                chooseLoopList.InitData(partModelList);
+                if (partChooseAnim != null)
+                    partChooseAnim.Play();
+            }
             return true;
         }
 
@@ -395,6 +419,7 @@ namespace Sim_FrameWork.UI
         private Transform partPropertyContentTrans;
         private Transform customValueContentTrans;
         private Transform assembleTargetContentTrans;
+        private Animation partContentAnim;
 
         private Text timeCostText;
         private Transform materialCostTrans;
@@ -403,6 +428,7 @@ namespace Sim_FrameWork.UI
 
         private CanvasGroup partChooseCanvasGroup;
         private Transform tabChooseTrans;
+        private Transform noDataTrans;
         private LoopList chooseLoopList;
         private Animation partChooseAnim;
 
@@ -424,10 +450,12 @@ namespace Sim_FrameWork.UI
             assembleTargetContentTrans = UIUtility.FindTransfrom(m_page.leftPanel, "AssembleTarget/Content");
             timeCostText = UIUtility.SafeGetComponent<Text>(UIUtility.FindTransfrom(m_page.leftPanel, "Cost/Time"));
             materialCostTrans = UIUtility.FindTransfrom(m_page.leftPanel, "Cost/Content");
+            partContentAnim = UIUtility.SafeGetComponent<Animation>(UIUtility.FindTransfrom(Transform, "Content"));
 
             SaveDesignBtn = UIUtility.SafeGetComponent<Button>(UIUtility.FindTransfrom(m_page.rightPanel, "Btn"));
             partChooseCanvasGroup= UIUtility.SafeGetComponent<CanvasGroup>(UIUtility.FindTransfrom(Transform, "PartChooseContent"));
             tabChooseTrans = UIUtility.FindTransfrom(Transform, "PartChooseContent/ChooseTab");
+            noDataTrans = UIUtility.FindTransfrom(Transform, "PartChooseContent/EmptyInfo");
             chooseLoopList = UIUtility.SafeGetComponent<LoopList>(UIUtility.FindTransfrom(Transform, "PartChooseContent/ChooseContent/Scroll View"));
             partChooseAnim = UIUtility.SafeGetComponent<Animation>(UIUtility.FindTransfrom(Transform, "PartChooseContent"));
         }
