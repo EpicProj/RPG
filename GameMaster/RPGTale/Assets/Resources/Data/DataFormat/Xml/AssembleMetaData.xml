@@ -1,9 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <AssembleMetaData xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-  <AllAssembleWarshipList WarShipID="1" Type="1" MainType="Warship" Class="100" ShipScale="1" MaterialCost="sssda" BaseTimeCost="500" HPBase="5000" SpeedBase="1.6" FirePowerBase="5.5" DetectBase="2.3" CrewMax="6" StorageBase="10" ConfigData="ShipPartConfig_1" />
-  <AllAssembleWarshipList WarShipID="2" Type="2" MainType="Warship" Class="100" ShipScale="2" MaterialCost="asdada" BaseTimeCost="600" HPBase="6000" SpeedBase="2" FirePowerBase="5" DetectBase="1.5" CrewMax="8" StorageBase="15" ConfigData="ShipPartConfig_2" />
-  <AllAssembleWarShipTypeList TypeID="1" Name="AssembleWarShipType_Explore" IconPath="SpriteOutput/Assemble/ShipType/Assemble_Ship_Type_Explore" />
-  <AllAssembleWarShipTypeList TypeID="2" Name="AssembleWarShipType_Fire" IconPath="SpriteOutput/Assemble/ShipType/Assemble_Ship_Type_Explore" />
+  <AllAssembleWarshipList WarShipID="1" MainType="Explorer" Class="100" Unlock="true" ShipScale="1" MaterialCost="sssda" BaseTimeCost="500" HPBase="5000" SpeedBase="1.6" FirePowerBase="5.5" DetectBase="2.3" CrewMax="6" StorageBase="10" ShipSpritePath="SpriteOutput/Assemble/ShipSprite/Assemble_Ship_001" ConfigData="ShipPartConfig_1" />
+  <AllAssembleWarshipList WarShipID="2" MainType="Explorer" Class="100" Unlock="true" ShipScale="2" MaterialCost="asdada" BaseTimeCost="600" HPBase="6000" SpeedBase="2" FirePowerBase="5" DetectBase="1.5" CrewMax="8" StorageBase="15" ShipSpritePath="SpriteOutput/Assemble/ShipSprite/Assemble_Ship_001" ConfigData="ShipPartConfig_2" />
   <AllAssembleWarshipClassList ClassID="100" ClassName="AssembleWarship_ClassName_100" ClassDesc="AssembleWarship_ClassDesc_100" ModelPath="Objects/Assemble/Ship/Ship001/Ship001" />
   <AllAssemblePartsList PartID="1" Unlock="true" ModelTypeID="100" BaseMaterialCost="101:10,102:3" BaseTimeCost="20" AssembleType="WarShip" CustomData="CustomConfig_Part_1" />
   <AllAssemblePartsList PartID="2" Unlock="true" ModelTypeID="101" BaseMaterialCost="101:10,102:3" BaseTimeCost="20" AssembleType="WarShip" CustomData="CustomConfig_Part_1" />

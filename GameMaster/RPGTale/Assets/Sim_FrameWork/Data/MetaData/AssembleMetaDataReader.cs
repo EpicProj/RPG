@@ -9,9 +9,6 @@ namespace Sim_FrameWork
         private static List<AssembleWarship> AssembleWarshipList;
         private static Dictionary<int, AssembleWarship> AssembleWarshipDic;
 
-        private static List<AssembleWarShipType> AssembleWarShipTypeList;
-        private static Dictionary<int, AssembleWarShipType> AssembleWarShipTypeDic;
-
         private static List<AssembleWarshipClass> AssembleWarshipClassList;
         private static Dictionary<int, AssembleWarshipClass> AssembleWarshipClassDic;
 
@@ -32,8 +29,6 @@ namespace Sim_FrameWork
             }
             AssembleWarshipList = config.AllAssembleWarshipList;
             AssembleWarshipDic = config.AllAssembleWarshipDic;
-            AssembleWarShipTypeList = config.AllAssembleWarShipTypeList;
-            AssembleWarShipTypeDic = config.AllAssembleWarShipTypeDic;
             AssembleWarshipClassList = config.AllAssembleWarshipClassList;
             AssembleWarshipClassDic = config.AllAssembleWarshipClassDic;
             AssemblePartsList = config.AllAssemblePartsList;
@@ -53,18 +48,6 @@ namespace Sim_FrameWork
         {
             LoadData();
             return AssembleWarshipDic;
-        }
-
-        public static List<AssembleWarShipType> GetAssembleWarShipTypeList()
-        {
-            LoadData();
-            return AssembleWarShipTypeList;
-        }
-
-        public static Dictionary<int, AssembleWarShipType> GetAssembleWarShipTypeDic()
-        {
-            LoadData();
-            return AssembleWarShipTypeDic;
         }
 
         public static List<AssembleWarshipClass> GetAssembleWarshipClassList()

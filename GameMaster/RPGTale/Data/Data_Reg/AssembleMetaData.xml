@@ -4,9 +4,9 @@
 	<variable  name="AllAssembleWarshipList" type="list">
 		<list name = "AssembleWarship" sheetname="AssembleWarship" mainKey = "WarShipID">
 			<variable  name="WarShipID" col = "WarShipID" type="int"/>
-			<variable  name="Type" col = "Type" type="ushort"/>
 			<variable  name="MainType" col = "MainType" type="string"/>
 			<variable  name="Class" col = "Class" type="int"/>
+			<variable  name="Unlock" col = "Unlock" type="bool"/>
 			<variable  name="ShipScale" col = "ShipScale" type="ushort"/>
 			<variable  name="MaterialCost" col = "MaterialCost" type="string"/>
 			<variable  name="BaseTimeCost" col = "BaseTimeCost" type="ushort"/>
@@ -16,15 +16,8 @@
 			<variable  name="DetectBase" col = "DetectBase" type="float"/>
 			<variable  name="CrewMax" col = "CrewMax" type="ushort"/>
 			<variable  name="StorageBase" col = "StorageBase" type="ushort"/>
+			<variable  name="ShipSpritePath" col = "ShipSpritePath" type="string"/>
 			<variable  name="ConfigData" col = "ConfigData" type="string"/>
-		</list>
-	</variable>
-
-	<variable  name="AllAssembleWarShipTypeList" type="list">
-		<list name = "AssembleWarShipType" sheetname="AssembleWarShipType" mainKey = "TypeID">
-			<variable  name="TypeID" col = "TypeID" type="int"/>
-			<variable  name="Name" col = "Name" type="string"/>
-			<variable  name="IconPath" col = "IconPath" type="string"/>
 		</list>
 	</variable>
 

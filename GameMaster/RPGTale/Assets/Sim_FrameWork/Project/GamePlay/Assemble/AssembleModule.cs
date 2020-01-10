@@ -10,8 +10,6 @@ namespace Sim_FrameWork
     {
         private static List<AssembleWarship> AssembleWarshipList;
         private static Dictionary<int, AssembleWarship> AssembleWarshipDic;
-        private static List<AssembleWarShipType> AssembleWarShipTypeList;
-        private static Dictionary<int, AssembleWarShipType> AssembleWarShipTypeDic;
         private static List<AssembleWarshipClass> AssembleWarshipClassList;
         private static Dictionary<int, AssembleWarshipClass> AssembleWarshipClassDic;
 
@@ -28,8 +26,6 @@ namespace Sim_FrameWork
         {
             AssembleWarshipList = AssembleMetaDataReader.GetAssembleWarshipList();
             AssembleWarshipDic = AssembleMetaDataReader.GetAssembleWarshipDic();
-            AssembleWarShipTypeList = AssembleMetaDataReader.GetAssembleWarShipTypeList();
-            AssembleWarShipTypeDic = AssembleMetaDataReader.GetAssembleWarShipTypeDic();
             AssembleWarshipClassList = AssembleMetaDataReader.GetAssembleWarshipClassList();
             AssembleWarshipClassDic = AssembleMetaDataReader.GetAssembleWarshipClassDic();
 
@@ -253,17 +249,6 @@ namespace Sim_FrameWork
             return result;
         }
 
-        public static AssembleWarShipType GetWarshipTypeDataByKey(int typeID)
-        {
-            AssembleWarShipType type = null;
-            AssembleWarShipTypeDic.TryGetValue(typeID, out type);
-            if (type == null)
-            {
-                Debug.LogError("GetWarshipTypeData Error! typeID=" + typeID);
-            }
-            return type;
-        }
-
         public static AssembleShipPartConfig GetShipPartConfigData(int shipID)
         {
             AssembleShipPartConfig configData = null;
@@ -277,6 +262,36 @@ namespace Sim_FrameWork
             return configData;
         }
 
+        public static Config.AssembleShipMainType GetShipPresetMainTypeData(string type)
+        {
+            var config = Config.ConfigData.AssembleConfig.assembleShipMainType;
+            return config.Find(x => x.Type == type);
+        }
+
+        public static string GetShipPresetMainTypeName(int warShipID)
+        {
+            var meta = GetWarshipDataByKey(warShipID);
+            if (meta != null)
+            {
+                var mainType = GetShipPresetMainTypeData(meta.MainType);
+                if (mainType != null)
+                    return MultiLanguage.Instance.GetTextValue(mainType.TypeName);
+            }
+            return string.Empty;
+        }
+
+        public static Sprite GetShipPresetMainTypeIcon(int warShipID)
+        {
+            var meta = GetWarshipDataByKey(warShipID);
+            if (meta != null)
+            {
+                var mainType = GetShipPresetMainTypeData(meta.MainType);
+                if (mainType != null)
+                    return Utility.LoadSprite(mainType.IconPath, Utility.SpriteType.png);
+            }
+            return null;
+        }
+
         public static string GetShipSizeText(int scale)
         {
             if (scale == 1)
@@ -288,6 +303,24 @@ namespace Sim_FrameWork
             else
                 return string.Empty;
         }
+
+        /// <summary>
+        /// 获取所有初始解锁状态的舰船模板ID
+        /// </summary>
+        /// <returns></returns>
+        public static List<int> GetAllUnlockShipPresetID()
+        {
+            List<int> result = new List<int>();
+            for (int i = 0; i < AssembleWarshipList.Count; i++)
+            {
+                if (AssembleWarshipList[i].Unlock == true)
+                {
+                    result.Add(AssembleWarshipList[i].WarShipID);
+                }
+            }
+            return result;
+        }
+
 
         #endregion
 
@@ -364,14 +397,32 @@ namespace Sim_FrameWork
     public class AssemblePartTypePresetData
     {
         public string TypeID;
-        public Sprite TypeIcon;
-        public string TypeName;
+        public Sprite TypeIcon
+        {
+            get { return AssembleModule.GetPartTypeIcon(_partsTypeMeta.ModelTypeID); }
+        }
+        public string TypeName
+        {
+            get { return AssembleModule.GetPartTypeName(_partsTypeMeta.ModelTypeID); }
+        }
 
-        public Sprite partSprite;
-        public Sprite partIconSmall;
+        public Sprite partSprite
+        {
+            get { return Utility.LoadSprite(_partsTypeMeta.PartSprite, Utility.SpriteType.png); }
+        }
+        public Sprite partIconSmall
+        {
+            get { return Utility.LoadSprite(_partsTypeMeta.PartIconSmall, Utility.SpriteType.png); }
+        }
 
-        public string partDesc;
-        public string partName;
+        public string partDesc
+        {
+            get { return AssembleModule.GetPartDesc(_partsTypeMeta.ModelTypeID); }
+        }
+        public string partName
+        {
+            get { return AssembleModule.GetPartName(_partsTypeMeta.ModelTypeID); }
+        }
 
         /// <summary>
         /// Prefab Path
@@ -390,12 +441,6 @@ namespace Sim_FrameWork
             {
                 ModelPath = _partsTypeMeta.ModelPath;
                 TypeID = _partsTypeMeta.TypeID;
-                partDesc = AssembleModule.GetPartDesc(_partsTypeMeta.ModelTypeID);
-                partName = AssembleModule.GetPartName(_partsTypeMeta.ModelTypeID);
-                TypeIcon = AssembleModule.GetPartTypeIcon(_partsTypeMeta.ModelTypeID);
-                TypeName = AssembleModule.GetPartTypeName(_partsTypeMeta.ModelTypeID);
-                partSprite = Utility.LoadSprite(_partsTypeMeta.PartSprite, Utility.SpriteType.png);
-                partIconSmall = Utility.LoadSprite(_partsTypeMeta.PartIconSmall, Utility.SpriteType.png);
             }
             partsPropertyConfig = AssembleModule.GetPartsPropertyConfigData(typeModelID);
         }
@@ -505,17 +550,8 @@ namespace Sim_FrameWork
     {
         public int warShipID;
         public ushort UID;
-        public string shipName;
 
         public Config.AssembleMainType mainTypeData;
-
-        public string className;
-        public string classDesc;
-        public string modelPath;
-        public string shipSizeText;
-
-        public string typeName;
-        public Sprite typeIcon;
 
         /// <summary>
         /// 建造时长
@@ -582,7 +618,6 @@ namespace Sim_FrameWork
         /// </summary>
         public float shipCrewMax;
 
-
         /// <summary>
         /// 最大货仓储量
         /// </summary>
@@ -595,42 +630,94 @@ namespace Sim_FrameWork
                 _shipStorage = 0;
         }
 
-        public AssembleShipPartConfig partConfig;
+   
 
-        public AssembleWarship _meta;
-        public AssembleWarshipClass _metaClass;
-        public AssembleWarShipType _metaType;
+        public AssembleShipTypePresetData presetData;
+
 
 
         public AssembleShipInfo(int shipID)
         {
-            _meta = AssembleModule.GetWarshipDataByKey(shipID);
-            _metaClass = AssembleModule.GetWarshipClassDataByKey(_meta.Class);
-            _metaType = AssembleModule.GetWarshipTypeDataByKey(_meta.Type);
-            if (_meta == null || _metaClass == null || _metaType == null)
-                return;
+            presetData = new AssembleShipTypePresetData(shipID);
+            warShipID = presetData.WarshipID;
 
-            mainTypeData = AssembleModule.GetAssembleMainTypeData(_meta.MainType);
+            AddShipDurability(presetData._metaData.HPBase);
+            AddTimeCost(presetData._metaData.BaseTimeCost);
+            AddShipFirePower(presetData._metaData.FirePowerBase);
+            AddShipSpeed(presetData._metaData.SpeedBase);
+            AddShipDetect(presetData._metaData.DetectBase);
+            AddShipStorage(presetData._metaData.StorageBase);
+            shipCrewMax = presetData._metaData.CrewMax;
 
-            warShipID = _meta.WarShipID;
-            className = MultiLanguage.Instance.GetTextValue(_metaClass.ClassName);
-            classDesc = MultiLanguage.Instance.GetTextValue(_metaClass.ClassDesc);
-            typeName = MultiLanguage.Instance.GetTextValue(_metaType.Name);
-            typeIcon = Utility.LoadSprite(_metaType.IconPath, Utility.SpriteType.png);
-            shipSizeText = AssembleModule.GetShipSizeText(_meta.ShipScale);
-            modelPath = _metaClass.ModelPath;
-
-            AddShipDurability(_meta.HPBase);
-            AddTimeCost(_meta.BaseTimeCost);
-            AddShipFirePower(_meta.FirePowerBase);
-            AddShipSpeed(_meta.SpeedBase);
-            AddShipDetect(_meta.DetectBase);
-            AddShipStorage(_meta.StorageBase);
-            shipCrewMax = _meta.CrewMax;
-
-            partConfig = AssembleModule.GetShipPartConfigData(shipID);
-
+           
         }
+    }
+
+    public class AssembleShipTypePresetData
+    {
+        public int WarshipID;
+
+        public string TypeID { get { return _metaData.MainType; } }
+        public Sprite TypeIcon { get { return AssembleModule.GetShipPresetMainTypeIcon(WarshipID); } }
+        public string TypeName { get {return AssembleModule.GetShipPresetMainTypeName(WarshipID); } }
+
+        public string shipSizeText { get { return AssembleModule.GetShipSizeText(_metaData.ShipScale); } }
+
+        /// <summary>
+        /// 模块数量
+        /// </summary>
+        public ushort ModuleNum
+        {
+            get
+            {
+                if (partConfig != null)
+                    return (ushort)partConfig.configData.Count;
+                return 0;
+            }
+        }
+
+        public Sprite ShipSprite
+        {
+            get { return Utility.LoadSprite(_metaData.ShipSpritePath, Utility.SpriteType.png); }
+        }
+           
+        public string shipClassDesc
+        {
+            get
+            {
+                if(_metaClass!=null)
+                    return MultiLanguage.Instance.GetTextValue(_metaClass.ClassDesc);
+                return string.Empty;
+            }
+        }
+        public string shipClassName
+        {
+            get
+            {
+                if(_metaClass!=null)
+                    return MultiLanguage.Instance.GetTextValue(_metaClass.ClassName);
+                return string.Empty;
+            }
+        }
+
+
+        public AssembleWarship _metaData;
+        public AssembleWarshipClass _metaClass;
+        public AssembleShipPartConfig partConfig;
+
+        public AssembleShipTypePresetData(int warShipID)
+        {
+            _metaData = AssembleModule.GetWarshipDataByKey(warShipID);
+            
+            if (_metaData != null)
+            {
+                WarshipID = _metaData.WarShipID;
+                _metaClass = AssembleModule.GetWarshipClassDataByKey(_metaData.Class);
+                partConfig = AssembleModule.GetShipPartConfigData(warShipID);
+            }
+        }
+
+
     }
 
 

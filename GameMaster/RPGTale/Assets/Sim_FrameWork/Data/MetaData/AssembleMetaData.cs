@@ -14,7 +14,6 @@ public class AssembleMetaData : ExcelBase {
         {
             AssembleWarship ship = new AssembleWarship();
             ship.WarShipID = i;
-            ship.Type = (ushort)i;
             ship.Class = i;
             ship.ShipScale = (ushort)i;
             ship.MaterialCost = "";
@@ -48,17 +47,6 @@ public class AssembleMetaData : ExcelBase {
             else
             {
                 AllAssembleWarshipDic.Add(data.WarShipID, data);
-            }
-        }
-        foreach (var data in AllAssembleWarShipTypeList)
-        {
-            if (AllAssembleWarShipTypeDic.ContainsKey(data.TypeID))
-            {
-                Debug.LogError("Find Same WarShipTypeID , TypeID  = " + data.TypeID);
-            }
-            else
-            {
-                AllAssembleWarShipTypeDic.Add(data.TypeID, data);
             }
         }
         foreach (var data in AllAssembleWarshipClassList)
@@ -98,8 +86,7 @@ public class AssembleMetaData : ExcelBase {
 
     [XmlIgnore]
     public Dictionary<int, AssembleWarship> AllAssembleWarshipDic = new Dictionary<int, AssembleWarship>();
-    [XmlIgnore]
-    public Dictionary<int, AssembleWarShipType> AllAssembleWarShipTypeDic = new Dictionary<int, AssembleWarShipType>();
+
     [XmlIgnore]
     public Dictionary<int, AssembleWarshipClass> AllAssembleWarshipClassDic = new Dictionary<int, AssembleWarshipClass>();
     [XmlIgnore]
@@ -109,8 +96,7 @@ public class AssembleMetaData : ExcelBase {
 
     [XmlElement]
     public List<AssembleWarship> AllAssembleWarshipList { get; set; }
-    [XmlElement]
-    public List<AssembleWarShipType> AllAssembleWarShipTypeList { get; set; }
+
     [XmlElement]
     public List<AssembleWarshipClass> AllAssembleWarshipClassList { get; set; }
     [XmlElement]
@@ -126,11 +112,11 @@ public class AssembleWarship
     [XmlAttribute]
     public int WarShipID { get; set; }
     [XmlAttribute]
-    public ushort Type { get; set; }
-    [XmlAttribute]
     public string MainType { get; set; }
     [XmlAttribute]
     public int Class { get; set; }
+    [XmlAttribute]
+    public bool Unlock { get; set; }
     [XmlAttribute]
     public ushort ShipScale { get; set; }
     [XmlAttribute]
@@ -150,21 +136,12 @@ public class AssembleWarship
     [XmlAttribute]
     public ushort StorageBase { get; set; }
     [XmlAttribute]
+    public string ShipSpritePath { get; set; }
+    [XmlAttribute]
     public string ConfigData { get; set; }
 
 }
 
-[System.Serializable]
-public class AssembleWarShipType
-{
-    [XmlAttribute]
-    public int TypeID { get; set; }
-    [XmlAttribute]
-    public string Name { get; set; }
-    [XmlAttribute]
-    public string IconPath { get; set; }
-
-}
 
 [System.Serializable]
 public class AssembleWarshipClass

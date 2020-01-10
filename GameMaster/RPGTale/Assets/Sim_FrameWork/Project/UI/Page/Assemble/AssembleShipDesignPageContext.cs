@@ -10,6 +10,9 @@ namespace Sim_FrameWork.UI
         private AssembleShipInfo _info;
         private List<AssembleShipCustomPartItem> _partItemList;
 
+        bool showShipChoosePanel = true;
+        private string currentSelectTab = "";
+
         #region Override Method
         public override void Awake(params object[] paralist)
         {
@@ -21,14 +24,39 @@ namespace Sim_FrameWork.UI
 
         public override bool OnMessage(UIMessage msg)
         {
-            return base.OnMessage(msg);
+            if(msg.type== UIMsgType.Assemble_ShipTab_Select)
+            {
+                string typeName = (string)msg.content[0];
+                return RefreshChooseContent(typeName);
+            }
+            else if(msg.type == UIMsgType.Assemble_ShipPreset_Select)
+            {
+                int shipID=(int)msg.content[0];
+                AssembleShipInfo shipInfo = new AssembleShipInfo(shipID);
+                if (shipInfo.presetData._metaData != null)
+                {
+                    _info = shipInfo;
+                    SetUpPage();
+                }
+            }
+            return true;
         }
 
         public override void OnShow(params object[] paralist)
         {
             AudioManager.Instance.PlaySound(AudioClipPath.UISound.Page_Open);
             _info = (AssembleShipInfo)paralist[0];
-            SetUpPage();
+
+            noDataInfoTrans.gameObject.SetActive(false);
+            if (showShipChoosePanel)
+            {
+                SetUpShipChooseContent();
+            }
+            else
+            {
+                SetUpPage();
+            }
+           
         }
 
         public override void OnDisable()
@@ -45,22 +73,31 @@ namespace Sim_FrameWork.UI
             {
                 UIManager.Instance.HideWnd(this);
             });
+            AddButtonClickListener(m_page.presetChooseBtn, OnPresetBtnClick);
         }
 
+        void OnPresetBtnClick()
+        {
+            AudioManager.Instance.PlaySound(AudioClipPath.UISound.Button_Click);
+            UIUtility.ActiveCanvasGroup(shipChooseCanvasGroup, true);
+            UIUtility.ActiveCanvasGroup(contentCanvasGroup, false);
+        }
 
         void SetUpPage()
         {
             if (_info == null)
                 return;
+            UIUtility.ActiveCanvasGroup(shipChooseCanvasGroup, false);
+            UIUtility.ActiveCanvasGroup(contentCanvasGroup, true);
 
-            _shipTypeIcon.sprite = _info.typeIcon;
-            _shipTypeText.text = _info.typeName;
-            _shipClassText.text = _info.className;
-            _shipSizeText.text = _info.shipSizeText;
-            _shipClassDesc.text = _info.classDesc;
+            _shipTypeIcon.sprite = _info.presetData.TypeIcon;
+            _shipTypeText.text = _info.presetData.TypeName;
+            _shipClassText.text = _info.presetData.shipClassName;
+            _shipSizeText.text = _info.presetData.shipSizeText;
+            _shipClassDesc.text = _info.presetData.shipClassDesc;
             if (shipClassDescTypeEffect != null)
                 shipClassDescTypeEffect.StartEffect();
-            MapManager.Instance.InitAssembleModel(_info.modelPath);
+            MapManager.Instance.InitAssembleModel(_info.presetData._metaClass.ModelPath);
 
             refreshProperty();
             InitShipPartItem();
@@ -88,7 +125,7 @@ namespace Sim_FrameWork.UI
                 ObjectManager.Instance.ReleaseObject(trans.gameObject, 0);
             }
 
-            var configData = _info.partConfig.configData;
+            var configData = _info.presetData.partConfig.configData;
             for (int i=0;i< configData.Count; i++)
             {
                 GameObject obj = null;
@@ -115,6 +152,68 @@ namespace Sim_FrameWork.UI
             }
         }
 
+        #region Choose Content
+
+        void SetUpShipChooseContent()
+        {
+            UIUtility.ActiveCanvasGroup(contentCanvasGroup, false);
+            UIUtility.ActiveCanvasGroup(shipChooseCanvasGroup, true);
+            RefreshShipChooseTab();
+            InitDefaultTabSelect();
+        }
+
+        void RefreshShipChooseTab()
+        {
+            foreach (Transform trans in chooseTabTrans)
+            {
+                ObjectManager.Instance.ReleaseObject(trans.gameObject, 0);
+            }
+
+            var unlockList = PlayerManager.Instance.GetTotalUnlockAssembleShipTypeData();
+            for (int i = 0; i < unlockList.Count; i++)
+            {
+                var obj = ObjectManager.Instance.InstantiateObject(UIPath.PrefabPath.Assemble_Part_ChooseTab);
+                if (obj != null)
+                {
+                    var cmpt = UIUtility.SafeGetComponent<AssemblePartChooseTab>(obj.transform);
+                    cmpt.SetUpTab(unlockList[i]);
+                    obj.name = "ShipTab_" + i;
+                    obj.transform.SetParent(chooseTabTrans, false);
+                }
+            }
+        }
+
+        void InitDefaultTabSelect()
+        {
+            string typeID = Config.ConfigData.AssembleConfig.assembleShipPage_DefaultSelectTab;
+            if (AssembleModule.GetAssembleShipMianTypeData(typeID) != null)
+            {
+                RefreshChooseContent(typeID);
+            }
+        }
+        bool RefreshChooseContent(string chooseType)
+        {
+            var shipModelList = PlayerManager.Instance.GetAssembleShipPresetModelList(chooseType);
+            if (shipModelList.Count == 0)
+            {
+                noDataInfoTrans.gameObject.SetActive(true);
+                chooseLoopList.gameObject.SetActive(false);
+                if (noDataInfoAnim != null)
+                    noDataInfoAnim.Play();
+            }
+            else
+            {
+                chooseLoopList.gameObject.SetActive(true);
+                noDataInfoTrans.gameObject.SetActive(false);
+                currentSelectTab = chooseType;
+                chooseLoopList.InitData(shipModelList);
+                if (shipChooseAnim != null)
+                    shipChooseAnim.Play();
+            }
+            return true;
+        }
+
+        #endregion
     }
 
 
@@ -134,10 +233,17 @@ namespace Sim_FrameWork.UI
         private Text _shipClassText;
         private Text _shipSizeText;
         private Text _shipClassDesc;
+        private CanvasGroup contentCanvasGroup;
 
         private TypeWriterEffect shipClassDescTypeEffect;
 
         private Transform customContentTrans;
+        private Transform chooseTabTrans;
+        private Transform noDataInfoTrans;
+        private Animation noDataInfoAnim;
+        private LoopList chooseLoopList;
+        private Animation shipChooseAnim;
+        private CanvasGroup shipChooseCanvasGroup;
 
         protected override void InitUIRefrence()
         {
@@ -156,8 +262,16 @@ namespace Sim_FrameWork.UI
             _shipSizeText= UIUtility.SafeGetComponent<Text>(UIUtility.FindTransfrom(m_page.leftPanel, "ShipInfo/Content/Size/Name"));
             _shipClassDesc = UIUtility.SafeGetComponent<Text>(UIUtility.FindTransfrom(m_page.leftPanel, "ShipDesc/Text"));
             shipClassDescTypeEffect = UIUtility.SafeGetComponent<TypeWriterEffect>(_shipClassDesc.transform);
+            contentCanvasGroup = UIUtility.SafeGetComponent<CanvasGroup>(UIUtility.FindTransfrom(Transform, "Content"));
 
             customContentTrans = UIUtility.FindTransfrom(m_page.CustomPanel, "Content");
+            chooseTabTrans = UIUtility.FindTransfrom(m_page.ChooseContent, "ChooseTab");
+            noDataInfoTrans = UIUtility.FindTransfrom(m_page.ChooseContent, "EmptyInfo");
+            noDataInfoAnim = UIUtility.SafeGetComponent<Animation>(noDataInfoTrans);
+            chooseLoopList = UIUtility.SafeGetComponent<LoopList>(UIUtility.FindTransfrom(m_page.ChooseContent, "ChooseContent/Scroll View"));
+            shipChooseAnim = UIUtility.SafeGetComponent<Animation>(m_page.ChooseContent);
+            shipChooseCanvasGroup = UIUtility.SafeGetComponent<CanvasGroup>(m_page.ChooseContent);
+
         }
 
 

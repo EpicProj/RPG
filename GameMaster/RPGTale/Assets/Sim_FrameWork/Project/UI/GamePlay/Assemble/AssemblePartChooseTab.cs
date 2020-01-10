@@ -19,23 +19,40 @@ namespace Sim_FrameWork
         }
 
 
-        public void SetUpTab(Config.AssemblePartMainType typeData)
+        public void SetUpTab(Config.AssemblePartMainType partTypeData)
         {
             _btn.onClick.RemoveAllListeners();
-            if (typeData != null)
+            if (partTypeData != null)
             {
-                Type = typeData.Type;
-                _icon.sprite = Utility.LoadSprite(typeData.IconPath, Utility.SpriteType.png);
-                _text.text = MultiLanguage.Instance.GetTextValue(typeData.TypeName);
-                _btn.onClick.AddListener(OnBtnClick);
+                Type = partTypeData.Type;
+                _icon.sprite = Utility.LoadSprite(partTypeData.IconPath, Utility.SpriteType.png);
+                _text.text = MultiLanguage.Instance.GetTextValue(partTypeData.TypeName);
+                _btn.onClick.AddListener(OnPartBtnClick);
             }
-         
         }
 
-        void OnBtnClick()
+        public void SetUpTab(Config.AssembleShipMainType shipTypeData)
+        {
+            _btn.onClick.RemoveAllListeners();
+            if (shipTypeData != null)
+            {
+                Type = shipTypeData.Type;
+                _icon.sprite = Utility.LoadSprite(shipTypeData.IconPath, Utility.SpriteType.png);
+                _text.text = MultiLanguage.Instance.GetTextValue(shipTypeData.TypeName);
+                _btn.onClick.AddListener(OnShipBtnClick);
+            }
+        }
+
+        void OnPartBtnClick()
         {
             AudioManager.Instance.PlaySound(AudioClipPath.UISound.Button_Click);
             UIManager.Instance.SendMessageToWnd(UIPath.WindowPath.Assemble_Part_Design_Page, new UIMessage(UIMsgType.Assemble_PartTab_Select, new List<object>() { Type }));
+        }
+
+        void OnShipBtnClick()
+        {
+            AudioManager.Instance.PlaySound(AudioClipPath.UISound.Button_Click);
+            UIManager.Instance.SendMessageToWnd(UIPath.WindowPath.Assemble_Ship_Design_Page, new UIMessage(UIMsgType.Assemble_ShipTab_Select, new List<object>() { Type }));
         }
     }
 }

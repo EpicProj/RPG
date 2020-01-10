@@ -9,6 +9,7 @@ namespace Sim_FrameWork
     {
         [Header("Button")]
         public Button backBtn;
+        public Button presetBtn;
 
         [Header("Content")]
         public Transform leftPanel;

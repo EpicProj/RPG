@@ -14,10 +14,10 @@ namespace Sim_FrameWork
         /// <param name="closeAll"></param>
         public void ShowGameMainPage(bool closeAll)
         {
-            if (closeAll)
-            {
-                UIManager.Instance.CloseAllWnd();
-            }
+            //if (closeAll)
+            //{
+            //    UIManager.Instance.CloseAllWnd();
+            //}
             UIManager.Instance.Register<UI.MainMenuPageContext>(UIPath.WindowPath.MainMenu_Page);
             UIManager.Instance.PopUpWnd(UIPath.WindowPath.MainMenu_Page, WindowType.Page, true);
         }

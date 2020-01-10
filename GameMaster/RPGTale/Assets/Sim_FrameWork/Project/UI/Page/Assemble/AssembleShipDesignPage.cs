@@ -9,10 +9,12 @@ namespace Sim_FrameWork
     {
         [Header("Button")]
         public Button backBtn;
+        public Button presetChooseBtn;
 
         [Header("Content")]
         public Transform leftPanel;
         public Transform RightPanel;
         public Transform CustomPanel;
+        public Transform ChooseContent;
     }
 }

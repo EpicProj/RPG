@@ -28,8 +28,7 @@ namespace Sim_FrameWork
             base.Awake();
             playerData = PlayerModule.Instance.InitPlayerData();
             _storageData = new MaterialStorageData();
-            InitAssemblePartTypeUnlockState();
-            InitUnlockAssemblePartList();
+            InitAssembleData();
 
             //For Test
             AddMaterialData(100, 10);
@@ -49,6 +48,14 @@ namespace Sim_FrameWork
                 UpdateTime();
             }
 
+        }
+
+        void InitAssembleData()
+        {
+            InitAssemblePartTypeUnlockState();
+            InitAssembleShipPresetUnlockState();
+            InitUnlockAssemblePartList();
+            InitUnlockAssembleShipList();
         }
 
 
@@ -525,6 +532,102 @@ namespace Sim_FrameWork
         #endregion
 
         #region Assemble Ship Design
+
+        /// <summary>
+        /// 部件种类解锁情况
+        /// </summary>
+        public Dictionary<string, Config.AssembleShipMainType> AssembleShipMainTypeDic = new Dictionary<string, Config.AssembleShipMainType>();
+
+        private void InitAssembleShipPresetUnlockState()
+        {
+            var configData = Config.ConfigData.AssembleConfig.assembleShipMainType;
+            for (int i = 0; i < configData.Count; i++)
+            {
+                if (!AssembleShipMainTypeDic.ContainsKey(configData[i].Type))
+                {
+                    AssembleShipMainTypeDic.Add(configData[i].Type, configData[i]);
+                }
+            }
+        }
+
+        public Config.AssembleShipMainType GetAssembleShipPresetData(string type)
+        {
+            Config.AssembleShipMainType typeData = null;
+            AssembleShipMainTypeDic.TryGetValue(type, out typeData);
+            return typeData;
+        }
+
+        public void AssembleShipPresetSetUnlock(string type, bool unlock)
+        {
+            var data = GetAssembleShipPresetData(type);
+            if (data != null)
+            {
+                data.DefaultUnlock = unlock;
+            }
+        }
+
+        /// <summary>
+        /// 获取所有解锁的舰船类型
+        /// </summary>
+        /// <returns></returns>
+        public List<Config.AssembleShipMainType> GetTotalUnlockAssembleShipTypeData()
+        {
+            List<Config.AssembleShipMainType> result = new List<Config.AssembleShipMainType>();
+            foreach (var data in AssembleShipMainTypeDic)
+            {
+                if (data.Value.DefaultUnlock == true)
+                    result.Add(data.Value);
+            }
+            return result;
+        }
+
+        /// <summary>
+        /// 已解锁部件模板信息
+        /// </summary>
+        private List<int> _currentUnlockShipList = new List<int>();
+        public List<int> CurrentUnlockShipList
+        {
+            get { return _currentUnlockShipList; }
+        }
+
+        private void InitUnlockAssembleShipList()
+        {
+            _currentUnlockShipList = AssembleModule.GetAllUnlockShipPresetID();
+        }
+
+        public List<int> GetUnlockAssembleShipTypeListByTypeID(string typeID)
+        {
+            List<int> result = new List<int>();
+            for (int i = 0; i < _currentUnlockShipList.Count; i++)
+            {
+                var meta = AssembleModule.GetWarshipDataByKey(_currentUnlockShipList[i]);
+                if (meta != null)
+                {
+                    if (meta.MainType == typeID)
+                        result.Add(_currentUnlockShipList[i]);
+                }
+            }
+            return result;
+        }
+        public List<int> GetUnlockAssembleShipTypeListByTypeIDList(List<string> typeIDList)
+        {
+            List<int> result = new List<int>();
+            for (int i = 0; i < typeIDList.Count; i++)
+            {
+                for (int j = 0; j < _currentUnlockShipList.Count; j++)
+                {
+                    var meta = AssembleModule.GetWarshipDataByKey(_currentUnlockShipList[j]);
+                    if (meta != null)
+                    {
+                        if (meta.MainType == typeIDList[i])
+                            result.Add(_currentUnlockShipList[j]);
+                    }
+                }
+            }
+            return result;
+        }
+
+
         private Dictionary<ushort, AssembleShipInfo> _assembleShipDesignDataDic = new Dictionary<ushort, AssembleShipInfo>();
         public Dictionary<ushort,AssembleShipInfo> AssembleShipDesignDataDic
         {
@@ -554,6 +657,43 @@ namespace Sim_FrameWork
             }
             return instanceId;
         }
+
+        /// <summary>
+        /// GetModelList
+        /// </summary>
+        /// <param name="typeIDList"></param>
+        /// <returns></returns>
+        public List<List<BaseDataModel>> GetAssembleShipPresetModelList(List<string> typeIDList)
+        {
+            List<List<BaseDataModel>> result = new List<List<BaseDataModel>>();
+
+            var list = GetUnlockAssembleShipTypeListByTypeIDList(typeIDList);
+            for (int i = 0; i < list.Count; i++)
+            {
+                AssembleShipTypePresetModel model = new AssembleShipTypePresetModel();
+                if (model.Create(list[i]))
+                {
+                    result.Add(new List<BaseDataModel>() { model });
+                }
+            }
+            return result;
+        }
+        public List<List<BaseDataModel>> GetAssembleShipPresetModelList(string typeID)
+        {
+            List<List<BaseDataModel>> result = new List<List<BaseDataModel>>();
+
+            var list = GetUnlockAssembleShipTypeListByTypeID(typeID);
+            for (int i = 0; i < list.Count; i++)
+            {
+                AssembleShipTypePresetModel model = new AssembleShipTypePresetModel();
+                if (model.Create(list[i]))
+                {
+                    result.Add(new List<BaseDataModel>() { model });
+                }
+            }
+            return result;
+        }
+
 
         #endregion
 

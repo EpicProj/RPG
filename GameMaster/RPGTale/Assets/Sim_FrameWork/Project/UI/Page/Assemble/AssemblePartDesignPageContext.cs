@@ -84,6 +84,15 @@ namespace Sim_FrameWork.UI
                 AudioManager.Instance.PlaySound(AudioClipPath.UISound.Btn_Close);
                 UIManager.Instance.HideWnd(this);
             });
+
+            AddButtonClickListener(m_page.presetBtn, OnPresetBtnClick);
+        }
+
+        void OnPresetBtnClick()
+        {
+            AudioManager.Instance.PlaySound(AudioClipPath.UISound.Button_Click);
+            UIUtility.ActiveCanvasGroup(partChooseCanvasGroup, true);
+            UIUtility.ActiveCanvasGroup(contentCanvasGroup, false);
         }
 
         #region Content
@@ -387,10 +396,13 @@ namespace Sim_FrameWork.UI
             {
                 noDataTrans.gameObject.SetActive(true);
                 chooseLoopList.gameObject.SetActive(false);
+                if (noDataInfoAnim != null)
+                    noDataInfoAnim.Play();
             }
             else
             {
-                chooseLoopList.gameObject.SetActive(true);
+                chooseLoopList.gameObject.SetActive(true); 
+                noDataTrans.gameObject.SetActive(false);
                 currentSelectTab = chooseType;
                 chooseLoopList.InitData(partModelList);
                 if (partChooseAnim != null)
@@ -429,6 +441,7 @@ namespace Sim_FrameWork.UI
         private CanvasGroup partChooseCanvasGroup;
         private Transform tabChooseTrans;
         private Transform noDataTrans;
+        private Animation noDataInfoAnim;
         private LoopList chooseLoopList;
         private Animation partChooseAnim;
 
@@ -456,6 +469,7 @@ namespace Sim_FrameWork.UI
             partChooseCanvasGroup= UIUtility.SafeGetComponent<CanvasGroup>(UIUtility.FindTransfrom(Transform, "PartChooseContent"));
             tabChooseTrans = UIUtility.FindTransfrom(Transform, "PartChooseContent/ChooseTab");
             noDataTrans = UIUtility.FindTransfrom(Transform, "PartChooseContent/EmptyInfo");
+            noDataInfoAnim = UIUtility.SafeGetComponent<Animation>(noDataTrans);
             chooseLoopList = UIUtility.SafeGetComponent<LoopList>(UIUtility.FindTransfrom(Transform, "PartChooseContent/ChooseContent/Scroll View"));
             partChooseAnim = UIUtility.SafeGetComponent<Animation>(UIUtility.FindTransfrom(Transform, "PartChooseContent"));
         }

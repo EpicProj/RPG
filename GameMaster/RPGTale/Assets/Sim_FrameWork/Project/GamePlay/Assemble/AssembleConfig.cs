@@ -7,6 +7,7 @@ namespace Sim_FrameWork.Config
     public class AssembleConfig
     {
         public string assemblePartPage_DefaultSelectTab;
+        public string assembleShipPage_DefaultSelectTab;
 
         public List<AssembleMainType> assembleMainType;
         public List<AssembleShipMainType> assembleShipMainType;
@@ -17,6 +18,7 @@ namespace Sim_FrameWork.Config
             JsonReader config = new JsonReader();
             AssembleConfig settting = config.LoadJsonDataConfig<AssembleConfig>(JsonConfigPath.AssembleConfigJsonPath);
             assemblePartPage_DefaultSelectTab = settting.assemblePartPage_DefaultSelectTab;
+            assembleShipPage_DefaultSelectTab = settting.assembleShipPage_DefaultSelectTab;
             assembleMainType = settting.assembleMainType;
             assembleShipMainType = settting.assembleShipMainType;
             assemblePartMainType = settting.assemblePartMainType;

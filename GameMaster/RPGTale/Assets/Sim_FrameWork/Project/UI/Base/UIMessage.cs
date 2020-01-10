@@ -72,7 +72,9 @@ namespace Sim_FrameWork
         ///Assemble
         Assemble_Part_PropertyChange,
         Assemble_PartTab_Select,
-        Assemble_PartPreset_Select
+        Assemble_ShipTab_Select,
+        Assemble_PartPreset_Select,
+        Assemble_ShipPreset_Select,
 
     }
 }

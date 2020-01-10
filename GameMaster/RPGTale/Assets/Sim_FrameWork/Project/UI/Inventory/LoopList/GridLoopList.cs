@@ -151,7 +151,6 @@ namespace Sim_FrameWork
             {
                 case LoopType.Vertical:
                     var count = Mathf.CeilToInt((float) _modelList.Count /(float) GetHorizontalItemNum());
-                    Debug.Log(count);
                     var y = count * _itemHeight;
                     _content.sizeDelta = new Vector2(_content.sizeDelta.x, y);
                     break;
