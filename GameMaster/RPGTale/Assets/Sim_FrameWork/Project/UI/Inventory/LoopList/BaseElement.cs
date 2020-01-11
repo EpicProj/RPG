@@ -47,6 +47,8 @@ namespace Sim_FrameWork
         /// </summary>
         protected List<Button> m_AllBtns=new List<Button> ();
 
+        public List<object> paramList = new List<object>();
+
         public RectTransform Rect
         {
             get
@@ -60,7 +62,7 @@ namespace Sim_FrameWork
         public virtual void Awake() { }
 
         //General Method
-        public void Init(int id, float offset , int showNum , LoopList.SepConfig config, LoopList.LayoutType type)
+        public void Init(int id, float offset , int showNum , LoopList.SepConfig config, LoopList.LayoutType type,List<object> paramList=null)
         {
             _id = -1;
             _content = UIUtility.SafeGetComponent<RectTransform>(transform.parent);
@@ -69,6 +71,7 @@ namespace Sim_FrameWork
             _showNum = showNum;
             _sepConfig = config;
             _layoutType = type;
+            this.paramList = paramList;
             ChangeID(id);
         }
 

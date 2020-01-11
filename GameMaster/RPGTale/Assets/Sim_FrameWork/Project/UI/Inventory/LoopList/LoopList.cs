@@ -64,7 +64,7 @@ namespace Sim_FrameWork
             
         }
 
-        public void InitData(List<List<BaseDataModel>> modelData)
+        public void InitData(List<List<BaseDataModel>> modelData, List<object> paramList = null)
         {
             _modelList = modelData;
             int num = GetItemNum(_itemHeight, _itemWidth, offSet);
@@ -79,11 +79,11 @@ namespace Sim_FrameWork
                 return;
             if (_modelList.Count < num )
             {
-                SpawnItem(_modelList.Count, ItemPrefabPath);
+                SpawnItem(_modelList.Count, ItemPrefabPath, paramList);
             }
             else
             {
-                SpawnItem(num, ItemPrefabPath);
+                SpawnItem(num, ItemPrefabPath, paramList);
             }
             SetContentSize();
             UIUtility.SafeGetComponent<ScrollRect>(transform).onValueChanged.AddListener(ValueChanged);
@@ -155,7 +155,7 @@ namespace Sim_FrameWork
            
         }
 
-        private void SpawnItem(int num,string path)
+        private void SpawnItem(int num,string path, List<object> paramList = null)
         {
             GameObject element = null;
             BaseElement elementcpt = null;
@@ -166,7 +166,7 @@ namespace Sim_FrameWork
                 elementcpt= UIUtility.SafeGetComponent<BaseElement>(element.transform);
                 /// Get  Data
                 elementcpt.AddGetDataListener(GetData);
-                elementcpt.Init(i, offSet, num , sepConfig, layoutType);
+                elementcpt.Init(i, offSet, num , sepConfig, layoutType, paramList);
                 _elementList.Add(elementcpt);
             }
         }

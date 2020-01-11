@@ -405,18 +405,18 @@ namespace Sim_FrameWork
             return result;
         }
 
-        public void AddUnlockAssemblePartTypeID(int partModelTypeID)
+        public void AddUnlockAssemblePartID(int partID)
         {
-            if(! _currentUnlockPartList.Contains(partModelTypeID))
+            if(! _currentUnlockPartList.Contains(partID))
             {
-                if (AssembleModule.GetAssemblePartTypeByKey(partModelTypeID) != null)
-                    _currentUnlockPartList.Add(partModelTypeID);
+                if (AssembleModule.GetAssemblePartDataByKey(partID) != null)
+                    _currentUnlockPartList.Add(partID);
             }
         }
 
-        public bool CheckAssemblePartTypeIDUnlock(int partModelTypeID)
+        public bool CheckAssemblePartIDUnlock(int partID)
         {
-            return _currentUnlockPartList.Contains(partModelTypeID);
+            return _currentUnlockPartList.Contains(partID);
         }
 
         public List<int> GetUnlockAssemblePartTypeListByTypeID(string typeID)
@@ -629,6 +629,16 @@ namespace Sim_FrameWork
             _currentUnlockShipList = AssembleModule.GetAllUnlockShipPresetID();
         }
 
+        public void AddUnlockAssembleShipID(int shipID)
+        {
+            if (!_currentUnlockPartList.Contains(shipID))
+            {
+                if (AssembleModule.GetWarshipDataByKey(shipID) != null)
+                    _currentUnlockPartList.Add(shipID);
+            }
+        }
+
+
         public List<int> GetUnlockAssembleShipTypeListByTypeID(string typeID)
         {
             List<int> result = new List<int>();
@@ -728,6 +738,20 @@ namespace Sim_FrameWork
             return result;
         }
 
+        /// <summary>
+        /// 检测自定义名字是否重复
+        /// </summary>
+        /// <param name="text"></param>
+        /// <returns></returns>
+        public bool CheckAssembleShipCustomNameRepeat(string shipClassName, string customName)
+        {
+            foreach (var part in _assembleShipDesignDataDic)
+            {
+                if (part.Value.presetData.shipClassName == shipClassName && part.Value.customData.customNameText == customName)
+                    return true;
+            }
+            return false;
+        }
 
         #endregion
 

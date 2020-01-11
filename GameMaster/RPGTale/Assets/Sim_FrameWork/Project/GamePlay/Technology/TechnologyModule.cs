@@ -182,6 +182,10 @@ namespace Sim_FrameWork
                     return TechCompleteEffect.Unlock_Block;
                 case 2:
                     return TechCompleteEffect.Unlock_Tech;
+                case 3:
+                    return TechCompleteEffect.Unlock_Assemble_Part_Preset;
+                case 4:
+                    return TechCompleteEffect.Unlock_Assemble_Ship_Preset;
                 default:
                     return TechCompleteEffect.None;
             }
@@ -224,6 +228,33 @@ namespace Sim_FrameWork
             for (int i = 0; i < list.Count; i++)
             {
                 if (GetTechDataByID(list[i]) != null)
+                {
+                    result.Add(list[i]);
+                }
+            }
+            return result;
+        }
+
+        public static List<int> ParseTechParam_Unlock_Assemble_Part(string content)
+        {
+            List<int> result = new List<int>();
+            var list = Utility.TryParseIntList(content, ',');
+            for (int i = 0; i < list.Count; i++)
+            {
+                if (AssembleModule.GetAssemblePartDataByKey(list[i]) != null)
+                {
+                    result.Add(list[i]);
+                }
+            }
+            return result;
+        }
+        public static List<int> ParseTechParam_Unlock_Assemble_Ship(string content)
+        {
+            List<int> result = new List<int>();
+            var list = Utility.TryParseIntList(content, ',');
+            for (int i = 0; i < list.Count; i++)
+            {
+                if (AssembleModule.GetWarshipDataByKey(list[i]) != null)
                 {
                     result.Add(list[i]);
                 }
@@ -324,6 +355,8 @@ namespace Sim_FrameWork
         /// 解锁Build ID
         /// </summary>
         Unlock_Block,
+        Unlock_Assemble_Part_Preset,
+        Unlock_Assemble_Ship_Preset
     }
 
     public enum TechRequireType

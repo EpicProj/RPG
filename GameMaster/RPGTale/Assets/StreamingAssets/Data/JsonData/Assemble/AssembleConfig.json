@@ -8,6 +8,16 @@
 		"IconPath":"SpriteOutput/Assemble/Target/Assemble_Target_WarShip"
 	}],
 
+	"assemblePartPropertyType":[{
+		"Name":"Speed",
+		"PropertyName":"AssembleParts_100_PropertyName_01",
+		"PropertyIcon":"SpriteOutput/Assemble/Property/Assemble_Part_Property_Speed_Icon"
+	},{
+		"Name":"Speed02",
+		"PropertyName":"AssembleParts_100_PropertyName_01",
+		"PropertyIcon":"SpriteOutput/Assemble/Property/Assemble_Part_Property_Speed_Icon"
+	}],
+
 	"assembleShipMainType":[{
 		"Type":"Explorer",
 		"TypeName":"AssembleShip_Name_Explorer",
@@ -36,5 +46,6 @@
 		"IconPath":"SpriteOutput/Assemble/Type/Assemble_Part_Type_Engine",
 		"DefaultUnlock":true
 	}]
+
 
 }

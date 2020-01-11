@@ -17,12 +17,22 @@ namespace Sim_FrameWork.UI
         private string currentSelcetTab;
         private LoopList _loopList;
 
+        /// <summary>
+        /// 展示方式
+        /// 0=null
+        /// 1=查看
+        /// 2=选择
+        /// </summary>
+        byte dialogShowType = 0;
+        int configID = 0;
+
         #region OverrideMethod
         public override void Awake(params object[] paralist)
         {
             base.Awake(paralist);
             _sortTypeList = (List<string>)paralist[0];
             currentSelcetTab = (string)paralist[1];
+            dialogShowType = (byte)paralist[2];
             AddBtnClick();
         }
 
@@ -42,6 +52,8 @@ namespace Sim_FrameWork.UI
             AudioManager.Instance.PlaySound(AudioClipPath.UISound.Page_Open);
             _sortTypeList = (List<string>)paralist[0];
             currentSelcetTab = (string)paralist[1];
+            dialogShowType = (byte)paralist[2];
+            configID = (int)paralist[3];
             SetUpDialog();
         }
 
@@ -85,7 +97,7 @@ namespace Sim_FrameWork.UI
             {
                 noInfoTrans.gameObject.SetActive(false);
                 var dataModelList = PlayerManager.Instance.GetAssemblePartChooseModel(currentSelcetTab);
-                _loopList.InitData(dataModelList);
+                _loopList.InitData(dataModelList, new List<object>() { dialogShowType,configID });
             }
             return true;
         }

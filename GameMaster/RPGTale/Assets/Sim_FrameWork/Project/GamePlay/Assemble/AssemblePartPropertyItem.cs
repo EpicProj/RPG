@@ -38,8 +38,12 @@ namespace Sim_FrameWork
             if (config == null)
                 return;
             _configData = config;
-            Icon.sprite = Utility.LoadSprite(config.PropertyIcon, Utility.SpriteType.png);
-            Name.text = MultiLanguage.Instance.GetTextValue(config.PropertyName);
+            var typeData = AssembleModule.GetAssemblePartPropertyTypeData(config.Name);
+            if (typeData != null)
+            {
+                Icon.sprite = Utility.LoadSprite(typeData.PropertyIcon, Utility.SpriteType.png);
+                Name.text = MultiLanguage.Instance.GetTextValue(typeData.PropertyName);
+            }
         }
 
         public void ChangeValueMin(float value)

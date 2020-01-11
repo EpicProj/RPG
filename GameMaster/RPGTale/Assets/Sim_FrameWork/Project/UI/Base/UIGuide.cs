@@ -141,10 +141,16 @@ namespace Sim_FrameWork
             UIManager.Instance.PopUpWnd(UIPath.WindowPath.Assemble_Ship_Design_Page, WindowType.Page,true, info);
         }
 
-        public void ShowAssemblePartChooseDialog(List<string> sortList,string defaultSelectTab)
+        /// <summary>
+        /// 展示方式
+        /// 0=null
+        /// 1=查看
+        /// 2=选择
+        /// </summary>
+        public void ShowAssemblePartChooseDialog(List<string> sortList,string defaultSelectTab,byte displayMode, int configID=0)
         {
             UIManager.Instance.Register<UI.AssemblePartChooseDialogContext>(UIPath.WindowPath.Assemble_Part_Choose_Dialog);
-            UIManager.Instance.PopUpWnd(UIPath.WindowPath.Assemble_Part_Choose_Dialog, WindowType.Dialog, true, sortList, defaultSelectTab);
+            UIManager.Instance.PopUpWnd(UIPath.WindowPath.Assemble_Part_Choose_Dialog, WindowType.Dialog, true, sortList, defaultSelectTab,displayMode,configID);
         }
 
         public void ShowAssembleShipChooseDialog(List<string> sortList,string defaultSelectTab)

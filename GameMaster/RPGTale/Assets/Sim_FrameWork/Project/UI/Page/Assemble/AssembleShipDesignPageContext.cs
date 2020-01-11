@@ -39,6 +39,12 @@ namespace Sim_FrameWork.UI
                     SetUpPage();
                 }
             }
+            else if (msg.type == UIMsgType.Assemble_ShipDesign_PartSelect)
+            {
+                ushort UID = (ushort)msg.content[0];
+                int configID = (int)msg.content[1];
+                return OnPartEquip(UID, configID);
+            }
             return true;
         }
 
@@ -74,6 +80,7 @@ namespace Sim_FrameWork.UI
                 UIManager.Instance.HideWnd(this);
             });
             AddButtonClickListener(m_page.presetChooseBtn, OnPresetChooseBtnClick);
+            AddButtonClickListener(shipDesignSaveBtn, OnShipDesignBtnClick);
         }
         void OnPresetChooseBtnClick()
         {
@@ -104,6 +111,10 @@ namespace Sim_FrameWork.UI
             AddButtonClickListener(m_page.presetTotalBtn, OnPresetTotalBtnClick);
             refreshProperty();
             InitShipPartItem();
+            RefreshShipBaseCost();
+
+            if (shipContentAnim != null)
+                shipContentAnim.Play();
         }
         void OnPresetTotalBtnClick()
         {
@@ -160,6 +171,121 @@ namespace Sim_FrameWork.UI
             }
         }
 
+        void RefreshShipBaseCost()
+        {
+
+            if (shipBaseCostTrans.childCount != Config.GlobalConfigData.Assemble_MaterialCost_MaxNum)
+            {
+                for (int i = 0; i < Config.GlobalConfigData.Assemble_MaterialCost_MaxNum; i++)
+                {
+                    var obj = ObjectManager.Instance.InstantiateObject(UIPath.PrefabPath.MaterialCost_Item);
+                    if (obj != null)
+                    {
+                        obj.name = "MaterialCostItem_" + i;
+                        obj.transform.SetParent(shipBaseCostTrans, false);
+                    }
+                }
+            }
+
+            foreach (Transform trans in shipBaseCostTrans)
+            {
+                trans.gameObject.SetActive(false);
+            }
+
+            var costList = _info.presetData.shipCostBase;
+            for(int i = 0; i < costList.Count; i++)
+            {
+                if (i > Config.GlobalConfigData.Assemble_MaterialCost_MaxNum)
+                    break;
+                var cmpt = UIUtility.SafeGetComponent<MaterialCostCmpt>(shipBaseCostTrans.GetChild(i));
+                if (cmpt != null)
+                {
+                    cmpt.SetUpItem(costList[i]);
+                    cmpt.gameObject.SetActive(true);
+                }
+            }
+        }
+
+        bool OnPartEquip(ushort partUID,int configID)
+        {
+            var partInfo = PlayerManager.Instance.GetAssemblePartInfo(partUID);
+            if (partInfo == null)
+                return false;
+            for(int i = 0; i < _partItemList.Count; i++)
+            {
+                if (_partItemList[i]._configData.configID == configID)
+                {
+                    _partItemList[i].AddShipPart(partInfo);
+                }
+            }
+            
+            return true;
+        }
+
+        AssembleShipCustomData GenerateShipCustomData()
+        {
+            Dictionary<int, AssemblePartInfo> partInfoDic = new Dictionary<int, AssemblePartInfo>();
+
+            for(int i = 0; i < _partItemList.Count; i++)
+            {
+                if (_partItemList[i].partInfo != null && !partInfoDic.ContainsKey(_partItemList[i]._configData.configID))
+                {
+                    partInfoDic.Add(_partItemList[i]._configData.configID, _partItemList[i].partInfo);
+                }
+            }
+
+            AssembleShipCustomData data = new AssembleShipCustomData(
+                _info.warShipID,
+                customNameInputField.text,
+                partInfoDic);
+            return data;
+        }
+
+        void OnShipDesignBtnClick()
+        {
+            AudioManager.Instance.PlaySound(AudioClipPath.UISound.Button_Click);
+
+            if (PlayerManager.Instance.CheckAssembleShipCustomNameRepeat(_info.presetData.shipClassName, customNameInputField.text))
+            {
+                GeneralConfirmDialogItem item = new GeneralConfirmDialogItem(
+                   MultiLanguage.Instance.GetTextValue(Assemble_Design_Ship_CustomName_Repeat_Title),
+                   MultiLanguage.Instance.GetTextValue(Assemble_Design_Ship_CustomName_Repeat_Content),
+                   2,
+                   () => { ConfirmSaveShipDesign(true); },
+                   MultiLanguage.Instance.GetTextValue(Assemble_Design_Ship_CustomName_Repeat_Cover),
+                   () =>
+                   {
+                       UIManager.Instance.HideWnd(UIPath.WindowPath.General_Confirm_Dialog);
+                   },
+                   MultiLanguage.Instance.GetTextValue(Assemble_Design_Ship_CustomName_Repeat_Cancel)
+                   );
+                UIGuide.Instance.ShowGeneralConfirmDialog(item);
+            }
+            else
+            {
+                ConfirmSaveShipDesign(false);
+            }
+        }
+
+        void ConfirmSaveShipDesign(bool isCover)
+        {
+            _info.customData = GenerateShipCustomData();
+            PlayerManager.Instance.AddAssembleShipDesign(_info);
+
+            if (isCover)
+            {
+                UIGuide.Instance.ShowGeneralHint(new GeneralHintDialogItem(
+                   MultiLanguage.Instance.GetTextValue(Assemble_Ship_Design_Save_Cover_Success_Hint), 1.5f));
+                UIManager.Instance.HideWnd(UIPath.WindowPath.General_Confirm_Dialog);
+            }
+            else
+            {
+                UIGuide.Instance.ShowGeneralHint(new GeneralHintDialogItem(
+                 MultiLanguage.Instance.GetTextValue(Assemble_Ship_Design_Save_Success_Hint), 1.5f));
+            }
+        }
+
+
         #region Choose Content
 
         void SetUpShipChooseContent()
@@ -178,7 +304,7 @@ namespace Sim_FrameWork.UI
         {
             AudioManager.Instance.PlaySound(AudioClipPath.UISound.Button_Click);
             var typeList = PlayerManager.Instance.GetTotalUnlockAssemblePartTypeList();
-            UIGuide.Instance.ShowAssemblePartChooseDialog(typeList, currentSelectTab);
+            UIGuide.Instance.ShowAssemblePartChooseDialog(typeList, currentSelectTab,1);
         }
 
         void RefreshShipChooseTab()
@@ -253,6 +379,10 @@ namespace Sim_FrameWork.UI
         private Text _shipSizeText;
         private Text _shipClassDesc;
         private CanvasGroup contentCanvasGroup;
+        private Transform shipBaseCostTrans;
+        private Animation shipContentAnim;
+        private Button shipDesignSaveBtn;
+        private InputField customNameInputField;
 
         private TypeWriterEffect shipClassDescTypeEffect;
 
@@ -263,6 +393,15 @@ namespace Sim_FrameWork.UI
         private LoopList chooseLoopList;
         private Animation shipChooseAnim;
         private CanvasGroup shipChooseCanvasGroup;
+
+        private const string Assemble_Ship_Design_Save_Success_Hint = "Assemble_Ship_Design_Save_Success_Hint";
+        private const string Assemble_Ship_Design_Save_Cover_Success_Hint = "Assemble_Ship_Design_Save_Cover_Success_Hint";
+
+        private const string Assemble_Design_Ship_CustomName_Repeat_Title = "Assemble_Design_Ship_CustomName_Repeat_Title";
+        private const string Assemble_Design_Ship_CustomName_Repeat_Content = "Assemble_Design_Ship_CustomName_Repeat_Content";
+        private const string Assemble_Design_Ship_CustomName_Repeat_Cover = "Assemble_Design_Ship_CustomName_Repeat_Cover";
+        private const string Assemble_Design_Ship_CustomName_Repeat_Cancel = "Assemble_Design_Ship_CustomName_Repeat_Cancel";
+
 
         protected override void InitUIRefrence()
         {
@@ -282,6 +421,10 @@ namespace Sim_FrameWork.UI
             _shipClassDesc = UIUtility.SafeGetComponent<Text>(UIUtility.FindTransfrom(m_page.leftPanel, "ShipDesc/Text"));
             shipClassDescTypeEffect = UIUtility.SafeGetComponent<TypeWriterEffect>(_shipClassDesc.transform);
             contentCanvasGroup = UIUtility.SafeGetComponent<CanvasGroup>(UIUtility.FindTransfrom(Transform, "Content"));
+            shipBaseCostTrans = UIUtility.FindTransfrom(m_page.leftPanel, "CostBase/Content");
+            shipContentAnim = UIUtility.SafeGetComponent<Animation>(UIUtility.FindTransfrom(Transform, "Content"));
+            shipDesignSaveBtn = UIUtility.SafeGetComponent<Button>(UIUtility.FindTransfrom(m_page.RightPanel, "Btn"));
+            customNameInputField = UIUtility.SafeGetComponent<InputField>(UIUtility.FindTransfrom(Transform, "Content/NameCustom/NameFix/InputField"));
 
             customContentTrans = UIUtility.FindTransfrom(m_page.CustomPanel, "Content");
             chooseTabTrans = UIUtility.FindTransfrom(m_page.ChooseContent, "ChooseTab");

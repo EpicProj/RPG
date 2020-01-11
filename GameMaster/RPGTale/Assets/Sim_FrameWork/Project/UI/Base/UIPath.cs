@@ -93,8 +93,8 @@ namespace Sim_FrameWork
             /// <summary>
             /// 探索主界面
             /// </summary>
-            public const string Explore_Main_Page = "Page/ExploreMainPage";
-            public const string Explore_Point_Page = "Page/ExplorePointPage";
+            public const string Explore_Main_Page = "Page/Explore/ExploreMainPage";
+            public const string Explore_Point_Page = "Page/Explore/ExplorePointPage";
 
             /// <summary>
             /// Assemble Design

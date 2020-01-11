@@ -919,8 +919,6 @@ namespace Sim_FrameWork
     public class PlayerExploreTeamData
     {
 
-        public Dictionary<ushort, AssembleShipInfo> shipInfoDic = new Dictionary<ushort, AssembleShipInfo>();
-
 
         /// <summary>
         /// 初始携带能量

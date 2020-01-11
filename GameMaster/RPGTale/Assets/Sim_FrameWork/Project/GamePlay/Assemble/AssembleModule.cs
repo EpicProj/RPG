@@ -107,6 +107,13 @@ namespace Sim_FrameWork
             return config;
         }
 
+        public static AssemblePartPropertyTypeData GetAssemblePartPropertyTypeData(string typeName)
+        {
+            AssemblePartPropertyTypeData data = null;
+            data = Config.ConfigData.AssembleConfig.assemblePartPropertyType.Find(x => x.Name == typeName);
+            return data;
+        }
+
         public static string GetPartName(int modelTypeName)
         {
             var typeMeta = GetAssemblePartTypeByKey(modelTypeName);
@@ -507,10 +514,21 @@ namespace Sim_FrameWork
             public float propertyValueMin;
             public float propertyValueMax;
 
+            public AssemblePartPropertyTypeData propertyTypeData;
+
+            /// <summary>
+            /// 实际成品数值
+            /// </summary>
+            public float realValue;
+
             public CustomData(PartsPropertyConfig.ConfigData config ,float min,float max)
             {
-                propertyNameText = MultiLanguage.Instance.GetTextValue(config.PropertyName);
-                propertyIcon = Utility.LoadSprite(config.PropertyIcon, Utility.SpriteType.png);
+                propertyTypeData = AssembleModule.GetAssemblePartPropertyTypeData(config.Name);
+                if (propertyTypeData != null)
+                {
+                    propertyNameText = MultiLanguage.Instance.GetTextValue(propertyTypeData.PropertyName);
+                    propertyIcon = Utility.LoadSprite(propertyTypeData.PropertyIcon, Utility.SpriteType.png);
+                }
                 propertyValueMin = min;
                 propertyValueMax = max;
             }
@@ -527,8 +545,6 @@ namespace Sim_FrameWork
         public class ConfigData
         {
             public string Name;
-            public string PropertyName;
-            public string PropertyIcon;
             public double PropertyRangeMin;
             public double PropertyRangeMax;
         }
@@ -571,6 +587,14 @@ namespace Sim_FrameWork
 
         }
     }
+
+    public class AssemblePartPropertyTypeData
+    {
+        public string Name;
+        public string PropertyName;
+        public string PropertyIcon;
+    }
+
     #endregion
 
     #region Assemble Ship Data
@@ -581,6 +605,11 @@ namespace Sim_FrameWork
         public ushort UID;
 
         public Config.AssembleMainType mainTypeData;
+
+        public string shipCustomName
+        {
+            get { return presetData.shipClassName + "·" + customData.customNameText; }
+        }
 
         /// <summary>
         /// 建造时长
@@ -659,10 +688,8 @@ namespace Sim_FrameWork
                 _shipStorage = 0;
         }
 
-   
-
         public AssembleShipTypePresetData presetData;
-
+        public AssembleShipCustomData customData;
 
 
         public AssembleShipInfo(int shipID)
@@ -682,6 +709,9 @@ namespace Sim_FrameWork
         }
     }
 
+    /// <summary>
+    /// 舰船预设模板数据
+    /// </summary>
     public class AssembleShipTypePresetData
     {
         public int WarshipID;
@@ -747,8 +777,25 @@ namespace Sim_FrameWork
                 partConfig = AssembleModule.GetShipPartConfigData(warShipID);
             }
         }
+    }
 
+    /// <summary>
+    /// 舰船自定义数据
+    /// </summary>
+    public class AssembleShipCustomData
+    {
+        public int WarshipID;
 
+        public string customNameText;
+
+        public Dictionary<int, AssemblePartInfo> customPartData = new Dictionary<int, AssemblePartInfo>();
+
+        public AssembleShipCustomData(int warshipID,string customName, Dictionary<int, AssemblePartInfo> customPartData)
+        {
+            this.WarshipID = warshipID;
+            this.customNameText = customName;
+            this.customPartData = customPartData;
+        }
     }
 
 
@@ -759,6 +806,7 @@ namespace Sim_FrameWork
 
         public class ConfigData
         {
+            public int configID;
             public string PosType;
             public double PosX;
             public double PosY;

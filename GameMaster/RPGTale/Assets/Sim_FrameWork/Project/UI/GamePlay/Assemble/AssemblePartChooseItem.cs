@@ -20,6 +20,17 @@ namespace Sim_FrameWork
 
         public AssembleChooseItemModel _model;
 
+        /// <summary>
+        /// 展示方式
+        /// 0=null
+        /// 1=查看
+        /// 2=选择
+        /// </summary>
+        byte modeType = 0;
+        int configID = 0;
+
+        private const string AssembleShip_EuqipParts_Success_Hint = "AssembleShip_EuqipParts_Success_Hint";
+
         public override void Awake()
         {
             _icon = UIUtility.SafeGetComponent<Image>(UIUtility.FindTransfrom(transform, "Content/Icon"));
@@ -30,11 +41,15 @@ namespace Sim_FrameWork
 
             _clickBtn = UIUtility.SafeGetComponent<Button>(transform);
             _detailBtn= UIUtility.SafeGetComponent<Button>(UIUtility.FindTransfrom(transform, "Detail"));
+
+            
         }
 
         public override void ChangeAction(List<BaseDataModel> model)
         {
             _model = (AssembleChooseItemModel)model[0];
+            modeType = (byte)paramList[0];
+            configID = (int)paramList[1];
             InitElement();
         }
 
@@ -68,6 +83,25 @@ namespace Sim_FrameWork
                 i++;
             }
 
+            RefreshModeType();
+        }
+
+        void RefreshModeType()
+        {
+            if(modeType == 2)
+            {
+                _clickBtn.onClick.AddListener(OnEquipShipPartsClick);
+            }
+        }
+
+        void OnEquipShipPartsClick()
+        {
+            AudioManager.Instance.PlaySound(AudioClipPath.UISound.Button_Click);
+            UIManager.Instance.SendMessageToWnd(UIPath.WindowPath.Assemble_Ship_Design_Page, new UIMessage(UIMsgType.Assemble_ShipDesign_PartSelect, new List<object>() {_model.Info.UID ,configID }));
+            UIManager.Instance.HideWnd(UIPath.WindowPath.Assemble_Part_Choose_Dialog);
+
+            UIGuide.Instance.ShowGeneralHint(new GeneralHintDialogItem(
+                Utility.ParseStringParams(MultiLanguage.Instance.GetTextValue(AssembleShip_EuqipParts_Success_Hint), new string[] { _model.Info.customName }), 1.5f));
         }
 
 

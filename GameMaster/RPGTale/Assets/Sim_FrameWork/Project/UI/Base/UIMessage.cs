@@ -76,6 +76,7 @@ namespace Sim_FrameWork
         Assemble_ShipTab_Select,
         Assemble_PartPreset_Select,
         Assemble_ShipPreset_Select,
+        Assemble_ShipDesign_PartSelect
 
     }
 }

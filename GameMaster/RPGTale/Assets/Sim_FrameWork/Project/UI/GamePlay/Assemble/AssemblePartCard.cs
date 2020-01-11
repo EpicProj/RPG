@@ -66,8 +66,13 @@ namespace Sim_FrameWork
                     break;
                 var data = _model.PresetInfo.partsPropertyConfig.configData[i];
                 var trans = _partPropertyTrans.GetChild(i);
-                UIUtility.SafeGetComponent<Image>(UIUtility.FindTransfrom(trans, "Icon")).sprite = Utility.LoadSprite(data.PropertyIcon, Utility.SpriteType.png);
-                UIUtility.SafeGetComponent<Text>(UIUtility.FindTransfrom(trans, "Name")).text = MultiLanguage.Instance.GetTextValue(data.PropertyName);
+
+                var typeData = AssembleModule.GetAssemblePartPropertyTypeData(data.Name);
+                if (typeData != null)
+                {
+                    UIUtility.SafeGetComponent<Image>(UIUtility.FindTransfrom(trans, "Icon")).sprite = Utility.LoadSprite(typeData.PropertyIcon, Utility.SpriteType.png);
+                    UIUtility.SafeGetComponent<Text>(UIUtility.FindTransfrom(trans, "Name")).text = MultiLanguage.Instance.GetTextValue(typeData.PropertyName);
+                }
                 UIUtility.SafeGetComponent<Text>(UIUtility.FindTransfrom(trans, "Value")).text = string.Format("{0} ~ {1}", data.PropertyRangeMin.ToString(), data.PropertyRangeMax.ToString());
                 trans.gameObject.SetActive(true);
             }

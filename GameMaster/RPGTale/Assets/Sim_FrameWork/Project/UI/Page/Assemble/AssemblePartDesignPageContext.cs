@@ -132,7 +132,7 @@ namespace Sim_FrameWork.UI
         void OnPresetTotalBtnClick()
         {
             AudioManager.Instance.PlaySound(AudioClipPath.UISound.Button_Click);
-            UIGuide.Instance.ShowAssemblePartChooseDialog(new List<string>() { currentSelectTab }, currentSelectTab);
+            UIGuide.Instance.ShowAssemblePartChooseDialog(new List<string>() { currentSelectTab }, currentSelectTab,1);
         }
 
         void InitPartPropertyContent()
@@ -295,7 +295,7 @@ namespace Sim_FrameWork.UI
             if (isCover)
             {
                 UIGuide.Instance.ShowGeneralHint(new GeneralHintDialogItem(
-                    MultiLanguage.Instance.GetTextValue(Assemble_Design_Save_Success_Hint), 1.5f));
+                    MultiLanguage.Instance.GetTextValue(Assemble_Design_Save_Cover_Success_Hint), 1.5f));
                 UIManager.Instance.HideWnd(UIPath.WindowPath.General_Confirm_Dialog);
             }
             else
@@ -414,8 +414,8 @@ namespace Sim_FrameWork.UI
         void OnPresetTotalBtnClickAll()
         {
             AudioManager.Instance.PlaySound(AudioClipPath.UISound.Button_Click);
-            var typeList = PlayerManager.Instance.GetTotalUnlockAssembleShipTypeList();
-            UIGuide.Instance.ShowAssembleShipChooseDialog(typeList, currentSelectTab);
+            var typeList = PlayerManager.Instance.GetTotalUnlockAssemblePartTypeList();
+            UIGuide.Instance.ShowAssemblePartChooseDialog(typeList, currentSelectTab,1);
         }
 
         void RefreshPartChooseTab()

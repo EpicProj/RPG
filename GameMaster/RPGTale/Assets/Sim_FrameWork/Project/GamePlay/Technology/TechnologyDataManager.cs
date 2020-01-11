@@ -150,11 +150,25 @@ namespace Sim_FrameWork
                         var blockList = TechnologyModule.ParseTechParam_Unlock_Block(effect[i].effectParam);
                         for (int j = 0; j < blockList.Count; j++)
                         {
-                            var buildData = PlayerModule.GetBuildingPanelDataByKey(blockList[i]);
+                            var buildData = PlayerModule.GetBuildingPanelDataByKey(blockList[j]);
                             if (buildData != null)
                             {
                                 PlayerManager.Instance.AddUnLockBuildData(buildData);
                             }
+                        }
+                        break;
+                    case TechCompleteEffect.Unlock_Assemble_Part_Preset:
+                        var partList = TechnologyModule.ParseTechParam_Unlock_Assemble_Part(effect[i].effectParam);
+                        for(int j = 0; j < partList.Count; j++)
+                        {
+                            PlayerManager.Instance.AddUnlockAssemblePartID(partList[j]);
+                        }
+                        break;
+                    case TechCompleteEffect.Unlock_Assemble_Ship_Preset:
+                        var shipList = TechnologyModule.ParseTechParam_Unlock_Assemble_Ship(effect[i].effectParam);
+                        for(int j = 0; j < shipList.Count; j++)
+                        {
+                            PlayerManager.Instance.AddUnlockAssembleShipID(shipList[j]);
                         }
                         break;
                 }

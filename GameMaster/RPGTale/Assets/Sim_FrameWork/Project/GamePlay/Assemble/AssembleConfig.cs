@@ -10,6 +10,7 @@ namespace Sim_FrameWork.Config
         public string assembleShipPage_DefaultSelectTab;
 
         public List<AssembleMainType> assembleMainType;
+        public List<AssemblePartPropertyTypeData> assemblePartPropertyType;
         public List<AssembleShipMainType> assembleShipMainType;
         public List<AssemblePartMainType> assemblePartMainType;
 
@@ -20,6 +21,7 @@ namespace Sim_FrameWork.Config
             assemblePartPage_DefaultSelectTab = settting.assemblePartPage_DefaultSelectTab;
             assembleShipPage_DefaultSelectTab = settting.assembleShipPage_DefaultSelectTab;
             assembleMainType = settting.assembleMainType;
+            assemblePartPropertyType = settting.assemblePartPropertyType;
             assembleShipMainType = settting.assembleShipMainType;
             assemblePartMainType = settting.assemblePartMainType;
 
@@ -35,6 +37,19 @@ namespace Sim_FrameWork.Config
                 else
                 {
                     Debug.LogError("AssembleConfig: Find Same AssembleMainType  Type=" + assembleMainType[i].Type);
+                }
+            }
+
+            List<string> assemblePartPropertyList = new List<string>();
+            for (int i = 0; i < assemblePartPropertyType.Count; i++)
+            {
+                if (!assemblePartPropertyList.Contains(assemblePartPropertyType[i].Name))
+                {
+                    assemblePartPropertyList.Add(assemblePartPropertyType[i].Name);
+                }
+                else
+                {
+                    Debug.LogError("AssembleConfig: Find Same assembleShipMainType  Type=" + assembleShipMainType[i].Type);
                 }
             }
 
