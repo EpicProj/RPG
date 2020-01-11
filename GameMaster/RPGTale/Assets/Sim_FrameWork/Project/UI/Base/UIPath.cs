@@ -51,6 +51,7 @@ namespace Sim_FrameWork
             public const string RandomEvent_Dialog = "Dialog/Main/RandomEventDialog";
 
             public const string Assemble_Part_Choose_Dialog = "Dialog/Assemble/AssemblePartChooseDialog";
+            public const string Assemble_Ship_Choose_Dialog= "Dialog/Assemble/AssembleShipChooseDialog";
 
             #endregion
 
@@ -150,6 +151,9 @@ namespace Sim_FrameWork
             #endregion
 
             #region ElementPath
+
+            public const string General_ChooseTab = "Assets/Prefabs/Object/Main/General/GeneralChooseTab.prefab";
+
             ///建造主页签
             public const string Construct_MainTab_Element_Path = "Assets/Prefabs/Object/Main/ConstructMainTabElement.prefab";
             public const string Order_Detail_Element = "Assets/Prefabs/Object/Order/OrderDetailElement.prefab";
@@ -177,7 +181,6 @@ namespace Sim_FrameWork
             public const string Assemble_Part_PropertyItem = "Assets/Prefabs/Object/Assemble/AssemblePropertyItem.prefab";
             public const string Assemble_Part_CustomItem_Left = "Assets/Prefabs/Object/Assemble/AssemblePartCustomItem_Left.prefab";
             public const string Assemble_Part_CustomItem_Right = "Assets/Prefabs/Object/Assemble/AssemblePartCustomItem_Right.prefab";
-            public const string Assemble_Part_ChooseTab = "Assets/Prefabs/Object/Assemble/AssembleChooseTab.prefab";
 
             public const string Assemble_Ship_Part_Top = "Assets/Prefabs/Object/Assemble/AssembleShipCustomPartItem_Top.prefab";
             public const string Assemble_Ship_Part_Bottom= "Assets/Prefabs/Object/Assemble/AssembleShipCustomPartItem_Bottom.prefab";

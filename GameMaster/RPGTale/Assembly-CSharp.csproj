@@ -205,6 +205,8 @@
     <Compile Include="Assets\Sim_FrameWork\Project\UI\Base\WindowBase.cs" />
     <Compile Include="Assets\Sim_FrameWork\Project\UI\Dialog\Assemble\AssemblePartChooseDialog.cs" />
     <Compile Include="Assets\Sim_FrameWork\Project\UI\Dialog\Assemble\AssemblePartChooseDialogContext.cs" />
+    <Compile Include="Assets\Sim_FrameWork\Project\UI\Dialog\Assemble\AssembleShipChooseDialog.cs" />
+    <Compile Include="Assets\Sim_FrameWork\Project\UI\Dialog\Assemble\AssembleShipChooseDialogContext.cs" />
     <Compile Include="Assets\Sim_FrameWork\Project\UI\Dialog\BlockInfoDialog.cs" />
     <Compile Include="Assets\Sim_FrameWork\Project\UI\Dialog\Event\RandomEventDialog.cs" />
     <Compile Include="Assets\Sim_FrameWork\Project\UI\Dialog\Event\RandomEventDialogContext.cs" />
@@ -218,7 +220,6 @@
     <Compile Include="Assets\Sim_FrameWork\Project\UI\Dialog\MainMenu\GameLoadDialogContext.cs" />
     <Compile Include="Assets\Sim_FrameWork\Project\UI\Dialog\MainMenu\MenuDialog.cs" />
     <Compile Include="Assets\Sim_FrameWork\Project\UI\Dialog\MainMenu\MenuDialogContext.cs" />
-    <Compile Include="Assets\Sim_FrameWork\Project\UI\Dialog\Misc\GeneralConfirmDialog.cs" />
     <Compile Include="Assets\Sim_FrameWork\Project\UI\Dialog\Misc\GeneralConfirmDialogContext.cs" />
     <Compile Include="Assets\Sim_FrameWork\Project\UI\Dialog\Misc\GeneralHintDialog.cs" />
     <Compile Include="Assets\Sim_FrameWork\Project\UI\Dialog\Misc\GeneralHintDialogContext.cs" />
@@ -227,7 +228,6 @@
     <Compile Include="Assets\Sim_FrameWork\Project\UI\Effect\UIGradient.cs" />
     <Compile Include="Assets\Sim_FrameWork\Project\UI\GamePlay\Assemble\AssemblePartCard.cs" />
     <Compile Include="Assets\Sim_FrameWork\Project\UI\GamePlay\Assemble\AssemblePartChooseItem.cs" />
-    <Compile Include="Assets\Sim_FrameWork\Project\UI\GamePlay\Assemble\AssemblePartChooseTab.cs" />
     <Compile Include="Assets\Sim_FrameWork\Project\UI\GamePlay\Assemble\AssembleShipCard.cs" />
     <Compile Include="Assets\Sim_FrameWork\Project\UI\GamePlay\Explore\EventChooseBtn.cs" />
     <Compile Include="Assets\Sim_FrameWork\Project\UI\GamePlay\Explore\ExploreAreaMissionElement.cs" />
@@ -268,8 +268,9 @@
     <Compile Include="Assets\Sim_FrameWork\Project\UI\Misc\DistrictDetailUI.cs" />
     <Compile Include="Assets\Sim_FrameWork\Project\UI\Misc\DistrictDetailUIContext.cs" />
     <Compile Include="Assets\Sim_FrameWork\Project\UI\Misc\FormulaContentCmpt.cs" />
+    <Compile Include="Assets\Sim_FrameWork\Project\UI\Misc\General\GeneralChooseTab.cs" />
+    <Compile Include="Assets\Sim_FrameWork\Project\UI\Misc\General\SliderGroup.cs" />
     <Compile Include="Assets\Sim_FrameWork\Project\UI\Misc\SelectionUIObject.cs" />
-    <Compile Include="Assets\Sim_FrameWork\Project\UI\Misc\SliderGroup.cs" />
     <Compile Include="Assets\Sim_FrameWork\Project\UI\Misc\WareHouseMainTagCmpt.cs" />
     <Compile Include="Assets\Sim_FrameWork\Project\UI\Misc\WareHouseSubTagCmpt.cs" />
     <Compile Include="Assets\Sim_FrameWork\Project\UI\Page\Assemble\AssemblePartDesignPage.cs" />

@@ -345,6 +345,16 @@ namespace Sim_FrameWork
             return result;
         }
 
+        public List<string> GetTotalUnlockAssemblePartTypeList()
+        {
+            List<string> list = new List<string>();
+            foreach(var type in AssemblePartMainTypeDic)
+            {
+                list.Add(type.Key);
+            }
+            return list;
+        }
+
         /// <summary>
         /// 已解锁部件模板信息
         /// </summary>
@@ -494,12 +504,12 @@ namespace Sim_FrameWork
             return result;
         }
 
-        public List<List<BaseDataModel>> GetAssemblePartChooseModel(List<string> typelist)
+        public List<List<BaseDataModel>> GetAssemblePartChooseModel(string typeID)
         {
             List<List<BaseDataModel>> result = new List<List<BaseDataModel>>();
 
-            var list = GetAssemblePartInfoByTypeList(typelist);
-            for(int i = 0; i < list.Count; i++)
+            var list = GetAssemblePartInfoByTypeID(typeID);
+            for (int i = 0; i < list.Count; i++)
             {
                 AssembleChooseItemModel model = new AssembleChooseItemModel();
                 if (model.Create(list[i].UID))
@@ -528,6 +538,20 @@ namespace Sim_FrameWork
             return instanceId;
         }
 
+        /// <summary>
+        /// 检测自定义名字是否重复
+        /// </summary>
+        /// <param name="text"></param>
+        /// <returns></returns>
+        public bool CheckAssemblePartCustomNameRepeat(string partName,string customName)
+        {
+            foreach(var part in _assemblePartDesignDataDic)
+            {
+                if (part.Value.typePresetData.partName == partName && part.Value.customDataInfo.partNameCustomText == customName)
+                    return true;
+            }
+            return false;
+        }
 
         #endregion
 
@@ -577,6 +601,16 @@ namespace Sim_FrameWork
             {
                 if (data.Value.DefaultUnlock == true)
                     result.Add(data.Value);
+            }
+            return result;
+        }
+
+        public List<string> GetTotalUnlockAssembleShipTypeList()
+        {
+            List<string> result = new List<string>();
+            foreach(var type in AssembleShipMainTypeDic)
+            {
+                result.Add(type.Key);
             }
             return result;
         }

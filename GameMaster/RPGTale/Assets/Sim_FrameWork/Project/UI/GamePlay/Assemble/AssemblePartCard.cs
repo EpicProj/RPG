@@ -14,6 +14,8 @@ namespace Sim_FrameWork
         private Text _partDesc;
         private Transform _partPropertyTrans;
         private Transform _partEquipTargetTrans;
+        private Transform _chooseEffect;
+        private Transform _partCostTrans;
 
         private Button _btn;
 
@@ -25,6 +27,10 @@ namespace Sim_FrameWork
             _partImage= UIUtility.SafeGetComponent<Image>(UIUtility.FindTransfrom(transform, "Content/IconBG/Icon"));
             _partPropertyTrans = UIUtility.FindTransfrom(transform, "Content/PartProperty/Content");
             _partEquipTargetTrans = UIUtility.FindTransfrom(transform, "Content/PartEquipTarget/Content");
+            _chooseEffect = UIUtility.FindTransfrom(transform, "ChooseEffect");
+            _partCostTrans = UIUtility.FindTransfrom(transform, "Content/PartCost/Content");
+            _chooseEffect.gameObject.SetActive(false);
+
             _btn = UIUtility.SafeGetComponent<Button>(UIUtility.FindTransfrom(transform,"Btn"));
             _btn.onClick.AddListener(OnBtnClick);
         }
@@ -44,7 +50,7 @@ namespace Sim_FrameWork
 
             RefreshPartProperty();
             RefreshPartEquipTarget();
-
+            RefreshPartCost();
         }
 
         void RefreshPartProperty()
@@ -90,12 +96,43 @@ namespace Sim_FrameWork
             }
         }
 
+        void RefreshPartCost()
+        {
+            foreach(Transform trans in _partCostTrans)
+            {
+                trans.gameObject.SetActive(false);
+            }
+
+            var costList = AssembleModule.GetPartMaterialCost(_model.ID);
+            for(int i = 0; i < costList.Count; i++)
+            {
+                if (i > Config.GlobalConfigData.Assemble_MaterialCost_MaxNum)
+                    break;
+                var cmpt = UIUtility.SafeGetComponent<MaterialCostCmpt>(_partCostTrans.GetChild(i));
+                if (cmpt != null)
+                {
+                    cmpt.SetUpItem(costList[i]);
+                    cmpt.gameObject.SetActive(true);
+                }
+            }
+
+        }
+
         void OnBtnClick()
         {
             AudioManager.Instance.PlaySound(AudioClipPath.UISound.Button_Click);
             UIManager.Instance.SendMessageToWnd(UIPath.WindowPath.Assemble_Part_Design_Page, new UIMessage(UIMsgType.Assemble_PartPreset_Select, new List<object>() { _model.ID }));
         }
 
+        public override void OnPointerEnter(PointerEventData eventData)
+        {
+            _chooseEffect.gameObject.SetActive(true);
+        }
+
+        public override void OnPointerExit(PointerEventData eventData)
+        {
+            _chooseEffect.gameObject.SetActive(false);
+        }
 
     }
 }

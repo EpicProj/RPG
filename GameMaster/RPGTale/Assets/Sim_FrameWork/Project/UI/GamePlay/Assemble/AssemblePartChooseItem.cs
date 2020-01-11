@@ -46,7 +46,7 @@ namespace Sim_FrameWork
             _icon.sprite = _model.Info.typePresetData.partSprite;
             _typeIcon.sprite = _model.Info.typePresetData.TypeIcon;
             _typeText.text = _model.Info.typePresetData.TypeName;
-            _name.text = _model.Info.typePresetData.partName;
+            _name.text = _model.Info.customName;
 
             foreach(Transform trans in _propertyContentTrans)
             {
@@ -69,6 +69,7 @@ namespace Sim_FrameWork
             }
 
         }
+
 
         public override void OnPointerEnter(PointerEventData eventData)
         {

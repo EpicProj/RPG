@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
 namespace Sim_FrameWork
@@ -19,6 +20,8 @@ namespace Sim_FrameWork
         private Text _explore;
         private Text _storage;
 
+        private Transform _materialCostTrans;
+        private Transform _chooseEffect;
         private Button _btn;
 
         private AssembleShipTypePresetModel _model;
@@ -37,6 +40,9 @@ namespace Sim_FrameWork
             _storage = UIUtility.SafeGetComponent<Text>(UIUtility.FindTransfrom(transform, "Content/ShipProperty/Content/Storage/Value"));
 
             _btn = UIUtility.SafeGetComponent<Button>(UIUtility.FindTransfrom(transform, "Btn"));
+            _materialCostTrans = UIUtility.FindTransfrom(transform, "Content/PartCost/Content");
+            _chooseEffect = UIUtility.FindTransfrom(transform, "ChooseEffect");
+            _chooseEffect.gameObject.SetActive(false);
             _btn.onClick.AddListener(OnBtnClick);
         }
 
@@ -59,12 +65,45 @@ namespace Sim_FrameWork
             _speed.text = _model.PresetInfo._metaData.SpeedBase.ToString();
             _firePower.text = _model.PresetInfo._metaData.FirePowerBase.ToString();
             _storage.text = _model.PresetInfo._metaData.StorageBase.ToString();
+
+            RefreshMaterialCost();
+        }
+
+        void RefreshMaterialCost()
+        {
+            foreach(Transform trans in _materialCostTrans)
+            {
+                trans.gameObject.SetActive(false);
+            }
+
+            var costList = _model.PresetInfo.shipCostBase;
+            for(int i = 0; i < costList.Count; i++)
+            {
+                if (i > Config.GlobalConfigData.Assemble_MaterialCost_MaxNum)
+                    break;
+                var cmpt = UIUtility.SafeGetComponent<MaterialCostCmpt>(_materialCostTrans.GetChild(i));
+                if (cmpt != null)
+                {
+                    cmpt.SetUpItem(costList[i]);
+                    cmpt.gameObject.SetActive(true);
+                }
+            }
         }
 
         void OnBtnClick()
         {
             AudioManager.Instance.PlaySound(AudioClipPath.UISound.Button_Click);
             UIManager.Instance.SendMessageToWnd(UIPath.WindowPath.Assemble_Ship_Design_Page, new UIMessage(UIMsgType.Assemble_ShipPreset_Select, new List<object>() {_model.ID }));
+        }
+
+        public override void OnPointerEnter(PointerEventData eventData)
+        {
+            _chooseEffect.gameObject.SetActive(true);
+        }
+
+        public override void OnPointerExit(PointerEventData eventData)
+        {
+            _chooseEffect.gameObject.SetActive(false);
         }
     }
 }

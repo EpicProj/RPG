@@ -144,7 +144,7 @@ namespace Sim_FrameWork.Config
         /// </summary>
         public static readonly ushort AssemblePart_Max_PropertyNum = 4;
         public static readonly ushort AssemblePart_Target_MaxNum = 4;
-        public static readonly ushort AssemblePart_MaterialCost_MaxNum = 4;
+        public static readonly ushort Assemble_MaterialCost_MaxNum = 4;
 
 
     }

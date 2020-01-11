@@ -200,8 +200,8 @@ namespace Sim_FrameWork
             if (meta != null)
             {
                 var list = Utility.TryParseStringList(meta.BaseMaterialCost, ',');
-                if (list.Count > Config.GlobalConfigData.AssemblePart_MaterialCost_MaxNum)
-                    Debug.LogError("Assemble Parts MaterialCost Num can not be larger than " + Config.GlobalConfigData.AssemblePart_MaterialCost_MaxNum + "  PartID=" + partID);
+                if (list.Count > Config.GlobalConfigData.Assemble_MaterialCost_MaxNum)
+                    Debug.LogError("Assemble Parts MaterialCost Num can not be larger than " + Config.GlobalConfigData.Assemble_MaterialCost_MaxNum + "  PartID=" + partID);
                 for(int i = 0; i < list.Count; i++)
                 {
                     var maData = Utility.TryParseStringList(list[i], ':');
@@ -321,6 +321,35 @@ namespace Sim_FrameWork
             return result;
         }
 
+        public static List<MaterialCostItem> GetShipMaterialCost(int shipID)
+        {
+            List<MaterialCostItem> costList = new List<MaterialCostItem>();
+            var meta = GetWarshipDataByKey(shipID);
+            if (meta != null)
+            {
+                var list = Utility.TryParseStringList(meta.MaterialCost, ',');
+                if (list.Count > Config.GlobalConfigData.Assemble_MaterialCost_MaxNum)
+                    Debug.LogError("Assemble ship MaterialCost Num can not be larger than " + Config.GlobalConfigData.Assemble_MaterialCost_MaxNum + "  shipID=" + shipID);
+                for (int i = 0; i < list.Count; i++)
+                {
+                    var maData = Utility.TryParseStringList(list[i], ':');
+                    if (maData.Count == 2)
+                    {
+                        int materialID = Utility.TryParseInt(maData[0]);
+                        MaterialCostItem item = new MaterialCostItem(materialID, Utility.TryParseInt(maData[1]));
+                        if (item.InitSuccess)
+                        {
+                            costList.Add(item);
+                        }
+                    }
+                    else
+                    {
+                        Debug.LogError("Assemble ship MaterialCost FormatError!  PartID=" + shipID);
+                    }
+                }
+            }
+            return costList;
+        }
 
         #endregion
 
@@ -353,11 +382,11 @@ namespace Sim_FrameWork
         /// For Custom
         /// </summary>
         public ushort UID;
-        public string customNameText;
         public string customName
         {
-            get { return typePresetData.partName + customNameText; }
+            get { return typePresetData.partName +"·"+ customDataInfo.partNameCustomText; }
         }
+
 
         public List<MaterialCostItem> materialCostItem = new List<MaterialCostItem>();
         public List<string> partEquipType = new List<string>();
@@ -700,6 +729,7 @@ namespace Sim_FrameWork
             }
         }
 
+        public List<MaterialCostItem> shipCostBase = new List<MaterialCostItem>();
 
         public AssembleWarship _metaData;
         public AssembleWarshipClass _metaClass;
@@ -712,6 +742,7 @@ namespace Sim_FrameWork
             if (_metaData != null)
             {
                 WarshipID = _metaData.WarShipID;
+                shipCostBase = AssembleModule.GetShipMaterialCost(_metaData.WarShipID);
                 _metaClass = AssembleModule.GetWarshipClassDataByKey(_metaData.Class);
                 partConfig = AssembleModule.GetShipPartConfigData(warShipID);
             }

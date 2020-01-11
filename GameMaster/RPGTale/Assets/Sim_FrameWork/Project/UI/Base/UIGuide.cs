@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Sim_FrameWork.UI;
 
 namespace Sim_FrameWork
 {
@@ -36,6 +37,16 @@ namespace Sim_FrameWork
             UIManager.Instance.Register<UI.GeneralHintDialogContext>(UIPath.WindowPath.General_Hint_Dialog);
             UIManager.Instance.PopUpWnd(UIPath.WindowPath.General_Hint_Dialog, WindowType.SPContent, true, item);
         }
+        /// <summary>
+        /// 通用确认框
+        /// </summary>
+        /// <param name="item"></param>
+        public void ShowGeneralConfirmDialog(GeneralConfirmDialogItem item)
+        {
+            UIManager.Instance.Register<UI.GeneralConfirmDialogContext>(UIPath.WindowPath.General_Confirm_Dialog);
+            UIManager.Instance.PopUpWnd(UIPath.WindowPath.General_Confirm_Dialog, WindowType.Dialog, true, item);
+        }
+
 
         public void ShowMaterialDetailInfo(MaterialDataModel model)
         {
@@ -130,10 +141,16 @@ namespace Sim_FrameWork
             UIManager.Instance.PopUpWnd(UIPath.WindowPath.Assemble_Ship_Design_Page, WindowType.Page,true, info);
         }
 
-        public void ShowAssemblePartChooseDialog(List<string> sortList)
+        public void ShowAssemblePartChooseDialog(List<string> sortList,string defaultSelectTab)
         {
             UIManager.Instance.Register<UI.AssemblePartChooseDialogContext>(UIPath.WindowPath.Assemble_Part_Choose_Dialog);
-            UIManager.Instance.PopUpWnd(UIPath.WindowPath.Assemble_Part_Choose_Dialog, WindowType.Dialog,true, sortList);
+            UIManager.Instance.PopUpWnd(UIPath.WindowPath.Assemble_Part_Choose_Dialog, WindowType.Dialog, true, sortList, defaultSelectTab);
+        }
+
+        public void ShowAssembleShipChooseDialog(List<string> sortList,string defaultSelectTab)
+        {
+            UIManager.Instance.Register<UI.AssembleShipChooseDialogContext>(UIPath.WindowPath.Assemble_Ship_Choose_Dialog);
+            UIManager.Instance.PopUpWnd(UIPath.WindowPath.Assemble_Ship_Choose_Dialog, WindowType.Dialog, true, sortList, defaultSelectTab);
         }
 
     }

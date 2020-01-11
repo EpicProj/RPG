@@ -4,7 +4,7 @@ using System.Collections.Generic;
 
 namespace Sim_FrameWork
 {
-    public class AssemblePartChooseTab : MonoBehaviour
+    public class GeneralChooseTab : MonoBehaviour
     {
         private Image _icon;
         private Button _btn;
@@ -18,8 +18,11 @@ namespace Sim_FrameWork
             _btn = UIUtility.SafeGetComponent<Button>(transform);
         }
 
-
-        public void SetUpTab(Config.AssemblePartMainType partTypeData)
+        /// <summary>
+        /// Ship Part Tab
+        /// </summary>
+        /// <param name="partTypeData"></param>
+        public void SetUpTab(Config.AssemblePartMainType partTypeData , bool isDesignPage)
         {
             _btn.onClick.RemoveAllListeners();
             if (partTypeData != null)
@@ -27,10 +30,28 @@ namespace Sim_FrameWork
                 Type = partTypeData.Type;
                 _icon.sprite = Utility.LoadSprite(partTypeData.IconPath, Utility.SpriteType.png);
                 _text.text = MultiLanguage.Instance.GetTextValue(partTypeData.TypeName);
-                _btn.onClick.AddListener(OnPartBtnClick);
+                _btn.onClick.AddListener(()=> OnPartBtnClick(isDesignPage));
             }
         }
 
+        void OnPartBtnClick(bool isDesignPage)
+        {
+            AudioManager.Instance.PlaySound(AudioClipPath.UISound.Button_Click);
+            if (isDesignPage)
+            {
+                UIManager.Instance.SendMessageToWnd(UIPath.WindowPath.Assemble_Part_Design_Page, new UIMessage(UIMsgType.Assemble_PartTab_Select, new List<object>() { Type }));
+            }
+            else
+            {
+                UIManager.Instance.SendMessageToWnd(UIPath.WindowPath.Assemble_Part_Choose_Dialog, new UIMessage(UIMsgType.Assemble_PartTab_Select_ChooseDialog, new List<object>() { Type }));
+            }
+          
+        }
+
+        /// <summary>
+        /// Ship MainType Tab
+        /// </summary>
+        /// <param name="shipTypeData"></param>
         public void SetUpTab(Config.AssembleShipMainType shipTypeData)
         {
             _btn.onClick.RemoveAllListeners();
@@ -43,16 +64,11 @@ namespace Sim_FrameWork
             }
         }
 
-        void OnPartBtnClick()
-        {
-            AudioManager.Instance.PlaySound(AudioClipPath.UISound.Button_Click);
-            UIManager.Instance.SendMessageToWnd(UIPath.WindowPath.Assemble_Part_Design_Page, new UIMessage(UIMsgType.Assemble_PartTab_Select, new List<object>() { Type }));
-        }
-
         void OnShipBtnClick()
         {
             AudioManager.Instance.PlaySound(AudioClipPath.UISound.Button_Click);
             UIManager.Instance.SendMessageToWnd(UIPath.WindowPath.Assemble_Ship_Design_Page, new UIMessage(UIMsgType.Assemble_ShipTab_Select, new List<object>() { Type }));
         }
+
     }
 }

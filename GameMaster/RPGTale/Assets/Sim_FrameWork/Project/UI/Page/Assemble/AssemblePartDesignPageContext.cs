@@ -22,7 +22,7 @@ namespace Sim_FrameWork.UI
             _info = (AssemblePartInfo)paralist[0];
             _propertyItem = new List<AssemblePartPropertyItem>();
             _customItem = new List<AssemblePartCustomItem>();
-            AddbuttomClick();
+            AddButtomClick();
         }
 
         public override void OnShow(params object[] paralist)
@@ -76,7 +76,7 @@ namespace Sim_FrameWork.UI
 
         #endregion
 
-        private void AddbuttomClick()
+        private void AddButtomClick()
         {
             AddButtonClickListener(SaveDesignBtn, OnSaveDesignBtnClick);
             AddButtonClickListener(m_page.backBtn, () =>
@@ -95,6 +95,8 @@ namespace Sim_FrameWork.UI
             UIUtility.ActiveCanvasGroup(contentCanvasGroup, false);
         }
 
+   
+
         #region Content
         void SetUpContent()
         {
@@ -103,6 +105,7 @@ namespace Sim_FrameWork.UI
 
             UIUtility.ActiveCanvasGroup(partChooseCanvasGroup, false);
             UIUtility.ActiveCanvasGroup(contentCanvasGroup, true);
+            m_page.presetBtn.gameObject.SetActive(true);
             
             partTypeImage.sprite = _info.typePresetData.TypeIcon;
             partTypeName.text = _info.typePresetData.TypeName;
@@ -119,8 +122,17 @@ namespace Sim_FrameWork.UI
             InitAssembleTargetItem();
             InitPartCostPanel();
 
+            m_page.presetTotalBtn.onClick.RemoveAllListeners();
+            AddButtonClickListener(m_page.presetTotalBtn, OnPresetTotalBtnClick);
+
             if (partContentAnim != null)
                 partContentAnim.Play();
+        }
+
+        void OnPresetTotalBtnClick()
+        {
+            AudioManager.Instance.PlaySound(AudioClipPath.UISound.Button_Click);
+            UIGuide.Instance.ShowAssemblePartChooseDialog(new List<string>() { currentSelectTab }, currentSelectTab);
         }
 
         void InitPartPropertyContent()
@@ -252,11 +264,46 @@ namespace Sim_FrameWork.UI
         void OnSaveDesignBtnClick()
         {
             AudioManager.Instance.PlaySound(AudioClipPath.UISound.Button_Click);
+
+            ///Custom Name Repeat
+            if (PlayerManager.Instance.CheckAssemblePartCustomNameRepeat(_info.typePresetData.partName,customNameInput.text))
+            {
+                GeneralConfirmDialogItem item = new GeneralConfirmDialogItem(
+                    MultiLanguage.Instance.GetTextValue(Assemble_Design_Part_CustomName_Repeat_Title),
+                    MultiLanguage.Instance.GetTextValue(Assemble_Design_Part_CustomName_Repeat_Content),
+                    2,
+                    ()=> { ConfirmSavePartDesignAction(true); },
+                    MultiLanguage.Instance.GetTextValue(Assemble_Design_Part_CustomName_Repeat_Cover),
+                    () =>
+                    {
+                        UIManager.Instance.HideWnd(UIPath.WindowPath.General_Confirm_Dialog);
+                    },
+                    MultiLanguage.Instance.GetTextValue(Assemble_Design_Part_CustomName_Repeat_Cancel)
+                    );
+                UIGuide.Instance.ShowGeneralConfirmDialog(item);
+            }
+            else
+            {
+                ConfirmSavePartDesignAction(false);
+            }
+        }
+
+        void ConfirmSavePartDesignAction(bool isCover)
+        {
             _info.customDataInfo = GenerateCustomDataInfo();
             PlayerManager.Instance.AddAssemblePartDesign(_info);
-
-            UIGuide.Instance.ShowGeneralHint(new GeneralHintDialogItem(
-                MultiLanguage.Instance.GetTextValue(Assemble_Design_Save_Success_Hint), 1.5f));
+            if (isCover)
+            {
+                UIGuide.Instance.ShowGeneralHint(new GeneralHintDialogItem(
+                    MultiLanguage.Instance.GetTextValue(Assemble_Design_Save_Success_Hint), 1.5f));
+                UIManager.Instance.HideWnd(UIPath.WindowPath.General_Confirm_Dialog);
+            }
+            else
+            {
+                UIGuide.Instance.ShowGeneralHint(new GeneralHintDialogItem(
+                   MultiLanguage.Instance.GetTextValue(Assemble_Design_Save_Success_Hint), 1.5f));
+            }
+          
         }
 
         AssemblePartCustomDataInfo GenerateCustomDataInfo()
@@ -316,9 +363,9 @@ namespace Sim_FrameWork.UI
         {
             timeCostText.text = _info.baseTimeCost.ToString();
 
-            if (materialCostTrans.childCount != Config.GlobalConfigData.AssemblePart_MaterialCost_MaxNum)
+            if (materialCostTrans.childCount != Config.GlobalConfigData.Assemble_MaterialCost_MaxNum)
             {
-                for(int i = 0; i < Config.GlobalConfigData.AssemblePart_MaterialCost_MaxNum; i++)
+                for(int i = 0; i < Config.GlobalConfigData.Assemble_MaterialCost_MaxNum; i++)
                 {
                     var obj = ObjectManager.Instance.InstantiateObject(UIPath.PrefabPath.MaterialCost_Item);
                     if (obj != null)
@@ -336,7 +383,7 @@ namespace Sim_FrameWork.UI
 
             for(int i = 0; i < _info.materialCostItem.Count; i++)
             {
-                if (i >= Config.GlobalConfigData.AssemblePart_MaterialCost_MaxNum)
+                if (i >= Config.GlobalConfigData.Assemble_MaterialCost_MaxNum)
                     break;
                 var cmpt = UIUtility.SafeGetComponent<MaterialCostCmpt>(materialCostTrans.GetChild(i));
                 if (cmpt != null)
@@ -353,10 +400,22 @@ namespace Sim_FrameWork.UI
 
         void SetUpPartChooseContent()
         {
+         
             UIUtility.ActiveCanvasGroup(contentCanvasGroup, false);
             UIUtility.ActiveCanvasGroup(partChooseCanvasGroup, true);
+            m_page.presetBtn.gameObject.SetActive(false);
+
             RefreshPartChooseTab();
             InitDefaultTabSelect();
+            m_page.presetTotalBtn.onClick.RemoveAllListeners();
+            AddButtonClickListener(m_page.presetTotalBtn, OnPresetTotalBtnClickAll);
+        }
+
+        void OnPresetTotalBtnClickAll()
+        {
+            AudioManager.Instance.PlaySound(AudioClipPath.UISound.Button_Click);
+            var typeList = PlayerManager.Instance.GetTotalUnlockAssembleShipTypeList();
+            UIGuide.Instance.ShowAssembleShipChooseDialog(typeList, currentSelectTab);
         }
 
         void RefreshPartChooseTab()
@@ -369,11 +428,11 @@ namespace Sim_FrameWork.UI
             var unlockList = PlayerManager.Instance.GetTotalUnlockAssembleTypeData();
             for(int i = 0; i < unlockList.Count; i++)
             {
-                var obj = ObjectManager.Instance.InstantiateObject(UIPath.PrefabPath.Assemble_Part_ChooseTab);
+                var obj = ObjectManager.Instance.InstantiateObject(UIPath.PrefabPath.General_ChooseTab);
                 if (obj != null)
                 {
-                    var cmpt = UIUtility.SafeGetComponent<AssemblePartChooseTab>(obj.transform);
-                    cmpt.SetUpTab(unlockList[i]);
+                    var cmpt = UIUtility.SafeGetComponent<GeneralChooseTab>(obj.transform);
+                    cmpt.SetUpTab(unlockList[i],true);
                     obj.name = "PartTab_" + i;
                     obj.transform.SetParent(tabChooseTrans, false);
                 }
@@ -446,6 +505,12 @@ namespace Sim_FrameWork.UI
         private Animation partChooseAnim;
 
         private const string Assemble_Design_Save_Success_Hint = "Assemble_Design_Save_Success_Hint";
+        private const string Assemble_Design_Save_Cover_Success_Hint = "Assemble_Design_Save_Cover_Success_Hint";
+        /// 组件自定义名重复文本
+        private const string Assemble_Design_Part_CustomName_Repeat_Title = "Assemble_Design_Part_CustomName_Repeat_Title";
+        private const string Assemble_Design_Part_CustomName_Repeat_Content = "Assemble_Design_Part_CustomName_Repeat_Content";
+        private const string Assemble_Design_Part_CustomName_Repeat_Cover = "Assemble_Design_Part_CustomName_Repeat_Cover";
+        private const string Assemble_Design_Part_CustomName_Repeat_Cancel = "Assemble_Design_Part_CustomName_Repeat_Cancel";
 
         protected override void InitUIRefrence()
         {

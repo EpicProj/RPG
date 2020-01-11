@@ -73,15 +73,15 @@ namespace Sim_FrameWork.UI
             {
                 UIManager.Instance.HideWnd(this);
             });
-            AddButtonClickListener(m_page.presetChooseBtn, OnPresetBtnClick);
+            AddButtonClickListener(m_page.presetChooseBtn, OnPresetChooseBtnClick);
         }
-
-        void OnPresetBtnClick()
+        void OnPresetChooseBtnClick()
         {
             AudioManager.Instance.PlaySound(AudioClipPath.UISound.Button_Click);
             UIUtility.ActiveCanvasGroup(shipChooseCanvasGroup, true);
             UIUtility.ActiveCanvasGroup(contentCanvasGroup, false);
         }
+
 
         void SetUpPage()
         {
@@ -89,6 +89,7 @@ namespace Sim_FrameWork.UI
                 return;
             UIUtility.ActiveCanvasGroup(shipChooseCanvasGroup, false);
             UIUtility.ActiveCanvasGroup(contentCanvasGroup, true);
+            m_page.presetChooseBtn.gameObject.SetActive(true);
 
             _shipTypeIcon.sprite = _info.presetData.TypeIcon;
             _shipTypeText.text = _info.presetData.TypeName;
@@ -99,10 +100,17 @@ namespace Sim_FrameWork.UI
                 shipClassDescTypeEffect.StartEffect();
             MapManager.Instance.InitAssembleModel(_info.presetData._metaClass.ModelPath);
 
+            m_page.presetTotalBtn.onClick.RemoveAllListeners();
+            AddButtonClickListener(m_page.presetTotalBtn, OnPresetTotalBtnClick);
             refreshProperty();
             InitShipPartItem();
         }
-
+        void OnPresetTotalBtnClick()
+        {
+            AudioManager.Instance.PlaySound(AudioClipPath.UISound.Button_Click);
+            UIGuide.Instance.ShowAssembleShipChooseDialog(new List<string>() { currentSelectTab }, currentSelectTab);
+        }
+     
         bool refreshProperty()
         {
             _propertyDurabilityText.text = _info.shipDurability.ToString();
@@ -158,8 +166,19 @@ namespace Sim_FrameWork.UI
         {
             UIUtility.ActiveCanvasGroup(contentCanvasGroup, false);
             UIUtility.ActiveCanvasGroup(shipChooseCanvasGroup, true);
+            m_page.presetChooseBtn.gameObject.SetActive(false);
+
             RefreshShipChooseTab();
             InitDefaultTabSelect();
+            m_page.presetTotalBtn.onClick.RemoveAllListeners();
+            AddButtonClickListener(m_page.presetTotalBtn, OnPresetTotalBtnClickAll);
+        }
+
+        void OnPresetTotalBtnClickAll()
+        {
+            AudioManager.Instance.PlaySound(AudioClipPath.UISound.Button_Click);
+            var typeList = PlayerManager.Instance.GetTotalUnlockAssemblePartTypeList();
+            UIGuide.Instance.ShowAssemblePartChooseDialog(typeList, currentSelectTab);
         }
 
         void RefreshShipChooseTab()
@@ -172,10 +191,10 @@ namespace Sim_FrameWork.UI
             var unlockList = PlayerManager.Instance.GetTotalUnlockAssembleShipTypeData();
             for (int i = 0; i < unlockList.Count; i++)
             {
-                var obj = ObjectManager.Instance.InstantiateObject(UIPath.PrefabPath.Assemble_Part_ChooseTab);
+                var obj = ObjectManager.Instance.InstantiateObject(UIPath.PrefabPath.General_ChooseTab);
                 if (obj != null)
                 {
-                    var cmpt = UIUtility.SafeGetComponent<AssemblePartChooseTab>(obj.transform);
+                    var cmpt = UIUtility.SafeGetComponent<GeneralChooseTab>(obj.transform);
                     cmpt.SetUpTab(unlockList[i]);
                     obj.name = "ShipTab_" + i;
                     obj.transform.SetParent(chooseTabTrans, false);
