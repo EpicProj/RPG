@@ -1,7 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using System;
 
 namespace Sim_FrameWork
 {
@@ -75,9 +74,9 @@ namespace Sim_FrameWork
         }
 
 
-        public static PartsCustomConfig GetPartsCustomConfigData(int partID)
+        public static Config.PartsCustomConfig GetPartsCustomConfigData(int partID)
         {
-            PartsCustomConfig config = null;
+            Config.PartsCustomConfig config = null;
             var meta = GetAssemblePartDataByKey(partID);
             if (meta != null)
             {
@@ -94,9 +93,9 @@ namespace Sim_FrameWork
         /// </summary>
         /// <param name="partID"></param>
         /// <returns></returns>
-        public static PartsPropertyConfig GetPartsPropertyConfigData(int typeModelID)
+        public static Config.PartsPropertyConfig GetPartsPropertyConfigData(int typeModelID)
         {
-            PartsPropertyConfig config = null;
+            Config.PartsPropertyConfig config = null;
             var typeMeta = GetAssemblePartTypeByKey(typeModelID);
             if (typeMeta != null)
             {
@@ -114,9 +113,9 @@ namespace Sim_FrameWork
             return data;
         }
 
-        public static string GetPartName(int modelTypeName)
+        public static string GetPartName(int modelTypeID)
         {
-            var typeMeta = GetAssemblePartTypeByKey(modelTypeName);
+            var typeMeta = GetAssemblePartTypeByKey(modelTypeID);
             if (typeMeta != null)
             {
                 return MultiLanguage.Instance.GetTextValue(typeMeta.ModelTypeName);
@@ -256,9 +255,9 @@ namespace Sim_FrameWork
             return result;
         }
 
-        public static AssembleShipPartConfig GetShipPartConfigData(int shipID)
+        public static Config.AssembleShipPartConfig GetShipPartConfigData(int shipID)
         {
-            AssembleShipPartConfig configData = null;
+            Config.AssembleShipPartConfig configData = null;
             var metaData = GetWarshipDataByKey(shipID);
             if (metaData != null)
             {
@@ -378,446 +377,5 @@ namespace Sim_FrameWork
         #endregion
 
     }
-
-    #region Assemble Part Data
-
-    public class AssemblePartInfo
-    {
-        public int partID;
-
-        /// <summary>
-        /// For Custom
-        /// </summary>
-        public ushort UID;
-        public string customName
-        {
-            get { return typePresetData.partName +"·"+ customDataInfo.partNameCustomText; }
-        }
-
-
-        public List<MaterialCostItem> materialCostItem = new List<MaterialCostItem>();
-        public List<string> partEquipType = new List<string>();
-
-        /// <summary>
-        /// 基础时间花费
-        /// </summary>
-        public ushort baseTimeCost;
-        public ushort realTimeCost
-        {
-            get { return (ushort)(baseTimeCost + customDataInfo.addTimeCost); }
-        }
-
-        public PartsCustomConfig partsConfig;
-
-        public AssembleParts _partsMeta;
-        public AssemblePartCustomDataInfo customDataInfo;
-        public AssemblePartTypePresetData typePresetData;
-
-        public AssemblePartInfo(int partID)
-        {
-            this.partID = partID;
-            _partsMeta = AssembleModule.GetAssemblePartDataByKey(partID);
-           
-            if (_partsMeta != null)
-            {
-                baseTimeCost = _partsMeta.BaseTimeCost;
-                materialCostItem = AssembleModule.GetPartMaterialCost(partID);
-                partsConfig = AssembleModule.GetPartsCustomConfigData(partID);
-                partEquipType = AssembleModule.GetAssemblePartEquipType(partID);
-                typePresetData = new AssemblePartTypePresetData(_partsMeta.ModelTypeID);
-            }
-        }
-
-    }
-
-    public class AssemblePartTypePresetData
-    {
-        public string TypeID;
-        public Sprite TypeIcon
-        {
-            get { return AssembleModule.GetPartTypeIcon(_partsTypeMeta.ModelTypeID); }
-        }
-        public string TypeName
-        {
-            get { return AssembleModule.GetPartTypeName(_partsTypeMeta.ModelTypeID); }
-        }
-
-        public Sprite partSprite
-        {
-            get { return Utility.LoadSprite(_partsTypeMeta.PartSprite, Utility.SpriteType.png); }
-        }
-        public Sprite partIconSmall
-        {
-            get { return Utility.LoadSprite(_partsTypeMeta.PartIconSmall, Utility.SpriteType.png); }
-        }
-
-        public string partDesc
-        {
-            get { return AssembleModule.GetPartDesc(_partsTypeMeta.ModelTypeID); }
-        }
-        public string partName
-        {
-            get { return AssembleModule.GetPartName(_partsTypeMeta.ModelTypeID); }
-        }
-
-        /// <summary>
-        /// Prefab Path
-        /// </summary>
-        public string ModelPath;
-
-        public AssemblePartsType _partsTypeMeta;
-        public PartsPropertyConfig partsPropertyConfig;
-      
-
-        public AssemblePartTypePresetData(int typeModelID)
-        {
-            _partsTypeMeta = AssembleModule.GetAssemblePartTypeByKey(typeModelID);
-
-            if (_partsTypeMeta != null)
-            {
-                ModelPath = _partsTypeMeta.ModelPath;
-                TypeID = _partsTypeMeta.TypeID;
-            }
-            partsPropertyConfig = AssembleModule.GetPartsPropertyConfigData(typeModelID);
-        }
-    }
-
-    /// <summary>
-    /// 部件自定义数据
-    /// </summary>
-    public class AssemblePartCustomDataInfo
-    {
-        public int partID;
-        public string partNameCustomText;
-
-        /// <summary>
-        /// 额外制造时长
-        /// </summary>
-        public ushort addTimeCost;
-
-        public Dictionary<string, CustomData> propertyDic;
-        public Dictionary<string, float> customValueDic;
-
-
-        public AssemblePartCustomDataInfo(int partID,string partNameCustomText, Dictionary<string, CustomData> propertyDic, Dictionary<string, float> customValueDic)
-        {
-            this.partID = partID;
-            this.partNameCustomText = partNameCustomText;
-            this.propertyDic = propertyDic;
-            this.customValueDic = customValueDic;
-        }
-
-        public class CustomData
-        {
-            public string propertyNameText;
-            public Sprite propertyIcon;
-            public float propertyValueMin;
-            public float propertyValueMax;
-
-            public AssemblePartPropertyTypeData propertyTypeData;
-
-            /// <summary>
-            /// 实际成品数值
-            /// </summary>
-            public float realValue;
-
-            public CustomData(PartsPropertyConfig.ConfigData config ,float min,float max)
-            {
-                propertyTypeData = AssembleModule.GetAssemblePartPropertyTypeData(config.Name);
-                if (propertyTypeData != null)
-                {
-                    propertyNameText = MultiLanguage.Instance.GetTextValue(propertyTypeData.PropertyName);
-                    propertyIcon = Utility.LoadSprite(propertyTypeData.PropertyIcon, Utility.SpriteType.png);
-                }
-                propertyValueMin = min;
-                propertyValueMax = max;
-            }
-
-        }
-
-    }
-
-    public class PartsPropertyConfig
-    {
-        public string configName;
-        public List<ConfigData> configData;
-
-        public class ConfigData
-        {
-            public string Name;
-            public double PropertyRangeMin;
-            public double PropertyRangeMax;
-        }
-    }
-
-    public class PartsCustomConfig
-    {
-        public string customName;
-        public List<ConfigData> configData;
-
-        public class ConfigData
-        {
-            public string CustomDataName;
-
-            public string PosType;
-            public double PosX;
-            public double PosY;
-            public double LineWidth;
-
-            public double CustomDataRangeMin;
-            public double CustomDataRangeMax;
-            public double CustomDataDefaultValue;
-
-            public ushort TimeCostPerUnit;
-            public List<PropertyLinkData> propertyLinkData;
-            public List<MaterialCostLinkData> materialCostLinkData;
-
-            public class PropertyLinkData
-            {
-                public string Name;
-                public string LinkDesc;
-                public double PropertyChangePerUnitMin;
-                public double PropertyChangePerUnitMax;
-            }
-
-            public class MaterialCostLinkData
-            {
-
-            }
-
-        }
-    }
-
-    public class AssemblePartPropertyTypeData
-    {
-        public string Name;
-        public string PropertyName;
-        public string PropertyIcon;
-    }
-
-    #endregion
-
-    #region Assemble Ship Data
-
-    public class AssembleShipInfo
-    {
-        public int warShipID;
-        public ushort UID;
-
-        public Config.AssembleMainType mainTypeData;
-
-        public string shipCustomName
-        {
-            get { return presetData.shipClassName + "·" + customData.customNameText; }
-        }
-
-        /// <summary>
-        /// 建造时长
-        /// </summary>
-        private ushort _timeCost;
-        public ushort timeCost { get { return _timeCost; } }
-        public void AddTimeCost(ushort value)
-        {
-            _timeCost += value;
-            if (_timeCost <= 0)
-                _timeCost = 0;
-        }
-
-        /// <summary>
-        /// 船体耐久
-        /// </summary>
-        private int _shipDurability;
-        public int shipDurability { get { return _shipDurability; } }
-        public void AddShipDurability(int value)
-        {
-            _shipDurability += value;
-            if (_shipDurability <= 0)
-                _shipDurability = 0;
-        }
-
-        /// <summary>
-        /// 速度
-        /// </summary>
-        private float _shipSpeed;
-        public float shipSpeed { get { return (float)Math.Round(_shipSpeed, 2); } }
-        public void AddShipSpeed(float value)
-        {
-            _shipSpeed += value;
-            if (_shipSpeed <= 0)
-                _shipSpeed = 0;
-        }
-
-        /// <summary>
-        /// 火力
-        /// </summary>
-        private float _shipFirePower;
-        public float shipFirePower { get { return (float)Math.Round(_shipFirePower, 2); } }
-        public void AddShipFirePower(float value)
-        {
-            _shipFirePower += value;
-            if (_shipFirePower <= 0)
-                _shipFirePower = 0;
-        }
-
-        /// <summary>
-        /// 探索
-        /// </summary>
-        private float _shipDetect;
-        public float shipDetect { get { return (float)Math.Round(_shipDetect, 2); } }
-        public void AddShipDetect (float value)
-        {
-            _shipDetect += value;
-            if (_shipDetect <= 0)
-                _shipDetect = 0;
-        }
-
-        /// <summary>
-        /// 最大成员数
-        /// </summary>
-        public float shipCrewMax;
-
-        /// <summary>
-        /// 最大货仓储量
-        /// </summary>
-        private ushort _shipStorage;
-        public ushort shipStorage { get { return _shipStorage; } }
-        public void AddShipStorage(ushort value)
-        {
-            _shipStorage += value;
-            if (_shipStorage <= 0)
-                _shipStorage = 0;
-        }
-
-        public AssembleShipTypePresetData presetData;
-        public AssembleShipCustomData customData;
-
-
-        public AssembleShipInfo(int shipID)
-        {
-            presetData = new AssembleShipTypePresetData(shipID);
-            warShipID = presetData.WarshipID;
-
-            AddShipDurability(presetData._metaData.HPBase);
-            AddTimeCost(presetData._metaData.BaseTimeCost);
-            AddShipFirePower(presetData._metaData.FirePowerBase);
-            AddShipSpeed(presetData._metaData.SpeedBase);
-            AddShipDetect(presetData._metaData.DetectBase);
-            AddShipStorage(presetData._metaData.StorageBase);
-            shipCrewMax = presetData._metaData.CrewMax;
-
-           
-        }
-    }
-
-    /// <summary>
-    /// 舰船预设模板数据
-    /// </summary>
-    public class AssembleShipTypePresetData
-    {
-        public int WarshipID;
-
-        public string TypeID { get { return _metaData.MainType; } }
-        public Sprite TypeIcon { get { return AssembleModule.GetShipPresetMainTypeIcon(WarshipID); } }
-        public string TypeName { get {return AssembleModule.GetShipPresetMainTypeName(WarshipID); } }
-
-        public string shipSizeText { get { return AssembleModule.GetShipSizeText(_metaData.ShipScale); } }
-
-        /// <summary>
-        /// 模块数量
-        /// </summary>
-        public ushort ModuleNum
-        {
-            get
-            {
-                if (partConfig != null)
-                    return (ushort)partConfig.configData.Count;
-                return 0;
-            }
-        }
-
-        public Sprite ShipSprite
-        {
-            get { return Utility.LoadSprite(_metaData.ShipSpritePath, Utility.SpriteType.png); }
-        }
-           
-        public string shipClassDesc
-        {
-            get
-            {
-                if(_metaClass!=null)
-                    return MultiLanguage.Instance.GetTextValue(_metaClass.ClassDesc);
-                return string.Empty;
-            }
-        }
-        public string shipClassName
-        {
-            get
-            {
-                if(_metaClass!=null)
-                    return MultiLanguage.Instance.GetTextValue(_metaClass.ClassName);
-                return string.Empty;
-            }
-        }
-
-        public List<MaterialCostItem> shipCostBase = new List<MaterialCostItem>();
-
-        public AssembleWarship _metaData;
-        public AssembleWarshipClass _metaClass;
-        public AssembleShipPartConfig partConfig;
-
-        public AssembleShipTypePresetData(int warShipID)
-        {
-            _metaData = AssembleModule.GetWarshipDataByKey(warShipID);
-            
-            if (_metaData != null)
-            {
-                WarshipID = _metaData.WarShipID;
-                shipCostBase = AssembleModule.GetShipMaterialCost(_metaData.WarShipID);
-                _metaClass = AssembleModule.GetWarshipClassDataByKey(_metaData.Class);
-                partConfig = AssembleModule.GetShipPartConfigData(warShipID);
-            }
-        }
-    }
-
-    /// <summary>
-    /// 舰船自定义数据
-    /// </summary>
-    public class AssembleShipCustomData
-    {
-        public int WarshipID;
-
-        public string customNameText;
-
-        public Dictionary<int, AssemblePartInfo> customPartData = new Dictionary<int, AssemblePartInfo>();
-
-        public AssembleShipCustomData(int warshipID,string customName, Dictionary<int, AssemblePartInfo> customPartData)
-        {
-            this.WarshipID = warshipID;
-            this.customNameText = customName;
-            this.customPartData = customPartData;
-        }
-    }
-
-
-    public class AssembleShipPartConfig
-    {
-        public string configName;
-        public List<ConfigData> configData;
-
-        public class ConfigData
-        {
-            public int configID;
-            public string PosType;
-            public double PosX;
-            public double PosY;
-            public double LineWidth;
-            public List<string> EquipPartType;
-        }
-
-
-    }
-
-
-    #endregion
 
 }

@@ -132,7 +132,8 @@
     <Compile Include="Assets\Sim_FrameWork\Project\GamePlay\Assemble\AssembleConfig.cs" />
     <Compile Include="Assets\Sim_FrameWork\Project\GamePlay\Assemble\AssembleModule.cs" />
     <Compile Include="Assets\Sim_FrameWork\Project\GamePlay\Assemble\AssemblePartCustomItem.cs" />
-    <Compile Include="Assets\Sim_FrameWork\Project\GamePlay\Assemble\AssemblePartPropertyItem.cs" />
+    <Compile Include="Assets\Sim_FrameWork\Project\GamePlay\Assemble\InfoData\AssemblePartInfo.cs" />
+    <Compile Include="Assets\Sim_FrameWork\Project\GamePlay\Assemble\InfoData\AssembleShipInfo.cs" />
     <Compile Include="Assets\Sim_FrameWork\Project\GamePlay\Core\Main\DataManager.cs" />
     <Compile Include="Assets\Sim_FrameWork\Project\GamePlay\Core\Main\GameManager.cs" />
     <Compile Include="Assets\Sim_FrameWork\Project\GamePlay\Core\Main\GeneralModule.cs" />
@@ -228,6 +229,8 @@
     <Compile Include="Assets\Sim_FrameWork\Project\UI\Effect\UIGradient.cs" />
     <Compile Include="Assets\Sim_FrameWork\Project\UI\GamePlay\Assemble\AssemblePartCard.cs" />
     <Compile Include="Assets\Sim_FrameWork\Project\UI\GamePlay\Assemble\AssemblePartChooseItem.cs" />
+    <Compile Include="Assets\Sim_FrameWork\Project\UI\GamePlay\Assemble\AssemblePartPropertyItem.cs" />
+    <Compile Include="Assets\Sim_FrameWork\Project\UI\GamePlay\Assemble\AssemblePartPropertyItemSmall.cs" />
     <Compile Include="Assets\Sim_FrameWork\Project\UI\GamePlay\Assemble\AssembleShipCard.cs" />
     <Compile Include="Assets\Sim_FrameWork\Project\UI\GamePlay\Explore\EventChooseBtn.cs" />
     <Compile Include="Assets\Sim_FrameWork\Project\UI\GamePlay\Explore\ExploreAreaMissionElement.cs" />
@@ -338,6 +341,21 @@
     <None Include="Assets\Resources\Data\DataFormat\Xml\TechnologyMetaData.xml" />
     <None Include="Assets\Resources\Data\DataFormat\Xml\OrganizationMetaData.xml" />
     <None Include="Assets\Resources\Data\DataFormat\Xml\MaterialMetaData.xml" />
+    <Reference Include="Unity.TextMeshPro.Editor">
+      <HintPath>D:/建造工程/Project/GameMaster/RPGTale/Library/ScriptAssemblies/Unity.TextMeshPro.Editor.dll</HintPath>
+    </Reference>
+    <Reference Include="Unity.PackageManagerUI.Editor">
+      <HintPath>D:/建造工程/Project/GameMaster/RPGTale/Library/ScriptAssemblies/Unity.PackageManagerUI.Editor.dll</HintPath>
+    </Reference>
+    <Reference Include="Unity.CollabProxy.Editor">
+      <HintPath>D:/建造工程/Project/GameMaster/RPGTale/Library/ScriptAssemblies/Unity.CollabProxy.Editor.dll</HintPath>
+    </Reference>
+    <Reference Include="Unity.TextMeshPro">
+      <HintPath>D:/建造工程/Project/GameMaster/RPGTale/Library/ScriptAssemblies/Unity.TextMeshPro.dll</HintPath>
+    </Reference>
+    <Reference Include="Unity.Analytics.DataPrivacy">
+      <HintPath>D:/建造工程/Project/GameMaster/RPGTale/Library/ScriptAssemblies/Unity.Analytics.DataPrivacy.dll</HintPath>
+    </Reference>
     <Reference Include="UnityEngine.AIModule">
       <HintPath>C:/Program Files/Unity/Hub/Editor/2018.4.14f1/Editor/Data/Managed/UnityEngine/UnityEngine.AIModule.dll</HintPath>
     </Reference>

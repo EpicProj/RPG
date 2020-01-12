@@ -15,8 +15,8 @@ namespace Sim_FrameWork
         private Text _name;
 
         private Button _clickBtn;
-        private Button _detailBtn;
-
+        private Button _generalBtn;
+        private Text _btnText;
 
         public AssembleChooseItemModel _model;
 
@@ -30,6 +30,8 @@ namespace Sim_FrameWork
         int configID = 0;
 
         private const string AssembleShip_EuqipParts_Success_Hint = "AssembleShip_EuqipParts_Success_Hint";
+        private const string AssembleChooseItem_EquipParts_Btn = "AssembleChooseItem_EquipParts_Btn";
+        private const string AssembleChooseItem_ReEdit_Btn = "AssembleChooseItem_ReEdit_Btn";
 
         public override void Awake()
         {
@@ -39,10 +41,10 @@ namespace Sim_FrameWork
             _propertyContentTrans = UIUtility.FindTransfrom(transform, "Content/Property/Content");
             _name= UIUtility.SafeGetComponent<Text>(UIUtility.FindTransfrom(transform, "Name"));
 
-            _clickBtn = UIUtility.SafeGetComponent<Button>(transform);
-            _detailBtn= UIUtility.SafeGetComponent<Button>(UIUtility.FindTransfrom(transform, "Detail"));
+            _clickBtn = UIUtility.SafeGetComponent<Button>(UIUtility.FindTransfrom(transform, "Content/BG"));
+            _generalBtn = UIUtility.SafeGetComponent<Button>(UIUtility.FindTransfrom(transform, "Button/ButtonGeneral02/"));
+            _btnText = UIUtility.SafeGetComponent<Text>(UIUtility.FindTransfrom(_generalBtn.transform, "Text"));
 
-            
         }
 
         public override void ChangeAction(List<BaseDataModel> model)
@@ -55,8 +57,8 @@ namespace Sim_FrameWork
 
         private void InitElement()
         {
-            _clickBtn.onClick.RemoveAllListeners();
-            _detailBtn.onClick.RemoveAllListeners();
+            
+            _generalBtn.onClick.RemoveAllListeners();
 
             _icon.sprite = _model.Info.typePresetData.partSprite;
             _typeIcon.sprite = _model.Info.typePresetData.TypeIcon;
@@ -88,9 +90,15 @@ namespace Sim_FrameWork
 
         void RefreshModeType()
         {
-            if(modeType == 2)
+            if (modeType == 1)
             {
-                _clickBtn.onClick.AddListener(OnEquipShipPartsClick);
+                _generalBtn.onClick.AddListener(OnReEditClick);
+                _btnText.text = MultiLanguage.Instance.GetTextValue(AssembleChooseItem_EquipParts_Btn);
+            }
+            else if(modeType == 2)
+            {
+                _generalBtn.onClick.AddListener(OnEquipShipPartsClick);
+                _btnText.text = MultiLanguage.Instance.GetTextValue(AssembleChooseItem_EquipParts_Btn);
             }
         }
 
@@ -104,6 +112,13 @@ namespace Sim_FrameWork
                 Utility.ParseStringParams(MultiLanguage.Instance.GetTextValue(AssembleShip_EuqipParts_Success_Hint), new string[] { _model.Info.customName }), 1.5f));
         }
 
+        /// <summary>
+        /// 重新编辑
+        /// </summary>
+        void OnReEditClick()
+        {
+
+        }
 
         public override void OnPointerEnter(PointerEventData eventData)
         {

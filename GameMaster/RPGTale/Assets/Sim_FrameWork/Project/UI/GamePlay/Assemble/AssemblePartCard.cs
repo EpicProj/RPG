@@ -73,7 +73,18 @@ namespace Sim_FrameWork
                     UIUtility.SafeGetComponent<Image>(UIUtility.FindTransfrom(trans, "Icon")).sprite = Utility.LoadSprite(typeData.PropertyIcon, Utility.SpriteType.png);
                     UIUtility.SafeGetComponent<Text>(UIUtility.FindTransfrom(trans, "Name")).text = MultiLanguage.Instance.GetTextValue(typeData.PropertyName);
                 }
-                UIUtility.SafeGetComponent<Text>(UIUtility.FindTransfrom(trans, "Value")).text = string.Format("{0} ~ {1}", data.PropertyRangeMin.ToString(), data.PropertyRangeMax.ToString());
+                if (data.PropertyType == 1)
+                {
+                    ///Set Value Fix
+                    UIUtility.SafeGetComponent<Text>(UIUtility.FindTransfrom(trans, "Value")).text = data.PropertyValue.ToString();
+                }
+                else if (data.PropertyType == 2)
+                {
+                    ///Set Value Range
+                    UIUtility.SafeGetComponent<Text>(UIUtility.FindTransfrom(trans, "Value")).text = string.Format("{0} ~ {1}", data.PropertyRangeMin.ToString(), data.PropertyRangeMax.ToString());
+                }
+
+               
                 trans.gameObject.SetActive(true);
             }
         }

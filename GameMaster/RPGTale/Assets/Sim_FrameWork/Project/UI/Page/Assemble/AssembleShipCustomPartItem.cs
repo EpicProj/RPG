@@ -8,7 +8,7 @@ namespace Sim_FrameWork
 {
     public class AssembleShipCustomPartItem : BaseElementSimple
     {
-        public AssembleShipPartConfig.ConfigData _configData;
+        public Config.AssembleShipPartConfig.ConfigData _configData;
 
         private Transform Line;
         private Text _name;
@@ -31,7 +31,7 @@ namespace Sim_FrameWork
             _enterEffect.gameObject.SetActive(false);
         }
 
-        public void SetUpItem(AssembleShipPartConfig.ConfigData configData)
+        public void SetUpItem(Config.AssembleShipPartConfig.ConfigData configData)
         {
             _btn.onClick.RemoveAllListeners();
             if (configData == null)

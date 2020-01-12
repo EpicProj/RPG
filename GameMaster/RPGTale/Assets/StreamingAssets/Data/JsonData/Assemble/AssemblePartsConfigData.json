@@ -3,10 +3,7 @@
 		"configName":"PropertyConfig_100",
 		"configData":[{
 			"Name":"Speed",
-			"PropertyRangeMin":0.5,
-			"PropertyRangeMax":5.5
-		},{
-			"Name":"Speed02",
+			"PropertyType":2,
 			"PropertyRangeMin":0.5,
 			"PropertyRangeMax":5.5
 		}]
@@ -14,14 +11,32 @@
 		"configName":"PropertyConfig_101",
 		"configData":[{
 			"Name":"Speed",
-			"PropertyRangeMin":0.5,
-			"PropertyRangeMax":5.5
-		},{
-			"Name":"Speed02",
+			"PropertyType":2,
 			"PropertyRangeMin":0.5,
 			"PropertyRangeMax":5.5
 		}]
+	},{
+		"configName":"PropertyConfig_300",
+		"configData":[{
+			"Name":"Weapon_FireRate",
+			"PropertyType":1,
+			"PropertyValue":50.0
+		},{
+			"Name":"Weapon_FireRange",
+			"PropertyType":1,
+			"PropertyValue":40.0
+		},{
+			"Name":"Weapon_FirePower",
+			"PropertyType":2,
+			"PropertyRangeMin":60,
+			"PropertyRangeMax":100
+		},{
+			"Name":"Weapon_HitRate",
+			"PropertyType":1,
+			"PropertyValue":60.0
+		}]
 	}],
+
 	"partsCustomConfig":[{
 		"customName":"CustomConfig_Part_1",
 		"configData":[{
@@ -30,18 +45,17 @@
 			"PosX":-47.8,
 			"PosY":-26.3,
 			"LineWidth":230,
+			"LinkDesc":"",
 			"CustomDataRangeMin":0.6,
 			"CustomDataRangeMax":5.3,
 			"CustomDataDefaultValue":4.0,
 			"TimeCostPerUnit":1,
 			"propertyLinkData":[{
 				"Name":"Speed",
-				"LinkDesc":"",
 				"PropertyChangePerUnitMin":0.1,
 				"PropertyChangePerUnitMax":0.05
 			},{
 				"Name":"Speed02",
-				"LinkDesc":"",
 				"PropertyChangePerUnitMin":0.1,
 				"PropertyChangePerUnitMax":0.05
 			}],
@@ -54,15 +68,114 @@
 			"PosX":51,
 			"PosY":-122,
 			"LineWidth":230,
+			"LinkDesc":"",
 			"CustomDataRangeMin":3.0,
 			"CustomDataRangeMax":4.0,
 			"CustomDataDefaultValue":3.5,
 			"TimeCostPerUnit":1,
 			"propertyLinkData":[{
 				"Name":"Speed",
-				"LinkDesc":"",
 				"PropertyChangePerUnitMin":0.5,
 				"PropertyChangePerUnitMax":0.9
+			}],
+			"materialCostLinkData":[{
+
+			}]
+		}]
+
+
+	},{
+		"customName":"CustomConfig_Part_4",
+		"configData":[{
+			"CustomDataName":"AssembleParts_4_CustomDataName_01",
+			"PosType":"Left",
+			"PosX":-150,
+			"PosY":-26.3,
+			"LineWidth":230,
+			"LinkDesc":"AssembleParts_4_LinkDesc_01",
+			"CustomDataRangeMin":2.0,
+			"CustomDataRangeMax":6.0,
+			"CustomDataDefaultValue":5.5,
+			"TimeCostPerUnit":1,
+			"propertyLinkData":[{
+				"Name":"Weapon_HitRate",
+				"PropertyChangeType":1,
+				"PropertyChangePerUnitValue":0.5
+			},{
+				"Name":"Weapon_FireRate",
+				"PropertyChangeType":1,
+				"PropertyChangePerUnitValue":-0.3
+			}],
+			"materialCostLinkData":[{
+
+			}]
+		},{
+			"CustomDataName":"AssembleParts_4_CustomDataName_02",
+			"PosType":"Right",
+			"PosX":151,
+			"PosY":-122,
+			"LineWidth":230,
+			"LinkDesc":"AssembleParts_4_LinkDesc_02",
+			"CustomDataRangeMin":0,
+			"CustomDataRangeMax":10.0,
+			"CustomDataDefaultValue":5,
+			"TimeCostPerUnit":0,
+			"propertyLinkData":[{
+				"Name":"Weapon_HitRate",
+				"PropertyChangeType":1,
+				"PropertyChangePerUnitValue":0.3
+			},{
+				"Name":"Weapon_FireRange",
+				"PropertyChangeType":1,
+				"PropertyChangePerUnitValue":-0.3
+			}],
+			"materialCostLinkData":[{
+
+			}]
+		},{
+			"CustomDataName":"AssembleParts_4_CustomDataName_03",
+			"PosType":"Right",
+			"PosX":151,
+			"PosY":140,
+			"LineWidth":230,
+			"LinkDesc":"AssembleParts_4_LinkDesc_03",
+			"CustomDataRangeMin":0,
+			"CustomDataRangeMax":10.0,
+			"CustomDataDefaultValue":5,
+			"TimeCostPerUnit":0,
+			"propertyLinkData":[{
+				"Name":"Weapon_FirePower",
+				"PropertyChangeType":2,
+				"PropertyChangePerUnitMin":0,
+				"PropertyChangePerUnitMax":0.5
+			},{
+				"Name":"Weapon_FireRange",
+				"PropertyChangeType":1,
+				"PropertyChangePerUnitValue":-0.2
+			}],
+			"materialCostLinkData":[{
+
+			}]
+		},{
+			"CustomDataName":"AssembleParts_4_CustomDataName_04",
+			"PosType":"Left",
+			"PosX":-150,
+			"PosY":-240,
+			"LineWidth":175,
+			"LinkDesc":"AssembleParts_4_LinkDesc_04",
+			"CustomDataRangeMin":0,
+			"CustomDataRangeMax":15.0,
+			"CustomDataDefaultValue":5,
+			"TimeCostPerUnit":0,
+			"propertyLinkData":[{
+				"Name":"Weapon_FirePower",
+				"PropertyChangeType":2,
+				"PropertyChangePerUnitMin":0.5,
+				"PropertyChangePerUnitMax":0
+			},{
+				"Name":"Weapon_HitRate",
+				"PropertyChangeType":1,
+				"PropertyChangePerUnitValue":-0.2
 			}],
 			"materialCostLinkData":[{
 

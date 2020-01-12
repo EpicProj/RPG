@@ -179,6 +179,7 @@ namespace Sim_FrameWork
 
             /// Assemble
             public const string Assemble_Part_PropertyItem = "Assets/Prefabs/Object/Assemble/AssemblePropertyItem.prefab";
+            public const string Assemble_Part_PropertyItemSmall= "Assets/Prefabs/Object/Assemble/AssemblePropertyItemSmall.prefab";
             public const string Assemble_Part_CustomItem_Left = "Assets/Prefabs/Object/Assemble/AssemblePartCustomItem_Left.prefab";
             public const string Assemble_Part_CustomItem_Right = "Assets/Prefabs/Object/Assemble/AssemblePartCustomItem_Right.prefab";
 

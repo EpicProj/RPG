@@ -185,10 +185,97 @@ namespace Sim_FrameWork.Config
             }
             return data;
         }
+    }
+
+    #region Config Data
+
+    public class PartsPropertyConfig
+    {
+        public string configName;
+        public List<ConfigData> configData;
+
+        public class ConfigData
+        {
+            public string Name;
+            /// <summary>
+            /// 1 = 固定值
+            /// 2 = 浮动值
+            /// </summary>
+            public int PropertyType;
+
+            public double PropertyValue;
+            public double PropertyRangeMin;
+            public double PropertyRangeMax;
+        }
+    }
+
+    public class PartsCustomConfig
+    {
+        public string customName;
+        public List<ConfigData> configData;
+
+        public class ConfigData
+        {
+            public string CustomDataName;
+
+            public string PosType;
+            public double PosX;
+            public double PosY;
+            public double LineWidth;
+            public string LinkDesc;
+
+            public double CustomDataRangeMin;
+            public double CustomDataRangeMax;
+            public double CustomDataDefaultValue;
+
+            public ushort TimeCostPerUnit;
+            public List<PropertyLinkData> propertyLinkData;
+            public List<MaterialCostLinkData> materialCostLinkData;
+
+            public class PropertyLinkData
+            {
+                public string Name;
+                /// <summary>
+                /// 1 = 固定值
+                /// 2 = 浮动值
+                /// </summary>
+                public int PropertyChangeType;
+
+                public double PropertyChangePerUnitMin;
+                public double PropertyChangePerUnitMax;
+                public double PropertyChangePerUnitValue;
+            }
+
+            public class MaterialCostLinkData
+            {
+
+            }
+
+        }
+    }
+
+
+    public class AssembleShipPartConfig
+    {
+        public string configName;
+        public List<ConfigData> configData;
+
+        public class ConfigData
+        {
+            public int configID;
+            public string PosType;
+            public double PosX;
+            public double PosY;
+            public double LineWidth;
+            public List<string> EquipPartType;
+        }
 
 
     }
 
+
+
+    #endregion
 
 
 }

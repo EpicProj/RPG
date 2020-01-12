@@ -46,9 +46,9 @@ namespace Sim_FrameWork.UI
         {
             if(msg.type== UIMsgType.Assemble_Part_PropertyChange)
             {
-                PartsCustomConfig.ConfigData configData = (PartsCustomConfig.ConfigData)msg.content[0];
+                Config.PartsCustomConfig.ConfigData configData = (Config.PartsCustomConfig.ConfigData)msg.content[0];
                 float currentValue = (float)msg.content[1];
-                return CalculateFinialProperty(configData,currentValue);
+                return CalculateValue(configData,currentValue);
             }
             else if(msg.type== UIMsgType.Assemble_PartTab_Select)
             {
@@ -115,6 +115,7 @@ namespace Sim_FrameWork.UI
             if (partDescTypeEffect != null)
                 partDescTypeEffect.StartEffect();
 
+            MapManager.Instance.ReleaseAssembleModel();
             MapManager.Instance.InitAssembleModel(_info.typePresetData.ModelPath);
 
             InitPartPropertyContent();
@@ -201,63 +202,64 @@ namespace Sim_FrameWork.UI
                     {
                         var configData = _info.partsConfig.configData[i];
                         itemCmpt.SetUpItem(configData);
-                        CalculateDefaultValue(configData);
+                        CalculateValue(configData,(float)configData.CustomDataDefaultValue);
                         _customItem.Add(itemCmpt);
                     }
                 }
             }
         }
 
-
-        bool CalculateFinialProperty(PartsCustomConfig.ConfigData config,float currentValue)
+        bool CalculateValue(Config.PartsCustomConfig.ConfigData config, float Value)
         {
             if (config == null)
                 return false;
 
-            int delta = (int)(currentValue * 10);
-            ushort realTime = (ushort)(_info.baseTimeCost + delta * config.TimeCostPerUnit);
-            timeCostText.text = realTime.ToString();
+            int diffValue = (int)((Value - config.CustomDataRangeMin) * 10);
 
-            for (int i = 0; i < config.propertyLinkData.Count; i++)
-            {
-                var propertyName = config.propertyLinkData[i].Name;
-                foreach(var item in _propertyItem)
-                {
-                    if(item._configData.Name == propertyName)
-                    {
-                        
-                        float currentMin = delta * (float)config.propertyLinkData[i].PropertyChangePerUnitMin;
-                        item.ChangeValueMin(currentMin+ (float)item._configData.PropertyRangeMin);
-
-                        float currentMax =delta * (float)config.propertyLinkData[i].PropertyChangePerUnitMax;
-                        item.ChangeValueMax(currentMax+(float)item._configData.PropertyRangeMax);
-                    }
-                }
-            }
-            return true;
-        }
-
-        void CalculateDefaultValue(PartsCustomConfig.ConfigData config)
-        {
-            if (config == null)
-                return;
+            //ushort realTime = (ushort)(_info.baseTimeCost + diffValue * config.TimeCostPerUnit);
+            //timeCostText.text = realTime.ToString();
 
             for (int i = 0; i < config.propertyLinkData.Count; i++)
             {
                 var propertyName = config.propertyLinkData[i].Name;
                 foreach (var item in _propertyItem)
                 {
-                    int delta = (int)(config.CustomDataDefaultValue * 10);
                     if (item._configData.Name == propertyName)
                     {
-                        float currentMin = delta * (float)config.propertyLinkData[i].PropertyChangePerUnitMin;
-                        item.ChangeValueMin(currentMin + (float)item._configData.PropertyRangeMin);
+                        if (item._configData.PropertyType == 1)
+                        {
+                            ///Fix Value
+                            float currentValue =diffValue * (float)config.propertyLinkData[i].PropertyChangePerUnitValue;
+                            AssemblePartPropertyDetailInfo detailInfo = new AssemblePartPropertyDetailInfo
+                            {
+                                customDataName = config.CustomDataName,
+                                propertyLinkName = config.propertyLinkData[i].Name,
+                                modifyType = config.propertyLinkData[i].PropertyChangeType,
+                                modifyValueFix = currentValue
+                            };
 
-                        float currentMax = delta * (float)config.propertyLinkData[i].PropertyChangePerUnitMax;
-                        item.ChangeValueMax(currentMax + (float)item._configData.PropertyRangeMax);
+                            item.ChangeValue(detailInfo);
+                        }
+                        else if(item._configData.PropertyType == 2)
+                        {
+                            float currentValueMin = diffValue * (float)config.propertyLinkData[i].PropertyChangePerUnitMin;
+                            float currentValueMax = diffValue * (float)config.propertyLinkData[i].PropertyChangePerUnitMax;
+                            AssemblePartPropertyDetailInfo detailInfo = new AssemblePartPropertyDetailInfo
+                            {
+                                customDataName = config.CustomDataName,
+                                propertyLinkName = config.propertyLinkData[i].Name,
+                                modifyType = config.propertyLinkData[i].PropertyChangeType,
+                                modifyValueMin = currentValueMin,
+                                modifyValueMax=currentValueMax
+                            };
+
+                            item.ChangeValue(detailInfo);
+                        }
                     }
                 }
             }
+
+            return true;
         }
 
 
@@ -318,7 +320,8 @@ namespace Sim_FrameWork.UI
                 AssemblePartCustomDataInfo.CustomData data = new AssemblePartCustomDataInfo.CustomData(
                     item._configData,
                     item.CurrentValueMin,
-                    item.CurrentValueMax);
+                    item.CurrentValueMax,
+                    item.detailInfoDic);
                 ///Get TimeCost
                 
 
