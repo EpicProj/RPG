@@ -5,9 +5,9 @@ using System;
 
 namespace Sim_FrameWork
 {
-    public partial class UIUtility : MonoBehaviour
+    public static partial  class UIUtility 
     {
-        public static T SafeGetComponent<T>(Transform trans) where T : class
+        public static T SafeGetComponent<T>(this Transform trans) where T : class
         {
             T result = null;
             try
@@ -29,7 +29,19 @@ namespace Sim_FrameWork
          
         }
 
-        public static Transform FindTransfrom(Transform transfrom, string name)
+        /// <summary>
+        /// Release All Child, child Must Init By ObjManager
+        /// </summary>
+        /// <param name="trans"></param>
+        public static void ReleaseAllChildObj(this Transform trans)
+        {
+            foreach(Transform t in trans)
+            {
+                ObjectManager.Instance.ReleaseObject(t.gameObject,0);
+            }
+        }
+
+        public static Transform FindTransfrom(this Transform transfrom, string name)
         {
             var trans = transfrom.Find(name);
             if (trans == null)
@@ -39,7 +51,7 @@ namespace Sim_FrameWork
             return trans;
         }
 
-        public static bool SafeSetActive(Transform trans,bool active)
+        public static bool SafeSetActive(this Transform trans,bool active)
         {
             if (trans != null)
             {
@@ -47,6 +59,17 @@ namespace Sim_FrameWork
                 return true;
             }
             return false;
+        }
+
+        public static void SafeSetActiveAllChild(this Transform trans ,bool active)
+        {
+            if (trans != null)
+            {
+                foreach(Transform t in trans)
+                {
+                    t.SafeSetActive(active);
+                }
+            }
         }
 
         /// <summary>
@@ -60,7 +83,7 @@ namespace Sim_FrameWork
             trans.localRotation = Quaternion.identity;
         }
 
-        public static void ActiveCanvasGroup(CanvasGroup group,bool active)
+        public static void ActiveCanvasGroup(this CanvasGroup group,bool active)
         {
             if (active)
             {

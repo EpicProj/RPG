@@ -5,20 +5,17 @@ using System;
 
 namespace Sim_FrameWork.UI
 {
-    public class TechnologyMainPageContext : WindowBase
+    public partial class TechnologyMainPageContext : WindowBase
     {
-        private TechnologyMainPage m_page;
-
-        private Transform scrollViewContentTrans;
-
+     
         private List<TechnologyGroup> _groupList;
 
         #region Override Method
         public override void Awake(params object[] paralist)
         {
-            m_page = UIUtility.SafeGetComponent<TechnologyMainPage>(Transform);
+           
             _groupList = new List<TechnologyGroup>();
-            scrollViewContentTrans = UIUtility.FindTransfrom(m_page.TechScrollView, "Viewport/Content");
+            
             AddBtnClick();
             InitTechGroup();
         }
@@ -57,10 +54,10 @@ namespace Sim_FrameWork.UI
 
         private void AddBtnClick()
         {
-            AddButtonClickListener(m_page.backBtn, () =>
-            {
-                UIManager.Instance.HideWnd(this);
-            });
+            //AddButtonClickListener(m_page.backBtn, () =>
+            //{
+            //    UIManager.Instance.HideWnd(this);
+            //});
         }
 
 
@@ -143,6 +140,19 @@ namespace Sim_FrameWork.UI
             return false;
         }
 
+    }
+
+    public partial class TechnologyMainPageContext : WindowBase
+    {
+        private ContextNavigator m_page;
+
+        private Transform scrollViewContentTrans;
+
+        protected override void InitUIRefrence()
+        {
+            m_page = Transform.SafeGetComponent<ContextNavigator>();
+            scrollViewContentTrans = m_page.GetNode("Scroll View").FindTransfrom("Viewport/Content");
+        }
 
     }
 }

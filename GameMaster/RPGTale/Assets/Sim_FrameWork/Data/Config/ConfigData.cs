@@ -280,6 +280,8 @@ namespace Sim_FrameWork.Config
         public string Resource_Builder_Icon_Path;
         public string Resource_Rocore_Icon_Path;
 
+        public string General_Time_Icon;
+        public string General_Time_Cost_TextID;
 
         public GlobalSetting LoadGlobalSettting()
         {
@@ -294,6 +296,9 @@ namespace Sim_FrameWork.Config
             Resource_Energy_Icon_Path = settting.Resource_Energy_Icon_Path;
             Resource_Builder_Icon_Path = settting.Resource_Builder_Icon_Path;
             Resource_Rocore_Icon_Path = settting.Resource_Rocore_Icon_Path;
+
+            General_Time_Icon = settting.General_Time_Icon;
+            General_Time_Cost_TextID = settting.General_Time_Cost_TextID;
             return settting;
         }
 

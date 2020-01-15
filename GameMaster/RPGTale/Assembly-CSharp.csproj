@@ -162,12 +162,6 @@
     <Compile Include="Assets\Sim_FrameWork\Project\GamePlay\FunctionBlock\Science\ScienceFactoryBase.cs" />
     <Compile Include="Assets\Sim_FrameWork\Project\GamePlay\FunctionBlock\Warehouse\WarehouseBase.cs" />
     <Compile Include="Assets\Sim_FrameWork\Project\GamePlay\FunctionBlock\Warehouse\WarehouseBlock.cs" />
-    <Compile Include="Assets\Sim_FrameWork\Project\GamePlay\General\BaseResourcesData.cs" />
-    <Compile Include="Assets\Sim_FrameWork\Project\GamePlay\General\PlayerData.cs" />
-    <Compile Include="Assets\Sim_FrameWork\Project\GamePlay\General\PlayerModule.cs" />
-    <Compile Include="Assets\Sim_FrameWork\Project\GamePlay\General\Save\GameDataSaveManager.cs" />
-    <Compile Include="Assets\Sim_FrameWork\Project\GamePlay\General\Save\GameSaveData.cs" />
-    <Compile Include="Assets\Sim_FrameWork\Project\GamePlay\General\Save\SaveDataModel.cs" />
     <Compile Include="Assets\Sim_FrameWork\Project\GamePlay\Material\MaterialBase.cs" />
     <Compile Include="Assets\Sim_FrameWork\Project\GamePlay\Material\MaterialDataModel.cs" />
     <Compile Include="Assets\Sim_FrameWork\Project\GamePlay\Material\MaterialModule.cs" />
@@ -182,6 +176,12 @@
     <Compile Include="Assets\Sim_FrameWork\Project\GamePlay\Order\OrderModule.cs" />
     <Compile Include="Assets\Sim_FrameWork\Project\GamePlay\Organization\OrganizationDataModel.cs" />
     <Compile Include="Assets\Sim_FrameWork\Project\GamePlay\Organization\OrganizationModule.cs" />
+    <Compile Include="Assets\Sim_FrameWork\Project\GamePlay\Player\BaseResourcesData.cs" />
+    <Compile Include="Assets\Sim_FrameWork\Project\GamePlay\Player\PlayerData.cs" />
+    <Compile Include="Assets\Sim_FrameWork\Project\GamePlay\Player\PlayerModule.cs" />
+    <Compile Include="Assets\Sim_FrameWork\Project\GamePlay\Player\Save\GameDataSaveManager.cs" />
+    <Compile Include="Assets\Sim_FrameWork\Project\GamePlay\Player\Save\GameSaveData.cs" />
+    <Compile Include="Assets\Sim_FrameWork\Project\GamePlay\Player\Save\SaveDataModel.cs" />
     <Compile Include="Assets\Sim_FrameWork\Project\GamePlay\RandomEvent\RandomEventModule.cs" />
     <Compile Include="Assets\Sim_FrameWork\Project\GamePlay\Talents\TalentsBase.cs" />
     <Compile Include="Assets\Sim_FrameWork\Project\GamePlay\Talents\TalentsModule.cs" />
@@ -199,6 +199,7 @@
     <Compile Include="Assets\Sim_FrameWork\Project\ObjectMisc\Planet\SolarSystemRotate.cs" />
     <Compile Include="Assets\Sim_FrameWork\Project\ObjectMisc\SolarSystemManager.cs" />
     <Compile Include="Assets\Sim_FrameWork\Project\Scene\ScenesManager.cs" />
+    <Compile Include="Assets\Sim_FrameWork\Project\UI\Base\ContextNavigator.cs" />
     <Compile Include="Assets\Sim_FrameWork\Project\UI\Base\UIGuide.cs" />
     <Compile Include="Assets\Sim_FrameWork\Project\UI\Base\UIManager.cs" />
     <Compile Include="Assets\Sim_FrameWork\Project\UI\Base\UIMessage.cs" />
@@ -206,7 +207,6 @@
     <Compile Include="Assets\Sim_FrameWork\Project\UI\Base\WindowBase.cs" />
     <Compile Include="Assets\Sim_FrameWork\Project\UI\Dialog\Assemble\AssemblePartChooseDialog.cs" />
     <Compile Include="Assets\Sim_FrameWork\Project\UI\Dialog\Assemble\AssemblePartChooseDialogContext.cs" />
-    <Compile Include="Assets\Sim_FrameWork\Project\UI\Dialog\Assemble\AssembleShipChooseDialog.cs" />
     <Compile Include="Assets\Sim_FrameWork\Project\UI\Dialog\Assemble\AssembleShipChooseDialogContext.cs" />
     <Compile Include="Assets\Sim_FrameWork\Project\UI\Dialog\BlockInfoDialog.cs" />
     <Compile Include="Assets\Sim_FrameWork\Project\UI\Dialog\Event\RandomEventDialog.cs" />
@@ -267,6 +267,7 @@
     <Compile Include="Assets\Sim_FrameWork\Project\UI\Inventory\LoopList\LoopList.cs" />
     <Compile Include="Assets\Sim_FrameWork\Project\UI\Inventory\Slot\DistrictSlot.cs" />
     <Compile Include="Assets\Sim_FrameWork\Project\UI\Inventory\Slot\SlotItem.cs" />
+    <Compile Include="Assets\Sim_FrameWork\Project\UI\Misc\AssemblePartInfoUIContext.cs" />
     <Compile Include="Assets\Sim_FrameWork\Project\UI\Misc\BlockEnterInfo.cs" />
     <Compile Include="Assets\Sim_FrameWork\Project\UI\Misc\DistrictDetailUI.cs" />
     <Compile Include="Assets\Sim_FrameWork\Project\UI\Misc\DistrictDetailUIContext.cs" />
@@ -278,6 +279,7 @@
     <Compile Include="Assets\Sim_FrameWork\Project\UI\Misc\WareHouseSubTagCmpt.cs" />
     <Compile Include="Assets\Sim_FrameWork\Project\UI\Page\Assemble\AssemblePartDesignPage.cs" />
     <Compile Include="Assets\Sim_FrameWork\Project\UI\Page\Assemble\AssemblePartDesignPageContext.cs" />
+    <Compile Include="Assets\Sim_FrameWork\Project\UI\Page\Assemble\AssembleShipBuildPageContext.cs" />
     <Compile Include="Assets\Sim_FrameWork\Project\UI\Page\Assemble\AssembleShipCustomPartItem.cs" />
     <Compile Include="Assets\Sim_FrameWork\Project\UI\Page\Assemble\AssembleShipDesignPage.cs" />
     <Compile Include="Assets\Sim_FrameWork\Project\UI\Page\Assemble\AssembleShipDesignPageContext.cs" />
@@ -285,10 +287,8 @@
     <Compile Include="Assets\Sim_FrameWork\Project\UI\Page\BlockManuPageContext.cs" />
     <Compile Include="Assets\Sim_FrameWork\Project\UI\Page\ConsolePage.cs" />
     <Compile Include="Assets\Sim_FrameWork\Project\UI\Page\ConsolePageContext.cs" />
-    <Compile Include="Assets\Sim_FrameWork\Project\UI\Page\ExploreMainPage.cs" />
-    <Compile Include="Assets\Sim_FrameWork\Project\UI\Page\ExploreMainPageContext.cs" />
-    <Compile Include="Assets\Sim_FrameWork\Project\UI\Page\ExplorePointPage.cs" />
-    <Compile Include="Assets\Sim_FrameWork\Project\UI\Page\ExplorePointPageContext.cs" />
+    <Compile Include="Assets\Sim_FrameWork\Project\UI\Page\Explore\ExploreMainPageContext.cs" />
+    <Compile Include="Assets\Sim_FrameWork\Project\UI\Page\Explore\ExplorePointPageContext.cs" />
     <Compile Include="Assets\Sim_FrameWork\Project\UI\Page\GameEntryPage.cs" />
     <Compile Include="Assets\Sim_FrameWork\Project\UI\Page\GameEntryPageContext.cs" />
     <Compile Include="Assets\Sim_FrameWork\Project\UI\Page\LoadingPage.cs" />
@@ -296,7 +296,6 @@
     <Compile Include="Assets\Sim_FrameWork\Project\UI\Page\MainMenuPageContext.cs" />
     <Compile Include="Assets\Sim_FrameWork\Project\UI\Page\OrderReceiveMainPage.cs" />
     <Compile Include="Assets\Sim_FrameWork\Project\UI\Page\OrderReceiveMainPageContext.cs" />
-    <Compile Include="Assets\Sim_FrameWork\Project\UI\Page\TechnologyMainPage.cs" />
     <Compile Include="Assets\Sim_FrameWork\Project\UI\Page\TechnologyMainPageContext.cs" />
     <Compile Include="Assets\Sim_FrameWork\Project\UI\Page\WareHousePage.cs" />
     <Compile Include="Assets\Sim_FrameWork\Project\UI\Page\WareHousePageContext.cs" />

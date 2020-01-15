@@ -86,7 +86,7 @@ namespace Sim_FrameWork
                             data.PropertyChangePerUnitValue.ToString());
                     }
                 }
-                else if (_config.propertyLinkData[i].PropertyChangeType == 2)
+                else if (data.PropertyChangeType == 2)
                 {
 
                     if(data.PropertyChangePerUnitMin != 0)
@@ -110,6 +110,17 @@ namespace Sim_FrameWork
                     }
                 }
             }
+
+            ///Init Time
+            if (_config.TimeCostPerUnit != 0)
+            {
+                SetUpPropertyItemSmall(
+                    Utility.LoadSprite(Config.ConfigData.GlobalSetting.General_Time_Icon, Utility.SpriteType.png),
+                    MultiLanguage.Instance.GetTextValue(Config.ConfigData.GlobalSetting.General_Time_Cost_TextID),
+                    _config.TimeCostPerUnit.ToString()
+                    );
+            }
+
         }
 
         void SetUpPropertyItemSmall(Sprite icon,string name,string value)
@@ -131,6 +142,7 @@ namespace Sim_FrameWork
 
         public override void OnPointerEnter(PointerEventData eventData)
         {
+            AudioManager.Instance.PlaySound(AudioClipPath.UISound.Click_Dot);
             detailContentTrans.gameObject.SetActive(true);
         }
 

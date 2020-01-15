@@ -128,7 +128,7 @@ namespace Sim_FrameWork
             UIManager.Instance.PopUpWnd(UIPath.WindowPath.Explore_Point_Page, WindowType.Page, true,item);
         }
 
-        ///Assemble
+        #region Assemble
         public void ShowAssemblePartDesignPage(AssemblePartInfo info)
         {
             UIManager.Instance.Register<UI.AssemblePartDesignPageContext>(UIPath.WindowPath.Assemble_Part_Design_Page);
@@ -139,6 +139,12 @@ namespace Sim_FrameWork
         {
             UIManager.Instance.Register<UI.AssembleShipDesignPageContext>(UIPath.WindowPath.Assemble_Ship_Design_Page);
             UIManager.Instance.PopUpWnd(UIPath.WindowPath.Assemble_Ship_Design_Page, WindowType.Page,true, info);
+        }
+
+        public void ShowAssembleShipBuildPage()
+        {
+            UIManager.Instance.Register<UI.AssembleShipBuildPageContext>(UIPath.WindowPath.Assemble_Ship_Build_Page);
+            UIManager.Instance.PopUpWnd(UIPath.WindowPath.Assemble_Ship_Build_Page, WindowType.Page, true);
         }
 
         /// <summary>
@@ -159,5 +165,12 @@ namespace Sim_FrameWork
             UIManager.Instance.PopUpWnd(UIPath.WindowPath.Assemble_Ship_Choose_Dialog, WindowType.Dialog, true, sortList, defaultSelectTab);
         }
 
+        public void ShowAssemblePartInfoUI(AssemblePartInfo info)
+        {
+            UIManager.Instance.Register<UI.AssemblePartInfoUIContext>(UIPath.WindowPath.Assemble_PartInfo_UI);
+            UIManager.Instance.PopUpWnd(UIPath.WindowPath.Assemble_PartInfo_UI, WindowType.SPContent, true,info);
+        }
+
+        #endregion
     }
 }

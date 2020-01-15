@@ -6,7 +6,6 @@ namespace Sim_FrameWork.UI
 {
     public class AssembleShipChooseDialogContext : WindowBase
     {
-        private AssembleShipChooseDialog m_dialog;
 
         private Transform noInfoTrans;
         private Animation noInfoAnim;

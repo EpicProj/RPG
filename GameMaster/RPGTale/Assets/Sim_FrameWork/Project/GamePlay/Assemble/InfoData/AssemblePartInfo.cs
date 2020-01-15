@@ -146,6 +146,8 @@ namespace Sim_FrameWork
             public float propertyValueMin;
             public float propertyValueMax;
 
+            public int propertyType;
+
             public AssemblePartPropertyTypeData propertyTypeData;
             public Dictionary<string, AssemblePartPropertyDetailInfo> detailInfoDic;
 
@@ -157,6 +159,8 @@ namespace Sim_FrameWork
             public CustomData(Config.PartsPropertyConfig.ConfigData config, float min, float max,
                 Dictionary<string, AssemblePartPropertyDetailInfo> detailDic)
             {
+                propertyType = config.PropertyType;
+
                 propertyTypeData = AssembleModule.GetAssemblePartPropertyTypeData(config.Name);
                 if (propertyTypeData != null)
                 {

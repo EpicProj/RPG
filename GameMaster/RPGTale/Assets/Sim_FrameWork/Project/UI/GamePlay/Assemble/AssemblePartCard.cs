@@ -22,16 +22,16 @@ namespace Sim_FrameWork
         private AssembleTypePresetModel _model;
         public override void Awake()
         {
-            _titleName = UIUtility.SafeGetComponent<Text>(UIUtility.FindTransfrom(transform, "TitleName"));
-            _partDesc = UIUtility.SafeGetComponent<Text>(UIUtility.FindTransfrom(transform, "Content/Desc"));
-            _partImage= UIUtility.SafeGetComponent<Image>(UIUtility.FindTransfrom(transform, "Content/IconBG/Icon"));
-            _partPropertyTrans = UIUtility.FindTransfrom(transform, "Content/PartProperty/Content");
-            _partEquipTargetTrans = UIUtility.FindTransfrom(transform, "Content/PartEquipTarget/Content");
-            _chooseEffect = UIUtility.FindTransfrom(transform, "ChooseEffect");
-            _partCostTrans = UIUtility.FindTransfrom(transform, "Content/PartCost/Content");
-            _chooseEffect.gameObject.SetActive(false);
+            _titleName = transform.FindTransfrom("TitleName").SafeGetComponent<Text>();
+            _partDesc = transform.FindTransfrom("Content/Desc").SafeGetComponent<Text>();
+            _partImage= transform.FindTransfrom("Content/IconBG/Icon").SafeGetComponent<Image>();
+            _partPropertyTrans = transform.FindTransfrom("Content/PartProperty/Content");
+            _partEquipTargetTrans = transform.FindTransfrom("Content/PartEquipTarget/Content");
+            _chooseEffect = transform.FindTransfrom("ChooseEffect");
+            _partCostTrans = transform.FindTransfrom("Content/PartCost/Content");
+            _chooseEffect.SafeSetActive(false);
 
-            _btn = UIUtility.SafeGetComponent<Button>(UIUtility.FindTransfrom(transform,"Btn"));
+            _btn = transform.FindTransfrom("Btn").SafeGetComponent<Button>();
             _btn.onClick.AddListener(OnBtnClick);
         }
 
@@ -55,10 +55,7 @@ namespace Sim_FrameWork
 
         void RefreshPartProperty()
         {
-            foreach (Transform trans in _partPropertyTrans)
-            {
-                trans.gameObject.SetActive(false);
-            }
+            _partPropertyTrans.SafeSetActiveAllChild(false);
 
             for (int i = 0; i < _model.PresetInfo.partsPropertyConfig.configData.Count; i++)
             {
@@ -70,18 +67,18 @@ namespace Sim_FrameWork
                 var typeData = AssembleModule.GetAssemblePartPropertyTypeData(data.Name);
                 if (typeData != null)
                 {
-                    UIUtility.SafeGetComponent<Image>(UIUtility.FindTransfrom(trans, "Icon")).sprite = Utility.LoadSprite(typeData.PropertyIcon, Utility.SpriteType.png);
-                    UIUtility.SafeGetComponent<Text>(UIUtility.FindTransfrom(trans, "Name")).text = MultiLanguage.Instance.GetTextValue(typeData.PropertyName);
+                    trans.FindTransfrom("Icon").SafeGetComponent<Image>().sprite = Utility.LoadSprite(typeData.PropertyIcon, Utility.SpriteType.png);
+                    trans.FindTransfrom("Name").SafeGetComponent<Text>().text = MultiLanguage.Instance.GetTextValue(typeData.PropertyName);
                 }
                 if (data.PropertyType == 1)
                 {
                     ///Set Value Fix
-                    UIUtility.SafeGetComponent<Text>(UIUtility.FindTransfrom(trans, "Value")).text = data.PropertyValue.ToString();
+                    trans.FindTransfrom("Value").SafeGetComponent<Text>().text = data.PropertyValue.ToString();
                 }
                 else if (data.PropertyType == 2)
                 {
                     ///Set Value Range
-                    UIUtility.SafeGetComponent<Text>(UIUtility.FindTransfrom(trans, "Value")).text = string.Format("{0} ~ {1}", data.PropertyRangeMin.ToString(), data.PropertyRangeMax.ToString());
+                    trans.FindTransfrom("Value").SafeGetComponent<Text>().text = string.Format("{0} ~ {1}", data.PropertyRangeMin.ToString(), data.PropertyRangeMax.ToString());
                 }
 
                
@@ -91,10 +88,7 @@ namespace Sim_FrameWork
 
         void RefreshPartEquipTarget()
         {
-            foreach (Transform trans in _partEquipTargetTrans)
-            {
-                trans.gameObject.SetActive(false);
-            }
+            _partEquipTargetTrans.SafeSetActiveAllChild(false);
 
             var equipType = AssembleModule.GetAssemblePartEquipType(_model.ID);
             for (int i = 0; i < equipType.Count; i++)
@@ -105,8 +99,8 @@ namespace Sim_FrameWork
                 if (equipData != null)
                 {
                     var trans = _partEquipTargetTrans.GetChild(i);
-                    UIUtility.SafeGetComponent<Image>(UIUtility.FindTransfrom(trans, "Icon")).sprite = Utility.LoadSprite(equipData.IconPath, Utility.SpriteType.png);
-                    UIUtility.SafeGetComponent<Text>(UIUtility.FindTransfrom(trans, "Name")).text = MultiLanguage.Instance.GetTextValue(equipData.TypeNameText);
+                    trans.FindTransfrom("Icon").SafeGetComponent<Image>().sprite = Utility.LoadSprite(equipData.IconPath, Utility.SpriteType.png);
+                    trans.FindTransfrom("Name").SafeGetComponent<Text>().text = MultiLanguage.Instance.GetTextValue(equipData.TypeNameText);
                     trans.gameObject.SetActive(true);
                 }
             }
@@ -114,12 +108,9 @@ namespace Sim_FrameWork
 
         void RefreshPartCost()
         {
-            foreach(Transform trans in _partCostTrans)
-            {
-                trans.gameObject.SetActive(false);
-            }
+            _partCostTrans.SafeSetActiveAllChild(false);
 
-            var costList = AssembleModule.GetPartMaterialCost(_model.ID);
+             var costList = AssembleModule.GetPartMaterialCost(_model.ID);
             for(int i = 0; i < costList.Count; i++)
             {
                 if (i > Config.GlobalConfigData.Assemble_MaterialCost_MaxNum)
@@ -142,12 +133,12 @@ namespace Sim_FrameWork
 
         public override void OnPointerEnter(PointerEventData eventData)
         {
-            _chooseEffect.gameObject.SetActive(true);
+            _chooseEffect.SafeSetActive(true);
         }
 
         public override void OnPointerExit(PointerEventData eventData)
         {
-            _chooseEffect.gameObject.SetActive(false);
+            _chooseEffect.SafeSetActive(false);
         }
 
     }

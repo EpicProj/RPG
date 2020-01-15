@@ -755,9 +755,8 @@ GameObject:
   - component: {fileID: 4623167609770562028}
   - component: {fileID: 4623167609770562029}
   - component: {fileID: 3755008527634501147}
-  - component: {fileID: 5281853629488256842}
   m_Layer: 5
-  m_Name: AssemblesShipChooseDialog
+  m_Name: AssembleShipChooseDialog
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -812,18 +811,6 @@ Animation:
   m_PlayAutomatically: 1
   m_AnimatePhysics: 0
   m_CullingType: 0
---- !u!114 &5281853629488256842
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4623167609770562031}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1e1418aa28ca841498501dd7a94825ca, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &4623167610215169315
 GameObject:
   m_ObjectHideFlags: 0

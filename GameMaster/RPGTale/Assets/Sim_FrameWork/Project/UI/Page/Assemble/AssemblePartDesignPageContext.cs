@@ -91,8 +91,8 @@ namespace Sim_FrameWork.UI
         void OnPresetBtnClick()
         {
             AudioManager.Instance.PlaySound(AudioClipPath.UISound.Button_Click);
-            UIUtility.ActiveCanvasGroup(partChooseCanvasGroup, true);
-            UIUtility.ActiveCanvasGroup(contentCanvasGroup, false);
+            partChooseCanvasGroup.ActiveCanvasGroup(true);
+            contentCanvasGroup.ActiveCanvasGroup(false);
         }
 
    
@@ -103,8 +103,8 @@ namespace Sim_FrameWork.UI
             if (_info == null)
                 return;
 
-            UIUtility.ActiveCanvasGroup(partChooseCanvasGroup, false);
-            UIUtility.ActiveCanvasGroup(contentCanvasGroup, true);
+            partChooseCanvasGroup.ActiveCanvasGroup(false);
+            contentCanvasGroup.ActiveCanvasGroup(true);
             m_page.presetBtn.gameObject.SetActive(true);
             
             partTypeImage.sprite = _info.typePresetData.TypeIcon;
@@ -152,18 +152,15 @@ namespace Sim_FrameWork.UI
                 }
             }
 
-            foreach(Transform trans in partPropertyContentTrans)
-            {
-                UIUtility.SafeSetActive(trans, false);
-            }
+            partPropertyContentTrans.SafeSetActiveAllChild(false);
 
-            for(int i = 0; i < _info.typePresetData.partsPropertyConfig.configData.Count; i++)
+            for (int i = 0; i < _info.typePresetData.partsPropertyConfig.configData.Count; i++)
             {
                 if (i > Config.GlobalConfigData.AssemblePart_Max_PropertyNum)
                     return;
                 var trans = partPropertyContentTrans.GetChild(i);
                 UIUtility.SafeSetActive(trans, true);
-                var itemCmpt = UIUtility.SafeGetComponent<AssemblePartPropertyItem>(trans);
+                var itemCmpt = trans.SafeGetComponent<AssemblePartPropertyItem>();
                 if (itemCmpt != null)
                 {
                     itemCmpt.SetUpItem(_info.typePresetData.partsPropertyConfig.configData[i]);
@@ -176,12 +173,9 @@ namespace Sim_FrameWork.UI
         {
             _customItem.Clear();
 
-            foreach(Transform trans in customValueContentTrans)
-            {
-                ObjectManager.Instance.ReleaseObject(trans.gameObject, 0);
-            }
+            customValueContentTrans.ReleaseAllChildObj();
 
-            for(int i = 0; i < _info.partsConfig.configData.Count; i++)
+            for (int i = 0; i < _info.partsConfig.configData.Count; i++)
             {
                 GameObject obj = null;
                 if (string.Compare(_info.partsConfig.configData[i].PosType, "Left") == 0)
@@ -197,7 +191,7 @@ namespace Sim_FrameWork.UI
                 {
                     obj.transform.SetParent(customValueContentTrans, false);
                     obj.name = "CustomItem_" + i;
-                    var itemCmpt = UIUtility.SafeGetComponent<AssemblePartCustomItem>(obj.transform);
+                    var itemCmpt = obj.transform.SafeGetComponent<AssemblePartCustomItem>();
                     if (itemCmpt != null)
                     {
                         var configData = _info.partsConfig.configData[i];
@@ -261,7 +255,7 @@ namespace Sim_FrameWork.UI
 
             return true;
         }
-
+        
 
         void OnSaveDesignBtnClick()
         {
@@ -342,12 +336,9 @@ namespace Sim_FrameWork.UI
         /// </summary>
         void InitAssembleTargetItem()
         {
-            foreach(Transform trans in assembleTargetContentTrans)
-            {
-                trans.gameObject.SetActive(false);
-            }
+            assembleTargetContentTrans.SafeSetActiveAllChild(false);
 
-            for(int i = 0; i < _info.partEquipType.Count; i++)
+            for (int i = 0; i < _info.partEquipType.Count; i++)
             {
                 if (i >= Config.GlobalConfigData.AssemblePart_Target_MaxNum)
                     break;
@@ -355,9 +346,9 @@ namespace Sim_FrameWork.UI
                 if (targetData != null)
                 {
                     var item = assembleTargetContentTrans.GetChild(i);
-                    UIUtility.SafeGetComponent<Image>(UIUtility.FindTransfrom(item, "Icon")).sprite = Utility.LoadSprite(targetData.IconPath, Utility.SpriteType.png);
-                    UIUtility.SafeGetComponent<Text>(UIUtility.FindTransfrom(item, "Name")).text = MultiLanguage.Instance.GetTextValue(targetData.TypeNameText);
-                    item.gameObject.SetActive(true);
+                    item.FindTransfrom("Icon").SafeGetComponent<Image>().sprite = Utility.LoadSprite(targetData.IconPath, Utility.SpriteType.png);
+                    item.FindTransfrom("Name").SafeGetComponent<Text>().text = MultiLanguage.Instance.GetTextValue(targetData.TypeNameText);
+                    item.SafeSetActive(true);
                 }
             }
         }
@@ -388,7 +379,7 @@ namespace Sim_FrameWork.UI
             {
                 if (i >= Config.GlobalConfigData.Assemble_MaterialCost_MaxNum)
                     break;
-                var cmpt = UIUtility.SafeGetComponent<MaterialCostCmpt>(materialCostTrans.GetChild(i));
+                var cmpt = materialCostTrans.GetChild(i).SafeGetComponent<MaterialCostCmpt>();
                 if (cmpt != null)
                 {
                     cmpt.SetUpItem(_info.materialCostItem[i]);
@@ -403,9 +394,9 @@ namespace Sim_FrameWork.UI
 
         void SetUpPartChooseContent()
         {
-         
-            UIUtility.ActiveCanvasGroup(contentCanvasGroup, false);
-            UIUtility.ActiveCanvasGroup(partChooseCanvasGroup, true);
+
+            contentCanvasGroup.ActiveCanvasGroup(false);
+            partChooseCanvasGroup.ActiveCanvasGroup(true);
             m_page.presetBtn.gameObject.SetActive(false);
 
             RefreshPartChooseTab();
@@ -423,10 +414,7 @@ namespace Sim_FrameWork.UI
 
         void RefreshPartChooseTab()
         {
-            foreach(Transform trans in tabChooseTrans)
-            {
-                ObjectManager.Instance.ReleaseObject(trans.gameObject,0);
-            }
+            tabChooseTrans.ReleaseAllChildObj();
 
             var unlockList = PlayerManager.Instance.GetTotalUnlockAssembleTypeData();
             for(int i = 0; i < unlockList.Count; i++)
@@ -434,7 +422,7 @@ namespace Sim_FrameWork.UI
                 var obj = ObjectManager.Instance.InstantiateObject(UIPath.PrefabPath.General_ChooseTab);
                 if (obj != null)
                 {
-                    var cmpt = UIUtility.SafeGetComponent<GeneralChooseTab>(obj.transform);
+                    var cmpt = obj.transform.SafeGetComponent<GeneralChooseTab>();
                     cmpt.SetUpTab(unlockList[i],true);
                     obj.name = "PartTab_" + i;
                     obj.transform.SetParent(tabChooseTrans, false);
@@ -456,7 +444,7 @@ namespace Sim_FrameWork.UI
             var partModelList = PlayerManager.Instance.GetAssemblePartPresetModelList(chooseType);
             if (partModelList.Count == 0)
             {
-                noDataTrans.gameObject.SetActive(true);
+                noDataTrans.SafeSetActive(true);
                 chooseLoopList.gameObject.SetActive(false);
                 if (noDataInfoAnim != null)
                     noDataInfoAnim.Play();
@@ -464,7 +452,7 @@ namespace Sim_FrameWork.UI
             else
             {
                 chooseLoopList.gameObject.SetActive(true); 
-                noDataTrans.gameObject.SetActive(false);
+                noDataTrans.SafeSetActive(false);
                 currentSelectTab = chooseType;
                 chooseLoopList.InitData(partModelList);
                 if (partChooseAnim != null)
@@ -480,6 +468,7 @@ namespace Sim_FrameWork.UI
     public partial class AssemblePartDesignPageContext : WindowBase
     {
         private AssemblePartDesignPage m_page;
+        private ContextNavigator m_page1;
 
         private CanvasGroup contentCanvasGroup;
         private Image partTypeImage;
@@ -517,29 +506,33 @@ namespace Sim_FrameWork.UI
 
         protected override void InitUIRefrence()
         {
-            m_page = UIUtility.SafeGetComponent<AssemblePartDesignPage>(Transform);
-            contentCanvasGroup = UIUtility.SafeGetComponent<CanvasGroup>(UIUtility.FindTransfrom(Transform, "Content"));
-            partTypeImage = UIUtility.SafeGetComponent<Image>(UIUtility.FindTransfrom(m_page.leftPanel, "PartInfo/Content/Type/Icon"));
-            partTypeName = UIUtility.SafeGetComponent<Text>(UIUtility.FindTransfrom(m_page.leftPanel, "PartInfo/Content/Type/Name"));
-            partModelType= UIUtility.SafeGetComponent<Text>(UIUtility.FindTransfrom(m_page.leftPanel, "PartInfo/Content/ModelType/Name"));
-            partDescText = UIUtility.SafeGetComponent<Text>(UIUtility.FindTransfrom(m_page.leftPanel, "PartDesc/Text"));
-            partDescTypeEffect= UIUtility.SafeGetComponent<TypeWriterEffect>(UIUtility.FindTransfrom(m_page.leftPanel, "PartDesc/Text"));
-            customNameInput = UIUtility.SafeGetComponent<InputField>(UIUtility.FindTransfrom(m_page.namecustomPanel, "NameFix/InputField"));
+            m_page = Transform.SafeGetComponent<AssemblePartDesignPage>();
+            m_page1 = Transform.SafeGetComponent<ContextNavigator>();
+            contentCanvasGroup = Transform.FindTransfrom("Content").SafeGetComponent<CanvasGroup>();
 
-            partPropertyContentTrans = UIUtility.FindTransfrom(m_page.rightPanel, "PartProperty/Content");
-            customValueContentTrans = UIUtility.FindTransfrom(m_page.customPanel, "Content");
-            assembleTargetContentTrans = UIUtility.FindTransfrom(m_page.leftPanel, "AssembleTarget/Content");
-            timeCostText = UIUtility.SafeGetComponent<Text>(UIUtility.FindTransfrom(m_page.leftPanel, "Cost/Time"));
-            materialCostTrans = UIUtility.FindTransfrom(m_page.leftPanel, "Cost/Content");
-            partContentAnim = UIUtility.SafeGetComponent<Animation>(UIUtility.FindTransfrom(Transform, "Content"));
+            var LeftPanel = m_page1.GetNode("LeftPanel");
 
-            SaveDesignBtn = UIUtility.SafeGetComponent<Button>(UIUtility.FindTransfrom(m_page.rightPanel, "Btn"));
-            partChooseCanvasGroup= UIUtility.SafeGetComponent<CanvasGroup>(UIUtility.FindTransfrom(Transform, "PartChooseContent"));
-            tabChooseTrans = UIUtility.FindTransfrom(Transform, "PartChooseContent/ChooseTab");
-            noDataTrans = UIUtility.FindTransfrom(Transform, "PartChooseContent/EmptyInfo");
-            noDataInfoAnim = UIUtility.SafeGetComponent<Animation>(noDataTrans);
-            chooseLoopList = UIUtility.SafeGetComponent<LoopList>(UIUtility.FindTransfrom(Transform, "PartChooseContent/ChooseContent/Scroll View"));
-            partChooseAnim = UIUtility.SafeGetComponent<Animation>(UIUtility.FindTransfrom(Transform, "PartChooseContent"));
+            partTypeImage = LeftPanel.FindTransfrom("PartInfo/Content/Type/Icon").SafeGetComponent<Image>();
+            partTypeName = m_page.leftPanel.FindTransfrom("PartInfo/Content/Type/Name").SafeGetComponent<Text>();
+            partModelType= m_page.leftPanel.FindTransfrom("PartInfo/Content/ModelType/Name").SafeGetComponent<Text>();
+            partDescText = m_page.leftPanel.FindTransfrom("PartDesc/Text").SafeGetComponent<Text>();
+            partDescTypeEffect= m_page.leftPanel.FindTransfrom("PartDesc/Text").SafeGetComponent<TypeWriterEffect>();
+            customNameInput = m_page.namecustomPanel.FindTransfrom("NameFix/InputField").SafeGetComponent<InputField>();
+
+            partPropertyContentTrans = m_page.rightPanel.FindTransfrom("PartProperty/Content");
+            customValueContentTrans = m_page.customPanel.FindTransfrom("Content");
+            assembleTargetContentTrans = m_page.leftPanel.FindTransfrom("AssembleTarget/Content");
+            timeCostText = m_page.leftPanel.FindTransfrom("Cost/Time").SafeGetComponent<Text>();
+            materialCostTrans = m_page.leftPanel.FindTransfrom("Cost/Content");
+            partContentAnim = Transform.FindTransfrom("Content").SafeGetComponent<Animation>();
+
+            SaveDesignBtn = m_page.rightPanel.FindTransfrom("Btn").SafeGetComponent<Button>();
+            partChooseCanvasGroup= Transform.FindTransfrom("PartChooseContent").SafeGetComponent<CanvasGroup>();
+            tabChooseTrans = Transform.FindTransfrom("PartChooseContent/ChooseTab");
+            noDataTrans = Transform.FindTransfrom("PartChooseContent/EmptyInfo");
+            noDataInfoAnim = noDataTrans.SafeGetComponent<Animation>();
+            chooseLoopList = Transform.FindTransfrom("PartChooseContent/ChooseContent/Scroll View").SafeGetComponent<LoopList>();
+            partChooseAnim = Transform.FindTransfrom("PartChooseContent").SafeGetComponent<Animation>();
         }
 
 

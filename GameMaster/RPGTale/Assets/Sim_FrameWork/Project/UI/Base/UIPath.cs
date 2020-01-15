@@ -88,7 +88,7 @@ namespace Sim_FrameWork
             /// <summary>
             /// Tech Page
             /// </summary>
-            public const string Technology_Page = "Page/TechnologyMainPage";
+            public const string Technology_Page = "Page/Technology/TechnologyMainPage";
 
             /// <summary>
             /// 探索主界面
@@ -101,6 +101,7 @@ namespace Sim_FrameWork
             /// </summary>
             public const string Assemble_Part_Design_Page = "Page/Assemble/AssemblePartDesignPage";
             public const string Assemble_Ship_Design_Page= "Page/Assemble/AssembleShipDesignPage";
+            public const string Assemble_Ship_Build_Page= "Page/Assemble/AssembleShipBuildPage";
             #endregion
 
 
@@ -117,6 +118,7 @@ namespace Sim_FrameWork
             /// 区划详情
             /// </summary>
             public const string District_Detail_UI = "Misc/DistrictDetailUI";
+            public const string Assemble_PartInfo_UI = "Misc/AssemblePartInfoUI";
 
             #endregion
 
@@ -202,6 +204,8 @@ namespace Sim_FrameWork
         public struct Misc
         {
             public const string Block_Selection_UI = "Assets/Prefabs/UI/Map/SelectionUI.prefab";
+
+          
         }
 
     }

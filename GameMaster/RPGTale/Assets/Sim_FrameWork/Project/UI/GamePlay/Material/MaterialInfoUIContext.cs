@@ -9,9 +9,12 @@ namespace Sim_FrameWork.UI
         private MaterialInfoUI m_UI;
         private MaterialDataModel _model;
 
+        private Transform _trans;
+
         public override void Awake(params object[] paralist)
         {
             m_UI = UIUtility.SafeGetComponent<MaterialInfoUI>(Transform);
+            _trans = this.Transform;
             _model = (MaterialDataModel)paralist[0];
             RefreshMaterial();
         }
@@ -24,7 +27,7 @@ namespace Sim_FrameWork.UI
 
         public override void OnUpdate()
         {
-            Transform.localPosition = InventoryManager.Instance.GetCurrentMousePos();
+            _trans.localPosition = InventoryManager.Instance.GetCurrentMousePos();
         }
 
         public override bool OnMessage(UIMessage msg)

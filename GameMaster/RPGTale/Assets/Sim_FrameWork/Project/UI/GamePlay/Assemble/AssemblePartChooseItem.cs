@@ -93,7 +93,7 @@ namespace Sim_FrameWork
             if (modeType == 1)
             {
                 _generalBtn.onClick.AddListener(OnReEditClick);
-                _btnText.text = MultiLanguage.Instance.GetTextValue(AssembleChooseItem_EquipParts_Btn);
+                _btnText.text = MultiLanguage.Instance.GetTextValue(AssembleChooseItem_ReEdit_Btn);
             }
             else if(modeType == 2)
             {

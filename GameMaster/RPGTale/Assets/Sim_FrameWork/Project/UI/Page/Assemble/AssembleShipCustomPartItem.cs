@@ -20,14 +20,16 @@ namespace Sim_FrameWork
 
         public AssemblePartInfo partInfo;
 
+        private bool isEquiped = false;
+
         public override void Awake()
         {
-            Line = UIUtility.FindTransfrom(transform, "Line");
-            IconAdd = UIUtility.FindTransfrom(transform, "Line/Content/IconAdd");
-            _btn = UIUtility.SafeGetComponent<Button>(UIUtility.FindTransfrom(transform, "Line/Content"));
-            _icon = UIUtility.SafeGetComponent<Image>(UIUtility.FindTransfrom(transform, "Line/Content/Icon"));
-            _name= UIUtility.SafeGetComponent<Text>(UIUtility.FindTransfrom(transform, "Line/Content/Name"));
-            _enterEffect = UIUtility.FindTransfrom(transform, "Line/Content/EnterEffect");
+            Line = transform.FindTransfrom("Line");
+            IconAdd = transform.FindTransfrom("Line/Content/IconAdd");
+            _btn = transform.FindTransfrom("Line/Content").SafeGetComponent<Button>();
+            _icon = transform.FindTransfrom("Line/Content/Icon").SafeGetComponent<Image>();
+            _name= transform.FindTransfrom("Line/Content/Name").SafeGetComponent<Text>();
+            _enterEffect = transform.FindTransfrom("Line/Content/EnterEffect");
             _enterEffect.gameObject.SetActive(false);
         }
 
@@ -42,9 +44,10 @@ namespace Sim_FrameWork
             IconAdd.gameObject.SetActive(true);
 
             transform.localPosition = new Vector3((float)configData.PosX, (float)configData.PosY, 0);
-            Line.GetComponent<RectTransform>().sizeDelta = new Vector2(2, (float)configData.LineWidth);
+            Line.SafeGetComponent<RectTransform>().sizeDelta = new Vector2(2, (float)configData.LineWidth);
 
             _btn.onClick.AddListener(OnBtnClick);
+            isEquiped = false;
         }
 
         public void AddShipPart(AssemblePartInfo info)
@@ -55,6 +58,8 @@ namespace Sim_FrameWork
 
             _icon.sprite = info.typePresetData.partIconSmall;
             _name.text = info.customName;
+
+            isEquiped = true;
         }
 
         void OnBtnClick()
@@ -66,11 +71,21 @@ namespace Sim_FrameWork
         public override void OnPointerEnter(PointerEventData eventData)
         {
             _enterEffect.gameObject.SetActive(true);
+
+            if (isEquiped && partInfo!=null)
+            {
+                UIGuide.Instance.ShowAssemblePartInfoUI(partInfo);
+            }
         }
 
         public override void OnPointerExit(PointerEventData eventData)
         {
             _enterEffect.gameObject.SetActive(false);
+
+            if (isEquiped && partInfo != null)
+            {
+                UIManager.Instance.HideWnd(UIPath.WindowPath.Assemble_PartInfo_UI);
+            }
         }
 
 
