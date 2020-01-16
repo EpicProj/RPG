@@ -1,13 +1,12 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 namespace Sim_FrameWork.UI
 {
     public class AssemblePartChooseDialogContext : WindowBase
     {
-
-        private AssemblePartChooseDialog m_dialog;
 
         private Transform noInfoTrans;
         private Animation noInfoAnim;
@@ -59,18 +58,17 @@ namespace Sim_FrameWork.UI
 
         protected override void InitUIRefrence()
         {
-            m_dialog = UIUtility.SafeGetComponent<AssemblePartChooseDialog>(Transform);
-            _loopList = UIUtility.SafeGetComponent<LoopList>(UIUtility.FindTransfrom(m_dialog.contentTrans, "Scroll View"));
-            noInfoTrans = UIUtility.FindTransfrom(Transform, "Content/EmptyInfo");
-            noInfoAnim = UIUtility.SafeGetComponent<Animation>(noInfoTrans);
-            tabContentTrans = UIUtility.FindTransfrom(Transform, "Content/TabContent");
+            _loopList = Transform.FindTransfrom("Content/Context/Scroll View").SafeGetComponent<LoopList>();
+            noInfoTrans = Transform.FindTransfrom("Content/EmptyInfo");
+            noInfoAnim = noInfoTrans.SafeGetComponent<Animation>();
+            tabContentTrans = Transform.FindTransfrom("Content/TabContent");
         }
 
         #endregion
 
         void AddBtnClick()
         {
-            AddButtonClickListener(m_dialog.closeBtn, () =>
+            AddButtonClickListener(Transform.FindTransfrom("BG").SafeGetComponent<Button>(), () =>
             {
                 UIManager.Instance.HideWnd(this);
                 AudioManager.Instance.PlaySound(AudioClipPath.UISound.Btn_Close);
@@ -79,7 +77,7 @@ namespace Sim_FrameWork.UI
 
         void SetUpDialog()
         {
-            noInfoTrans.gameObject.SetActive(false);
+            noInfoTrans.SafeSetActive(false);
             RefreshTab();
             InitDefaultSelectTab();
         }
@@ -89,13 +87,13 @@ namespace Sim_FrameWork.UI
             var partInfoList = PlayerManager.Instance.GetAssemblePartInfoByTypeID(currentSelcetTab);
             if (partInfoList.Count == 0)
             {
-                noInfoTrans.gameObject.SetActive(true);
+                noInfoTrans.SafeSetActive(true);
                 if (noInfoAnim != null)
                     noInfoAnim.Play();
             }
             else
             {
-                noInfoTrans.gameObject.SetActive(false);
+                noInfoTrans.SafeSetActive(false);
                 var dataModelList = PlayerManager.Instance.GetAssemblePartChooseModel(currentSelcetTab);
                 _loopList.InitData(dataModelList, new List<object>() { dialogShowType,configID });
             }
@@ -104,10 +102,7 @@ namespace Sim_FrameWork.UI
 
         void RefreshTab()
         {
-            foreach(Transform trans in tabContentTrans)
-            {
-                ObjectManager.Instance.ReleaseObject(trans.gameObject, 0);
-            }
+            tabContentTrans.ReleaseAllChildObj();
 
             for (int i = 0; i < _sortTypeList.Count; i++)
             {
@@ -117,7 +112,7 @@ namespace Sim_FrameWork.UI
                     var obj = ObjectManager.Instance.InstantiateObject(UIPath.PrefabPath.General_ChooseTab);
                     if (obj != null)
                     {
-                        var cmpt = UIUtility.SafeGetComponent<GeneralChooseTab>(obj.transform);
+                        var cmpt = obj.transform.SafeGetComponent<GeneralChooseTab>();
                         cmpt.SetUpTab(typeData,false);
                         cmpt.transform.SetParent(tabContentTrans, false);
                     }

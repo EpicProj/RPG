@@ -51,10 +51,8 @@ namespace Sim_FrameWork.UI
         {
             if (_item == null)
                 return;
-            foreach(Transform trans in m_dialog.ChooseContent)
-            {
-                trans.gameObject.SetActive(false);
-            }
+            var chooseContent = Transform.FindTransfrom("Content/Choose");
+            chooseContent.SafeSetActiveAllChild(false);
 
             _titleName.text = _item.eventName;
             _titleText.text = _item.eventTitleName;
@@ -63,7 +61,7 @@ namespace Sim_FrameWork.UI
 
             for(int i = 0; i < _item.itemList.Count; i++)
             {
-                var eventCmpt = UIUtility.SafeGetComponent<EventChooseBtn>( m_dialog.ChooseContent.GetChild(i));
+                var eventCmpt = chooseContent.GetChild(i).SafeGetComponent<EventChooseBtn>();
                 if (eventCmpt != null)
                 {
                     eventCmpt.InitBtn(_item,_item.itemList[i].ChooseID);
@@ -90,25 +88,22 @@ namespace Sim_FrameWork.UI
             {
                 InitRewardElement();
             }
-            foreach(Transform trans in _eventEffectContent)
-            {
-                trans.gameObject.SetActive(false);
-            }
+            _eventEffectContent.SafeSetActiveAllChild(false);
 
             if (rewardItem.Count == 0)
             {
-                _effectLine.gameObject.SetActive(false);
+                _effectLine.SafeSetActive(false);
             }
             else
             {
-                _effectLine.gameObject.SetActive(true);
+                _effectLine.SafeSetActive(true);
                 for (int i = 0; i < rewardItem.Count; i++)
                 {
-                    var rewardCmpt = UIUtility.SafeGetComponent<RewardItem>(_eventEffectContent.GetChild(i));
+                    var rewardCmpt = _eventEffectContent.GetChild(i).SafeGetComponent<RewardItem>();
                     if (rewardCmpt != null)
                     {
                         rewardCmpt.SetUpItem(rewardItem[i]);
-                        rewardCmpt.gameObject.SetActive(true);
+                        rewardCmpt.transform.SafeSetActive(true);
                     }
                     else
                     {
@@ -127,7 +122,6 @@ namespace Sim_FrameWork.UI
 
     public partial class RandomEventDialogContext : WindowBase
     {
-        private RandomEventDialog m_dialog;
         private Animation _anim;
 
         private Text _titleText;
@@ -144,19 +138,18 @@ namespace Sim_FrameWork.UI
 
         protected override void InitUIRefrence()
         {
-            m_dialog = UIUtility.SafeGetComponent<RandomEventDialog>(Transform);
-            _anim = UIUtility.SafeGetComponent<Animation>(Transform);
+            _anim = Transform.SafeGetComponent<Animation>();
 
-            _titleText = UIUtility.SafeGetComponent<Text>(UIUtility.FindTransfrom(m_dialog.transform, "Content/Title/Text"));
-            _titleName = UIUtility.SafeGetComponent<Text>(UIUtility.FindTransfrom(m_dialog.DetailContent, "Name"));
-            _eventBG = UIUtility.SafeGetComponent<Image>(UIUtility.FindTransfrom(m_dialog.DetailContent, "Pic"));
-            _eventDesc = UIUtility.SafeGetComponent<Text>(UIUtility.FindTransfrom(m_dialog.DetailContent, "Pic/Desc"));
+            _titleText = Transform.FindTransfrom("Content/Title/Text").SafeGetComponent<Text>();
+            _titleName = Transform.FindTransfrom("Content/Detail/Name").SafeGetComponent<Text>();
+            _eventBG = Transform.FindTransfrom("Content/Detail/Pic").SafeGetComponent<Image>();
+            _eventDesc = Transform.FindTransfrom("Content/Detail/Pic/Desc").SafeGetComponent<Text>();
 
-            _eventEffectContent = UIUtility.FindTransfrom(m_dialog.DetailContent, "EffectContent");
-            _effectLine = UIUtility.FindTransfrom(m_dialog.DetailContent, "Line2");
-            _typeEffect = UIUtility.SafeGetComponent<TypeWriterEffect>(_eventDesc.transform);
+            _eventEffectContent = Transform.FindTransfrom("Content/Detail/EffectContent");
+            _effectLine = Transform.FindTransfrom("Content/Detail/Line2");
+            _typeEffect = _eventDesc.transform.SafeGetComponent<TypeWriterEffect>();
 
-            _effectAnim = UIUtility.SafeGetComponent<Animation>(_eventEffectContent);
+            _effectAnim = _eventEffectContent.SafeGetComponent<Animation>();
         }
 
 

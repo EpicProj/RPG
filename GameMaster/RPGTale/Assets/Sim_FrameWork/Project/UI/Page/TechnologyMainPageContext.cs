@@ -144,14 +144,12 @@ namespace Sim_FrameWork.UI
 
     public partial class TechnologyMainPageContext : WindowBase
     {
-        private ContextNavigator m_page;
 
         private Transform scrollViewContentTrans;
 
         protected override void InitUIRefrence()
         {
-            m_page = Transform.SafeGetComponent<ContextNavigator>();
-            scrollViewContentTrans = m_page.GetNode("Scroll View").FindTransfrom("Viewport/Content");
+            scrollViewContentTrans =Transform.FindTransfrom("Content/Scroll View/Viewport/Content");
         }
 
     }

@@ -921,7 +921,6 @@ GameObject:
   m_Component:
   - component: {fileID: 4891514592072417369}
   - component: {fileID: 4891514592072417368}
-  - component: {fileID: 8441035307403072870}
   - component: {fileID: 4023566821362573230}
   m_Layer: 5
   m_Name: AssemblePartChooseDialog
@@ -963,20 +962,6 @@ CanvasGroup:
   m_Interactable: 1
   m_BlocksRaycasts: 1
   m_IgnoreParentGroups: 0
---- !u!114 &8441035307403072870
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4891514592072417370}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 347fe08647005f6409dfcda1eaa9d5d6, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  closeBtn: {fileID: 4891514590861263036}
-  contentTrans: {fileID: 4891514590612859373}
 --- !u!111 &4023566821362573230
 Animation:
   m_ObjectHideFlags: 0

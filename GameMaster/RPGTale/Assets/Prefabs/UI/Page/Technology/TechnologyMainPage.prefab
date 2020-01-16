@@ -5074,7 +5074,6 @@ GameObject:
   m_Component:
   - component: {fileID: 224619463324893434}
   - component: {fileID: 111659934391723416}
-  - component: {fileID: 5021075265303936627}
   m_Layer: 5
   m_Name: TechnologyMainPage
   m_TagString: Untagged
@@ -5121,21 +5120,6 @@ Animation:
   m_PlayAutomatically: 1
   m_AnimatePhysics: 0
   m_CullingType: 0
---- !u!114 &5021075265303936627
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1297477004162608}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1cbb5a2b9452fc34a98e24d6aa7692b3, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  nodeList:
-  - nodeName: Scroll View
-    nodeTrans: {fileID: 224030899956859530}
 --- !u!1 &1398258013666536
 GameObject:
   m_ObjectHideFlags: 0

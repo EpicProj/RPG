@@ -79,13 +79,13 @@ namespace Sim_FrameWork.UI
         private void AddButtomClick()
         {
             AddButtonClickListener(SaveDesignBtn, OnSaveDesignBtnClick);
-            AddButtonClickListener(m_page.backBtn, () =>
+            AddButtonClickListener(Transform.FindTransfrom("Back").SafeGetComponent<Button>(), () =>
             {
                 AudioManager.Instance.PlaySound(AudioClipPath.UISound.Btn_Close);
                 UIManager.Instance.HideWnd(this);
             });
 
-            AddButtonClickListener(m_page.presetBtn, OnPresetBtnClick);
+            AddButtonClickListener(Transform.FindTransfrom("BtnPanel/PresetChooseBtn").SafeGetComponent<Button>(), OnPresetBtnClick);
         }
 
         void OnPresetBtnClick()
@@ -105,7 +105,7 @@ namespace Sim_FrameWork.UI
 
             partChooseCanvasGroup.ActiveCanvasGroup(false);
             contentCanvasGroup.ActiveCanvasGroup(true);
-            m_page.presetBtn.gameObject.SetActive(true);
+            presetBtn.transform.SafeSetActive(true);
             
             partTypeImage.sprite = _info.typePresetData.TypeIcon;
             partTypeName.text = _info.typePresetData.TypeName;
@@ -123,8 +123,8 @@ namespace Sim_FrameWork.UI
             InitAssembleTargetItem();
             InitPartCostPanel();
 
-            m_page.presetTotalBtn.onClick.RemoveAllListeners();
-            AddButtonClickListener(m_page.presetTotalBtn, OnPresetTotalBtnClick);
+            presetTotalBtn.onClick.RemoveAllListeners();
+            AddButtonClickListener(presetTotalBtn, OnPresetTotalBtnClick);
 
             if (partContentAnim != null)
                 partContentAnim.Play();
@@ -397,12 +397,12 @@ namespace Sim_FrameWork.UI
 
             contentCanvasGroup.ActiveCanvasGroup(false);
             partChooseCanvasGroup.ActiveCanvasGroup(true);
-            m_page.presetBtn.gameObject.SetActive(false);
+            presetBtn.transform.SafeSetActive(false);
 
             RefreshPartChooseTab();
             InitDefaultTabSelect();
-            m_page.presetTotalBtn.onClick.RemoveAllListeners();
-            AddButtonClickListener(m_page.presetTotalBtn, OnPresetTotalBtnClickAll);
+            presetTotalBtn.onClick.RemoveAllListeners();
+            AddButtonClickListener(presetTotalBtn, OnPresetTotalBtnClickAll);
         }
 
         void OnPresetTotalBtnClickAll()
@@ -467,8 +467,6 @@ namespace Sim_FrameWork.UI
 
     public partial class AssemblePartDesignPageContext : WindowBase
     {
-        private AssemblePartDesignPage m_page;
-        private ContextNavigator m_page1;
 
         private CanvasGroup contentCanvasGroup;
         private Image partTypeImage;
@@ -488,6 +486,8 @@ namespace Sim_FrameWork.UI
         private Transform materialCostTrans;
 
         private Button SaveDesignBtn;
+        private Button presetBtn;
+        private Button presetTotalBtn;
 
         private CanvasGroup partChooseCanvasGroup;
         private Transform tabChooseTrans;
@@ -506,28 +506,27 @@ namespace Sim_FrameWork.UI
 
         protected override void InitUIRefrence()
         {
-            m_page = Transform.SafeGetComponent<AssemblePartDesignPage>();
-            m_page1 = Transform.SafeGetComponent<ContextNavigator>();
             contentCanvasGroup = Transform.FindTransfrom("Content").SafeGetComponent<CanvasGroup>();
 
-            var LeftPanel = m_page1.GetNode("LeftPanel");
+            partTypeImage = Transform.FindTransfrom("Content/LeftPanel/PartInfo/Content/Type/Icon").SafeGetComponent<Image>();
+            partTypeName = Transform.FindTransfrom("Content/LeftPanel/PartInfo/Content/Type/Name").SafeGetComponent<Text>();
+            partModelType= Transform.FindTransfrom("Content/LeftPanel/PartInfo/Content/ModelType/Name").SafeGetComponent<Text>();
+            partDescText = Transform.FindTransfrom("Content/LeftPanel/PartDesc/Text").SafeGetComponent<Text>();
+            partDescTypeEffect= Transform.FindTransfrom("Content/LeftPanel/PartDesc/Text").SafeGetComponent<TypeWriterEffect>();
+            customNameInput = Transform.FindTransfrom("Content/NameCustom/NameFix/InputField").SafeGetComponent<InputField>();
 
-            partTypeImage = LeftPanel.FindTransfrom("PartInfo/Content/Type/Icon").SafeGetComponent<Image>();
-            partTypeName = m_page.leftPanel.FindTransfrom("PartInfo/Content/Type/Name").SafeGetComponent<Text>();
-            partModelType= m_page.leftPanel.FindTransfrom("PartInfo/Content/ModelType/Name").SafeGetComponent<Text>();
-            partDescText = m_page.leftPanel.FindTransfrom("PartDesc/Text").SafeGetComponent<Text>();
-            partDescTypeEffect= m_page.leftPanel.FindTransfrom("PartDesc/Text").SafeGetComponent<TypeWriterEffect>();
-            customNameInput = m_page.namecustomPanel.FindTransfrom("NameFix/InputField").SafeGetComponent<InputField>();
-
-            partPropertyContentTrans = m_page.rightPanel.FindTransfrom("PartProperty/Content");
-            customValueContentTrans = m_page.customPanel.FindTransfrom("Content");
-            assembleTargetContentTrans = m_page.leftPanel.FindTransfrom("AssembleTarget/Content");
-            timeCostText = m_page.leftPanel.FindTransfrom("Cost/Time").SafeGetComponent<Text>();
-            materialCostTrans = m_page.leftPanel.FindTransfrom("Cost/Content");
+            partPropertyContentTrans = Transform.FindTransfrom("Content/RightPanel/PartProperty/Content");
+            customValueContentTrans = Transform.FindTransfrom("Content/CustomValueContent/Content");
+            assembleTargetContentTrans = Transform.FindTransfrom("Content/LeftPanel/AssembleTarget/Content");
+            timeCostText = Transform.FindTransfrom("Content/LeftPanel/Cost/Time").SafeGetComponent<Text>();
+            materialCostTrans = Transform.FindTransfrom("Content/LeftPanel/Cost/Content");
             partContentAnim = Transform.FindTransfrom("Content").SafeGetComponent<Animation>();
 
-            SaveDesignBtn = m_page.rightPanel.FindTransfrom("Btn").SafeGetComponent<Button>();
-            partChooseCanvasGroup= Transform.FindTransfrom("PartChooseContent").SafeGetComponent<CanvasGroup>();
+            SaveDesignBtn = Transform.FindTransfrom("Content/RightPanel/Btn").SafeGetComponent<Button>();
+            presetBtn = Transform.FindTransfrom("BtnPanel/PresetChooseBtn").SafeGetComponent<Button>();
+            presetTotalBtn= Transform.FindTransfrom("BtnPanel/TotalPresetBtn").SafeGetComponent<Button>();
+
+            partChooseCanvasGroup = Transform.FindTransfrom("PartChooseContent").SafeGetComponent<CanvasGroup>();
             tabChooseTrans = Transform.FindTransfrom("PartChooseContent/ChooseTab");
             noDataTrans = Transform.FindTransfrom("PartChooseContent/EmptyInfo");
             noDataInfoAnim = noDataTrans.SafeGetComponent<Animation>();

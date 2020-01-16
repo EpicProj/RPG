@@ -53,7 +53,7 @@ namespace Sim_FrameWork.UI
             AudioManager.Instance.PlaySound(AudioClipPath.UISound.Page_Open);
             _info = (AssembleShipInfo)paralist[0];
 
-            noDataInfoTrans.gameObject.SetActive(false);
+            noDataInfoTrans.SafeSetActive(false);
             if (showShipChoosePanel)
             {
                 SetUpShipChooseContent();
@@ -75,18 +75,18 @@ namespace Sim_FrameWork.UI
 
         void AddBtnClick()
         {
-            AddButtonClickListener(m_page.backBtn, () =>
+            AddButtonClickListener(Transform.FindTransfrom("Back").SafeGetComponent<Button>(), () =>
             {
                 UIManager.Instance.HideWnd(this);
             });
-            AddButtonClickListener(m_page.presetChooseBtn, OnPresetChooseBtnClick);
+            AddButtonClickListener(presetChooseBtn, OnPresetChooseBtnClick);
             AddButtonClickListener(shipDesignSaveBtn, OnShipDesignBtnClick);
         }
         void OnPresetChooseBtnClick()
         {
             AudioManager.Instance.PlaySound(AudioClipPath.UISound.Button_Click);
-            UIUtility.ActiveCanvasGroup(shipChooseCanvasGroup, true);
-            UIUtility.ActiveCanvasGroup(contentCanvasGroup, false);
+            shipChooseCanvasGroup.ActiveCanvasGroup(true);
+            contentCanvasGroup.ActiveCanvasGroup(false);
         }
 
 
@@ -94,9 +94,9 @@ namespace Sim_FrameWork.UI
         {
             if (_info == null)
                 return;
-            UIUtility.ActiveCanvasGroup(shipChooseCanvasGroup, false);
-            UIUtility.ActiveCanvasGroup(contentCanvasGroup, true);
-            m_page.presetChooseBtn.gameObject.SetActive(true);
+            shipChooseCanvasGroup.ActiveCanvasGroup(false);
+            contentCanvasGroup.ActiveCanvasGroup(true);
+            presetChooseBtn.transform.SafeSetActive(true);
 
             _shipTypeIcon.sprite = _info.presetData.TypeIcon;
             _shipTypeText.text = _info.presetData.TypeName;
@@ -107,8 +107,8 @@ namespace Sim_FrameWork.UI
                 shipClassDescTypeEffect.StartEffect();
             MapManager.Instance.InitAssembleModel(_info.presetData._metaClass.ModelPath);
 
-            m_page.presetTotalBtn.onClick.RemoveAllListeners();
-            AddButtonClickListener(m_page.presetTotalBtn, OnPresetTotalBtnClick);
+            presetTotalBtn.onClick.RemoveAllListeners();
+            AddButtonClickListener(presetTotalBtn, OnPresetTotalBtnClick);
             refreshProperty();
             InitShipPartItem();
             RefreshShipBaseCost();
@@ -138,11 +138,8 @@ namespace Sim_FrameWork.UI
             _partItemList.Clear();
             if (_info == null)
                 return;
-            
-            foreach(Transform trans in customContentTrans)
-            {
-                ObjectManager.Instance.ReleaseObject(trans.gameObject, 0);
-            }
+
+            customContentTrans.ReleaseAllChildObj();
 
             var configData = _info.presetData.partConfig.configData;
             for (int i=0;i< configData.Count; i++)
@@ -159,7 +156,7 @@ namespace Sim_FrameWork.UI
 
                 if (obj != null)
                 {
-                    AssembleShipCustomPartItem item = UIUtility.SafeGetComponent<AssembleShipCustomPartItem>(obj.transform);
+                    AssembleShipCustomPartItem item = obj.transform.SafeGetComponent<AssembleShipCustomPartItem>();
                     if (item != null)
                     {
                         item.SetUpItem(configData[i]);
@@ -187,17 +184,14 @@ namespace Sim_FrameWork.UI
                 }
             }
 
-            foreach (Transform trans in shipBaseCostTrans)
-            {
-                trans.gameObject.SetActive(false);
-            }
+            shipBaseCostTrans.SafeSetActiveAllChild(false);
 
             var costList = _info.presetData.shipCostBase;
             for(int i = 0; i < costList.Count; i++)
             {
                 if (i > Config.GlobalConfigData.Assemble_MaterialCost_MaxNum)
                     break;
-                var cmpt = UIUtility.SafeGetComponent<MaterialCostCmpt>(shipBaseCostTrans.GetChild(i));
+                var cmpt = shipBaseCostTrans.GetChild(i).SafeGetComponent<MaterialCostCmpt>();
                 if (cmpt != null)
                 {
                     cmpt.SetUpItem(costList[i]);
@@ -290,14 +284,14 @@ namespace Sim_FrameWork.UI
 
         void SetUpShipChooseContent()
         {
-            UIUtility.ActiveCanvasGroup(contentCanvasGroup, false);
-            UIUtility.ActiveCanvasGroup(shipChooseCanvasGroup, true);
-            m_page.presetChooseBtn.gameObject.SetActive(false);
+            contentCanvasGroup.ActiveCanvasGroup(false);
+            shipChooseCanvasGroup.ActiveCanvasGroup(true);
+            presetChooseBtn.transform.SafeSetActive(false);
 
             RefreshShipChooseTab();
             InitDefaultTabSelect();
-            m_page.presetTotalBtn.onClick.RemoveAllListeners();
-            AddButtonClickListener(m_page.presetTotalBtn, OnPresetTotalBtnClickAll);
+            presetTotalBtn.onClick.RemoveAllListeners();
+            AddButtonClickListener(presetTotalBtn, OnPresetTotalBtnClickAll);
         }
 
         void OnPresetTotalBtnClickAll()
@@ -309,10 +303,7 @@ namespace Sim_FrameWork.UI
 
         void RefreshShipChooseTab()
         {
-            foreach (Transform trans in chooseTabTrans)
-            {
-                ObjectManager.Instance.ReleaseObject(trans.gameObject, 0);
-            }
+            chooseTabTrans.ReleaseAllChildObj();
 
             var unlockList = PlayerManager.Instance.GetTotalUnlockAssembleShipTypeData();
             for (int i = 0; i < unlockList.Count; i++)
@@ -320,7 +311,7 @@ namespace Sim_FrameWork.UI
                 var obj = ObjectManager.Instance.InstantiateObject(UIPath.PrefabPath.General_ChooseTab);
                 if (obj != null)
                 {
-                    var cmpt = UIUtility.SafeGetComponent<GeneralChooseTab>(obj.transform);
+                    var cmpt = obj.transform.SafeGetComponent<GeneralChooseTab>();
                     cmpt.SetUpTab(unlockList[i]);
                     obj.name = "ShipTab_" + i;
                     obj.transform.SetParent(chooseTabTrans, false);
@@ -341,15 +332,15 @@ namespace Sim_FrameWork.UI
             var shipModelList = PlayerManager.Instance.GetAssembleShipPresetModelList(chooseType);
             if (shipModelList.Count == 0)
             {
-                noDataInfoTrans.gameObject.SetActive(true);
-                chooseLoopList.gameObject.SetActive(false);
+                noDataInfoTrans.SafeSetActive(true);
+                chooseLoopList.transform.SafeSetActive(false);
                 if (noDataInfoAnim != null)
                     noDataInfoAnim.Play();
             }
             else
             {
-                chooseLoopList.gameObject.SetActive(true);
-                noDataInfoTrans.gameObject.SetActive(false);
+                chooseLoopList.transform.SafeSetActive(true);
+                noDataInfoTrans.SafeSetActive(false);
                 currentSelectTab = chooseType;
                 chooseLoopList.InitData(shipModelList);
                 if (shipChooseAnim != null)
@@ -364,7 +355,6 @@ namespace Sim_FrameWork.UI
 
     public partial class AssembleShipDesignPageContext : WindowBase
     {
-        private AssembleShipDesignPage m_page;
 
         private Text _propertyDurabilityText;
         private Text _propertySpeedText;
@@ -381,9 +371,12 @@ namespace Sim_FrameWork.UI
         private CanvasGroup contentCanvasGroup;
         private Transform shipBaseCostTrans;
         private Animation shipContentAnim;
-        private Button shipDesignSaveBtn;
-        private InputField customNameInputField;
 
+        private Button shipDesignSaveBtn;
+        private Button presetChooseBtn;
+        private Button presetTotalBtn;
+
+        private InputField customNameInputField;
         private TypeWriterEffect shipClassDescTypeEffect;
 
         private Transform customContentTrans;
@@ -405,34 +398,36 @@ namespace Sim_FrameWork.UI
 
         protected override void InitUIRefrence()
         {
-            m_page = UIUtility.SafeGetComponent<AssembleShipDesignPage>(Transform);
 
-            _propertyDurabilityText = UIUtility.SafeGetComponent<Text>(UIUtility.FindTransfrom(m_page.RightPanel, "PartProperty/Content/Durability/Value"));
-            _propertySpeedText = UIUtility.SafeGetComponent<Text>(UIUtility.FindTransfrom(m_page.RightPanel, "PartProperty/Content/Speed/Value"));
-            _propertyFirePowerText= UIUtility.SafeGetComponent<Text>(UIUtility.FindTransfrom(m_page.RightPanel, "PartProperty/Content/FirePower/Value"));
-            _propertyExploreText= UIUtility.SafeGetComponent<Text>(UIUtility.FindTransfrom(m_page.RightPanel, "PartProperty/Content/Explore/Value"));
-            _propertyMemberText= UIUtility.SafeGetComponent<Text>(UIUtility.FindTransfrom(m_page.RightPanel, "PartProperty/Content/Member/Value"));
-            _propertyStorageText= UIUtility.SafeGetComponent<Text>(UIUtility.FindTransfrom(m_page.RightPanel, "PartProperty/Content/Storage/Value"));
+            _propertyDurabilityText = Transform.FindTransfrom("Content/RightPanel/PartProperty/Content/Durability/Value").SafeGetComponent<Text>();
+            _propertySpeedText = Transform.FindTransfrom("Content/RightPanel/PartProperty/Content/Speed/Value").SafeGetComponent<Text>();
+            _propertyFirePowerText= Transform.FindTransfrom("Content/RightPanel/PartProperty/Content/FirePower/Value").SafeGetComponent<Text>();
+            _propertyExploreText= Transform.FindTransfrom("Content/RightPanel/PartProperty/Content/Explore/Value").SafeGetComponent<Text>();
+            _propertyMemberText= Transform.FindTransfrom("Content/RightPanel/PartProperty/Content/Member/Value").SafeGetComponent<Text>();
+            _propertyStorageText= Transform.FindTransfrom("Content/RightPanel/PartProperty/Content/Storage/Value").SafeGetComponent<Text>();
 
-            _shipTypeIcon = UIUtility.SafeGetComponent<Image>(UIUtility.FindTransfrom(m_page.leftPanel, "ShipInfo/Content/Type/Icon"));
-            _shipTypeText = UIUtility.SafeGetComponent<Text>(UIUtility.FindTransfrom(m_page.leftPanel, "ShipInfo/Content/Type/Name"));
-            _shipClassText = UIUtility.SafeGetComponent<Text>(UIUtility.FindTransfrom(m_page.leftPanel, "ShipInfo/Content/Class/Name"));
-            _shipSizeText= UIUtility.SafeGetComponent<Text>(UIUtility.FindTransfrom(m_page.leftPanel, "ShipInfo/Content/Size/Name"));
-            _shipClassDesc = UIUtility.SafeGetComponent<Text>(UIUtility.FindTransfrom(m_page.leftPanel, "ShipDesc/Text"));
-            shipClassDescTypeEffect = UIUtility.SafeGetComponent<TypeWriterEffect>(_shipClassDesc.transform);
-            contentCanvasGroup = UIUtility.SafeGetComponent<CanvasGroup>(UIUtility.FindTransfrom(Transform, "Content"));
-            shipBaseCostTrans = UIUtility.FindTransfrom(m_page.leftPanel, "CostBase/Content");
-            shipContentAnim = UIUtility.SafeGetComponent<Animation>(UIUtility.FindTransfrom(Transform, "Content"));
-            shipDesignSaveBtn = UIUtility.SafeGetComponent<Button>(UIUtility.FindTransfrom(m_page.RightPanel, "Btn"));
-            customNameInputField = UIUtility.SafeGetComponent<InputField>(UIUtility.FindTransfrom(Transform, "Content/NameCustom/NameFix/InputField"));
+            _shipTypeIcon = Transform.FindTransfrom("Content/LeftPanel/ShipInfo/Content/Type/Icon").SafeGetComponent<Image>();
+            _shipTypeText = Transform.FindTransfrom("Content/LeftPanel/ShipInfo/Content/Type/Name").SafeGetComponent<Text>();
+            _shipClassText = Transform.FindTransfrom("Content/LeftPanel/ShipInfo/Content/Class/Name").SafeGetComponent<Text>();
+            _shipSizeText= Transform.FindTransfrom("Content/LeftPanel/ShipInfo/Content/Size/Name").SafeGetComponent<Text>();
+            _shipClassDesc = Transform.FindTransfrom("Content/LeftPanel/ShipDesc/Text").SafeGetComponent<Text>();
+            shipClassDescTypeEffect = _shipClassDesc.transform.SafeGetComponent<TypeWriterEffect>();
+            contentCanvasGroup = Transform.FindTransfrom("Content").SafeGetComponent<CanvasGroup>();
+            shipBaseCostTrans = Transform.FindTransfrom("Content/LeftPanel/CostBase/Content");
+            shipContentAnim = Transform.FindTransfrom("Content").SafeGetComponent<Animation>();
 
-            customContentTrans = UIUtility.FindTransfrom(m_page.CustomPanel, "Content");
-            chooseTabTrans = UIUtility.FindTransfrom(m_page.ChooseContent, "ChooseTab");
-            noDataInfoTrans = UIUtility.FindTransfrom(m_page.ChooseContent, "EmptyInfo");
-            noDataInfoAnim = UIUtility.SafeGetComponent<Animation>(noDataInfoTrans);
-            chooseLoopList = UIUtility.SafeGetComponent<LoopList>(UIUtility.FindTransfrom(m_page.ChooseContent, "ChooseContent/Scroll View"));
-            shipChooseAnim = UIUtility.SafeGetComponent<Animation>(m_page.ChooseContent);
-            shipChooseCanvasGroup = UIUtility.SafeGetComponent<CanvasGroup>(m_page.ChooseContent);
+            shipDesignSaveBtn = Transform.FindTransfrom("Content/RightPanel/Btn").SafeGetComponent<Button>();
+            presetChooseBtn = Transform.FindTransfrom("BtnPanel/PresetChooseBtn").SafeGetComponent<Button>();
+            presetTotalBtn = Transform.FindTransfrom("BtnPanel/TotalPresetBtn").SafeGetComponent<Button>();
+
+            customNameInputField = Transform.FindTransfrom("Content/NameCustom/NameFix/InputField").SafeGetComponent<InputField>();
+            customContentTrans = Transform.FindTransfrom("Content/CustomValueContent/Content");
+            chooseTabTrans = Transform.FindTransfrom("ShipChooseContent/ChooseTab");
+            noDataInfoTrans = Transform.FindTransfrom("ShipChooseContent/EmptyInfo");
+            noDataInfoAnim = noDataInfoTrans.SafeGetComponent<Animation>();
+            chooseLoopList = Transform.FindTransfrom("ShipChooseContent/ChooseContent/Scroll View").SafeGetComponent<LoopList>();
+            shipChooseAnim = Transform.FindTransfrom("ShipChooseContent").SafeGetComponent<Animation>();
+            shipChooseCanvasGroup = Transform.FindTransfrom("ShipChooseContent").SafeGetComponent<CanvasGroup>();
 
         }
 
