@@ -9,7 +9,7 @@
 			<variable  name="Unlock" col = "Unlock" type="bool"/>
 			<variable  name="ShipScale" col = "ShipScale" type="ushort"/>
 			<variable  name="MaterialCost" col = "MaterialCost" type="string"/>
-			<variable  name="BaseTimeCost" col = "BaseTimeCost" type="ushort"/>
+			<variable  name="BaseTimeCost" col = "BaseTimeCost" type="float"/>
 			<variable  name="HPBase" col = "HPBase" type="int"/>
 			<variable  name="SpeedBase" col = "SpeedBase" type="float"/>
 			<variable  name="FirePowerBase" col = "FirePowerBase" type="float"/>
@@ -36,7 +36,7 @@
 			<variable  name="Unlock" col = "Unlock" type="bool"/>
 			<variable  name="ModelTypeID" col = "ModelTypeID" type="int"/>
 			<variable  name="BaseMaterialCost" col = "BaseMaterialCost" type="string"/>
-			<variable  name="BaseTimeCost" col = "BaseTimeCost" type="ushort"/>
+			<variable  name="BaseTimeCost" col = "BaseTimeCost" type="float"/>
 			<variable  name="AssembleType" col = "AssembleType" type="string"/>
 			<variable  name="CustomData" col = "CustomData" type="string"/>
 		</list>

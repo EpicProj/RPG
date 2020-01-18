@@ -25,8 +25,8 @@ namespace Sim_FrameWork
         /// <summary>
         /// 基础时间花费
         /// </summary>
-        public ushort baseTimeCost;
-        public ushort realTimeCost
+        public float baseTimeCost;
+        public float realTimeCost
         {
             get { return (ushort)(baseTimeCost + customDataInfo.addTimeCost); }
         }
@@ -121,7 +121,7 @@ namespace Sim_FrameWork
         /// <summary>
         /// 额外制造时长
         /// </summary>
-        public ushort addTimeCost;
+        public float addTimeCost;
 
         /// <summary>
         /// key = curstomName
@@ -151,13 +151,15 @@ namespace Sim_FrameWork
             public AssemblePartPropertyTypeData propertyTypeData;
             public Dictionary<string, AssemblePartPropertyDetailInfo> detailInfoDic;
 
+            public Dictionary<string, AssemblePartTimeCostDetialInfo> timeCostDetailInfoDic;
+
             /// <summary>
             /// 实际成品数值
             /// </summary>
             public float realValue;
 
             public CustomData(Config.PartsPropertyConfig.ConfigData config, float min, float max,
-                Dictionary<string, AssemblePartPropertyDetailInfo> detailDic)
+                Dictionary<string, AssemblePartPropertyDetailInfo> detailDic, Dictionary<string, AssemblePartTimeCostDetialInfo> timeCostDetailInfoDic)
             {
                 propertyType = config.PropertyType;
 
@@ -170,6 +172,7 @@ namespace Sim_FrameWork
                 propertyValueMin = min;
                 propertyValueMax = max;
                 detailInfoDic = detailDic;
+                this.timeCostDetailInfoDic = timeCostDetailInfoDic;
             }
         }
 
@@ -197,6 +200,14 @@ namespace Sim_FrameWork
 
         public float modifyValueFix;
     }
+    
+    public class AssemblePartTimeCostDetialInfo
+    {
+        public string customDataName;
+
+        public float modifyTimeValue;
+    }
+
 
 
     public class AssemblePartPropertyTypeData

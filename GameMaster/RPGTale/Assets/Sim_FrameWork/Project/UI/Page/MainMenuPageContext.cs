@@ -233,7 +233,7 @@ namespace Sim_FrameWork.UI
                 return false;
             var loopList = UIUtility.SafeGetComponent<LoopList>(m_page.BuildContent.transform);
             var list =PlayerManager.Instance.GetBuildPanelModelData(type);
-            loopList.RefrshData(list);
+            loopList.InitData(list);
 
             return true;
         }

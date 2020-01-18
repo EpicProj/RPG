@@ -81,19 +81,13 @@ namespace Sim_FrameWork.UI
 
         void InitAreaExploreList(ExploreAreaType type)
         {
-            areaSelectTrans.ReleaseAllChildObj();
-
             var list = ExploreEventManager.Instance.CurrentExploreAreaList(type);
+            areaSelectTrans.InitObj(UIPath.PrefabPath.Explore_Area_Select_Btn, list.Count);
 
-            for (int i = 0; i < list.Count; i++)
+            for (int i = 0; i < areaSelectTrans.childCount; i++)
             {
-                var exploreAreaBtn = ObjectManager.Instance.InstantiateObject(UIPath.PrefabPath.Explore_Area_Select_Btn);
-                if (exploreAreaBtn != null)
-                {
-                    var cmpt = UIUtility.SafeGetComponent<ExploreAreaSelectBtn>(exploreAreaBtn.transform);
-                    cmpt.InitAreaItem(list[i]);
-                    cmpt.transform.SetParent(areaSelectTrans, false);
-                }
+                var cmpt = areaSelectTrans.GetChild(i).SafeGetComponent<ExploreAreaSelectBtn>();
+                cmpt.InitAreaItem(list[i]);
             }
 
         }
@@ -115,10 +109,7 @@ namespace Sim_FrameWork.UI
                     areaDescTypeEffect.StartEffect();
 
                 ///RefreshMission
-                foreach (Transform trans in missionPanelTrans)
-                {
-                    trans.gameObject.SetActive(false);
-                }
+                missionPanelTrans.SafeSetActiveAllChild(false);
                 ApplicationManager.Instance.StartCoroutine(ShowMission(data, mission_Appear_time));
               
                 return true;
@@ -134,7 +125,7 @@ namespace Sim_FrameWork.UI
             {
                 if (i < Config.GlobalConfigData.ExplorePage_Mission_Max_Count)
                 {
-                    var element = UIUtility.SafeGetComponent<ExploreAreaMissionElement>(missionPanelTrans.GetChild(i));
+                    var element = missionPanelTrans.GetChild(i).SafeGetComponent<ExploreAreaMissionElement>();
                     if (element != null)
                     {
                         yield return new WaitForSeconds(waitTime);

@@ -122,7 +122,7 @@ public class AssembleWarship
     [XmlAttribute]
     public string MaterialCost { get; set; }
     [XmlAttribute]
-    public ushort BaseTimeCost { get; set; }
+    public float BaseTimeCost { get; set; }
     [XmlAttribute]
     public int HPBase { get; set; }
     [XmlAttribute]
@@ -168,7 +168,7 @@ public class AssembleParts
     [XmlAttribute]
     public string BaseMaterialCost { get; set; }
     [XmlAttribute]
-    public ushort BaseTimeCost { get; set; }
+    public float BaseTimeCost { get; set; }
     [XmlAttribute]
     public string AssembleType { get; set; }
     [XmlAttribute]

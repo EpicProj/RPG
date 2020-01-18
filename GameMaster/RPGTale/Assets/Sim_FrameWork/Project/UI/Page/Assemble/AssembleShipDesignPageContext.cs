@@ -170,32 +170,16 @@ namespace Sim_FrameWork.UI
 
         void RefreshShipBaseCost()
         {
-
-            if (shipBaseCostTrans.childCount != Config.GlobalConfigData.Assemble_MaterialCost_MaxNum)
-            {
-                for (int i = 0; i < Config.GlobalConfigData.Assemble_MaterialCost_MaxNum; i++)
-                {
-                    var obj = ObjectManager.Instance.InstantiateObject(UIPath.PrefabPath.MaterialCost_Item);
-                    if (obj != null)
-                    {
-                        obj.name = "MaterialCostItem_" + i;
-                        obj.transform.SetParent(shipBaseCostTrans, false);
-                    }
-                }
-            }
-
-            shipBaseCostTrans.SafeSetActiveAllChild(false);
-
             var costList = _info.presetData.shipCostBase;
-            for(int i = 0; i < costList.Count; i++)
+            shipBaseCostTrans.InitObj(UIPath.PrefabPath.MaterialCost_Item, costList.Count, Config.GlobalConfigData.Assemble_MaterialCost_MaxNum);
+
+            for(int i = 0; i < shipBaseCostTrans.childCount; i++)
             {
-                if (i > Config.GlobalConfigData.Assemble_MaterialCost_MaxNum)
-                    break;
                 var cmpt = shipBaseCostTrans.GetChild(i).SafeGetComponent<MaterialCostCmpt>();
                 if (cmpt != null)
                 {
                     cmpt.SetUpItem(costList[i]);
-                    cmpt.gameObject.SetActive(true);
+                    cmpt.name = "MaterialCostItem_" + i;
                 }
             }
         }
@@ -303,19 +287,14 @@ namespace Sim_FrameWork.UI
 
         void RefreshShipChooseTab()
         {
-            chooseTabTrans.ReleaseAllChildObj();
-
             var unlockList = PlayerManager.Instance.GetTotalUnlockAssembleShipTypeData();
-            for (int i = 0; i < unlockList.Count; i++)
+            chooseTabTrans.InitObj(UIPath.PrefabPath.General_ChooseTab, unlockList.Count);
+
+            for (int i = 0; i < chooseTabTrans.childCount; i++)
             {
-                var obj = ObjectManager.Instance.InstantiateObject(UIPath.PrefabPath.General_ChooseTab);
-                if (obj != null)
-                {
-                    var cmpt = obj.transform.SafeGetComponent<GeneralChooseTab>();
-                    cmpt.SetUpTab(unlockList[i]);
-                    obj.name = "ShipTab_" + i;
-                    obj.transform.SetParent(chooseTabTrans, false);
-                }
+                var cmpt = chooseTabTrans.GetChild(i).SafeGetComponent<GeneralChooseTab>();
+                cmpt.SetUpTab(unlockList[i]);
+                cmpt.name = "ShipTab_" + i;
             }
         }
 

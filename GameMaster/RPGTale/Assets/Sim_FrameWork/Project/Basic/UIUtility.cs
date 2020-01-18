@@ -83,6 +83,33 @@ namespace Sim_FrameWork
             trans.localRotation = Quaternion.identity;
         }
 
+        public static void InitObj(this Transform parent,string objPath,int count,int maxcount=-1)
+        {
+            int currentCount = parent.childCount;
+            if (count < currentCount)
+            {
+                ///生成数量小于目前数量
+                for(int i = currentCount - 1; i> count - 1; i--)
+                {
+                    ObjectManager.Instance.ReleaseObject(parent.GetChild(i).gameObject, 0);
+                }
+            }
+            else if (count > currentCount)
+            {
+                for(int i=currentCount-1; i < count - 1; i++)
+                {
+                    if (maxcount != -1 && i + 1 >= maxcount)
+                        return;
+                    var obj = ObjectManager.Instance.InstantiateObject(objPath);
+                    if (obj != null)
+                    {
+                        obj.transform.SetParent(parent,false);
+                    }
+                }
+            }
+        }
+
+
         public static void ActiveCanvasGroup(this CanvasGroup group,bool active)
         {
             if (active)

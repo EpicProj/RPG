@@ -86,7 +86,7 @@ namespace Sim_FrameWork.UI
         {
 
             var loopList = UIUtility.SafeGetComponent<LoopList>(m_page.OrderContentScroll.transform);
-            loopList.RefrshData(GlobalEventManager.Instance.AllOrderDataModelList);
+            loopList.InitData(GlobalEventManager.Instance.AllOrderDataModelList);
             return true;
         }
 

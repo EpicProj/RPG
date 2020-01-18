@@ -11,6 +11,8 @@ namespace Sim_FrameWork.UI
         private List<AssemblePartPropertyItem> _propertyItem;
         private List<AssemblePartCustomItem> _customItem;
 
+        public Dictionary<string, AssemblePartTimeCostDetialInfo> _timeCostInfoDic;
+
         bool showPartChoosePanel = true;
         private string currentSelectTab = "";
         
@@ -22,6 +24,7 @@ namespace Sim_FrameWork.UI
             _info = (AssemblePartInfo)paralist[0];
             _propertyItem = new List<AssemblePartPropertyItem>();
             _customItem = new List<AssemblePartCustomItem>();
+            _timeCostInfoDic = new Dictionary<string, AssemblePartTimeCostDetialInfo>();
             AddButtomClick();
         }
 
@@ -78,7 +81,7 @@ namespace Sim_FrameWork.UI
 
         private void AddButtomClick()
         {
-            AddButtonClickListener(SaveDesignBtn, OnSaveDesignBtnClick);
+            AddButtonClickListener(Transform.FindTransfrom("Content/RightPanel/Btn").SafeGetComponent<Button>(), OnSaveDesignBtnClick);
             AddButtonClickListener(Transform.FindTransfrom("Back").SafeGetComponent<Button>(), () =>
             {
                 AudioManager.Instance.PlaySound(AudioClipPath.UISound.Btn_Close);
@@ -93,6 +96,7 @@ namespace Sim_FrameWork.UI
             AudioManager.Instance.PlaySound(AudioClipPath.UISound.Button_Click);
             partChooseCanvasGroup.ActiveCanvasGroup(true);
             contentCanvasGroup.ActiveCanvasGroup(false);
+
         }
 
    
@@ -123,7 +127,6 @@ namespace Sim_FrameWork.UI
             InitAssembleTargetItem();
             InitPartCostPanel();
 
-            presetTotalBtn.onClick.RemoveAllListeners();
             AddButtonClickListener(presetTotalBtn, OnPresetTotalBtnClick);
 
             if (partContentAnim != null)
@@ -138,6 +141,7 @@ namespace Sim_FrameWork.UI
 
         void InitPartPropertyContent()
         {
+            var partPropertyContentTrans = Transform.FindTransfrom("Content/RightPanel/PartProperty/Content");
             _propertyItem.Clear();
             if (partPropertyContentTrans.childCount != Config.GlobalConfigData.AssemblePart_Max_PropertyNum)
             {
@@ -171,6 +175,7 @@ namespace Sim_FrameWork.UI
 
         void InitPartCustomContent()
         {
+            var customValueContentTrans = Transform.FindTransfrom("Content/CustomValueContent/Content");
             _customItem.Clear();
 
             customValueContentTrans.ReleaseAllChildObj();
@@ -210,8 +215,15 @@ namespace Sim_FrameWork.UI
 
             int diffValue = (int)((Value - config.CustomDataRangeMin) * 10);
 
-            //ushort realTime = (ushort)(_info.baseTimeCost + diffValue * config.TimeCostPerUnit);
-            //timeCostText.text = realTime.ToString();
+            if (config.TimeCostPerUnit != 0)
+            {
+                AssemblePartTimeCostDetialInfo info = new AssemblePartTimeCostDetialInfo
+                {
+                    customDataName = config.CustomDataName,
+                    modifyTimeValue = diffValue * (float)config.TimeCostPerUnit
+                };
+                RefreshTimeCostValue(info);
+            }
 
             for (int i = 0; i < config.propertyLinkData.Count; i++)
             {
@@ -255,7 +267,49 @@ namespace Sim_FrameWork.UI
 
             return true;
         }
-        
+        /// <summary>
+        /// 刷新时长
+        /// </summary>
+        /// <param name="timeInfo"></param>
+        void RefreshTimeCostValue(AssemblePartTimeCostDetialInfo timeInfo)
+        {
+            if (_timeCostInfoDic.ContainsKey(timeInfo.customDataName))
+            {
+                var info = _timeCostInfoDic[timeInfo.customDataName];
+                info.modifyTimeValue = timeInfo.modifyTimeValue;
+            }
+            else
+            {
+                _timeCostInfoDic.Add(timeInfo.customDataName, timeInfo);
+            }
+
+            ///Text Refresh
+            float addTime = 0;
+            foreach(var info in _timeCostInfoDic.Values)
+            {
+                addTime += info.modifyTimeValue;
+            }
+
+             timeCostText.text = string.Format("{0:N1}", _info._partsMeta.BaseTimeCost + addTime);
+        }
+
+        void InitTimeCostValue()
+        {
+            for(int i = 0; i < _info.partsConfig.configData.Count; i++)
+            {
+                var data= _info.partsConfig.configData[i];
+                if (data.TimeCostPerUnit != 0)
+                {
+                    int diffValue = (int)((data.CustomDataDefaultValue - data.CustomDataRangeMin) * 10);
+                    AssemblePartTimeCostDetialInfo info = new AssemblePartTimeCostDetialInfo
+                    {
+                        customDataName = data.CustomDataName,
+                        modifyTimeValue = diffValue * (float)data.TimeCostPerUnit
+                    };
+                    RefreshTimeCostValue(info);
+                }
+            }
+        }
 
         void OnSaveDesignBtnClick()
         {
@@ -315,7 +369,8 @@ namespace Sim_FrameWork.UI
                     item._configData,
                     item.CurrentValueMin,
                     item.CurrentValueMax,
-                    item.detailInfoDic);
+                    item.detailInfoDic,
+                    _timeCostInfoDic);
                 ///Get TimeCost
                 
 
@@ -336,6 +391,7 @@ namespace Sim_FrameWork.UI
         /// </summary>
         void InitAssembleTargetItem()
         {
+            var assembleTargetContentTrans = Transform.FindTransfrom("Content/LeftPanel/AssembleTarget/Content");
             assembleTargetContentTrans.SafeSetActiveAllChild(false);
 
             for (int i = 0; i < _info.partEquipType.Count; i++)
@@ -355,7 +411,9 @@ namespace Sim_FrameWork.UI
 
         void InitPartCostPanel()
         {
-            timeCostText.text = _info.baseTimeCost.ToString();
+            InitTimeCostValue();
+
+            var materialCostTrans = Transform.FindTransfrom("Content/LeftPanel/Cost/Content");
 
             if (materialCostTrans.childCount != Config.GlobalConfigData.Assemble_MaterialCost_MaxNum)
             {
@@ -370,12 +428,9 @@ namespace Sim_FrameWork.UI
                 }
             }
 
-            foreach(Transform trans in materialCostTrans)
-            {
-                trans.gameObject.SetActive(false);
-            }
+            materialCostTrans.SafeSetActiveAllChild(false);
 
-            for(int i = 0; i < _info.materialCostItem.Count; i++)
+            for (int i = 0; i < _info.materialCostItem.Count; i++)
             {
                 if (i >= Config.GlobalConfigData.Assemble_MaterialCost_MaxNum)
                     break;
@@ -386,7 +441,6 @@ namespace Sim_FrameWork.UI
                     cmpt.gameObject.SetActive(true);
                 }
             }
-
         }
         #endregion
 
@@ -401,7 +455,6 @@ namespace Sim_FrameWork.UI
 
             RefreshPartChooseTab();
             InitDefaultTabSelect();
-            presetTotalBtn.onClick.RemoveAllListeners();
             AddButtonClickListener(presetTotalBtn, OnPresetTotalBtnClickAll);
         }
 
@@ -414,19 +467,16 @@ namespace Sim_FrameWork.UI
 
         void RefreshPartChooseTab()
         {
-            tabChooseTrans.ReleaseAllChildObj();
-
+            var tabChooseTrans = Transform.FindTransfrom("PartChooseContent/ChooseTab");
             var unlockList = PlayerManager.Instance.GetTotalUnlockAssembleTypeData();
-            for(int i = 0; i < unlockList.Count; i++)
+
+            tabChooseTrans.InitObj(UIPath.PrefabPath.General_ChooseTab, unlockList.Count);
+
+            for (int i = 0; i < tabChooseTrans.childCount; i++)
             {
-                var obj = ObjectManager.Instance.InstantiateObject(UIPath.PrefabPath.General_ChooseTab);
-                if (obj != null)
-                {
-                    var cmpt = obj.transform.SafeGetComponent<GeneralChooseTab>();
-                    cmpt.SetUpTab(unlockList[i],true);
-                    obj.name = "PartTab_" + i;
-                    obj.transform.SetParent(tabChooseTrans, false);
-                }
+                var cmpt = tabChooseTrans.GetChild(i).SafeGetComponent<GeneralChooseTab>();
+                cmpt.SetUpTab(unlockList[i], true);
+                cmpt.transform.name = "PartTab_" + i;
             }
         }
 
@@ -441,6 +491,7 @@ namespace Sim_FrameWork.UI
 
         bool RefreshChooseContent(string chooseType)
         {
+            var chooseLoopList = Transform.FindTransfrom("PartChooseContent/ChooseContent/Scroll View").SafeGetComponent<LoopList>();
             var partModelList = PlayerManager.Instance.GetAssemblePartPresetModelList(chooseType);
             if (partModelList.Count == 0)
             {
@@ -477,23 +528,15 @@ namespace Sim_FrameWork.UI
         private TypeWriterEffect partDescTypeEffect;
         private InputField customNameInput;
 
-        private Transform partPropertyContentTrans;
-        private Transform customValueContentTrans;
-        private Transform assembleTargetContentTrans;
         private Animation partContentAnim;
-
         private Text timeCostText;
-        private Transform materialCostTrans;
 
-        private Button SaveDesignBtn;
         private Button presetBtn;
         private Button presetTotalBtn;
 
         private CanvasGroup partChooseCanvasGroup;
-        private Transform tabChooseTrans;
         private Transform noDataTrans;
         private Animation noDataInfoAnim;
-        private LoopList chooseLoopList;
         private Animation partChooseAnim;
 
         private const string Assemble_Design_Save_Success_Hint = "Assemble_Design_Save_Success_Hint";
@@ -515,22 +558,15 @@ namespace Sim_FrameWork.UI
             partDescTypeEffect= Transform.FindTransfrom("Content/LeftPanel/PartDesc/Text").SafeGetComponent<TypeWriterEffect>();
             customNameInput = Transform.FindTransfrom("Content/NameCustom/NameFix/InputField").SafeGetComponent<InputField>();
 
-            partPropertyContentTrans = Transform.FindTransfrom("Content/RightPanel/PartProperty/Content");
-            customValueContentTrans = Transform.FindTransfrom("Content/CustomValueContent/Content");
-            assembleTargetContentTrans = Transform.FindTransfrom("Content/LeftPanel/AssembleTarget/Content");
             timeCostText = Transform.FindTransfrom("Content/LeftPanel/Cost/Time").SafeGetComponent<Text>();
-            materialCostTrans = Transform.FindTransfrom("Content/LeftPanel/Cost/Content");
             partContentAnim = Transform.FindTransfrom("Content").SafeGetComponent<Animation>();
 
-            SaveDesignBtn = Transform.FindTransfrom("Content/RightPanel/Btn").SafeGetComponent<Button>();
             presetBtn = Transform.FindTransfrom("BtnPanel/PresetChooseBtn").SafeGetComponent<Button>();
             presetTotalBtn= Transform.FindTransfrom("BtnPanel/TotalPresetBtn").SafeGetComponent<Button>();
-
             partChooseCanvasGroup = Transform.FindTransfrom("PartChooseContent").SafeGetComponent<CanvasGroup>();
-            tabChooseTrans = Transform.FindTransfrom("PartChooseContent/ChooseTab");
+
             noDataTrans = Transform.FindTransfrom("PartChooseContent/EmptyInfo");
             noDataInfoAnim = noDataTrans.SafeGetComponent<Animation>();
-            chooseLoopList = Transform.FindTransfrom("PartChooseContent/ChooseContent/Scroll View").SafeGetComponent<LoopList>();
             partChooseAnim = Transform.FindTransfrom("PartChooseContent").SafeGetComponent<Animation>();
         }
 

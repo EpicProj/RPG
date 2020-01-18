@@ -228,7 +228,7 @@ namespace Sim_FrameWork.Config
             public double CustomDataRangeMax;
             public double CustomDataDefaultValue;
 
-            public ushort TimeCostPerUnit;
+            public double TimeCostPerUnit;
             public List<PropertyLinkData> propertyLinkData;
             public List<MaterialCostLinkData> materialCostLinkData;
 

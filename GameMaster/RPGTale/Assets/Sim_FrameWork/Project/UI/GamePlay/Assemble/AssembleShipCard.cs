@@ -20,30 +20,26 @@ namespace Sim_FrameWork
         private Text _explore;
         private Text _storage;
 
-        private Transform _materialCostTrans;
         private Transform _chooseEffect;
-        private Button _btn;
 
         private AssembleShipTypePresetModel _model;
         public override void Awake()
         {
-            _titleName = UIUtility.SafeGetComponent<Text>(UIUtility.FindTransfrom(transform, "TitleName"));
-            _shipDesc= UIUtility.SafeGetComponent<Text>(UIUtility.FindTransfrom(transform, "Content/Desc"));
-            _shipSprite= UIUtility.SafeGetComponent<Image>(UIUtility.FindTransfrom(transform, "Content/IconBG/Icon"));
+            _titleName = transform.FindTransfrom("TitleName").SafeGetComponent<Text>();
+            _shipDesc= transform.FindTransfrom("Content/Desc").SafeGetComponent<Text>();
+            _shipSprite= transform.FindTransfrom("Content/IconBG/Icon").SafeGetComponent<Image>();
 
-            _moduleNum = UIUtility.SafeGetComponent<Text>(UIUtility.FindTransfrom(transform, "Content/ShipProperty/Content/ModuleNum/Value"));
-            _crewNum = UIUtility.SafeGetComponent<Text>(UIUtility.FindTransfrom(transform, "Content/ShipProperty/Content/CrewNum/Value"));
-            _durability = UIUtility.SafeGetComponent<Text>(UIUtility.FindTransfrom(transform, "Content/ShipProperty/Content/Durability/Value"));
-            _speed = UIUtility.SafeGetComponent<Text>(UIUtility.FindTransfrom(transform, "Content/ShipProperty/Content/Speed/Value"));
-            _firePower = UIUtility.SafeGetComponent<Text>(UIUtility.FindTransfrom(transform, "Content/ShipProperty/Content/FirePower/Value"));
-            _explore = UIUtility.SafeGetComponent<Text>(UIUtility.FindTransfrom(transform, "Content/ShipProperty/Content/Explore/Value"));
-            _storage = UIUtility.SafeGetComponent<Text>(UIUtility.FindTransfrom(transform, "Content/ShipProperty/Content/Storage/Value"));
+            _moduleNum = transform.FindTransfrom("Content/ShipProperty/Content/ModuleNum/Value").SafeGetComponent<Text>();
+            _crewNum = transform.FindTransfrom("Content/ShipProperty/Content/CrewNum/Value").SafeGetComponent<Text>();
+            _durability = transform.FindTransfrom("Content/ShipProperty/Content/Durability/Value").SafeGetComponent<Text>();
+            _speed = transform.FindTransfrom("Content/ShipProperty/Content/Speed/Value").SafeGetComponent<Text>();
+            _firePower = transform.FindTransfrom("Content/ShipProperty/Content/FirePower/Value").SafeGetComponent<Text>();
+            _explore = transform.FindTransfrom("Content/ShipProperty/Content/Explore/Value").SafeGetComponent<Text>();
+            _storage = transform.FindTransfrom("Content/ShipProperty/Content/Storage/Value").SafeGetComponent<Text>();
 
-            _btn = UIUtility.SafeGetComponent<Button>(UIUtility.FindTransfrom(transform, "Btn"));
-            _materialCostTrans = UIUtility.FindTransfrom(transform, "Content/PartCost/Content");
-            _chooseEffect = UIUtility.FindTransfrom(transform, "ChooseEffect");
+            _chooseEffect = transform.FindTransfrom("ChooseEffect");
             _chooseEffect.gameObject.SetActive(false);
-            _btn.onClick.AddListener(OnBtnClick);
+            transform.FindTransfrom("Btn").SafeGetComponent<Button>().onClick.AddListener(OnBtnClick);
         }
 
         public override void ChangeAction(List<BaseDataModel> model)
@@ -71,10 +67,8 @@ namespace Sim_FrameWork
 
         void RefreshMaterialCost()
         {
-            foreach(Transform trans in _materialCostTrans)
-            {
-                trans.gameObject.SetActive(false);
-            }
+            var _materialCostTrans = transform.FindTransfrom("Content/PartCost/Content");
+            _materialCostTrans.SafeSetActiveAllChild(false);
 
             var costList = _model.PresetInfo.shipCostBase;
             for(int i = 0; i < costList.Count; i++)
@@ -88,6 +82,8 @@ namespace Sim_FrameWork
                     cmpt.gameObject.SetActive(true);
                 }
             }
+
+            transform.FindTransfrom("Content/PartCost/TimeCost/Text").SafeGetComponent<Text>().text = _model.PresetInfo._metaData.BaseTimeCost.ToString();
         }
 
         void OnBtnClick()

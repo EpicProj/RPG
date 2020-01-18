@@ -116,4 +116,39 @@ namespace Sim_FrameWork
             set { }
         }
     }
+
+
+    public struct AssembleShipModel : BaseDataModel
+    {
+        public bool Create(int id)
+        {
+            if (!PlayerManager.Instance.AssembleShipDesignDataDic.ContainsKey((ushort)id))
+                return false;
+            ID = id;
+            return true;
+        }
+        public void CleanUp()
+        {
+
+        }
+
+        private int _id;
+        public int ID
+        {
+            get { return _id; }
+            set { _id = value; }
+        }
+
+        private AssembleShipInfo _info;
+        public AssembleShipInfo Info
+        {
+            get
+            {
+                if (_info == null)
+                    _info = PlayerManager.Instance.GetAssembleShipInfo((ushort)ID);
+                return _info;
+            }
+            set { }
+        }
+    }
 }

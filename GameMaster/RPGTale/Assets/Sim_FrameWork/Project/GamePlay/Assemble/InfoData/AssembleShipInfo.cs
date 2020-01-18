@@ -20,9 +20,9 @@ namespace Sim_FrameWork
         /// <summary>
         /// 建造时长
         /// </summary>
-        private ushort _timeCost;
-        public ushort timeCost { get { return _timeCost; } }
-        public void AddTimeCost(ushort value)
+        private float _timeCost;
+        public float timeCost { get { return _timeCost; } }
+        public void AddTimeCost(float value)
         {
             _timeCost += value;
             if (_timeCost <= 0)
@@ -110,7 +110,6 @@ namespace Sim_FrameWork
             AddShipDetect(presetData._metaData.DetectBase);
             AddShipStorage(presetData._metaData.StorageBase);
             shipCrewMax = presetData._metaData.CrewMax;
-
 
         }
     }

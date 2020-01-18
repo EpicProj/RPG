@@ -78,7 +78,7 @@ namespace Sim_FrameWork.UI
                 var obj = ObjectManager.Instance.InstantiateObject(UIPath.PrefabPath.Explore_Point_Element);
                 if (obj != null)
                 {
-                    var cmpt = UIUtility.SafeGetComponent<ExplorePointCmpt>(obj.transform);
+                    var cmpt = obj.transform.SafeGetComponent<ExplorePointCmpt>();
                     if (cmpt != null)
                     {
                         cmpt.InitPoint(_item.currentPointlist[i]);

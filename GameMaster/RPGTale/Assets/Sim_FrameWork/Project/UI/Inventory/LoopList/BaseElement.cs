@@ -54,7 +54,7 @@ namespace Sim_FrameWork
             get
             {
                 if (_rect == null)
-                    _rect = UIUtility.SafeGetComponent<RectTransform>(transform);
+                    _rect = transform.SafeGetComponent<RectTransform>();
                 return _rect;
             }
         }
@@ -65,7 +65,7 @@ namespace Sim_FrameWork
         public void Init(int id, float offset , int showNum , LoopList.SepConfig config, LoopList.LayoutType type,List<object> paramList=null)
         {
             _id = -1;
-            _content = UIUtility.SafeGetComponent<RectTransform>(transform.parent);
+            _content = transform.parent.SafeGetComponent<RectTransform>();
             mode = BaseElementMode.Normal;
             _offset = offset;
             _showNum = showNum;
@@ -79,7 +79,7 @@ namespace Sim_FrameWork
         public void InitGrid(int id, int showNum, int horizontalItemNum, int verticalItemNum, GridLoopList.SepConfig config,GridLoopList.LoopType type)
         {
             _id = -1;
-            _content = UIUtility.SafeGetComponent<RectTransform>(transform.parent);
+            _content = transform.parent.SafeGetComponent<RectTransform>();
             mode = BaseElementMode.Grid;
             _showNum = showNum;
             _horizontalItemNum = horizontalItemNum;

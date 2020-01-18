@@ -19,6 +19,7 @@ namespace Sim_FrameWork
         private Transform contentTrans;
 
         public Config.PartsCustomConfig.ConfigData _config;
+        private Dictionary<string,AssemblePartPropertyItemSmall> _propertyItemDic;
 
         private const string AssemblePartPropertyItem_Value_Max_Text = "AssemblePartPropertyItem_Value_Max_Text";
         private const string AssemblePartPropertyItem_Value_Min_Text = "AssemblePartPropertyItem_Value_Min_Text";
@@ -30,14 +31,16 @@ namespace Sim_FrameWork
 
         public override void Awake()
         {
-            Line = UIUtility.FindTransfrom(transform, "Line");
-            Name = UIUtility.SafeGetComponent<Text>(UIUtility.FindTransfrom(Line, "Name"));
-            slider = UIUtility.SafeGetComponent<Slider>(UIUtility.FindTransfrom(Line, "Slider"));
-            Value = UIUtility.SafeGetComponent<Text>(UIUtility.FindTransfrom(Line, "Value"));
-            detailContentTrans = UIUtility.FindTransfrom(Line, "DetailContent");
-            detailDescText = UIUtility.SafeGetComponent<Text>(UIUtility.FindTransfrom(detailContentTrans, "Desc"));
-            contentTrans = UIUtility.FindTransfrom(detailContentTrans, "Content");
-            detailContentTrans.gameObject.SetActive(false);
+            _propertyItemDic = new Dictionary<string, AssemblePartPropertyItemSmall>();
+
+            Line = transform.FindTransfrom("Line");
+            Name = Line.FindTransfrom("Name").SafeGetComponent<Text>();
+            slider = Line.FindTransfrom("Slider").SafeGetComponent<Slider>();
+            Value = Line.FindTransfrom("Value").SafeGetComponent<Text>();
+            detailContentTrans = Line.FindTransfrom("DetailContent");
+            detailDescText = detailContentTrans.FindTransfrom("Desc").SafeGetComponent<Text>();
+            contentTrans = detailContentTrans.FindTransfrom("Content");
+            detailContentTrans.SafeSetActive(false);
 
         }
 
@@ -63,12 +66,12 @@ namespace Sim_FrameWork
 
         void InitDetialContent()
         {
-            foreach(Transform trans in contentTrans)
-            {
-                ObjectManager.Instance.ReleaseObject(trans.gameObject, 0);
-            }
+            contentTrans.ReleaseAllChildObj();
+            _propertyItemDic.Clear();
 
-            for(int i = 0; i < _config.propertyLinkData.Count; i++)
+            int diffValue = (int)((CurrentValue - _config.CustomDataRangeMin) * 10);
+
+            for (int i = 0; i < _config.propertyLinkData.Count; i++)
             {
                 var data = _config.propertyLinkData[i];
 
@@ -83,7 +86,8 @@ namespace Sim_FrameWork
                         SetUpPropertyItemSmall(
                             Utility.LoadSprite(typeData.PropertyIcon, Utility.SpriteType.png),
                             MultiLanguage.Instance.GetTextValue(typeData.PropertyName),
-                            data.PropertyChangePerUnitValue.ToString());
+                            (diffValue*data.PropertyChangePerUnitValue).ToString(),
+                            data.Name);
                     }
                 }
                 else if (data.PropertyChangeType == 2)
@@ -96,7 +100,8 @@ namespace Sim_FrameWork
                             Utility.LoadSprite(typeData.PropertyIcon, Utility.SpriteType.png),
                             Utility.ParseStringParams(MultiLanguage.Instance.GetTextValue(AssemblePartPropertyItem_Value_Min_Text),
                             new string[] { MultiLanguage.Instance.GetTextValue(typeData.PropertyName)}),
-                            data.PropertyChangePerUnitMin.ToString());
+                            (diffValue*data.PropertyChangePerUnitMin).ToString(),
+                            data.Name);
                     }
 
                     if(data.PropertyChangePerUnitMax != 0)
@@ -106,7 +111,8 @@ namespace Sim_FrameWork
                            Utility.LoadSprite(typeData.PropertyIcon, Utility.SpriteType.png),
                            Utility.ParseStringParams(MultiLanguage.Instance.GetTextValue(AssemblePartPropertyItem_Value_Max_Text),
                            new string[] { MultiLanguage.Instance.GetTextValue(typeData.PropertyName) }),
-                           data.PropertyChangePerUnitMax.ToString());
+                           (diffValue*data.PropertyChangePerUnitMax).ToString(),
+                           data.Name);
                     }
                 }
             }
@@ -117,20 +123,21 @@ namespace Sim_FrameWork
                 SetUpPropertyItemSmall(
                     Utility.LoadSprite(Config.ConfigData.GlobalSetting.General_Time_Icon, Utility.SpriteType.png),
                     MultiLanguage.Instance.GetTextValue(Config.ConfigData.GlobalSetting.General_Time_Cost_TextID),
-                    _config.TimeCostPerUnit.ToString()
-                    );
+                    (diffValue*_config.TimeCostPerUnit).ToString(),
+                    "Time");
             }
 
         }
 
-        void SetUpPropertyItemSmall(Sprite icon,string name,string value)
+        void SetUpPropertyItemSmall(Sprite icon,string name,string value,string propertyName)
         {
             var obj = ObjectManager.Instance.InstantiateObject(UIPath.PrefabPath.Assemble_Part_PropertyItemSmall);
             if (obj != null)
             {
                 var cmpt = UIUtility.SafeGetComponent<AssemblePartPropertyItemSmall>(obj.transform);
-                cmpt.SetUpItem(icon, name, value);
+                cmpt.SetUpItem(icon, name, value, propertyName);
                 obj.transform.SetParent(contentTrans, false);
+                _propertyItemDic.Add(propertyName,cmpt);
             }
         }
 
@@ -138,6 +145,48 @@ namespace Sim_FrameWork
         {
             Value.text = string.Format("{0:N2}", value / 10);
             UIManager.Instance.SendMessageToWnd(UIPath.WindowPath.Assemble_Part_Design_Page, new UIMessage(UIMsgType.Assemble_Part_PropertyChange, new List<object>(1) { _config ,CurrentValue}));
+            UpdateDetailValue();
+        }
+
+        void UpdateDetailValue()
+        {
+
+            int diffValue = (int)((CurrentValue - _config.CustomDataRangeMin) * 10);
+
+            for (int i = 0; i < _config.propertyLinkData.Count; i++)
+            {
+                var data = _config.propertyLinkData[i];
+                if (_propertyItemDic.ContainsKey(data.Name))
+                {
+                    if (data.PropertyChangeType == 1)
+                    {
+                        if (data.PropertyChangePerUnitValue != 0)
+                        {
+                            _propertyItemDic[data.Name].RefreshValue(string.Format("{0:N2}", (diffValue * data.PropertyChangePerUnitValue)));
+                        }
+                    }
+                    else if (data.PropertyChangeType == 2)
+                    {
+
+                        if (data.PropertyChangePerUnitMin != 0)
+                        {
+                            ///Refresh Min
+                            _propertyItemDic[data.Name].RefreshValue(string.Format("{0:N2}", (diffValue * data.PropertyChangePerUnitMin)));
+                        }
+
+                        if (data.PropertyChangePerUnitMax != 0)
+                        {
+                            ///Refresh Max
+                            _propertyItemDic[data.Name].RefreshValue(string.Format("{0:N2}",(diffValue * data.PropertyChangePerUnitMax)));
+                        }
+                    }
+                }
+            }
+            ///UpdateTime
+            if (_propertyItemDic.ContainsKey("Time"))
+            {
+                _propertyItemDic["Time"].RefreshValue(string.Format("{0:N2}", (diffValue * _config.TimeCostPerUnit)));
+            }
         }
 
         public override void OnPointerEnter(PointerEventData eventData)
