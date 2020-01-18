@@ -57,7 +57,7 @@ namespace Sim_FrameWork
             slider.maxValue = (float)config.CustomDataRangeMax*10;
             slider.value = (float)config.CustomDataDefaultValue * 10;
 
-            Value.text = string.Format("{0:N2}", config.CustomDataDefaultValue);
+            Value.text = string.Format("{0:N1}", config.CustomDataDefaultValue);
             slider.onValueChanged.AddListener((float value) => { OnSliderValueChanged(value); });
 
             detailDescText.text = MultiLanguage.Instance.GetTextValue(_config.LinkDesc);
@@ -69,7 +69,7 @@ namespace Sim_FrameWork
             contentTrans.ReleaseAllChildObj();
             _propertyItemDic.Clear();
 
-            int diffValue = (int)((CurrentValue - _config.CustomDataRangeMin) * 10);
+            int diffValue = (int)Math.Round((CurrentValue - _config.CustomDataRangeMin) * 10, 0);
 
             for (int i = 0; i < _config.propertyLinkData.Count; i++)
             {
@@ -86,7 +86,7 @@ namespace Sim_FrameWork
                         SetUpPropertyItemSmall(
                             Utility.LoadSprite(typeData.PropertyIcon, Utility.SpriteType.png),
                             MultiLanguage.Instance.GetTextValue(typeData.PropertyName),
-                            (diffValue*data.PropertyChangePerUnitValue).ToString(),
+                            (float)(diffValue*data.PropertyChangePerUnitValue),
                             data.Name);
                     }
                 }
@@ -100,7 +100,7 @@ namespace Sim_FrameWork
                             Utility.LoadSprite(typeData.PropertyIcon, Utility.SpriteType.png),
                             Utility.ParseStringParams(MultiLanguage.Instance.GetTextValue(AssemblePartPropertyItem_Value_Min_Text),
                             new string[] { MultiLanguage.Instance.GetTextValue(typeData.PropertyName)}),
-                            (diffValue*data.PropertyChangePerUnitMin).ToString(),
+                            (float)(diffValue*data.PropertyChangePerUnitMin),
                             data.Name);
                     }
 
@@ -111,7 +111,7 @@ namespace Sim_FrameWork
                            Utility.LoadSprite(typeData.PropertyIcon, Utility.SpriteType.png),
                            Utility.ParseStringParams(MultiLanguage.Instance.GetTextValue(AssemblePartPropertyItem_Value_Max_Text),
                            new string[] { MultiLanguage.Instance.GetTextValue(typeData.PropertyName) }),
-                           (diffValue*data.PropertyChangePerUnitMax).ToString(),
+                           (float)(diffValue*data.PropertyChangePerUnitMax),
                            data.Name);
                     }
                 }
@@ -123,13 +123,13 @@ namespace Sim_FrameWork
                 SetUpPropertyItemSmall(
                     Utility.LoadSprite(Config.ConfigData.GlobalSetting.General_Time_Icon, Utility.SpriteType.png),
                     MultiLanguage.Instance.GetTextValue(Config.ConfigData.GlobalSetting.General_Time_Cost_TextID),
-                    (diffValue*_config.TimeCostPerUnit).ToString(),
+                    (float)(diffValue*_config.TimeCostPerUnit),
                     "Time");
             }
 
         }
 
-        void SetUpPropertyItemSmall(Sprite icon,string name,string value,string propertyName)
+        void SetUpPropertyItemSmall(Sprite icon,string name,float value,string propertyName)
         {
             var obj = ObjectManager.Instance.InstantiateObject(UIPath.PrefabPath.Assemble_Part_PropertyItemSmall);
             if (obj != null)
@@ -137,13 +137,15 @@ namespace Sim_FrameWork
                 var cmpt = UIUtility.SafeGetComponent<AssemblePartPropertyItemSmall>(obj.transform);
                 cmpt.SetUpItem(icon, name, value, propertyName);
                 obj.transform.SetParent(contentTrans, false);
-                _propertyItemDic.Add(propertyName,cmpt);
+                if(!_propertyItemDic.ContainsKey(propertyName))
+                    _propertyItemDic.Add(propertyName, cmpt);
             }
         }
 
+
         void OnSliderValueChanged(float value)
         {
-            Value.text = string.Format("{0:N2}", value / 10);
+            Value.text = string.Format("{0:N1}", value / 10);
             UIManager.Instance.SendMessageToWnd(UIPath.WindowPath.Assemble_Part_Design_Page, new UIMessage(UIMsgType.Assemble_Part_PropertyChange, new List<object>(1) { _config ,CurrentValue}));
             UpdateDetailValue();
         }
@@ -151,7 +153,7 @@ namespace Sim_FrameWork
         void UpdateDetailValue()
         {
 
-            int diffValue = (int)((CurrentValue - _config.CustomDataRangeMin) * 10);
+            int diffValue =(int)Math.Round((CurrentValue - _config.CustomDataRangeMin) * 10,0);
 
             for (int i = 0; i < _config.propertyLinkData.Count; i++)
             {
@@ -162,7 +164,7 @@ namespace Sim_FrameWork
                     {
                         if (data.PropertyChangePerUnitValue != 0)
                         {
-                            _propertyItemDic[data.Name].RefreshValue(string.Format("{0:N2}", (diffValue * data.PropertyChangePerUnitValue)));
+                            _propertyItemDic[data.Name].RefreshValue((float)(diffValue * data.PropertyChangePerUnitValue));
                         }
                     }
                     else if (data.PropertyChangeType == 2)
@@ -171,13 +173,13 @@ namespace Sim_FrameWork
                         if (data.PropertyChangePerUnitMin != 0)
                         {
                             ///Refresh Min
-                            _propertyItemDic[data.Name].RefreshValue(string.Format("{0:N2}", (diffValue * data.PropertyChangePerUnitMin)));
+                            _propertyItemDic[data.Name].RefreshValue((float)(diffValue * data.PropertyChangePerUnitMin));
                         }
 
                         if (data.PropertyChangePerUnitMax != 0)
                         {
                             ///Refresh Max
-                            _propertyItemDic[data.Name].RefreshValue(string.Format("{0:N2}",(diffValue * data.PropertyChangePerUnitMax)));
+                            _propertyItemDic[data.Name].RefreshValue((float)(diffValue * data.PropertyChangePerUnitMax));
                         }
                     }
                 }
@@ -185,7 +187,7 @@ namespace Sim_FrameWork
             ///UpdateTime
             if (_propertyItemDic.ContainsKey("Time"))
             {
-                _propertyItemDic["Time"].RefreshValue(string.Format("{0:N2}", (diffValue * _config.TimeCostPerUnit)));
+                _propertyItemDic["Time"].RefreshValue((float)(diffValue * _config.TimeCostPerUnit));
             }
         }
 

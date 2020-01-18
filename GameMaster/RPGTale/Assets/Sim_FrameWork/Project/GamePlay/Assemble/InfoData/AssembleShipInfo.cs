@@ -16,29 +16,41 @@ namespace Sim_FrameWork
         {
             get { return presetData.shipClassName + "·" + customData.customNameText; }
         }
-
         /// <summary>
         /// 建造时长
         /// </summary>
-        private float _timeCost;
-        public float timeCost { get { return _timeCost; } }
-        public void AddTimeCost(float value)
+        public float TotalTimeCost
         {
-            _timeCost += value;
-            if (_timeCost <= 0)
-                _timeCost = 0;
+            get
+            {
+                float value = 0;
+
+                return value + presetData._metaData.BaseTimeCost;
+            }
         }
+
 
         /// <summary>
         /// 船体耐久
         /// </summary>
-        private int _shipDurability;
-        public int shipDurability { get { return _shipDurability; } }
-        public void AddShipDurability(int value)
+        public int shipDurability
         {
-            _shipDurability += value;
-            if (_shipDurability <= 0)
-                _shipDurability = 0;
+            get
+            {
+                int value = 0;
+                foreach(var partInfo in customData.customPartData.Values)
+                {
+                    var dic = partInfo.customDataInfo.propertyDic;
+                    foreach(KeyValuePair<string,AssemblePartCustomDataInfo.CustomData> property in dic)
+                    {
+                        if (property.Key == Config.ConfigData.AssembleConfig.assembleShip_Durability_Property_Link)
+                        {
+                            value += (int)property.Value.propertyValueMax;
+                        }
+                    }
+                }
+                return value + presetData._metaData.HPBase;
+            }
         }
 
         /// <summary>
@@ -80,19 +92,49 @@ namespace Sim_FrameWork
         /// <summary>
         /// 最大成员数
         /// </summary>
-        public float shipCrewMax;
+        public int shipCrewMax
+        {
+            get
+            {
+                int crew = 0;
+                foreach (var partInfo in customData.customPartData.Values)
+                {
+                    var dic = partInfo.customDataInfo.propertyDic;
+                    foreach (KeyValuePair<string, AssemblePartCustomDataInfo.CustomData> property in dic)
+                    {
+                        if (property.Key == Config.ConfigData.AssembleConfig.assembleShip_Member_Property_Link)
+                        {
+                            crew += (int)property.Value.propertyValueMax;
+                        }
+                    }
+                }
+                return crew + presetData._metaData.CrewMax;
+            }
+        }
 
         /// <summary>
         /// 最大货仓储量
         /// </summary>
-        private ushort _shipStorage;
-        public ushort shipStorage { get { return _shipStorage; } }
-        public void AddShipStorage(ushort value)
+        public ushort shipStorage
         {
-            _shipStorage += value;
-            if (_shipStorage <= 0)
-                _shipStorage = 0;
+            get
+            {
+                ushort value = 0;
+                foreach (var partInfo in customData.customPartData.Values)
+                {
+                    var dic = partInfo.customDataInfo.propertyDic;
+                    foreach (KeyValuePair<string, AssemblePartCustomDataInfo.CustomData> property in dic)
+                    {
+                        if (property.Key == Config.ConfigData.AssembleConfig.assembleShip_Storage_Property_Link)
+                        {
+                            value += (ushort)property.Value.propertyValueMax;
+                        }
+                    }
+                }
+                return (ushort)(value + presetData._metaData.StorageBase);
+            }
         }
+
 
         public AssembleShipTypePresetData presetData;
         public AssembleShipCustomData customData;
@@ -102,15 +144,6 @@ namespace Sim_FrameWork
         {
             presetData = new AssembleShipTypePresetData(shipID);
             warShipID = presetData.WarshipID;
-
-            AddShipDurability(presetData._metaData.HPBase);
-            AddTimeCost(presetData._metaData.BaseTimeCost);
-            AddShipFirePower(presetData._metaData.FirePowerBase);
-            AddShipSpeed(presetData._metaData.SpeedBase);
-            AddShipDetect(presetData._metaData.DetectBase);
-            AddShipStorage(presetData._metaData.StorageBase);
-            shipCrewMax = presetData._metaData.CrewMax;
-
         }
     }
 

@@ -211,7 +211,9 @@ namespace Sim_FrameWork
 
         #endregion
 
+        #region Collection_Extend
 
+        #endregion
         public enum SpriteType
         {
             png,

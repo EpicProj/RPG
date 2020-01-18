@@ -9,6 +9,19 @@ namespace Sim_FrameWork.Config
         public string assemblePartPage_DefaultSelectTab;
         public string assembleShipPage_DefaultSelectTab;
 
+        /// <summary>
+        /// 耐久度关联属性名
+        /// </summary>
+        public string assembleShip_Durability_Property_Link;
+        /// <summary>
+        /// 货仓储量关联属性名
+        /// </summary>
+        public string assembleShip_Storage_Property_Link;
+        /// <summary>
+        /// 最大成员属性关联
+        /// </summary>
+        public string assembleShip_Member_Property_Link;
+
         public List<AssembleMainType> assembleMainType;
         public List<AssemblePartPropertyTypeData> assemblePartPropertyType;
         public List<AssembleShipMainType> assembleShipMainType;
@@ -20,6 +33,11 @@ namespace Sim_FrameWork.Config
             AssembleConfig settting = config.LoadJsonDataConfig<AssembleConfig>(JsonConfigPath.AssembleConfigJsonPath);
             assemblePartPage_DefaultSelectTab = settting.assemblePartPage_DefaultSelectTab;
             assembleShipPage_DefaultSelectTab = settting.assembleShipPage_DefaultSelectTab;
+
+            assembleShip_Durability_Property_Link = settting.assembleShip_Durability_Property_Link;
+            assembleShip_Member_Property_Link = settting.assembleShip_Member_Property_Link;
+            assembleShip_Storage_Property_Link = settting.assembleShip_Storage_Property_Link;
+
             assembleMainType = settting.assembleMainType;
             assemblePartPropertyType = settting.assemblePartPropertyType;
             assembleShipMainType = settting.assembleShipMainType;

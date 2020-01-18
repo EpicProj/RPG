@@ -47,11 +47,13 @@ namespace Sim_FrameWork
             _sprite.sprite = _model.Info.presetData.ShipSprite;
             _desc.text = _model.Info.presetData.shipClassDesc;
 
-            //_crewNum.text = _model.Info.shipCrewMax.ToString();
-            //_durability.text = _model.Info.shipDurability.ToString();
+            _crewNum.text = _model.Info.shipCrewMax.ToString();
+            _durability.text = _model.Info.shipDurability.ToString();
+            _storage.text = _model.Info.shipStorage.ToString();
             //_speed.text = _model.Info.shipSpeed.ToString();
             //_firePower.text = _model.Info.shipFirePower.ToString();
-            //_storage.text = _model.Info.shipStorage.ToString();
+
+            RefreshShipBuildCost();
 
             transform.FindTransfrom("BtnConfirm").SafeGetComponent<Button>().onClick.AddListener(OnConfirmBtnClick);
             transform.FindTransfrom("BtnReDesign").SafeGetComponent<Button>().onClick.AddListener(OnConfirmBtnClick);
@@ -59,9 +61,21 @@ namespace Sim_FrameWork
 
         void RefreshShipBuildCost()
         {
-            var contentTrans = transform.FindTransfrom("Content/PartCost");
+            var contentTrans = transform.FindTransfrom("Content/PartCost/Content");
             contentTrans.SafeSetActiveAllChild(false);
-
+            for (int i = 0; i < _model.Info.presetData.shipCostBase.Count;i++)
+            {
+                if (i > Config.GlobalConfigData.Assemble_MaterialCost_MaxNum)
+                    break;
+                var item = contentTrans.GetChild(i).SafeGetComponent<MaterialCostCmpt>();
+                if (item != null)
+                {
+                    item.SetUpItem(_model.Info.presetData.shipCostBase[i]);
+                    item.transform.SafeSetActive(true);
+                }
+            }
+            ///Init Time
+            transform.FindTransfrom("Content/PartCost/TimeCost/Text").SafeGetComponent<Text>().text = _model.Info.presetData._metaData.BaseTimeCost.ToString();
         }
 
         void OnConfirmBtnClick()

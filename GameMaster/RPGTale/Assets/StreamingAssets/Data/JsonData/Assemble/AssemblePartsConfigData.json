@@ -2,15 +2,14 @@
 	"partsPropertyConfig":[{
 		"configName":"PropertyConfig_100",
 		"configData":[{
-			"Name":"Speed",
-			"PropertyType":2,
-			"PropertyRangeMin":0.5,
-			"PropertyRangeMax":5.5
+			"Name":"ShipDurability",
+			"PropertyType":1,
+			"PropertyValue":400.0
 		}]
 	},{
 		"configName":"PropertyConfig_101",
 		"configData":[{
-			"Name":"Speed",
+			"Name":"ShipDurability",
 			"PropertyType":2,
 			"PropertyRangeMin":0.5,
 			"PropertyRangeMax":5.5
@@ -42,8 +41,8 @@
 		"configData":[{
 			"CustomDataName":"AssembleParts_1_CustomDataName_01",
 			"PosType":"Left",
-			"PosX":-47.8,
-			"PosY":-26.3,
+			"PosX":-151,
+			"PosY":-240,
 			"LineWidth":230,
 			"LinkDesc":"",
 			"CustomDataRangeMin":0.6,
@@ -52,12 +51,13 @@
 			"TimeCostPerUnit":1,
 			"propertyLinkData":[{
 				"Name":"Speed",
+				"PropertyChangeType":2,
 				"PropertyChangePerUnitMin":0.1,
 				"PropertyChangePerUnitMax":0.05
 			},{
-				"Name":"Speed02",
-				"PropertyChangePerUnitMin":0.1,
-				"PropertyChangePerUnitMax":0.05
+				"Name":"ShipDurability",
+				"PropertyChangeType":1,
+				"PropertyChangePerUnitValue":50
 			}],
 			"materialCostLinkData":[{
 
@@ -65,8 +65,8 @@
 		},{
 			"CustomDataName":"AssembleParts_1_CustomDataName_02",
 			"PosType":"Right",
-			"PosX":51,
-			"PosY":-122,
+			"PosX":151,
+			"PosY":140,
 			"LineWidth":230,
 			"LinkDesc":"",
 			"CustomDataRangeMin":3.0,

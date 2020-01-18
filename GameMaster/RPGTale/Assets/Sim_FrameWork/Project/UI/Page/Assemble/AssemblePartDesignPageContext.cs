@@ -213,7 +213,7 @@ namespace Sim_FrameWork.UI
             if (config == null)
                 return false;
 
-            int diffValue = (int)((Value - config.CustomDataRangeMin) * 10);
+            int diffValue = (int)System.Math.Round((Value - config.CustomDataRangeMin) * 10,0);
 
             if (config.TimeCostPerUnit != 0)
             {
@@ -282,15 +282,11 @@ namespace Sim_FrameWork.UI
             {
                 _timeCostInfoDic.Add(timeInfo.customDataName, timeInfo);
             }
-
             ///Text Refresh
             float addTime = 0;
             foreach(var info in _timeCostInfoDic.Values)
-            {
                 addTime += info.modifyTimeValue;
-            }
-
-             timeCostText.text = string.Format("{0:N1}", _info._partsMeta.BaseTimeCost + addTime);
+            timeCostText.text = string.Format("{0:N1}", _info._partsMeta.BaseTimeCost + addTime);
         }
 
         void InitTimeCostValue()

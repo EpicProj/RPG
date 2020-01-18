@@ -1,31 +1,59 @@
 {
 	"assemblePartPage_DefaultSelectTab":"Engine",
 	"assembleShipPage_DefaultSelectTab":"Explorer",
-	
+
+	"assembleShip_Durability_Property_Link":"ShipDurability",
+	"assembleShip_Storage_Property_Link":"ShipStorage",
+	"assembleShip_Member_Property_Link":"",
+
 	"assembleMainType":[{
 		"Type":"WarShip",
 		"TypeNameText":"AssembleMainType_WarShip",
 		"IconPath":"SpriteOutput/Assemble/Target/Assemble_Target_WarShip"
 	}],
 
+	//Type1: Two decimal places
+	//Type2: One decimal places
+	//Type3: Integer
+
 	"assemblePartPropertyType":[{
 		"Name":"Speed",
+		"Type":1,
 		"PropertyName":"AssembleParts_PropertyName_Speed",
 		"PropertyIcon":"SpriteOutput/Assemble/Property/Assemble_Part_Property_Speed_Icon"
 	},{
+		"Name":"ShipDurability",
+		"Type":3,
+		"PropertyName":"AssembleParts_PropertyName_ShipDurability",
+		"PropertyIcon":"SpriteOutput/Assemble/Property/Assemble_Part_Property_Speed_Icon"
+	},{
+		"Name":"ShipStorage",
+		"Type":3,
+		"PropertyName":"AssembleParts_PropertyName_ShipStorage",
+		"PropertyIcon":"SpriteOutput/Assemble/Property/Assemble_Part_Property_Speed_Icon"
+	},{
+		"Name":"ShipMember",
+		"Type":3,
+		"PropertyName":"AssembleParts_PropertyName_ShipMember",
+		"PropertyIcon":"SpriteOutput/Assemble/Property/Assemble_Part_Property_Speed_Icon"
+	},{
 		"Name":"Weapon_FireRate",
+		"Type":1,
 		"PropertyName":"AssembleParts_PropertyName_Weapon_FireRate",
 		"PropertyIcon":"SpriteOutput/Assemble/Property/Assemble_Part_Property_Speed_Icon"
 	},{
 		"Name":"Weapon_FireRange",
+		"Type":1,
 		"PropertyName":"AssembleParts_PropertyName_Weapon_FireRange",
 		"PropertyIcon":"SpriteOutput/Assemble/Property/Assemble_Part_Property_Speed_Icon"
 	},{
 		"Name":"Weapon_FirePower",
+		"Type":1,
 		"PropertyName":"AssembleParts_PropertyName_Weapon_FirePower",
 		"PropertyIcon":"SpriteOutput/Assemble/Property/Assemble_Part_Property_Speed_Icon"
 	},{
 		"Name":"Weapon_HitRate",
+		"Type":1,
 		"PropertyName":"AssembleParts_PropertyName_Weapon_HitRate",
 		"PropertyIcon":"SpriteOutput/Assemble/Property/Assemble_Part_Property_Speed_Icon"
 	}],

@@ -71,7 +71,7 @@ namespace Sim_FrameWork
                 ValueMin.gameObject.SetActive(false);
                 DotTrans.gameObject.SetActive(false);
 
-                ValueMax.text = string.Format("{0:N2}", config.PropertyValue);
+                ValueMax.text = ValueFormat(config, (float)config.PropertyValue);
             }
             else if (config.PropertyType == 2)
             {
@@ -79,8 +79,8 @@ namespace Sim_FrameWork
                 ValueMin.gameObject.SetActive(true);
                 DotTrans.gameObject.SetActive(true);
 
-                ValueMax.text = string.Format("{0:N2}", config.PropertyRangeMax);
-                ValueMin.text = string.Format("{0:N2}", config.PropertyRangeMin);
+                ValueMax.text = ValueFormat(config, (float)config.PropertyRangeMax);
+                ValueMin.text = ValueFormat(config, (float)config.PropertyRangeMin); 
             }
 
             var typeData = AssembleModule.GetAssemblePartPropertyTypeData(config.Name);
@@ -115,11 +115,38 @@ namespace Sim_FrameWork
                 detailInfoDic.Add(info.customDataName, info);
             }
 
-            ValueMin.text = string.Format("{0:N2}", CurrentValueMin);
-            ValueMax.text = string.Format("{0:N2}", CurrentValueMax);
+            var propertyData = AssembleModule.GetAssemblePartPropertyTypeData(info.propertyLinkName);
+
+            ValueMin.text = ValueFormat(propertyData, CurrentValueMin);
+            ValueMax.text = ValueFormat(propertyData, CurrentValueMax);
         }
 
-      
+        string ValueFormat(Config.PartsPropertyConfig.ConfigData config,float value)
+        {
+            var propertyData = AssembleModule.GetAssemblePartPropertyTypeData(config.Name);
+            return ValueFormat(propertyData, value);
+        }
+
+        string ValueFormat(AssemblePartPropertyTypeData type, float value)
+        {
+            if (type.Type == 1)
+            {
+                ///Two decimal places
+                return string.Format("{0:N2}", value);
+            }
+            else if (type.Type == 2)
+            {
+                ///One decimal places
+                return string.Format("{0:N1}", value);
+            }
+            else if(type.Type == 3)
+            {
+                return ((int)value).ToString();
+            }
+            return string.Empty;
+        }
+
+
 
     }
 }

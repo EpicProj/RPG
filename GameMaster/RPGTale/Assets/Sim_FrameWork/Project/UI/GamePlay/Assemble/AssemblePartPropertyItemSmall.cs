@@ -21,17 +21,51 @@ namespace Sim_FrameWork
             _value = UIUtility.SafeGetComponent<Text>(UIUtility.FindTransfrom(transform, "Value"));
         }
 
-        public void SetUpItem(Sprite icon,string name,string value,string propertyName)
+        public void SetUpItem(Sprite icon,string name,float value,string propertyName)
         {
             _icon.sprite = icon;
             _name.text = name;
-            _value.text = value;
             _propertyName = propertyName;
+            if(string.Compare(_propertyName, "Time") == 0)
+            {
+                _value.text = string.Format("{0:N1}", value);
+                return;
+            }
+
+            var type = AssembleModule.GetAssemblePartPropertyTypeData(_propertyName);
+            _value.text = ValueFormat(type, value);
         }
 
-        public void RefreshValue(string value)
+        public void RefreshValue(float value)
         {
-            _value.text = value;
+            if (string.Compare(_propertyName, "Time") ==0)
+            {
+                _value.text = string.Format("{0:N1}", value);
+                return;
+            }
+            var type = AssembleModule.GetAssemblePartPropertyTypeData(_propertyName);
+            _value.text = ValueFormat(type,value);
+        }
+
+
+
+        string ValueFormat(AssemblePartPropertyTypeData type, float value)
+        {
+            if (type.Type == 1)
+            {
+                ///Two decimal places
+                return string.Format("{0:N2}", value);
+            }
+            else if (type.Type == 2)
+            {
+                ///One decimal places
+                return string.Format("{0:N1}", value);
+            }
+            else if (type.Type == 3)
+            {
+                return ((int)value).ToString();
+            }
+            return string.Empty;
         }
     }
 }

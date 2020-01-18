@@ -126,8 +126,8 @@ namespace Sim_FrameWork
         /// <summary>
         /// key = curstomName
         /// </summary>
-        public Dictionary<string, CustomData> propertyDic;
-        public Dictionary<string, float> customValueDic;
+        public Dictionary<string, CustomData> propertyDic=new Dictionary<string, CustomData> ();
+        public Dictionary<string, float> customValueDic=new Dictionary<string, float> ();
 
 
         public AssemblePartCustomDataInfo(int partID, string partNameCustomText, Dictionary<string, CustomData> propertyDic, Dictionary<string, float> customValueDic)
@@ -213,6 +213,7 @@ namespace Sim_FrameWork
     public class AssemblePartPropertyTypeData
     {
         public string Name;
+        public ushort Type;
         public string PropertyName;
         public string PropertyIcon;
     }

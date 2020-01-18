@@ -109,7 +109,7 @@ namespace Sim_FrameWork.UI
 
             presetTotalBtn.onClick.RemoveAllListeners();
             AddButtonClickListener(presetTotalBtn, OnPresetTotalBtnClick);
-            refreshProperty();
+            refreshProperty(true);
             InitShipPartItem();
             RefreshShipBaseCost();
 
@@ -122,14 +122,26 @@ namespace Sim_FrameWork.UI
             UIGuide.Instance.ShowAssembleShipChooseDialog(new List<string>() { currentSelectTab }, currentSelectTab);
         }
      
-        bool refreshProperty()
+        bool refreshProperty(bool Init)
         {
-            _propertyDurabilityText.text = _info.shipDurability.ToString();
-            _propertySpeedText.text = _info.shipSpeed.ToString();
-            _propertyFirePowerText.text = _info.shipFirePower.ToString();
-            _propertyExploreText.text = _info.shipDetect.ToString();
-            _propertyMemberText.text = _info.shipCrewMax.ToString();
-            _propertyStorageText.text = _info.shipStorage.ToString();
+            if (Init)
+            {
+                _propertyDurabilityText.text = _info.presetData._metaData.HPBase.ToString();
+                _propertySpeedText.text = _info.presetData._metaData.SpeedBase.ToString();
+                _propertyFirePowerText.text =_info.presetData._metaData.FirePowerBase.ToString();
+                _propertyExploreText.text = _info.presetData._metaData.DetectBase.ToString();
+                _propertyMemberText.text = _info.presetData._metaData.CrewMax.ToString();
+                _propertyStorageText.text = _info.presetData._metaData.StorageBase.ToString();
+            }
+            else
+            {
+                _propertyDurabilityText.text = _info.shipDurability.ToString();
+                _propertySpeedText.text = _info.shipSpeed.ToString();
+                _propertyFirePowerText.text = _info.shipFirePower.ToString();
+                _propertyExploreText.text = _info.shipDetect.ToString();
+                _propertyMemberText.text = _info.shipCrewMax.ToString();
+                _propertyStorageText.text = _info.shipStorage.ToString();
+            } 
             return true;
         }
 
@@ -194,11 +206,15 @@ namespace Sim_FrameWork.UI
                 if (_partItemList[i]._configData.configID == configID)
                 {
                     _partItemList[i].AddShipPart(partInfo);
+                    _info.customData = GenerateShipCustomData();
+
+                    refreshProperty(false);
                 }
             }
             
             return true;
         }
+
 
         AssembleShipCustomData GenerateShipCustomData()
         {
@@ -208,7 +224,8 @@ namespace Sim_FrameWork.UI
             {
                 if (_partItemList[i].partInfo != null && !partInfoDic.ContainsKey(_partItemList[i]._configData.configID))
                 {
-                    partInfoDic.Add(_partItemList[i]._configData.configID, _partItemList[i].partInfo);
+                    var partInfo = PlayerManager.Instance.GetAssemblePartInfo(_partItemList[i].partInfo.UID);
+                    partInfoDic.Add(_partItemList[i]._configData.configID, partInfo);
                 }
             }
 
