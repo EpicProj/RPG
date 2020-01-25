@@ -100,6 +100,20 @@ namespace Sim_FrameWork.Config
             }
         }
 
+        private static MainShipConfig _mainShipConfigData;
+        public static MainShipConfig MainShipConfigData
+        {
+            get
+            {
+                if (_mainShipConfigData == null)
+                {
+                    _mainShipConfigData = new MainShipConfig();
+                    _mainShipConfigData.LoadMainShipConfig();
+                }
+                return _mainShipConfigData;
+            }
+        }
+
 
         public void InitData()
         {
@@ -110,6 +124,7 @@ namespace Sim_FrameWork.Config
             _assembleConfig.LoadAssembleConfigData();
             _assemblePartsConfigData.LoadPartsCustomConfig();
             _assembleShipPartConfigData.LoadAssembleShipPartConfigData();
+            _mainShipConfigData.LoadMainShipConfig();
         }
 
 
@@ -307,8 +322,6 @@ namespace Sim_FrameWork.Config
             public ushort Level;
             public string Color;
         }
-
-
     }
 
 }

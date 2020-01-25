@@ -30,6 +30,7 @@ namespace Sim_FrameWork.UI
         public override void Awake(params object[] paralist)
         {
             base.Awake();
+            InitResImage();
             AddBtnListener();
         }
 
@@ -44,8 +45,16 @@ namespace Sim_FrameWork.UI
             UpdateTimePanel();
             UpdateResData(ResourceType.All);
             UpdateResMonthData(ResourceType.All);
-            InitBuildMainTab();
-            InitResImage();
+            if(GameManager.Instance.currentAreaState == GameManager.AreaState.OutSide)
+            {
+                RefreshBuildMainTab();
+            }
+            else if(GameManager.Instance.currentAreaState== GameManager.AreaState.MainShipInside)
+            {
+
+            }
+           
+            
         }
 
         public override void OnClose()
@@ -177,30 +186,30 @@ namespace Sim_FrameWork.UI
             {
                 OnPauseBtnClick();
             });
-            AddButtonClickListener(m_page.MenuBtn, () =>
+            AddButtonClickListener(Transform.FindTransfrom("TopPanel/Menu").SafeGetComponent<Button>(), () =>
             {
                 UIGuide.Instance.ShowMenuDialog();
             });
             /// Order Receive Page
-            AddButtonClickListener(m_page.OrderBtn, () =>
+            AddButtonClickListener(Transform.FindTransfrom("ButtonTab/Order").SafeGetComponent<Button>(), () =>
             {
                 UIGuide.Instance.ShowOrderReceiveMainPage();
             });
 
-            AddButtonClickListener(m_page.ReserachBtn, () =>
+            AddButtonClickListener(Transform.FindTransfrom("ButtonTab/Research").SafeGetComponent<Button>(), () =>
             {
                 UIGuide.Instance.ShowTechnologyMainPage();
             });
-            AddButtonClickListener(m_page.ExploreBtn, () =>
+            AddButtonClickListener(Transform.FindTransfrom("ButtonTab/Explore").SafeGetComponent<Button>(), () =>
             {
                 UIGuide.Instance.ShowExploreMainPage();
             });
-            AddButtonClickListener(m_page.AssembleBtn, () =>
+            AddButtonClickListener(Transform.FindTransfrom("ButtonTab/Assemble").SafeGetComponent<Button>(), () =>
             {
                 AssemblePartInfo info = new AssemblePartInfo(1);
                 UIGuide.Instance.ShowAssemblePartDesignPage(info);
             });
-            AddButtonClickListener(m_page.ShipDesignBtn, () =>
+            AddButtonClickListener(Transform.FindTransfrom("ButtonTab/ShipDesign").SafeGetComponent<Button>(), () =>
             {
                 AssembleShipInfo info = new AssembleShipInfo(1);
                 UIGuide.Instance.ShowAssembleShipDesignPage(info);
@@ -231,7 +240,7 @@ namespace Sim_FrameWork.UI
         {
             if (type == FunctionBlockType.Type.None)
                 return false;
-            var loopList = UIUtility.SafeGetComponent<LoopList>(m_page.BuildContent.transform);
+            var loopList = Transform.FindTransfrom("ConstructPanel/Content/BuildContent/Scroll View").SafeGetComponent<LoopList>();
             var list =PlayerManager.Instance.GetBuildPanelModelData(type);
             loopList.InitData(list);
 
@@ -241,21 +250,21 @@ namespace Sim_FrameWork.UI
         /// <summary>
         /// 初始化建造主页签
         /// </summary>
-        public void InitBuildMainTab()
+        public void RefreshBuildMainTab()
         {
+            var buildtab = Transform.FindTransfrom("ConstructPanel/TabPanel");
+
             List<FunctionBlockTypeData> mainTypeList = FunctionBlockModule.GetInitMainType();
-            var toggleGroup = UIUtility.SafeGetComponent<ToggleGroup>(m_page.BuildTabContent.transform);
-            for(int i = 0; i < mainTypeList.Count; i++)
+            var toggleGroup = buildtab.SafeGetComponent<ToggleGroup>();
+
+            buildtab.InitObj(UIPath.PrefabPath.Construct_MainTab_Element_Path, mainTypeList.Count);
+            for(int i = 0; i < buildtab.childCount; i++)
             {
-                var mainTab = ObjectManager.Instance.InstantiateObject(UIPath.PrefabPath.Construct_MainTab_Element_Path);
-                ConstructMainTabElement element = UIUtility.SafeGetComponent<ConstructMainTabElement>(mainTab.transform);
+                ConstructMainTabElement element = buildtab.GetChild(i).SafeGetComponent<ConstructMainTabElement>();
                 if (toggleGroup != null)
-                {
                     element.toggle.group = toggleGroup;
-                }
                 element.InitMainTabElement(mainTypeList[i]);
-                mainTab.transform.SetParent(m_page.BuildTabContent.transform, false);
-                mainTab.name = mainTypeList[i].Type.ToString();
+                element.transform.name = mainTypeList[i].Type.ToString();
                 mainTabElementList.Add(element);
             }
             ///Set Default Select
@@ -263,7 +272,6 @@ namespace Sim_FrameWork.UI
             {
                 mainTabElementList[0].toggle.isOn = true;
             }
-
         }
 
         #endregion
@@ -272,9 +280,6 @@ namespace Sim_FrameWork.UI
 
     public partial class MainMenuPageContext : WindowBase
     {
-
-        private MainMenuPage m_page;
-
         //Time Data
         private Text currentTimeText;
         private Slider timeSlider;
@@ -300,32 +305,29 @@ namespace Sim_FrameWork.UI
         private Text _roCoreText;
         private Image _roCoreIcon;
 
-
-
         protected override void InitUIRefrence()
         {
-            m_page = UIUtility.SafeGetComponent<MainMenuPage>(Transform);
             //Resource
-            _currencyNumText = UIUtility.SafeGetComponent<Text>(UIUtility.FindTransfrom(m_page.ResourcePanel, "ResourceLeft/Currency/Value") );
-            _currencyAddNumText = UIUtility.SafeGetComponent<Text>(UIUtility.FindTransfrom(m_page.ResourcePanel, "ResourceLeft/Currency/Value/AddValue"));
-            _currencyIcon= UIUtility.SafeGetComponent<Image>(UIUtility.FindTransfrom(m_page.ResourcePanel, "ResourceLeft/Currency/Icon"));
+            _currencyNumText = Transform.FindTransfrom("TopPanel/Resource/ResourceLeft/Currency/Value").SafeGetComponent<Text>();
+            _currencyAddNumText = Transform.FindTransfrom("TopPanel/Resource/ResourceLeft/Currency/Value/AddValue").SafeGetComponent<Text>();
+            _currencyIcon= Transform.FindTransfrom("TopPanel/Resource/ResourceLeft/Currency/Icon").SafeGetComponent<Image>();
 
-            _researchPointText = UIUtility.SafeGetComponent<Text>(UIUtility.FindTransfrom(m_page.ResourcePanel, "ResourceLeft/Research/Value"));
-            _researchPointAddText = UIUtility.SafeGetComponent<Text>(UIUtility.FindTransfrom(m_page.ResourcePanel, "ResourceLeft/Research/Value/AddValue"));
-            _researchIcon= UIUtility.SafeGetComponent<Image>(UIUtility.FindTransfrom(m_page.ResourcePanel, "ResourceLeft/Research/Icon"));
+            _researchPointText = Transform.FindTransfrom("TopPanel/Resource/ResourceLeft/Research/Value").SafeGetComponent<Text>();
+            _researchPointAddText = Transform.FindTransfrom("TopPanel/Resource/ResourceLeft/Research/Value/AddValue").SafeGetComponent<Text>();
+            _researchIcon= Transform.FindTransfrom("TopPanel/Resource/ResourceLeft/Research/Icon").SafeGetComponent<Image>();
 
-            _energyNumText = UIUtility.SafeGetComponent<Text>(UIUtility.FindTransfrom(m_page.ResourcePanel, "ResourceLeft/Energy/Value"));
-            _energyAddNumText = UIUtility.SafeGetComponent<Text>(UIUtility.FindTransfrom(m_page.ResourcePanel, "ResourceLeft/Energy/Value/AddValue"));
-            _energyIcon= UIUtility.SafeGetComponent<Image>(UIUtility.FindTransfrom(m_page.ResourcePanel, "ResourceLeft/Energy/Icon"));
+            _energyNumText = Transform.FindTransfrom("TopPanel/Resource/ResourceLeft/Energy/Value").SafeGetComponent<Text>();
+            _energyAddNumText = Transform.FindTransfrom("TopPanel/Resource/ResourceLeft/Energy/Value/AddValue").SafeGetComponent<Text>();
+            _energyIcon= Transform.FindTransfrom("TopPanel/Resource/ResourceLeft/Energy/Icon").SafeGetComponent<Image>();
 
-            _builderText = UIUtility.SafeGetComponent<Text>(UIUtility.FindTransfrom(m_page.ResourcePanel, "ResourceRight/Builder/Value"));
-            _builderIcon= UIUtility.SafeGetComponent<Image>(UIUtility.FindTransfrom(m_page.ResourcePanel, "ResourceRight/Builder/Icon"));
+            _builderText = Transform.FindTransfrom("TopPanel/Resource/ResourceRight/Builder/Value").SafeGetComponent<Text>();
+            _builderIcon= Transform.FindTransfrom("TopPanel/Resource/ResourceRight/Builder/Icon").SafeGetComponent<Image>();
 
-            _roCoreText = UIUtility.SafeGetComponent<Text>(UIUtility.FindTransfrom(m_page.ResourcePanel, "ResourceRight/RoCore/Value"));
-            _roCoreIcon = UIUtility.SafeGetComponent<Image>(UIUtility.FindTransfrom(m_page.ResourcePanel, "ResourceRight/RoCore/Icon"));
+            _roCoreText = Transform.FindTransfrom("TopPanel/Resource/ResourceRight/RoCore/Value").SafeGetComponent<Text>();
+            _roCoreIcon = Transform.FindTransfrom("TopPanel/Resource/ResourceRight/RoCore/Icon").SafeGetComponent<Image>();
 
-            currentTimeText = UIUtility.SafeGetComponent<Text>(UIUtility.FindTransfrom(m_page.TimePanel, "Time/Text"));
-            timeSlider = UIUtility.SafeGetComponent<Slider>(UIUtility.FindTransfrom(m_page.TimePanel, "Slider"));
+            currentTimeText = Transform.FindTransfrom("Time/Time/Text").SafeGetComponent<Text>();
+            timeSlider = Transform.FindTransfrom("Time/Slider").SafeGetComponent<Slider>();
         }
         
         void InitResImage()

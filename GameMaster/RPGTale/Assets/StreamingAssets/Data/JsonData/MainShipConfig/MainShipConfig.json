@@ -1,0 +1,77 @@
+{
+  "basePropertyConfig": {
+    "ShieldBaseMax": 10000,
+    "ShieldBaseInit": 0,
+    "ShieldChargeEachRound_NotAttack": 1000,
+    "ShieldCahrgeEachRound_UnderAttack": 400,
+    "DamageReduceInit": 0,
+    "shieldLevelMap": [
+      {
+        "Level": 1,
+        "DamageReduceRate": 0.1,
+        "ShieldChargeEachRound_NotAttack": 1000,
+        "ShieldCahrgeEachRound_UnderAttack": 400
+      },
+      {
+        "Level": 2,
+        "DamageReduceRate": 0.1,
+        "ShieldChargeEachRound_NotAttack": 1000,
+        "ShieldCahrgeEachRound_UnderAttack": 400
+      },
+      {
+        "Level": 3,
+        "DamageReduceRate": 0.1,
+        "ShieldChargeEachRound_NotAttack": 1000,
+        "ShieldCahrgeEachRound_UnderAttack": 400
+      },
+      {
+        "Level": 4,
+        "DamageReduceRate": 0.1,
+        "ShieldChargeEachRound_NotAttack": 1000,
+        "ShieldCahrgeEachRound_UnderAttack": 400
+      },
+      {
+        "Level": 5,
+        "DamageReduceRate": 0.1,
+        "ShieldChargeEachRound_NotAttack": 1000,
+        "ShieldCahrgeEachRound_UnderAttack": 400
+      }
+    ]
+  },
+  "powerAreaConfig": {
+
+    "overLoadMap": [
+      {
+        "Level": 1,
+        "FuelConsumeRate": 1.3,
+        "PowerPruduceRate": 1.2,
+        "CloseDownRate": 0.005
+      },
+      {
+        "Level": 2,
+        "FuelConsumeRate": 1.3,
+        "PowerPruduceRate": 1.2,
+        "CloseDownRate": 0.005
+      },
+      {
+        "Level": 3,
+        "FuelConsumeRate": 1.3,
+        "PowerPruduceRate": 1.2,
+        "CloseDownRate": 0.005
+      },
+      {
+        "Level": 4,
+        "FuelConsumeRate": 1.3,
+        "PowerPruduceRate": 1.2,
+        "CloseDownRate": 0.005
+      },
+      {
+        "Level": 5,
+        "FuelConsumeRate": 1.3,
+        "PowerPruduceRate": 1.2,
+        "CloseDownRate": 0.005
+      }
+    ]
+  }
+
+}

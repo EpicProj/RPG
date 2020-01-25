@@ -28,6 +28,8 @@ namespace Sim_FrameWork {
             RandomEventModule.Instance.Register();
             ExploreModule.Instance.Register();
             AssembleModule.Instance.Register();
+            MainShipModule.Instance.Register();
+        
         }
 
         public void RegisterUI()

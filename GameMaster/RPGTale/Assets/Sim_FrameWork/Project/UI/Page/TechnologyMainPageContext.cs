@@ -81,14 +81,14 @@ namespace Sim_FrameWork.UI
                 if (config != null)
                 {
                     var obj = getGroupObject(TechnologyModule.Instance.GetTechGroupType(config.groupIndex));
-                    TechnologyGroup group = UIUtility.SafeGetComponent<TechnologyGroup>(obj.transform);
+                    TechnologyGroup group = obj.transform.SafeGetComponent<TechnologyGroup>();
                     if (group != null)
                     {
                         if (!group.InitGroup(config.groupIndex))
                             break;
-                        obj.transform.SetParent(scrollViewContentTrans, false);
+                        obj.transform.SetParent(Transform.FindTransfrom("Content/Scroll View/Viewport/Content"), false);
                         Vector3 configPos = new Vector3(config.posX, config.posY, 0);
-                        var rect = UIUtility.SafeGetComponent<RectTransform>(obj.transform);
+                        var rect = obj.transform.SafeGetComponent<RectTransform>();
                         rect.anchoredPosition = configPos;
 
                         if (!_groupList.Contains(group))
@@ -145,11 +145,8 @@ namespace Sim_FrameWork.UI
     public partial class TechnologyMainPageContext : WindowBase
     {
 
-        private Transform scrollViewContentTrans;
-
         protected override void InitUIRefrence()
         {
-            scrollViewContentTrans =Transform.FindTransfrom("Content/Scroll View/Viewport/Content");
         }
 
     }

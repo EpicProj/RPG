@@ -16,6 +16,12 @@ namespace Sim_FrameWork
             Pause =2
         }
 
+        public enum AreaState
+        {
+            OutSide,
+            MainShipInside
+        }
+
 
         public const string ITEM_UI_PATH = "ItemUIPrefab.prefab";
 
@@ -26,6 +32,8 @@ namespace Sim_FrameWork
         //游戏状态
         private GameStates _gameStates = GameStates.Start;
         public GameStates gameStates { get { return _gameStates; } }
+
+        public AreaState currentAreaState = AreaState.OutSide;
         private bool ConsolePageShow = false;
 
         protected override void Awake()

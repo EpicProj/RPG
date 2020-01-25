@@ -33,17 +33,13 @@ namespace Sim_FrameWork.UI
         private const string Research_Effect_Unlock_Text_Block = "Research_Effect_Unlock_Text_Block";
         private const string Research_Effect_Unlock_Text_Tech = "Research_Effect_Unlock_Text_Tech";
 
-       
-
         private TechnologyInfo techInfo;
-
-  
 
         #region Override Method
 
         public override void Awake(params object[] paralist)
         {
-            m_dialog = UIUtility.SafeGetComponent<TechnologyDetailDialog>(Transform);
+            m_dialog = Transform.SafeGetComponent<TechnologyDetailDialog>();
             techInfo = (TechnologyInfo)paralist[0];
             InitRef();
             AddBtnClick();
@@ -78,14 +74,14 @@ namespace Sim_FrameWork.UI
 
         private void InitRef()
         {
-            _techNameText = UIUtility.SafeGetComponent<Text>(UIUtility.FindTransfrom(m_dialog.ContextTrans, "Name"));
-            _techIcon = UIUtility.SafeGetComponent<Image>(UIUtility.FindTransfrom(m_dialog.ContextTrans, "Slot/Icon"));
-            _techCost = UIUtility.SafeGetComponent<Text>(UIUtility.FindTransfrom(m_dialog.ContextTrans, "Detail/Cost/Value"));
-            _techTimeCost = UIUtility.SafeGetComponent<Text>(UIUtility.FindTransfrom(m_dialog.ContextTrans, "Detail/Time/Value"));
-            _techDesc = UIUtility.SafeGetComponent<Text>(UIUtility.FindTransfrom(m_dialog.ContextTrans, "Desc"));
-            _confirmBtnText = UIUtility.SafeGetComponent<Text>(UIUtility.FindTransfrom(m_dialog.transform, "Content/ButtonGeneral/Text"));
-            descTypewriterEffect = UIUtility.SafeGetComponent<TypeWriterEffect>(UIUtility.FindTransfrom(m_dialog.ContextTrans, "Desc"));
-            _rarityImage = UIUtility.SafeGetComponent<Image>(UIUtility.FindTransfrom(m_dialog.ContextTrans, "Slot/Rarity"));
+            _techNameText = m_dialog.ContextTrans.FindTransfrom("Name").SafeGetComponent<Text>();
+            _techIcon = m_dialog.ContextTrans.FindTransfrom("Slot/Icon").SafeGetComponent<Image>();
+            _techCost = m_dialog.ContextTrans.FindTransfrom("Detail/Cost/Value").SafeGetComponent<Text>();
+            _techTimeCost = m_dialog.ContextTrans.FindTransfrom("Detail/Time/Value").SafeGetComponent<Text>();
+            _techDesc = m_dialog.ContextTrans.FindTransfrom("Desc").SafeGetComponent<Text>();
+            _confirmBtnText = m_dialog.transform.FindTransfrom("Content/ButtonGeneral/Text").SafeGetComponent<Text>();
+            descTypewriterEffect = m_dialog.ContextTrans.FindTransfrom("Desc").SafeGetComponent<TypeWriterEffect>();
+            _rarityImage = m_dialog.ContextTrans.FindTransfrom("Slot/Rarity").SafeGetComponent<Image>();
         }
 
         #endregion
@@ -117,16 +113,10 @@ namespace Sim_FrameWork.UI
 
             _rarityImage.color = new Color(techInfo._model.Rarity.color.r, techInfo._model.Rarity.color.g, techInfo._model.Rarity.color.b, 0.3f);
 
-            PlayDescTypeWriterEffect();
-            return true;
-        }
-
-        void PlayDescTypeWriterEffect()
-        {
             if (descTypewriterEffect != null)
                 descTypewriterEffect.StartEffect();
+            return true;
         }
-
 
         /// <summary>
         /// 初始化按钮状态
@@ -178,7 +168,7 @@ namespace Sim_FrameWork.UI
             ///Init
             foreach(Transform trans in m_dialog.EffectContentTrans)
             {
-                trans.gameObject.SetActive(false);
+                trans.SafeSetActive(false);
             }
 
             var effectlist = techInfo.techFinishEffectList;
@@ -203,9 +193,9 @@ namespace Sim_FrameWork.UI
                                 if (element != null)
                                 {
                                     totalIndex++;
-                                    var cmpt = UIUtility.SafeGetComponent<TechEffectElement>(element.transform);
+                                    var cmpt = element.transform.SafeGetComponent<TechEffectElement>();
                                     cmpt.SetUpElement(model.Icon, name, model.Name, Color.white);
-                                    element.gameObject.SetActive(true);
+                                    element.SafeSetActive(true);
                                 }
                             }
                         }
@@ -223,9 +213,9 @@ namespace Sim_FrameWork.UI
                                 if (element != null)
                                 {
                                     totalIndex++;
-                                    var cmpt = UIUtility.SafeGetComponent<TechEffectElement>(element.transform);
+                                    var cmpt = element.transform.SafeGetComponent<TechEffectElement>();
                                     cmpt.SetUpElement(model.Icon, name, model.Name, model.Rarity.color);
-                                    element.gameObject.SetActive(true);
+                                    element.SafeSetActive(true);
                                 }
                             }
                         }
@@ -268,9 +258,9 @@ namespace Sim_FrameWork.UI
             if (costObj != null)
             {
                 index++;
-                var cmpt = UIUtility.SafeGetComponent<TechRequireElement>(costObj);
+                var cmpt = costObj.SafeGetComponent<TechRequireElement>();
                 cmpt.SetUpElement( TechRequireElement.RequireType.ResearchPoint, new object[] { techInfo._model.TechCost },false);
-                costObj.gameObject.SetActive(true);
+                costObj.SafeSetActive(true);
             }
 
             for(int i = 0; i < requireList.Count; i++)
@@ -290,10 +280,10 @@ namespace Sim_FrameWork.UI
                                 if (obj != null)
                                 {
                                     index++;
-                                    var element = UIUtility.SafeGetComponent<TechRequireElement>(obj);
+                                    var element = obj.SafeGetComponent<TechRequireElement>();
                                     bool warning = TechnologyDataManager.Instance.GetTechInfo(techList[j]).currentState == TechnologyInfo.TechState.Lock ? true : false;
                                     element.SetUpElement( TechRequireElement.RequireType.PreTech,new object[] { techModel.ID }, warning);
-                                    obj.gameObject.SetActive(true);
+                                    obj.SafeSetActive(true);
                                 }
                             }
                         }
@@ -309,10 +299,10 @@ namespace Sim_FrameWork.UI
                                 if (obj != null)
                                 {
                                     index++;
-                                    var element = UIUtility.SafeGetComponent<TechRequireElement>(obj);
+                                    var element = obj.SafeGetComponent<TechRequireElement>();
                                     bool warning = PlayerManager.Instance.GetMaterialStoreCount(kvp.Key) < kvp.Value ? true : false;
                                     element.SetUpElement( TechRequireElement.RequireType.Material,new object[] { maModel.ID,kvp.Value }, warning);
-                                    obj.gameObject.SetActive(true);
+                                    obj.SafeSetActive(true);
                                 }
                             }
                         }

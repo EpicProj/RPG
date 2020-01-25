@@ -43,9 +43,9 @@ namespace Sim_FrameWork
                     ///Set Pos
                     Vector3 newPos = new Vector3(element.posX, element.posY,0);
                     obj.transform.SetParent(transform, false);
-                    var rect = UIUtility.SafeGetComponent<RectTransform>(obj.transform).anchoredPosition = newPos;
+                    var rect = obj.transform.SafeGetComponent<RectTransform>().anchoredPosition = newPos;
 
-                    TechObjectElement objEle = UIUtility.SafeGetComponent<TechObjectElement>(obj.transform);
+                    TechObjectElement objEle = obj.transform.SafeGetComponent<TechObjectElement>();
                     if (objEle != null)
                     {
                         _techObjList.Add(objEle);

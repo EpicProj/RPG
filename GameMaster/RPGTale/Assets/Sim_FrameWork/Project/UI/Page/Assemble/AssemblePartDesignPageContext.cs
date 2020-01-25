@@ -163,7 +163,7 @@ namespace Sim_FrameWork.UI
                 if (i > Config.GlobalConfigData.AssemblePart_Max_PropertyNum)
                     return;
                 var trans = partPropertyContentTrans.GetChild(i);
-                UIUtility.SafeSetActive(trans, true);
+                trans.SafeSetActive(true);
                 var itemCmpt = trans.SafeGetComponent<AssemblePartPropertyItem>();
                 if (itemCmpt != null)
                 {
@@ -444,7 +444,6 @@ namespace Sim_FrameWork.UI
 
         void SetUpPartChooseContent()
         {
-
             contentCanvasGroup.ActiveCanvasGroup(false);
             partChooseCanvasGroup.ActiveCanvasGroup(true);
             presetBtn.transform.SafeSetActive(false);
@@ -498,7 +497,7 @@ namespace Sim_FrameWork.UI
             }
             else
             {
-                chooseLoopList.gameObject.SetActive(true); 
+                chooseLoopList.transform.SafeSetActive(true); 
                 noDataTrans.SafeSetActive(false);
                 currentSelectTab = chooseType;
                 chooseLoopList.InitData(partModelList);
