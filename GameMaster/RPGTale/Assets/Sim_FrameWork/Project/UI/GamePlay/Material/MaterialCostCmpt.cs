@@ -15,9 +15,9 @@ namespace Sim_FrameWork
 
         public override void Awake()
         {
-            _icon = UIUtility.SafeGetComponent<Image>(UIUtility.FindTransfrom(transform, "BG/Icon"));
-            _name = UIUtility.SafeGetComponent<Text>(UIUtility.FindTransfrom(transform, "Name"));
-            _count= UIUtility.SafeGetComponent<Text>(UIUtility.FindTransfrom(transform, "Value"));
+            _icon = transform.FindTransfrom("BG/Icon").SafeGetComponent<Image>();
+            _name = transform.FindTransfrom("Name").SafeGetComponent<Text>();
+            _count= transform.FindTransfrom("Value").SafeGetComponent<Text>();
 
         }
 

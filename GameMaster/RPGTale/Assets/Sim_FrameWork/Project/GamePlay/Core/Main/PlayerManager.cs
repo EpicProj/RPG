@@ -5,17 +5,26 @@ using System;
 
 namespace Sim_FrameWork
 {
+    public enum ResourceType
+    {
+        All,
+        Currency,
+        Research,
+        Energy,
+        Builder,
+        RoCore,
+    }
+    public enum ResourceAddType
+    {
+        current,
+        month,
+        max
+    }
     public class PlayerManager : MonoSingleton<PlayerManager>
     {
-        public enum ResourceAddType
-        {
-            current,
-            month,
-            max
-        }
-
         public PlayerData playerData;
         public MaterialStorageData _storageData;
+        public MainShipInfo mainShipInfo;
 
         /// <summary>
         /// Time Manager
@@ -28,6 +37,7 @@ namespace Sim_FrameWork
             base.Awake();
             playerData = PlayerModule.Instance.InitPlayerData();
             _storageData = new MaterialStorageData();
+            mainShipInfo = new MainShipInfo();
             InitAssembleData();
 
             //For Test
@@ -39,6 +49,7 @@ namespace Sim_FrameWork
         private void Start()
         {
             UIGuide.Instance.ShowGameMainPage(false);
+            UIGuide.Instance.ShowPlayerStatePanel();
         }
 
         private void Update()

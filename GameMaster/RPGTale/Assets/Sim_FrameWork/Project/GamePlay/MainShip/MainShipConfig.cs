@@ -7,7 +7,12 @@ namespace Sim_FrameWork.Config
     public class MainShipConfig
     {
         public MainShipBasePropertyConfig basePropertyConfig;
+
         public PowerAreaConfig powerAreaConfig;
+        public ControlTowerAreaConfig controlTowerAreaConfig;
+        public LivingAreaConfig livingAreaConfig;
+        public HangarAreaConfig hangarAreaConfig;
+        public WorkingAreaConfig workingAreaConfig;
 
         public MainShipConfig LoadMainShipConfig()
         {
@@ -15,6 +20,10 @@ namespace Sim_FrameWork.Config
             var data = reader.LoadJsonDataConfig<MainShipConfig>(JsonConfigPath.MainShipConfigJsonPath);
             basePropertyConfig = data.basePropertyConfig;
             powerAreaConfig = data.powerAreaConfig;
+            controlTowerAreaConfig = data.controlTowerAreaConfig;
+            livingAreaConfig = data.livingAreaConfig;
+            hangarAreaConfig = data.hangarAreaConfig;
+            workingAreaConfig = data.workingAreaConfig;
             return data;
         }
 
@@ -25,11 +34,11 @@ namespace Sim_FrameWork.Config
         /// <summary>
         /// 护盾基础最大值
         /// </summary>
-        public int ShieldBaseMax;
+        public int ShieldBase_Max;
         /// <summary>
         /// 护盾默认初始值
         /// </summary>
-        public int ShieldBaseInit;
+        public int ShieldBase_Initial;
         /// <summary>
         /// 每回合回盾，未受攻击
         /// </summary>
@@ -57,9 +66,18 @@ namespace Sim_FrameWork.Config
 
     }
 
+    public class MainShipAreaBaseConfig
+    {
+        public string areaIconPath;
+        public int Durability_Initial;
+        public byte PowerLevel_Max_Initial;
+        public byte PowerLevel_Current_Initial;
+        public int PowerConsumeBase;
+    }
+
     public class PowerAreaConfig
     {
-        
+        public MainShipAreaBaseConfig baseConfig;
         public List<OverLoadLevelMap> overLoadMap;
 
         public class OverLoadLevelMap
@@ -69,6 +87,31 @@ namespace Sim_FrameWork.Config
             public float PowerPruduceRate;
             public float CloseDownRate;
         }
+    }
+
+    /// <summary>
+    /// 塔台
+    /// </summary>
+    public class ControlTowerAreaConfig
+    {
+        public MainShipAreaBaseConfig baseConfig;
+    }
+    /// <summary>
+    /// 生活区
+    /// </summary>
+    public class LivingAreaConfig
+    {
+        public MainShipAreaBaseConfig baseConfig;
+    }
+
+    public class WorkingAreaConfig
+    {
+        public MainShipAreaBaseConfig baseConfig;
+    }
+
+    public class HangarAreaConfig
+    {
+        public MainShipAreaBaseConfig baseConfig;
     }
 
 }

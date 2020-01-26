@@ -9,32 +9,24 @@ namespace Sim_FrameWork
     public class ExploreAreaMissionElement : BaseElementSimple
     {
         private Animator anim;
-
-        private Button btn;
-        private Text missionName;
-        private Text areaLocation;
-        private Text missionLevel;
-
         private ExploreRandomItem _item;
-        void Awake()
+        public override void Awake()
         {
-            anim = UIUtility.SafeGetComponent<Animator>(transform);
-            btn = UIUtility.SafeGetComponent<Button>(transform);
-            missionName = UIUtility.SafeGetComponent<Text>(UIUtility.FindTransfrom(transform, "Content/Text"));
-            areaLocation = UIUtility.SafeGetComponent<Text>(UIUtility.FindTransfrom(transform, "Area/Text"));
-            missionLevel= UIUtility.SafeGetComponent<Text>(UIUtility.FindTransfrom(transform, "Content/Level/Value"));
+            anim = transform.SafeGetComponent<Animator>();
         }
 
         public void SetUpElement(ExploreRandomItem item)
         {
-            btn.onClick.RemoveAllListeners();
             if (item != null)
             {
                 _item = item;
-                missionName.text = item.missionName;
-                areaLocation.text = item.missionAreaName;
-                missionLevel.text = item.areaHardLevel.ToString();
+                var btn = transform.SafeGetComponent<Button>();
+                btn.onClick.RemoveAllListeners();
                 btn.onClick.AddListener(OnBtnClick);
+
+                transform.FindTransfrom("Content/Text").SafeGetComponent<Text>().text = item.missionName;
+                transform.FindTransfrom("Area/Text").SafeGetComponent<Text>().text = item.missionAreaName;
+                transform.FindTransfrom("Content/Level/Value").SafeGetComponent<Text>().text = item.areaHardLevel.ToString();
             }
         }
 

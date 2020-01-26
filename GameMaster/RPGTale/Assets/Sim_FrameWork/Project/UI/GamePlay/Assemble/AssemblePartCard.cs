@@ -8,30 +8,16 @@ namespace Sim_FrameWork
 {
     public class AssemblePartCard : BaseElement
     {
-
-        private Text _titleName;
-        private Image _partImage;
-        private Text _partDesc;
-        private Transform _partPropertyTrans;
-        private Transform _partEquipTargetTrans;
         private Transform _chooseEffect;
-        private Transform _partCostTrans;
-
-        private Button _btn;
 
         private AssembleTypePresetModel _model;
         public override void Awake()
         {
-            _titleName = transform.FindTransfrom("TitleName").SafeGetComponent<Text>();
-            _partDesc = transform.FindTransfrom("Content/Desc").SafeGetComponent<Text>();
-            _partImage= transform.FindTransfrom("Content/IconBG/Icon").SafeGetComponent<Image>();
-            _partPropertyTrans = transform.FindTransfrom("Content/PartProperty/Content");
-            _partEquipTargetTrans = transform.FindTransfrom("Content/PartEquipTarget/Content");
             _chooseEffect = transform.FindTransfrom("ChooseEffect");
-            _partCostTrans = transform.FindTransfrom("Content/PartCost/Content");
             _chooseEffect.SafeSetActive(false);
 
-            _btn = transform.FindTransfrom("Btn").SafeGetComponent<Button>();
+            var _btn = transform.FindTransfrom("Btn").SafeGetComponent<Button>();
+            _btn.onClick.RemoveAllListeners();
             _btn.onClick.AddListener(OnBtnClick);
         }
 
@@ -44,9 +30,9 @@ namespace Sim_FrameWork
 
         void SetUpElement()
         {
-            _titleName.text = _model.PresetInfo.partName;
-            _partImage.sprite = _model.PresetInfo.partSprite;
-            _partDesc.text = _model.PresetInfo.partDesc;
+            transform.FindTransfrom("TitleName").SafeGetComponent<Text>().text = _model.PresetInfo.partName;
+            transform.FindTransfrom("Content/IconBG/Icon").SafeGetComponent<Image>().sprite = _model.PresetInfo.partSprite;
+            transform.FindTransfrom("Content/Desc").SafeGetComponent<Text>().text = _model.PresetInfo.partDesc;
 
             RefreshPartProperty();
             RefreshPartEquipTarget();
@@ -55,6 +41,7 @@ namespace Sim_FrameWork
 
         void RefreshPartProperty()
         {
+            var _partPropertyTrans = transform.FindTransfrom("Content/PartProperty/Content");
             _partPropertyTrans.SafeSetActiveAllChild(false);
 
             for (int i = 0; i < _model.PresetInfo.partsPropertyConfig.configData.Count; i++)
@@ -88,6 +75,7 @@ namespace Sim_FrameWork
 
         void RefreshPartEquipTarget()
         {
+            var _partEquipTargetTrans = transform.FindTransfrom("Content/PartEquipTarget/Content");
             _partEquipTargetTrans.SafeSetActiveAllChild(false);
 
             var equipType = AssembleModule.GetAssemblePartEquipType(_model.ID);
@@ -108,6 +96,7 @@ namespace Sim_FrameWork
 
         void RefreshPartCost()
         {
+            var _partCostTrans = transform.FindTransfrom("Content/PartCost/Content");
             _partCostTrans.SafeSetActiveAllChild(false);
 
              var costList = AssembleModule.GetPartMaterialCost(_model.ID);

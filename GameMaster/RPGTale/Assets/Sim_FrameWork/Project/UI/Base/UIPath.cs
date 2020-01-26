@@ -106,6 +106,8 @@ namespace Sim_FrameWork
 
 
             #region Misc
+            public const string PlayerState_Panel = "Misc/PlayerState";
+
             /// <summary>
             /// 材料详情
             /// </summary>

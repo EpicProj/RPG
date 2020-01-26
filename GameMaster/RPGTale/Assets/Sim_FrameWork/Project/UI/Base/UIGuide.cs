@@ -22,6 +22,11 @@ namespace Sim_FrameWork
             UIManager.Instance.Register<UI.MainMenuPageContext>(UIPath.WindowPath.MainMenu_Page);
             UIManager.Instance.PopUpWnd(UIPath.WindowPath.MainMenu_Page, WindowType.Page, true);
         }
+        public void ShowPlayerStatePanel()
+        {
+            UIManager.Instance.Register<UI.PlayerStateContext>(UIPath.WindowPath.PlayerState_Panel);
+            UIManager.Instance.PopUpWnd(UIPath.WindowPath.PlayerState_Panel, WindowType.SPContent, true);
+        }
 
         /// <summary>
         /// 菜单

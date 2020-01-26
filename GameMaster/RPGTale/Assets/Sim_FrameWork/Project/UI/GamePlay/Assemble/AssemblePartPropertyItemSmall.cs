@@ -7,24 +7,19 @@ namespace Sim_FrameWork
 {
     public class AssemblePartPropertyItemSmall : MonoBehaviour
     {
-
-        private Text _name;
-        private Image _icon;
         private Text _value;
 
         public string _propertyName;
 
         private void Awake()
         {
-            _icon = UIUtility.SafeGetComponent<Image>(UIUtility.FindTransfrom(transform, "Icon"));
-            _name = UIUtility.SafeGetComponent<Text>(UIUtility.FindTransfrom(transform, "Name"));
-            _value = UIUtility.SafeGetComponent<Text>(UIUtility.FindTransfrom(transform, "Value"));
+            _value = transform.FindTransfrom("Value").SafeGetComponent<Text>();
         }
 
         public void SetUpItem(Sprite icon,string name,float value,string propertyName)
         {
-            _icon.sprite = icon;
-            _name.text = name;
+            transform.FindTransfrom("Icon").SafeGetComponent<Image>().sprite = icon;
+            transform.FindTransfrom("Name").SafeGetComponent<Text>().text = name;
             _propertyName = propertyName;
             if(string.Compare(_propertyName, "Time") == 0)
             {

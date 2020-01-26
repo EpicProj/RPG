@@ -12,17 +12,10 @@ namespace Sim_FrameWork
 
         private bool isShowInfoTip=false;
 
-        private Transform _infoTrans;
-
         private Image _progressImage;
         private Text _progressTimeText;
 
         private Animation _showAnim;
-        private Text _pointName;
-        private Text _energyCost;
-        private Text _timeCost;
-        private Button _btn;
-
         public ExplorePointData pointData;
 
         //Slider Lerp
@@ -32,30 +25,28 @@ namespace Sim_FrameWork
 
         public override void Awake()
         {
-            _infoTrans = UIUtility.FindTransfrom(transform, "Info");
-            _showAnim = UIUtility.SafeGetComponent<Animation>(_infoTrans);
-            _pointName = UIUtility.SafeGetComponent<Text>(UIUtility.FindTransfrom(_infoTrans, "Name"));
-            _energyCost = UIUtility.SafeGetComponent<Text>(UIUtility.FindTransfrom(_infoTrans, "Energy/Value"));
-            _timeCost = UIUtility.SafeGetComponent<Text>(UIUtility.FindTransfrom(_infoTrans, "Time/Value"));
-            _btn = UIUtility.SafeGetComponent<Button>(transform);
-
-            _progressImage = UIUtility.SafeGetComponent<Image>(UIUtility.FindTransfrom(transform, "Ring/Fill"));
+            _showAnim = transform.FindTransfrom("Info").SafeGetComponent<Animation>();
+            _progressImage = transform.FindTransfrom("Ring/Fill").SafeGetComponent<Image>();
             _progressImage.fillAmount = currentTimeProgress;
-            _progressTimeText = UIUtility.SafeGetComponent<Text>(UIUtility.FindTransfrom(transform, "Ring/Progress"));
+            _progressTimeText = transform.FindTransfrom("Ring/Progress").SafeGetComponent<Text>();
         }
 
         public void InitPoint(ExplorePointData data)
         {
             if (data != null)
             {
+                var btn = transform.SafeGetComponent<Button>();
+                btn.onClick.RemoveAllListeners();
+                btn.onClick.AddListener(OnPointClick);
+
                 pointData = data;
-                _pointName.text = data.pointName;
-                _energyCost.text = data.EnergyCost.ToString();
-                _timeCost.text = data.TimeCost.ToString();
+                transform.FindTransfrom("Info/Name").SafeGetComponent<Text>().text = data.pointName;
+                transform.FindTransfrom("Info/Energy/Value").SafeGetComponent<Text>().text = data.EnergyCost.ToString();
+                transform.FindTransfrom("Info/Time/Value").SafeGetComponent<Text>().text = data.TimeCost.ToString();
                 _progressTimeText.text = "";
                 var pos = SolarSystemManager.Instance.GetPointPositionUI(data);
                 transform.GetComponent<RectTransform>().anchoredPosition = pos;
-                _btn.onClick.AddListener(OnPointClick);
+                
             }
         }
 
@@ -116,7 +107,7 @@ namespace Sim_FrameWork
         public override void OnPointerExit(PointerEventData eventData)
         {
             isShowInfoTip = false;
-            UIUtility.SafeGetComponent<CanvasGroup>(_infoTrans).alpha = 0;
+            transform.FindTransfrom("Info").SafeGetComponent<CanvasGroup>().alpha = 0;
         }
 
     }

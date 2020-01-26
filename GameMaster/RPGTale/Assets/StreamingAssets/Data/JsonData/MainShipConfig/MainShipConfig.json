@@ -1,7 +1,7 @@
 {
   "basePropertyConfig": {
-    "ShieldBaseMax": 10000,
-    "ShieldBaseInit": 0,
+    "ShieldBase_Max": 10000,
+    "ShieldBase_Initial": 0,
     "ShieldChargeEachRound_NotAttack": 1000,
     "ShieldCahrgeEachRound_UnderAttack": 400,
     "DamageReduceInit": 0,
@@ -39,6 +39,13 @@
     ]
   },
   "powerAreaConfig": {
+      "baseConfig":{
+       "areaIconPath":"SpriteOutput/MainShip/Area/AreaBG_01",
+       "Durability_Initial":5000,
+       "PowerLevel_Max_Initial":2,
+       "PowerLevel_Current_Initial":1,
+       "PowerConsumeBase":50
+    },
 
     "overLoadMap": [
       {
@@ -72,6 +79,43 @@
         "CloseDownRate": 0.005
       }
     ]
+  },
+  "controlTowerAreaConfig":{
+    "baseConfig":{
+      "areaIconPath":"SpriteOutput/MainShip/Area/AreaBG_01",
+      "Durability_Initial":5000,
+      "PowerLevel_Max_Initial":2,
+      "PowerLevel_Current_Initial":1,
+     "PowerConsumeBase":50
+    }
+    
+  },
+  "livingAreaConfig":{
+     "baseConfig":{
+       "areaIconPath":"SpriteOutput/MainShip/Area/AreaBG_01",
+       "Durability_Initial":5000,
+        "PowerLevel_Max_Initial":2,
+       "PowerLevel_Current_Initial":1,
+       "PowerConsumeBase":50
+    }
+  },  
+  "hangarAreaConfig":{
+     "baseConfig":{
+       "areaIconPath":"SpriteOutput/MainShip/Area/AreaBG_01",
+       "Durability_Initial":5000,
+        "PowerLevel_Max_Initial":2,
+       "PowerLevel_Current_Initial":1,
+       "PowerConsumeBase":50
+    }
+  },
+  "workingAreaConfig":{
+     "baseConfig":{
+       "areaIconPath":"SpriteOutput/MainShip/Area/AreaBG_01",
+       "Durability_Initial":5000,
+        "PowerLevel_Max_Initial":2,
+       "PowerLevel_Current_Initial":1,
+       "PowerConsumeBase":50
+    }
   }
 
 }

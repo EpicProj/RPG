@@ -7,8 +7,6 @@ namespace Sim_FrameWork
 {
     public class AssemblePartPropertyItem : MonoBehaviour
     {
-        private Image Icon;
-        private Text Name;
         private Text ValueMin;
         private Text ValueMax;
         private Transform DotTrans;
@@ -50,11 +48,9 @@ namespace Sim_FrameWork
 
         private void Awake()
         {
-            Icon = UIUtility.SafeGetComponent<Image>(UIUtility.FindTransfrom(transform, "Icon"));
-            Name= UIUtility.SafeGetComponent<Text>(UIUtility.FindTransfrom(transform, "Name"));
-            ValueMin= UIUtility.SafeGetComponent<Text>(UIUtility.FindTransfrom(transform, "ValueMin"));
-            ValueMax = UIUtility.SafeGetComponent<Text>(UIUtility.FindTransfrom(transform, "ValueMax"));
-            DotTrans = UIUtility.FindTransfrom(transform, "Dot");
+            ValueMin= transform.FindTransfrom("ValueMin").SafeGetComponent<Text>();
+            ValueMax = transform.FindTransfrom("ValueMax").SafeGetComponent<Text>();
+            DotTrans = transform.FindTransfrom("Dot");
 
             detailInfoDic = new Dictionary<string, AssemblePartPropertyDetailInfo>();
         }
@@ -86,8 +82,8 @@ namespace Sim_FrameWork
             var typeData = AssembleModule.GetAssemblePartPropertyTypeData(config.Name);
             if (typeData != null)
             {
-                Icon.sprite = Utility.LoadSprite(typeData.PropertyIcon, Utility.SpriteType.png);
-                Name.text = MultiLanguage.Instance.GetTextValue(typeData.PropertyName);
+                transform.FindTransfrom("Icon").SafeGetComponent<Image>().sprite = Utility.LoadSprite(typeData.PropertyIcon, Utility.SpriteType.png);
+                transform.FindTransfrom("Name").SafeGetComponent<Text>().text = MultiLanguage.Instance.GetTextValue(typeData.PropertyName);
             }
         }
 

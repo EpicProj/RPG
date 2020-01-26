@@ -12,38 +12,31 @@ namespace Sim_FrameWork
 
         private Image _icon;
         private Text _name;
-        private Button _btn;
 
         private Image _progressImage;
         private Text _progressText;
-
-        private Transform rotateEffect;
 
         public bool isSelect = false;
 
         void Awake()
         {
-            _btn = UIUtility.SafeGetComponent<Button>(transform);
-            _icon = UIUtility.SafeGetComponent<Image>(UIUtility.FindTransfrom(transform, "Item/Icon"));
-            _name = UIUtility.SafeGetComponent<Text>(UIUtility.FindTransfrom(transform, "Name"));
-
-            _progressImage = UIUtility.SafeGetComponent<Image>(UIUtility.FindTransfrom(transform, "Item/Progress"));
-            _progressText = UIUtility.SafeGetComponent<Text>(UIUtility.FindTransfrom(transform, "Item/Progress/Text"));
-
-            rotateEffect = UIUtility.FindTransfrom(transform, "Item/RotateEffect");
+            _progressImage = transform.FindTransfrom("Item/Progress").SafeGetComponent<Image>();
+            _progressText = transform.FindTransfrom("Item/Progress/Text").SafeGetComponent<Text>();
         }
 
         public void InitAreaItem(ExploreAreaData data)
         {
             if (data != null)
             {
+                var btn = transform.SafeGetComponent<Button>();
+                btn.onClick.RemoveAllListeners();
                 _data = data;
-                _name.text = data.areaName;
-                _icon.sprite = data.areaIcon;
+                transform.FindTransfrom("Name").SafeGetComponent<Text>().text = data.areaName;
+                transform.FindTransfrom("Item/Icon").SafeGetComponent<Image>().sprite = data.areaIcon;
                 _progressImage.fillAmount = data.areaTotalProgress;
                 _progressText.text = ((int)(data.areaTotalProgress * 100)).ToString()+"%";
 
-                _btn.onClick.AddListener(OnBtnClick);
+                btn.onClick.AddListener(OnBtnClick);
             }
         }
 
@@ -53,7 +46,7 @@ namespace Sim_FrameWork
             UIManager.Instance.SendMessage(new UIMessage(UIMsgType.ExplorePage_ShowArea_Mission, new List<object>(1) { _data }));
             foreach (Transform trans in transform.parent)
             {
-                var cmpt = UIUtility.SafeGetComponent<ExploreAreaSelectBtn>(trans);
+                var cmpt = trans.SafeGetComponent<ExploreAreaSelectBtn>();
                 if (cmpt != null)
                 {
                     cmpt.SetSelect(false);
@@ -65,7 +58,7 @@ namespace Sim_FrameWork
 
         public void SetSelect(bool select)
         {
-            rotateEffect.gameObject.SetActive(select);
+            transform.FindTransfrom("Item/RotateEffect").SafeSetActive(select);
             isSelect = select;
         }
 

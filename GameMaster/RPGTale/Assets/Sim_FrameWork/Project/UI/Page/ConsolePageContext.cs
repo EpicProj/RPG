@@ -42,7 +42,7 @@ namespace Sim_FrameWork.UI {
                         break;
                     }
                     var value = Utility.TryParseInt(split[1]);
-                    PlayerManager.Instance.AddCurrency(value, PlayerManager.ResourceAddType.current);
+                    PlayerManager.Instance.AddCurrency(value, ResourceAddType.current);
                     break;
                 case "AddMaterial":
                     if (split.Length != 3)

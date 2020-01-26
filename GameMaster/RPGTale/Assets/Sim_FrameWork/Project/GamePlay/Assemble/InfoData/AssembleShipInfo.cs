@@ -112,6 +112,14 @@ namespace Sim_FrameWork
             }
         }
 
+        public float Explore
+        {
+            get
+            {
+                return presetData._metaData.DetectBase;
+            }
+        }
+
         /// <summary>
         /// 最大货仓储量
         /// </summary>

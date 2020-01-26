@@ -8,20 +8,12 @@ namespace Sim_FrameWork.UI
 {
     public partial class MainMenuPageContext : WindowBase
     {
-        public enum ResourceType
-        {
-            All,
-            Currency,
-            Research,
-            Energy,
-            Builder,
-            RoCore,
-        }
-
+        
         private float currentTimeProgress = 0f;
         private List<BuildingPanelData> buildPanelDataList = new List<BuildingPanelData>();
         private List<ConstructMainTabElement> mainTabElementList = new List<ConstructMainTabElement>();
 
+        private List<MainShipAreaItem> mainShipAreaItemList = new List<MainShipAreaItem>();
         //GameStates
         private Button PauseBtn;
 
@@ -30,8 +22,8 @@ namespace Sim_FrameWork.UI
         public override void Awake(params object[] paralist)
         {
             base.Awake();
-            InitResImage();
             AddBtnListener();
+            InitMainShipAreaItem();
         }
 
 
@@ -43,18 +35,17 @@ namespace Sim_FrameWork.UI
         public override void OnShow(params object[] paralist)
         {
             UpdateTimePanel();
-            UpdateResData(ResourceType.All);
-            UpdateResMonthData(ResourceType.All);
             if(GameManager.Instance.currentAreaState == GameManager.AreaState.OutSide)
             {
-                RefreshBuildMainTab();
+                for(int i = 0; i < mainShipAreaItemList.Count; i++)
+                {
+                    mainShipAreaItemList[i].InitData();
+                }
             }
             else if(GameManager.Instance.currentAreaState== GameManager.AreaState.MainShipInside)
             {
-
+                RefreshBuildMainTab();
             }
-           
-            
         }
 
         public override void OnClose()
@@ -62,27 +53,10 @@ namespace Sim_FrameWork.UI
             base.OnClose();
         }
 
-
         public override bool OnMessage(UIMessage msg)
         {
             switch (msg.type)
             {
-                case UIMsgType.Res_Currency:         
-                    return UpdateResData(ResourceType.Currency);
-                case UIMsgType.Res_MonthCurrency:
-                    return UpdateResMonthData(ResourceType.Currency);
-                case UIMsgType.Res_Research:
-                    return UpdateResData(ResourceType.Research);
-                case UIMsgType.Res_MonthResearch:
-                    return UpdateResMonthData(ResourceType.Research);
-                case UIMsgType.Res_Energy:
-                    return UpdateResData(ResourceType.Energy);
-                case UIMsgType.Res_MonthEnergy:
-                    return UpdateResMonthData(ResourceType.Energy);
-                case UIMsgType.Res_Builder:
-                    return UpdateResData(ResourceType.Builder);
-                case UIMsgType.Res_RoCore:
-                    return UpdateResData(ResourceType.RoCore);
                 case UIMsgType.MenuPage_Update_BuildPanel:
                     FunctionBlockTypeData typeData = (FunctionBlockTypeData)msg.content[0];
                     var type = FunctionBlockModule.GetBlockType(typeData);
@@ -116,79 +90,13 @@ namespace Sim_FrameWork.UI
             timeSlider.value = currentTimeProgress / PlayerManager.Instance.playerData.timeData.realSecondsPerDay;
         }
 
-        /// <summary>
-        /// 更新当前资源
-        /// </summary>
-        /// <param name="type"></param>
-        public bool UpdateResData(ResourceType type)
-        {
-            var data = PlayerManager.Instance.playerData.resourceData;
-            if (data == null)
-                return false;
-            switch (type)
-            {
-                case ResourceType.All:
-                    _currencyNumText.text = data.Currency.ToString();
-                    _researchPointText.text = data.Research.ToString();
-                    _energyNumText.text = data.Energy.ToString();
-                    _builderText.text = data.Builder.ToString();
-                    _roCoreText.text = data.RoCore.ToString();
-                    return true;
-                case ResourceType.Currency:
-                    _currencyNumText.text = data.Currency.ToString();
-                    return true;
-                case ResourceType.Research:
-                    _researchPointText.text = data.Research.ToString();
-                    return true;
-                case ResourceType.Energy:
-                    _energyNumText.text = data.Energy.ToString();
-                    return true;
-                case ResourceType.Builder:
-                    _builderText.text = data.Builder.ToString();
-                    return true;
-                case ResourceType.RoCore:
-                    _roCoreText.text = data.RoCore.ToString();
-                    return true;
-                default:
-                    return false;
-            }   
-        }
-        /// <summary>
-        /// 更新当前资源增加值
-        /// </summary>
-        /// <param name="type"></param>
-        public bool UpdateResMonthData(ResourceType type)
-        {
-            var data = PlayerManager.Instance.playerData.resourceData;
-            if (data == null)
-                return false;
-            switch (type)
-            {
-                case ResourceType.All:
-                    _energyAddNumText.text = "+" + data.EnergyPerMonth.ToString();
-                    _currencyAddNumText.text = "+" + data.CurrencyPerMonth.ToString();
-                    return true;
-                case ResourceType.Energy:
-                    _energyAddNumText.text = "+" + data.EnergyPerMonth.ToString();
-                    return true;
-                case ResourceType.Research:
-                    _researchPointAddText.text = "+" + data.ResearchPerMonth.ToString();
-                    return true;
-                default:
-                    return false;
-            }
-        }
-
+       
         //Button
         private void AddBtnListener()
         {
             AddButtonClickListener(PauseBtn, () =>
             {
                 OnPauseBtnClick();
-            });
-            AddButtonClickListener(Transform.FindTransfrom("TopPanel/Menu").SafeGetComponent<Button>(), () =>
-            {
-                UIGuide.Instance.ShowMenuDialog();
             });
             /// Order Receive Page
             AddButtonClickListener(Transform.FindTransfrom("ButtonTab/Order").SafeGetComponent<Button>(), () =>
@@ -284,60 +192,20 @@ namespace Sim_FrameWork.UI
         private Text currentTimeText;
         private Slider timeSlider;
 
-        /// <summary>
-        /// Resource
-        /// </summary>
-        private Text _currencyNumText;
-        private Text _currencyAddNumText;
-        private Image _currencyIcon;
-
-        private Text _researchPointText;
-        private Text _researchPointAddText;
-        private Image _researchIcon;
-
-        private Text _energyNumText;
-        private Text _energyAddNumText;
-        private Image _energyIcon;
-
-        private Text _builderText;
-        private Image _builderIcon;
-
-        private Text _roCoreText;
-        private Image _roCoreIcon;
 
         protected override void InitUIRefrence()
         {
-            //Resource
-            _currencyNumText = Transform.FindTransfrom("TopPanel/Resource/ResourceLeft/Currency/Value").SafeGetComponent<Text>();
-            _currencyAddNumText = Transform.FindTransfrom("TopPanel/Resource/ResourceLeft/Currency/Value/AddValue").SafeGetComponent<Text>();
-            _currencyIcon= Transform.FindTransfrom("TopPanel/Resource/ResourceLeft/Currency/Icon").SafeGetComponent<Image>();
-
-            _researchPointText = Transform.FindTransfrom("TopPanel/Resource/ResourceLeft/Research/Value").SafeGetComponent<Text>();
-            _researchPointAddText = Transform.FindTransfrom("TopPanel/Resource/ResourceLeft/Research/Value/AddValue").SafeGetComponent<Text>();
-            _researchIcon= Transform.FindTransfrom("TopPanel/Resource/ResourceLeft/Research/Icon").SafeGetComponent<Image>();
-
-            _energyNumText = Transform.FindTransfrom("TopPanel/Resource/ResourceLeft/Energy/Value").SafeGetComponent<Text>();
-            _energyAddNumText = Transform.FindTransfrom("TopPanel/Resource/ResourceLeft/Energy/Value/AddValue").SafeGetComponent<Text>();
-            _energyIcon= Transform.FindTransfrom("TopPanel/Resource/ResourceLeft/Energy/Icon").SafeGetComponent<Image>();
-
-            _builderText = Transform.FindTransfrom("TopPanel/Resource/ResourceRight/Builder/Value").SafeGetComponent<Text>();
-            _builderIcon= Transform.FindTransfrom("TopPanel/Resource/ResourceRight/Builder/Icon").SafeGetComponent<Image>();
-
-            _roCoreText = Transform.FindTransfrom("TopPanel/Resource/ResourceRight/RoCore/Value").SafeGetComponent<Text>();
-            _roCoreIcon = Transform.FindTransfrom("TopPanel/Resource/ResourceRight/RoCore/Icon").SafeGetComponent<Image>();
-
             currentTimeText = Transform.FindTransfrom("Time/Time/Text").SafeGetComponent<Text>();
             timeSlider = Transform.FindTransfrom("Time/Slider").SafeGetComponent<Slider>();
         }
-        
-        void InitResImage()
+        void InitMainShipAreaItem()
         {
-            _currencyIcon.sprite = Utility.LoadSprite(Config.ConfigData.GlobalSetting.Resource_Currency_Icon_Path, Utility.SpriteType.png);
-            _energyIcon.sprite = Utility.LoadSprite(Config.ConfigData.GlobalSetting.Resource_Energy_Icon_Path, Utility.SpriteType.png);
-            _researchIcon.sprite = Utility.LoadSprite(Config.ConfigData.GlobalSetting.Resource_Research_Icon_Path, Utility.SpriteType.png);
-            _builderIcon.sprite = Utility.LoadSprite(Config.ConfigData.GlobalSetting.Resource_Builder_Icon_Path, Utility.SpriteType.png);
-            _roCoreIcon.sprite = Utility.LoadSprite(Config.ConfigData.GlobalSetting.Resource_Rocore_Icon_Path, Utility.SpriteType.png);
+            mainShipAreaItemList.Add(Transform.FindTransfrom("MainShipGeneral/AreaPanel/PowerArea").SafeGetComponent<MainShipAreaItem>());
+            mainShipAreaItemList.Add(Transform.FindTransfrom("MainShipGeneral/AreaPanel/Content/ControlTower").SafeGetComponent<MainShipAreaItem>());
+            mainShipAreaItemList.Add(Transform.FindTransfrom("MainShipGeneral/AreaPanel/Content/LivingArea").SafeGetComponent<MainShipAreaItem>());
+            mainShipAreaItemList.Add(Transform.FindTransfrom("MainShipGeneral/AreaPanel/Content/WorkingArea").SafeGetComponent<MainShipAreaItem>());
+            mainShipAreaItemList.Add(Transform.FindTransfrom("MainShipGeneral/AreaPanel/Content/Hangar").SafeGetComponent<MainShipAreaItem>());
+            mainShipAreaItemList.Add(Transform.FindTransfrom("MainShipGeneral/AreaPanel/Content/EngineArea").SafeGetComponent<MainShipAreaItem>());
         }
-
     }
 }
