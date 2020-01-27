@@ -39,24 +39,27 @@ namespace Sim_FrameWork
         protected override void Awake()
         {
             base.Awake();
+            InitBaseData();
             AssetBundleManager.Instance.LoadAssetBundleConfig();
             ResourceManager.Instance.Init(this);
-            
+
             DataManager.Instance.InitData();
+            PlayerManager.Instance.InitPlayerData();
             GlobalEventManager.Instance.InitData();
+            MainShipManager.Instance.InitData();
             DontDestroyOnLoad(gameObject);
             
         }
 
         void Start()
         {
-            InitBaseData();
+            UIGuide.Instance.ShowGameMainPage(false);
+            UIGuide.Instance.ShowPlayerStatePanel();
             //UIManager.Instance.PopUpWnd(UIPath.WindowPath.Game_Entry_Page);
         }
 
         public void InitBaseData()
         {
-           
             UIManager.Instance.Init(GameObject.Find("MainCanvas").transform as RectTransform, GameObject.Find("MainCanvas/Window").transform as RectTransform,
                 GameObject.Find("MainCanvas/Dialog").transform as RectTransform,GameObject.Find("MainCanvas/SPContent").transform as RectTransform, GameObject.Find("MainCanvas/UICamera").GetComponent<Camera>(), GameObject.Find("EventSystem").GetComponent<EventSystem>());
             MainCanvas = GameObject.Find("MainCanvas").GetComponent<Canvas>();
@@ -67,6 +70,11 @@ namespace Sim_FrameWork
         public void Update()
         {
             UIManager.Instance.OnUpdate();
+            if(gameStates== GameStates.Start)
+            {
+                PlayerManager.Instance.UpdateTime();
+            }
+           
             if (Input.GetKeyDown(KeyCode.BackQuote))
             {
                 if (ConsolePageShow)

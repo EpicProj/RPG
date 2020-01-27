@@ -76,7 +76,10 @@ namespace Sim_FrameWork
         Assemble_ShipTab_Select,
         Assemble_PartPreset_Select,
         Assemble_ShipPreset_Select,
-        Assemble_ShipDesign_PartSelect
+        Assemble_ShipDesign_PartSelect,
 
+        ///MainShip
+        MainShip_Area_PowerLevel_Change,
+        MainShip_Area_EnergyLoad_Change,
     }
 }

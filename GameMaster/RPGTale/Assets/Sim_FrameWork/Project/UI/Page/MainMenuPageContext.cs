@@ -57,6 +57,9 @@ namespace Sim_FrameWork.UI
         {
             switch (msg.type)
             {
+                case UIMsgType.MainShip_Area_EnergyLoad_Change:
+                    UpdateEnergyLoad();
+                    return true;
                 case UIMsgType.MenuPage_Update_BuildPanel:
                     FunctionBlockTypeData typeData = (FunctionBlockTypeData)msg.content[0];
                     var type = FunctionBlockModule.GetBlockType(typeData);
@@ -179,6 +182,20 @@ namespace Sim_FrameWork.UI
             if (mainTabElementList.Count != 0)
             {
                 mainTabElementList[0].toggle.isOn = true;
+            }
+        }
+
+        #endregion
+
+        #region MainShip
+        private void UpdateEnergyLoad()
+        {
+            for(int i = 0; i < mainShipAreaItemList.Count; i++)
+            {
+                if(mainShipAreaItemList[i].areaType == MainShipAreaType.PowerArea)
+                {
+                    mainShipAreaItemList[i].ChangeEnergyLoadValue();
+                }
             }
         }
 

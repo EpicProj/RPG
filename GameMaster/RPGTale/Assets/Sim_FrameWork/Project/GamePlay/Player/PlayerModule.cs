@@ -51,9 +51,6 @@ namespace Sim_FrameWork
             playerData.resourceData.AddReputationMax(data.OriginalReputationMax);
             playerData.resourceData.AddReputation(data.OriginalReputation);
 
-            playerData.resourceData.AddEnergyMax(data.OriginalEnergyMax);
-            playerData.resourceData.AddEnergy(data.OriginalEnergy);
-
             playerData.resourceData.AddBuilder(data.OriginalBuilder);
             playerData.resourceData.AddBuilderMax(data.OriginalBuilderMax);
 

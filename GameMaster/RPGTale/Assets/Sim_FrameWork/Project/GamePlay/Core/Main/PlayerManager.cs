@@ -20,45 +20,20 @@ namespace Sim_FrameWork
         month,
         max
     }
-    public class PlayerManager : MonoSingleton<PlayerManager>
+    public class PlayerManager : Singleton<PlayerManager>
     {
         public PlayerData playerData;
         public MaterialStorageData _storageData;
-        public MainShipInfo mainShipInfo;
-
         /// <summary>
         /// Time Manager
         /// </summary>
         private float timer;
 
-
-        protected override void Awake()
+        public void InitPlayerData()
         {
-            base.Awake();
             playerData = PlayerModule.Instance.InitPlayerData();
             _storageData = new MaterialStorageData();
-            mainShipInfo = new MainShipInfo();
             InitAssembleData();
-
-            //For Test
-            AddMaterialData(100, 10);
-            AddMaterialData(101, 500);
-           
-        }
-
-        private void Start()
-        {
-            UIGuide.Instance.ShowGameMainPage(false);
-            UIGuide.Instance.ShowPlayerStatePanel();
-        }
-
-        private void Update()
-        {
-            if(GameManager.Instance.gameStates== GameManager.GameStates.Start)
-            {
-                UpdateTime();
-            }
-
         }
 
         void InitAssembleData()

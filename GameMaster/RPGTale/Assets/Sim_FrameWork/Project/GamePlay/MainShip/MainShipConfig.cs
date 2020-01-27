@@ -6,6 +6,9 @@ namespace Sim_FrameWork.Config
 {
     public class MainShipConfig
     {
+        public byte areaEnergyLevelMax;
+
+
         public MainShipBasePropertyConfig basePropertyConfig;
 
         public PowerAreaConfig powerAreaConfig;
@@ -18,6 +21,7 @@ namespace Sim_FrameWork.Config
         {
             JsonReader reader = new JsonReader();
             var data = reader.LoadJsonDataConfig<MainShipConfig>(JsonConfigPath.MainShipConfigJsonPath);
+            areaEnergyLevelMax = data.areaEnergyLevelMax;
             basePropertyConfig = data.basePropertyConfig;
             powerAreaConfig = data.powerAreaConfig;
             controlTowerAreaConfig = data.controlTowerAreaConfig;
@@ -77,7 +81,12 @@ namespace Sim_FrameWork.Config
 
     public class PowerAreaConfig
     {
-        public MainShipAreaBaseConfig baseConfig;
+        public string areaIconPath;
+        public int Durability_Initial;
+        public ushort energyGenerateBase;
+        public byte energyLoadBase;
+        public int MaxStorageCountBase;
+
         public List<OverLoadLevelMap> overLoadMap;
 
         public class OverLoadLevelMap

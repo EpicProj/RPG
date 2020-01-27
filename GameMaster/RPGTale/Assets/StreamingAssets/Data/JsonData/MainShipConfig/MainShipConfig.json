@@ -1,4 +1,6 @@
 {
+  "areaEnergyLevelMax":6,
+
   "basePropertyConfig": {
     "ShieldBase_Max": 10000,
     "ShieldBase_Initial": 0,
@@ -39,14 +41,11 @@
     ]
   },
   "powerAreaConfig": {
-      "baseConfig":{
-       "areaIconPath":"SpriteOutput/MainShip/Area/AreaBG_01",
-       "Durability_Initial":5000,
-       "PowerLevel_Max_Initial":2,
-       "PowerLevel_Current_Initial":1,
-       "PowerConsumeBase":50
-    },
-
+     "areaIconPath":"SpriteOutput/MainShip/Area/AreaBG_01",
+     "Durability_Initial":5000,
+     "energyGenerateBase":50,
+     "energyLoadBase":10,
+     "MaxStorageCountBase":1000,
     "overLoadMap": [
       {
         "Level": 1,
@@ -94,7 +93,7 @@
      "baseConfig":{
        "areaIconPath":"SpriteOutput/MainShip/Area/AreaBG_01",
        "Durability_Initial":5000,
-        "PowerLevel_Max_Initial":2,
+        "PowerLevel_Max_Initial":5,
        "PowerLevel_Current_Initial":1,
        "PowerConsumeBase":50
     }
@@ -103,7 +102,7 @@
      "baseConfig":{
        "areaIconPath":"SpriteOutput/MainShip/Area/AreaBG_01",
        "Durability_Initial":5000,
-        "PowerLevel_Max_Initial":2,
+        "PowerLevel_Max_Initial":6,
        "PowerLevel_Current_Initial":1,
        "PowerConsumeBase":50
     }
