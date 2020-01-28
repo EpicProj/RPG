@@ -10,6 +10,11 @@ namespace Sim_FrameWork
         LayOff,
         None,
     }
+    public enum MainShipAreaEnergyCostType
+    {
+        EnergyLevel,
+
+    }
 
     public class MainShipInfo
     {
@@ -72,9 +77,43 @@ namespace Sim_FrameWork
         /// </summary>
         public short powerLevelCurrent;
         /// <summary>
-        /// 当前能量消耗
+        /// EnergyCost
         /// </summary>
-        public ushort powerConsumeCurrent;
+        public ushort powerConsumeBase;
+        public ushort powerConsumeExtra;
+        /// Add Rate
+        public float powerConsumeRate
+        {
+            get
+            {
+                float ValueInitial = 1.0f;
+                foreach(float value in energyCostRateAddDetail.Values)
+                {
+                    ValueInitial += value;
+                }
+                return ValueInitial;
+            }
+        }
+
+        /// <summary>
+        /// 倍率加成详情
+        /// </summary>
+        public Dictionary<MainShipAreaEnergyCostType, float> energyCostRateAddDetail =new Dictionary<MainShipAreaEnergyCostType, float>();
+
+        public ushort powerConsumeCurrent
+        {
+            get
+            {
+                if(areaState == MainShipAreaState.Working)
+                {
+                    return (ushort)(powerConsumeBase* powerConsumeRate + powerConsumeExtra);
+                }
+                else
+                {
+                    return 0;
+                }
+            }
+        }
 
         public void UpdateAreaState()
         {
@@ -82,6 +121,23 @@ namespace Sim_FrameWork
                 areaState = MainShipAreaState.LayOff;
             else if (powerLevelCurrent > 0)
                 areaState = MainShipAreaState.Working;
+        }
+
+        /// <summary>
+        ///  Same Type will Cover Value
+        /// </summary>
+        /// <param name="value"></param>
+        /// <param name="costType"></param>
+        public void ChangePowerConsumeRate(float value,MainShipAreaEnergyCostType costType)
+        {
+            if (energyCostRateAddDetail.ContainsKey(costType))
+            {
+                energyCostRateAddDetail[costType] = value;
+            }
+            else
+            {
+                energyCostRateAddDetail.Add(costType, value);
+            }
         }
     }
 
@@ -127,6 +183,7 @@ namespace Sim_FrameWork
                 EnergyLoadValueMax = config.energyLoadBase;
                 EnergyLoadValueCurrent = EnergyLoadValueMax;
                 MaxStoragePower = config.MaxStorageCountBase;
+
             }
         }
 
@@ -165,8 +222,9 @@ namespace Sim_FrameWork
                 currentDurability = durabilityMax;
                 powerLevelMax = config.baseConfig.PowerLevel_Max_Initial;
                 powerLevelCurrent = config.baseConfig.PowerLevel_Current_Initial;
-                powerConsumeCurrent = (ushort)config.baseConfig.PowerConsumeBase;
+                powerConsumeBase = (ushort)config.baseConfig.PowerConsumeBase;
                 UpdateAreaState();
+                RefreshPowerCost();
             }
         }
 
@@ -179,8 +237,20 @@ namespace Sim_FrameWork
                 powerLevelCurrent = 0;
 
             UpdateAreaState();
+            RefreshPowerCost();
+        }
+
+        void RefreshPowerCost()
+        {
+            if (areaState == MainShipAreaState.Working)
+            {
+                var levelData = MainShipModule.GetControlTowerAreaEnergyLevelMapData(powerLevelCurrent);
+                if (levelData != null)
+                {
+                    ChangePowerConsumeRate((float)levelData.energyCostRate, MainShipAreaEnergyCostType.EnergyLevel);
+                }
+            }
             UIManager.Instance.SendMessage(new UIMessage(UIMsgType.MainShip_Area_PowerLevel_Change, new List<object>() { MainShipAreaType.ControlTower }));
-        
         }
 
     }
@@ -198,8 +268,9 @@ namespace Sim_FrameWork
                 currentDurability = durabilityMax;
                 powerLevelMax = config.baseConfig.PowerLevel_Max_Initial;
                 powerLevelCurrent = config.baseConfig.PowerLevel_Current_Initial;
-                powerConsumeCurrent = (ushort)config.baseConfig.PowerConsumeBase;
+                powerConsumeBase = (ushort)config.baseConfig.PowerConsumeBase;
                 UpdateAreaState();
+                RefreshPowerCost();
             }
         }
         public void ChangePowerLevel(short level = 1)
@@ -211,6 +282,19 @@ namespace Sim_FrameWork
                 powerLevelCurrent = 0;
 
             UpdateAreaState();
+            RefreshPowerCost();
+        }
+
+        void RefreshPowerCost()
+        {
+            if (areaState == MainShipAreaState.Working)
+            {
+                var levelData = MainShipModule.GetLivingAreaEnergyLevelMapData(powerLevelCurrent);
+                if (levelData != null)
+                {
+                    ChangePowerConsumeRate((float)levelData.energyCostRate, MainShipAreaEnergyCostType.EnergyLevel);
+                }
+            }
             UIManager.Instance.SendMessage(new UIMessage(UIMsgType.MainShip_Area_PowerLevel_Change, new List<object>() { MainShipAreaType.LivingArea }));
         }
 
@@ -229,8 +313,9 @@ namespace Sim_FrameWork
                 currentDurability = durabilityMax;
                 powerLevelMax = config.baseConfig.PowerLevel_Max_Initial;
                 powerLevelCurrent = config.baseConfig.PowerLevel_Current_Initial;
-                powerConsumeCurrent = (ushort)config.baseConfig.PowerConsumeBase;
+                powerConsumeBase = (ushort)config.baseConfig.PowerConsumeBase;
                 UpdateAreaState();
+                RefreshPowerCost();
             }
         }
 
@@ -243,6 +328,19 @@ namespace Sim_FrameWork
                 powerLevelCurrent = 0;
 
             UpdateAreaState();
+            RefreshPowerCost();
+        }
+
+        void RefreshPowerCost()
+        {
+            if (areaState == MainShipAreaState.Working)
+            {
+                var levelData = MainShipModule.GetHangarAreaEnergyLevelMapData(powerLevelCurrent);
+                if (levelData != null)
+                {
+                    ChangePowerConsumeRate((float)levelData.energyCostRate, MainShipAreaEnergyCostType.EnergyLevel);
+                }
+            }
             UIManager.Instance.SendMessage(new UIMessage(UIMsgType.MainShip_Area_PowerLevel_Change, new List<object>() { MainShipAreaType.hangar }));
         }
     }
@@ -260,8 +358,9 @@ namespace Sim_FrameWork
                 currentDurability = durabilityMax;
                 powerLevelMax = config.baseConfig.PowerLevel_Max_Initial;
                 powerLevelCurrent = config.baseConfig.PowerLevel_Current_Initial;
-                powerConsumeCurrent = (ushort)config.baseConfig.PowerConsumeBase;
+                powerConsumeBase = (ushort)config.baseConfig.PowerConsumeBase;
                 UpdateAreaState();
+                RefreshPowerCost();
             }
         }
 
@@ -274,6 +373,19 @@ namespace Sim_FrameWork
                 powerLevelCurrent = 0;
 
             UpdateAreaState();
+            RefreshPowerCost();
+        }
+
+        void RefreshPowerCost()
+        {
+            if (areaState == MainShipAreaState.Working)
+            {
+                var levelData = MainShipModule.GetWorkingAreaEnergyLevelMapData(powerLevelCurrent);
+                if (levelData != null)
+                {
+                    ChangePowerConsumeRate((float)levelData.energyCostRate, MainShipAreaEnergyCostType.EnergyLevel);
+                }
+            }
             UIManager.Instance.SendMessage(new UIMessage(UIMsgType.MainShip_Area_PowerLevel_Change, new List<object>() { MainShipAreaType.WorkingArea }));
         }
     }

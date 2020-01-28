@@ -245,15 +245,10 @@ namespace Sim_FrameWork
             timer += Time.deltaTime;
             if (timer >= playerData.timeData.realSecondsPerDay)
             {
-                int currentMonth = playerData.timeData.date.Month;
                 timer = 0;
                 DateTime newTime= playerData.timeData.date.AddDays(1);
                 playerData.timeData.date = newTime;
-                if(playerData.timeData.date.Month!= currentMonth)
-                {
-                    //MonthSettle
-                    DoMonthSettle();
-                }
+                DoDailySettle();
                 UIManager.Instance.SendMessageToWnd(UIPath.WindowPath.MainMenu_Page, new UIMessage(UIMsgType.UpdateTime));
             }
         }
@@ -271,7 +266,7 @@ namespace Sim_FrameWork
         /// <summary>
         /// 月底结算
         /// </summary>
-        private void DoMonthSettle()
+        private void DoDailySettle()
         {
             AddEnergy(playerData.resourceData.EnergyPerMonth, ResourceAddType.current);
             AddResearch(playerData.resourceData.ResearchPerMonth, ResourceAddType.current);

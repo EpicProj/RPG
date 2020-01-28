@@ -85,18 +85,70 @@
       "Durability_Initial":5000,
       "PowerLevel_Max_Initial":2,
       "PowerLevel_Current_Initial":1,
-     "PowerConsumeBase":50
-    }
+      "PowerConsumeBase":10
+    },
+    "energyLevelMap":[
+        {
+          "level":1,
+          "energyCostRate":0.1,
+          "extraValue":0
+        }, {
+          "level":2,
+          "energyCostRate":0.5,
+          "extraValue":0
+        }, {
+          "level":3,
+          "energyCostRate":1,
+          "extraValue":0
+        }, {
+          "level":4,
+          "energyCostRate":1.5,
+          "extraValue":0
+        }, {
+          "level":5,
+          "energyCostRate":2.5,
+          "extraValue":0
+        }, {
+          "level":6,
+          "energyCostRate":4,
+          "extraValue":0
+        }]
     
   },
   "livingAreaConfig":{
-     "baseConfig":{
+       "baseConfig":{
        "areaIconPath":"SpriteOutput/MainShip/Area/AreaBG_01",
        "Durability_Initial":5000,
         "PowerLevel_Max_Initial":5,
        "PowerLevel_Current_Initial":1,
        "PowerConsumeBase":50
-    }
+    },
+    "energyLevelMap":[
+        {
+          "level":1,
+          "energyCostRate":0.1,
+          "extraValue":0
+        }, {
+          "level":2,
+          "energyCostRate":0.5,
+          "extraValue":0
+        }, {
+          "level":3,
+          "energyCostRate":1,
+          "extraValue":0
+        }, {
+          "level":4,
+          "energyCostRate":1.5,
+          "extraValue":0
+        }, {
+          "level":5,
+          "energyCostRate":2.5,
+          "extraValue":0
+        }, {
+          "level":6,
+          "energyCostRate":4,
+          "extraValue":0
+        }]
   },  
   "hangarAreaConfig":{
      "baseConfig":{
@@ -105,7 +157,33 @@
         "PowerLevel_Max_Initial":6,
        "PowerLevel_Current_Initial":1,
        "PowerConsumeBase":50
-    }
+    },
+    "energyLevelMap":[
+        {
+          "level":1,
+          "energyCostRate":0.1,
+          "extraValue":0
+        }, {
+          "level":2,
+          "energyCostRate":0.5,
+          "extraValue":0
+        }, {
+          "level":3,
+          "energyCostRate":1,
+          "extraValue":0
+        }, {
+          "level":4,
+          "energyCostRate":1.5,
+          "extraValue":0
+        }, {
+          "level":5,
+          "energyCostRate":2.5,
+          "extraValue":0
+        }, {
+          "level":6,
+          "energyCostRate":4,
+          "extraValue":0
+        }]
   },
   "workingAreaConfig":{
      "baseConfig":{
@@ -114,7 +192,33 @@
         "PowerLevel_Max_Initial":2,
        "PowerLevel_Current_Initial":1,
        "PowerConsumeBase":50
-    }
+    },
+    "energyLevelMap":[
+        {
+          "level":1,
+          "energyCostRate":0.1,
+          "extraValue":0
+        }, {
+          "level":2,
+          "energyCostRate":0.5,
+          "extraValue":0
+        }, {
+          "level":3,
+          "energyCostRate":1,
+          "extraValue":0
+        }, {
+          "level":4,
+          "energyCostRate":1.5,
+          "extraValue":0
+        }, {
+          "level":5,
+          "energyCostRate":2.5,
+          "extraValue":0
+        }, {
+          "level":6,
+          "energyCostRate":4,
+          "extraValue":0
+        }]
   }
 
 }

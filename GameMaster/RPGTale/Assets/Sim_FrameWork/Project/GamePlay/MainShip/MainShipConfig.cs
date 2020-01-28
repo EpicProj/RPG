@@ -104,6 +104,15 @@ namespace Sim_FrameWork.Config
     public class ControlTowerAreaConfig
     {
         public MainShipAreaBaseConfig baseConfig;
+        public List<EnergyLevelMap> energyLevelMap;
+
+        public class EnergyLevelMap
+        {
+            public int level;
+            public double energyCostRate;
+            public ushort extraValue;
+        }
+
     }
     /// <summary>
     /// 生活区
@@ -111,16 +120,40 @@ namespace Sim_FrameWork.Config
     public class LivingAreaConfig
     {
         public MainShipAreaBaseConfig baseConfig;
+        public List<EnergyLevelMap> energyLevelMap;
+
+        public class EnergyLevelMap
+        {
+            public int level;
+            public double energyCostRate;
+            public ushort extraValue;
+        }
     }
 
     public class WorkingAreaConfig
     {
         public MainShipAreaBaseConfig baseConfig;
+        public List<EnergyLevelMap> energyLevelMap;
+
+        public class EnergyLevelMap
+        {
+            public int level;
+            public double energyCostRate;
+            public ushort extraValue;
+        }
     }
 
     public class HangarAreaConfig
     {
         public MainShipAreaBaseConfig baseConfig;
+        public List<EnergyLevelMap> energyLevelMap;
+
+        public class EnergyLevelMap
+        {
+            public int level;
+            public double energyCostRate;
+            public ushort extraValue;
+        }
     }
 
 }

@@ -22,9 +22,9 @@ namespace Sim_FrameWork
         protected override void Awake()
         {
             base.Awake();
-            ContentObj = UIUtility.FindTransfrom(transform, "Content");
-            AssembleContainer = UIUtility.FindTransfrom(transform, "AssembleContainer");
-            AssembleContainerContentTrans = UIUtility.FindTransfrom(AssembleContainer, "Content");
+            ContentObj = transform.FindTransfrom("MainShipAreaContainer/Content");
+            AssembleContainer = transform.FindTransfrom("AssembleContainer");
+            AssembleContainerContentTrans = AssembleContainer.FindTransfrom("Content");
 
             UIUtility.SafeSetActive(ContentObj, false);
             UIUtility.SafeSetActive(AssembleContainer, false);

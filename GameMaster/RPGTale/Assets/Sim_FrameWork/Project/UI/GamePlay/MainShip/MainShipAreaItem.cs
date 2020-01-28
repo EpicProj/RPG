@@ -191,6 +191,28 @@ namespace Sim_FrameWork
             reduceBtn.onClick.AddListener(reduce);
         }
 
+        /// <summary>
+        /// Change Energy Cost
+        /// </summary>
+        /// <param name="type"></param>
+        public void ChangePowerConsumeValue(MainShipAreaType type )
+        {
+            if(type== MainShipAreaType.ControlTower)
+            {
+                _energyCostText.text = MainShipManager.Instance.mainShipInfo.controlTowerInfo.powerConsumeCurrent.ToString();
+            }else if(type == MainShipAreaType.hangar)
+            {
+                _energyCostText.text = MainShipManager.Instance.mainShipInfo.hangarAreaInfo.powerConsumeCurrent.ToString();
+            }else if(type == MainShipAreaType.LivingArea)
+            {
+                _energyCostText.text = MainShipManager.Instance.mainShipInfo.livingAreaInfo.powerConsumeCurrent.ToString();
+            }else if(type== MainShipAreaType.WorkingArea)
+            {
+                _energyCostText.text = MainShipManager.Instance.mainShipInfo.workingAreaInfo.powerConsumeCurrent.ToString();
+            }
+        }
+
+
         #region PowerArea
         public void ChangeEnergyLoadValue()
         {

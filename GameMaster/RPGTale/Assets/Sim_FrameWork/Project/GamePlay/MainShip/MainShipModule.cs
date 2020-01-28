@@ -29,6 +29,27 @@ namespace Sim_FrameWork
             return configData.shieldLevelMap.Find(x => x.Level == levelID);
         }
 
+        public static Config.ControlTowerAreaConfig.EnergyLevelMap GetControlTowerAreaEnergyLevelMapData(int levelID)
+        {
+            var configData = Config.ConfigData.MainShipConfigData.controlTowerAreaConfig;
+            return configData.energyLevelMap.Find(x => x.level == levelID);
+        }
+        public static Config.LivingAreaConfig.EnergyLevelMap GetLivingAreaEnergyLevelMapData(int levelID)
+        {
+            var configData = Config.ConfigData.MainShipConfigData.livingAreaConfig;
+            return configData.energyLevelMap.Find(x => x.level == levelID);
+        }
+        public static Config.WorkingAreaConfig.EnergyLevelMap GetWorkingAreaEnergyLevelMapData(int levelID)
+        {
+            var configData = Config.ConfigData.MainShipConfigData.workingAreaConfig;
+            return configData.energyLevelMap.Find(x => x.level == levelID);
+        }
+        public static Config.HangarAreaConfig.EnergyLevelMap GetHangarAreaEnergyLevelMapData(int levelID)
+        {
+            var configData = Config.ConfigData.MainShipConfigData.hangarAreaConfig;
+            return configData.energyLevelMap.Find(x => x.level == levelID);
+        }
+
         #endregion
     }
 

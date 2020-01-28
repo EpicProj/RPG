@@ -60,6 +60,8 @@ namespace Sim_FrameWork.UI
                 case UIMsgType.MainShip_Area_EnergyLoad_Change:
                     UpdateEnergyLoad();
                     return true;
+                case UIMsgType.MainShip_Area_PowerLevel_Change:
+                    return UpdateAreaEnergyCost((MainShipAreaType)msg.content[0]);
                 case UIMsgType.MenuPage_Update_BuildPanel:
                     FunctionBlockTypeData typeData = (FunctionBlockTypeData)msg.content[0];
                     var type = FunctionBlockModule.GetBlockType(typeData);
@@ -190,13 +192,54 @@ namespace Sim_FrameWork.UI
         #region MainShip
         private void UpdateEnergyLoad()
         {
-            for(int i = 0; i < mainShipAreaItemList.Count; i++)
+            var item = mainShipAreaItemList.Find(x => x.areaType == MainShipAreaType.PowerArea);
+            if (item != null)
+                item.ChangeEnergyLoadValue();
+        }
+
+        private bool UpdateAreaEnergyCost(MainShipAreaType type)
+        {
+            if(type== MainShipAreaType.ControlTower)
             {
-                if(mainShipAreaItemList[i].areaType == MainShipAreaType.PowerArea)
+                var item = mainShipAreaItemList.Find(x => x.areaType == MainShipAreaType.ControlTower);
+                if (item != null)
                 {
-                    mainShipAreaItemList[i].ChangeEnergyLoadValue();
+                    item.ChangePowerConsumeValue(MainShipAreaType.ControlTower);
+                    return true;
                 }
+                return false;
             }
+            else if(type== MainShipAreaType.hangar)
+            {
+                var item = mainShipAreaItemList.Find(x => x.areaType == MainShipAreaType.hangar);
+                if (item != null)
+                {
+                    item.ChangePowerConsumeValue(MainShipAreaType.hangar);
+                    return true;
+                }
+                return false;
+            }
+            else if (type == MainShipAreaType.WorkingArea)
+            {
+                var item = mainShipAreaItemList.Find(x => x.areaType == MainShipAreaType.WorkingArea);
+                if (item != null)
+                {
+                    item.ChangePowerConsumeValue(MainShipAreaType.WorkingArea);
+                    return true;
+                }
+                return false;
+            }
+            else if (type == MainShipAreaType.LivingArea)
+            {
+                var item = mainShipAreaItemList.Find(x => x.areaType == MainShipAreaType.LivingArea);
+                if (item != null)
+                {
+                    item.ChangePowerConsumeValue(MainShipAreaType.LivingArea);
+                    return true;
+                }
+                return false;
+            }
+            return false;
         }
 
         #endregion
