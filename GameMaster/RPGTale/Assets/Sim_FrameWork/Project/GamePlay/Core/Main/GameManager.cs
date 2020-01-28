@@ -53,7 +53,7 @@ namespace Sim_FrameWork
 
         void Start()
         {
-            UIGuide.Instance.ShowGameMainPage(false);
+            UIGuide.Instance.ShowGameMainPage();
             UIGuide.Instance.ShowPlayerStatePanel();
             //UIManager.Instance.PopUpWnd(UIPath.WindowPath.Game_Entry_Page);
         }

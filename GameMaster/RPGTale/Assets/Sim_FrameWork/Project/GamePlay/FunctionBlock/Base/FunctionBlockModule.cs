@@ -34,8 +34,6 @@ namespace Sim_FrameWork {
 
         protected static List<FunctionBlockTypeData> FunctionBlockTypeDataList;
         protected static Dictionary<string, FunctionBlockTypeData> FunctionBlockTypeDataDic;
-        protected static List<FunctionBlockSubTypeData> FunctionBlockSubTypeDataList;
-        protected static Dictionary<string, FunctionBlockSubTypeData> FunctionBlockSubTypeDataDic;
 
         //info Data
         public static ManufactoryBaseInfoData manufactoryBaseInfoData;
@@ -58,8 +56,6 @@ namespace Sim_FrameWork {
 
             FunctionBlockTypeDataList = FunctionBlockMetaDataReader.GetFunctionBlockTypeData();
             FunctionBlockTypeDataDic = FunctionBlockMetaDataReader.GetFunctionBlockTypeDataDic();
-            FunctionBlockSubTypeDataList = FunctionBlockMetaDataReader.GetFunctionBlockSubTypeData();
-            FunctionBlockSubTypeDataDic = FunctionBlockMetaDataReader.GetFunctionBlockSubTypeDataDic();
 
             //Init Info Data
             manufactoryBaseInfoData = new ManufactoryBaseInfoData();
@@ -82,7 +78,7 @@ namespace Sim_FrameWork {
         #region Type
         private static bool CheckTypeValid(string type)
         {
-            if (Enum.IsDefined(typeof(FunctionBlockType.Type), type) == false)
+            if (Enum.IsDefined(typeof(FunctionBlockType), type) == false)
             {
                 Debug.LogError("FactoryType InValid! Type=" + type);
                 return false;
@@ -90,44 +86,18 @@ namespace Sim_FrameWork {
             return true;
         }
 
-        private static bool CheckSubTypeValid(string type, FunctionBlockType.Type mainType)
-        {
-            switch (mainType)
-            {
-                case FunctionBlockType.Type.Industry:
-                    if (Enum.IsDefined(typeof(FunctionBlockType.SubType_Industry), type) == false)
-                    {
-                        Debug.LogError("FactoryType Industry InValid! Type=" + type);
-                        return false;
-                    }
-                    return true;
-                default:
-                    return false;
-            }
-        }
-
         //Get FunctionBlockType
-        public static FunctionBlockType.Type GetFunctionBlockType(int blockID)
+        public static FunctionBlockType GetFunctionBlockType(int blockID)
         {
             var block = GetFunctionBlockByBlockID(blockID);
             if (CheckTypeValid(block.FunctionBlockType) == false)
-                return FunctionBlockType.Type.None;
-            return (FunctionBlockType.Type)Enum.Parse(typeof(FunctionBlockType.Type), block.FunctionBlockType);
-        }
-
-        public static FunctionBlockType.SubType_Industry GetIndustryType(int blockID)
-        {
-            var block = GetFunctionBlockByBlockID(blockID);
-            if (GetFunctionBlockType(blockID) != FunctionBlockType.Type.Industry)
-                return FunctionBlockType.SubType_Industry.None;
-            if (CheckSubTypeValid(block.SubType, FunctionBlockType.Type.Industry) == false)
-                return FunctionBlockType.SubType_Industry.None;
-            return (FunctionBlockType.SubType_Industry)Enum.Parse(typeof(FunctionBlockType.SubType_Industry), block.SubType);
+                return FunctionBlockType.None;
+            return (FunctionBlockType)Enum.Parse(typeof(FunctionBlockType), block.FunctionBlockType);
         }
 
 
         //Get Type Data
-        public static FunctionBlockTypeData GetFacotryTypeData(FunctionBlockType.Type type)
+        public static FunctionBlockTypeData GetFacotryTypeData(FunctionBlockType type)
         {
             FunctionBlockTypeData typeData = null;
             FunctionBlockTypeDataDic.TryGetValue(type.ToString(), out typeData);
@@ -142,31 +112,11 @@ namespace Sim_FrameWork {
             }
         }
 
-        public static FunctionBlockType.Type GetBlockType(FunctionBlockTypeData data)
+        public static FunctionBlockType GetBlockType(FunctionBlockTypeData data)
         {
-            FunctionBlockType.Type result = FunctionBlockType.Type.None;
-            Enum.TryParse<FunctionBlockType.Type>(data.Type, out result);
+            FunctionBlockType result = FunctionBlockType.None;
+            Enum.TryParse<FunctionBlockType>(data.Type, out result);
             return result;
-        }
-
-        /// <summary>
-        /// SubType
-        /// </summary>
-        /// <param name="typeName"></param>
-        /// <returns></returns>
-        public static FunctionBlockSubTypeData GetBlockSubType(string typeName)
-        {
-            FunctionBlockSubTypeData subType = null;
-            FunctionBlockSubTypeDataDic.TryGetValue(typeName, out subType);
-            if (subType != null)
-            {
-                return subType;
-            }
-            else
-            {
-                Debug.LogError("GetFunctionBlock SubType Error Type= " + typeName);
-                return null;
-            }
         }
 
         public static FunctionBlockTypeData GetFacotryTypeData(int functionBlockID)
@@ -210,13 +160,13 @@ namespace Sim_FrameWork {
         {
             switch (GetFunctionBlockType(functionBlockID))
             {
-                case FunctionBlockType.Type.Industry:
+                case FunctionBlockType.Industry:
                     return GetFunctionBlock_IndustryData(GetFunctionBlockByBlockID(functionBlockID).FunctionBlockTypeIndex) as T;
-                case FunctionBlockType.Type.Research:
+                case FunctionBlockType.Research:
                     return GetFunctionBlock_ScienceData(GetFunctionBlockByBlockID(functionBlockID).FunctionBlockTypeIndex) as T;
-                case FunctionBlockType.Type.Energy:
+                case FunctionBlockType.Energy:
                     return GetFunctionBlock_EnergyData(GetFunctionBlockByBlockID(functionBlockID).FunctionBlockTypeIndex) as T;
-                case FunctionBlockType.Type.Arms:
+                case FunctionBlockType.Arms:
                     return GetFunctionBlock_LaborData(GetFunctionBlockByBlockID(functionBlockID).FunctionBlockTypeIndex) as T;
                 default:
                     Debug.LogError("Fetch FacotryType Error facotryID=" + functionBlockID);
@@ -285,7 +235,7 @@ namespace Sim_FrameWork {
         public static Sprite GetFunctionBlockTypeIcon(int functionBlockID)
         {
             var type = GetFunctionBlockType(functionBlockID);
-            if(type!= FunctionBlockType.Type.None)
+            if(type!= FunctionBlockType.None)
             {
                 var typedata = GetFacotryTypeData(type);
                 if (typedata != null)
@@ -680,11 +630,11 @@ namespace Sim_FrameWork {
         /// <param name="id"></param>
         /// <param name="type"></param>
         /// <returns></returns>
-        private static List<int> GetBlockEXPMapData(string id ,FunctionBlockType.Type type)
+        private static List<int> GetBlockEXPMapData(string id ,FunctionBlockType type)
         {
             switch (type)
             {
-                case FunctionBlockType.Type.Industry:
+                case FunctionBlockType.Industry:
                     List<BlockLevelData> manuData = manufactoryBaseInfoData.BlockLevelDatas;
                     if (manuData == null)
                     {
@@ -700,10 +650,10 @@ namespace Sim_FrameWork {
 
         public static List<int> GetBlockEXPMapData(int blockid)
         {
-            FunctionBlockType.Type type = GetFunctionBlockType(blockid);
+            FunctionBlockType type = GetFunctionBlockType(blockid);
             switch (type)
             {
-                case FunctionBlockType.Type.Industry:
+                case FunctionBlockType.Industry:
                     return GetBlockEXPMapData(GetFunctionBlockByBlockID(blockid).EXPDataJsonIndex,type);
 
                 default:
@@ -730,11 +680,11 @@ namespace Sim_FrameWork {
             }
         }
 
-        private static List<BlockDistrictUnlockData.DistrictUnlockData> GetManuBlockDistrictUnlockData(string id , FunctionBlockType.Type type)
+        private static List<BlockDistrictUnlockData.DistrictUnlockData> GetManuBlockDistrictUnlockData(string id , FunctionBlockType type)
         {
             switch (type)
             {
-                case FunctionBlockType.Type.Industry:
+                case FunctionBlockType.Industry:
                     List < BlockDistrictUnlockData .DistrictUnlockData> manuData= manufactoryBaseInfoData.DistrictUnlockDatas.Find(x => x.ID == id).UnlockData;
                     if (manuData == null)
                     {
@@ -757,7 +707,7 @@ namespace Sim_FrameWork {
         /// <returns></returns>
         public static List<BlockDistrictUnlockData.DistrictUnlockData> GetManuBlockDistrictUnlockData(int blockid)
         {
-            FunctionBlockType.Type type = GetFunctionBlockType(blockid);
+            FunctionBlockType type = GetFunctionBlockType(blockid);
             return GetManuBlockDistrictUnlockData(GetFunctionBlockByBlockID(blockid).DistrictData,type);
         }
 

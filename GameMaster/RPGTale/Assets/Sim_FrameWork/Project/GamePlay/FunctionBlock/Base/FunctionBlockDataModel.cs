@@ -66,12 +66,12 @@ namespace Sim_FrameWork
             set { }
         }
 
-        private FunctionBlockType.Type _blockType;
-        public FunctionBlockType.Type BlockType
+        private FunctionBlockType _blockType;
+        public FunctionBlockType BlockType
         {
             get
             {
-                if (_blockType == FunctionBlockType.Type.None)
+                if (_blockType == FunctionBlockType.None)
                     _blockType = FunctionBlockModule.GetFunctionBlockType(_id);
                 return _blockType;
             }

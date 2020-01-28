@@ -149,9 +149,9 @@ namespace Sim_FrameWork.UI
         /// </summary>
         /// <param name="type"></param>
         /// <returns></returns>
-        public bool RefreshBuildMainPanel(FunctionBlockType.Type type)
+        public bool RefreshBuildMainPanel(FunctionBlockType type)
         {
-            if (type == FunctionBlockType.Type.None)
+            if (type == FunctionBlockType.None)
                 return false;
             var loopList = Transform.FindTransfrom("ConstructPanel/Content/BuildContent/Scroll View").SafeGetComponent<LoopList>();
             var list =PlayerManager.Instance.GetBuildPanelModelData(type);

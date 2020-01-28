@@ -206,7 +206,7 @@ namespace Sim_FrameWork
             UIManager.Instance.SendMessageToWnd(UIPath.WindowPath.MainMenu_Page, new UIMessage(UIMsgType.MenuPage_Add_Build));
         }
 
-        public List<BuildingPanelData> GetBuildDataByMainType(FunctionBlockType.Type type)
+        public List<BuildingPanelData> GetBuildDataByMainType(FunctionBlockType type)
         {
             List<BuildingPanelData> result = new List<BuildingPanelData>();
             for(int i = 0; i < playerData.UnLockBuildingPanelDataList.Count; i++)
@@ -220,7 +220,7 @@ namespace Sim_FrameWork
             return result;
         }
 
-        public List<List<BaseDataModel>> GetBuildPanelModelData(FunctionBlockType.Type type)
+        public List<List<BaseDataModel>> GetBuildPanelModelData(FunctionBlockType type)
         {
             List<List<BaseDataModel>> result = new List<List<BaseDataModel>>();
            

@@ -21,7 +21,6 @@ public class FunctionBlockMetaData : ExcelBase {
             fac.BlockDesc = "";
             fac.PreLevelBlock = i;
             fac.FunctionBlockType = "";
-            fac.SubType = "";
             fac.FunctionBlockTypeIndex = (ushort)i;
             fac.MaxLevel = (ushort)i;
             fac.AreaDetailDefault = "";
@@ -86,19 +85,7 @@ public class FunctionBlockMetaData : ExcelBase {
             type.TypeName = "";
             type.TypeDesc = "";
             type.TypeIcon = "";
-            type.SubTypeList = "";
             AllFunctionBlockTypeDataList.Add(type);
-        }
-        AllFunctionBlockSubTypeDataList = new List<FunctionBlockSubTypeData>();
-        for(int i = 0; i < 2; i++)
-        {
-            FunctionBlockSubTypeData type = new FunctionBlockSubTypeData();
-            type.SubType = "";
-            type.DefaultShow = true;
-            type.TypeName = "";
-            type.TypeDesc = "";
-            type.TypeIcon = "";
-            AllFunctionBlockSubTypeDataList.Add(type);
         }
     }
 #endif
@@ -110,7 +97,6 @@ public class FunctionBlockMetaData : ExcelBase {
         AllFunctionBlock_EnergyDic.Clear();
         AllFunctionBlock_IndustryDic.Clear();
         AllFunctionBlock_ScienceDic.Clear();
-        AllFunctionBlockSubTypeDataDic.Clear();
 
         foreach(var data in AllFunctionBlockList)
         {
@@ -178,17 +164,6 @@ public class FunctionBlockMetaData : ExcelBase {
                 AllFunctionBlockTypeDataDic.Add(data.Type, data);
             }
         }
-        foreach (var data in AllFunctionBlockSubTypeDataList)
-        {
-            if (AllFunctionBlockSubTypeDataDic.ContainsKey(data.SubType))
-            {
-                Debug.LogError("Find Same SubType , Type  = " + data.SubType);
-            }
-            else
-            {
-                AllFunctionBlockSubTypeDataDic.Add(data.SubType, data);
-            }
-        }
 
     }
 
@@ -205,8 +180,6 @@ public class FunctionBlockMetaData : ExcelBase {
     public Dictionary<int, FunctionBlock_Energy> AllFunctionBlock_EnergyDic = new Dictionary<int, FunctionBlock_Energy>();
     [XmlIgnore]
     public Dictionary<string, FunctionBlockTypeData> AllFunctionBlockTypeDataDic = new Dictionary<string, FunctionBlockTypeData>();
-    [XmlIgnore]
-    public Dictionary<string, FunctionBlockSubTypeData> AllFunctionBlockSubTypeDataDic = new Dictionary<string, FunctionBlockSubTypeData>();
 
     [XmlElement]
     public List<FunctionBlock> AllFunctionBlockList { get; set; }
@@ -220,8 +193,6 @@ public class FunctionBlockMetaData : ExcelBase {
     public List<FunctionBlock_Energy> AllFunctionBlock_EnergyList { get; set; }
     [XmlElement]
     public List<FunctionBlockTypeData> AllFunctionBlockTypeDataList { get; set; }
-    [XmlElement]
-    public List<FunctionBlockSubTypeData> AllFunctionBlockSubTypeDataList { get; set; }
 
 
 }
@@ -243,8 +214,6 @@ public class FunctionBlock
     public int PreLevelBlock { get; set; }
     [XmlAttribute]
     public string FunctionBlockType { get; set; }
-    [XmlAttribute]
-    public string SubType { get; set; }
     [XmlAttribute]
     public ushort FunctionBlockTypeIndex { get; set; }
     [XmlAttribute]
@@ -331,22 +300,6 @@ public class FunctionBlockTypeData
     //类型数据
     [XmlAttribute]
     public string Type { get; set; }
-    [XmlAttribute]
-    public bool DefaultShow { get; set; }
-    [XmlAttribute]
-    public string TypeName { get; set; }
-    [XmlAttribute]
-    public string TypeDesc { get; set; }
-    [XmlAttribute]
-    public string TypeIcon { get; set; }
-    [XmlAttribute]
-    public string SubTypeList { get; set; }
-}
-[System.Serializable]
-public class FunctionBlockSubTypeData
-{
-    [XmlAttribute]
-    public string SubType { get; set; }
     [XmlAttribute]
     public bool DefaultShow { get; set; }
     [XmlAttribute]

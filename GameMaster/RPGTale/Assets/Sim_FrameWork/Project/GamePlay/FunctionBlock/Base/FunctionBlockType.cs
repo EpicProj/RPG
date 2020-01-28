@@ -4,24 +4,14 @@ using UnityEngine;
 
 namespace Sim_FrameWork
 {
-    public class FunctionBlockType
+    public enum FunctionBlockType
     {
-        public enum Type
-        {
-            None,
-            Industry,
-            Public,
-            Research,
-            Energy,
-            Arms,
-            Unique
-        }
-
-        public enum SubType_Industry
-        {
-            None,
-            Manufacture,
-            Raw
-        }
+        None,
+        Industry,
+        Public,
+        Research,
+        Energy,
+        Arms,
+        Unique
     }
 }

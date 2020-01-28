@@ -13,14 +13,11 @@ namespace Sim_FrameWork
         /// Show Main Page
         /// </summary>
         /// <param name="closeAll"></param>
-        public void ShowGameMainPage(bool closeAll)
+        public void ShowGameMainPage()
         {
-            //if (closeAll)
-            //{
-            //    UIManager.Instance.CloseAllWnd();
-            //}
             UIManager.Instance.Register<UI.MainMenuPageContext>(UIPath.WindowPath.MainMenu_Page);
             UIManager.Instance.PopUpWnd(UIPath.WindowPath.MainMenu_Page, WindowType.Page, true);
+            ShowPlayerStatePanel();
         }
         public void ShowPlayerStatePanel()
         {
@@ -89,6 +86,12 @@ namespace Sim_FrameWork
             UIManager.Instance.PopUpWnd(UIPath.WindowPath.BlockManu_Page, WindowType.Page, true, baseData._blockBase, baseData.manufactoryInfo, baseData.formulaInfo);
         }
 
+        public void ShowBlockNormalInfoDialog()
+        {
+            UIManager.Instance.Register<UI.BlockNormalInfoDialogContext>(UIPath.WindowPath.BlockNormalInfo_Dialog);
+            UIManager.Instance.PopUpWnd(UIPath.WindowPath.BlockNormalInfo_Dialog, WindowType.Dialog);
+        }
+
         public void ShowDistrictDetail(DistrictDataModel  model)
         {
             if (model.ID == 0)
@@ -137,18 +140,24 @@ namespace Sim_FrameWork
         public void ShowAssemblePartDesignPage(AssemblePartInfo info)
         {
             UIManager.Instance.Register<UI.AssemblePartDesignPageContext>(UIPath.WindowPath.Assemble_Part_Design_Page);
+            UIManager.Instance.CloseAllPage();
+            UIManager.Instance.HideWnd(UIPath.WindowPath.PlayerState_Panel);
             UIManager.Instance.PopUpWnd(UIPath.WindowPath.Assemble_Part_Design_Page, WindowType.Page,true,info);
         }
 
         public void ShowAssembleShipDesignPage(AssembleShipInfo info)
         {
             UIManager.Instance.Register<UI.AssembleShipDesignPageContext>(UIPath.WindowPath.Assemble_Ship_Design_Page);
+            UIManager.Instance.CloseAllPage();
+            UIManager.Instance.HideWnd(UIPath.WindowPath.PlayerState_Panel);
             UIManager.Instance.PopUpWnd(UIPath.WindowPath.Assemble_Ship_Design_Page, WindowType.Page,true, info);
         }
 
         public void ShowAssembleShipBuildPage()
         {
             UIManager.Instance.Register<UI.AssembleShipBuildPageContext>(UIPath.WindowPath.Assemble_Ship_Build_Page);
+            UIManager.Instance.CloseAllPage();
+            UIManager.Instance.HideWnd(UIPath.WindowPath.PlayerState_Panel);
             UIManager.Instance.PopUpWnd(UIPath.WindowPath.Assemble_Ship_Build_Page, WindowType.Page, true);
         }
 

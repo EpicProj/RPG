@@ -86,6 +86,7 @@ namespace Sim_FrameWork.UI
             {
                 AudioManager.Instance.PlaySound(AudioClipPath.UISound.Btn_Close);
                 UIManager.Instance.HideWnd(this);
+                UIGuide.Instance.ShowGameMainPage();
             });
 
             AddButtonClickListener(Transform.FindTransfrom("BtnPanel/PresetChooseBtn").SafeGetComponent<Button>(), OnPresetBtnClick);

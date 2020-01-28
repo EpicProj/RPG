@@ -61,16 +61,9 @@ namespace Sim_FrameWork
 
             switch (info.dataModel.BlockType)
             {
-                case FunctionBlockType.Type.Industry:
-                    var subType = FunctionBlockModule.GetIndustryType(info.BlockID);
-                    if(subType == FunctionBlockType.SubType_Industry.None)
-                    {
-                        Debug.LogError("Block SubType Error!,BlockID=" + info.BlockID + "   Add Empty Script!");
-                    }else
-                    {
-                        var manuBase= transform.gameObject.AddComponent<ManufactoryBase>();
-                        manuBase.SetData();
-                    }
+                case FunctionBlockType.Industry:
+                    var manuBase = transform.gameObject.AddComponent<ManufactoryBase>();
+                    manuBase.SetData();
                     break;
                 default:
                     break;

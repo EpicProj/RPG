@@ -199,13 +199,13 @@ namespace Sim_FrameWork
         private void AddRawMineralToInputSlot()
         {
             int mineralCount = 10000;
-            if(manufactoryInfo.blockType== FunctionBlockType.SubType_Industry.Raw)
-            {
-                if (formulaInfo.currentInputItem.Count == 1)
-                {
-                    AddMaterialToInputSlot(formulaInfo.currentInputItem[0].model.ID, (ushort)mineralCount);
-                }
-            }
+            //if(manufactoryInfo.blockType== FunctionBlockType.Industry)
+            //{
+            //    if (formulaInfo.currentInputItem.Count == 1)
+            //    {
+            //        AddMaterialToInputSlot(formulaInfo.currentInputItem[0].model.ID, (ushort)mineralCount);
+            //    }
+            //}
         }
 
 
@@ -221,7 +221,6 @@ namespace Sim_FrameWork
     {
         public FunctionBlock_Industry IndustryData;
         public ManufactoryBaseInfoData.ManufactureInherentLevelData inherentLevelData;
-        public FunctionBlockType.SubType_Industry blockType;
 
         /// <summary>
         /// current Manu Speed
@@ -289,7 +288,6 @@ namespace Sim_FrameWork
             AddEnergyCostNormal(IndustryData.EnergyConsumptionBase);
             AddMaintain(IndustryData.MaintenanceBase);
             AddCurrentSpeed(FunctionBlockModule.GetIndustrySpeed(block.FunctionBlockID));
-            blockType = FunctionBlockModule.GetIndustryType(block.FunctionBlockID);
         }
 
 

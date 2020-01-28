@@ -41,6 +41,8 @@ namespace Sim_FrameWork
             /// 生产线选择
             /// </summary>
             public const string ProductLine_Change_Dialog = "Dialog/FunctionBlock/ProductLineChangeDialog";
+            public const string BlockNormalInfo_Dialog = "Dialog/FunctionBlock/BlockNormalInfoDialog";
+
             /// <summary>
             /// Tech Detail
             /// </summary>

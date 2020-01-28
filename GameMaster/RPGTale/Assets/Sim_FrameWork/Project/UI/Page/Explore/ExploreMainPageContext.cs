@@ -49,7 +49,7 @@ namespace Sim_FrameWork.UI
 
         public override void OnClose()
         {
-            UIGuide.Instance.ShowGameMainPage(true);
+            UIGuide.Instance.ShowGameMainPage();
         }
 
 
@@ -57,7 +57,7 @@ namespace Sim_FrameWork.UI
         {
             AddButtonClickListener(Transform.FindTransfrom("Back").SafeGetComponent<Button>(), () =>
             {
-                UIGuide.Instance.ShowGameMainPage(true);
+                UIGuide.Instance.ShowGameMainPage();
             });
             AddButtonClickListener(exploreBtn, OnExploreBtnClick);
             AddButtonClickListener(energyAddBtn, OnEnergyAddBtnClick);

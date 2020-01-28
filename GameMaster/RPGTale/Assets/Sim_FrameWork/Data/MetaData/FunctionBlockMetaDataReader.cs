@@ -25,10 +25,6 @@ namespace Sim_FrameWork
         public static List<FunctionBlockTypeData> FunctionBlockTypeDataList;
         public static Dictionary<string,FunctionBlockTypeData> FunctionBlockTypeDataDic;
 
-        public static List<FunctionBlockSubTypeData> FunctionBlockSubTypeDataList;
-        public static Dictionary<string, FunctionBlockSubTypeData> FunctionBlockSubTypeDataDic;
-
-
         public static void LoadData()
         {
             var config = ConfigManager.Instance.LoadData<FunctionBlockMetaData>(ConfigPath.TABLE_FUNCTIONBLOCK_METADATA_PATH);
@@ -50,8 +46,6 @@ namespace Sim_FrameWork
 
             FunctionBlockTypeDataList = config.AllFunctionBlockTypeDataList;
             FunctionBlockTypeDataDic = config.AllFunctionBlockTypeDataDic;
-            FunctionBlockSubTypeDataList = config.AllFunctionBlockSubTypeDataList;
-            FunctionBlockSubTypeDataDic = config.AllFunctionBlockSubTypeDataDic;
         }
 
 
@@ -85,11 +79,6 @@ namespace Sim_FrameWork
             LoadData();
             return FunctionBlockTypeDataList;
         }
-        public static List<FunctionBlockSubTypeData> GetFunctionBlockSubTypeData()
-        {
-            LoadData();
-            return FunctionBlockSubTypeDataList;
-        }
 
         public static Dictionary<int, FunctionBlock> GetFunctionBlockDataDic()
         {
@@ -120,27 +109,6 @@ namespace Sim_FrameWork
         {
             LoadData();
             return FunctionBlock_EnergyDic;
-        }
-        public static Dictionary<string, FunctionBlockSubTypeData> GetFunctionBlockSubTypeDataDic()
-        {
-            LoadData();
-            return FunctionBlockSubTypeDataDic;
-        }
-
-
-        public static FunctionBlock GetFunctionBlockDataByKey(int key)
-        {
-            LoadData();
-            FunctionBlock factory = null;
-            if (FunctionBlockDataDic == null)
-                return null;
-            FunctionBlockDataDic.TryGetValue(key, out factory);
-            if (factory == null)
-            {
-                Debug.LogError("Can not Find FunctionBlockData , Key = " + key);
-                return null;
-            }
-            return factory;
         }
 
     }

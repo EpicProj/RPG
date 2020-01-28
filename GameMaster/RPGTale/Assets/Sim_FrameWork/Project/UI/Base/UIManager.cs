@@ -238,6 +238,7 @@ namespace Sim_FrameWork {
 
                 wnd.OnShow(paralist);
                 wnd.currentStates = WindowBase.WindowStates.show;
+                wnd.windowType = type;
                 _currentWindowNameList.Add(wndName);
             }
             else
@@ -302,6 +303,17 @@ namespace Sim_FrameWork {
             for (int i = m_WindowList.Count - 1; i >= 0; i--)
             {
                 CloseWnd(m_WindowList[i]);
+            }
+        }
+
+        public void CloseAllPage()
+        {
+            for(int i = 0; i < m_WindowList.Count; i++)
+            {
+                if(m_WindowList[i].windowType == WindowType.Page)
+                {
+                    HideWnd(m_WindowList[i]);
+                }
             }
         }
 

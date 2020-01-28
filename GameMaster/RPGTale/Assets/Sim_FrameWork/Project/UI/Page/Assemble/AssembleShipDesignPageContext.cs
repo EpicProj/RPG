@@ -78,6 +78,7 @@ namespace Sim_FrameWork.UI
             AddButtonClickListener(Transform.FindTransfrom("Back").SafeGetComponent<Button>(), () =>
             {
                 UIManager.Instance.HideWnd(this);
+                UIGuide.Instance.ShowGameMainPage();
             });
             AddButtonClickListener(presetChooseBtn, OnPresetChooseBtnClick);
             AddButtonClickListener(shipDesignSaveBtn, OnShipDesignBtnClick);

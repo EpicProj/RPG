@@ -7,8 +7,6 @@ namespace Sim_FrameWork.UI
 {
     public class TechnologyDetailDialogContext : WindowBase
     {
-        private TechnologyDetailDialog m_dialog;
-
         private Text _techNameText;
         private Image _techIcon;
         private Text _techCost;
@@ -39,12 +37,9 @@ namespace Sim_FrameWork.UI
 
         public override void Awake(params object[] paralist)
         {
-            m_dialog = Transform.SafeGetComponent<TechnologyDetailDialog>();
             techInfo = (TechnologyInfo)paralist[0];
             InitRef();
             AddBtnClick();
-            InitTechEffectElement();
-            InitTechRequireElement();
         }
 
         public override bool OnMessage(UIMessage msg)
@@ -74,14 +69,14 @@ namespace Sim_FrameWork.UI
 
         private void InitRef()
         {
-            _techNameText = m_dialog.ContextTrans.FindTransfrom("Name").SafeGetComponent<Text>();
-            _techIcon = m_dialog.ContextTrans.FindTransfrom("Slot/Icon").SafeGetComponent<Image>();
-            _techCost = m_dialog.ContextTrans.FindTransfrom("Detail/Cost/Value").SafeGetComponent<Text>();
-            _techTimeCost = m_dialog.ContextTrans.FindTransfrom("Detail/Time/Value").SafeGetComponent<Text>();
-            _techDesc = m_dialog.ContextTrans.FindTransfrom("Desc").SafeGetComponent<Text>();
-            _confirmBtnText = m_dialog.transform.FindTransfrom("Content/ButtonGeneral/Text").SafeGetComponent<Text>();
-            descTypewriterEffect = m_dialog.ContextTrans.FindTransfrom("Desc").SafeGetComponent<TypeWriterEffect>();
-            _rarityImage = m_dialog.ContextTrans.FindTransfrom("Slot/Rarity").SafeGetComponent<Image>();
+            _techNameText = Transform.FindTransfrom("Content/Context/Name").SafeGetComponent<Text>();
+            _techIcon = Transform.FindTransfrom("Content/Context/Slot/Icon").SafeGetComponent<Image>();
+            _techCost = Transform.FindTransfrom("Content/Context/Detail/Cost/Value").SafeGetComponent<Text>();
+            _techTimeCost = Transform.FindTransfrom("Content/Context/Detail/Time/Value").SafeGetComponent<Text>();
+            _techDesc = Transform.FindTransfrom("Desc").SafeGetComponent<Text>();
+            _confirmBtnText = Transform.FindTransfrom("Content/ButtonGeneral/Text").SafeGetComponent<Text>();
+            descTypewriterEffect = Transform.FindTransfrom("Content/Context/Desc").SafeGetComponent<TypeWriterEffect>();
+            _rarityImage = Transform.FindTransfrom("Content/Context/Slot/Rarity").SafeGetComponent<Image>();
         }
 
         #endregion
@@ -90,11 +85,11 @@ namespace Sim_FrameWork.UI
 
         private void AddBtnClick()
         {
-            AddButtonClickListener(m_dialog.backBtn, () =>
+            AddButtonClickListener(Transform.FindTransfrom("BG").SafeGetComponent<Button>(), () =>
             {
                 UIManager.Instance.HideWnd(this);
             });
-            AddButtonClickListener(m_dialog.confirmBtn, () =>
+            AddButtonClickListener(Transform.FindTransfrom("Content/ButtonGeneral").SafeGetComponent<Button>(), () =>
             {
                 OnConfirmBtnClick();
             });
@@ -125,36 +120,25 @@ namespace Sim_FrameWork.UI
         {
             if (techInfo == null)
                 return;
-
+            var btn = Transform.FindTransfrom("Content/ButtonGeneral").SafeGetComponent<Button>();
             _confirmBtnText.text = "";
             if (techInfo.currentState== TechnologyInfo.TechState.Lock)
             {
                 _confirmBtnText.text = MultiLanguage.Instance.GetTextValue(Research_ConfirmBtn_Locked_Text);
-                m_dialog.confirmBtn.interactable = false;
+                btn.interactable = false;
             }else if (techInfo.currentState== TechnologyInfo.TechState.Unlock)
             {
                 _confirmBtnText.text = MultiLanguage.Instance.GetTextValue(Research_ConfirmBtn_Research_Text);
-                m_dialog.confirmBtn.interactable = true;
+                btn.interactable = true;
             }
             else if (techInfo.currentState== TechnologyInfo.TechState.Done)
             {
                 _confirmBtnText.text = MultiLanguage.Instance.GetTextValue(Research_ConfirmBtn_Done_Text);
-                m_dialog.confirmBtn.interactable = false;
+                btn.interactable = false;
             }else if (techInfo.currentState == TechnologyInfo.TechState.OnResearch)
             {
                 _confirmBtnText.text = MultiLanguage.Instance.GetTextValue(Research_ConfirmBtn_Researching_Text);
-                m_dialog.confirmBtn.interactable = false;
-            }
-        }
-
-
-        private void InitTechEffectElement()
-        {
-            for (int i = 0; i < Config.GlobalConfigData.TechDetail_Dialog_MaxEffect_Count; i++)
-            {
-                var obj= ObjectManager.Instance.InstantiateObject(UIPath.PrefabPath.Tech_Effect_Element);
-                obj.transform.SetParent(m_dialog.EffectContentTrans,false);
-                obj.name = "TechEffectObj" + i;
+                btn.interactable = false;
             }
         }
 
@@ -166,10 +150,9 @@ namespace Sim_FrameWork.UI
             if (techInfo == null)
                 return;
             ///Init
-            foreach(Transform trans in m_dialog.EffectContentTrans)
-            {
-                trans.SafeSetActive(false);
-            }
+            var content = Transform.FindTransfrom("Content/Context/EffectContent/Content");
+            content.InitObj(UIPath.PrefabPath.Tech_Effect_Element, Config.GlobalConfigData.TechDetail_Dialog_MaxEffect_Count);
+            content.SafeSetActiveAllChild(false);
 
             var effectlist = techInfo.techFinishEffectList;
 
@@ -189,7 +172,7 @@ namespace Sim_FrameWork.UI
                             if (model.Create(blockList[j]))
                             {
                                 var name = MultiLanguage.Instance.GetTextValue(Research_Effect_Unlock_Text_Block);
-                                var element = m_dialog.EffectContentTrans.GetChild(totalIndex);
+                                var element = content.GetChild(totalIndex);
                                 if (element != null)
                                 {
                                     totalIndex++;
@@ -209,7 +192,7 @@ namespace Sim_FrameWork.UI
                             if (model.Create(techList[j]))
                             {
                                 var name = MultiLanguage.Instance.GetTextValue(Research_Effect_Unlock_Text_Tech);
-                                var element = m_dialog.EffectContentTrans.GetChild(totalIndex);
+                                var element = content.GetChild(totalIndex);
                                 if (element != null)
                                 {
                                     totalIndex++;
@@ -229,32 +212,21 @@ namespace Sim_FrameWork.UI
         /// <summary>
         /// 初始化科技需求
         /// </summary>
-
-        private void InitTechRequireElement()
-        {
-            for (int i = 0; i < Config.GlobalConfigData.TechDetail_Dialog_MaxRequire_Count; i++)
-            {
-                var obj = ObjectManager.Instance.InstantiateObject(UIPath.PrefabPath.Tech_Require_Element);
-                obj.transform.SetParent(m_dialog.RequireContentTrans,false);
-                obj.name = "TechRequireElement" + i;
-            }
-        }
-
         private void SetUpTechRequire()
         {
             if (techInfo == null)
                 return;
-            foreach(Transform trans in m_dialog.RequireContentTrans)
-            {
-                trans.gameObject.SetActive(false);
-            }
+            var content = Transform.FindTransfrom("Content/Context/RequireContent/Content/Scroll View/Viewport/Content");
+            content.InitObj(UIPath.PrefabPath.Tech_Require_Element, Config.GlobalConfigData.TechDetail_Dialog_MaxRequire_Count);
+            content.SafeSetActiveAllChild(false);
 
             var requireList = techInfo.techRequireList;
 
             int index = 0;
 
             //Init Cost
-            var costObj = m_dialog.RequireContentTrans.GetChild(index);
+            //Init Cost
+            var costObj = content.GetChild(index);
             if (costObj != null)
             {
                 index++;
@@ -276,7 +248,7 @@ namespace Sim_FrameWork.UI
                             TechnologyDataModel techModel = new TechnologyDataModel();
                             if (techModel.Create(techList[j]))
                             {
-                                var obj = m_dialog.RequireContentTrans.GetChild(index);
+                                var obj = content.GetChild(index);
                                 if (obj != null)
                                 {
                                     index++;
@@ -295,7 +267,7 @@ namespace Sim_FrameWork.UI
                             MaterialDataModel maModel = new MaterialDataModel();
                             if (maModel.Create(kvp.Key))
                             {
-                                var obj = m_dialog.RequireContentTrans.GetChild(index);
+                                var obj = content.GetChild(index);
                                 if (obj != null)
                                 {
                                     index++;

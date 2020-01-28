@@ -31,6 +31,8 @@ namespace Sim_FrameWork.UI
 
         public WindowStates currentStates = WindowStates.Close;
 
+        public WindowType windowType;
+
         public virtual bool OnMessage(UIMessage msg)
         {
             return true;
