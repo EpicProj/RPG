@@ -30,17 +30,6 @@ public class FunctionBlockMetaData : ExcelBase {
             fac.DistrictData = "";
             AllFunctionBlockList.Add(fac);
         }
-        AllFunctionBlock_LaborList = new List<FunctionBlock_Labor>();
-        for(int i = 0; i < 2; i++)
-        {
-            FunctionBlock_Labor labor = new FunctionBlock_Labor();
-            labor.LaborID = i;
-            labor.InherentLevel = "";
-            labor.BasePopulation = i;
-            labor.FoodConsumBase = i;
-            labor.EnergyBase = i;
-            AllFunctionBlock_LaborList.Add(labor);
-        }
 
         AllFunctionBlock_IndustryList = new List<FunctionBlock_Industry>();
         for(int i = 0; i < 2; i++)
@@ -55,27 +44,6 @@ public class FunctionBlockMetaData : ExcelBase {
             manu.EnergyConsumptionBase = i;
             AllFunctionBlock_IndustryList.Add(manu);
         }
-
-        AllFunctionBlock_ScienceList = new List<FunctionBlock_Science>();
-        for(int i = 0; i < 2; i++)
-        {
-            FunctionBlock_Science science = new FunctionBlock_Science();
-            science.ScienceID = i;
-            science.InherentLevel = "";
-    
-            AllFunctionBlock_ScienceList.Add(science);
-        }
-
-        AllFunctionBlock_EnergyList = new List<FunctionBlock_Energy>();
-        for(int i = 0; i < 2; i++)
-        {
-            FunctionBlock_Energy energy = new FunctionBlock_Energy();
-            energy.EnergyID = i;
-            energy.InherentLevel = "";
-            energy.EnergyType = (ushort)i;
-            AllFunctionBlock_EnergyList.Add(energy);
-        }
-
         AllFunctionBlockTypeDataList = new List<FunctionBlockTypeData>();
         for(int i = 0; i < 2; i++)
         {
@@ -92,11 +60,8 @@ public class FunctionBlockMetaData : ExcelBase {
     public override void Init()
     {
         AllFunctionBlockDic.Clear();
-        AllFunctionBlock_LaborDic.Clear();
         AllFunctionBlockTypeDataDic.Clear();
-        AllFunctionBlock_EnergyDic.Clear();
         AllFunctionBlock_IndustryDic.Clear();
-        AllFunctionBlock_ScienceDic.Clear();
 
         foreach(var data in AllFunctionBlockList)
         {
@@ -109,17 +74,6 @@ public class FunctionBlockMetaData : ExcelBase {
                 AllFunctionBlockDic.Add(data.FunctionBlockID, data);
             }
         }
-        foreach (var data in AllFunctionBlock_LaborList)
-        {
-            if (AllFunctionBlock_LaborDic.ContainsKey(data.LaborID))
-            {
-                Debug.LogError("Find Same LaborID , LaborID  = " + data.LaborID);
-            }
-            else
-            {
-                AllFunctionBlock_LaborDic.Add(data.LaborID, data);
-            }
-        }
         foreach (var data in AllFunctionBlock_IndustryList)
         {
             if (AllFunctionBlock_IndustryDic.ContainsKey(data.ID))
@@ -129,28 +83,6 @@ public class FunctionBlockMetaData : ExcelBase {
             else
             {
                 AllFunctionBlock_IndustryDic.Add(data.ID, data);
-            }
-        }
-        foreach (var data in AllFunctionBlock_ScienceList)
-        {
-            if (AllFunctionBlock_ScienceDic.ContainsKey(data.ScienceID))
-            {
-                Debug.LogError("Find Same ScienceID , ScienceID  = " + data.ScienceID);
-            }
-            else
-            {
-                AllFunctionBlock_ScienceDic.Add(data.ScienceID, data);
-            }
-        }
-        foreach (var data in AllFunctionBlock_EnergyList)
-        {
-            if (AllFunctionBlock_EnergyDic.ContainsKey(data.EnergyID))
-            {
-                Debug.LogError("Find Same EnergyID , EnergyID  = " + data.EnergyID);
-            }
-            else
-            {
-                AllFunctionBlock_EnergyDic.Add(data.EnergyID, data);
             }
         }
         foreach (var data in AllFunctionBlockTypeDataList)
@@ -171,26 +103,14 @@ public class FunctionBlockMetaData : ExcelBase {
     [XmlIgnore]
     public Dictionary<int, FunctionBlock> AllFunctionBlockDic = new Dictionary<int, FunctionBlock>();
     [XmlIgnore]
-    public Dictionary<int, FunctionBlock_Labor> AllFunctionBlock_LaborDic = new Dictionary<int, FunctionBlock_Labor>();
-    [XmlIgnore]
     public Dictionary<int, FunctionBlock_Industry> AllFunctionBlock_IndustryDic = new Dictionary<int, FunctionBlock_Industry>();
-    [XmlIgnore]
-    public Dictionary<int, FunctionBlock_Science> AllFunctionBlock_ScienceDic = new Dictionary<int, FunctionBlock_Science>();
-    [XmlIgnore]
-    public Dictionary<int, FunctionBlock_Energy> AllFunctionBlock_EnergyDic = new Dictionary<int, FunctionBlock_Energy>();
     [XmlIgnore]
     public Dictionary<string, FunctionBlockTypeData> AllFunctionBlockTypeDataDic = new Dictionary<string, FunctionBlockTypeData>();
 
     [XmlElement]
     public List<FunctionBlock> AllFunctionBlockList { get; set; }
     [XmlElement]
-    public List<FunctionBlock_Labor> AllFunctionBlock_LaborList { get; set; }
-    [XmlElement]
     public List<FunctionBlock_Industry> AllFunctionBlock_IndustryList { get; set; }
-    [XmlElement]
-    public List<FunctionBlock_Science> AllFunctionBlock_ScienceList { get; set; }
-    [XmlElement]
-    public List<FunctionBlock_Energy> AllFunctionBlock_EnergyList { get; set; }
     [XmlElement]
     public List<FunctionBlockTypeData> AllFunctionBlockTypeDataList { get; set; }
 
@@ -232,24 +152,6 @@ public class FunctionBlock
 
 }
 
-[System.Serializable]
-public class FunctionBlock_Labor
-{
-    //劳动力
-    [XmlAttribute]
-    public int LaborID { get; set; }
-    [XmlAttribute]
-    public string InherentLevel { get; set; }
-    [XmlAttribute]
-    public float BasePopulation { get; set; }
-    [XmlAttribute]
-    public float FoodConsumBase { get; set; }
-    [XmlAttribute]
-    public float MaintainBase { get; set; }
-    [XmlAttribute]
-    public float EnergyBase { get; set; }
-}
-
 [System.Serializable] 
 public class FunctionBlock_Industry
 {
@@ -269,29 +171,6 @@ public class FunctionBlock_Industry
     public float WorkerBase { get; set; }
     [XmlAttribute]
     public float EnergyConsumptionBase { get; set; }
-}
-
-[System.Serializable] 
-public class FunctionBlock_Science
-{
-    //科研
-    [XmlAttribute]
-    public int ScienceID { get; set; }
-    [XmlAttribute]
-    public string InherentLevel { get; set; }
-}
-
-[System.Serializable]
-public class FunctionBlock_Energy
-{
-    //能源
-    [XmlAttribute]
-    public int EnergyID { get; set; }
-    [XmlAttribute]
-    public string InherentLevel { get; set; }
-    [XmlAttribute]
-    public ushort EnergyType { get; set; }
-
 }
 
 [System.Serializable]

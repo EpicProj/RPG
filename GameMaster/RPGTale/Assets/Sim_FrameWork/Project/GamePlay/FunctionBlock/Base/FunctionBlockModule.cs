@@ -23,21 +23,14 @@ namespace Sim_FrameWork {
         protected static List<FunctionBlock> FunctionBlockList;
         protected static Dictionary<int, FunctionBlock> FunctionBlockDic;
 
-        protected static List<FunctionBlock_Labor> FunctionBlock_LaborList;
-        protected static Dictionary<int, FunctionBlock_Labor> FunctionBlock_LaborDic;
         protected static List<FunctionBlock_Industry> FunctionBlock_IndustryList;
         protected static Dictionary<int, FunctionBlock_Industry> FunctionBlock_IndustryDic;
-        protected static List<FunctionBlock_Science> FunctionBlock_ScienceList;
-        protected static Dictionary<int, FunctionBlock_Science> FunctionBlock_ScienceDic;
-        protected static List<FunctionBlock_Energy> FunctionBlock_EnergyList;
-        protected static Dictionary<int, FunctionBlock_Energy> FunctionBlock_EnergyDic;
 
         protected static List<FunctionBlockTypeData> FunctionBlockTypeDataList;
         protected static Dictionary<string, FunctionBlockTypeData> FunctionBlockTypeDataDic;
 
         //info Data
         public static ManufactoryBaseInfoData manufactoryBaseInfoData;
-        public static LaborBaseInfoData laborBaseInfoData;
 
         #region Data
 
@@ -45,14 +38,8 @@ namespace Sim_FrameWork {
         {
             FunctionBlockList = FunctionBlockMetaDataReader.GetFunctionBlockData();
             FunctionBlockDic = FunctionBlockMetaDataReader.GetFunctionBlockDataDic();
-            FunctionBlock_LaborList = FunctionBlockMetaDataReader.GetFunctionBlock_LaborData();
-            FunctionBlock_LaborDic = FunctionBlockMetaDataReader.GetFunctionBlock_LaborDic();
             FunctionBlock_IndustryList = FunctionBlockMetaDataReader.GetFunctionBlock_IndustryData();
             FunctionBlock_IndustryDic = FunctionBlockMetaDataReader.GetFunctionBlock_IndustryDic();
-            FunctionBlock_ScienceList = FunctionBlockMetaDataReader.GetFunctionBlock_ScienceData();
-            FunctionBlock_ScienceDic = FunctionBlockMetaDataReader.GetFunctionBlock_ScienceDic();
-            FunctionBlock_EnergyList = FunctionBlockMetaDataReader.GetFunctionBlock_EnergyData();
-            FunctionBlock_EnergyDic = FunctionBlockMetaDataReader.GetFunctionBlock_EnergyDic();
 
             FunctionBlockTypeDataList = FunctionBlockMetaDataReader.GetFunctionBlockTypeData();
             FunctionBlockTypeDataDic = FunctionBlockMetaDataReader.GetFunctionBlockTypeDataDic();
@@ -60,8 +47,6 @@ namespace Sim_FrameWork {
             //Init Info Data
             manufactoryBaseInfoData = new ManufactoryBaseInfoData();
             manufactoryBaseInfoData.LoadData();
-            laborBaseInfoData = new LaborBaseInfoData();
-            laborBaseInfoData.LoadData();
         }
 
         public override void Register()
@@ -162,12 +147,6 @@ namespace Sim_FrameWork {
             {
                 case FunctionBlockType.Industry:
                     return GetFunctionBlock_IndustryData(GetFunctionBlockByBlockID(functionBlockID).FunctionBlockTypeIndex) as T;
-                case FunctionBlockType.Research:
-                    return GetFunctionBlock_ScienceData(GetFunctionBlockByBlockID(functionBlockID).FunctionBlockTypeIndex) as T;
-                case FunctionBlockType.Energy:
-                    return GetFunctionBlock_EnergyData(GetFunctionBlockByBlockID(functionBlockID).FunctionBlockTypeIndex) as T;
-                case FunctionBlockType.Arms:
-                    return GetFunctionBlock_LaborData(GetFunctionBlockByBlockID(functionBlockID).FunctionBlockTypeIndex) as T;
                 default:
                     Debug.LogError("Fetch FacotryType Error facotryID=" + functionBlockID);
                     return null;
@@ -175,16 +154,6 @@ namespace Sim_FrameWork {
 
         }
 
-        public static FunctionBlock_Labor GetFunctionBlock_LaborData(int laborID)
-        {
-            FunctionBlock_Labor labor = null;
-            FunctionBlock_LaborDic.TryGetValue(laborID, out labor);
-            if (labor == null)
-            {
-                Debug.LogError("Get FunctionBlock_Labor Data Error! LaborID=" + labor);
-            }
-            return labor;
-        }
         public static FunctionBlock_Industry GetFunctionBlock_IndustryData(int id)
         {
             FunctionBlock_Industry functionBlock_Industry = null;
@@ -194,30 +163,6 @@ namespace Sim_FrameWork {
                 Debug.LogError("Get functionBlock_Industry Error , Id=" + id);
             }
             return functionBlock_Industry;
-        }
-
-        public static FunctionBlock_Science GetFunctionBlock_ScienceData(int scienceID)
-        {
-            FunctionBlock_Science functionBlock_Science = null;
-            FunctionBlock_ScienceDic.TryGetValue(scienceID, out functionBlock_Science);
-            if (functionBlock_Science == null)
-            {
-                Debug.LogError("Get FunctionBlock_Raw Error , scienceID=" + scienceID);
-                return null;
-            }
-            return functionBlock_Science;
-        }
-
-        public static FunctionBlock_Energy GetFunctionBlock_EnergyData(int energyID)
-        {
-            FunctionBlock_Energy functionBlock_Energy = null;
-            FunctionBlock_EnergyDic.TryGetValue(energyID, out functionBlock_Energy);
-            if (functionBlock_Energy == null)
-            {
-                Debug.LogError("Get FunctionBlock_Raw Error , energyID=" + energyID);
-                return null;
-            }
-            return functionBlock_Energy;
         }
 
         public static Sprite GetFunctionBlockIcon(int functionBlockID)
@@ -599,16 +544,7 @@ namespace Sim_FrameWork {
             }
             return MultiLanguage.Instance.GetTextValue(level.LevelName);
         }
-        public static LaborBaseInfoData.LaborInherentLevelData GetLaborInherentLevelData(FunctionBlock_Labor laborData)
-        {
-            List<LaborBaseInfoData.LaborInherentLevelData> laborLevel = laborBaseInfoData.InherentLevelDatas;
-            if (laborLevel == null)
-            {
-                Debug.LogError("Can not Find Labor InherentLevelData!");
-                return null;
-            }
-            return laborLevel.Find(x => x.LevelName == laborData.InherentLevel);
-        }
+
         private static List<string> GetBlockInherentLevelList()
         {
             List<string> result = new List<string>();

@@ -19,17 +19,6 @@
 		</list>
 	</variable>
 
-	<variable  name="AllFunctionBlock_LaborList" type="list">
-		<list name = "FunctionBlock_Labor" sheetname="FunctionBlock_Labor" mainKey = "LaborID">
-			<variable  name="LaborID" col = "LaborID" type="int"/>
-			<variable  name="InherentLevel" col = "InherentLevel" type="string"/>
-			<variable  name="BasePopulation" col = "BasePopulation" type="float"/>
-			<variable  name="FoodConsumBase" col = "FoodConsumBase" type="float"/>
-			<variable  name="MaintainBase" col = "MaintainBase" type="float"/>
-			<variable  name="EnergyBase" col = "EnergyBase" type="float"/>
-		</list>
-	</variable>
-
 	<variable  name="AllFunctionBlock_IndustryList" type="list">
 		<list name = "FunctionBlock_Industry" sheetname="FunctionBlock_Industry" mainKey = "ID">
 			<variable  name="ID" col = "ID" type="int"/>
@@ -39,21 +28,6 @@
 			<variable  name="MaintenanceBase" col = "MaintenanceBase" type="float"/>
 			<variable  name="WorkerBase" col = "WorkerBase" type="float"/>
 			<variable  name="EnergyConsumptionBase" col = "EnergyConsumptionBase" type="float"/>
-		</list>
-	</variable>
-
-	<variable  name="AllFunctionBlock_ScienceList" type="list">
-		<list name = "FunctionBlock_Science" sheetname="FunctionBlock_Science" mainKey = "ScienceID">
-			<variable  name="ScienceID" col = "ScienceID" type="int"/>
-			<variable  name="InherentLevel" col = "InherentLevel" type="string"/>
-		</list>
-	</variable>
-
-	<variable  name="AllFunctionBlock_EnergyList" type="list">
-		<list name = "FunctionBlock_Energy" sheetname="FunctionBlock_Energy" mainKey = "EnergyID">
-			<variable  name="EnergyID" col = "EnergyID" type="int"/>
-			<variable  name="InherentLevel" col = "InherentLevel" type="string"/>
-			<variable  name="EnergyType" col = "EnergyType" type="ushort"/>
 		</list>
 	</variable>
 
