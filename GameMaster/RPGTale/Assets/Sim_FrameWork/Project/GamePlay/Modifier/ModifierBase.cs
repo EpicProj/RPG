@@ -9,11 +9,12 @@ namespace Sim_FrameWork
     public class GeneralModifier
     {
         public List<ModifierBase> ModifierBase;
-        public void ReadModifierData()
+        public GeneralModifier LoadModifierData()
         {
             Config.JsonReader reader = new Config.JsonReader();
-            GeneralModifier modifer = reader.LoadJsonDataConfig<GeneralModifier>(Config.JsonConfigPath.ModifierDataConfigJsonPath);
+            var modifer = reader.LoadJsonDataConfig<GeneralModifier>(Config.JsonConfigPath.ModifierDataConfigJsonPath);
             ModifierBase = modifer.ModifierBase;
+            return modifer;
         }
     }
 
@@ -106,7 +107,7 @@ namespace Sim_FrameWork
         public int MaxLimit ;
 
         [SerializeField]
-        //
+        //层级时间
         private int _Limit;
         public int Limit { get { return _Limit; } }
 
@@ -411,7 +412,6 @@ namespace Sim_FrameWork
 
     }
 
-
     public enum ModifierTarget
     {
 
@@ -435,47 +435,6 @@ namespace Sim_FrameWork
         /// Error
         /// </summary>
         None
-    }
-
-    public enum ModifierFunctionBlockType
-    {
-        /// <summary>
-        /// 建造速度
-        /// </summary>
-        ManuSpeed,
-        /// <summary>
-        /// 维护成本
-        /// </summary>
-        Maintain,
-        /// <summary>
-        /// 能源消耗
-        /// </summary>
-        EnergyCostNormal,
-        /// <summary>
-        /// 炼金能源消耗
-        /// </summary>
-        EnergyCostMagic,
-        /// <summary>
-        /// 所需工人
-        /// </summary>
-        Worker,
-        /// <summary>
-        /// Error
-        /// </summary>
-        None,
-
-    }
-
-    /// <summary>
-    /// Modifier Sub Type  
-    /// </summary>
-    public enum ModifierBaseResourceType
-    {
-        Currency,
-        Food,
-        Energy,
-        Laber,
-        Reputation
     }
 
     /// <summary>

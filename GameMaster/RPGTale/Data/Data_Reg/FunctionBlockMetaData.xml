@@ -9,25 +9,10 @@
 			<variable  name="BlockDesc" col = "BlockDesc" type="string"/>
 			<variable  name="PreLevelBlock" col = "PreLevelBlock" type="int"/>
 			<variable  name="FunctionBlockType" col = "FunctionBlockType" type="string"/>
-			<variable  name="FunctionBlockTypeIndex" col = "FunctionBlockTypeIndex" type="ushort"/>
-			<variable  name="MaxLevel" col = "MaxLevel" type="ushort"/>
+			<variable  name="BlockConfig" col = "BlockConfig" type="string"/>
 			<variable  name="AreaDetailDefault" col = "AreaDetailDefault" type="string"/>
 			<variable  name="OriginArea" col = "OriginArea" type="string"/>
 			<variable  name="AreaMax" col = "AreaMax" type="string"/>
-			<variable  name="EXPDataJsonIndex" col = "EXPDataJsonIndex" type="string"/>
-			<variable  name="DistrictData" col = "DistrictData" type="string"/>
-		</list>
-	</variable>
-
-	<variable  name="AllFunctionBlock_IndustryList" type="list">
-		<list name = "FunctionBlock_Industry" sheetname="FunctionBlock_Industry" mainKey = "ID">
-			<variable  name="ID" col = "ID" type="int"/>
-			<variable  name="InherentLevel" col = "InherentLevel" type="string"/>
-			<variable  name="SpeedBase" col = "SpeedBase" type="float"/>
-			<variable  name="FormulaInfoID" col = "FormulaInfoID" type="int"/>
-			<variable  name="MaintenanceBase" col = "MaintenanceBase" type="float"/>
-			<variable  name="WorkerBase" col = "WorkerBase" type="float"/>
-			<variable  name="EnergyConsumptionBase" col = "EnergyConsumptionBase" type="float"/>
 		</list>
 	</variable>
 

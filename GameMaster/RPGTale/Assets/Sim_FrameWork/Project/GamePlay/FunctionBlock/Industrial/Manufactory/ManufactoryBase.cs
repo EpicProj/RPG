@@ -7,12 +7,9 @@ namespace Sim_FrameWork
 
     public class ManufactoryBase : MonoBehaviour
     {
-
-
         public ManufactoryInfo manufactoryInfo;
         public ManufactFormulaInfo formulaInfo;
         public FunctionBlockBase _blockBase;
-
 
         /// <summary>
         /// 当前配方
@@ -36,7 +33,7 @@ namespace Sim_FrameWork
         {
             _blockBase = UIUtility.SafeGetComponent<FunctionBlockBase>(transform);
             manufactoryInfo = new ManufactoryInfo(_blockBase.functionBlock);
-            formulaInfo = new ManufactFormulaInfo(_blockBase.functionBlock);
+            formulaInfo = new ManufactFormulaInfo(_blockBase.functionBlock.FunctionBlockID);
 
             _blockBase.OnBlockSelectAction += Onselect;
             _blockBase.OnBlockAreaEnterAction += OnBlockAreaEnter;
@@ -219,9 +216,6 @@ namespace Sim_FrameWork
     }
     public class ManufactoryInfo
     {
-        public FunctionBlock_Industry IndustryData;
-        public ManufactoryBaseInfoData.ManufactureInherentLevelData inherentLevelData;
-
         /// <summary>
         /// current Manu Speed
         /// </summary>
@@ -282,12 +276,20 @@ namespace Sim_FrameWork
 
         public ManufactoryInfo(FunctionBlock block)
         {
-            IndustryData = FunctionBlockModule.FetchFunctionBlockTypeIndex<FunctionBlock_Industry>(block.FunctionBlockID);
-            inherentLevelData = FunctionBlockModule.GetManuInherentLevelData(IndustryData);
-            AddWorkerNum(IndustryData.WorkerBase);
-            AddEnergyCostNormal(IndustryData.EnergyConsumptionBase);
-            AddMaintain(IndustryData.MaintenanceBase);
-            AddCurrentSpeed(FunctionBlockModule.GetIndustrySpeed(block.FunctionBlockID));
+            var config = Config.ConfigData.BlockConfigData.configData.Find(x => x.configName == block.BlockConfig);
+            if (config != null)
+            {
+                if (config.manuConfig == null)
+                {
+                    Debug.LogError("ManuConfig is null! configName= " + config.configName);
+                    return;
+                }
+                AddWorkerNum(config.manuConfig.workBase);
+                AddEnergyCostNormal(config.manuConfig.energyConsumptionBase);
+                AddMaintain(config.manuConfig.maintainBase);
+                AddCurrentSpeed((float)config.manuConfig.speedBase);
+            }
+
         }
 
 
@@ -328,7 +330,7 @@ namespace Sim_FrameWork
         public ManufactFormulaInfo(int currentFormulaID,FunctionBlock block)
         {
             CurrentFormulaID = currentFormulaID;
-            FormulaChooseList = FunctionBlockModule.GetFormulaList(block);
+            FormulaChooseList = FunctionBlockModule.GetBlockFormulaList(block.FunctionBlockID);
             currentFormulaData = FormulaModule.GetFormulaDataByID(currentFormulaID);
             currentInputItem = FormulaModule.GetFormulaItemList(currentFormulaID, FormulaModule.MaterialProductType.Input);
             currentOutputItem = FormulaModule.GetFormulaOutputMaterial(currentFormulaID);
@@ -356,23 +358,13 @@ namespace Sim_FrameWork
             NotChoose = false;
         }
 
-        public ManufactFormulaInfo(FunctionBlock block)
-        {
-            FormulaChooseList = FunctionBlockModule.GetFormulaList(block);
-            NotChoose = true;
-        }
-
-
-
         public void RefreshFormula(int formulaID)
         {
-
             CurrentFormulaID = formulaID;
             currentFormulaData = FormulaModule.GetFormulaDataByID(formulaID);
             currentInputItem = FormulaModule.GetFormulaItemList(formulaID, FormulaModule.MaterialProductType.Input);
             currentOutputItem = FormulaModule.GetFormulaOutputMaterial(formulaID);
             currentEnhanceItem = FormulaModule.GetFormulaEnhanceMaterial(CurrentFormulaID);
-
         }
 
     }

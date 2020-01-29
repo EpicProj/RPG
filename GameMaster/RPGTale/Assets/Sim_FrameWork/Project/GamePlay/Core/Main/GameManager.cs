@@ -47,6 +47,7 @@ namespace Sim_FrameWork
             PlayerManager.Instance.InitPlayerData();
             GlobalEventManager.Instance.InitData();
             MainShipManager.Instance.InitData();
+            ModifierManager.Instance.InitData();
             DontDestroyOnLoad(gameObject);
             
         }

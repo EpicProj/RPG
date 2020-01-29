@@ -10,9 +10,6 @@ namespace Sim_FrameWork
         public static List<FunctionBlock> FunctionBlockDataList;
         public static Dictionary<int, FunctionBlock> FunctionBlockDataDic;
 
-        public static List<FunctionBlock_Industry> FunctionBlock_IndustryList;
-        public static Dictionary<int, FunctionBlock_Industry> FunctionBlock_IndustryDic;
-
         public static List<FunctionBlockTypeData> FunctionBlockTypeDataList;
         public static Dictionary<string,FunctionBlockTypeData> FunctionBlockTypeDataDic;
 
@@ -26,8 +23,6 @@ namespace Sim_FrameWork
             }
             FunctionBlockDataList = config.AllFunctionBlockList;
             FunctionBlockDataDic = config.AllFunctionBlockDic;
-            FunctionBlock_IndustryList = config.AllFunctionBlock_IndustryList;
-            FunctionBlock_IndustryDic = config.AllFunctionBlock_IndustryDic;
 
             FunctionBlockTypeDataList = config.AllFunctionBlockTypeDataList;
             FunctionBlockTypeDataDic = config.AllFunctionBlockTypeDataDic;
@@ -38,11 +33,6 @@ namespace Sim_FrameWork
         {
             LoadData();
             return FunctionBlockDataList;
-        }
-        public static List<FunctionBlock_Industry> GetFunctionBlock_IndustryData()
-        {
-            LoadData();
-            return FunctionBlock_IndustryList;
         }
         public static List<FunctionBlockTypeData> GetFunctionBlockTypeData()
         {
@@ -59,11 +49,6 @@ namespace Sim_FrameWork
         {
             LoadData();
             return FunctionBlockTypeDataDic;
-        }
-        public static Dictionary<int, FunctionBlock_Industry> GetFunctionBlock_IndustryDic()
-        {
-            LoadData();
-            return FunctionBlock_IndustryDic;
         }
     }
 }

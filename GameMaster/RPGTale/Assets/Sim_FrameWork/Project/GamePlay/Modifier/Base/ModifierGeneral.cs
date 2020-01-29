@@ -4,27 +4,14 @@ using UnityEngine;
 
 namespace Sim_FrameWork
 {
-    public class FunctionBlockModifier :MonoBehaviour
+    public class ModifierGeneral : MonoBehaviour
     {
         [SerializeField]
         private List<ModifierData> modifierList;
 
-
-
-        public virtual void Init()
-        {
-            InitModifier();
-        }
-
-
-        void InitModifier()
-        {
-
-        }
-
         void FixedUpdate()
         {
-            for(int i = modifierList.Count - 1; i >= 0; i--)
+            for (int i = modifierList.Count - 1; i >= 0; i--)
             {
                 modifierList[i].OnTick(Time.deltaTime);
                 if (modifierList[i].IsFinish)
@@ -33,12 +20,6 @@ namespace Sim_FrameWork
                     modifierList.Remove(modifierList[i]);
                 }
             }
-        }
-
-
-        public void DoManufactModifier(ManufactoryInfo manuInfo, FunctionBlockInfoData baseInfo, string modifierName)
-        {
-            ModifierManager.Instance.DoManufactBlockModifier(manuInfo, baseInfo, modifierName);
         }
 
         public void OnAddModifier(ModifierData data)
@@ -62,9 +43,6 @@ namespace Sim_FrameWork
             }
         }
 
-
-
-
         public void OnRemoveModifier(int modifierDataID)
         {
             ModifierData data = GetModifierData(modifierDataID);
@@ -74,7 +52,7 @@ namespace Sim_FrameWork
 
         public ModifierData GetModifierData(int modifierDataID)
         {
-            for(int i = 0; i < modifierList.Count; i++)
+            for (int i = 0; i < modifierList.Count; i++)
             {
                 if (modifierList[i].modifierDataID == modifierDataID)
                 {
@@ -86,7 +64,7 @@ namespace Sim_FrameWork
 
         public ModifierData GetModifierByID(string name)
         {
-            for(int i = 0; i < modifierList.Count; i++)
+            for (int i = 0; i < modifierList.Count; i++)
             {
                 if (modifierList[i].modifierName == name)
                 {
@@ -97,6 +75,5 @@ namespace Sim_FrameWork
 
         }
 
-        
     }
 }

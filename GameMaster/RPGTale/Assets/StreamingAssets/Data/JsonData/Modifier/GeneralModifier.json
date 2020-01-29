@@ -11,5 +11,19 @@
 		"Time":100,
 		"CallFrequency":1,
 		"Value":1
+	},
+
+
+	{
+		"ModifierName":"AddEnergy_Storage_Block",
+		"Target":"FunctionBlock",
+		"functionBlockType":"EnergyStorageMax",
+		"OverlapType":0,
+		"RemoveType":1,
+		"AddType":0,
+		"MaxLimit":0,
+		"Time":100,
+		"CallFrequency":1,
+		"Value":10
 	}]
 }

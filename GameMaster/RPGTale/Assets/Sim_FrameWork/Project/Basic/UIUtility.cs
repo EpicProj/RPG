@@ -51,6 +51,24 @@ namespace Sim_FrameWork
             return trans;
         }
 
+        public static T SafeAddCmpt<T>(this Transform transform) where T: Component
+        {
+            T result = null;
+            if(transform != null)
+            {
+                if (transform.SafeGetComponent<T>() == null)
+                {
+                    result= transform.gameObject.AddComponent<T>();
+                    return result;
+                }
+                else
+                {
+                    return transform.SafeGetComponent<T>();
+                }
+            }
+            return null;
+        }
+
         public static bool SafeSetActive(this Transform trans,bool active)
         {
             if (trans != null)

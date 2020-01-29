@@ -114,6 +114,20 @@ namespace Sim_FrameWork.Config
             }
         }
 
+        private static BlockConfigData _blockConfigData;
+        public static BlockConfigData BlockConfigData
+        {
+            get
+            {
+                if (_blockConfigData == null)
+                {
+                    _blockConfigData = new BlockConfigData();
+                    _blockConfigData.LoadBlockConfigData();
+                }
+                return _blockConfigData;
+            }
+        }
+
 
         public void InitData()
         {
@@ -125,6 +139,7 @@ namespace Sim_FrameWork.Config
             _assemblePartsConfigData.LoadPartsCustomConfig();
             _assembleShipPartConfigData.LoadAssembleShipPartConfigData();
             _mainShipConfigData.LoadMainShipConfig();
+            _blockConfigData.LoadBlockConfigData();
         }
 
 

@@ -23,14 +23,9 @@ namespace Sim_FrameWork {
         protected static List<FunctionBlock> FunctionBlockList;
         protected static Dictionary<int, FunctionBlock> FunctionBlockDic;
 
-        protected static List<FunctionBlock_Industry> FunctionBlock_IndustryList;
-        protected static Dictionary<int, FunctionBlock_Industry> FunctionBlock_IndustryDic;
-
         protected static List<FunctionBlockTypeData> FunctionBlockTypeDataList;
         protected static Dictionary<string, FunctionBlockTypeData> FunctionBlockTypeDataDic;
 
-        //info Data
-        public static ManufactoryBaseInfoData manufactoryBaseInfoData;
 
         #region Data
 
@@ -38,15 +33,10 @@ namespace Sim_FrameWork {
         {
             FunctionBlockList = FunctionBlockMetaDataReader.GetFunctionBlockData();
             FunctionBlockDic = FunctionBlockMetaDataReader.GetFunctionBlockDataDic();
-            FunctionBlock_IndustryList = FunctionBlockMetaDataReader.GetFunctionBlock_IndustryData();
-            FunctionBlock_IndustryDic = FunctionBlockMetaDataReader.GetFunctionBlock_IndustryDic();
 
             FunctionBlockTypeDataList = FunctionBlockMetaDataReader.GetFunctionBlockTypeData();
             FunctionBlockTypeDataDic = FunctionBlockMetaDataReader.GetFunctionBlockTypeDataDic();
 
-            //Init Info Data
-            manufactoryBaseInfoData = new ManufactoryBaseInfoData();
-            manufactoryBaseInfoData.LoadData();
         }
 
         public override void Register()
@@ -135,35 +125,6 @@ namespace Sim_FrameWork {
         #endregion
 
         #region Method Data
-        /// <summary>
-        /// Get FunctionBlock Type
-        /// </summary>
-        /// <typeparam name="T"></typeparam>
-        /// <param name="functionBlockID"></param>
-        /// <returns></returns>
-        public static T FetchFunctionBlockTypeIndex<T>(int functionBlockID) where T : class
-        {
-            switch (GetFunctionBlockType(functionBlockID))
-            {
-                case FunctionBlockType.Industry:
-                    return GetFunctionBlock_IndustryData(GetFunctionBlockByBlockID(functionBlockID).FunctionBlockTypeIndex) as T;
-                default:
-                    Debug.LogError("Fetch FacotryType Error facotryID=" + functionBlockID);
-                    return null;
-            }
-
-        }
-
-        public static FunctionBlock_Industry GetFunctionBlock_IndustryData(int id)
-        {
-            FunctionBlock_Industry functionBlock_Industry = null;
-            FunctionBlock_IndustryDic.TryGetValue(id, out functionBlock_Industry);
-            if (functionBlock_Industry == null)
-            {
-                Debug.LogError("Get functionBlock_Industry Error , Id=" + id);
-            }
-            return functionBlock_Industry;
-        }
 
         public static Sprite GetFunctionBlockIcon(int functionBlockID)
         {
@@ -187,14 +148,6 @@ namespace Sim_FrameWork {
                     return Utility.LoadSprite(typedata.TypeIcon, Utility.SpriteType.png);
             }
             return null;
-        }
-        public static ushort GetFunctionBlockMaxLevel(int functionBlockID)
-        {
-            return GetFunctionBlockByBlockID(functionBlockID).MaxLevel;
-        }
-        public static float GetIndustrySpeed(int functionBlockID)
-        {
-            return FetchFunctionBlockTypeIndex<FunctionBlock_Industry>(functionBlockID).SpeedBase;
         }
 
         public static FunctionBlock GetFunctionBlockByBlockID(int functionBlockID)
@@ -519,82 +472,40 @@ namespace Sim_FrameWork {
         }
 
         #region BlockInfoData
-        /// <summary>
-        ///  区块固有等级
-        /// </summary>
-        /// <param name="blockID"></param>
-        /// <returns></returns>
-        public static ManufactoryBaseInfoData.ManufactureInherentLevelData GetManuInherentLevelData(FunctionBlock_Industry data)
-        {
-            List<ManufactoryBaseInfoData.ManufactureInherentLevelData> ManuLevel = manufactoryBaseInfoData.InherentLevelDatas;
-            if (ManuLevel == null)
-            {
-                Debug.LogError("Can not Find Industry InherentLevelData!");
-                return null;
-            }
-            return ManuLevel.Find(x => x.Name == data.InherentLevel);
-        }
 
-        public static string GetCurrentInherentLevelName(ManufactoryBaseInfoData.ManufactureInherentLevelData level)
+        public static List<FormulaData> GetBlockFormulaList(int blockID)
         {
-            if (level == null)
+            List<FormulaData> result = new List<FormulaData>();
+            var block = GetFunctionBlockByBlockID(blockID);
+            if (block != null)
             {
-                Debug.LogError("Manu InherentLevel is null");
-                return string.Empty;
-            }
-            return MultiLanguage.Instance.GetTextValue(level.LevelName);
-        }
-
-        private static List<string> GetBlockInherentLevelList()
-        {
-            List<string> result = new List<string>();
-            foreach(var data in manufactoryBaseInfoData.InherentLevelDatas)
-            {
-                if (result.Contains(data.Name))
-                {
-                    Debug.LogError("Find Same BlockInhernet Level Data ID=" + data.Name);
-                    continue;
-                }
-                result.Add(data.Name);
-            }
-            return result;
-        }
-
-        /// <summary>
-        /// EXP
-        /// </summary>
-        /// <param name="id"></param>
-        /// <param name="type"></param>
-        /// <returns></returns>
-        private static List<int> GetBlockEXPMapData(string id ,FunctionBlockType type)
-        {
-            switch (type)
-            {
-                case FunctionBlockType.Industry:
-                    List<BlockLevelData> manuData = manufactoryBaseInfoData.BlockLevelDatas;
-                    if (manuData == null)
-                    {
-                        Debug.LogError("Can not Find ManuBlockEXP Map  id=" + id);
-                        return null;
-                    }
-                    return manuData.Find(x => x.ID == id).EXPMap;
-                default:
+                var config = Config.ConfigData.BlockConfigData.configData.Find(x => x.configName == block.BlockName);
+                if (config == null)
                     return null;
+                if (config.manuConfig != null)
+                {
+                    for (int i = 0; i < config.manuConfig.formulaIDList.Count; i++)
+                    {
+                        var formulaData = FormulaModule.GetFormulaDataByID(config.manuConfig.formulaIDList[i]);
+                        if (formulaData != null)
+                            result.Add(formulaData);                  
+                    }
+                    return result;
+                }
             }
-           
+            return null;
         }
 
         public static List<int> GetBlockEXPMapData(int blockid)
         {
-            FunctionBlockType type = GetFunctionBlockType(blockid);
-            switch (type)
+            var block = GetFunctionBlockByBlockID(blockid);
+            if (block != null)
             {
-                case FunctionBlockType.Industry:
-                    return GetBlockEXPMapData(GetFunctionBlockByBlockID(blockid).EXPDataJsonIndex,type);
-
-                default:
-                    return null;
+                var config = Config.ConfigData.BlockConfigData.configData.Find(x => x.configName == block.BlockConfig);
+                if (config != null)
+                    return config.levelConfig.EXPMap;
             }
+            return null;
         }
 
         public static int GetCurrentLevelEXP(List<int> expMap ,int currentLevel)
@@ -616,45 +527,19 @@ namespace Sim_FrameWork {
             }
         }
 
-        private static List<BlockDistrictUnlockData.DistrictUnlockData> GetManuBlockDistrictUnlockData(string id , FunctionBlockType type)
+        public static List<Config.BlockDistrictUnlockData.DistrictUnlockData> GetBlockDistrictUnlockData(int blockID)
         {
-            switch (type)
+            var block = GetFunctionBlockByBlockID(blockID);
+            if (block != null)
             {
-                case FunctionBlockType.Industry:
-                    List < BlockDistrictUnlockData .DistrictUnlockData> manuData= manufactoryBaseInfoData.DistrictUnlockDatas.Find(x => x.ID == id).UnlockData;
-                    if (manuData == null)
-                    {
-                        Debug.LogError("can not find unlockdata,id=" + id);
-                        return null;
-                    }
-                    return manuData;
-
-                default:
-                    return null;
+                var config = Config.ConfigData.BlockConfigData.configData.Find(x => x.configName == block.BlockConfig);
+                if (config != null)
+                    return config.levelConfig.districtUnlock.UnlockData;
             }
-          
-          
-           
-        }
-        /// <summary>
-        /// get district unlockData
-        /// </summary>
-        /// <param name="blockid"></param>
-        /// <returns></returns>
-        public static List<BlockDistrictUnlockData.DistrictUnlockData> GetManuBlockDistrictUnlockData(int blockid)
-        {
-            FunctionBlockType type = GetFunctionBlockType(blockid);
-            return GetManuBlockDistrictUnlockData(GetFunctionBlockByBlockID(blockid).DistrictData,type);
+            return null;
         }
 
         #endregion
-
-        //Formula
-
-        public static List<FormulaData> GetFormulaList(FunctionBlock block)
-        {
-            return FormulaModule.GetFormulaDataList(FetchFunctionBlockTypeIndex<FunctionBlock_Industry>(block.FunctionBlockID).FormulaInfoID);
-        }
         #endregion
     }
 

@@ -59,16 +59,17 @@ namespace Sim_FrameWork
             blockModifier = GetComponent<FunctionBlockModifier>();
             info = FunctionBlockInfoData.CreateBaseInfo(transform.position,functionBlock,blockModifier);
 
-            switch (info.dataModel.BlockType)
+            var blockType = info.dataModel.BlockType;
+            if(blockType== FunctionBlockType.ElementCapsule)
             {
-                case FunctionBlockType.Industry:
-                    var manuBase = transform.gameObject.AddComponent<ManufactoryBase>();
-                    manuBase.SetData();
-                    break;
-                default:
-                    break;
-                        
+                var manuBase = transform.SafeAddCmpt<ManufactoryBase>();
+                manuBase.SetData();
+            }else if(blockType == FunctionBlockType.EnergyStorageUnit)
+            {
+                var normalBase = transform.SafeAddCmpt<BlockNormalBase>();
+                normalBase.SetData();
             }
+
             InitBase();
         }
 
@@ -282,7 +283,7 @@ namespace Sim_FrameWork
         public Dictionary<Vector2, DistrictAreaBase> currentDistrictBaseDic;
         public FunctionBlockModifier blockModifier;
 
-        public List<BlockDistrictUnlockData.DistrictUnlockData> districtUnlockDataList;
+        public List<Config.BlockDistrictUnlockData.DistrictUnlockData> districtUnlockDataList;
         public List<DistrictData> ActiveDistrictBuildList=new List<DistrictData> ();
 
 
@@ -297,7 +298,7 @@ namespace Sim_FrameWork
             info.BlockPos = blockPos;
 
             info.blockModifier = modifier;
-            info.districtUnlockDataList = FunctionBlockModule.GetManuBlockDistrictUnlockData(blockBase.FunctionBlockID);
+            info.districtUnlockDataList = FunctionBlockModule.GetBlockDistrictUnlockData(blockBase.FunctionBlockID);
 
             info.levelInfo = new FunctionBlockLevelInfo(blockBase);
 

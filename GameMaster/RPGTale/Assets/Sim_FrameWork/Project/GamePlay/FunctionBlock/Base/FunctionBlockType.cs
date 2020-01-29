@@ -7,16 +7,7 @@ namespace Sim_FrameWork
     public enum FunctionBlockType
     {
         None,
-        Industry,
-        Public,
-        Research,
-        Energy,
-        Arms,
-        Unique
-    }
-
-    public enum FunctionBlockType_WorkingArea
-    {
+        #region WorkingArea
         /// <summary>
         /// 虹普分析仪
         /// </summary>
@@ -40,11 +31,9 @@ namespace Sim_FrameWork
         /// <summary>
         /// 偏导护盾投射器
         /// </summary>
-        DeflectorShieldProjector
-    }
-
-    public enum FunctionBlock_LivingArea
-    {
+        DeflectorShieldProjector,
+        #endregion
+        #region LivingArea
         /// <summary>
         /// 训练室
         /// </summary>
@@ -69,5 +58,68 @@ namespace Sim_FrameWork
         /// 生命保障系统
         /// </summary>
         lifeSupportSystem,
+        #endregion
+        #region WorkingArea
+        /// <summary>
+        /// 通讯站
+        /// </summary>
+        OperatingOffice,
+        /// <summary>
+        /// 主控分析室
+        /// </summary>
+        MainControlAnalysisRoom,
+        /// <summary>
+        /// 太空对接环
+        /// </summary>
+        DockingRing,
+        /// <summary>
+        /// 拆解室
+        /// </summary>
+        DismantlingRoom,
+        /// <summary>
+        /// 元素舱
+        /// </summary>
+        ElementCapsule,
+        /// <summary>
+        /// 研发实验室
+        /// </summary>
+        ResearchLaboratory,
+        #endregion
+        #region PowerArea
+        /// <summary>
+        /// 储能单元
+        /// </summary>
+        EnergyStorageUnit,
+        /// <summary>
+        /// 反应舱
+        /// </summary>
+        ReactionTank,
+        /// <summary>
+        /// 湮灭反应堆
+        /// </summary>
+        AnnihilationReactor,
+        /// <summary>
+        /// 冷却固化堆
+        /// </summary>
+        CooledReactor,
+        /// <summary>
+        /// 过载缓存引擎
+        /// </summary>
+        OverloadEngine,
+        /// <summary>
+        /// 共振分束器
+        /// </summary>
+        ResonanceBeamSplitter,
+        #endregion
+    }
+
+    public enum FunctionBlockType_WorkingArea
+    {
+    
+    }
+
+    public enum FunctionBlock_LivingArea
+    {
+       
     }
 }

@@ -3,17 +3,14 @@ using System.Collections.Generic;
 using UnityEngine;
 
 namespace Sim_FrameWork {
-    public class ModifierManager : MonoSingleton<ModifierManager> {
+    public class ModifierManager : Singleton<ModifierManager> {
 
-        public List<ModifierBase> modifierBaseList = new List<ModifierBase>();
-        public GeneralModifier generalModifier = new GeneralModifier();
+        public GeneralModifier generalModifier;
 
-        protected override void Awake()
+        public void InitData()
         {
-            base.Awake();
-
-            generalModifier.ReadModifierData();
-            modifierBaseList = generalModifier.ModifierBase;
+            generalModifier = new GeneralModifier();
+            generalModifier.LoadModifierData();
         }
 
 
@@ -65,7 +62,6 @@ namespace Sim_FrameWork {
                          });
                     }
                     break;
-
             }
 
             if (data != null)
@@ -101,7 +97,7 @@ namespace Sim_FrameWork {
 
         public ModifierBase GetModifierBase(string name)
         {
-            var modifier= modifierBaseList.Find(x => x.ModifierName == name);
+            var modifier= generalModifier.ModifierBase.Find(x => x.ModifierName == name);
             if (modifier == null)
             {
                 Debug.LogError("Can not Find Modifier,Name=" + name);

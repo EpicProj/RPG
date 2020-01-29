@@ -86,7 +86,7 @@ namespace Sim_FrameWork
             UIManager.Instance.PopUpWnd(UIPath.WindowPath.BlockManu_Page, WindowType.Page, true, baseData._blockBase, baseData.manufactoryInfo, baseData.formulaInfo);
         }
 
-        public void ShowBlockNormalInfoDialog()
+        public void ShowBlockNormalInfoDialog(BlockNormalBase baseData)
         {
             UIManager.Instance.Register<UI.BlockNormalInfoDialogContext>(UIPath.WindowPath.BlockNormalInfo_Dialog);
             UIManager.Instance.PopUpWnd(UIPath.WindowPath.BlockNormalInfo_Dialog, WindowType.Dialog);
