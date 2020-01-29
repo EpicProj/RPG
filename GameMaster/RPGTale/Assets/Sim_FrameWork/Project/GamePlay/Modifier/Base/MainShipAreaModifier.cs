@@ -7,5 +7,6 @@ namespace Sim_FrameWork
     public class MainShipAreaModifier : ModifierGeneral
     {
 
+
     }
 }

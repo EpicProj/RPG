@@ -470,6 +470,7 @@ namespace Sim_FrameWork {
             Vector2 area = GetFunctionBlockAreaMax(block);
             return new Vector3(area.x, height, area.y);
         }
+        #endregion
 
         #region BlockInfoData
 
@@ -539,8 +540,34 @@ namespace Sim_FrameWork {
             return null;
         }
 
+        public static List<BlockNormalInfoData.BlockModifier> GetBlockEffectList(int blockID)
+        {
+            List<BlockNormalInfoData.BlockModifier> result = new List<BlockNormalInfoData.BlockModifier>();
+            var block = GetFunctionBlockByBlockID(blockID);
+            if (block != null)
+            {
+                var config = Config.ConfigData.BlockConfigData.configData.Find(x=>x.configName==block.BlockConfig);
+                if (config == null)
+                    return result;
+                if (config.effectConfig != null)
+                {
+                    for(int i = 0; i < config.effectConfig.Count; i++)
+                    {
+                        BlockNormalInfoData.BlockModifier modifier = new BlockNormalInfoData.BlockModifier
+                        {
+                            iconPath = config.effectConfig[i].iconPath,
+                            isDestory = false,
+                            modiferBase = ModifierManager.Instance.GetModifierBase(config.effectConfig[i].modifierName)
+                        };
+                        result.Add(modifier);
+                    }
+                }
+            }
+            return result;
+        }
+
         #endregion
-        #endregion
+      
     }
 
     public class FunctionBlockHistory
@@ -548,9 +575,6 @@ namespace Sim_FrameWork {
         public string FunctionBlockGUID;
         public int FacotoryID;
         public string BuildDate;
-
-
-
 
         public FunctionBlockHistory(FunctionBlockInfoData blockInfo ,string buildData)
         {

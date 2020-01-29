@@ -13,10 +13,20 @@ namespace Sim_FrameWork {
             generalModifier.LoadModifierData();
         }
 
-
-        public void DoManufactBlockModifier(ManufactoryInfo manuInfo, FunctionBlockInfoData baseInfo,string modifierName)
+        public ModifierBase GetModifierBase(string name)
         {
-            DoManufactoryBlockModifier(manuInfo, baseInfo, GetModifierBase(modifierName));
+            var modifier = generalModifier.ModifierBase.Find(x => x.ModifierName == name);
+            if (modifier == null)
+            {
+                Debug.LogError("Can not Find Modifier,Name=" + name);
+            }
+            return modifier;
+        }
+
+        #region Block
+        public void AddManufactBlockModifier(ManufactoryInfo manuInfo, FunctionBlockInfoData baseInfo,string modifierName)
+        {
+            AddManufactoryBlockModifier(manuInfo, baseInfo, GetModifierBase(modifierName));
         }
 
         /// <summary>
@@ -24,7 +34,7 @@ namespace Sim_FrameWork {
         /// </summary>
         /// <param name="infoData"></param>
         /// <param name="modifierBase"></param>
-        public void DoManufactoryBlockModifier(ManufactoryInfo manuInfo,FunctionBlockInfoData baseInfo, ModifierBase modifierBase)
+        public void AddManufactoryBlockModifier(ManufactoryInfo manuInfo,FunctionBlockInfoData baseInfo, ModifierBase modifierBase)
         {
             if (modifierBase == null)
             {
@@ -39,11 +49,11 @@ namespace Sim_FrameWork {
 
             ModifierData data = null;
 
-            switch (modifierBase.ParseModifierFunctionBlockType(modifierBase.functionBlockType))
+            switch (modifierBase.ParseModifierFunctionBlockType(modifierBase.effectType))
             {
                 case ModifierFunctionBlockType.ManuSpeed:
                     //Modifier Speed
-                    if (!IsAddFcuntionBlockModifier(baseInfo, modifierBase))
+                    if (!IsAddFunctionBlockModifier(baseInfo, modifierBase))
                     {
                         data = ModifierData.Create(modifierBase, delegate
                          {
@@ -54,7 +64,7 @@ namespace Sim_FrameWork {
                     break;
                 case ModifierFunctionBlockType.EnergyCostNormal:
                     //Modifier EnergyCost
-                    if (!IsAddFcuntionBlockModifier(baseInfo, modifierBase))
+                    if (!IsAddFunctionBlockModifier(baseInfo, modifierBase))
                     {
                         data = ModifierData.Create(modifierBase, delegate
                          {
@@ -77,7 +87,7 @@ namespace Sim_FrameWork {
         /// <param name="info"></param>
         /// <param name="modifier"></param>
         /// <returns></returns>
-        private bool IsAddFcuntionBlockModifier(FunctionBlockInfoData info,ModifierBase modifier)
+        private bool IsAddFunctionBlockModifier(FunctionBlockInfoData info,ModifierBase modifier)
         {
             ModifierData oldData = info.blockModifier.GetModifierByID(modifier.ModifierName);
             if(oldData != null)
@@ -92,21 +102,70 @@ namespace Sim_FrameWork {
             }
             return false;
         }
+        #endregion
 
+        #region MainShipArea
 
-
-        public ModifierBase GetModifierBase(string name)
+        public void AddMainShipPowerAreaModifier(MainShipPowerAreaInfo areaInfo, MainShipPowerArea baseInfo, string modifierName)
         {
-            var modifier= generalModifier.ModifierBase.Find(x => x.ModifierName == name);
-            if (modifier == null)
-            {
-                Debug.LogError("Can not Find Modifier,Name=" + name);
-            }
-            return modifier;
+            AddMainShipPowerAreaModifier(areaInfo, baseInfo, GetModifierBase(modifierName));
         }
 
- 
+        public void AddMainShipPowerAreaModifier(MainShipPowerAreaInfo areaInfo, MainShipPowerArea baseInfo, ModifierBase modifierBase)
+        {
+            if (modifierBase == null)
+            {
+                Debug.LogError("Modifier Base Data is null");
+                return;
+            }
+            if (modifierBase.ParseTargetType(modifierBase.Target) != ModifierTarget.MainShipPowerArea)
+            {
+                Debug.LogError("ModifierTargetError  Name=" + modifierBase.ModifierName);
+                return;
+            }
+
+            ModifierData data = null;
+
+            switch (modifierBase.ParseModifierPowerAreaType(modifierBase.effectType))
+            {
+                case ModifierMainShip_PowerArea.EnergyStorageMax:
+                    //Modifier Speed
+                    if (!IsAddPowerAreaModifier(baseInfo, modifierBase))
+                    {
+                        data = ModifierData.Create(modifierBase, delegate
+                        {
+                            areaInfo.AddMaxStoragePower((int)modifierBase.Value);
+                        });
+                    }
+                    break;
+            }
+
+            if (data != null)
+            {
+                baseInfo.areaModifier.OnAddModifier(data);
+            }
+        }
+
+        private bool IsAddPowerAreaModifier(MainShipPowerArea info, ModifierBase modifier)
+        {
+            ModifierData oldData = info.areaModifier.GetModifierByID(modifier.ModifierName);
+            if (oldData != null)
+            {
+                switch (modifier.OverlapType)
+                {
+                    case ModifierOverlapType.TimeReset:
+                        oldData.ResetTime();
+                        break;
+                }
+                return true;
+            }
+            return false;
+        }
+
+
+        #endregion
+
     }
 
-  
+
 }

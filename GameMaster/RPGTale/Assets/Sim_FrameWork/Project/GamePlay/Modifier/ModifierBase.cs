@@ -5,6 +5,32 @@ using System;
 
 namespace Sim_FrameWork
 {
+    public enum ModifierTarget
+    {
+
+        /// <summary>
+        /// 基础资源
+        /// </summary>
+        BaseResource,
+        /// <summary>
+        /// 区块作用
+        /// </summary>
+        FunctionBlock,
+        MainShipPowerArea,
+        MainShipWorkingArea,
+        /// <summary>
+        /// 地形
+        /// </summary>
+        Terrian,
+        /// <summary>
+        /// 订单
+        /// </summary>
+        Order,
+        /// <summary>
+        /// Error
+        /// </summary>
+        None
+    }
 
     public class GeneralModifier
     {
@@ -32,7 +58,7 @@ namespace Sim_FrameWork
         /// <summary>
         /// 区块作用类型
         /// </summary>
-        public string functionBlockType;
+        public string effectType;
         /// <summary>
         /// 基础资源作用类型
         /// </summary>
@@ -73,6 +99,16 @@ namespace Sim_FrameWork
             return modifierFunctionBlockType;
         }
 
+        public ModifierMainShip_PowerArea ParseModifierPowerAreaType(string typeName)
+        {
+            ModifierMainShip_PowerArea type = ModifierMainShip_PowerArea.None;
+            Enum.TryParse<ModifierMainShip_PowerArea>(typeName, out type);
+            if(type== ModifierMainShip_PowerArea.None)
+            {
+                Debug.LogError("ModifierType Error! Type=" + typeName);
+            }
+            return type;  
+        }
 
     }
     [Serializable]
@@ -410,31 +446,6 @@ namespace Sim_FrameWork
             modifierCache.Push(data);
         }
 
-    }
-
-    public enum ModifierTarget
-    {
-
-        /// <summary>
-        /// 基础资源
-        /// </summary>
-        BaseResource,
-        /// <summary>
-        /// 区块作用
-        /// </summary>
-        FunctionBlock,
-        /// <summary>
-        /// 地形
-        /// </summary>
-        Terrian,
-        /// <summary>
-        /// 订单
-        /// </summary>
-        Order,
-        /// <summary>
-        /// Error
-        /// </summary>
-        None
     }
 
     /// <summary>

@@ -208,6 +208,11 @@ namespace Sim_FrameWork
             return true;
         }
 
+        public void AddMaxStoragePower(int value)
+        {
+            MaxStoragePower += value;
+        }
+
     }
 
     public class MainShipControlTowerInfo: MainShipAreaBaseInfo

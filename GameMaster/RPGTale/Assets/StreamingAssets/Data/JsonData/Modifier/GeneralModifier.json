@@ -3,7 +3,7 @@
 	[{
 		"ModifierName":"AddManuSpeed",
 		"Target":"FunctionBlock",
-		"functionBlockType":"ManuSpeed",
+		"effectType":"ManuSpeed",
 		"OverlapType":0,
 		"RemoveType":1,
 		"AddType":0,
@@ -16,8 +16,8 @@
 
 	{
 		"ModifierName":"AddEnergy_Storage_Block",
-		"Target":"FunctionBlock",
-		"functionBlockType":"EnergyStorageMax",
+		"Target":"MainShipPowerArea",
+		"effectType":"EnergyStorageMax",
 		"OverlapType":0,
 		"RemoveType":1,
 		"AddType":0,

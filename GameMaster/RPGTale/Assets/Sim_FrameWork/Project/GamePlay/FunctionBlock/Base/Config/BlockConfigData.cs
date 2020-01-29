@@ -22,6 +22,7 @@ namespace Sim_FrameWork.Config
         public string configType;
         public BlockLevelConfig levelConfig;
         public Block_Manufact_Config manuConfig;
+        public List<Block_Effect_Config> effectConfig;
     }
 
     /// <summary>
@@ -41,7 +42,8 @@ namespace Sim_FrameWork.Config
     /// </summary>
     public class Block_Effect_Config
     {
-
+        public string modifierName;
+        public string iconPath;
     }
 
     #region LevelData

@@ -4,10 +4,6 @@ using UnityEngine;
 
 namespace Sim_FrameWork
 {
-    public enum ModifierType
-    {
-
-    }
     public enum ModifierFunctionBlockType
     {
         /// <summary>
@@ -43,6 +39,12 @@ namespace Sim_FrameWork
         Energy,
         Laber,
         Reputation
+    }
+
+    public enum ModifierMainShip_PowerArea
+    {
+        EnergyStorageMax,
+        None
     }
 
 }
