@@ -16,6 +16,8 @@ namespace Sim_FrameWork
             _infoData = new BlockNormalInfoData(_blockBase.info.BlockID);
             _blockBase.OnBlockSelectAction += Onselect;
             _blockBase.OnBlockAreaEnterAction += OnBlockAreaEnter;
+
+            _infoData.InitModifier();
         }
 
         private void Onselect()
@@ -60,7 +62,7 @@ namespace Sim_FrameWork
             {
                 for(int i = 0; i < blockModifierList.Count; i++)
                 {
-                    
+                    MainShipManager.Instance.AddPowerAreaModifier(blockModifierList[i].modiferBase);
                 }
             }
         }

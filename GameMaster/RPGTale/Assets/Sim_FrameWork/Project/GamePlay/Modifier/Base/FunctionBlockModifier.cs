@@ -6,6 +6,13 @@ namespace Sim_FrameWork
 {
     public class FunctionBlockModifier :ModifierGeneral
     {
+        public ModifierTarget target;
+        public int instanceID;
+        public FunctionBlockModifier(ModifierTarget target,int instanceID)
+        {
+            this.target = target;
+            this.instanceID = instanceID;
+        }
         public virtual void Init()
         {
             InitModifier();

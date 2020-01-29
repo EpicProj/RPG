@@ -21,8 +21,6 @@ namespace Sim_FrameWork
         public FunctionBlockInfoData info;
 
         private BoxCollider BlockCollider;
-        private FunctionBlockModifier blockModifier;
-
         private GameObject ModelRoot;
         /// <summary>
         /// UI ROOT
@@ -56,8 +54,8 @@ namespace Sim_FrameWork
 
             SetPosition(new Vector3( posX, transform.localScale.y/2 , posZ));
 
-            blockModifier = GetComponent<FunctionBlockModifier>();
-            info = FunctionBlockInfoData.CreateBaseInfo(transform.position,functionBlock,blockModifier);
+            info = FunctionBlockInfoData.CreateBaseInfo(transform.position,functionBlock,
+                new FunctionBlockModifier(ModifierTarget.FunctionBlock,instanceID));
 
             var blockType = info.dataModel.BlockType;
             if(blockType== FunctionBlockType.ElementCapsule)

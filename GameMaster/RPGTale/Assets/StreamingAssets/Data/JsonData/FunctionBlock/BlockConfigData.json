@@ -83,6 +83,15 @@
 		{
 			"configName":"BlockConfig_1000",
 			"configType":"sss",
+			"levelConfig":{
+				"EXPMap":[1000,2000,3000,4000],
+				"districtUnlock":{
+					"UnlockData":[{
+					"DistrictID":200,
+					"UnlockDefault":true
+					}]
+				}
+			},
 			"effectConfig":[
 				{
 					"modifierName":"AddEnergy_Storage_Block",

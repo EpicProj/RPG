@@ -11,7 +11,7 @@ namespace Sim_FrameWork.Config
         {
             Config.JsonReader reader = new Config.JsonReader();
             BlockConfigData info = reader.LoadJsonDataConfig<BlockConfigData>(Config.JsonConfigPath.BlockConfigDataJsonPath);
-            info.configData = configData;
+            configData = info.configData;
             return info;
         }
     }

@@ -405,7 +405,7 @@ namespace Sim_FrameWork {
                      for (int j = 0; j < li.Count; j++)
                      {
                          Vector2 pos = new Vector2(i, j);
-                         result.Add(pos, li[2]);
+                         result.Add(pos, li[j]);
                      }
                  }
                  return result;

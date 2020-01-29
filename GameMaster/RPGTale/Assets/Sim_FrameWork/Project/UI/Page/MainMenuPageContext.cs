@@ -37,13 +37,17 @@ namespace Sim_FrameWork.UI
             UpdateTimePanel();
             if(GameManager.Instance.currentAreaState == GameManager.AreaState.OutSide)
             {
-                for(int i = 0; i < mainShipAreaItemList.Count; i++)
+                Transform.FindTransfrom("MainShipGeneral").SafeGetComponent<CanvasGroup>().ActiveCanvasGroup(true);
+                Transform.FindTransfrom("ConstructPanel").SafeGetComponent<CanvasGroup>().ActiveCanvasGroup(false);
+                for (int i = 0; i < mainShipAreaItemList.Count; i++)
                 {
                     mainShipAreaItemList[i].InitData();
                 }
             }
             else if(GameManager.Instance.currentAreaState== GameManager.AreaState.MainShipInside)
             {
+                Transform.FindTransfrom("MainShipGeneral").SafeGetComponent<CanvasGroup>().ActiveCanvasGroup(false);
+                Transform.FindTransfrom("ConstructPanel").SafeGetComponent<CanvasGroup>().ActiveCanvasGroup(true);
                 RefreshBuildMainTab();
             }
         }

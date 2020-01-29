@@ -4,10 +4,12 @@
   <AllDistrictDataList DistrictID="-2" DistrictName="DistrictName_UNLOCK" DistrictDesc="DistrictDesc_UNLOCK" Type="1" Level="1" CurrencyCost="0" MaterialCostList="0" TimeCost="0" EffectList="0" />
   <AllDistrictDataList DistrictID="100" DistrictName="DistrictName_100" DistrictDesc="DistrictDesc_100" Type="1" Level="1" CurrencyCost="1000" MaterialCostList="100:10,101:3" TimeCost="10" EffectList="District_Effect_100" />
   <AllDistrictDataList DistrictID="101" DistrictName="DistrictName_101" DistrictDesc="DistrictDesc_101" Type="2" Level="2" CurrencyCost="1000" MaterialCostList="100:10,102:3" TimeCost="20" EffectList="District_Effect_101" />
+  <AllDistrictDataList DistrictID="200" DistrictName="DistrictName_101" DistrictDesc="DistrictDesc_101" Type="4" Level="1" CurrencyCost="1000" MaterialCostList="100:10,102:3" TimeCost="20" EffectList="0" />
   <AllDistrictTypeList TypeID="0" TypeShape="0,0" IconList="0" ModelPath="Prefabs/FunctionBlock/Manu/District_Smelt_Large" />
   <AllDistrictTypeList TypeID="1" TypeShape="0,0" IconList="1" ModelPath="Prefabs/FunctionBlock/Manu/District_Smelt_Small" />
   <AllDistrictTypeList TypeID="2" TypeShape="0,0" IconList="2" ModelPath="Prefabs/FunctionBlock/Manu/District_Smelt_Large" />
   <AllDistrictTypeList TypeID="3" TypeShape="0,0;0,1;1,0;1,1" IconList="1,1,1,1" ModelPath="Prefabs/FunctionBlock/Manu/District_Smelt_Large" />
+  <AllDistrictTypeList TypeID="4" TypeShape="0,0" IconList="1" ModelPath="Objects/FunctionBlock/PowerArea/Power_Storage" />
   <AllDistrictIconList IconID="0" IconPath="SpriteOutput/District/District_Empty" />
   <AllDistrictIconList IconID="1" IconPath="SpriteOutput/District/DistriceTest01" />
   <AllDistrictIconList IconID="2" IconPath="SpriteOutput/District/DistriceTest02" />

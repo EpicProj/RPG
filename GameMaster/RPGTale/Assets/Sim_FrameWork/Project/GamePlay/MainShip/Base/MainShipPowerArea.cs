@@ -7,7 +7,6 @@ namespace Sim_FrameWork {
     {
         public void Start()
         {
-            MainShipManager.Instance.Register<MainShipPowerArea>(MainShipAreaType.PowerArea);
         }
     }
 }

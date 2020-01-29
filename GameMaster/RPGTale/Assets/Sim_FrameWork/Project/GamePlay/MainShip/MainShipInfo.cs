@@ -173,6 +173,8 @@ namespace Sim_FrameWork
             currentOverLoadLevel += level;
         }
 
+        public MainShipAreaModifier areaModifier;
+
         public MainShipPowerAreaInfo()
         {
             var config = Config.ConfigData.MainShipConfigData.powerAreaConfig;
@@ -183,8 +185,8 @@ namespace Sim_FrameWork
                 EnergyLoadValueMax = config.energyLoadBase;
                 EnergyLoadValueCurrent = EnergyLoadValueMax;
                 MaxStoragePower = config.MaxStorageCountBase;
-
             }
+            areaModifier = new MainShipAreaModifier(ModifierTarget.MainShipPowerArea);
         }
 
         /// <summary>
@@ -352,7 +354,7 @@ namespace Sim_FrameWork
 
     public class MainShipWorkingAreaInfo: MainShipAreaBaseInfo
     {
-
+        public MainShipAreaModifier areaModifier;
         public MainShipWorkingAreaInfo()
         {
             var config = Config.ConfigData.MainShipConfigData.workingAreaConfig;
@@ -366,6 +368,8 @@ namespace Sim_FrameWork
                 powerConsumeBase = (ushort)config.baseConfig.PowerConsumeBase;
                 UpdateAreaState();
                 RefreshPowerCost();
+
+                areaModifier = new MainShipAreaModifier(ModifierTarget.MainShipWorkingArea);
             }
         }
 

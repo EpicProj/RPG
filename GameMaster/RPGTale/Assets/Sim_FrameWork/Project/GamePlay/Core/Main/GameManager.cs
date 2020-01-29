@@ -33,7 +33,7 @@ namespace Sim_FrameWork
         private GameStates _gameStates = GameStates.Start;
         public GameStates gameStates { get { return _gameStates; } }
 
-        public AreaState currentAreaState = AreaState.OutSide;
+        public AreaState currentAreaState = AreaState.MainShipInside;
         private bool ConsolePageShow = false;
 
         protected override void Awake()
@@ -47,13 +47,13 @@ namespace Sim_FrameWork
             PlayerManager.Instance.InitPlayerData();
             GlobalEventManager.Instance.InitData();
             MainShipManager.Instance.InitData();
-            ModifierManager.Instance.InitData();
             DontDestroyOnLoad(gameObject);
             
         }
 
         void Start()
         {
+            currentAreaState= AreaState.MainShipInside;
             UIGuide.Instance.ShowGameMainPage();
             UIGuide.Instance.ShowPlayerStatePanel();
             //UIManager.Instance.PopUpWnd(UIPath.WindowPath.Game_Entry_Page);

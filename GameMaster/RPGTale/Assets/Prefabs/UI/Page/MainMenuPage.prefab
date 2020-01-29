@@ -2587,7 +2587,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &224197838629273898
 RectTransform:
   m_ObjectHideFlags: 0
@@ -8200,6 +8200,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 3383646450753570026}
+  - component: {fileID: 1139565121}
   m_Layer: 5
   m_Name: MainShipGeneral
   m_TagString: Untagged
@@ -8230,6 +8231,18 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 70}
   m_SizeDelta: {x: 0, y: 140}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!225 &1139565121
+CanvasGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3650117126138398157}
+  m_Enabled: 1
+  m_Alpha: 1
+  m_Interactable: 1
+  m_BlocksRaycasts: 1
+  m_IgnoreParentGroups: 0
 --- !u!1 &3685939753745355045
 GameObject:
   m_ObjectHideFlags: 0

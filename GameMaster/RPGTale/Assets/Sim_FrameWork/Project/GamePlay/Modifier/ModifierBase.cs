@@ -295,6 +295,12 @@ namespace Sim_FrameWork
         public void OnTick(float delayTime)
         {
             _currentTime += delayTime;
+
+            if (PersistentTime == -1)
+            {
+                ///perpetual
+                return;
+            }
             //大于持续时间
             if (_currentTime >= PersistentTime)
             {

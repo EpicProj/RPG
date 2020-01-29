@@ -4,12 +4,12 @@ using UnityEngine;
 
 namespace Sim_FrameWork
 {
-    public class ModifierGeneral : MonoBehaviour
+    public class ModifierGeneral 
     {
         [SerializeField]
-        private List<ModifierData> modifierList;
+        public List<ModifierData> modifierList=new List<ModifierData> ();
 
-        void FixedUpdate()
+        public void UpdateModifier()
         {
             for (int i = modifierList.Count - 1; i >= 0; i--)
             {

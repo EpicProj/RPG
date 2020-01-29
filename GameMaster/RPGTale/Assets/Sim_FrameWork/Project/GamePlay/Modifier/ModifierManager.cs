@@ -3,14 +3,54 @@ using System.Collections.Generic;
 using UnityEngine;
 
 namespace Sim_FrameWork {
-    public class ModifierManager : Singleton<ModifierManager> {
+    public class ModifierManager : MonoSingleton<ModifierManager> {
 
-        public GeneralModifier generalModifier;
+        public List<MainShipAreaModifier> shipAreaModifierList;
+        public List<FunctionBlockModifier> blockModifierList;
+
+        private GeneralModifier generalModifier;
+  
+        protected override void Awake()
+        {
+            base.Awake();
+            InitData();
+        }
 
         public void InitData()
         {
-            generalModifier = new GeneralModifier();
+            shipAreaModifierList = new List<MainShipAreaModifier>();
+            blockModifierList = new List<FunctionBlockModifier>();
+            generalModifier = new GeneralModifier();   
             generalModifier.LoadModifierData();
+        }
+
+        private void LateUpdate()
+        {
+            UpdateAreaModifier();
+            UpdateBlockModifier();
+        }
+
+        void UpdateAreaModifier()
+        {
+            for (int i = 0; i < shipAreaModifierList.Count; i++)
+            {
+                if (shipAreaModifierList[i].target == ModifierTarget.MainShipPowerArea && MainShipManager.Instance.PowerArea_Active)
+                {
+                    shipAreaModifierList[i].UpdateModifier();
+                }
+                if (shipAreaModifierList[i].target == ModifierTarget.MainShipWorkingArea && MainShipManager.Instance.WorkingArea_Active)
+                {
+                    shipAreaModifierList[i].UpdateModifier();
+                }
+            }
+        }
+
+        void UpdateBlockModifier()
+        {
+            for(int i = 0; i < blockModifierList.Count; i++)
+            {
+                blockModifierList[i].UpdateModifier();
+            }
         }
 
         public ModifierBase GetModifierBase(string name)
@@ -24,6 +64,11 @@ namespace Sim_FrameWork {
         }
 
         #region Block
+        public FunctionBlockModifier GetBlockModifierByInstanceID(int instanceID)
+        {
+            return blockModifierList.Find(x => x.instanceID == instanceID);
+        }
+
         public void AddManufactBlockModifier(ManufactoryInfo manuInfo, FunctionBlockInfoData baseInfo,string modifierName)
         {
             AddManufactoryBlockModifier(manuInfo, baseInfo, GetModifierBase(modifierName));
@@ -106,12 +151,12 @@ namespace Sim_FrameWork {
 
         #region MainShipArea
 
-        public void AddMainShipPowerAreaModifier(MainShipPowerAreaInfo areaInfo, MainShipPowerArea baseInfo, string modifierName)
+        public void AddMainShipPowerAreaModifier(MainShipPowerAreaInfo areaInfo, string modifierName)
         {
-            AddMainShipPowerAreaModifier(areaInfo, baseInfo, GetModifierBase(modifierName));
+            AddMainShipPowerAreaModifier(areaInfo, GetModifierBase(modifierName));
         }
 
-        public void AddMainShipPowerAreaModifier(MainShipPowerAreaInfo areaInfo, MainShipPowerArea baseInfo, ModifierBase modifierBase)
+        public void AddMainShipPowerAreaModifier(MainShipPowerAreaInfo areaInfo, ModifierBase modifierBase)
         {
             if (modifierBase == null)
             {
@@ -130,7 +175,7 @@ namespace Sim_FrameWork {
             {
                 case ModifierMainShip_PowerArea.EnergyStorageMax:
                     //Modifier Speed
-                    if (!IsAddPowerAreaModifier(baseInfo, modifierBase))
+                    if (!IsAddPowerAreaModifier(areaInfo, modifierBase))
                     {
                         data = ModifierData.Create(modifierBase, delegate
                         {
@@ -142,11 +187,11 @@ namespace Sim_FrameWork {
 
             if (data != null)
             {
-                baseInfo.areaModifier.OnAddModifier(data);
+                areaInfo.areaModifier.OnAddModifier(data);
             }
         }
 
-        private bool IsAddPowerAreaModifier(MainShipPowerArea info, ModifierBase modifier)
+        private bool IsAddPowerAreaModifier(MainShipPowerAreaInfo info, ModifierBase modifier)
         {
             ModifierData oldData = info.areaModifier.GetModifierByID(modifier.ModifierName);
             if (oldData != null)
