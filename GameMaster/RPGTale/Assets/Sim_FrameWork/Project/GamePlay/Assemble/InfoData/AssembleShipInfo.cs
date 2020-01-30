@@ -2,7 +2,10 @@
 using System.Collections.Generic;
 using UnityEngine;
 using System;
-
+/*
+ * Assemble Ship Info
+ * SOMA
+ */
 namespace Sim_FrameWork
 {
     public class AssembleShipInfo
@@ -147,11 +150,36 @@ namespace Sim_FrameWork
         public AssembleShipTypePresetData presetData;
         public AssembleShipCustomData customData;
 
-
+        public AssembleShipInfo() { }
         public AssembleShipInfo(int shipID)
         {
             presetData = new AssembleShipTypePresetData(shipID);
             warShipID = presetData.WarshipID;
+        }
+
+        public AssembleShipSingleSaveData CreateSaveData()
+        {
+            AssembleShipSingleSaveData save = new AssembleShipSingleSaveData();
+            List<int> partIDList = new List<int>();
+            foreach(var part in customData.customPartData.Keys)
+            {
+                partIDList.Add(part);
+            }
+
+            save.CreateSaveData(warShipID, UID, customData.customNameText, partIDList);
+            return save;
+        }
+
+        public AssembleShipInfo LoadSaveData(AssembleShipSingleSaveData saveData)
+        {
+            if (saveData != null)
+            {
+                AssembleShipInfo info = new AssembleShipInfo(saveData.shipID);
+                info.customData = new AssembleShipCustomData(saveData);
+                return info;
+
+            }
+            return null;
         }
     }
 
@@ -242,6 +270,47 @@ namespace Sim_FrameWork
             this.customNameText = customName;
             this.customPartData = customPartData;
         }
+
+        public AssembleShipCustomData(AssembleShipSingleSaveData saveData)
+        {
+            if (saveData != null)
+            {
+                this.WarshipID = saveData.shipID;
+                this.customNameText = saveData.customName_Partial;
+
+                Dictionary<int, AssemblePartInfo> infoDic = new Dictionary<int, AssemblePartInfo>();
+                for(int i = 0; i < saveData.customPartData.Count; i++)
+                {
+                    var partInfo = PlayerManager.Instance.GetAssemblePartInfo((ushort)saveData.customPartData[i]);
+                    if (partInfo != null)
+                        infoDic.Add(partInfo.UID, partInfo);
+                }
+                customPartData = infoDic;
+            }
+        }
     }
 
+    #region Save Data
+
+    public class AssembleShipSingleSaveData
+    {
+        public int shipID;
+        public ushort UID;
+        //Only Save Custom Part
+        public string customName_Partial;
+
+        public List<int> customPartData;
+
+        public AssembleShipSingleSaveData CreateSaveData(int shipID, ushort uid,string customName,List<int> customPartData)
+        {
+            AssembleShipSingleSaveData save = new AssembleShipSingleSaveData();
+            save.shipID = shipID;
+            save.UID = uid;
+            save.customName_Partial = customName;
+            save.customPartData = customPartData;
+            return save;
+        }
+    }
+
+    #endregion
 }

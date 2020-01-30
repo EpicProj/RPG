@@ -13,6 +13,12 @@ namespace Sim_FrameWork
         Pause = 2
     }
 
+    public enum SceneState
+    {
+        MainMenuPage,
+        InGame
+    }
+
     public enum AreaState
     {
         OutSide,
@@ -32,6 +38,8 @@ namespace Sim_FrameWork
         public GameStates gameStates { get { return _gameStates; } }
 
         public AreaState currentAreaState;
+
+        public SceneState currentScene = SceneState.MainMenuPage;
         private bool ConsolePageShow = false;
 
         protected override void Awake()
@@ -40,13 +48,13 @@ namespace Sim_FrameWork
             InitBaseData();
             AssetBundleManager.Instance.LoadAssetBundleConfig();
             ResourceManager.Instance.Init(this);
-
             DataManager.Instance.InitData();
             PlayerManager.Instance.InitPlayerData();
             GlobalEventManager.Instance.InitData();
             MainShipManager.Instance.InitData();
             DontDestroyOnLoad(gameObject);
-            
+
+            currentScene = SceneState.MainMenuPage;
         }
 
         void Start()

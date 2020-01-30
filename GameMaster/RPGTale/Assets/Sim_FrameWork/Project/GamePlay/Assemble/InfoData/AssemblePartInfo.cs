@@ -1,6 +1,10 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+/*
+ * Assemble Info
+ * SOMA
+ */
 
 namespace Sim_FrameWork
 {
@@ -17,7 +21,6 @@ namespace Sim_FrameWork
         {
             get { return typePresetData.partName + "·" + customDataInfo.partNameCustomText; }
         }
-
 
         public List<MaterialCostItem> materialCostItem = new List<MaterialCostItem>();
         public List<string> partEquipType = new List<string>();
@@ -51,6 +54,24 @@ namespace Sim_FrameWork
                 typePresetData = new AssemblePartTypePresetData(_partsMeta.ModelTypeID);
             }
         }
+
+        public AssmeblePartSingleSaveData CreatePartSave()
+        {
+            AssmeblePartSingleSaveData save = new AssmeblePartSingleSaveData();
+            save.createSaveData(partID,UID, customDataInfo.partNameCustomText, customDataInfo.customValueDic);
+            return save;
+        }
+
+        public AssemblePartInfo LoadSaveData(AssmeblePartSingleSaveData saveData)
+        {
+            if (saveData != null)
+            {
+                AssemblePartInfo info = new AssemblePartInfo(saveData.partID);
+                return info;
+            }
+            return null;
+        }
+
     }
 
 
@@ -107,6 +128,7 @@ namespace Sim_FrameWork
             }
             partsPropertyConfig = AssembleModule.GetPartsPropertyConfigData(typeModelID);
         }
+
     }
 
 
@@ -129,7 +151,6 @@ namespace Sim_FrameWork
         public Dictionary<string, CustomData> propertyDic=new Dictionary<string, CustomData> ();
         public Dictionary<string, float> customValueDic=new Dictionary<string, float> ();
 
-
         public AssemblePartCustomDataInfo(int partID, string partNameCustomText, Dictionary<string, CustomData> propertyDic, Dictionary<string, float> customValueDic)
         {
             this.partID = partID;
@@ -138,13 +159,20 @@ namespace Sim_FrameWork
             this.customValueDic = customValueDic;
         }
 
+        public AssemblePartCustomDataInfo(int partID, string partNameCustomText)
+        {
+            this.partID = partID;
+            this.partNameCustomText = partNameCustomText;
+        }
+
         public class CustomData
         {
-
             public string propertyNameText;
             public Sprite propertyIcon;
             public float propertyValueMin;
             public float propertyValueMax;
+
+            public float propertyOriginValue;
 
             public int propertyType;
 
@@ -162,7 +190,7 @@ namespace Sim_FrameWork
                 Dictionary<string, AssemblePartPropertyDetailInfo> detailDic, Dictionary<string, AssemblePartTimeCostDetialInfo> timeCostDetailInfoDic)
             {
                 propertyType = config.PropertyType;
-
+                propertyOriginValue = (float)config.PropertyValue;
                 propertyTypeData = AssembleModule.GetAssemblePartPropertyTypeData(config.Name);
                 if (propertyTypeData != null)
                 {
@@ -174,8 +202,37 @@ namespace Sim_FrameWork
                 detailInfoDic = detailDic;
                 this.timeCostDetailInfoDic = timeCostDetailInfoDic;
             }
-        }
 
+            public float CurrentValueMin
+            {
+                get
+                {
+                    float value = propertyOriginValue;
+                    foreach (var detailInfo in detailInfoDic.Values)
+                        value += detailInfo.modifyValueMin;
+                    return value;
+                }
+            }
+
+            public float CurrentValueMax
+            {
+                get
+                {
+                    float value = propertyOriginValue;
+                    if (propertyType == 1)
+                    {
+                        foreach (var detailInfo in detailInfoDic.Values)
+                            value += detailInfo.modifyValueFix;
+                    }
+                    else if (propertyType == 2)
+                    {
+                        foreach (var detailInfo in detailInfoDic.Values)
+                            value += detailInfo.modifyValueMax;
+                    }
+                    return value;
+                }
+            }
+        }
     }
 
     /// <summary>
@@ -206,9 +263,8 @@ namespace Sim_FrameWork
         public string customDataName;
 
         public float modifyTimeValue;
+
     }
-
-
 
     public class AssemblePartPropertyTypeData
     {
@@ -218,4 +274,29 @@ namespace Sim_FrameWork
         public string PropertyIcon;
     }
 
+    #region SaveData
+
+    public class AssmeblePartSingleSaveData
+    {
+        public int partID;
+        public ushort UID;
+        //Only Save Custom Part
+        public string customName_Partial;
+        /// <summary>
+        /// Custom Value Data
+        /// </summary>
+        public Dictionary<string, float> customValueDic;
+
+        public AssmeblePartSingleSaveData createSaveData(int partID, ushort UID, string customName, Dictionary<string, float> customValueDic)
+        {
+            AssmeblePartSingleSaveData data = new AssmeblePartSingleSaveData();
+            data.partID = partID;
+            data.UID = UID;
+            data.customName_Partial = customName;
+            data.customValueDic = customValueDic;
+            return data;
+        }
+    }
+
+    #endregion
 }

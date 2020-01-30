@@ -11,8 +11,6 @@ namespace Sim_FrameWork
         public static Dictionary<int, DistrictData> DistrictDataDic;
         public static List<DistrictType> DistrictTypeList;
         public static Dictionary<int, DistrictType> DistrictTypeDic;
-        public static List<DistrictIcon> DistrictIconList;
-        public static Dictionary<int, DistrictIcon> DistrictIconDic;
 
         public static void LoadData()
         {
@@ -26,8 +24,6 @@ namespace Sim_FrameWork
             DistrictDataDic = config.AllDistrictDataDic;
             DistrictTypeList = config.AllDistrictTypeList;
             DistrictTypeDic = config.AllDistrictTypeDic;
-            DistrictIconList = config.AllDistrictIconList;
-            DistrictIconDic = config.AllDistrictIconDic;
         }
 
 
@@ -53,62 +49,5 @@ namespace Sim_FrameWork
             LoadData();
             return DistrictTypeDic;
         }
-
-        public static List<DistrictIcon> GetDistrictIcon()
-        {
-            LoadData();
-            return DistrictIconList;
-        }
-        public static Dictionary<int, DistrictIcon> GetDistrictIconDic()
-        {
-            LoadData();
-            return DistrictIconDic;
-        }
-
-        public static DistrictData GetDistrictDataByKey(int key)
-        {
-            LoadData();
-            DistrictData data = null;
-            if (DistrictDataDic == null)
-                return null;
-            DistrictDataDic.TryGetValue(key, out data);
-            if (data == null)
-            {
-                Debug.LogError("Can not Find DistrictData , Key = " + key);
-                return null;
-            }
-            return data;
-        }
-
-        public static DistrictType GetDistrictTypeByKey(int key)
-        {
-            LoadData();
-            DistrictType data = null;
-            if (DistrictTypeDic == null)
-                return null;
-            DistrictTypeDic.TryGetValue(key, out data);
-            if (data == null)
-            {
-                Debug.LogError("Can not Find DistrictType , Key = " + key);
-                return null;
-            }
-            return data;
-        }
-
-        public static DistrictIcon GetDistrictIconByKey(int key)
-        {
-            LoadData();
-            DistrictIcon icon = null;
-            if (DistrictTypeDic == null)
-                return null;
-            DistrictIconDic.TryGetValue(key, out icon);
-            if (icon == null)
-            {
-                Debug.LogError("Can not Find DistrictIcon , Key = " + key);
-                return null;
-            }
-            return icon;
-        }
-
     }
 }

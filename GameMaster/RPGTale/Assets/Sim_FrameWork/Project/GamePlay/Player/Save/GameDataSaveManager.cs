@@ -1,9 +1,8 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using UnityEngine;
-using System.Runtime.Serialization.Formatters.Binary;
 using System.IO;
 using System;
+using Newtonsoft.Json;
 
 namespace Sim_FrameWork
 {
@@ -21,15 +20,47 @@ namespace Sim_FrameWork
             CoverSave
         }
 
-
         private int currentSaveNum;
         private int maxSaveNum;
-        private List<GameSaveData> AllSaveDataList;
+        private List<GameSaveGeneralData> AllSaveDataGeneralList;
+
+        public int currentSaveID;
+        private GameSaveData _currentSaveData;
+        public GameSaveData currentSaveData
+        {
+            get
+            {
+                if (currentSaveID == 0)
+                    return null;
+                if (_currentSaveData != null)
+                {
+                    if(_currentSaveData.SaveID != currentSaveID)
+                        _currentSaveData = GetSaveData(currentSaveID);
+                }
+                else
+                {
+                    _currentSaveData = GetSaveData(currentSaveID);
+                }
+                return _currentSaveData;
+            }
+        }
+
+        public void InitCurrentSaveData(int saveID)
+        {
+            currentSaveID = saveID;
+        }
+
+        public void ClearSaveCache()
+        {
+            _currentSaveData = null;
+            AllSaveDataGeneralList.Clear();
+        }
+
 
         protected override void Awake()
         {
             base.Awake();
-            AllSaveDataList = new List<GameSaveData>();
+            AllSaveDataGeneralList = new List<GameSaveGeneralData>();
         }
 
         void Start()
@@ -39,61 +70,80 @@ namespace Sim_FrameWork
 
         private void Update()
         {
-            if (Input.GetKey(KeyCode.O))
+            if (Input.GetKeyDown(KeyCode.O))
             {
                 //For Test
-                SaveByBin();
+                SaveGameFile();
             }
         }
 
-        /// <summary>
-        /// 清空缓存
-        /// </summary>
-        public void ClearCache()
-        {
-            AllSaveDataList = null;
-        }
 
         #region Data Save
-        private GameSaveData Create_gameSaveData()
+        private GameSaveGeneralData Create_gameSaveData_Nav()
         {
-            GameSaveData gameSave = new GameSaveData();
-            gameSave.SaveID = currentSaveNum + 1;
-            gameSave.SaveName = "Test";
-            gameSave.SaveDate = GetCurrentTime();
-
-            //gameSave.playerSaveData= Create_playerSaveData();
-            //gameSave.gameStatisticsData = Create_GameStatisticsSaveData();
-
-            return gameSave;
+            GameSaveGeneralData generalData = new GameSaveGeneralData(
+                currentSaveNum + 1,
+                "Test",
+                GetCurrentTime(),
+                1000);
+            return generalData;
         }
 
-        private PlayerSaveData Create_playerSaveData()
-        {
-            PlayerSaveData saveData = new PlayerSaveData();
-            PlayerSaveData.PlayerSaveData_Resource Resdata = new PlayerSaveData.PlayerSaveData_Resource(PlayerManager.Instance.playerData);
-
-            saveData.playerSaveData_Resource = Resdata;
-
-            return saveData;
-        }
-
-        private GameStatisticsSaveData Create_GameStatisticsSaveData()
-        {
-            GameStatisticsSaveData saveData = new GameStatisticsSaveData();
-            return saveData;
-        }
 
         #endregion
 
         #region Save Func
+
+        /// <summary>
+        ///  Data Save
+        /// </summary>
+        /// <param name="fileName"></param>
+        /// <param name="obj"></param>
+        private static void SaveData(string fileName,object obj)
+        {
+            string sav = JsonConvert.SerializeObject(obj);
+            ///32 Encrypt
+            sav = SaveEncrypt.Encrypt(sav, "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx");
+            StreamWriter sw = File.CreateText(fileName);
+            sw.Write(sav);
+            sw.Close();
+            //TODO 密钥生成写外部方法，用机器码
+        }
+
+        private static object GetData(string fileName,Type type)
+        {
+            StreamReader sr = File.OpenText(fileName);
+            string data = sr.ReadToEnd();
+
+            data = SaveEncrypt.Decrypt(data, "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx");
+            sr.Close();
+            return JsonConvert.DeserializeObject(data,type);
+        }
+
+        private static string SerialieObject(object obj)
+        {
+            string sString = string.Empty;
+            sString = JsonConvert.SerializeObject(obj);
+            return sString;
+        }
+
+        private static object DeserializeObject(string str,Type type)
+        {
+            object dObj = null;
+            dObj = JsonConvert.DeserializeObject(str,type);
+            return dObj;
+        }
+
+
         /// <summary>
         /// Save Data By Bin
         /// </summary>
-        public void SaveByBin()
+        public void SaveGameFile()
         {
             //For Test
-            GameSaveData gameSave = Create_gameSaveData();
+            GameSaveData gameSave = new GameSaveData(currentSaveNum + 1);
+            GameSaveGeneralData gameSaveNav = Create_gameSaveData_Nav();
+
 
             string SaveFilePath = Application.persistentDataPath + "/SaveData";
             if (!Directory.Exists(SaveFilePath))
@@ -102,12 +152,12 @@ namespace Sim_FrameWork
             }
 
             string savePath = SaveFilePath + "/" + gameSave.SaveID+".sav";
-            BinaryFormatter bf = new BinaryFormatter();
-            FileStream stream = File.Create(savePath);
-            bf.Serialize(stream, gameSave);
-            stream.Close();
+            string saveNavigatorPath=SaveFilePath+"/"+gameSave.SaveID+"nav";
 
-            if (File.Exists(savePath))
+            SaveData(savePath, gameSave);
+            SaveData(saveNavigatorPath, gameSaveNav);
+
+            if (File.Exists(savePath) && File.Exists(saveNavigatorPath))
             {
                 Debug.Log("Save Success");
             }
@@ -135,21 +185,33 @@ namespace Sim_FrameWork
         }
 
         /// <summary>
-        /// Load Save By Bin
+        /// Load Save 
         /// </summary>
-        private GameSaveData LoadSaveByBin(string savePath)
+        private GameSaveData LoadSave(string savePath)
         {
             GameSaveData result = null;
             if (File.Exists(savePath))
             {
                 try
                 {
-                    BinaryFormatter bf = new BinaryFormatter();
-                    FileStream fs = File.Open(savePath, FileMode.Open);
-                    result = (GameSaveData)bf.Deserialize(fs);
+                    result =(GameSaveData)GetData(savePath, typeof(GameSaveData));
+                }
+                catch (Exception e)
+                {
+                    Debug.LogError(e);
+                }
+            }
+            return result;
+        }
 
-                    fs.Close();
-
+        private GameSaveGeneralData LoadSaveNavigator(string savePath)
+        {
+            GameSaveGeneralData result = null;
+            if (File.Exists(savePath))
+            {
+                try
+                {
+                    result = (GameSaveGeneralData)GetData(savePath, typeof(GameSaveGeneralData));
                 }
                 catch (Exception e)
                 {
@@ -162,25 +224,26 @@ namespace Sim_FrameWork
 
 
         #region  Game Load
-        public List<GameSaveData> RefreshCurrentSaveDataList()
+        public List<GameSaveGeneralData> RefreshCurrentSaveDataList()
         {
-            AllSaveDataList.Clear();
+            AllSaveDataGeneralList.Clear();
             string SaveFilePath = Application.persistentDataPath + "/SaveData";
             if (Directory.Exists(SaveFilePath))
             {
                 DirectoryInfo dirs = new DirectoryInfo(SaveFilePath);
-                var files = dirs.GetFiles("*.sav", SearchOption.AllDirectories);
+                var files = dirs.GetFiles("*.nav", SearchOption.AllDirectories);
 
                 Debug.Log("Save File Length=" + files.Length);
+
                 for(int i = 0; i < files.Length; i++)
                 {
                     try
                     {
                         var savePath = files[i].FullName;
-                        var data = LoadSaveByBin(savePath);
+                        var data = LoadSaveNavigator(savePath);
                         if (data != null)
                         {
-                            AllSaveDataList.Add(data);
+                            AllSaveDataGeneralList.Add(data);
                         }
                     }
                     catch (Exception e)
@@ -194,7 +257,17 @@ namespace Sim_FrameWork
             {
                 Debug.Log("Save Path not Exits!  Path=" + SaveFilePath);
             }
-            return AllSaveDataList;
+            return AllSaveDataGeneralList;
+        }
+
+        public GameSaveGeneralData GetSaveNavigatorData(int saveID)
+        {
+            var data = AllSaveDataGeneralList.Find(x => x.SaveID == saveID);
+            if (data == null)
+            {
+                Debug.LogError("Save Not exist!");
+            }
+            return data;
         }
 
         /// <summary>
@@ -202,27 +275,65 @@ namespace Sim_FrameWork
         /// </summary>
         /// <param name="saveID"></param>
         /// <returns></returns>
-        public GameSaveData GetSaveDataBySaveID(int saveID)
+        private GameSaveData GetSaveDataBySaveID(int saveID)
         {
-            GameSaveData data = AllSaveDataList.Find(x => x.SaveID == saveID);
+            GameSaveGeneralData data = AllSaveDataGeneralList.Find(x => x.SaveID == saveID);
             if (data == null)
+            {
                 Debug.LogError("Save Not Exists! SaveID=  " + saveID);
-            return data;
+                return null;
+            }
+            else
+            {
+                string SaveFilePath = Application.persistentDataPath + "/SaveData";
+                if (Directory.Exists(SaveFilePath))
+                {
+                    DirectoryInfo dirs = new DirectoryInfo(SaveFilePath);
+                    var files = dirs.GetFiles("*.sav", SearchOption.AllDirectories);
+
+                    Debug.Log("Save File Length=" + files.Length);
+
+                    for (int i = 0; i < files.Length; i++)
+                    {
+                        if (files[i].FullName == saveID + ".sav")
+                        {
+                            try
+                            {
+                                var savePath = files[i].FullName;
+                                var saveData = LoadSave(savePath);
+                                if (saveData != null)
+                                    return saveData;
+                            }
+                            catch (Exception e)
+                            {
+                                Debug.LogError(e);
+                                return null;
+                            }
+                        }
+                    }
+                }
+            }
+            return null;
         }
 
-        void LoadPlayerSaveData(PlayerSaveData data)
+        private GameSaveData GetSaveData(int saveID)
         {
-
+            var savedata = GetSaveDataBySaveID(saveID);
+            if (savedata == null)
+            {
+                Debug.LogError("Save Error!");
+            }
+            return savedata;
         }
 
         public List<List<BaseDataModel>> GetSaveModel()
         {
             RefreshCurrentSaveDataList();
             List<List<BaseDataModel>> result = new List<List<BaseDataModel>>();
-            for(int i = 0; i < AllSaveDataList.Count; i++)
+            for(int i = 0; i < AllSaveDataGeneralList.Count; i++)
             {
                 SaveDataModel model = new SaveDataModel();
-                if(model.Create(AllSaveDataList[i].SaveID))
+                if(model.Create(AllSaveDataGeneralList[i].SaveID))
                 {
                     List<BaseDataModel> list = new List<BaseDataModel>();
                     list.Add((BaseDataModel)model);

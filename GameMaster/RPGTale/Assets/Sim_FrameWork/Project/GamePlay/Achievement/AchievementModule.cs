@@ -55,7 +55,6 @@ namespace Sim_FrameWork
     }
 
 
-    [System.Serializable]
     public class GameStatisticsSaveData
     {
         public Dictionary<int, int> MaterialCounterDic;

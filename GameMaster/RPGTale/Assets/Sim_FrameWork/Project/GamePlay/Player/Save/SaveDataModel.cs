@@ -21,20 +21,8 @@ namespace Sim_FrameWork
             get
             {
                 if (string.IsNullOrEmpty(_name))
-                    _name = GameDataSaveManager.Instance.GetSaveDataBySaveID(_id).SaveName;
+                    _name = GameDataSaveManager.Instance.GetSaveNavigatorData(_id).SaveName;
                 return _name;
-            }
-            set { }
-        }
-
-        private string _organization;
-        public string Organization
-        {
-            get
-            {
-                if (string.IsNullOrEmpty(_organization))
-                    _organization = GameDataSaveManager.Instance.GetSaveDataBySaveID(_id).OrganizatioName;
-                return _organization;
             }
             set { }
         }
@@ -45,7 +33,7 @@ namespace Sim_FrameWork
             get
             {
                 if (string.IsNullOrEmpty(_date))
-                    _date = GameDataSaveManager.Instance.GetSaveDataBySaveID(_id).SaveDate;
+                    _date = GameDataSaveManager.Instance.GetSaveNavigatorData(_id).SaveDate;
                 return _date;
             }
             set { }
@@ -57,7 +45,7 @@ namespace Sim_FrameWork
             get
             {
                 if (string.IsNullOrEmpty(_gameTime))
-                    _gameTime = GameDataSaveManager.Instance.GetSaveDataBySaveID(_id).GameTime.ToString()+"h";
+                    _gameTime = GameDataSaveManager.Instance.GetSaveNavigatorData(_id).GameTime.ToString()+"h";
                 return _gameTime;
             }
             set { }
@@ -67,7 +55,6 @@ namespace Sim_FrameWork
         {
             _id = -1;
             _name = null;
-            _organization = null;
             _date = null;
         }
 

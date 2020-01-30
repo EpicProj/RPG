@@ -44,6 +44,13 @@ namespace Sim_FrameWork
             InitUnlockAssembleShipList();
         }
 
+        public void LoadGameSaveData()
+        {
+            _assemblePartDesignDataDic.Clear();
+            _assembleShipDesignDataDic.Clear();
+            LoadAssembleShipSaveData();
+        }
+
 
         #region Resource Manager
         public void AddCurrency(int num, ResourceAddType type, Action callback = null)
@@ -536,6 +543,8 @@ namespace Sim_FrameWork
 
         #endregion
 
+      
+
         #region Assemble Ship Design
 
         /// <summary>
@@ -736,5 +745,73 @@ namespace Sim_FrameWork
 
         #endregion
 
+        #region SaveData
+
+        public void LoadAssemblePartSaveData()
+        {
+
+        }
+
+        public void LoadAssembleShipSaveData()
+        {
+            var saveData = GameDataSaveManager.Instance.currentSaveData.assembleSaveData;
+            if (saveData != null)
+            {
+                for(int i = 0; i < saveData.shipSaveData.currentSaveShip.Count; i++)
+                {
+                    AssembleShipInfo shipInfo = new AssembleShipInfo();
+                    shipInfo.LoadSaveData(saveData.shipSaveData.currentSaveShip[i]);
+
+                    AddAssembleShipDesign(shipInfo);
+                }
+            }
+        }
+
+        #endregion
+
     }
+    #region AssembleSaveData
+    /// <summary>
+    /// Assemble Part
+    /// </summary>
+    public class AssemblePartGeneralSaveData
+    {
+        public List<AssmeblePartSingleSaveData> currentSavePart;
+        public List<string> currentUnlockPartTypeList;
+        
+        public AssemblePartGeneralSaveData()
+        {
+            currentSavePart = new List<AssmeblePartSingleSaveData>();
+            foreach(var info in PlayerManager.Instance.AssemblePartDesignDataDic.Values)
+            {
+                var singleSave= info.CreatePartSave();
+                currentSavePart.Add(singleSave);
+            }
+
+            currentUnlockPartTypeList = PlayerManager.Instance.GetTotalUnlockAssemblePartTypeList();
+        }
+    }
+
+    /// <summary>
+    /// Assemble Ship
+    /// </summary>
+    public class AssembleShipGeneralSaveData
+    {
+        public List<AssembleShipSingleSaveData> currentSaveShip;
+        public List<string> currentUnlockShipTypeList;
+
+        public AssembleShipGeneralSaveData()
+        {
+            currentSaveShip = new List<AssembleShipSingleSaveData>();
+            foreach(var info in PlayerManager.Instance.AssembleShipDesignDataDic.Values)
+            {
+                var singleSave = info.CreateSaveData();
+                currentSaveShip.Add(singleSave);
+            }
+
+            currentUnlockShipTypeList = PlayerManager.Instance.GetTotalUnlockAssembleShipTypeList();
+        }
+    }
+    #endregion
+
 }

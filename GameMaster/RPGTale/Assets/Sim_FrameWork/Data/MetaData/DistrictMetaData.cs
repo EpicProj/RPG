@@ -31,18 +31,11 @@ public class DistrictMetaData : ExcelBase {
             DistrictType type = new DistrictType();
             type.TypeID = i;
             type.TypeShape = "";
-            type.IconList = "";
+            type.Icon = "";
             type.ModelPath = "";
             AllDistrictTypeList.Add(type);
         }
-        AllDistrictIconList = new List<DistrictIcon>();
-        for(int i = 0; i < 2; i++)
-        {
-            DistrictIcon icon = new DistrictIcon();
-            icon.IconID = i;
-            icon.IconPath = "";
-            AllDistrictIconList.Add(icon);
-        }
+
     }
 
 
@@ -52,7 +45,6 @@ public class DistrictMetaData : ExcelBase {
     {
         AllDistrictDataDic.Clear();
         AllDistrictTypeDic.Clear();
-        AllDistrictIconDic.Clear();
         foreach (var data in AllDistrictDataList)
         {
             if (AllDistrictDataDic.ContainsKey(data.DistrictID))
@@ -75,17 +67,6 @@ public class DistrictMetaData : ExcelBase {
                 AllDistrictTypeDic.Add(data.TypeID, data);
             }
         }
-        foreach (var data in AllDistrictIconList)
-        {
-            if (AllDistrictIconDic.ContainsKey(data.IconID))
-            {
-                Debug.LogError("Find Same IconID , IconID  = " + data.IconID);
-            }
-            else
-            {
-                AllDistrictIconDic.Add(data.IconID, data);
-            }
-        }
 
     }
 
@@ -93,15 +74,11 @@ public class DistrictMetaData : ExcelBase {
     public Dictionary<int, DistrictData> AllDistrictDataDic = new Dictionary<int, DistrictData>();
     [XmlIgnore]
     public Dictionary<int, DistrictType> AllDistrictTypeDic = new Dictionary<int, DistrictType>();
-    [XmlIgnore]
-    public Dictionary<int, DistrictIcon> AllDistrictIconDic = new Dictionary<int, DistrictIcon>();
 
     [XmlElement]
     public List<DistrictData> AllDistrictDataList { get; set; }
     [XmlElement]
     public List<DistrictType> AllDistrictTypeList { get; set; }
-    [XmlElement]
-    public List<DistrictIcon> AllDistrictIconList { get; set; }
 }
 
 
@@ -137,17 +114,9 @@ public class DistrictType
     [XmlAttribute]
     public string TypeShape { get; set; }
     [XmlAttribute]
-    public string IconList { get; set; }
+    public string Icon { get; set; }
     [XmlAttribute]
     public string ModelPath { get; set; }
 }
 
-[System.Serializable]
-public class DistrictIcon
-{
-    [XmlAttribute]
-    public int IconID { get; set; }
-    [XmlAttribute]
-    public string IconPath { get; set; }
-}
 

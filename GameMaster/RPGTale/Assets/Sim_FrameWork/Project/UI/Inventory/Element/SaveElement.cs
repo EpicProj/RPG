@@ -27,7 +27,6 @@ namespace Sim_FrameWork.UI
         private void InitSaveElement()
         {
             Name.text = _model.Name;
-            Organization.text = _model.Organization;
             Date.text = _model.Date;
             GameTime.text = _model.GameTime;
             AddButtonClickListener(Btn, () =>

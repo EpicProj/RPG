@@ -17,14 +17,8 @@
 		<list name = "DistrictType" sheetname="DistrictType" mainKey = "TypeID">
 			<variable  name="TypeID" col = "TypeID" type="int"/>
 			<variable  name="TypeShape" col = "TypeShape" type="string"/>
-			<variable  name="IconList" col = "IconList" type="string"/>
+			<variable  name="Icon" col = "Icon" type="string"/>
 			<variable  name="ModelPath" col = "ModelPath" type="string"/>
-		</list>
-	</variable>
-		<variable  name="AllDistrictIconList" type="list">
-		<list name = "DistrictIcon" sheetname="DistrictIcon" mainKey = "IconID">
-			<variable  name="IconID" col = "IconID" type="int"/>
-			<variable  name="IconPath" col = "IconPath" type="string"/>
 		</list>
 	</variable>
 </data>
