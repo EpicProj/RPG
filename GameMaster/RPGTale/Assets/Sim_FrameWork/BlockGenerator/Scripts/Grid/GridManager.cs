@@ -12,21 +12,22 @@ namespace Sim_FrameWork
             REMOVE
         }
 
-        private GameObject BlockSelectionUI;
-
+        private Dictionary<Vector2, ShipMapGridInfo> _gridInfo;
+        public Dictionary<Vector2,ShipMapGridInfo> GridInfo
+        {
+            get { return _gridInfo; }
+        }
 
         protected override void Awake()
         {
             base.Awake();
-            BlockSelectionUI = transform.FindTransfrom("MainShipAreaContainer/Content/UI/SelectionUI").gameObject;
+            _gridInfo = new Dictionary<Vector2, ShipMapGridInfo>();
         }
 
         public bool showNodes;
 
-        public int nodeWidth = 50;
-        public int nodeLength = 50;
-
-        public int[,] instanceNodes;
+        private ushort nodeWidth;
+        private ushort nodeLength;
 
 
         void OnDrawGizmos()
@@ -35,20 +36,37 @@ namespace Sim_FrameWork
                 return;
         }
 
+        public void InitMapGrid(ushort length,ushort width)
+        {
+            nodeWidth = width;
+            nodeLength = length;
+            InitAllNodes();
+        }
+
+        public ShipMapGridInfo GetGridInfoByCoordinate(Vector2 v)
+        {
+            ShipMapGridInfo info = null;
+            _gridInfo.TryGetValue(v, out info);
+            return info;
+        }
 
         /// <summary>
-        /// 更新格
+        /// 初始化格
         /// </summary>
-        public void UpdateAllNodes()
+        public void InitAllNodes()
         {
-            instanceNodes = new int[nodeWidth, nodeLength];
-
-            for(int x = 0; x < nodeWidth; x++)
+            for(int x = 0; x < nodeLength; x++)
             {
-                for(int z = 0; z < nodeLength; z++)
+                for(int z = 0; z < nodeWidth; z++)
                 {
-                    /// -1 is empty
-                    instanceNodes[x, z] = -1;
+                    Vector2 v2 = new Vector2(x, z);
+                    _gridInfo.Add(v2, new ShipMapGridInfo
+                    {
+                        blockInstanceID = 0,
+                        canPlace = true,
+                        coordinate = v2,
+                        isBarrier = false
+                    });
                 }
             }
 
@@ -78,22 +96,27 @@ namespace Sim_FrameWork
                 {
                     if (action == Action.ADD)
                     {
-                        instanceNodes[indexX, indexZ] = block.instanceID;
-
+                        var info = GetGridInfoByCoordinate(new Vector2(indexX, indexZ));
+                        if (info != null)
+                        {
+                            info.blockInstanceID = block.instanceID;
+                            info.canPlace = false;
+                        }
                     }
                     else if (action == Action.REMOVE)
                     {
-                        if (instanceNodes[indexX, indexZ] == block.instanceID)
+                        var info = GetGridInfoByCoordinate(new Vector2(indexX, indexZ));
+                        if (info != null)
                         {
-                            instanceNodes[indexX, indexZ] = -1;
-                            
+                            if (info.blockInstanceID == block.instanceID)
+                            {
+                                info.blockInstanceID = 0;
+                                info.canPlace = true;
+                            }
                         }
                     }
                 }
-             
             }
-
-
         }
 
 
@@ -119,19 +142,25 @@ namespace Sim_FrameWork
                         //Out of Range
                         return false;
                     }
-
-                    if(instanceNodes[x,z] !=-1 && instanceNodes[x,z] != instanceID)
+                    var info = GetGridInfoByCoordinate(new Vector2(x, z));
+                    if (info != null)
                     {
-                        return false;
+                        if (info.canPlace == false)
+                            return false;
                     }
                 }
-
             }
-
-
             return true;
         }
+    }
 
 
+    public class ShipMapGridInfo
+    {
+        public Vector2 coordinate;
+
+        public bool isBarrier;
+        public bool canPlace;
+        public int blockInstanceID;
     }
 }

@@ -31,6 +31,83 @@ namespace Sim_FrameWork.Config
             return data;
         }
 
+        public bool DataCheck()
+        {
+
+            return true;
+        }
+    }
+
+    public class MainShipMapConfig
+    {
+        public MainShipAreaMapConfigData powerAreaConfig;
+
+
+        public MainShipMapConfig LoadMainShipMapConfig()
+        {
+            JsonReader reader = new JsonReader();
+            var data = reader.LoadJsonDataConfig<MainShipMapConfig>(JsonConfigPath.MainShipAreaMapConfigJsonPath);
+            powerAreaConfig = data.powerAreaConfig;
+            return data;
+        }
+
+        public bool DataCheck()
+        {
+            if (powerAreaConfig == null)
+                return false;
+            if(powerAreaConfig.gridConfig.Count!= powerAreaConfig.mapLength* powerAreaConfig.mapWidth)
+            {
+                Debug.LogError("[Power Area MapConfig] : MapSize Not fit map Size!");
+                return false;
+            }
+
+            ///Check Coordinate Repeat
+            List<Vector2> mapList = new List<Vector2>();
+            for(int i = 0; i < powerAreaConfig.gridConfig.Count; i++)
+            {
+                if (powerAreaConfig.gridConfig[i].coordinate.Length != 2)
+                {
+                    Debug.LogError("[Power Area MapConfig] : Coordinate Format Error! index=" + i);
+                    return false;
+                }
+                Vector2 v = new Vector2(powerAreaConfig.gridConfig[i].coordinate[0], powerAreaConfig.gridConfig[i].coordinate[1]);
+                if (mapList.Contains(v))
+                {
+                    Debug.LogError("[Power Area MapConfig] : Find Same Coordinate!  value =" + v.ToString());
+                    return false;
+                }
+            }
+            ///Check Map
+            for(int i = 0; i < powerAreaConfig.mapLength; i++)
+            {
+                for(int j = 0; i < powerAreaConfig.mapWidth; j++)
+                {
+                    if (mapList.Contains(new Vector2(i, j)) == false)
+                    {
+                        Debug.LogError("[Power Area MapConfig] : Can not Find Coordinate Config, value=" + i + "," + j);
+                        return false;
+                    }
+                }
+            }
+            return true;
+                
+        }
+    }
+
+    /// <summary>
+    /// Map Config
+    /// </summary>
+    public class MainShipAreaMapConfigData
+    {
+        public ushort mapLength;
+        public ushort mapWidth;
+        public List<MapGridConfig> gridConfig;
+
+        public class MapGridConfig
+        {
+            public ushort[] coordinate;
+            public bool isBarrier;
+        }
     }
 
     public class MainShipBasePropertyConfig
@@ -155,5 +232,7 @@ namespace Sim_FrameWork.Config
             public ushort extraValue;
         }
     }
+
+
 
 }

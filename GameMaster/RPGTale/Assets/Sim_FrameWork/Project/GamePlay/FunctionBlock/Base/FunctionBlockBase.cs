@@ -79,7 +79,6 @@ namespace Sim_FrameWork
             InitDistrictModel();
         }
 
-
         #region BaseInfo
 
         private void SetBlockColliderSize(Vector3 size)
@@ -98,6 +97,8 @@ namespace Sim_FrameWork
         /// <param name="pos"></param>
         public void SetPosition(Vector3 pos)
         {
+            if (pos == Config.GlobalConfigData.InfinityVector)
+                return;
             transform.localPosition = pos;
         }
         public int GetPosX()
@@ -189,6 +190,10 @@ namespace Sim_FrameWork
             return canPlace;
         }
 
+        private void UpDateBlockRotate()
+        {
+        }
+
         /// <summary>
         /// Move Block
         /// </summary>
@@ -215,7 +220,12 @@ namespace Sim_FrameWork
             point.x = Mathf.Floor(point.x);
             point.z = Mathf.Floor(point.z);
 
-            if(point!= transform.localPosition)
+            if (Input.GetKeyDown(KeyCode.R))
+            {
+                transform.rotation = Quaternion.Euler(0, 90, 0);
+            }
+
+            if (point!= transform.localPosition)
             {
                 SetPosition(new Vector3(Mathf.Floor(point.x), transform.localScale.y/2 , Mathf.Floor(point.z)));
                 bool canPlace = InPlacablePosition();

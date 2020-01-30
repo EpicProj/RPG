@@ -68,6 +68,7 @@ namespace Sim_FrameWork.Config
 
         //MainShipConfig
         public static string MainShipConfigJsonPath = Application.streamingAssetsPath + "/Data/JsonData/MainShipConfig/MainShipConfig.json";
+        public static string MainShipAreaMapConfigJsonPath= Application.streamingAssetsPath + "/Data/JsonData/MainShipConfig/MainShipMapConfig.json";
 
 
 

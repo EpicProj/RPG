@@ -35,21 +35,7 @@ namespace Sim_FrameWork.UI
         public override void OnShow(params object[] paralist)
         {
             UpdateTimePanel();
-            if(GameManager.Instance.currentAreaState == GameManager.AreaState.OutSide)
-            {
-                Transform.FindTransfrom("MainShipGeneral").SafeGetComponent<CanvasGroup>().ActiveCanvasGroup(true);
-                Transform.FindTransfrom("ConstructPanel").SafeGetComponent<CanvasGroup>().ActiveCanvasGroup(false);
-                for (int i = 0; i < mainShipAreaItemList.Count; i++)
-                {
-                    mainShipAreaItemList[i].InitData();
-                }
-            }
-            else if(GameManager.Instance.currentAreaState== GameManager.AreaState.MainShipInside)
-            {
-                Transform.FindTransfrom("MainShipGeneral").SafeGetComponent<CanvasGroup>().ActiveCanvasGroup(false);
-                Transform.FindTransfrom("ConstructPanel").SafeGetComponent<CanvasGroup>().ActiveCanvasGroup(true);
-                RefreshBuildMainTab();
-            }
+            RefreshAreaState();
         }
 
         public override void OnClose()
@@ -61,6 +47,9 @@ namespace Sim_FrameWork.UI
         {
             switch (msg.type)
             {
+                case UIMsgType.GameAreaStateChange:
+                    RefreshAreaState();
+                    return true;
                 case UIMsgType.MainShip_Area_EnergyLoad_Change:
                     UpdateEnergyLoad();
                     return true;
@@ -79,6 +68,26 @@ namespace Sim_FrameWork.UI
 
         #endregion
 
+        void RefreshAreaState()
+        {
+            if (GameManager.Instance.currentAreaState == AreaState.OutSide)
+            {
+                Transform.FindTransfrom("MainShipGeneral").SafeGetComponent<CanvasGroup>().ActiveCanvasGroup(true);
+                Transform.FindTransfrom("ConstructPanel").SafeGetComponent<CanvasGroup>().ActiveCanvasGroup(false);
+                for (int i = 0; i < mainShipAreaItemList.Count; i++)
+                {
+                    mainShipAreaItemList[i].InitData();
+                }
+            }
+            else if (GameManager.Instance.currentAreaState == AreaState.MainShip_PowerArea)
+            {
+                Transform.FindTransfrom("MainShipGeneral").SafeGetComponent<CanvasGroup>().ActiveCanvasGroup(false);
+                Transform.FindTransfrom("ConstructPanel").SafeGetComponent<CanvasGroup>().ActiveCanvasGroup(true);
+                RefreshBuildMainTab();
+            }
+        }
+
+
         private bool UpdateTimePanel()
         {
             var timedata = PlayerManager.Instance.playerData.timeData;
@@ -89,7 +98,7 @@ namespace Sim_FrameWork.UI
         }
         private void UpdateTimeProgress()
         {
-            if (GameManager.Instance.gameStates == GameManager.GameStates.Pause)
+            if (GameManager.Instance.gameStates == GameStates.Pause)
                 return;
             currentTimeProgress+=Time.deltaTime;
             if (currentTimeProgress >= PlayerManager.Instance.playerData.timeData.realSecondsPerDay)
@@ -136,13 +145,13 @@ namespace Sim_FrameWork.UI
 
         private void OnPauseBtnClick()
         {
-            if (GameManager.Instance.gameStates == GameManager.GameStates.Start)
+            if (GameManager.Instance.gameStates == GameStates.Start)
             {
-                GameManager.Instance.SetGameStates(GameManager.GameStates.Pause);
+                GameManager.Instance.SetGameStates(GameStates.Pause);
             }
-            else if (GameManager.Instance.gameStates == GameManager.GameStates.Pause)
+            else if (GameManager.Instance.gameStates == GameStates.Pause)
             {
-                GameManager.Instance.SetGameStates(GameManager.GameStates.Start);
+                GameManager.Instance.SetGameStates(GameStates.Start);
             }
         }
 

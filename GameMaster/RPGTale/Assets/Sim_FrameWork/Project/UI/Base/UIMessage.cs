@@ -18,6 +18,8 @@ namespace Sim_FrameWork
 
     public enum UIMsgType
     {
+        GameAreaStateChange,
+
         /// <summary>
         /// Menu
         /// </summary>
@@ -81,5 +83,6 @@ namespace Sim_FrameWork
         ///MainShip
         MainShip_Area_PowerLevel_Change,
         MainShip_Area_EnergyLoad_Change,
+        
     }
 }

@@ -7,22 +7,20 @@ using Sim_FrameWork.UI;
 
 namespace Sim_FrameWork
 {
+    public enum GameStates
+    {
+        Start = 1,
+        Pause = 2
+    }
+
+    public enum AreaState
+    {
+        OutSide,
+        MainShip_PowerArea,
+    }
+
     public class GameManager : MonoSingleton<GameManager>
     {
-
-        public enum GameStates
-        {
-            Start =1,
-            Pause =2
-        }
-
-        public enum AreaState
-        {
-            OutSide,
-            MainShipInside
-        }
-
-
         public const string ITEM_UI_PATH = "ItemUIPrefab.prefab";
 
         [HideInInspector]
@@ -33,7 +31,7 @@ namespace Sim_FrameWork
         private GameStates _gameStates = GameStates.Start;
         public GameStates gameStates { get { return _gameStates; } }
 
-        public AreaState currentAreaState = AreaState.MainShipInside;
+        public AreaState currentAreaState;
         private bool ConsolePageShow = false;
 
         protected override void Awake()
@@ -53,7 +51,7 @@ namespace Sim_FrameWork
 
         void Start()
         {
-            currentAreaState= AreaState.MainShipInside;
+            SwitchAreaState(AreaState.OutSide);
             UIGuide.Instance.ShowGameMainPage();
             UIGuide.Instance.ShowPlayerStatePanel();
             //UIManager.Instance.PopUpWnd(UIPath.WindowPath.Game_Entry_Page);
@@ -121,7 +119,12 @@ namespace Sim_FrameWork
                     Time.timeScale = 1;
                     break;
             }
-          
+        }
+
+        public void SwitchAreaState(AreaState state)
+        {
+            currentAreaState = state;
+            UIManager.Instance.SendMessageToWnd(UIPath.WindowPath.MainMenu_Page, new UIMessage(UIMsgType.GameAreaStateChange));
         }
 
         #endregion

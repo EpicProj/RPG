@@ -16,7 +16,7 @@ namespace Sim_FrameWork
         {
             base.Awake();
             _functionBlockInstances = new Dictionary<int, FunctionBlockBase>();
-            FunctionBlockContainer = Utility.SafeFindGameobject("MapManager/MainShipAreaContainer/FunctionBlockContainer");
+            FunctionBlockContainer = Utility.SafeFindGameobject("FunctionBlockContainer");
         }
 
         public Dictionary<int,FunctionBlockBase> GetBlockInstancesDic()
@@ -39,7 +39,7 @@ namespace Sim_FrameWork
                 instanceID = getUnUsedInstanceID();
             }
 
-            FunctionBlockBase instance = UIUtility.SafeGetComponent<FunctionBlockBase>(Utility.CreateInstace(BaseFunctionBlockPath, FunctionBlockContainer, true).transform);
+            FunctionBlockBase instance = Utility.CreateInstace(BaseFunctionBlockPath, FunctionBlockContainer, true).transform.SafeGetComponent<FunctionBlockBase>();
 
             instance.instanceID = instanceID;
             _functionBlockInstances.Add(instanceID, instance);

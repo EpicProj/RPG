@@ -122,6 +122,11 @@ namespace Sim_FrameWork
                 var data = MainShipManager.Instance.mainShipInfo.powerAreaInfo;
                 _durabilityText.text = data.durabilityMax.ToString();
                 _energyLoadText.text = data.EnergyLoadValueCurrent.ToString();
+
+                AddMapBtnClick(() =>
+                {
+                    MapManager.Instance.GeneratePowerAreaContainer();
+                });
             }
         }
 
@@ -189,6 +194,13 @@ namespace Sim_FrameWork
 
             addBtn.onClick.AddListener(add);
             reduceBtn.onClick.AddListener(reduce);
+        }
+
+        void AddMapBtnClick(UnityAction action)
+        {
+            var btn = transform.SafeGetComponent<Button>();
+            btn.onClick.RemoveAllListeners();
+            btn.onClick.AddListener(action);
         }
 
         /// <summary>

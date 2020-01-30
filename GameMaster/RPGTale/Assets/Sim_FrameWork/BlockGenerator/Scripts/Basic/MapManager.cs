@@ -7,7 +7,7 @@ namespace Sim_FrameWork
 {
     public class MapManager : MonoSingleton<MapManager>
     {
-        private Transform ContentObj;
+        
 
         private Transform AssembleContainer;
         private Transform AssembleContainerContentTrans;
@@ -22,7 +22,7 @@ namespace Sim_FrameWork
         protected override void Awake()
         {
             base.Awake();
-            ContentObj = transform.FindTransfrom("MainShipAreaContainer/Content");
+            
             AssembleContainer = transform.FindTransfrom("AssembleContainer");
             AssembleContainerContentTrans = AssembleContainer.FindTransfrom("Content");
 
@@ -32,6 +32,16 @@ namespace Sim_FrameWork
 
         private void Start()
         {
+            //InvokeRepeating("InitMap", 1, 0.5f);
+        }
+
+        void Update()
+        {
+            HandleBlockPanelSelect();
+        }
+
+        private void RegisterCameraAction()
+        {
             CameraManager.Instance.OnBlockSelect += OnBlockSelect;
             CameraManager.Instance.OnBlockDragStart += OnBlockDragStart;
             CameraManager.Instance.OnBlockDrag += OnBlockDrag;
@@ -39,14 +49,17 @@ namespace Sim_FrameWork
             CameraManager.Instance.OnGroundSelect += OnGroundSelect;
             CameraManager.Instance.OnBlockAreaEnter += OnBlockAreaEnter;
             CameraManager.Instance.OnBlockAreaExit += OnBlockAreaExit;
-
-            GridManager.Instance.UpdateAllNodes();
-            //InvokeRepeating("InitMap", 1, 0.5f);
         }
 
-        void Update()
+        private void UnRegisterCameraAction()
         {
-            HandleBlockPanelSelect();
+            CameraManager.Instance.OnBlockSelect = null;
+            CameraManager.Instance.OnBlockDragStart = null;
+            CameraManager.Instance.OnBlockDrag = null;
+            CameraManager.Instance.OnBlockDragEnd = null;
+            CameraManager.Instance.OnGroundSelect = null;
+            CameraManager.Instance.OnBlockAreaEnter = null;
+            CameraManager.Instance.OnBlockAreaExit = null;
         }
 
         private void InitMap()
@@ -200,7 +213,6 @@ namespace Sim_FrameWork
                 Obj.transform.SetParent(AssembleContainerContentTrans,false);
             }
         }
-
         public void ReleaseAssembleModel()
         {
             foreach(Transform trans in AssembleContainerContentTrans)
@@ -209,6 +221,36 @@ namespace Sim_FrameWork
             }
         }
 
+        #endregion
+
+        #region Main Ship
+        private const string PowerArea_Map_Container_Path = "Assets/Prefabs/Scene/MainShip/MainShip_PowerArea.prefab";
+
+        private MainShipPowerAreaManager powerAreaManager;
+        private GameObject mapObj = null;
+        private Transform ContentObj=null;
+
+        public void GeneratePowerAreaContainer()
+        {
+            mapObj = ObjectManager.Instance.InstantiateObject(PowerArea_Map_Container_Path);
+            if (mapObj != null)
+            {
+                mapObj.transform.SetParent(transform, false);
+                ContentObj = mapObj.transform.FindTransfrom("Content");
+                powerAreaManager = mapObj.transform.SafeGetComponent<MainShipPowerAreaManager>();
+                powerAreaManager.LoadPowerArea();
+                RegisterCameraAction();
+            }
+            GameManager.Instance.SwitchAreaState(AreaState.MainShip_PowerArea);
+        }
+
+        public void ReleasePowerAreaContainer()
+        {
+            ObjectManager.Instance.ReleaseObject(mapObj, 0);
+            powerAreaManager = null;
+            ContentObj = null;
+            UnRegisterCameraAction();
+        }
 
         #endregion
 

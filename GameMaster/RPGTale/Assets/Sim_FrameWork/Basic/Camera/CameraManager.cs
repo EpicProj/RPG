@@ -53,7 +53,7 @@ namespace Sim_FrameWork
         private bool _isSelectFunctionBlock;
         private bool _isDraggingFunctionBlock;
         private bool _isShowBlockTip=false;
-        private Vector3 InfinityVector= new Vector3(float.PositiveInfinity, float.PositiveInfinity, float.PositiveInfinity);
+        
         /// <summary>
         /// 最小移动距离，开始移动
         /// </summary>
@@ -67,8 +67,8 @@ namespace Sim_FrameWork
         protected override void Awake()
         {
             base.Awake();
-            MainCamera = UIUtility.SafeGetComponent<Camera>(transform);
-            eventSystems = UIUtility.SafeGetComponent<EventSystem>(Utility.SafeFindGameobject("EventSystem").transform);
+            MainCamera = transform.SafeGetComponent<Camera>();
+            eventSystems = Utility.SafeFindGameobject("EventSystem").transform.SafeGetComponent<EventSystem>();
 
             _MaskBlockCollider = LayerMask.GetMask("FunctionBlockCollider");
             _MaskGroundCollider = LayerMask.GetMask("GroundCollider");
@@ -186,7 +186,7 @@ namespace Sim_FrameWork
                 return;
             }
 
-            if (_selectBlockStartPos != InfinityVector)
+            if (_selectBlockStartPos != Config.GlobalConfigData.InfinityVector)
             {
                 if (_isSelectFunctionBlock  /*selectBlock == _selectStartRaycastBlock*/)
                 {
@@ -222,7 +222,7 @@ namespace Sim_FrameWork
             if (Input.GetMouseButtonDown(0))
             {
                 Debug.Log("Place!");
-                _selectBlockStartPos = InfinityVector;
+                _selectBlockStartPos = Config.GlobalConfigData.InfinityVector;
                 _isSelectFunctionBlock = false;
                 if (_isDragStart)
                 {
@@ -272,7 +272,7 @@ namespace Sim_FrameWork
                 return;
 
             Vector3 selectPos = TryGetRaycastHitGround(Input.mousePosition);
-            if (selectPos != InfinityVector)
+            if (selectPos != Config.GlobalConfigData.InfinityVector)
             {
                 CameraEvent camera = new CameraEvent()
                 {
@@ -288,7 +288,7 @@ namespace Sim_FrameWork
         public bool InBlockPanelPos()
         {
             Vector3 currentPos = TryGetRaycastHitGround(Input.mousePosition);
-            if (currentPos != InfinityVector && IsPointerOverUI()==false)
+            if (currentPos != Config.GlobalConfigData.InfinityVector && IsPointerOverUI()==false)
             {
                 return true;
             }
@@ -338,7 +338,7 @@ namespace Sim_FrameWork
             {
                 return hit.point;
             }
-            return InfinityVector;
+            return Config.GlobalConfigData.InfinityVector;
         }
 
         private bool TryGetRaycastHit(Vector2 touch,out RaycastHit hit,RaycastTarget target)

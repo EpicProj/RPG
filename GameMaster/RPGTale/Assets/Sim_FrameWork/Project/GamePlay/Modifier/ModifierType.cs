@@ -43,6 +43,9 @@ namespace Sim_FrameWork
 
     public enum ModifierMainShip_PowerArea
     {
+        /// <summary>
+        /// 能源存储最大值
+        /// </summary>
         EnergyStorageMax,
         None
     }

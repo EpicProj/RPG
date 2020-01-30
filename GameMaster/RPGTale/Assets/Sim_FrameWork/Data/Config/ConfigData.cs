@@ -114,6 +114,20 @@ namespace Sim_FrameWork.Config
             }
         }
 
+        private static MainShipMapConfig _mainShipMapConfig;
+        public static MainShipMapConfig MainShipMapConfig
+        {
+            get
+            {
+                if (_mainShipMapConfig == null)
+                {
+                    _mainShipMapConfig = new  MainShipMapConfig();
+                    _mainShipMapConfig.LoadMainShipMapConfig();
+                }
+                return _mainShipMapConfig;
+            }
+        }
+
         private static BlockConfigData _blockConfigData;
         public static BlockConfigData BlockConfigData
         {
@@ -139,7 +153,14 @@ namespace Sim_FrameWork.Config
             _assemblePartsConfigData.LoadPartsCustomConfig();
             _assembleShipPartConfigData.LoadAssembleShipPartConfigData();
             _mainShipConfigData.LoadMainShipConfig();
+            _mainShipMapConfig.LoadMainShipMapConfig();
             _blockConfigData.LoadBlockConfigData();
+        }
+        public bool MapCheck()
+        {
+            return _rewardData.DataCheck() && 
+                _eventConfigData.DataCheck() &&
+                _mainShipMapConfig.DataCheck();
         }
 
 
@@ -147,6 +168,8 @@ namespace Sim_FrameWork.Config
 
     public static class GlobalConfigData
     {
+        public static Vector3 InfinityVector = new Vector3(float.PositiveInfinity, float.PositiveInfinity, float.PositiveInfinity);
+
         /// <summary>
         /// 最大效果数量
         /// </summary>
@@ -225,11 +248,20 @@ namespace Sim_FrameWork.Config
         public RewardData LoadRewardData()
         {
             JsonReader reader = new JsonReader();
-            List<int> temp = new List<int>();
             var data = reader.LoadJsonDataConfig<RewardData>(JsonConfigPath.RewardDataJsonPath);
             rewardGroup = data.rewardGroup;
-            ///Check
-            for(int i = 0; i < rewardGroup.Count; i++)
+           
+            return data;
+        }
+
+        public bool DataCheck()
+        {
+            bool result = true;
+            if (rewardGroup == null)
+                return result;
+
+            List<int> temp = new List<int>();
+            for (int i = 0; i < rewardGroup.Count; i++)
             {
                 if (!temp.Contains(rewardGroup[i].GroupID))
                 {
@@ -237,12 +269,12 @@ namespace Sim_FrameWork.Config
                 }
                 else
                 {
-                    Debug.LogError("Find Same RewardGroup ID, ID=" + rewardGroup[i].GroupID);
+                    Debug.LogError("[RewardData] : Find Same RewardGroup ID, ID=" + rewardGroup[i].GroupID);
+                    result = false;
                     continue;
                 }
             }
-
-            return data;
+            return result;
         }
     }
 
@@ -274,9 +306,17 @@ namespace Sim_FrameWork.Config
             JsonReader reader = new JsonReader();
             var data = reader.LoadJsonDataConfig<EventConfig>(JsonConfigPath.EventConfigDataJsonPath);
             exploreEventConfigData = data.exploreEventConfigData;
+            return data;
+        }
+
+        public bool DataCheck()
+        {
+            bool result = true;
+            if (exploreEventConfigData == null)
+                return false;
 
             List<int> eventList = new List<int>();
-            for(int i = 0; i < exploreEventConfigData.Count; i++)
+            for (int i = 0; i < exploreEventConfigData.Count; i++)
             {
                 if (!eventList.Contains(exploreEventConfigData[i].eventID))
                 {
@@ -284,12 +324,12 @@ namespace Sim_FrameWork.Config
                 }
                 else
                 {
-                    Debug.LogError("Find Same ExploreEventID , ID=" + exploreEventConfigData[i].eventID);
+                    Debug.LogError("[ExploreEventConfigData] : Find Same ExploreEventID , ID=" + exploreEventConfigData[i].eventID);
+                    result = false;
+                    continue;
                 }
-            
             }
-
-            return data;
+            return result;
         }
     }
 
