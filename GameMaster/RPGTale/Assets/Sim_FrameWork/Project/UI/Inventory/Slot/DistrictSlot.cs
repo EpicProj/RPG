@@ -7,7 +7,7 @@ namespace Sim_FrameWork.UI
 {
     public class DistrictSlot : BaseElementDrag {
 
-        public DistrictAreaBase infoBase;
+        public DistrictAreaInfo _info;
         private Transform lockTrans;
         private Transform buildTrans;
 
@@ -18,10 +18,10 @@ namespace Sim_FrameWork.UI
         }
 
 
-        public void InitBaseInfo(DistrictAreaBase baseInfo)
+        public void InitBaseInfo(DistrictAreaInfo info)
         {
-            infoBase = baseInfo;
-            if (baseInfo.Locked)
+            _info = info;
+            if (info.Locked)
             {
                 lockTrans.gameObject.SetActive(true);
                 buildTrans.gameObject.SetActive(false);
@@ -95,7 +95,7 @@ namespace Sim_FrameWork.UI
                 {
                     SlotItem targetItem = target.transform.GetChild(1).GetComponent<SlotItem>(); //目标区划
                     //选中区划
-                    if (CheckNotInLockPosition(targetSlot.infoBase))
+                    if (CheckNotInLockPosition(targetSlot._info))
                     {
                         //目标格有区划
                         InventoryManager.Instance.RemoveItem();
@@ -108,7 +108,7 @@ namespace Sim_FrameWork.UI
                 else
                 {
                     //目标格无区划
-                    if (CheckNotInLockPosition(targetSlot.infoBase))
+                    if (CheckNotInLockPosition(targetSlot._info))
                     {
                         target.transform.GetComponent<DistrictSlot>().InitDistrictAreaSlot(InventoryManager.Instance.PickedItem.districtInfo);
                         InventoryManager.Instance.RemoveItem();
@@ -123,7 +123,7 @@ namespace Sim_FrameWork.UI
             }
         }
 
-        public bool CheckNotInLockPosition(DistrictAreaBase info)
+        public bool CheckNotInLockPosition(DistrictAreaInfo info)
         {
             if(info.slotType== DistrictSlotType.UnLock)
             {

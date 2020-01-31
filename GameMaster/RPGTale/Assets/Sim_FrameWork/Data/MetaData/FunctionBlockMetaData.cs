@@ -21,9 +21,6 @@ public class FunctionBlockMetaData : ExcelBase {
             fac.BlockDesc = "";
             fac.PreLevelBlock = i;
             fac.FunctionBlockType = "";
-            fac.AreaDetailDefault = "";
-            fac.OriginArea = "";
-            fac.AreaMax = "";
             AllFunctionBlockList.Add(fac);
         }
 
@@ -103,12 +100,6 @@ public class FunctionBlock
     public string FunctionBlockType { get; set; }
     [XmlAttribute]
     public string BlockConfig { get; set; }
-    [XmlAttribute]
-    public string AreaDetailDefault { get; set; }
-    [XmlAttribute]
-    public string OriginArea { get; set; }
-    [XmlAttribute]
-    public string AreaMax { get; set; }
 }
 
 [System.Serializable]

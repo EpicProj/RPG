@@ -25,7 +25,7 @@ namespace Sim_FrameWork
         void Start()
         {
             FunctionBlockBase blockBase = GetComponentInParent<FunctionBlockBase>();
-            var maxSize = blockBase.info.districtAreaMax;
+            var maxSize = blockBase.info.districtInfo.size;
 
             ArrowRight = UIUtility.FindTransfrom(transform, "ArrowObj/Right");
             ArrowLeft = UIUtility.FindTransfrom(transform, "ArrowObj/Left");

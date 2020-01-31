@@ -172,7 +172,7 @@ namespace Sim_FrameWork.UI
             var districtGroup = UIUtility.SafeGetComponent<DistrictGroup>(DistrictPanel);
             if (districtGroup != null)
             {
-                districtGroup.InitSlot(blockBase.info);
+                districtGroup.InitSlot(blockBase.info.districtInfo);
             }
         }
 

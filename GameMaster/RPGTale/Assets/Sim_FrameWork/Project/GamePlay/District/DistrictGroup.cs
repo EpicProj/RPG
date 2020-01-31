@@ -9,18 +9,18 @@ namespace Sim_FrameWork
     {
         public List<DistrictSlot> _districtSlotList;
 
-        FunctionBlockInfoData infoData;
+        FunctionBlockDistrictInfo infoData;
 
         void Awake()
         {
             _districtSlotList = new List<DistrictSlot>();
         }
 
-        public void InitSlot(FunctionBlockInfoData info)
+        public void InitSlot(FunctionBlockDistrictInfo info)
         {
             infoData = info;
-            var count = info.districtAreaMax.x * info.districtAreaMax.y;
-            foreach(KeyValuePair<Vector2,DistrictAreaBase > kvp in info.currentDistrictBaseDic)
+            var count = info.size.x * info.size.y;
+            foreach(KeyValuePair<Vector2,DistrictAreaInfo > kvp in info.currentDistrictDataDic)
             {
                 var element = ObjectManager.Instance.InstantiateObject(UIPath.PrefabPath.DISTRICT_PREFAB_PATH);
                 var districtSlot = UIUtility.SafeGetComponent<DistrictSlot>(element.transform);

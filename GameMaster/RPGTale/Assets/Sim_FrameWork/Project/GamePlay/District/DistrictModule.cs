@@ -198,8 +198,12 @@ namespace Sim_FrameWork {
 
     public class DistrictAreaInfo
     {
-        public DistrictData data;
+        public bool Locked;
+        public bool isNone;
+        public Vector2 Coordinate;
 
+        public DistrictData data;
+        public int districtID;
         public bool isLargeDistrict;
 
         public List<Vector2> largeDistrictCoordinateList=new List<Vector2> ();
@@ -219,38 +223,33 @@ namespace Sim_FrameWork {
         public Sprite sprite;
         public string prefabModelPath;
 
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="districtID"></param>
-        /// <param name="realPos"></param>  实际的坐标
-        /// <param name="originPos"></param>  大格 最初的坐标
-        public DistrictAreaInfo(int districtID,Vector2 realPos,Vector2 originPos)
+        public DistrictAreaInfo() { }
+        public DistrictAreaInfo InitData(Config.Block_District_GridConfig config)
         {
-            data = DistrictModule.GetDistrictDataByKey(districtID);
-            var largeArea = DistrictModule.GetDistrictTypeArea(data);
-            isLargeDistrict = largeArea.Count > 1 ? false : true;
-            var districtList= DistrictModule.GetDistrictTypeArea(districtID);
-            for(int i = 0; i < districtList.Count; i++)
-            {
-                largeDistrictCoordinateList.Add(districtList[i] + originPos);
-            }
-            OriginCoordinate = originPos;
-            RealCoordinate = realPos;
-            slotType = isLargeDistrict ? UI.DistrictSlotType.LargeDistrict : UI.DistrictSlotType.NormalDistrict;
-            if (realPos == originPos)
-            {
-                prefabModelPath = DistrictModule.GetDistrictType(districtID).ModelPath;
-            }
+            DistrictAreaInfo info = new DistrictAreaInfo();
+            info.Locked = config.unlockDefault;
+            info.isNone = config.isNone;
+            info.Coordinate = new Vector2(config.coordinate[0], config.coordinate[1]);
+
+            //data = DistrictModule.GetDistrictDataByKey(districtID);
+            //var largeArea = DistrictModule.GetDistrictTypeArea(data);
+            //isLargeDistrict = largeArea.Count > 1 ? false : true;
+            //var districtList= DistrictModule.GetDistrictTypeArea(districtID);
+            //for(int i = 0; i < districtList.Count; i++)
+            //{
+            //    largeDistrictCoordinateList.Add(districtList[i] + originPos);
+            //}
+            //OriginCoordinate = originPos;
+            //RealCoordinate = realPos;
+            //slotType = isLargeDistrict ? UI.DistrictSlotType.LargeDistrict : UI.DistrictSlotType.NormalDistrict;
+            //if (realPos == originPos)
+            //{
+            //    prefabModelPath = DistrictModule.GetDistrictType(districtID).ModelPath;
+            //}
+            return info;
+
         }
 
-    }
-    public class DistrictAreaBase
-    {
-        public DistrictData data;
-        public bool Locked;
-        public Vector2 Coordinate;
-        public UI.DistrictSlotType slotType;
     }
 
 

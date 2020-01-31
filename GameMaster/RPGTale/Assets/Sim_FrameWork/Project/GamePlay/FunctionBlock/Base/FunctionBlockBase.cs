@@ -75,7 +75,7 @@ namespace Sim_FrameWork
         {
             //Set Collider
             BlockCollider = UIUtility.SafeGetComponent<BoxCollider>(transform);
-            SetBlockColliderSize(FunctionBlockModule.Instance.InitFunctionBlockBoxCollider(functionBlock,3.0f));
+            //SetBlockColliderSize(FunctionBlockModule.Instance.InitFunctionBlockBoxCollider(functionBlock,3.0f));
             InitDistrictModel();
         }
 
@@ -155,17 +155,17 @@ namespace Sim_FrameWork
         #region Model
         private void InitDistrictModel()
         {
-            var vec2 = FunctionBlockModule.GetFunctionBlockAreaMax(info.block);
+            var vec2 = info.districtInfo.size;
             ModelRoot.transform.localPosition = new Vector3(-vec2.x / 2 + 0.5f, 0, -vec2.y / 2 + 0.5f);
-            foreach(KeyValuePair<Vector2,DistrictAreaInfo> kvp in info.currentDistrictDataDic)
+            foreach(var info in info.districtInfo.currentDistrictDataDic.Values)
             {
-                if (!string.IsNullOrEmpty(kvp.Value.prefabModelPath))
+                if (!string.IsNullOrEmpty(info.prefabModelPath))
                 {
                     try
                     {
-                        var obj = ObjectManager.Instance.InstantiateObject("Assets/" + kvp.Value.prefabModelPath + ".prefab");
+                        var obj = ObjectManager.Instance.InstantiateObject("Assets/" + info.prefabModelPath + ".prefab");
                         obj.transform.SetParent(ModelRoot.transform, false);
-                        Vector3 pos = new Vector3(kvp.Value.OriginCoordinate.x, 0, kvp.Value.OriginCoordinate.y);
+                        Vector3 pos = new Vector3(info.OriginCoordinate.x, 0, info.OriginCoordinate.y);
                         obj.transform.localPosition = pos;
                     }catch(Exception e)
                     {
@@ -186,8 +186,10 @@ namespace Sim_FrameWork
 
         private bool InPlacablePosition()
         {
-            bool canPlace = GridManager.Instance.PositionCanPlace(GetPosition(), (int)info.districtAreaMax.x, (int)info.districtAreaMax.y, instanceID);
-            return canPlace;
+            //bool canPlace = GridManager.Instance.PositionCanPlace(GetPosition(), (int)info.districtAreaMax.x, (int)info.districtAreaMax.y, instanceID);
+            //return canPlace;
+
+            return true;
         }
 
         private void UpDateBlockRotate()
@@ -278,15 +280,8 @@ namespace Sim_FrameWork
         public FunctionBlock block;
         public FunctionBlockDataModel dataModel;
 
-        public Vector2 districtAreaMax;
-        /// <summary>
-        /// 当前区划信息
-        /// </summary>
-        public Dictionary<Vector2, DistrictAreaInfo> currentDistrictDataDic;
-        /// <summary>
-        /// 区划底信息
-        /// </summary>
-        public Dictionary<Vector2, DistrictAreaBase> currentDistrictBaseDic;
+        public FunctionBlockDistrictInfo districtInfo;
+
         public FunctionBlockModifier blockModifier;
 
         public List<Config.BlockDistrictUnlockData.DistrictUnlockData> districtUnlockDataList;
@@ -309,9 +304,8 @@ namespace Sim_FrameWork
             info.levelInfo = new FunctionBlockLevelInfo(blockBase);
 
             //District
-            info.districtAreaMax = FunctionBlockModule.GetFunctionBlockAreaMax(blockBase);
-            info.currentDistrictDataDic = FunctionBlockModule.GetFuntionBlockOriginAreaInfo(blockBase); ;
-            info.currentDistrictBaseDic = FunctionBlockModule.GetFuntionBlockAreaDetailDefaultDataInfo(blockBase);
+
+            
 
             //Set active district build
             for (int i = 0; i < info.districtUnlockDataList.Count; i++)
@@ -325,6 +319,94 @@ namespace Sim_FrameWork
             return info;
         }
     }
+
+    public class FunctionBlockDistrictInfo
+    {
+        public int BlockID;
+        public Vector2 size;
+        public float realityRatio;
+
+        /// <summary>
+        /// 当前区划信息
+        /// </summary>
+        public Dictionary<Vector2, DistrictAreaInfo> currentDistrictDataDic;
+
+        public FunctionBlockDistrictInfo() { }
+        public FunctionBlockDistrictInfo InitInfo(int blockID)
+        {
+            FunctionBlockDistrictInfo info = new FunctionBlockDistrictInfo();
+            var config = FunctionBlockModule.GetBlockDistrictConfig(blockID);
+            if (config != null)
+            {
+                info.BlockID = blockID;
+                info.size = new Vector2(config.areaX, config.areaY);
+                info.realityRatio = (float)config.realityRatio;
+                info.currentDistrictDataDic = FunctionBlockModule.GetBlockDistictInfo(config);
+            }
+            return info;
+        }
+
+        /// <summary>
+        /// 检查是否区划处于未解锁的格子内
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="block"></param>
+        /// <param name="initCheck"></param>
+        /// <returns></returns>
+        public bool CheckTargetDistrictNoLock(int districtID, Vector2 placePos)
+        {
+            List<Vector2> lockedList = DistrictModule.GetRealDistrictTypeArea(districtID, placePos);
+            if (lockedList.Count == 0)
+                return false;
+            if (currentDistrictDataDic == null)
+                return false;
+
+            for(int i = 0; i < lockedList.Count; i++)
+            {
+                if (currentDistrictDataDic.ContainsKey(lockedList[i]))
+                {
+                    if (currentDistrictDataDic[lockedList[i]].Locked == true)
+                        return false;
+                }
+            }
+            return true;
+        }
+
+        /// <summary>
+        /// 检测区划是否重叠  或超出范围  True= out of range
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="block"></param>
+        /// <param name="initCheck"></param>
+        /// <returns></returns>
+        public bool CheckDistrictDataOutofRange(int districtID, Vector2 placePos)
+        {
+            List<Vector2> checkList = DistrictModule.GetRealDistrictTypeArea(districtID, placePos);
+            if (checkList.Count == 0)
+                return true;
+            if (currentDistrictDataDic == null)
+                return true;
+
+            for(int i=0;i< checkList.Count; i++)
+            {
+                if (!currentDistrictDataDic.ContainsKey(checkList[i]))
+                {
+                    ///Out of Range
+                    return true;
+                }
+                else
+                {
+                    /// Repeat
+                    if (currentDistrictDataDic[checkList[i]].districtID != 0)
+                        return true;
+                }
+            }
+            return false;
+        }
+    }
+
+
+
     public class FunctionBlockLevelInfo
     {
 

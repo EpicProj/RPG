@@ -87,8 +87,8 @@ namespace Sim_FrameWork
             int x = (int)pos.x;
             int z = (int)pos.z;
 
-            int sizeX = (int)block.info.districtAreaMax.x;
-            int sizeZ = (int)block.info.districtAreaMax.y;
+            int sizeX = (int)block.info.districtInfo.size.x;
+            int sizeZ = (int)block.info.districtInfo.size.y;
 
             for (int indexX = x; indexX < x + sizeX; indexX++)
             {

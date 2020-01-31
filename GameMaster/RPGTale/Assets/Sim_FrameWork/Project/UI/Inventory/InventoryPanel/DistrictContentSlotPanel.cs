@@ -22,13 +22,13 @@ namespace Sim_FrameWork.UI
         /// </summary>
         public void InitDistrictArea(FunctionBlockInfoData blockInfo)
         {
-            if (blockInfo.currentDistrictDataDic == null)
+            if (blockInfo.districtInfo.currentDistrictDataDic == null)
                 return;
             //gridlayoutGroup.constraint = GridLayoutGroup.Constraint.FixedColumnCount;
             //gridlayoutGroup.constraintCount = (int)blockInfo.districtAreaMax.x;
-            foreach (KeyValuePair<Vector2, DistrictAreaInfo> kvp in blockInfo.currentDistrictDataDic)
+            foreach (KeyValuePair<Vector2, DistrictAreaInfo> kvp in blockInfo.districtInfo.currentDistrictDataDic)
             {
-                int index = FunctionBlockModule.GetDistrictAreaIndex(blockInfo.districtAreaMax, kvp.Key);
+                int index = FunctionBlockModule.GetDistrictAreaIndex(blockInfo.districtInfo.size, kvp.Key);
                 //if (_elementList.Length < index)
                 //{
                 //    Debug.LogError("Area Error!");

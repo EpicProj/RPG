@@ -530,6 +530,7 @@ namespace Sim_FrameWork
             ushort guid = getPartUnUsedInstanceID();
             info.UID = guid;
             _assemblePartDesignDataDic.Add(guid, info);
+            DebugPlus.LogObject<AssemblePartInfo>(info);
         }
 
         private ushort getPartUnUsedInstanceID()

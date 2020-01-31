@@ -37,7 +37,6 @@ namespace Sim_FrameWork.UI
             {
                 model = _model;
                 InitBaseData();
-                RefreshDistrictElement();
                 RefreshBuildCostPanel();
             }
             if (_anim != null)
@@ -92,8 +91,8 @@ namespace Sim_FrameWork.UI
                     var blockData = FunctionBlockModule.GetFunctionBlockByBlockID(model.BuildData.FunctionBlockID);
                     if (blockData != null)
                     {
-                        var areaMax = FunctionBlockModule.GetFunctionBlockAreaMax(blockData);
-                        _districtMaxText.text = string.Format("{0} X {1}", areaMax.x.ToString(), areaMax.y.ToString());
+                        //var areaMax = FunctionBlockModule.GetFunctionBlockAreaMax(blockData);
+                        //_districtMaxText.text = string.Format("{0} X {1}", areaMax.x.ToString(), areaMax.y.ToString());
                     }
                     
                     return true;
@@ -117,53 +116,6 @@ namespace Sim_FrameWork.UI
             }
 
         }
-        /// <summary>
-        /// 刷新区划格
-        /// </summary>
-        void RefreshDistrictElement()
-        {
-            InitDistrictBuildObj();
-            var gridLayout = UIUtility.SafeGetComponent<GridLayoutGroup>(_gridContentTrans);
-            var blockData = FunctionBlockModule.GetFunctionBlockByBlockID(model.BuildData.FunctionBlockID);
-            if(blockData != null)
-            {
-                foreach(Transform trans in _gridContentTrans)
-                {
-                    trans.gameObject.SetActive(false);
-                }
-                var districtDic = FunctionBlockModule.GetFuntionBlockAreaDetailDefaultDataInfo(blockData);
-
-                ///Init Size
-                var districtMax = FunctionBlockModule.GetFunctionBlockAreaMax(blockData);
-                gridLayout.constraint = GridLayoutGroup.Constraint.FixedColumnCount;
-                gridLayout.constraintCount =(int)districtMax.x;
-                ///Init Grid
-                int index = 0;
-                foreach(KeyValuePair<Vector2,DistrictAreaBase> kvp in districtDic)
-                {
-                    var element = UIUtility.SafeGetComponent<BuildDetailDistrictElement>(_gridContentTrans.GetChild(index));
-                    if (element != null)
-                    {
-                        index++;
-                        if (kvp.Value.Locked == false)
-                        {
-                            element.gameObject.SetActive(true);
-                            element.InitEmpetyState(); //TODO
-                        }
-                        else if (kvp.Value.Locked == true)
-                        {
-                            element.gameObject.SetActive(true);
-                            element.InitLockState();
-                        }
-                    }
-                    else
-                    {
-                        continue;
-                    }
-                }
-            }
-        }
-
 
         /// <summary>
         /// 生成建造花费
