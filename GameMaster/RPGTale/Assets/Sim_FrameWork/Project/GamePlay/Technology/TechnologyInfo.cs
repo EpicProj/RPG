@@ -4,18 +4,17 @@ using UnityEngine;
 
 namespace Sim_FrameWork
 {
+    public enum TechnologyState
+    {
+        Unlock,
+        Lock,
+        OnResearch,
+        PauseResearch,
+        Require_Lack,
+        Done,
+    }
     public class TechnologyInfo 
     {
-        public enum TechState
-        {
-            Unlock,
-            Lock,
-            OnResearch,
-            PauseResearch,
-            Require_Lack,
-            Done,
-        }
-
         public enum TechType
         {
             /// <summary>
@@ -31,7 +30,7 @@ namespace Sim_FrameWork
         public int techID;
         public TechnologyDataModel _model;
         public TechType baseType;
-        public TechState currentState;
+        public TechnologyState currentState;
 
         public List<TechRequireData.Require> techRequireList;
         public List<TechFinishEffect.TechEffect> techFinishEffectList;
@@ -41,6 +40,7 @@ namespace Sim_FrameWork
         /// </summary>
         public float researchProgress = 0f;
 
+        public TechnologyInfo() { }
         public TechnologyInfo(int techID)
         {
             _model = new TechnologyDataModel();
@@ -54,13 +54,36 @@ namespace Sim_FrameWork
 
             if (TechnologyModule.GetTechDataByID(techID).Unlock)
             {
-                currentState = TechState.Unlock;
+                currentState = TechnologyState.Unlock;
             }
             else
             {
-                currentState = TechState.Lock;
+                currentState = TechnologyState.Lock;
             }
         }
 
+        public TechnologyInfo LoadSaveData(TechnologyInfoSaveData saveData)
+        {
+            TechnologyInfo info = new TechnologyInfo(saveData.technolgyID);
+            info.currentState = saveData.currentState;
+            info.researchProgress = saveData.progress;
+            return info;
+        }
+
     }
+    #region GameSaveData
+    public class TechnologyInfoSaveData
+    {
+        public int technolgyID;
+        public TechnologyState currentState;
+        public float progress;
+
+        public TechnologyInfoSaveData(int techID,TechnologyState state,float progress)
+        {
+            this.technolgyID = techID;
+            this.currentState = state;
+            this.progress = progress;
+        }
+    }
+    #endregion
 }

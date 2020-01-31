@@ -24,6 +24,7 @@ namespace Sim_FrameWork
         public void InitData()
         {
             mainShipInfo = new MainShipInfo();
+            mainShipInfo = mainShipInfo.InitInfo();
             InitPlayerEnergyData();
         }
       
@@ -34,6 +35,7 @@ namespace Sim_FrameWork
                 if (mainShipInfo.powerAreaInfo.ChangeEnergyLoadValue((short)-changeValue))
                 {
                     mainShipInfo.controlTowerInfo.ChangePowerLevel(changeValue);
+                    mainShipInfo.powerAreaInfo.RefreshEnergyLoadDetail(MainShipAreaType.PowerArea, mainShipInfo.controlTowerInfo.powerLevelCurrent);
                     return true;
                 }
                 return false; 
@@ -43,6 +45,7 @@ namespace Sim_FrameWork
                 if (mainShipInfo.powerAreaInfo.ChangeEnergyLoadValue((short)-changeValue))
                 {
                     mainShipInfo.hangarAreaInfo.ChangePowerLevel(changeValue);
+                    mainShipInfo.powerAreaInfo.RefreshEnergyLoadDetail(MainShipAreaType.hangar, mainShipInfo.hangarAreaInfo.powerLevelCurrent);
                     return true;
                 }
                 return false;
@@ -52,6 +55,7 @@ namespace Sim_FrameWork
                 if (mainShipInfo.powerAreaInfo.ChangeEnergyLoadValue((short)-changeValue))
                 {
                     mainShipInfo.livingAreaInfo.ChangePowerLevel(changeValue);
+                    mainShipInfo.powerAreaInfo.RefreshEnergyLoadDetail(MainShipAreaType.LivingArea, mainShipInfo.livingAreaInfo.powerLevelCurrent);
                     return true;
                 }
                 return false;
@@ -61,6 +65,7 @@ namespace Sim_FrameWork
                 if (mainShipInfo.powerAreaInfo.ChangeEnergyLoadValue((short)-changeValue))
                 {
                     mainShipInfo.workingAreaInfo.ChangePowerLevel(changeValue);
+                    mainShipInfo.powerAreaInfo.RefreshEnergyLoadDetail(MainShipAreaType.WorkingArea, mainShipInfo.workingAreaInfo.powerLevelCurrent);
                     return true;
                 }
                 return false;

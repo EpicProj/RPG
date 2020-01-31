@@ -15,6 +15,8 @@ namespace Sim_FrameWork
 
         public List<TechnologyInfo> TechOnResearchList = new List<TechnologyInfo>();
 
+        public List<int> TechOnFinishIDList = new List<int>();
+
 
         private void InitAllTechInfo()
         {
@@ -33,7 +35,7 @@ namespace Sim_FrameWork
             return info;
         }
 
-        public List<int> GetTechStateInfoList(TechnologyInfo.TechState state)
+        public List<int> GetTechStateInfoList(TechnologyState state)
         {
             List<int> result = new List<int>();
             foreach (var info in AllTechDataDic)
@@ -64,7 +66,7 @@ namespace Sim_FrameWork
                         for (int j = 0; j < techList.Count; j++)
                         {
                             var info = GetTechInfo(techList[j]);
-                            if (info.currentState == TechnologyInfo.TechState.Lock)
+                            if (info.currentState == TechnologyState.Lock)
                                 canResearch = false;
                         }
                         continue;
@@ -92,10 +94,10 @@ namespace Sim_FrameWork
             if (CheckTechCanResearch(techID))
             {
                 var info = GetTechInfo(techID);
-                if (info.currentState == TechnologyInfo.TechState.Unlock)
+                if (info.currentState == TechnologyState.Unlock)
                 {
                     TechOnResearchList.Add(info);
-                    info.currentState = TechnologyInfo.TechState.OnResearch;
+                    info.currentState = TechnologyState.OnResearch;
                     return true;
                 }
             }
@@ -110,17 +112,19 @@ namespace Sim_FrameWork
         public void OnTechResearchFinish(int techID)
         {
             var info = GetTechInfo(techID);
-            if (info != null && info.researchProgress >= 100 && info.currentState == TechnologyInfo.TechState.OnResearch)
+            if (info != null && info.researchProgress >= 100 && info.currentState == TechnologyState.OnResearch)
             {
                 if (TechOnResearchList.Contains(info))
                 {
                     TechOnResearchList.Remove(info);
                 }
-                info.currentState = TechnologyInfo.TechState.Done;
+                info.currentState = TechnologyState.Done;
                 switch (info.baseType)
                 {
                     case TechnologyInfo.TechType.Unique:
                         HandleTechCompleteEvent(info.techID);
+                        if (!TechOnFinishIDList.Contains(info.techID))
+                            TechOnFinishIDList.Add(info.techID);
                         break;
                     case TechnologyInfo.TechType.Series:
                         break;
@@ -143,7 +147,7 @@ namespace Sim_FrameWork
                         for (int j = 0; j < techList.Count; j++)
                         {
                             var info = GetTechInfo(techList[j]);
-                            info.currentState = TechnologyInfo.TechState.Unlock;
+                            info.currentState = TechnologyState.Unlock;
                         }
                         break;
                     case TechCompleteEffect.Unlock_Block:
@@ -175,6 +179,49 @@ namespace Sim_FrameWork
             }
 
         }
+        #region Game Save Data
 
+        public void LoadTechSaveData()
+        {
+            InitAllTechInfo();
+            TechOnResearchList.Clear();
+            TechOnFinishIDList.Clear();
+            ///Load TechStates
+            var saveData = GameDataSaveManager.Instance.currentSaveData.technologySaveData;
+            if (saveData != null)
+            {
+                for(int i = 0; i < saveData.saveList.Count;i++)
+                {
+                    TechnologyInfo info = new TechnologyInfo();
+                    info = info.LoadSaveData(saveData.saveList[i]);
+                    TechOnResearchList.Add(info);
+                }
+
+                TechOnFinishIDList = saveData.finishTechList;
+            }
+        }
+
+        #endregion
     }
+
+    #region Game Save
+    public class TechnologySaveData
+    {
+        public List<TechnologyInfoSaveData> saveList;
+        public List<int> finishTechList;
+
+        public TechnologySaveData()
+        {
+            saveList = new List<TechnologyInfoSaveData>();
+            for(int i = 0; i < TechnologyDataManager.Instance.TechOnResearchList.Count; i++)
+            {
+                var info = TechnologyDataManager.Instance.TechOnResearchList[i];
+                TechnologyInfoSaveData saveItem = new TechnologyInfoSaveData(info.techID, info.currentState, info.researchProgress);
+                saveList.Add(saveItem);
+            }
+
+            finishTechList = TechnologyDataManager.Instance.TechOnFinishIDList;
+        }
+    }
+    #endregion
 }

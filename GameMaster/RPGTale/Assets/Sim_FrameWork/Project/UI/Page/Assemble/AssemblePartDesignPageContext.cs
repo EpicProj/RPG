@@ -362,15 +362,14 @@ namespace Sim_FrameWork.UI
             foreach(var item in _propertyItem)
             {
                 string propertyName = item._configData.Name;
-                AssemblePartCustomDataInfo.CustomData data = new AssemblePartCustomDataInfo.CustomData(
-                    item._configData,
+                AssemblePartCustomDataInfo.CustomData data = new AssemblePartCustomDataInfo.CustomData();
+                data = data.CrateData(item._configData,
                     item.CurrentValueMin,
                     item.CurrentValueMax,
                     item.detailInfoDic,
                     _timeCostInfoDic);
                 ///Get TimeCost
                 
-
                 dataDic.Add(propertyName, data);
             }
 
@@ -380,7 +379,8 @@ namespace Sim_FrameWork.UI
                 customValueDic.Add(customName, item.CurrentValue);
             }
 
-            return new AssemblePartCustomDataInfo(_info.partID, customNameInput.text, dataDic, customValueDic);
+            string inputText = customNameInput == null ? "" : customNameInput.text;
+            return new AssemblePartCustomDataInfo(_info.partID, inputText, dataDic, customValueDic);
         }
 
         /// <summary>

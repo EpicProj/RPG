@@ -98,12 +98,12 @@ namespace Sim_FrameWork.UI
 
         private void InitSotrageItem()
         {
-            var allDic = PlayerManager.Instance._storageData.materialStorageDataDic;
+            var allDic = PlayerManager.Instance.playerData.materialStorageData.materialStorageDataDic;
             var loopList = UIUtility.SafeGetComponent<GridLoopList>(m_page.MaterialScrollView.transform);
             if (currentSelectMainType == null)
             {
                 //Init All 
-                var modelList = MaterialModule.Instance.InitMaterialStorageModel(allDic.Select(x => x.Value).ToList());
+                var modelList = MaterialModule.Instance.InitMaterialStorageModel(allDic.Select(x => x.Key).ToList());
                 loopList.InitData(modelList);
             }
             else

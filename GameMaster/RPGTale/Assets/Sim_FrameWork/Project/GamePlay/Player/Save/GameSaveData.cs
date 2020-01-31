@@ -13,16 +13,28 @@ namespace Sim_FrameWork
     public class GameSaveData
     {
         public int SaveID;
+        /// <summary>
+        /// PlayerSave
+        /// Resource
+        /// </summary>
         public PlayerSaveData playerSaveData;
         public GameStatisticsSaveData gameStatisticsData;
 
+        /// <summary>
+        /// AssembleSave  preset & currentParts
+        /// </summary>
         public AssembleSaveData assembleSaveData;
+        /// <summary>
+        /// Technology Save
+        /// </summary>
+        public TechnologySaveData technologySaveData;
 
         public GameSaveData(int saveID)
         {
             this.SaveID = saveID;
             playerSaveData = new PlayerSaveData();
             assembleSaveData = new AssembleSaveData();
+            technologySaveData = new TechnologySaveData();
         }
     }
 
@@ -48,35 +60,13 @@ namespace Sim_FrameWork
     public class PlayerSaveData
     {
         public PlayerSaveData_Resource playerSaveData_Resource;
-
+        public MaterialStorageSaveData materialSaveData;
 
         public PlayerSaveData()
         {
-            playerSaveData_Resource = new PlayerSaveData.PlayerSaveData_Resource(PlayerManager.Instance.playerData);
+            playerSaveData_Resource = new PlayerSaveData_Resource(PlayerManager.Instance.playerData);
+            materialSaveData = new MaterialStorageSaveData();
         }
-
-
-        public class PlayerSaveData_Resource
-        {
-            public int _currency;
-            public int _currency_max;
-
-            public float _research;
-            public float _research_max;
-            public float _research_per_month;
-
-            public PlayerSaveData_Resource(PlayerData data)
-            {
-                _currency = data.resourceData.Currency;
-                _currency_max = data.resourceData.CurrencyMax;
-
-                _research = data.resourceData.Research;
-                _research_max = data.resourceData.ResearchMax;
-                _research_per_month = data.resourceData.ResearchPerMonth;
-            }
-        }
-
-
     }
 
     public class AssembleSaveData

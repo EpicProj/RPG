@@ -257,8 +257,6 @@ namespace Sim_FrameWork
                 AudioManager.Instance.PlaySound(AudioClipPath.ItemEffect.Block_Place);
             }
         }
-
-
         #endregion
 
     }

@@ -122,20 +122,20 @@ namespace Sim_FrameWork.UI
                 return;
             var btn = Transform.FindTransfrom("Content/ButtonGeneral").SafeGetComponent<Button>();
             _confirmBtnText.text = "";
-            if (techInfo.currentState== TechnologyInfo.TechState.Lock)
+            if (techInfo.currentState== TechnologyState.Lock)
             {
                 _confirmBtnText.text = MultiLanguage.Instance.GetTextValue(Research_ConfirmBtn_Locked_Text);
                 btn.interactable = false;
-            }else if (techInfo.currentState== TechnologyInfo.TechState.Unlock)
+            }else if (techInfo.currentState== TechnologyState.Unlock)
             {
                 _confirmBtnText.text = MultiLanguage.Instance.GetTextValue(Research_ConfirmBtn_Research_Text);
                 btn.interactable = true;
             }
-            else if (techInfo.currentState== TechnologyInfo.TechState.Done)
+            else if (techInfo.currentState== TechnologyState.Done)
             {
                 _confirmBtnText.text = MultiLanguage.Instance.GetTextValue(Research_ConfirmBtn_Done_Text);
                 btn.interactable = false;
-            }else if (techInfo.currentState == TechnologyInfo.TechState.OnResearch)
+            }else if (techInfo.currentState == TechnologyState.OnResearch)
             {
                 _confirmBtnText.text = MultiLanguage.Instance.GetTextValue(Research_ConfirmBtn_Researching_Text);
                 btn.interactable = false;
@@ -253,7 +253,7 @@ namespace Sim_FrameWork.UI
                                 {
                                     index++;
                                     var element = obj.SafeGetComponent<TechRequireElement>();
-                                    bool warning = TechnologyDataManager.Instance.GetTechInfo(techList[j]).currentState == TechnologyInfo.TechState.Lock ? true : false;
+                                    bool warning = TechnologyDataManager.Instance.GetTechInfo(techList[j]).currentState == TechnologyState.Lock ? true : false;
                                     element.SetUpElement( TechRequireElement.RequireType.PreTech,new object[] { techModel.ID }, warning);
                                     obj.SafeSetActive(true);
                                 }

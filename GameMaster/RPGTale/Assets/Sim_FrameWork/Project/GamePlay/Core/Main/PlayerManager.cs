@@ -23,7 +23,9 @@ namespace Sim_FrameWork
     public class PlayerManager : Singleton<PlayerManager>
     {
         public PlayerData playerData;
-        public MaterialStorageData _storageData;
+    
+
+        public GameHardLevel currentHardLevel { get; protected set; }
         /// <summary>
         /// Time Manager
         /// </summary>
@@ -31,8 +33,8 @@ namespace Sim_FrameWork
 
         public void InitPlayerData()
         {
-            playerData = PlayerModule.Instance.InitPlayerData();
-            _storageData = new MaterialStorageData();
+            playerData = new PlayerData();
+            playerData.resourceData = new PlayerData.PlayerResourceData(currentHardLevel);
             InitAssembleData();
         }
 
@@ -49,10 +51,25 @@ namespace Sim_FrameWork
             _assemblePartDesignDataDic.Clear();
             _assembleShipDesignDataDic.Clear();
             LoadAssembleShipSaveData();
+            LoadAssemblePartSaveData();
         }
 
+        public void SetGameHardLevel(GameHardLevel hardLevel)
+        {
+            currentHardLevel = hardLevel;
+        }
 
         #region Resource Manager
+
+        public void LoadPlayerSaveData()
+        {
+            var saveData = GameDataSaveManager.Instance.currentSaveData.playerSaveData;
+            if (saveData != null)
+            {
+                playerData = new PlayerData();
+                playerData.LoadPlayerSaveData(saveData);
+            }
+        }
         public void AddCurrency(int num, ResourceAddType type, Action callback = null)
         {
             switch (type)
@@ -179,7 +196,7 @@ namespace Sim_FrameWork
 
         public void AddMaterialData(int materialId, ushort count)
         {
-            _storageData.AddMaterialStoreData(materialId, count);
+            playerData.materialStorageData.AddMaterialStoreData(materialId, count);
         }
 
         /// <summary>
@@ -189,9 +206,9 @@ namespace Sim_FrameWork
         /// <returns></returns>
         public int GetMaterialStoreCount(int materialID)
         {
-            if (_storageData.materialStorageDataDic.ContainsKey(materialID))
+            if (playerData.materialStorageData.materialStorageDataDic.ContainsKey(materialID))
             {
-                return _storageData.materialStorageDataDic[materialID].count;
+                return playerData.materialStorageData.materialStorageDataDic[materialID];
             }
             return 0;
         }
@@ -279,7 +296,6 @@ namespace Sim_FrameWork
             AddResearch(playerData.resourceData.ResearchPerMonth, ResourceAddType.current);
             AddCurrency(playerData.resourceData.CurrencyPerMonth, ResourceAddType.current);
             GlobalEventManager.Instance.DoPlayerOrderMonthSettle();
-            
         }
 
 
@@ -749,7 +765,18 @@ namespace Sim_FrameWork
 
         public void LoadAssemblePartSaveData()
         {
+            var saveData = GameDataSaveManager.Instance.currentSaveData.assembleSaveData;
+            if (saveData != null)
+            {
 
+                for(int i = 0; i < saveData.partSaveData.currentSavePart.Count; i++)
+                {
+                    AssemblePartInfo info = new AssemblePartInfo();
+                    info= info.LoadSaveData(saveData.partSaveData.currentSavePart[i]);
+
+                    AddAssemblePartDesign(info);
+                }
+            }
         }
 
         public void LoadAssembleShipSaveData()
@@ -760,7 +787,7 @@ namespace Sim_FrameWork
                 for(int i = 0; i < saveData.shipSaveData.currentSaveShip.Count; i++)
                 {
                     AssembleShipInfo shipInfo = new AssembleShipInfo();
-                    shipInfo.LoadSaveData(saveData.shipSaveData.currentSaveShip[i]);
+                    shipInfo =shipInfo.LoadSaveData(saveData.shipSaveData.currentSaveShip[i]);
 
                     AddAssembleShipDesign(shipInfo);
                 }

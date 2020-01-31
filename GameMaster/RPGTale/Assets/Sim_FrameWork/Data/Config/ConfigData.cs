@@ -18,6 +18,20 @@ namespace Sim_FrameWork.Config
             }
         }
 
+        private static PlayerConfig _playerConfig;
+        public static PlayerConfig PlayerConfig
+        {
+            get
+            {
+                if (_playerConfig == null)
+                {
+                    _playerConfig = new PlayerConfig();
+                    _playerConfig.LoadPlayerConfigData();
+                }
+                return _playerConfig;
+            }
+        }
+
         private static RewardData _rewardData;
         public static RewardData RewardData
         {
@@ -146,6 +160,7 @@ namespace Sim_FrameWork.Config
         public void InitData()
         {
             _globalSetting.LoadGlobalSettting();
+            _playerConfig.LoadPlayerConfigData();
             _rewardData.LoadRewardData();
             _exploreConfigData.LoadExploreConfigData();
             _eventConfigData.LoadEventConfigData();

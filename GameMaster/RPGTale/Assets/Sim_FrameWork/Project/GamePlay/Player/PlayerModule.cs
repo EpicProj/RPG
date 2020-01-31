@@ -13,16 +13,11 @@ namespace Sim_FrameWork
         public static Dictionary<int, BuildingPanelData> buildPanelDataDic;
         public List<string> AllBuildMainTagList = new List<string>();
         public BaseResourcesData resourceData;
-        public PlayerConfig config;
-
-        public PlayerConfig.HardLevel currentHardLevel = PlayerConfig.HardLevel.easy;
 
         public override void InitData()
         {        
             buildPanelDataList = BuildingPanelMetaDataReader.GetBuildingPanelDataList();
             buildPanelDataDic = BuildingPanelMetaDataReader.GetBuildingPanelDataDic();
-            config = new PlayerConfig();
-            config.ReadPlayerConfigData();
         }
 
         public override void Register()
@@ -32,37 +27,6 @@ namespace Sim_FrameWork
         public PlayerModule()
         {
             InitData();
-        }
-
-
-        
-        public PlayerData InitPlayerData()
-        {
-            HardLevelData data = config.GetHardlevelData(currentHardLevel);
-            PlayerData playerData = new PlayerData();
-            playerData.timeData = new TimeData(config.timeConfig);
-
-            playerData.resourceData.AddCurrencyMax(data.OriginalCurrencyMax);
-            playerData.resourceData.AddCurrency(data.OriginalCurrency);
-
-            playerData.resourceData.AddResearch(data.OriginalResearch);
-            playerData.resourceData.AddResearchMax(data.OriginalResearchMax);
-
-            playerData.resourceData.AddReputationMax(data.OriginalReputationMax);
-            playerData.resourceData.AddReputation(data.OriginalReputation);
-
-            playerData.resourceData.AddBuilder(data.OriginalBuilder);
-            playerData.resourceData.AddBuilderMax(data.OriginalBuilderMax);
-
-            playerData.resourceData.AddRoCore(data.OriginalRoCore);
-            playerData.resourceData.AddRoCoreMax(data.OriginalRoCoreMax);
-            
-            //Init BuildPanel
-            playerData.AllBuildingPanelDataList = buildPanelDataList;
-            playerData.UnLockBuildingPanelDataList = GetUnLockBuildData();
-
-            return playerData;
-
         }
 
 
@@ -136,10 +100,35 @@ namespace Sim_FrameWork
             return result;
         }
 
- 
-
         #endregion
-    
+
+        /// <summary>
+        /// 获取Hardlevel信息
+        /// </summary>
+        /// <param name="level"></param>
+        /// <returns></returns>
+        public static HardLevelData GetHardlevelData(GameHardLevel level)
+        {
+            var hardlevelData = Config.ConfigData.PlayerConfig.hardlevelData;
+            if (hardlevelData.Count == 0 || hardlevelData==null)
+            {
+                Debug.LogError("HardlevelData is null");
+                return null;
+            }
+            switch (level)
+            {
+                case GameHardLevel.easy:
+                    return hardlevelData[0];
+                case GameHardLevel.normal:
+                    return hardlevelData[1];
+                case GameHardLevel.hard:
+                    return hardlevelData[2];
+                default:
+                    Debug.LogError("HardLevelMode Error");
+                    return hardlevelData[0];
+            }
+        }
+
     }
     public class TimeData
     {
@@ -157,92 +146,6 @@ namespace Sim_FrameWork
 
 
 
-    public class PlayerConfig
-    {
-        public List<HardLevelData> hardlevelData;
-        public TimeDataConfig timeConfig;
-
-        public enum HardLevel
-        {
-            easy = 1 << 0,
-            normal = 1 << 1,
-            hard = 1 << 2
-        }
-
-        public void ReadPlayerConfigData()
-        {
-            Config.JsonReader reader = new Config.JsonReader();
-            PlayerConfig config = reader.LoadJsonDataConfig<PlayerConfig>(Config.JsonConfigPath.PlayerConfigJsonPath);
-            hardlevelData = config.hardlevelData;
-            timeConfig = config.timeConfig;
-        }
-
-
-        /// <summary>
-        /// 获取Hardlevel信息
-        /// </summary>
-        /// <param name="level"></param>
-        /// <returns></returns>
-        public HardLevelData GetHardlevelData(HardLevel level)
-        {
-            if (hardlevelData.Count == 0)
-            {
-                Debug.LogError("HardlevelData is null");
-                return null;
-            }
-            switch (level)
-            {
-                case HardLevel.easy:
-                    return hardlevelData[0];
-                case HardLevel.normal:
-                    return hardlevelData[1];
-                case HardLevel.hard:
-                    return hardlevelData[2];
-                default:
-                    Debug.LogError("HardLevelMode Error");
-                    return hardlevelData[0];
-            }
-        }
-    }
-
-    public class TimeDataConfig
-    {
-        public int OriginalYear;
-        public ushort OriginalMonth;
-        public ushort OriginalDay;
-        public float RealSecondsPerDay;
-
-    }
-
-
-    public class HardLevelData
-    {
-        public string HardName;
-        ///初始货币
-        public int OriginalCurrency;
-        public int OriginalCurrencyMax;
-
-        ///初始能量
-        public float OriginalEnergy;
-        public float OriginalEnergyMax;
-        ///初始研究
-        public float OriginalResearch;
-        public float OriginalResearchMax;
-        ///初始信誉
-        public int OriginalReputation;
-        public int OriginalReputationMax;
-
-        ///初始建设者数量
-        public ushort OriginalBuilder;
-        public ushort OriginalBuilderMax;
-
-        ///初始智核数量
-        public ushort OriginalRoCore;
-        public ushort OriginalRoCoreMax;
-
-        ///初始科技转化率
-        public float TechnologyConversionRate;
-    }
-
+ 
 
 }

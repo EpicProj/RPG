@@ -77,6 +77,16 @@ namespace Sim_FrameWork
             }
         }
 
+        /// <summary>
+        /// Load Save Data
+        /// </summary>
+        public void LoadAllSave()
+        {
+            PlayerManager.Instance.LoadGameSaveData();
+            TechnologyDataManager.Instance.LoadTechSaveData();
+        }
+
+
 
         #region Data Save
         private GameSaveGeneralData Create_gameSaveData_Nav()

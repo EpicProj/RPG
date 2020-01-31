@@ -91,7 +91,7 @@ namespace Sim_FrameWork {
             _techCost.text = _dataModel.TechCost.ToString();
             _icon.sprite = _dataModel.Icon;
 
-            if (TechnologyDataManager.Instance.GetTechInfo(_dataModel.ID).currentState== TechnologyInfo.TechState.Lock)
+            if (TechnologyDataManager.Instance.GetTechInfo(_dataModel.ID).currentState== TechnologyState.Lock)
             {
                 SetLockStates(true);
             }
@@ -103,21 +103,21 @@ namespace Sim_FrameWork {
         public void RefreshTech()
         {
             var info = TechnologyDataManager.Instance.GetTechInfo(_dataModel.ID);
-            if (info.currentState == TechnologyInfo.TechState.Unlock)
+            if (info.currentState == TechnologyState.Unlock)
             {
                 SetLockStates(false);
                 progressTrans.gameObject.SetActive(false);
                 completeTrans.gameObject.SetActive(false);
                 techCostTrans.gameObject.SetActive(true);
             }
-            else if(info.currentState == TechnologyInfo.TechState.OnResearch)
+            else if(info.currentState == TechnologyState.OnResearch)
             {
                 progressTrans.gameObject.SetActive(true);
                 completeTrans.gameObject.SetActive(false);
                 techCostTrans.gameObject.SetActive(false);
                 UpdateProgress();
             }
-            else if(info.currentState== TechnologyInfo.TechState.Done)
+            else if(info.currentState== TechnologyState.Done)
             {
                 completeTrans.gameObject.SetActive(true);
                 progressTrans.gameObject.SetActive(false);            
@@ -152,7 +152,7 @@ namespace Sim_FrameWork {
         private void UpdateProgress()
         {
             var info = TechnologyDataManager.Instance.GetTechInfo(_dataModel.ID);
-            if(info.currentState== TechnologyInfo.TechState.OnResearch && progressTrans.gameObject.activeSelf && progressSlider!=null)
+            if(info.currentState== TechnologyState.OnResearch && progressTrans.gameObject.activeSelf && progressSlider!=null)
             {
                 progressSlider.size = info.researchProgress/100f;
                 _progressText.text = ((int)info.researchProgress).ToString();

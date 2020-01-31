@@ -228,14 +228,14 @@ namespace Sim_FrameWork {
         /// </summary>
         /// <param name="items"></param>
         /// <returns></returns>
-        public List<List<BaseDataModel>> InitMaterialStorageModel(List<MaterialStorageItem> items)
+        public List<List<BaseDataModel>> InitMaterialStorageModel(List<int> materialList)
         {
             List<List<BaseDataModel>> result = new List<List<BaseDataModel>>();
-            for(int i = 0; i < items.Count; i++)
+            for(int i = 0; i < materialList.Count; i++)
             {
                 List<BaseDataModel> list = new List<BaseDataModel>();
                 MaterialStorageModel model = new MaterialStorageModel();
-                model.Create(items[i].info.ID);
+                model.Create(materialList[i]);
                 list.Add((BaseDataModel)model);
                 result.Add(list);
             }

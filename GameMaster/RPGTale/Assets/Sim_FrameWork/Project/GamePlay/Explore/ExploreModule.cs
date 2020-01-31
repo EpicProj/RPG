@@ -597,11 +597,11 @@ namespace Sim_FrameWork
                             {
                                 if(string.Compare(kvp.Value, "Complete") ==0)
                                 {
-                                    if (techData.currentState != TechnologyInfo.TechState.Done)
+                                    if (techData.currentState != TechnologyState.Done)
                                         return false;
                                 }else if(string.Compare(kvp.Value, "Lock") == 0)
                                 {
-                                    if (techData.currentState != TechnologyInfo.TechState.Lock)
+                                    if (techData.currentState != TechnologyState.Lock)
                                         return false;
                                 }
                                 else

@@ -79,6 +79,10 @@ namespace Sim_FrameWork
         /// <summary>
         /// 引擎区
         /// </summary>
-        EngineArea
+        EngineArea,
+
+        Weapon,
+
+        Shield,
     }
 }

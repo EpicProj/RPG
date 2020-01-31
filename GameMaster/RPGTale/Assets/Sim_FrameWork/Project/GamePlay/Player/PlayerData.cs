@@ -10,15 +10,42 @@ namespace Sim_FrameWork
 
         public List<BuildingPanelData> AllBuildingPanelDataList = new List<BuildingPanelData>();
         public List<BuildingPanelData> UnLockBuildingPanelDataList = new List<BuildingPanelData>();
-        public PlayerResourceData resourceData = new PlayerResourceData();
+        public PlayerResourceData resourceData;
+
+        public MaterialStorageData materialStorageData;
 
         public TimeData timeData;
-   
 
         //当前科技转换率
         private float _technologyConversionRate;
         public float TechnologyConversionRate { get { return _technologyConversionRate; } protected set { } }
 
+        public PlayerData()
+        {
+            var config = Config.ConfigData.PlayerConfig;
+            if (config == null)
+                return;
+            if (config.timeConfig != null)
+                timeData = new TimeData(config.timeConfig);
+
+            materialStorageData = new MaterialStorageData();
+            //Init BuildPanel
+            AllBuildingPanelDataList =PlayerModule.buildPanelDataList;
+            UnLockBuildingPanelDataList = PlayerModule.GetUnLockBuildData();
+        }
+        
+        /// <summary>
+        /// Game Save
+        /// </summary>
+        /// <param name="saveData"></param>
+        public PlayerData LoadPlayerSaveData(PlayerSaveData saveData)
+        {
+            PlayerData data = new PlayerData();
+            data.resourceData = new PlayerResourceData(saveData.playerSaveData_Resource);
+            data.materialStorageData = new MaterialStorageData();
+            data.materialStorageData.LoadSaveData(saveData.materialSaveData);
+            return data;
+        }
 
         public class PlayerResourceData
         {
@@ -172,7 +199,89 @@ namespace Sim_FrameWork
             }
 
             #endregion
-        }
 
+            public PlayerResourceData(GameHardLevel hardLevel)
+            {
+                var data = PlayerModule.GetHardlevelData(hardLevel);
+                if (data != null)
+                {
+                    AddCurrencyMax(data.OriginalCurrencyMax);
+                    AddCurrency(data.OriginalCurrency);
+
+                    AddResearch(data.OriginalResearch);
+                    AddResearchMax(data.OriginalResearchMax);
+
+                    AddReputationMax(data.OriginalReputationMax);
+                    AddReputation(data.OriginalReputation);
+
+                    AddBuilder(data.OriginalBuilder);
+                    AddBuilderMax(data.OriginalBuilderMax);
+
+                    AddRoCore(data.OriginalRoCore);
+                    AddRoCoreMax(data.OriginalRoCoreMax);
+                }
+            }
+
+            /// <summary>
+            /// Game Save
+            /// </summary>
+            /// <param name="saveData"></param>
+            public PlayerResourceData(PlayerSaveData_Resource saveData)
+            {
+                AddCurrency(saveData.currentCurrency);
+                AddCurrencyMax(saveData.currentCurrencyMax);
+
+                AddResearch(saveData.currentResearch);
+                AddResearchMax(saveData.currentResearchMax);
+
+                AddEnergy(saveData.currentEnergy);
+                AddEnergyMax(saveData.currentEnergyMax);
+
+                AddBuilder(saveData.currentBuilder);
+                AddBuilderMax(saveData.currentBuilderMax);
+
+                AddRoCore(saveData.currentRoCore);
+                AddRoCoreMax(saveData.currentRoCoreMax);
+            }
+        }
     }
+
+    #region Save Data
+    public class PlayerSaveData_Resource
+    {
+        public int currentCurrency;
+        public int currentCurrencyMax;
+
+        public float currentResearch;
+        public float currentResearchMax;
+
+        public float currentEnergy;
+        public float currentEnergyMax;
+
+        public ushort currentBuilder;
+        public ushort currentBuilderMax;
+
+        public ushort currentRoCore;
+        public ushort currentRoCoreMax;
+
+        public PlayerSaveData_Resource(PlayerData data)
+        {
+            currentCurrency = data.resourceData.Currency;
+            currentCurrencyMax = data.resourceData.CurrencyMax;
+
+            currentResearch = data.resourceData.Research;
+            currentResearchMax = data.resourceData.ResearchMax;
+
+            currentEnergy = data.resourceData.Energy;
+            currentEnergyMax = data.resourceData.EnergyMax;
+
+            currentBuilder = data.resourceData.Builder;
+            currentBuilderMax = data.resourceData.BuilderMax;
+
+            currentRoCore = data.resourceData.RoCore;
+            currentRoCoreMax = data.resourceData.RoCoreMax;
+        }
+    }
+    #endregion
+
 }
