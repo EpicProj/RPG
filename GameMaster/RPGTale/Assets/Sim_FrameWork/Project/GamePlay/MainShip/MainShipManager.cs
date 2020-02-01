@@ -75,14 +75,14 @@ namespace Sim_FrameWork
 
         void InitPlayerEnergyData()
         {
-            PlayerManager.Instance.AddEnergy(mainShipInfo.powerAreaInfo.PowerGenerateValue, ResourceAddType.month);
-            PlayerManager.Instance.AddEnergy(mainShipInfo.powerAreaInfo.MaxStoragePower, ResourceAddType.max);
+            PlayerManager.Instance.AddEnergy_PerDay( ModifierDetailRootType_Simple.PowerArea,mainShipInfo.powerAreaInfo.PowerGenerateValue);
+            PlayerManager.Instance.AddEnergy_Max( ModifierDetailRootType_Simple.PowerArea,mainShipInfo.powerAreaInfo.storagePower_max);
         }
 
         #region Modifier
-        public void AddPowerAreaModifier(ModifierBase modifier)
+        public void AddPowerAreaModifier(FunctionBlockBase block, ModifierBase modifier)
         {
-            ModifierManager.Instance.AddMainShipPowerAreaModifier(mainShipInfo.powerAreaInfo, modifier);
+            ModifierManager.Instance.AddMainShipPowerAreaModifier(block,mainShipInfo.powerAreaInfo, modifier);
         }
         #endregion
     }

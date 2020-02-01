@@ -163,6 +163,8 @@ namespace Sim_FrameWork.Config
         public ushort energyGenerateBase;
         public byte energyLoadBase;
         public int MaxStorageCountBase;
+        public bool unlockOverLoad;
+        public byte overLoadLevelMax;
 
         public List<OverLoadLevelMap> overLoadMap;
 

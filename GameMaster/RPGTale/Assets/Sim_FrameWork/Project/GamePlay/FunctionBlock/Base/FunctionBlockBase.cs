@@ -30,7 +30,7 @@ namespace Sim_FrameWork
 
         public BlockState currentState = BlockState.Idle;
 
-        public int instanceID;
+        public uint instanceID;
         public Action OnBlockSelectAction;
         public Action<bool> OnBlockAreaEnterAction;
 
@@ -53,9 +53,9 @@ namespace Sim_FrameWork
             gameObject.name = instanceID + "[Block]";
 
             SetPosition(new Vector3( posX, transform.localScale.y/2 , posZ));
-
-            info = FunctionBlockInfoData.CreateBaseInfo(transform.position,functionBlock,
-                new FunctionBlockModifier(ModifierTarget.FunctionBlock,instanceID));
+            info = new FunctionBlockInfoData();
+            info.CreateBaseInfo(transform.position, functionBlock,
+                new FunctionBlockModifier(ModifierTarget.FunctionBlock, instanceID));
 
             var blockType = info.dataModel.BlockType;
             if(blockType== FunctionBlockType.ElementCapsule)
@@ -268,7 +268,7 @@ namespace Sim_FrameWork
     {
         public int BlockID;
         public Vector3 BlockPos;
-
+        public FunctionBlockType blockType;
         /// <summary>
         /// 区划历史记录
         /// </summary>
@@ -283,40 +283,41 @@ namespace Sim_FrameWork
         public FunctionBlockDistrictInfo districtInfo;
 
         public FunctionBlockModifier blockModifier;
+        public ModifierDetailRootType_Block modifierRootType;
 
         public List<Config.BlockDistrictUnlockData.DistrictUnlockData> districtUnlockDataList;
         public List<DistrictData> ActiveDistrictBuildList=new List<DistrictData> ();
 
 
-        public static FunctionBlockInfoData CreateBaseInfo(Vector3 blockPos, FunctionBlock blockBase , FunctionBlockModifier modifier)
+        public bool CreateBaseInfo(Vector3 blockPos, FunctionBlock blockBase , FunctionBlockModifier modifier)
         {
+            BlockID = blockBase.FunctionBlockID;
+            block = blockBase;
+            blockType = FunctionBlockModule.GetFunctionBlockType(BlockID);
+            dataModel = new FunctionBlockDataModel();
+            dataModel.Create(BlockID);
+            BlockPos = blockPos;
 
-            FunctionBlockInfoData info = new FunctionBlockInfoData();
-            info.BlockID = blockBase.FunctionBlockID;
-            info.block = blockBase;
-            info.dataModel = new FunctionBlockDataModel();
-            info.dataModel.Create(info.BlockID);
-            info.BlockPos = blockPos;
+            blockModifier = modifier;
+            modifierRootType = FunctionBlockModule.FetchBlockModifierRootType(blockType);
+            districtUnlockDataList = FunctionBlockModule.GetBlockDistrictUnlockData(blockBase.FunctionBlockID);
 
-            info.blockModifier = modifier;
-            info.districtUnlockDataList = FunctionBlockModule.GetBlockDistrictUnlockData(blockBase.FunctionBlockID);
-
-            info.levelInfo = new FunctionBlockLevelInfo(blockBase);
+            levelInfo = new FunctionBlockLevelInfo(blockBase);
 
             //District
 
             
 
             //Set active district build
-            for (int i = 0; i < info.districtUnlockDataList.Count; i++)
+            for (int i = 0; i < districtUnlockDataList.Count; i++)
             {
-                if (info.districtUnlockDataList[i].UnlockDefault == true)
+                if (districtUnlockDataList[i].UnlockDefault == true)
                 {
-                    info.ActiveDistrictBuildList.Add(DistrictModule.GetDistrictDataByKey(info.districtUnlockDataList[i].DistrictID));
+                    ActiveDistrictBuildList.Add(DistrictModule.GetDistrictDataByKey(districtUnlockDataList[i].DistrictID));
                 }
             }
             //TODO
-            return info;
+            return true;
         }
     }
 

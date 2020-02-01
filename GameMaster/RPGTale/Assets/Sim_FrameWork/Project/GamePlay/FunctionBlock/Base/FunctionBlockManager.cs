@@ -7,7 +7,7 @@ namespace Sim_FrameWork
 {
     public class FunctionBlockManager : MonoSingleton<FunctionBlockManager>
     {
-        private Dictionary<int, FunctionBlockBase> _functionBlockInstances;
+        private Dictionary<uint, FunctionBlockBase> _functionBlockInstances;
 
         private GameObject FunctionBlockContainer;
         private string BaseFunctionBlockPath = "Assets/Prefabs/FunctionBlock/FunctionBlockBase.prefab";
@@ -15,11 +15,11 @@ namespace Sim_FrameWork
         protected override void Awake()
         {
             base.Awake();
-            _functionBlockInstances = new Dictionary<int, FunctionBlockBase>();
+            _functionBlockInstances = new Dictionary<uint, FunctionBlockBase>();
             FunctionBlockContainer = Utility.SafeFindGameobject("FunctionBlockContainer");
         }
 
-        public Dictionary<int,FunctionBlockBase> GetBlockInstancesDic()
+        public Dictionary<uint,FunctionBlockBase> GetBlockInstancesDic()
         {
             return _functionBlockInstances;
         }
@@ -32,9 +32,9 @@ namespace Sim_FrameWork
         /// <param name="functionBlockID"></param>
         /// <param name="instanceID"></param>
         /// <returns></returns>
-        public FunctionBlockBase AddFunctionBlock(int functionBlockID,int instanceID,int posX,int posZ)
+        public FunctionBlockBase AddFunctionBlock(int functionBlockID,uint instanceID,int posX,int posZ)
         {
-            if (instanceID == -1)
+            if (instanceID == 0)
             {
                 instanceID = getUnUsedInstanceID();
             }
@@ -50,7 +50,7 @@ namespace Sim_FrameWork
         }
         public FunctionBlockBase AddFunctionBlock(int functionBlockID,int posX,int posZ)
         {
-            return AddFunctionBlock(functionBlockID, -1, posX, posZ);
+            return AddFunctionBlock(functionBlockID, 0, posX, posZ);
         }
 
 
@@ -59,7 +59,7 @@ namespace Sim_FrameWork
         /// </summary>
         /// <param name="instanceID"></param>
         /// <returns></returns>
-        public GameObject GetFunctionBlockObject(int instanceID)
+        public GameObject GetFunctionBlockObject(uint instanceID)
         {
             var obj= FunctionBlockContainer.transform.Find(instanceID.ToString()+ "[Block]");
             if (obj != null)
@@ -69,7 +69,7 @@ namespace Sim_FrameWork
             return null;
         }
 
-        public FunctionBlockBase GetFunctionBlockBase(int instanceID)
+        public FunctionBlockBase GetFunctionBlockBase(uint instanceID)
         {
             if (_functionBlockInstances.ContainsKey(instanceID))
             {
@@ -94,9 +94,9 @@ namespace Sim_FrameWork
 
 
 
-        private int getUnUsedInstanceID()
+        private uint getUnUsedInstanceID()
         {
-            int instanceId = UnityEngine.Random.Range(ushort.MinValue, ushort.MaxValue);
+            uint instanceId = (uint)UnityEngine.Random.Range(1, float.MaxValue);
             if (_functionBlockInstances.ContainsKey(instanceId))
             {
                 return getUnUsedInstanceID();
@@ -109,7 +109,7 @@ namespace Sim_FrameWork
         public List<FunctionBlockBase> GetAllBlocks()
         {
             List<FunctionBlockBase> blocks = new List<FunctionBlockBase>();
-            foreach(KeyValuePair<int,FunctionBlockBase> kvp in _functionBlockInstances)
+            foreach(KeyValuePair<uint,FunctionBlockBase> kvp in _functionBlockInstances)
             {
                 blocks.Add(kvp.Value);
             }
@@ -117,7 +117,7 @@ namespace Sim_FrameWork
         }
 
         #region ManuBlock
-        public ManufactoryBase GetManuBlockBase(int instanceID)
+        public ManufactoryBase GetManuBlockBase(uint instanceID)
         {
             var obj = GetFunctionBlockObject(instanceID);
             if (obj != null)

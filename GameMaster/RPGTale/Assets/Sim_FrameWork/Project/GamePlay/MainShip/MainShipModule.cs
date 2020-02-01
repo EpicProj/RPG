@@ -50,6 +50,12 @@ namespace Sim_FrameWork
             return configData.energyLevelMap.Find(x => x.level == levelID);
         }
 
+        public static Config.PowerAreaConfig.OverLoadLevelMap GetPowerAreaOverLoadMap(int levelID)
+        {
+            var config = Config.ConfigData.MainShipConfigData.powerAreaConfig;
+            return config.overLoadMap.Find(x => x.Level == levelID);
+        }
+
         #endregion
     }
 

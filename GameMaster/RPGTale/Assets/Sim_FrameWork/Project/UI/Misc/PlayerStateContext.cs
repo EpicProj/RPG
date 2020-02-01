@@ -101,14 +101,14 @@ namespace Sim_FrameWork.UI
             switch (type)
             {
                 case ResourceType.All:
-                    _energyAddNumText.text = "+" + data.EnergyPerMonth.ToString();
-                    _currencyAddNumText.text = "+" + data.CurrencyPerMonth.ToString();
+                    _energyAddNumText.text = "+" + data.EnergyPerDay.ToString();
+                    _currencyAddNumText.text = "+" + data.CurrencyPerDay.ToString();
                     return true;
                 case ResourceType.Energy:
-                    _energyAddNumText.text = "+" + data.EnergyPerMonth.ToString();
+                    _energyAddNumText.text = "+" + data.EnergyPerDay.ToString();
                     return true;
                 case ResourceType.Research:
-                    _researchPointAddText.text = "+" + data.ResearchPerMonth.ToString();
+                    _researchPointAddText.text = "+" + data.ResearchPerDay.ToString();
                     return true;
                 default:
                     return false;

@@ -66,62 +66,62 @@ namespace Sim_FrameWork
             if(areaType== MainShipAreaType.LivingArea)
             {
                 var data = MainShipManager.Instance.mainShipInfo.livingAreaInfo;
-                _durabilityText.text = data.currentDurability.ToString();
-                _durabilitySlider.value = (data.currentDurability / data.durabilityMax)*100;
+                _durabilityText.text = data.durability_current.ToString();
+                _durabilitySlider.value = (data.durability_current / data.durability_max)*100;
                 _energyCostText.text = data.powerConsumeCurrent.ToString();
                 transform.FindTransfrom("Left/Icon").SafeGetComponent<Image>().sprite = Utility.LoadSprite(data.areaIconPath, Utility.SpriteType.png);
-                InitPower(data.powerLevelMax, data.powerLevelCurrent);
+                InitPower(data.powerLevel_max, data.powerLevel_current);
 
                 AddBtnClick(
-                    ()=> { AddPowerLevel(data.powerLevelMax, ModifierDetailRootType_Simple.LivingArea); },
+                    ()=> { AddPowerLevel(data.powerLevel_max, ModifierDetailRootType_Simple.LivingArea); },
                     () => { ReducePowerLevel(ModifierDetailRootType_Simple.LivingArea); });
 
             }
             else if(areaType == MainShipAreaType.WorkingArea)
             {
                 var data = MainShipManager.Instance.mainShipInfo.workingAreaInfo;
-                _durabilityText.text = data.currentDurability.ToString();
-                _durabilitySlider.value = (data.currentDurability / data.durabilityMax) * 100;
+                _durabilityText.text = data.durability_current.ToString();
+                _durabilitySlider.value = (data.durability_current / data.durability_max) * 100;
                 _energyCostText.text = data.powerConsumeCurrent.ToString();
                 transform.FindTransfrom("Left/Icon").SafeGetComponent<Image>().sprite = Utility.LoadSprite(data.areaIconPath, Utility.SpriteType.png);
-                InitPower(data.powerLevelMax, data.powerLevelCurrent);
+                InitPower(data.powerLevel_max, data.powerLevel_current);
 
                 AddBtnClick(
-                  () => { AddPowerLevel(data.powerLevelMax, ModifierDetailRootType_Simple.WorkingArea); },
+                  () => { AddPowerLevel(data.powerLevel_max, ModifierDetailRootType_Simple.WorkingArea); },
                   () => { ReducePowerLevel(ModifierDetailRootType_Simple.WorkingArea); });
             }
             else if(areaType == MainShipAreaType.ControlTower)
             {
                 var data = MainShipManager.Instance.mainShipInfo.controlTowerInfo;
-                _durabilityText.text = data.currentDurability.ToString();
-                _durabilitySlider.value = (data.currentDurability / data.durabilityMax) * 100;
+                _durabilityText.text = data.durability_current.ToString();
+                _durabilitySlider.value = (data.durability_current / data.durability_max) * 100;
                 _energyCostText.text = data.powerConsumeCurrent.ToString();
                 transform.FindTransfrom("Left/Icon").SafeGetComponent<Image>().sprite = Utility.LoadSprite(data.areaIconPath, Utility.SpriteType.png);
-                InitPower(data.powerLevelMax, data.powerLevelCurrent);
+                InitPower(data.powerLevel_max, data.powerLevel_current);
 
                 AddBtnClick(
-                  () => { AddPowerLevel(data.powerLevelMax, ModifierDetailRootType_Simple.ControlTower); },
+                  () => { AddPowerLevel(data.powerLevel_max, ModifierDetailRootType_Simple.ControlTower); },
                   () => { ReducePowerLevel(ModifierDetailRootType_Simple.ControlTower); });
             }
             else if(areaType == MainShipAreaType.hangar)
             {
                 var data = MainShipManager.Instance.mainShipInfo.hangarAreaInfo;
-                _durabilityText.text = data.currentDurability.ToString();
-                _durabilitySlider.value = (data.currentDurability / data.durabilityMax) * 100;
+                _durabilityText.text = data.durability_current.ToString();
+                _durabilitySlider.value = (data.durability_current / data.durability_max) * 100;
                 _energyCostText.text = data.powerConsumeCurrent.ToString();
                 transform.FindTransfrom("Left/Icon").SafeGetComponent<Image>().sprite = Utility.LoadSprite(data.areaIconPath, Utility.SpriteType.png);
-                InitPower(data.powerLevelMax, data.powerLevelCurrent);
+                InitPower(data.powerLevel_max, data.powerLevel_current);
 
                 AddBtnClick(
-                  () => { AddPowerLevel(data.powerLevelMax, ModifierDetailRootType_Simple.Hangar); },
+                  () => { AddPowerLevel(data.powerLevel_max, ModifierDetailRootType_Simple.Hangar); },
                   () => { ReducePowerLevel(ModifierDetailRootType_Simple.Hangar); });
             }
             else if(areaType == MainShipAreaType.PowerArea)
             {
                 ///Power Area
                 var data = MainShipManager.Instance.mainShipInfo.powerAreaInfo;
-                _durabilityText.text = data.durabilityMax.ToString();
-                _energyLoadText.text = data.EnergyLoadValueCurrent.ToString();
+                _durabilityText.text = data.durability_max.ToString();
+                _energyLoadText.text = data.energyLoadValue_current.ToString();
 
                 AddMapBtnClick(() =>
                 {
@@ -230,7 +230,7 @@ namespace Sim_FrameWork
         {
             if(areaType == MainShipAreaType.PowerArea)
             {
-                _energyLoadText.text = MainShipManager.Instance.mainShipInfo.powerAreaInfo.EnergyLoadValueCurrent.ToString();
+                _energyLoadText.text = MainShipManager.Instance.mainShipInfo.powerAreaInfo.energyLoadValue_current.ToString();
             }
         }
 

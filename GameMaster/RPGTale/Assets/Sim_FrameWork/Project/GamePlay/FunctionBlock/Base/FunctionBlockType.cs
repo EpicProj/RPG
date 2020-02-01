@@ -113,13 +113,4 @@ namespace Sim_FrameWork
         #endregion
     }
 
-    public enum FunctionBlockType_WorkingArea
-    {
-    
-    }
-
-    public enum FunctionBlock_LivingArea
-    {
-       
-    }
 }

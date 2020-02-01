@@ -7,8 +7,8 @@ namespace Sim_FrameWork
     public class FunctionBlockModifier :ModifierGeneral
     {
         public ModifierTarget target;
-        public int instanceID;
-        public FunctionBlockModifier(ModifierTarget target,int instanceID)
+        public uint instanceID;
+        public FunctionBlockModifier(ModifierTarget target,uint instanceID)
         {
             this.target = target;
             this.instanceID = instanceID;

@@ -355,11 +355,7 @@ namespace Sim_FrameWork {
         {
             if (order.rewardData.Reward_Currency != 0)
             {
-                PlayerManager.Instance.AddCurrency(order.rewardData.Reward_Currency, ResourceAddType.current);
-            }
-            if(order.rewardData.Reward_Reputation != 0)
-            {
-                PlayerManager.Instance.AddReputation(order.rewardData.Reward_Reputation, ResourceAddType.max);
+                PlayerManager.Instance.AddCurrency_Current(order.rewardData.Reward_Currency);
             }
             //Add material Reward
             var ma = OrderModule.Instance.GetOrderRewardMaterial(order.rewardData);
@@ -486,11 +482,11 @@ namespace Sim_FrameWork {
                 if(itemList[i].type == GeneralRewardItem.RewardType.Currency)
                 {
                     ///Add Currency
-                    PlayerManager.Instance.AddCurrency(itemList[i].count, ResourceAddType.current);
+                    PlayerManager.Instance.AddCurrency_Current(itemList[i].count);
                 }
                 else if (itemList[i].type == GeneralRewardItem.RewardType.Ro_Core)
                 {
-                    PlayerManager.Instance.AddRoCore((ushort)itemList[i].count, ResourceAddType.current);
+                    PlayerManager.Instance.AddRoCore_Current((ushort)itemList[i].count);
                 }
                 else if(itemList[i].type == GeneralRewardItem.RewardType.Material)
                 {
@@ -500,7 +496,7 @@ namespace Sim_FrameWork {
                 else if(itemList[i].type == GeneralRewardItem.RewardType.TechPoints)
                 {
                     ///Add Tech Points
-                    PlayerManager.Instance.AddResearch(itemList[i].count, ResourceAddType.current);
+                    PlayerManager.Instance.AddResearch_Current(itemList[i].count);
                 }
                 else if(itemList[i].type == GeneralRewardItem.RewardType.Tech_Unlock)
                 {

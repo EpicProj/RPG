@@ -14,18 +14,10 @@ namespace Sim_FrameWork
         Builder,
         RoCore,
     }
-    public enum ResourceAddType
-    {
-        current,
-        month,
-        max
-    }
     public class PlayerManager : Singleton<PlayerManager>
     {
         public PlayerData playerData;
     
-
-        public GameHardLevel currentHardLevel { get; protected set; }
         /// <summary>
         /// Time Manager
         /// </summary>
@@ -34,7 +26,10 @@ namespace Sim_FrameWork
         public void InitPlayerData()
         {
             playerData = new PlayerData();
-            playerData.resourceData = new PlayerData.PlayerResourceData(currentHardLevel);
+            if (playerData.InitData() == false)
+            {
+                DebugPlus.LogError("[PlayerManager] : PlayerData Init Fail!");
+            }
             InitAssembleData();
         }
 
@@ -56,10 +51,8 @@ namespace Sim_FrameWork
 
         public void SetGameHardLevel(GameHardLevel hardLevel)
         {
-            currentHardLevel = hardLevel;
+            playerData.SetHardLevel(hardLevel);
         }
-
-        #region Resource Manager
 
         public void LoadPlayerSaveData()
         {
@@ -70,129 +63,94 @@ namespace Sim_FrameWork
                 playerData.LoadPlayerSaveData(saveData);
             }
         }
-        public void AddCurrency(int num, ResourceAddType type, Action callback = null)
-        {
-            switch (type)
-            {
-                case ResourceAddType.current:
-                    playerData.resourceData.AddCurrency(num);
-                    UIManager.Instance.SendMessage(new UIMessage(UIMsgType.Res_Currency));
-                    callback?.Invoke();
-                    break;
-                case ResourceAddType.max:
-                    playerData.resourceData.AddCurrencyMax(num);
-                    callback?.Invoke();
-                    break;
-                case ResourceAddType.month:
-                    playerData.resourceData.AddCurrencyPerMonth(num);
-                    UIManager.Instance.SendMessage(new UIMessage(UIMsgType.Res_MonthCurrency));
-                    callback?.Invoke();
-                    break;
-                default:
-                    break;
-            }
 
+        #region Resource Manager
+        /// <summary>
+        /// Currency
+        /// </summary>
+        /// <param name="num"></param>
+        public void AddCurrency_Current(int num)
+        {
+            playerData.resourceData.AddCurrency(num);
+            UIManager.Instance.SendMessage(new UIMessage(UIMsgType.Res_Currency));
+        }
+        public void AddCurrency_Max(ModifierDetailRootType_Simple rootType,int num)
+        {
+            playerData.resourceData.AddCurrencyMax(rootType,num);
+        }
+        public void AddCurrency_PerDay(ModifierDetailRootType_Simple rootType,int num)
+        {
+            playerData.resourceData.AddCurrencyPerDay(rootType,num);
+            UIManager.Instance.SendMessage(new UIMessage(UIMsgType.Res_MonthCurrency));
         }
 
-        public void AddEnergy(float num, ResourceAddType type, Action callback = null)
+        /// <summary>
+        /// Energy
+        /// </summary>
+        /// <param name="num"></param>
+        public void AddEnergy_Current(float num)
         {
-            switch (type)
-            {
-                case ResourceAddType.current:
-                    playerData.resourceData.AddEnergy(num);
-                    UIManager.Instance.SendMessage(new UIMessage(UIMsgType.Res_Energy));
-                    callback?.Invoke();
-                    break;
-                case ResourceAddType.max:
-                    playerData.resourceData.AddEnergyMax(num);
-                    callback?.Invoke();
-                    break;
-                case ResourceAddType.month:
-                    playerData.resourceData.AddEnergyPerMonth(num);
-                    UIManager.Instance.SendMessage(new UIMessage(UIMsgType.Res_MonthEnergy));
-                    callback?.Invoke();
-                    break;
-                default:
-                    break;
-            }
-
+            playerData.resourceData.AddEnergy(num);
+            UIManager.Instance.SendMessage(new UIMessage(UIMsgType.Res_Energy));
         }
-        public void AddResearch(float num, ResourceAddType type, Action callback = null)
+        public void AddEnergy_Max(ModifierDetailRootType_Simple rootType,float num)
         {
-            switch (type)
-            {
-                case ResourceAddType.current:
-                    playerData.resourceData.AddResearch(num);
-                    UIManager.Instance.SendMessage(new UIMessage(UIMsgType.Res_Research));
-                    callback?.Invoke();
-                    break;
-                case ResourceAddType.max:
-                    playerData.resourceData.AddResearchMax(num);
-                    callback?.Invoke();
-                    break;
-                case ResourceAddType.month:
-                    playerData.resourceData.AddResearchPerMonth(num);
-                    UIManager.Instance.SendMessage(new UIMessage(UIMsgType.Res_MonthResearch));
-                    callback?.Invoke();
-                    break;
-                default:
-                    break;
-            }
-
+            playerData.resourceData.AddEnergyMax(rootType, num);
+        }
+        public void AddEnergy_PerDay(ModifierDetailRootType_Simple rootType,float num)
+        {
+            playerData.resourceData.AddEnergyPerDay(rootType,num);
+            UIManager.Instance.SendMessage(new UIMessage(UIMsgType.Res_MonthEnergy));
         }
 
-        public void AddReputation(int num,ResourceAddType type,Action callback = null)
+        /// <summary>
+        /// Research
+        /// </summary>
+        /// <param name="num"></param>
+        public void AddResearch_Current(float num)
         {
-            switch (type)
-            {
-                case ResourceAddType.current:
-                    playerData.resourceData.AddReputation(num);
-                    callback?.Invoke();
-                    break;
-                case ResourceAddType.max:
-                    playerData.resourceData.AddReputationMax(num);
-                    callback?.Invoke();
-                    break;
-                default:
-                    break;
-            }
+            playerData.resourceData.AddResearch(num);
+            UIManager.Instance.SendMessage(new UIMessage(UIMsgType.Res_Research));
+        }
+        public void AddResearch_Max(ModifierDetailRootType_Simple rootType,float num)
+        {
+            playerData.resourceData.AddResearchMax(rootType,num);
+        }
+        public void AddResearch_PerDay(ModifierDetailRootType_Simple rootType,float num)
+        {
+            playerData.resourceData.AddResearchPerMonth(rootType,num);
+            UIManager.Instance.SendMessage(new UIMessage(UIMsgType.Res_MonthResearch));
         }
 
-        public void AddBuilder(ushort num,ResourceAddType type,Action callback = null)
+        /// <summary>
+        /// Builder
+        /// </summary>
+        /// <param name="num"></param>
+        public void AddBuilder_Current(ushort num)
         {
-            switch (type)
-            {
-                case ResourceAddType.current:
-                    playerData.resourceData.AddBuilder(num);
-                    UIManager.Instance.SendMessage(new UIMessage(UIMsgType.Res_Builder));
-                    callback?.Invoke();
-                    break;
-                case ResourceAddType.max:
-                    playerData.resourceData.AddBuilderMax(num);
-                    callback?.Invoke();
-                    break;
-                default:
-                    break;
-            }
+            playerData.resourceData.AddBuilder(num);
+            UIManager.Instance.SendMessage(new UIMessage(UIMsgType.Res_Builder));
+        }
+        public void AddBuilder_Max(ModifierDetailRootType_Simple rootType, ushort num)
+        {
+            playerData.resourceData.AddBuilderMax(rootType,num);
         }
 
-        public void AddRoCore(ushort num,ResourceAddType type,Action callback = null)
+        /// <summary>
+        /// Ro Core
+        /// </summary>
+        /// <param name="num"></param>
+        public void AddRoCore_Current(ushort num)
         {
-            switch (type)
-            {
-                case ResourceAddType.current:
-                    playerData.resourceData.AddRoCore(num);
-                    UIManager.Instance.SendMessage(new UIMessage(UIMsgType.Res_RoCore));
-                    callback?.Invoke();
-                    break;
-                case ResourceAddType.max:
-                    playerData.resourceData.AddRoCoreMax(num);
-                    callback?.Invoke();
-                    break;
-                default:
-                    break;
-            }
+            playerData.resourceData.AddRoCore(num);
+            UIManager.Instance.SendMessage(new UIMessage(UIMsgType.Res_RoCore));
         }
+        public void AddRoCore_Max(ModifierDetailRootType_Simple rootType,ushort num)
+        {
+            playerData.resourceData.AddRoCoreMax(rootType,num);
+        }
+
+
 
         public void AddMaterialData(int materialId, ushort count)
         {
@@ -292,9 +250,9 @@ namespace Sim_FrameWork
         /// </summary>
         private void DoDailySettle()
         {
-            AddEnergy(playerData.resourceData.EnergyPerMonth, ResourceAddType.current);
-            AddResearch(playerData.resourceData.ResearchPerMonth, ResourceAddType.current);
-            AddCurrency(playerData.resourceData.CurrencyPerMonth, ResourceAddType.current);
+            AddEnergy_Current(playerData.resourceData.EnergyPerDay);
+            AddResearch_Current(playerData.resourceData.ResearchPerDay);
+            AddCurrency_Current(playerData.resourceData.CurrencyPerDay);
             GlobalEventManager.Instance.DoPlayerOrderMonthSettle();
         }
 

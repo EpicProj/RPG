@@ -17,7 +17,7 @@ namespace Sim_FrameWork
             _blockBase.OnBlockSelectAction += Onselect;
             _blockBase.OnBlockAreaEnterAction += OnBlockAreaEnter;
 
-            _infoData.InitModifier();
+            _infoData.InitModifier(_blockBase);
         }
 
         private void Onselect()
@@ -56,13 +56,13 @@ namespace Sim_FrameWork
             public bool isDestory;
         }
 
-        public void InitModifier()
+        public void InitModifier(FunctionBlockBase blockBase)
         {
             if (blockModifierList != null)
             {
                 for(int i = 0; i < blockModifierList.Count; i++)
                 {
-                    MainShipManager.Instance.AddPowerAreaModifier(blockModifierList[i].modiferBase);
+                    MainShipManager.Instance.AddPowerAreaModifier(blockBase,blockModifierList[i].modiferBase);
                 }
             }
         }

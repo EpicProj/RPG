@@ -7,8 +7,6 @@ using UnityEngine.UI;
 namespace Sim_FrameWork {
     public class FunctionBlockModule : BaseModule<FunctionBlockModule> {
 
-    
-
         /// <summary>
         /// 格子类型
         /// </summary>
@@ -70,6 +68,15 @@ namespace Sim_FrameWork {
             return (FunctionBlockType)Enum.Parse(typeof(FunctionBlockType), block.FunctionBlockType);
         }
 
+        public static ModifierDetailRootType_Block FetchBlockModifierRootType(FunctionBlockType type)
+        {
+            ModifierDetailRootType_Block result = ModifierDetailRootType_Block.None;
+            if(!Enum.TryParse<ModifierDetailRootType_Block>(type.ToString(),out result))
+            {
+                DebugPlus.LogError("[ModifierDetailRootType_Block] fetchType Error! type= " + type);
+            }
+            return result;
+        }
 
         //Get Type Data
         public static FunctionBlockTypeData GetFacotryTypeData(FunctionBlockType type)

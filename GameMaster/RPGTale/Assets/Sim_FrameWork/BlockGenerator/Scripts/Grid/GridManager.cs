@@ -70,7 +70,7 @@ namespace Sim_FrameWork
                 }
             }
 
-            foreach( KeyValuePair<int,FunctionBlockBase> kvp in FunctionBlockManager.Instance.GetBlockInstancesDic())
+            foreach( KeyValuePair<uint,FunctionBlockBase> kvp in FunctionBlockManager.Instance.GetBlockInstancesDic())
             {
                 FunctionBlockBase block = kvp.Value;
                 UpdateFunctionBlockNodes(block,Action.ADD);
@@ -161,6 +161,6 @@ namespace Sim_FrameWork
 
         public bool isBarrier;
         public bool canPlace;
-        public int blockInstanceID;
+        public uint blockInstanceID;
     }
 }

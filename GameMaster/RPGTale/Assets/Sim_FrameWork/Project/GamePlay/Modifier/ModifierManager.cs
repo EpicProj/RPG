@@ -167,12 +167,12 @@ namespace Sim_FrameWork {
 
         #region MainShipArea
 
-        public void AddMainShipPowerAreaModifier(MainShipPowerAreaInfo areaInfo, string modifierName)
+        public void AddMainShipPowerAreaModifier(FunctionBlockBase block, MainShipPowerAreaInfo areaInfo, string modifierName)
         {
-            AddMainShipPowerAreaModifier(areaInfo, GetModifierBase(modifierName));
+            AddMainShipPowerAreaModifier(block, areaInfo, GetModifierBase(modifierName));
         }
 
-        public void AddMainShipPowerAreaModifier(MainShipPowerAreaInfo areaInfo, ModifierBase modifierBase)
+        public void AddMainShipPowerAreaModifier(FunctionBlockBase block, MainShipPowerAreaInfo areaInfo, ModifierBase modifierBase)
         {
             if (modifierBase == null)
             {
@@ -195,8 +195,17 @@ namespace Sim_FrameWork {
                     {
                         data = ModifierData.Create(modifierBase, delegate
                         {
-                            areaInfo.AddMaxStoragePower((int)modifierBase.Value);
+                            areaInfo.AddMaxStoragePower(block.info.modifierRootType, block.instanceID,block.info.BlockID,(int)modifierBase.Value);
                         });
+                    }
+                    break;
+                case ModifierMainShip_PowerArea.AreaDurability:
+                    if (!IsAddPowerAreaModifier(areaInfo, modifierBase))
+                    {
+                        data = ModifierData.Create(modifierBase, delegate
+                         {
+                             areaInfo.ChangeAreaDurability_Max(block.info.modifierRootType, block.instanceID, block.info.BlockID, (int)modifierBase.Value);
+                         });
                     }
                     break;
             }
