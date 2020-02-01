@@ -41,7 +41,7 @@ namespace Sim_FrameWork
         public AssemblePartTypePresetData typePresetData;
 
         public AssemblePartInfo() { }
-        public AssemblePartInfo(int partID)
+        public bool InitData(int partID)
         {
             this.partID = partID;
             _partsMeta = AssembleModule.GetAssemblePartDataByKey(partID);
@@ -53,21 +53,23 @@ namespace Sim_FrameWork
                 partsConfig = AssembleModule.GetPartsCustomConfigData(partID);
                 partEquipType = AssembleModule.GetAssemblePartEquipType(partID);
                 typePresetData = new AssemblePartTypePresetData(_partsMeta.ModelTypeID);
+                return true;
             }
+            return false;
         }
 
-        public AssemblePartInfo LoadSaveData(AssmeblePartSingleSaveData saveData)
+        public bool LoadSaveData(AssmeblePartSingleSaveData saveData)
         {
             if (saveData != null)
             {
-                AssemblePartInfo info = new AssemblePartInfo(saveData.partID);
-                this.UID = saveData.UID;
-                this.customDataInfo = new AssemblePartCustomDataInfo();
-                this.customDataInfo.LoadSaveData(saveData);
+                InitData(saveData.partID);
+                UID = saveData.UID;
+                customDataInfo = new AssemblePartCustomDataInfo();
+                customDataInfo.LoadSaveData(saveData);
 
-                return info;
+                return true;
             }
-            return null;
+            return false;
         }
 
         /// <summary>
@@ -76,8 +78,6 @@ namespace Sim_FrameWork
         /// <returns></returns>
         public AssmeblePartSingleSaveData CreatePartSave()
         {
-            AssmeblePartSingleSaveData save = new AssmeblePartSingleSaveData();
-
             Dictionary<string, AssmeblePartCustomSaveData> proDic = new Dictionary<string, AssmeblePartCustomSaveData>();
             foreach(var customData in customDataInfo.propertyDic.Values)
             {
@@ -90,7 +90,8 @@ namespace Sim_FrameWork
                     customData.timeCostDetailInfoDic);
                 proDic.Add(saveData.propertyName, saveData);
             }
-            return save.createSaveData(partID, UID, customDataInfo.partNameCustomText, customDataInfo.customValueDic, proDic);
+            AssmeblePartSingleSaveData save = new AssmeblePartSingleSaveData(partID, UID, customDataInfo.partNameCustomText, customDataInfo.customValueDic, proDic);
+            return save;
         }
 
    
@@ -175,7 +176,7 @@ namespace Sim_FrameWork
         public Dictionary<string, float> customValueDic=new Dictionary<string, float> ();
 
         public AssemblePartCustomDataInfo() { }
-        public AssemblePartCustomDataInfo(int partID, string partNameCustomText, Dictionary<string, CustomData> propertyDic, Dictionary<string, float> customValueDic)
+        public void CreateCustomInfo(int partID, string partNameCustomText, Dictionary<string, CustomData> propertyDic, Dictionary<string, float> customValueDic)
         {
             this.partID = partID;
             this.partNameCustomText = partNameCustomText;
@@ -183,7 +184,7 @@ namespace Sim_FrameWork
             this.customValueDic = customValueDic;
         }
 
-        public AssemblePartCustomDataInfo(int partID, string partNameCustomText)
+        public void InitSimpleData(int partID, string partNameCustomText)
         {
             this.partID = partID;
             this.partNameCustomText = partNameCustomText;
@@ -193,21 +194,22 @@ namespace Sim_FrameWork
         /// Game Save
         /// </summary>
         /// <param name="saveData"></param>
-        public AssemblePartCustomDataInfo LoadSaveData(AssmeblePartSingleSaveData saveData)
+        public bool LoadSaveData(AssmeblePartSingleSaveData saveData)
         {
-            AssemblePartCustomDataInfo info = new AssemblePartCustomDataInfo(saveData.partID, saveData.customName_Partial);
+            InitSimpleData(saveData.partID, saveData.customName_Partial);
 
             Dictionary<string, CustomData> propertyDic = new Dictionary<string, CustomData>();
             foreach(var custom in saveData.propertyDic.Values)
             {
                 CustomData customData = new CustomData();
-                customData.LoadCustomDataSave(custom);
-                propertyDic.Add(customData.propertyName, customData);
+                if (customData.LoadCustomDataSave(custom))
+                    propertyDic.Add(customData.propertyName, customData);
+                else
+                    return false;
             }
-            info.propertyDic = propertyDic;
-            info.customValueDic = saveData.customValueDic;
-
-            return info;
+            this.propertyDic = propertyDic;
+            this.customValueDic = saveData.customValueDic;
+            return true;
         }
 
 
@@ -253,23 +255,21 @@ namespace Sim_FrameWork
             /// <summary>
             /// Data Create
             /// </summary>
-            public CustomData CrateData(Config.PartsPropertyConfig.ConfigData config, float min, float max,
+            public void InitData(Config.PartsPropertyConfig.ConfigData config, float min, float max,
                 Dictionary<string, AssemblePartPropertyDetailInfo> detailDic, Dictionary<string, AssemblePartTimeCostDetialInfo> timeCostDetailInfoDic)
             {
-                CustomData data = new CustomData();
-                data.InitData(config);
-                data.propertyValueMin = min;
-                data.propertyValueMax = max;
-                data.detailInfoDic = detailDic;
-                data.timeCostDetailInfoDic = timeCostDetailInfoDic;
-                return data;
+                InitData(config);
+                propertyValueMin = min;
+                propertyValueMax = max;
+                detailInfoDic = detailDic;
+                this.timeCostDetailInfoDic = timeCostDetailInfoDic;
             }
 
             /// <summary>
             /// GameSave
             /// </summary>
             /// <param name="saveData"></param>
-            public CustomData LoadCustomDataSave(AssmeblePartCustomSaveData saveData)
+            public bool LoadCustomDataSave(AssmeblePartCustomSaveData saveData)
             {
                 var config = AssembleModule.GetPartsPropertyConfigData(saveData.partID);
                 if (config != null)
@@ -283,10 +283,10 @@ namespace Sim_FrameWork
                         propertyValueMax = saveData.propertyValueMax;
                         detailInfoDic = saveData.detailInfoDic;
                         timeCostDetailInfoDic = saveData.timeCostDetailInfoDic;
-                        return data;
+                        return true;
                     }
                 }
-                return null;
+                return false;
             }
 
         }
@@ -346,15 +346,13 @@ namespace Sim_FrameWork
 
         public Dictionary<string, AssmeblePartCustomSaveData> propertyDic;
 
-        public AssmeblePartSingleSaveData createSaveData(int partID, ushort UID, string customName, Dictionary<string, float> customValueDic, Dictionary<string, AssmeblePartCustomSaveData> propertyDic)
+        public AssmeblePartSingleSaveData(int partID, ushort UID, string customName, Dictionary<string, float> customValueDic, Dictionary<string, AssmeblePartCustomSaveData> propertyDic)
         {
-            AssmeblePartSingleSaveData data = new AssmeblePartSingleSaveData();
             this.partID = partID;
             this.UID = UID;
             this.customName_Partial = customName;
             this.customValueDic = customValueDic;
             this.propertyDic = propertyDic;
-            return data;
         }
     }
 

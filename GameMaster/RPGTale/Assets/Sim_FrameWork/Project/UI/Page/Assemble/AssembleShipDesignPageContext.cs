@@ -32,7 +32,8 @@ namespace Sim_FrameWork.UI
             else if(msg.type == UIMsgType.Assemble_ShipPreset_Select)
             {
                 int shipID=(int)msg.content[0];
-                AssembleShipInfo shipInfo = new AssembleShipInfo(shipID);
+                AssembleShipInfo shipInfo = new AssembleShipInfo();
+                shipInfo.InitData(shipID);
                 if (shipInfo.presetData._metaData != null)
                 {
                     _info = shipInfo;

@@ -24,48 +24,48 @@ namespace Sim_FrameWork
         public void InitData()
         {
             mainShipInfo = new MainShipInfo();
-            mainShipInfo = mainShipInfo.InitInfo();
+            mainShipInfo.InitInfo();
             InitPlayerEnergyData();
         }
       
-        public bool ChangeAreaPowerLevel(short changeValue,MainShipAreaType type)
+        public bool ChangeAreaPowerLevel(short changeValue,ModifierDetailRootType_Simple type)
         {
-            if (type == MainShipAreaType.ControlTower)
+            if (type == ModifierDetailRootType_Simple.ControlTower)
             {
                 if (mainShipInfo.powerAreaInfo.ChangeEnergyLoadValue((short)-changeValue))
                 {
                     mainShipInfo.controlTowerInfo.ChangePowerLevel(changeValue);
-                    mainShipInfo.powerAreaInfo.RefreshEnergyLoadDetail(MainShipAreaType.PowerArea, mainShipInfo.controlTowerInfo.powerLevelCurrent);
+                    mainShipInfo.powerAreaInfo.RefreshEnergyLoadDetail(ModifierDetailRootType_Simple.PowerArea, changeValue);
                     return true;
                 }
                 return false; 
             }
-            else if (type == MainShipAreaType.hangar)
+            else if (type == ModifierDetailRootType_Simple.Hangar)
             {
                 if (mainShipInfo.powerAreaInfo.ChangeEnergyLoadValue((short)-changeValue))
                 {
                     mainShipInfo.hangarAreaInfo.ChangePowerLevel(changeValue);
-                    mainShipInfo.powerAreaInfo.RefreshEnergyLoadDetail(MainShipAreaType.hangar, mainShipInfo.hangarAreaInfo.powerLevelCurrent);
+                    mainShipInfo.powerAreaInfo.RefreshEnergyLoadDetail(ModifierDetailRootType_Simple.Hangar, changeValue);
                     return true;
                 }
                 return false;
             }
-            else if (type == MainShipAreaType.LivingArea)
+            else if (type == ModifierDetailRootType_Simple.LivingArea)
             {
                 if (mainShipInfo.powerAreaInfo.ChangeEnergyLoadValue((short)-changeValue))
                 {
                     mainShipInfo.livingAreaInfo.ChangePowerLevel(changeValue);
-                    mainShipInfo.powerAreaInfo.RefreshEnergyLoadDetail(MainShipAreaType.LivingArea, mainShipInfo.livingAreaInfo.powerLevelCurrent);
+                    mainShipInfo.powerAreaInfo.RefreshEnergyLoadDetail(ModifierDetailRootType_Simple.LivingArea, changeValue);
                     return true;
                 }
                 return false;
             }
-            else if (type == MainShipAreaType.WorkingArea)
+            else if (type == ModifierDetailRootType_Simple.WorkingArea)
             {
                 if (mainShipInfo.powerAreaInfo.ChangeEnergyLoadValue((short)-changeValue))
                 {
                     mainShipInfo.workingAreaInfo.ChangePowerLevel(changeValue);
-                    mainShipInfo.powerAreaInfo.RefreshEnergyLoadDetail(MainShipAreaType.WorkingArea, mainShipInfo.workingAreaInfo.powerLevelCurrent);
+                    mainShipInfo.powerAreaInfo.RefreshEnergyLoadDetail(ModifierDetailRootType_Simple.WorkingArea, changeValue);
                     return true;
                 }
                 return false;

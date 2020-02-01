@@ -73,8 +73,8 @@ namespace Sim_FrameWork
                 InitPower(data.powerLevelMax, data.powerLevelCurrent);
 
                 AddBtnClick(
-                    ()=> { AddPowerLevel(data.powerLevelMax, MainShipAreaType.LivingArea); },
-                    () => { ReducePowerLevel(MainShipAreaType.LivingArea); });
+                    ()=> { AddPowerLevel(data.powerLevelMax, ModifierDetailRootType_Simple.LivingArea); },
+                    () => { ReducePowerLevel(ModifierDetailRootType_Simple.LivingArea); });
 
             }
             else if(areaType == MainShipAreaType.WorkingArea)
@@ -87,8 +87,8 @@ namespace Sim_FrameWork
                 InitPower(data.powerLevelMax, data.powerLevelCurrent);
 
                 AddBtnClick(
-                  () => { AddPowerLevel(data.powerLevelMax, MainShipAreaType.WorkingArea); },
-                  () => { ReducePowerLevel(MainShipAreaType.WorkingArea); });
+                  () => { AddPowerLevel(data.powerLevelMax, ModifierDetailRootType_Simple.WorkingArea); },
+                  () => { ReducePowerLevel(ModifierDetailRootType_Simple.WorkingArea); });
             }
             else if(areaType == MainShipAreaType.ControlTower)
             {
@@ -100,8 +100,8 @@ namespace Sim_FrameWork
                 InitPower(data.powerLevelMax, data.powerLevelCurrent);
 
                 AddBtnClick(
-                  () => { AddPowerLevel(data.powerLevelMax, MainShipAreaType.ControlTower); },
-                  () => { ReducePowerLevel(MainShipAreaType.ControlTower); });
+                  () => { AddPowerLevel(data.powerLevelMax, ModifierDetailRootType_Simple.ControlTower); },
+                  () => { ReducePowerLevel(ModifierDetailRootType_Simple.ControlTower); });
             }
             else if(areaType == MainShipAreaType.hangar)
             {
@@ -113,8 +113,8 @@ namespace Sim_FrameWork
                 InitPower(data.powerLevelMax, data.powerLevelCurrent);
 
                 AddBtnClick(
-                  () => { AddPowerLevel(data.powerLevelMax, MainShipAreaType.hangar); },
-                  () => { ReducePowerLevel(MainShipAreaType.hangar); });
+                  () => { AddPowerLevel(data.powerLevelMax, ModifierDetailRootType_Simple.Hangar); },
+                  () => { ReducePowerLevel(ModifierDetailRootType_Simple.Hangar); });
             }
             else if(areaType == MainShipAreaType.PowerArea)
             {
@@ -143,7 +143,7 @@ namespace Sim_FrameWork
             }
         }
 
-        private void AddPowerLevel(byte maxCount, MainShipAreaType areaType)
+        private void AddPowerLevel(byte maxCount, ModifierDetailRootType_Simple type)
         {
             var powerContentTrans = transform.FindTransfrom("Energy/Content");
             int index = 0;
@@ -157,7 +157,7 @@ namespace Sim_FrameWork
             if (index < Config.ConfigData.MainShipConfigData.areaEnergyLevelMax - maxCount + 1)
                 return;
             
-            if (MainShipManager.Instance.ChangeAreaPowerLevel(1, areaType))
+            if (MainShipManager.Instance.ChangeAreaPowerLevel(1, type))
             {
                 ///Change Success
                 powerItemList[index - 1].SwitchState(MainShipPowerItem.PowerState.Fill);
@@ -165,7 +165,7 @@ namespace Sim_FrameWork
             }
         }
 
-        private void ReducePowerLevel(MainShipAreaType areaType)
+        private void ReducePowerLevel(ModifierDetailRootType_Simple areaType)
         {
             var powerContentTrans = transform.FindTransfrom("Energy/Content");
             int index = 0;

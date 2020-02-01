@@ -7,8 +7,8 @@ namespace Sim_FrameWork
 {
     public class MapManager : MonoSingleton<MapManager>
     {
-        
 
+        private Transform MainShipAreaContainer;
         private Transform AssembleContainer;
         private Transform AssembleContainerContentTrans;
 
@@ -22,7 +22,7 @@ namespace Sim_FrameWork
         protected override void Awake()
         {
             base.Awake();
-            
+            MainShipAreaContainer = transform.FindTransfrom("MainShipAreaContainer");
             AssembleContainer = transform.FindTransfrom("AssembleContainer");
             AssembleContainerContentTrans = AssembleContainer.FindTransfrom("Content");
 
@@ -235,7 +235,7 @@ namespace Sim_FrameWork
             mapObj = ObjectManager.Instance.InstantiateObject(PowerArea_Map_Container_Path);
             if (mapObj != null)
             {
-                mapObj.transform.SetParent(transform, false);
+                mapObj.transform.SetParent(MainShipAreaContainer, false);
                 ContentObj = mapObj.transform.FindTransfrom("Content");
                 powerAreaManager = mapObj.transform.SafeGetComponent<MainShipPowerAreaManager>();
                 powerAreaManager.LoadPowerArea();

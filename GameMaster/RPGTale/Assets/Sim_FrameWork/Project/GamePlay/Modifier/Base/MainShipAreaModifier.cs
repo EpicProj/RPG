@@ -11,7 +11,12 @@ namespace Sim_FrameWork
         public MainShipAreaModifier(ModifierTarget target)
         {
             this.target = target;
-          
+            ModifierManager.Instance.RegisterShipAreaModifier(this);   
+        }
+
+        public void UnRegisterModifier()
+        {
+            ModifierManager.Instance.UnRegisterShipAreaModifier(this);
         }
     }
 }

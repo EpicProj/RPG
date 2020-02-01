@@ -773,7 +773,7 @@ namespace Sim_FrameWork
                 for(int i = 0; i < saveData.partSaveData.currentSavePart.Count; i++)
                 {
                     AssemblePartInfo info = new AssemblePartInfo();
-                    info= info.LoadSaveData(saveData.partSaveData.currentSavePart[i]);
+                    info.LoadSaveData(saveData.partSaveData.currentSavePart[i]);
 
                     AddAssemblePartDesign(info);
                 }
@@ -788,7 +788,7 @@ namespace Sim_FrameWork
                 for(int i = 0; i < saveData.shipSaveData.currentSaveShip.Count; i++)
                 {
                     AssembleShipInfo shipInfo = new AssembleShipInfo();
-                    shipInfo =shipInfo.LoadSaveData(saveData.shipSaveData.currentSaveShip[i]);
+                    shipInfo.LoadSaveData(saveData.shipSaveData.currentSaveShip[i]);
 
                     AddAssembleShipDesign(shipInfo);
                 }

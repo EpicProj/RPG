@@ -132,12 +132,14 @@ namespace Sim_FrameWork.UI
             });
             AddButtonClickListener(Transform.FindTransfrom("ButtonTab/Assemble").SafeGetComponent<Button>(), () =>
             {
-                AssemblePartInfo info = new AssemblePartInfo(1);
+                AssemblePartInfo info = new AssemblePartInfo();
+                info.InitData(1);
                 UIGuide.Instance.ShowAssemblePartDesignPage(info);
             });
             AddButtonClickListener(Transform.FindTransfrom("ButtonTab/ShipDesign").SafeGetComponent<Button>(), () =>
             {
-                AssembleShipInfo info = new AssembleShipInfo(1);
+                AssembleShipInfo info = new AssembleShipInfo();
+                info.InitData(1);
                 UIGuide.Instance.ShowAssembleShipDesignPage(info);
             });
             

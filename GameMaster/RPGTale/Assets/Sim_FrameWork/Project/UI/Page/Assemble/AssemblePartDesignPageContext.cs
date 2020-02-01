@@ -47,21 +47,21 @@ namespace Sim_FrameWork.UI
 
         public override bool OnMessage(UIMessage msg)
         {
-            if(msg.type== UIMsgType.Assemble_Part_PropertyChange)
+            if (msg.type == UIMsgType.Assemble_Part_PropertyChange)
             {
                 Config.PartsCustomConfig.ConfigData configData = (Config.PartsCustomConfig.ConfigData)msg.content[0];
                 float currentValue = (float)msg.content[1];
-                return CalculateValue(configData,currentValue);
+                return CalculateValue(configData, currentValue);
             }
-            else if(msg.type== UIMsgType.Assemble_PartTab_Select)
+            else if (msg.type == UIMsgType.Assemble_PartTab_Select)
             {
                 string typeName = (string)msg.content[0];
                 return RefreshChooseContent(typeName);
             }
-            else if (msg.type== UIMsgType.Assemble_PartPreset_Select)
+            else if (msg.type == UIMsgType.Assemble_PartPreset_Select)
             {
-                AssemblePartInfo info = new AssemblePartInfo((int)msg.content[0]);
-                if (info._partsMeta != null)
+                AssemblePartInfo info = new AssemblePartInfo();
+                if (info.InitData((int)msg.content[0]))
                 {
                     _info = info;
                     SetUpContent();
@@ -363,7 +363,7 @@ namespace Sim_FrameWork.UI
             {
                 string propertyName = item._configData.Name;
                 AssemblePartCustomDataInfo.CustomData data = new AssemblePartCustomDataInfo.CustomData();
-                data = data.CrateData(item._configData,
+                data.InitData(item._configData,
                     item.CurrentValueMin,
                     item.CurrentValueMax,
                     item.detailInfoDic,
@@ -380,7 +380,9 @@ namespace Sim_FrameWork.UI
             }
 
             string inputText = customNameInput == null ? "" : customNameInput.text;
-            return new AssemblePartCustomDataInfo(_info.partID, inputText, dataDic, customValueDic);
+            AssemblePartCustomDataInfo info = new AssemblePartCustomDataInfo();
+            info.CreateCustomInfo(_info.partID, inputText, dataDic, customValueDic);
+            return info;
         }
 
         /// <summary>

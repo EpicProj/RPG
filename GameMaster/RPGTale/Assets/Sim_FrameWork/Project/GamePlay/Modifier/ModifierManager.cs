@@ -63,6 +63,22 @@ namespace Sim_FrameWork {
             return modifier;
         }
 
+        /// <summary>
+        /// Register ShipArea
+        /// </summary>
+        /// <param name="modifier"></param>
+        public void RegisterShipAreaModifier(MainShipAreaModifier modifier)
+        {
+            shipAreaModifierList.Add(modifier);
+        }
+
+        public void UnRegisterShipAreaModifier(MainShipAreaModifier modifier)
+        {
+            if (shipAreaModifierList.Contains(modifier))
+                shipAreaModifierList.Remove(modifier);
+        }
+
+
         #region Block
         public FunctionBlockModifier GetBlockModifierByInstanceID(int instanceID)
         {
@@ -187,6 +203,7 @@ namespace Sim_FrameWork {
 
             if (data != null)
             {
+                ///ADD modifier
                 areaInfo.areaModifier.OnAddModifier(data);
             }
         }

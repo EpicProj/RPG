@@ -202,25 +202,12 @@ namespace Sim_FrameWork {
         public bool isNone;
         public Vector2 Coordinate;
 
-        public DistrictData data;
         public int districtID;
-        public bool isLargeDistrict;
 
-        public List<Vector2> largeDistrictCoordinateList=new List<Vector2> ();
-
-        /// <summary>
-        /// 大型格子初始坐标
-        /// </summary>
-        public Vector2 OriginCoordinate;
-        /// <summary>
-        /// 实际的坐标
-        /// </summary>
-        public Vector2 RealCoordinate;
         /// <summary>
         /// 规划格类型
         /// </summary>
         public UI.DistrictSlotType slotType;
-        public Sprite sprite;
         public string prefabModelPath;
 
         public DistrictAreaInfo() { }
@@ -231,9 +218,6 @@ namespace Sim_FrameWork {
             info.isNone = config.isNone;
             info.Coordinate = new Vector2(config.coordinate[0], config.coordinate[1]);
 
-            //data = DistrictModule.GetDistrictDataByKey(districtID);
-            //var largeArea = DistrictModule.GetDistrictTypeArea(data);
-            //isLargeDistrict = largeArea.Count > 1 ? false : true;
             //var districtList= DistrictModule.GetDistrictTypeArea(districtID);
             //for(int i = 0; i < districtList.Count; i++)
             //{

@@ -33,37 +33,38 @@ namespace Sim_FrameWork
         public MainShipWorkingAreaInfo workingAreaInfo;
 
         public MainShipInfo() { }
-        public MainShipInfo InitInfo()
+        public bool InitInfo()
         {
-            MainShipInfo info = new MainShipInfo();
             var config = Config.ConfigData.MainShipConfigData.basePropertyConfig;
-            if (config != null)
-            {
-                info.ShieldMax = config.ShieldBase_Max;
-                info.ShieldInit = config.ShieldBase_Initial;
-            }
-            info.powerAreaInfo = new MainShipPowerAreaInfo();
-            info.powerAreaInfo = info.powerAreaInfo.InitData();
-            info.livingAreaInfo = new MainShipLivingAreaInfo();
-            info.controlTowerInfo = new MainShipControlTowerInfo();
-            info.hangarAreaInfo = new MainShipHangarInfo();
-            info.workingAreaInfo = new MainShipWorkingAreaInfo();
+            if (config == null)
+                return false;
+
+            ShieldMax = config.ShieldBase_Max;
+            ShieldInit = config.ShieldBase_Initial;
+
+            powerAreaInfo = new MainShipPowerAreaInfo();
+            livingAreaInfo = new MainShipLivingAreaInfo();
+            controlTowerInfo = new MainShipControlTowerInfo();
+            hangarAreaInfo = new MainShipHangarInfo();
+            workingAreaInfo = new MainShipWorkingAreaInfo();
+
+            if (powerAreaInfo.InitData() == false)
+                return false;
 
             ///InitEnergyLoad
-            info.powerAreaInfo.ChangeEnergyLoadValue((short)-info.livingAreaInfo.powerLevelCurrent);
-            info.powerAreaInfo.ChangeEnergyLoadValue((short)-info.controlTowerInfo.powerLevelCurrent);
-            info.powerAreaInfo.ChangeEnergyLoadValue((short)-info.hangarAreaInfo.powerLevelCurrent);
-            info.powerAreaInfo.ChangeEnergyLoadValue((short)-info.workingAreaInfo.powerLevelCurrent);
+            powerAreaInfo.ChangeEnergyLoadValue((short)-livingAreaInfo.powerLevelCurrent);
+            powerAreaInfo.ChangeEnergyLoadValue((short)-controlTowerInfo.powerLevelCurrent);
+            powerAreaInfo.ChangeEnergyLoadValue((short)-hangarAreaInfo.powerLevelCurrent);
+            powerAreaInfo.ChangeEnergyLoadValue((short)-workingAreaInfo.powerLevelCurrent);
 
-            return info;
+            return true;
         }
 
-        public MainShipInfo LoadSaveData(MainShipSaveData saveData)
+        public bool LoadSaveData(MainShipSaveData saveData)
         {
-            MainShipInfo info = new MainShipInfo();
-            info.powerAreaInfo = info.powerAreaInfo.LoadSaveData(saveData.powerAreaSaveData);
+            powerAreaInfo = new MainShipPowerAreaInfo();
 
-            return info;
+            return powerAreaInfo.LoadSaveData(saveData.powerAreaSaveData);
 
         }
     }
@@ -152,6 +153,7 @@ namespace Sim_FrameWork
         }
     }
 
+    #region Power Area
     public class MainShipPowerAreaInfo
     {
 
@@ -179,53 +181,9 @@ namespace Sim_FrameWork
         /// <summary>
         /// 能源负载详细分配
         /// </summary>
-        public Dictionary<MainShipAreaType, short> EnergyLoadDetailDic = new Dictionary<MainShipAreaType, short>();
+        public Dictionary<ModifierDetailRootType_Simple, ModifierDetailItem_Simple> EnergyLoadDetailDic = new Dictionary<ModifierDetailRootType_Simple, ModifierDetailItem_Simple>();
 
         public EnergyGenerateMode currentMode { get; protected set; }
-
-        public int MaxStoragePower;
-        public int CurrentStoragePower=0;
-
-        public byte currentOverLoadLevel = 0;
-
-        public void AddOverLoadLevel(byte level=1)
-        {
-            currentOverLoadLevel += level;
-        }
-
-        public MainShipAreaModifier areaModifier;
-
-        public MainShipPowerAreaInfo() { }
-        public MainShipPowerAreaInfo InitData()
-        {
-            MainShipPowerAreaInfo info = new MainShipPowerAreaInfo();
-            var config = Config.ConfigData.MainShipConfigData.powerAreaConfig;
-            if (config != null)
-            {
-                info.areaIconPath = config.areaIconPath;
-                info.PowerGenerateValue = config.energyGenerateBase;
-                info.EnergyLoadValueMax = config.energyLoadBase;
-                info.EnergyLoadValueCurrent = info.EnergyLoadValueMax;
-                info.MaxStoragePower = config.MaxStorageCountBase;
-                info.ChangeEnergyMode(EnergyGenerateMode.Normal);
-            }
-            info.areaModifier = new MainShipAreaModifier(ModifierTarget.MainShipPowerArea);
-            return info;
-        }
-
-        public MainShipPowerAreaInfo LoadSaveData(MainShipPowerAreaSaveData saveData)
-        {
-            MainShipPowerAreaInfo info = new MainShipPowerAreaInfo();
-            var config = Config.ConfigData.MainShipConfigData.powerAreaConfig;
-            if (config != null)
-            {
-                info.areaIconPath = config.areaIconPath;
-            }
-            info.currentMode = saveData.currentMode;
-
-            return info;
-        }
-
         /// <summary>
         /// False = Change Faild
         /// </summary>
@@ -238,7 +196,7 @@ namespace Sim_FrameWork
             {
                 EnergyLoadValueCurrent = EnergyLoadValueMax;
                 return true;
-            } 
+            }
             else if (EnergyLoadValueCurrent < 0)
             {
                 EnergyLoadValueCurrent = 0;
@@ -247,26 +205,110 @@ namespace Sim_FrameWork
             return true;
         }
 
-        public void RefreshEnergyLoadDetail(MainShipAreaType area,short value)
+        public void RefreshEnergyLoadDetail(ModifierDetailRootType_Simple type, short changeValue)
         {
-            if (EnergyLoadDetailDic.ContainsKey(area))
-                EnergyLoadDetailDic[area] = value;
+            if (EnergyLoadDetailDic.ContainsKey(type))
+                EnergyLoadDetailDic[type].value += changeValue;
             else
-                EnergyLoadDetailDic.Add(area, value);
+                EnergyLoadDetailDic.Add(type, new ModifierDetailItem_Simple ( type,changeValue));
         }
+        public void ChangeEnergyMode(EnergyGenerateMode mode)
+        {
+            currentMode = mode;
+        }
+
+        /// <summary>
+        /// Power Storage
+        /// </summary>
+        public int MaxStoragePower;
+        public int CurrentStoragePower=0;
 
         public void AddMaxStoragePower(int value)
         {
             MaxStoragePower += value;
         }
 
-        public void ChangeEnergyMode(EnergyGenerateMode mode)
+        public byte currentOverLoadLevel = 0;
+
+        public void AddOverLoadLevel(byte level=1)
         {
-            currentMode = mode;
+            currentOverLoadLevel += level;
         }
+
+        /// <summary>
+        /// Modifier
+        /// </summary>
+        public MainShipAreaModifier areaModifier;
+
+
+        public MainShipPowerAreaInfo() { }
+        public bool InitData()
+        {
+            var config = Config.ConfigData.MainShipConfigData.powerAreaConfig;
+            if (config != null)
+            {
+                areaIconPath = config.areaIconPath;
+                PowerGenerateValue = config.energyGenerateBase;
+                EnergyLoadValueMax = config.energyLoadBase;
+                EnergyLoadValueCurrent = EnergyLoadValueMax;
+                MaxStoragePower = config.MaxStorageCountBase;
+                ChangeEnergyMode(EnergyGenerateMode.Normal);
+                return true;
+            }
+            areaModifier = new MainShipAreaModifier(ModifierTarget.MainShipPowerArea);
+            return false;
+        }
+
+
+        public bool LoadSaveData(MainShipPowerAreaSaveData saveData)
+        {
+            var config = Config.ConfigData.MainShipConfigData.powerAreaConfig;
+            if (config == null)
+                return false;
+            areaIconPath = config.areaIconPath;
+            currentMode = saveData.currentMode;
+            EnergyLoadDetailDic = saveData.EnergyLoadDetailDic;
+            return true;
+        }
+
+  
 
     }
 
+    /// <summary>
+    /// Save Data
+    /// </summary>
+    public class MainShipPowerAreaSaveData
+    {
+
+        public int durabilityCurrent;
+
+        /// <summary>
+        /// 电能产生效率
+        /// </summary>
+        public ushort PowerGenerateValue;
+        /// <summary>
+        /// 能源负载，用于其余舱室负载分配
+        /// </summary>
+        public short EnergyLoadValueMax;
+        public short EnergyLoadValueCurrent;
+        public MainShipPowerAreaInfo.EnergyGenerateMode currentMode;
+        public Dictionary<ModifierDetailRootType_Simple, ModifierDetailItem_Simple> EnergyLoadDetailDic = new Dictionary<ModifierDetailRootType_Simple, ModifierDetailItem_Simple>();
+
+        public int MaxStoragePower;
+        public int CurrentStoragePower = 0;
+
+        public byte currentOverLoadLevel = 0;
+
+        public MainShipPowerAreaSaveData(MainShipPowerAreaInfo info)
+        {
+            durabilityCurrent = info.durabilityCurrent;
+            EnergyLoadDetailDic = info.EnergyLoadDetailDic;
+            currentMode = info.currentMode;
+        }
+    }
+
+    #endregion
     public class MainShipControlTowerInfo: MainShipAreaBaseInfo
     {
         public MainShipControlTowerInfo()
@@ -461,31 +503,7 @@ namespace Sim_FrameWork
         }
     }
 
-    public class MainShipPowerAreaSaveData
-    {
-        /// <summary>
-        /// 电能产生效率
-        /// </summary>
-        public ushort PowerGenerateValue;
-        /// <summary>
-        /// 能源负载，用于其余舱室负载分配
-        /// </summary>
-        public short EnergyLoadValueMax;
-        public short EnergyLoadValueCurrent;
-        public MainShipPowerAreaInfo.EnergyGenerateMode  currentMode;
 
-        public int MaxStoragePower;
-        public int CurrentStoragePower = 0;
-
-        public byte currentOverLoadLevel = 0;
-
-        public MainShipPowerAreaSaveData(MainShipPowerAreaInfo info)
-        {
-
-            currentMode = info.currentMode;
-        }
-
-    }
 
 
     #endregion

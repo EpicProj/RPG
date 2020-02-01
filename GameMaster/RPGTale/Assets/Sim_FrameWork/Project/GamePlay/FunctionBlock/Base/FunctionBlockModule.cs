@@ -163,17 +163,15 @@ namespace Sim_FrameWork {
         {
             return MultiLanguage.Instance.GetTextValue(GetFunctionBlockByBlockID(functionBlockID).BlockName);
         }
-        public static string GetFunctionBlockName(FunctionBlock block)
-        {
-            return MultiLanguage.Instance.GetTextValue(block.BlockName);
-        }
         public static string GetFunctionBlockDesc(int functionBlockID)
         {
             return MultiLanguage.Instance.GetTextValue(GetFunctionBlockByBlockID(functionBlockID).BlockDesc);
         }
-        public static string GetFunctionBlockDesc(FunctionBlock block)
+
+
+        public static int GetDistrictAreaIndex(Vector2 areaMax, Vector2 currentVector)
         {
-            return MultiLanguage.Instance.GetTextValue(block.BlockDesc);
+            return (int)(currentVector.x * areaMax.x + currentVector.y);
         }
 
         /// <summary>
@@ -223,37 +221,7 @@ namespace Sim_FrameWork {
             }
             return result;
         }
-
-        /// <summary>
-        /// Get District Data
-        /// </summary>
-        /// <param name="dic"></param>
-        /// <returns></returns>
-        private static Dictionary<Vector2, DistrictData> GetFuntionBlockDistrictData(Dictionary<Vector2, int> dic)
-        {
-            Dictionary<Vector2, DistrictData> result = new Dictionary<Vector2, DistrictData>();
-            if (dic == null)
-                return result;
-            foreach(KeyValuePair<Vector2, int> kvp in dic)
-            {
-                DistrictData dd = DistrictModule.GetDistrictDataByKey(kvp.Value);
-                if (dd == null)
-                    continue;
-                result.Add(kvp.Key, dd);
-            }
-            return result;
-        }
      
-        #endregion
-
-
-        #region Main Function
-
-        public static int GetDistrictAreaIndex(Vector2 areaMax,Vector2 currentVector)
-        {
-            return (int)(currentVector.x * areaMax.x + currentVector.y);
-        }
-
         #endregion
 
         #region BlockInfoData
@@ -369,9 +337,4 @@ namespace Sim_FrameWork {
         }
 
     }
-
-
-
-
-
 }

@@ -67,9 +67,8 @@ namespace Sim_FrameWork
         protected override void Awake()
         {
             base.Awake();
-            MainCamera = transform.SafeGetComponent<Camera>();
             eventSystems = Utility.SafeFindGameobject("EventSystem").transform.SafeGetComponent<EventSystem>();
-
+            MainCamera = transform.SafeGetComponent<Camera>();
             _MaskBlockCollider = LayerMask.GetMask("FunctionBlockCollider");
             _MaskGroundCollider = LayerMask.GetMask("GroundCollider");
         }

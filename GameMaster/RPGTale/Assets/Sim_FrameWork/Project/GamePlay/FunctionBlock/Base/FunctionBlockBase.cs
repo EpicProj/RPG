@@ -157,15 +157,15 @@ namespace Sim_FrameWork
         {
             var vec2 = info.districtInfo.size;
             ModelRoot.transform.localPosition = new Vector3(-vec2.x / 2 + 0.5f, 0, -vec2.y / 2 + 0.5f);
-            foreach(var info in info.districtInfo.currentDistrictDataDic.Values)
+            foreach(var info in info.districtInfo.currentDistrictInfo.Values)
             {
-                if (!string.IsNullOrEmpty(info.prefabModelPath))
+                if (!string.IsNullOrEmpty(info.modelPrefabPath))
                 {
                     try
                     {
-                        var obj = ObjectManager.Instance.InstantiateObject("Assets/" + info.prefabModelPath + ".prefab");
+                        var obj = ObjectManager.Instance.InstantiateObject("Assets/" + info.modelPrefabPath + ".prefab");
                         obj.transform.SetParent(ModelRoot.transform, false);
-                        Vector3 pos = new Vector3(info.OriginCoordinate.x, 0, info.OriginCoordinate.y);
+                        Vector3 pos = new Vector3(info.originCoordinate.x, 0, info.originCoordinate.y);
                         obj.transform.localPosition = pos;
                     }catch(Exception e)
                     {
@@ -331,6 +331,8 @@ namespace Sim_FrameWork
         /// </summary>
         public Dictionary<Vector2, DistrictAreaInfo> currentDistrictDataDic;
 
+        public Dictionary<Vector2, DistrictInfo> currentDistrictInfo; 
+
         public FunctionBlockDistrictInfo() { }
         public FunctionBlockDistrictInfo InitInfo(int blockID)
         {
@@ -456,5 +458,8 @@ namespace Sim_FrameWork
        
 
     }
+    #region Save Data
+
+    #endregion
 
 }

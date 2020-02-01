@@ -78,8 +78,8 @@ namespace Sim_FrameWork.UI
             this.districtInfo =info;
             this.Amount = amount;
 
-            ItemImage.sprite = info.sprite;
-            transform.Find("Name").GetComponent<Text>().text = DistrictModule.GetDistrictName(info.data);
+            //ItemImage.sprite = info.sprite;
+            //transform.Find("Name").GetComponent<Text>().text = DistrictModule.GetDistrictName(info.data);
 
             switch (info.slotType)
             {

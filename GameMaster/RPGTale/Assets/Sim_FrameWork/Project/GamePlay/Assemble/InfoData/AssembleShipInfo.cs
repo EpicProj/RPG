@@ -151,7 +151,7 @@ namespace Sim_FrameWork
         public AssembleShipCustomData customData;
 
         public AssembleShipInfo() { }
-        public AssembleShipInfo(int shipID)
+        public void InitData(int shipID)
         {
             presetData = new AssembleShipTypePresetData(shipID);
             warShipID = presetData.WarshipID;
@@ -159,27 +159,24 @@ namespace Sim_FrameWork
 
         public AssembleShipSingleSaveData CreateSaveData()
         {
-            AssembleShipSingleSaveData save = new AssembleShipSingleSaveData();
             List<int> partIDList = new List<int>();
             foreach(var part in customData.customPartData.Keys)
             {
                 partIDList.Add(part);
             }
-
-            save.CreateSaveData(warShipID, UID, customData.customNameText, partIDList);
+            AssembleShipSingleSaveData save = new AssembleShipSingleSaveData(warShipID, UID, customData.customNameText, partIDList);
             return save;
         }
 
-        public AssembleShipInfo LoadSaveData(AssembleShipSingleSaveData saveData)
+        public bool LoadSaveData(AssembleShipSingleSaveData saveData)
         {
             if (saveData != null)
             {
-                AssembleShipInfo info = new AssembleShipInfo(saveData.shipID);
-                info.customData = new AssembleShipCustomData(saveData);
-                return info;
-
+                InitData(saveData.shipID);
+                customData = new AssembleShipCustomData(saveData);
+                return true;
             }
-            return null;
+            return false;
         }
     }
 
@@ -301,14 +298,12 @@ namespace Sim_FrameWork
 
         public List<int> customPartData;
 
-        public AssembleShipSingleSaveData CreateSaveData(int shipID, ushort uid,string customName,List<int> customPartData)
+        public AssembleShipSingleSaveData(int shipID, ushort uid,string customName,List<int> customPartData)
         {
-            AssembleShipSingleSaveData save = new AssembleShipSingleSaveData();
-            save.shipID = shipID;
-            save.UID = uid;
-            save.customName_Partial = customName;
-            save.customPartData = customPartData;
-            return save;
+            this.shipID = shipID;
+            this.UID = uid;
+            this.customName_Partial = customName;
+            this.customPartData = customPartData;
         }
     }
 

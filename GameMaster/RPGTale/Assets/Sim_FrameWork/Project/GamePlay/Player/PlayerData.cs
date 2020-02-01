@@ -16,9 +16,6 @@ namespace Sim_FrameWork
 
         public TimeData timeData;
 
-        //当前科技转换率
-        private float _technologyConversionRate;
-        public float TechnologyConversionRate { get { return _technologyConversionRate; } protected set { } }
 
         public PlayerData()
         {
@@ -134,6 +131,8 @@ namespace Sim_FrameWork
             {
                 _energyPerMonth += num;
             }
+
+
             #endregion
 
             #region Reputation
@@ -245,6 +244,8 @@ namespace Sim_FrameWork
             }
         }
     }
+
+
 
     #region Save Data
     public class PlayerSaveData_Resource
