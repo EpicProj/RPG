@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -227,6 +228,17 @@ namespace Sim_FrameWork
                 }
             }
             return costList;
+        }
+
+        public static ModifierDetailRootType_Mix FetchAssemblePartModifieRootType(string TypeID)
+        {
+            ModifierDetailRootType_Mix type =  ModifierDetailRootType_Mix.None;
+            Enum.TryParse<ModifierDetailRootType_Mix>(TypeID, out type);
+            if(type == ModifierDetailRootType_Mix.None)
+            {
+                DebugPlus.LogError(" FetchAssemblePartModifieRootType Error! typeID=" + TypeID);
+            }
+            return type;
         }
 
         #endregion

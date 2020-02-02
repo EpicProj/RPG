@@ -5,6 +5,7 @@ using UnityEngine;
 namespace Sim_FrameWork {
     public class ModifierManager : MonoSingleton<ModifierManager> {
 
+        public List<MainShipModifier> mainShipModifierList;
         public List<MainShipAreaModifier> shipAreaModifierList;
         public List<FunctionBlockModifier> blockModifierList;
 
@@ -18,6 +19,7 @@ namespace Sim_FrameWork {
 
         public void InitData()
         {
+            mainShipModifierList = new List<MainShipModifier>();
             shipAreaModifierList = new List<MainShipAreaModifier>();
             blockModifierList = new List<FunctionBlockModifier>();
             generalModifier = new GeneralModifier();   
@@ -28,6 +30,11 @@ namespace Sim_FrameWork {
         {
             UpdateAreaModifier();
             UpdateBlockModifier();
+            if (Input.GetKeyDown(KeyCode.Q))
+            {
+                //Test
+                MainShipManager.Instance.mainShipInfo.shieldInfoDic[MainShip_ShieldDirection.Left].AddShieldLevel(1);
+            }
         }
 
         void UpdateAreaModifier()
@@ -53,12 +60,20 @@ namespace Sim_FrameWork {
             }
         }
 
+        void UpdateMainShipModifier()
+        {
+            for(int i = 0; i < mainShipModifierList.Count; i++)
+            {
+                mainShipModifierList[i].UpdateModifier();
+            }
+        }
+
         public ModifierBase GetModifierBase(string name)
         {
             var modifier = generalModifier.ModifierBase.Find(x => x.ModifierName == name);
             if (modifier == null)
             {
-                Debug.LogError("Can not Find Modifier,Name=" + name);
+                DebugPlus.LogError("Can not Find Modifier,Name=" + name);
             }
             return modifier;
         }
@@ -76,6 +91,20 @@ namespace Sim_FrameWork {
         {
             if (shipAreaModifierList.Contains(modifier))
                 shipAreaModifierList.Remove(modifier);
+        }
+
+        /// <summary>
+        /// Register MainShip 
+        /// </summary>
+        /// <param name="modifier"></param>
+        public void RegisterMainShipModifier(MainShipModifier modifier)
+        {
+            mainShipModifierList.Add(modifier);
+        }
+        public void UnRegisterMainShipModifier(MainShipModifier modifier)
+        {
+            if (mainShipModifierList.Contains(modifier))
+                mainShipModifierList.Remove(modifier);
         }
 
 
@@ -176,12 +205,12 @@ namespace Sim_FrameWork {
         {
             if (modifierBase == null)
             {
-                Debug.LogError("Modifier Base Data is null");
+                DebugPlus.LogError("Modifier Base Data is null");
                 return;
             }
             if (modifierBase.ParseTargetType(modifierBase.Target) != ModifierTarget.MainShipPowerArea)
             {
-                Debug.LogError("ModifierTargetError  Name=" + modifierBase.ModifierName);
+                DebugPlus.LogError("ModifierTargetError  Name=" + modifierBase.ModifierName);
                 return;
             }
 
@@ -236,6 +265,58 @@ namespace Sim_FrameWork {
 
         #endregion
 
+        #region MainShip
+
+        public void AddMainShipShieldModifier(AssemblePartInfo partInfo, MainShipShieldInfo shieldInfo, ModifierBase modifierBase)
+        {
+            if (modifierBase == null)
+            {
+                DebugPlus.LogError("Modifier Base Data is null");
+                return;
+            }
+            if (modifierBase.ParseTargetType(modifierBase.Target) != ModifierTarget.MainShipShield)
+            {
+                DebugPlus.LogError("ModifierTargetError  Name=" + modifierBase.ModifierName);
+                return;
+            }
+
+            ModifierData data = null;
+
+            switch (modifierBase.ParseModifierShieldType(modifierBase.effectType))
+            {
+                case  ModifierMainShip_Shield.Shield_open_init:
+                    if (!IsAddMainShipShieldModifier(shieldInfo, modifierBase))
+                    {
+                        data = ModifierData.Create(modifierBase, delegate
+                        {
+                            shieldInfo.AddShieldOpenInit_Assemble(partInfo.modifierRootType, partInfo.UID, partInfo.partID, (int)modifierBase.Value);
+                        });
+                    }
+                    break;
+            }
+
+            if (data != null)
+            {
+                ///ADD modifier
+                shieldInfo.shipShieldModifier.OnAddModifier(data);
+            }
+        }
+        private bool IsAddMainShipShieldModifier(MainShipShieldInfo info, ModifierBase modifier)
+        {
+            ModifierData oldData = info.shipShieldModifier.GetModifierByID(modifier.ModifierName);
+            if (oldData != null)
+            {
+                switch (modifier.OverlapType)
+                {
+                    case ModifierOverlapType.TimeReset:
+                        oldData.ResetTime();
+                        break;
+                }
+                return true;
+            }
+            return false;
+        }
+        #endregion
     }
 
 

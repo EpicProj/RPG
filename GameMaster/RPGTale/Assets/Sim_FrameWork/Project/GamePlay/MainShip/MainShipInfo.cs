@@ -1,7 +1,13 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+/*
+ * Main Ship Info
+ * SOMA
+ * 
+ */
 namespace Sim_FrameWork
 {
     #region Enums
@@ -22,8 +28,8 @@ namespace Sim_FrameWork
     /// </summary>
     public enum MainShip_ShieldDirection
     {
-        Up,
-        Down,
+        front,
+        back,
         Left,
         Right
     }
@@ -45,7 +51,7 @@ namespace Sim_FrameWork
          * 多层护盾
          */
 
-        public Dictionary<MainShip_ShieldDirection, MainShipShieldInfo> shieldInfoDic = new Dictionary<MainShip_ShieldDirection, MainShipShieldInfo>();
+        public Dictionary<MainShip_ShieldDirection, MainShipShieldInfo> shieldInfoDic;
         #endregion
 
         public MainShipPowerAreaInfo powerAreaInfo;
@@ -54,12 +60,25 @@ namespace Sim_FrameWork
         public MainShipHangarInfo hangarAreaInfo;
         public MainShipWorkingAreaInfo workingAreaInfo;
 
+        
+
         public MainShipInfo() { }
         public bool InitInfo()
         {
             var config = Config.ConfigData.MainShipConfigData.basePropertyConfig;
             if (config == null)
                 return false;
+
+            ///Init Shield Data
+            shieldInfoDic = new Dictionary<MainShip_ShieldDirection, MainShipShieldInfo>();
+            foreach(MainShip_ShieldDirection direction in Enum.GetValues(typeof(MainShip_ShieldDirection)))
+            {
+                MainShipShieldInfo info = new MainShipShieldInfo();
+                if (info.InitData(direction))
+                {
+                    shieldInfoDic.Add(direction, info);
+                }
+            }
 
             powerAreaInfo = new MainShipPowerAreaInfo();
             livingAreaInfo = new MainShipLivingAreaInfo();
@@ -93,42 +112,434 @@ namespace Sim_FrameWork
     /// </summary>
     public class MainShipShieldInfo
     {
+        public string directionName;
         /// <summary>
         /// ShieldState
         /// </summary>
         public MainShip_ShieldState currentState = MainShip_ShieldState.Disable;
 
-
         public MainShip_ShieldDirection direction;
+
+        private Config.MainShipShieldLevelMap _shieldConfig_current;
+        public Config.MainShipShieldLevelMap ShieldConfig_current
+        {
+            get
+            {
+                if (_shieldConfig_current == null)
+                {
+                    _shieldConfig_current = MainShipModule.GetMainShipShieldLevelData(shieldLevel_current);
+                }
+                return _shieldConfig_current;
+            }
+        }
+
+        //当前区域护盾分配能源等级
+        public short shieldLevel_current =0;
+        //可装备护盾槽数量
+        public byte shieldEquip_slotNum_current
+        {
+            get
+            {
+                var config = Config.ConfigData.MainShipConfigData.basePropertyConfig.shield_slot_unlock_energycost_map;
+                for(int i = 0; i < config.Length; i++)
+                {
+                    if (shieldLevel_current < config[i])
+                        return (byte)i;
+                }
+                return 0;
+            }
+            protected set { }
+        }
+        /// <summary>
+        /// 增加护盾等级
+        /// </summary>
+        /// <param name="value"></param>
+        /// <returns></returns>
+        public bool AddShieldLevel(short value)
+        {
+            shieldLevel_current += value;
+            if (shieldLevel_current <= 0)
+            {
+                UpdateShieldLevel((short)(shieldLevel_current - value), 0);
+                shieldLevel_current = 0;
+                return false;
+            }
+            var max = Config.ConfigData.MainShipConfigData.basePropertyConfig.shield_energy_total_max_limit;
+            if (shieldLevel_current > max)
+            {
+                UpdateShieldLevel((short)(shieldLevel_current - value), max);
+                shieldLevel_current = max;
+                return false;
+            }
+
+            UpdateShieldLevel((short)(shieldLevel_current - value), shieldLevel_current);
+            return true;
+        }
+
+        public bool ChangeShieldLevel(byte value)
+        {
+            var max = Config.ConfigData.MainShipConfigData.basePropertyConfig.shield_energy_total_max_limit;
+            short originLevel = shieldLevel_current;
+            if(value> max)
+            {
+                shieldLevel_current = max;
+                AddShieldLevel((short)(max - shieldLevel_current));
+                return false;
+            }
+            else
+            {
+                shieldLevel_current = value;
+                AddShieldLevel((short)(shieldLevel_current - originLevel));
+                return true;
+            }
+        }
+
+        /// <summary>
+        /// 更新护盾等级
+        /// </summary>
+        /// <param name="preLevel"></param>
+        /// <param name="currentLevel"></param>
+        /// <returns></returns>
+        bool UpdateShieldLevel(short preLevel,short currentLevel)
+        {
+            if (ShieldConfig_current == null)
+                return false;
+            var preConfig = MainShipModule.GetMainShipShieldLevelData(preLevel);
+            var currentConfig = MainShipModule.GetMainShipShieldLevelData(currentLevel);
+            if (preConfig == null || currentConfig == null)
+                return false;
+            //Update ShieldMax Data & ShieldValue
+            AddShieldMax( ModifierDetailRootType_Mix.OriginConfig,currentConfig.shieldMax_base - preConfig.shieldMax_base);
+            ChangeShieldCurrentValue(0);
+            //Update ShieldOpenInit
+            AddShieldOpenInit(ModifierDetailRootType_Mix.OriginConfig, currentConfig.shieldOpenInit_base - preConfig.shieldOpenInit_base);
+            //Update ShieldChargeSpeed
+            AddShieldChargeSpeed(ModifierDetailRootType_Mix.OriginConfig, currentConfig.shieldChargeSpeed_base - preConfig.shieldChargeSpeed_base);
+            //Update EnergyCost
+            AddEnergyCostValue(ModifierDetailRootType_Mix.OriginConfig,(short)(currentConfig.shieldEnergyCost_base - preConfig.shieldEnergyCost_base));
+
+            DebugPlus.Log("Change Shield Level Success!");
+            DebugPlus.LogObject<MainShipShieldInfo>(this);
+            return true;
+        }
 
         // 护盾开启时初始值
         public int shield_open_init;
-        
+        public ModifierDetailPackage_Mix shieldOpenInitDetailPac = new ModifierDetailPackage_Mix();
 
+        public bool AddShieldOpenInit_Block(ModifierDetailRootType_Mix rootType, uint instanceID,int blockID,int value)
+        {
+            shield_open_init += value;
+            if (shield_open_init < 0)
+            {
+                shield_open_init = 0;
+                shieldOpenInitDetailPac.ValueChange_Block(rootType, instanceID, blockID, value- shield_open_init);
+                return false;
+            }
+            else
+            {
+                shieldOpenInitDetailPac.ValueChange_Block(rootType, instanceID, blockID, value);
+                return true;
+            }
+        }
+        public bool AddShieldOpenInit_Assemble(ModifierDetailRootType_Mix rootType, ushort UID, int partID, int value)
+        {
+            shield_open_init += value;
+            if (shield_open_init < 0)
+            {
+                shield_open_init = 0;
+                shieldOpenInitDetailPac.ValueChange_Assemble(rootType, UID, partID, value - shield_open_init);
+                return false;
+            }
+            else
+            {
+                shieldOpenInitDetailPac.ValueChange_Assemble(rootType, UID, partID, value);
+                return true;
+            }
+        }
+        public bool AddShieldOpenInit(ModifierDetailRootType_Mix rootType,int value)
+        {
+            shield_open_init += value;
+            if (shield_open_init < 0)
+            {
+                shield_open_init = 0;
+                shieldOpenInitDetailPac.ValueChange(rootType, value - shield_open_init);
+                return false;
+            }
+            else
+            {
+                shieldOpenInitDetailPac.ValueChange(rootType,value);
+                return true;
+            }
+        }
+
+        /// <summary>
+        /// Shield Value 
+        /// </summary>
         public int shield_max;
         public int shield_current;
+        public ModifierDetailPackage_Mix shieldMaxDetailPac = new ModifierDetailPackage_Mix();
+        public bool AddShieldMax_Block(ModifierDetailRootType_Mix rootType, uint instanceID, int blockID, int value)
+        {
+            shield_max += value;
+            if (shield_max < 0)
+            {
+                shieldMaxDetailPac.ValueChange_Block(rootType, instanceID, blockID, value - shield_max);
+                shield_max = 0;
+                return false;
+            }
+            else
+            {
+                shieldMaxDetailPac.ValueChange_Block(rootType, instanceID, blockID, value);
+                return true;
+            }
+        }
+        public bool AddShieldMax_Assemble(ModifierDetailRootType_Mix rootType, ushort UID, int partID, int value)
+        {
+            shield_max += value;
+            if (shield_max < 0)
+            {
+                shieldMaxDetailPac.ValueChange_Assemble(rootType, UID, partID, value - shield_max);
+                shield_max = 0;
+                return false;
+            }
+            else
+            {
+                shieldMaxDetailPac.ValueChange_Assemble(rootType, UID, partID, value);
+                return true;
+            }
+        }
+        public bool AddShieldMax(ModifierDetailRootType_Mix rootType, int value)
+        {
+            shield_max += value;
+            if (shield_max < 0)
+            {
+                shieldMaxDetailPac.ValueChange(rootType,value - shield_max);
+                shield_max = 0;
+                return false;
+            }
+            else
+            {
+                shieldMaxDetailPac.ValueChange(rootType,value);
+                return true;
+            }
+        }
+
+        public bool ChangeShieldCurrentValue(int value)
+        {
+            shield_current += value;
+            if (shield_current > shield_max)
+            {
+                shield_current = shield_max;
+                return false;
+            }
+            if (shield_current < 0)
+            {
+                shield_current = 0;
+                return false;
+            }
+            return true;
+        }
 
         // reality Value
         public int shieldCharge_current
         {
             get { return (int)(shieldChargeSpeed * shieldChargeRatio); }
         }
+
         public int shieldChargeSpeed;
         // 充能速度折损比例
-        public float shieldChargeRatio;
+        public float shieldChargeRatio =1.0f;
+        public ModifierDetailPackage_Mix shieldChargeSpeedDetailPac = new ModifierDetailPackage_Mix();
+        public bool AddShieldChargeSpeed_Block(ModifierDetailRootType_Mix rootType, uint instanceID, int blockID, int value)
+        {
+            shieldChargeSpeed += value;
+            if (shieldChargeSpeed < 0)
+            {
+                shieldChargeSpeedDetailPac.ValueChange_Block(rootType, instanceID, blockID, value - shieldChargeSpeed);
+                shieldChargeSpeed = 0;
+                return false;
+            }
+            else
+            {
+                shieldChargeSpeedDetailPac.ValueChange_Block(rootType, instanceID, blockID, value);
+                return true;
+            }
+        }
+        public bool AddShieldChargeSpeed_Assemble(ModifierDetailRootType_Mix rootType, ushort UID, int partID, int value)
+        {
+            shieldChargeSpeed += value;
+            if (shieldChargeSpeed < 0)
+            {
+                shieldChargeSpeedDetailPac.ValueChange_Assemble(rootType, UID, partID, value - shieldChargeSpeed);
+                shieldChargeSpeed = 0;
+                return false;
+            }
+            else
+            {
+                shieldChargeSpeedDetailPac.ValueChange_Assemble(rootType, UID, partID, value);
+                return true;
+            }
+        }
+        public bool AddShieldChargeSpeed(ModifierDetailRootType_Mix rootType, int value)
+        {
+            shieldChargeSpeed += value;
+            if (shieldChargeSpeed < 0)
+            {
+                shieldChargeSpeedDetailPac.ValueChange(rootType, value - shieldChargeSpeed);
+                shieldChargeSpeed = 0;
+                return false;
+            }
+            else
+            {
+                shieldChargeSpeedDetailPac.ValueChange(rootType, value);
+                return true;
+            }
+        }
 
-        public byte shieldLayer_current;
-        public byte shieldLayer_max;
+        /// <summary>
+        /// 护盾层数
+        /// </summary>
+        public short shieldLayer_current;
+        public short shieldLayer_max;
 
+        /// <summary>
+        /// 能源消耗
+        /// </summary>
+        private short energyCost_current;
+        public short EnergyCost_current
+        {
+            get
+            {
+                if (currentState == MainShip_ShieldState.Open)
+                    return energyCost_current;
+                return 0;
+            }
+        }
+        public ModifierDetailPackage_Mix energyCostDetailPac = new ModifierDetailPackage_Mix();
+        public bool AddEnergyCostValue_Block(ModifierDetailRootType_Mix rootType, uint instanceID, int blockID, short value)
+        {
+            energyCost_current += value;
+            if (energyCost_current < 0)
+            {
+                energyCostDetailPac.ValueChange_Block(rootType, instanceID, blockID, value - energyCost_current);
+                energyCost_current = 0;
+                return false;
+            }
+            else
+            {
+                energyCostDetailPac.ValueChange_Block(rootType, instanceID, blockID, value);
+                return true;
+            }
+        }
+        public bool AddEnergyCostValue_Assemble(ModifierDetailRootType_Mix rootType, ushort UID, int partID, short value)
+        {
+            energyCost_current += value;
+            if (energyCost_current < 0)
+            {
+                energyCostDetailPac.ValueChange_Assemble(rootType, UID, partID, value - energyCost_current);
+                energyCost_current = 0;
+                return false;
+            }
+            else
+            {
+                energyCostDetailPac.ValueChange_Assemble(rootType, UID, partID, value);
+                return true;
+            }
+        }
+        public bool AddEnergyCostValue(ModifierDetailRootType_Mix rootType, short value)
+        {
+            energyCost_current += value;
+            if (energyCost_current < 0)
+            {
+                energyCostDetailPac.ValueChange(rootType, value - energyCost_current);
+                energyCost_current = 0;
+                return false;
+            }
+            else
+            {
+                energyCostDetailPac.ValueChange(rootType, value);
+                return true;
+            }
+        }
+
+        public MainShipModifier shipShieldModifier;
+
+        public MainShipShieldInfo() { }
         public bool InitData(MainShip_ShieldDirection direction)
         {
+            this.direction = direction;
+            directionName = MainShipModule.GetMainShipShieldDirectionName(direction);
+            if (ShieldConfig_current == null)
+                return false;
+            shipShieldModifier = new MainShipModifier(ModifierTarget.MainShipShield);
             return true;
         }
 
-        public void LoadGameSave()
+        public void LoadGameSave(MainShipShieldSaveData saveData)
         {
+            currentState = saveData.CurrentState;
+            direction = saveData.Direction;
+            directionName = MainShipModule.GetMainShipShieldDirectionName(direction);
+            shieldLevel_current = saveData.ShieldLevel_current;
 
+            shield_open_init = saveData.Shield_open_init;
+            shieldOpenInitDetailPac = saveData.ShieldOpenInitDetailPac;
+
+            shield_max = saveData.Shield_max;
+            shield_current = saveData.Shield_current;
+            shieldMaxDetailPac = saveData.ShieldMaxDetailPac;
+
+            shieldChargeSpeed = saveData.ShieldChargeSpeed;
+            shieldChargeSpeedDetailPac = saveData.ShieldChargeSpeedDetailPac;
+
+            energyCost_current = saveData.EnergyCost_current;
+            energyCostDetailPac = saveData.EnergyCostDetailPac;
         }
+    }
+    /// <summary>
+    /// Shield Save Data
+    /// </summary>
+    public class MainShipShieldSaveData
+    {
+        public MainShip_ShieldState CurrentState;
+        public MainShip_ShieldDirection Direction;
+
+        public short ShieldLevel_current;
+
+        public int Shield_open_init;
+        public ModifierDetailPackage_Mix ShieldOpenInitDetailPac;
+
+        public int Shield_max;
+        public int Shield_current;
+        public ModifierDetailPackage_Mix ShieldMaxDetailPac;
+
+        public int ShieldChargeSpeed;
+        public ModifierDetailPackage_Mix ShieldChargeSpeedDetailPac;
+
+        public short EnergyCost_current;
+        public ModifierDetailPackage_Mix EnergyCostDetailPac;
+
+        public MainShipShieldSaveData(MainShipShieldInfo info)
+        {
+            CurrentState = info.currentState;
+            Direction = info.direction;
+            ShieldLevel_current = info.shieldLevel_current;
+
+            Shield_open_init = info.shield_open_init;
+            ShieldOpenInitDetailPac = info.shieldOpenInitDetailPac;
+
+            Shield_max = info.shield_max;
+            Shield_current = info.shield_current;
+            ShieldMaxDetailPac = info.shieldMaxDetailPac;
+
+            ShieldChargeSpeed = info.shieldChargeSpeed;
+            ShieldChargeSpeedDetailPac = info.shieldChargeSpeedDetailPac;
+
+            EnergyCost_current = info.EnergyCost_current;
+            EnergyCostDetailPac = info.energyCostDetailPac;
+        }
+
     }
 
     #endregion
@@ -147,30 +558,55 @@ namespace Sim_FrameWork
         public int durability_max;
         public int durability_current;
 
-        public ModifierDetailPackage_Block durabilityMaxDetailPac = new ModifierDetailPackage_Block();
+        public ModifierDetailPackage_Mix durabilityMaxDetailPac = new ModifierDetailPackage_Mix();
 
-        public void ChangeAreaDurability(int value)
+        public bool ChangeAreaDurability(int value)
         {
             durability_current += value;
             if (durability_current > durability_max)
+            {
                 durability_current = durability_max;
+                return false;
+            }
             if (durability_current < 0)
+            {
                 durability_current = 0;
+                return false;
+            }
+            return true;
         }
 
-        public void ChangeAreaDurability_Max(ModifierDetailRootType_Block rootType, uint instanceID, int blockID, int value)
+        public bool ChangeAreaDurability_Max(ModifierDetailRootType_Mix rootType, uint instanceID, int blockID, int value)
         {
-            durabilityMaxDetailPac.ValueChange(rootType, instanceID, blockID, value);
             durability_max += value;
             if (durability_max < 0)
+            {
+                durabilityMaxDetailPac.ValueChange_Block(rootType, instanceID, blockID, value - durability_max);
                 durability_max = 0;
+                return false;
+            }
+            else
+            {
+                durabilityMaxDetailPac.ValueChange_Block(rootType, instanceID, blockID, value);
+                return true;
+            }
+                
         }
-        public void ChangeAreaDurability_Max(ModifierDetailRootType_Block rootType, int value)
+        public bool ChangeAreaDurability_Max(ModifierDetailRootType_Mix rootType, int value)
         {
-            durabilityMaxDetailPac.ValueChange(rootType, value);
             durability_max += value;
             if (durability_max < 0)
+            {
+                durabilityMaxDetailPac.ValueChange(rootType, value - durability_max);
                 durability_max = 0;
+                return false;
+            }
+            else
+            {
+                durabilityMaxDetailPac.ValueChange(rootType, value);
+                return true;
+            }
+                
         }
 
         /// <summary>
@@ -181,16 +617,38 @@ namespace Sim_FrameWork
         /// 能源等级当前分配
         /// </summary>
         public short powerLevel_current;
-        public ModifierDetailPackage_Block powerLevelMaxDetailPac = new ModifierDetailPackage_Block();
-        public void ChangePowerLevelMax(ModifierDetailRootType_Block rootType, uint instanceID, int blockID, byte value)
+        public ModifierDetailPackage_Mix powerLevelMaxDetailPac = new ModifierDetailPackage_Mix();
+        public bool ChangePowerLevelMax(ModifierDetailRootType_Mix rootType, uint instanceID, int blockID, byte value)
         {
-            powerLevelMaxDetailPac.ValueChange(rootType, instanceID, blockID, value);
+            var maxValue = Config.ConfigData.MainShipConfigData.areaEnergyLevelMax;
             powerLevel_max += value;
+            if (powerLevel_max > maxValue)
+            {
+                powerLevelMaxDetailPac.ValueChange_Block(rootType, instanceID, blockID, powerLevel_max- maxValue);
+                powerLevel_max = maxValue;
+                return false;
+            }
+            else
+            {
+                powerLevelMaxDetailPac.ValueChange_Block(rootType, instanceID, blockID, value);
+                return true;
+            }
         }
-        public void ChangePowerLevelMax(ModifierDetailRootType_Block rootType,byte value)
+        public bool ChangePowerLevelMax(ModifierDetailRootType_Mix rootType,byte value)
         {
-            powerLevelMaxDetailPac.ValueChange(rootType, value);
+            var maxValue = Config.ConfigData.MainShipConfigData.areaEnergyLevelMax;
             powerLevel_max += value;
+            if (powerLevel_max > maxValue)
+            {
+                powerLevelMaxDetailPac.ValueChange(rootType, powerLevel_max- maxValue);
+                powerLevel_max = maxValue;
+                return false;
+            }
+            else
+            {
+                powerLevelMaxDetailPac.ValueChange(rootType, value);
+                return true;
+            }     
         }
 
         /// <summary>
@@ -276,7 +734,7 @@ namespace Sim_FrameWork
     {
         public int Durability_max;
         public int Durability_current;
-        public ModifierDetailPackage_Block DurabilityMaxDetailPac;
+        public ModifierDetailPackage_Mix DurabilityMaxDetailPac;
 
         public MainShipAreaGeneralSaveData(MainShipAreaBaseInfo baseinfo)
         {
@@ -303,7 +761,7 @@ namespace Sim_FrameWork
         /// </summary>
         public int durability_max;
         public int durability_current;
-        public ModifierDetailPackage_Block durabilityMaxDetailPac = new ModifierDetailPackage_Block();
+        public ModifierDetailPackage_Mix durabilityMaxDetailPac = new ModifierDetailPackage_Mix();
         
         public void ChangeAreaDurability(int value)
         {
@@ -314,39 +772,71 @@ namespace Sim_FrameWork
                 durability_current = 0;
         }
 
-        public void ChangeAreaDurability_Max(ModifierDetailRootType_Block rootType,uint instanceID,int blockID,int value)
+        public bool ChangeAreaDurability_Max(ModifierDetailRootType_Mix rootType,uint instanceID,int blockID,int value)
         {
-            durabilityMaxDetailPac.ValueChange(rootType, instanceID, blockID, value);
             durability_max += value;
             if (durability_max < 0)
+            {
+                durabilityMaxDetailPac.ValueChange_Block(rootType, instanceID, blockID, value - durability_max);
                 durability_max = 0;
+                return false;
+            }
+            else
+            {
+                durabilityMaxDetailPac.ValueChange_Block(rootType, instanceID, blockID, value);
+                return true;
+            }
         }
-        public void ChangeAreaDurability_Max(ModifierDetailRootType_Block rootType,int value)
+        public bool ChangeAreaDurability_Max(ModifierDetailRootType_Mix rootType,int value)
         {
-            durabilityMaxDetailPac.ValueChange(rootType, value);
             durability_max += value;
             if (durability_max < 0)
+            {
+                durabilityMaxDetailPac.ValueChange(rootType, value - durability_max);
                 durability_max = 0;
+                return false;
+            }
+            else
+            {
+                durabilityMaxDetailPac.ValueChange(rootType, value);
+                return true;
+            }
         }
 
         /// <summary>
         /// 电能产生效率
         /// </summary>
-        public ushort PowerGenerateValue;
-        public ModifierDetailPackage_Block powerGenerateDetailPac = new ModifierDetailPackage_Block();
-        public void ChangePowerGenerateValue(ModifierDetailRootType_Block rootType, uint instanceID, int blockID, ushort value)
+        public short PowerGenerateValue;
+        public ModifierDetailPackage_Mix powerGenerateDetailPac = new ModifierDetailPackage_Mix();
+        public bool ChangePowerGenerateValue(ModifierDetailRootType_Mix rootType, uint instanceID, int blockID, short value)
         {
-            powerGenerateDetailPac.ValueChange(rootType, instanceID, blockID, value);
             PowerGenerateValue += value;
             if (PowerGenerateValue < 0)
+            {
+                powerGenerateDetailPac.ValueChange_Block(rootType, instanceID, blockID, value - PowerGenerateValue);
                 PowerGenerateValue = 0;
+                return false;
+            }
+            else
+            {
+                powerGenerateDetailPac.ValueChange_Block(rootType, instanceID, blockID, value);
+                return true;
+            }
         }
-        public void ChangePowerGenerateValue(ModifierDetailRootType_Block rootType, ushort value)
+        public bool ChangePowerGenerateValue(ModifierDetailRootType_Mix rootType, short value)
         {
-            powerGenerateDetailPac.ValueChange(rootType, value);
             PowerGenerateValue += value;
             if (PowerGenerateValue < 0)
+            {
+                powerGenerateDetailPac.ValueChange(rootType, value - PowerGenerateValue);
                 PowerGenerateValue = 0;
+                return false;
+            }
+            else
+            {
+                powerGenerateDetailPac.ValueChange(rootType, value);
+                return true;
+            }                
         }
 
         /// <summary>
@@ -354,20 +844,36 @@ namespace Sim_FrameWork
         /// </summary>
         public short energyLoadValue_max;
         public short energyLoadValue_current;
-        public ModifierDetailPackage_Block energyLoadMaxDetailPac = new ModifierDetailPackage_Block();
-        public void ChangeEnergyLoadValue_Max(ModifierDetailRootType_Block rootType,uint instanceID,int blockID, short value)
+        public ModifierDetailPackage_Mix energyLoadMaxDetailPac = new ModifierDetailPackage_Mix();
+        public bool ChangeEnergyLoadValue_Max(ModifierDetailRootType_Mix rootType,uint instanceID,int blockID, short value)
         {
-            energyLoadMaxDetailPac.ValueChange(rootType, instanceID, blockID, value);
             energyLoadValue_max += value;
             if (energyLoadValue_max < 0)
+            {
+                energyLoadMaxDetailPac.ValueChange_Block(rootType, instanceID, blockID, value - energyLoadValue_max);
                 energyLoadValue_max = 0;
+                return false;
+            }
+            else
+            {
+                energyLoadMaxDetailPac.ValueChange_Block(rootType, instanceID, blockID, value);
+                return true;
+            }
         }
-        public void ChangeEnergyLoadValue_Max(ModifierDetailRootType_Block rootType,short value)
+        public bool ChangeEnergyLoadValue_Max(ModifierDetailRootType_Mix rootType,short value)
         {
-            energyLoadMaxDetailPac.ValueChange(rootType, value);
             energyLoadValue_max += value;
             if (energyLoadValue_max < 0)
+            {
+                energyLoadMaxDetailPac.ValueChange(rootType, value - energyLoadValue_max);
                 energyLoadValue_max = 0;
+                return false;
+            }
+            else
+            {
+                energyLoadMaxDetailPac.ValueChange(rootType, value);
+                return true;
+            }
         }
 
         /// <summary>
@@ -411,21 +917,38 @@ namespace Sim_FrameWork
         /// </summary>
         public int storagePower_max;
         public int storagePower_current=0;
-        public ModifierDetailPackage_Block storageMaxDetailPac = new ModifierDetailPackage_Block();
+        public ModifierDetailPackage_Mix storageMaxDetailPac = new ModifierDetailPackage_Mix();
 
-        public void AddMaxStoragePower(ModifierDetailRootType_Block rootType,uint instanceID,int blockID, int value)
+        public bool AddMaxStoragePower(ModifierDetailRootType_Mix rootType,uint instanceID,int blockID, int value)
         {
-            storageMaxDetailPac.ValueChange(rootType, instanceID, blockID, value);
             storagePower_max += value;
             if (storagePower_max < 0)
+            {
+                storageMaxDetailPac.ValueChange_Block(rootType, instanceID, blockID, value- storagePower_max);
                 storagePower_max = 0;
+                return false;
+            }
+            else
+            {
+                storageMaxDetailPac.ValueChange_Block(rootType, instanceID, blockID, value);
+                return true;
+            }
+                
         }
-        public void AddMaxStoragePower(ModifierDetailRootType_Block rootType,int value)
+        public bool AddMaxStoragePower(ModifierDetailRootType_Mix rootType,int value)
         {
-            storageMaxDetailPac.ValueChange(rootType, value);
             storagePower_max += value;
             if (storagePower_max < 0)
+            {
+                storageMaxDetailPac.ValueChange(rootType, value -storagePower_max);
                 storagePower_max = 0;
+                return false;
+            }
+            else
+            {
+                storageMaxDetailPac.ValueChange(rootType, value);
+                return true;
+            }
         }
 
         public void ChangeCurrentStoragePower(int value)
@@ -440,27 +963,43 @@ namespace Sim_FrameWork
         /// <summary>
         /// Over Load
         /// </summary>
-        public byte overLoadLevel_current = 0;
-        public byte overLoadLevel_max;
-        public ModifierDetailPackage_Block overLoadLevelMaxDetailPac = new ModifierDetailPackage_Block();
+        public short overLoadLevel_current = 0;
+        public short overLoadLevel_max;
+        public ModifierDetailPackage_Mix overLoadLevelMaxDetailPac = new ModifierDetailPackage_Mix();
         public EnergyGenerateMode currentMode { get; protected set; }
         //是否解锁过载模式
         public bool unLockOverLoadMode = false;
 
-        public void ChangeOverLoadLevelMax(ModifierDetailRootType_Block rootType, uint instanceID, int blockID, byte value)
+        public bool ChangeOverLoadLevelMax(ModifierDetailRootType_Mix rootType, uint instanceID, int blockID, short value)
         {
-            overLoadLevelMaxDetailPac.ValueChange(rootType, instanceID, blockID, value);
             overLoadLevel_max += value;
             if (overLoadLevel_max < 0)
+            {
+                overLoadLevelMaxDetailPac.ValueChange_Block(rootType, instanceID, blockID, value - overLoadLevel_max);
                 overLoadLevel_max = 0;
+                return false;
+            }
+            else
+            {
+                overLoadLevelMaxDetailPac.ValueChange_Block(rootType, instanceID, blockID, value);
+                return true;
+            } 
         }
 
-        public void ChangeOverLoadLevelMax(ModifierDetailRootType_Block rootType, byte value)
+        public bool ChangeOverLoadLevelMax(ModifierDetailRootType_Mix rootType, short value)
         {
-            overLoadLevelMaxDetailPac.ValueChange(rootType, value);
             overLoadLevel_max += value;
             if (overLoadLevel_max < 0)
+            {
+                overLoadLevelMaxDetailPac.ValueChange(rootType, value - overLoadLevel_max);
                 overLoadLevel_max = 0;
+                return false;
+            }
+            else
+            {
+                overLoadLevelMaxDetailPac.ValueChange(rootType, value);
+                return true;
+            }
         }
 
         /// <summary>
@@ -503,12 +1042,12 @@ namespace Sim_FrameWork
             {
                 areaIconPath = config.areaIconPath;
                 PowerGenerateValue = config.energyGenerateBase;
-                ChangeEnergyLoadValue_Max(ModifierDetailRootType_Block.OriginConfig,config.energyLoadBase);
+                ChangeEnergyLoadValue_Max(ModifierDetailRootType_Mix.OriginConfig,config.energyLoadBase);
                 energyLoadValue_current = energyLoadValue_max;
-                AddMaxStoragePower(ModifierDetailRootType_Block.OriginConfig, config.MaxStorageCountBase);
+                AddMaxStoragePower(ModifierDetailRootType_Mix.OriginConfig, config.MaxStorageCountBase);
                 ChangeEnergyMode(EnergyGenerateMode.Normal);
                 unLockOverLoadMode = config.unlockOverLoad;
-                ChangeOverLoadLevelMax(ModifierDetailRootType_Block.OriginConfig, config.overLoadLevelMax);
+                ChangeOverLoadLevelMax(ModifierDetailRootType_Mix.OriginConfig, config.overLoadLevelMax);
                 areaModifier = new MainShipAreaModifier(ModifierTarget.MainShipPowerArea);
                 return true;
             }
@@ -557,13 +1096,13 @@ namespace Sim_FrameWork
     {
         public int Durability_max;
         public int Durability_current;
-        public ModifierDetailPackage_Block DurabilityMaxDetailPac;
+        public ModifierDetailPackage_Mix DurabilityMaxDetailPac;
 
         /// <summary>
         /// 电能产生效率
         /// </summary>
-        public ushort PowerGenerateValue;
-        public ModifierDetailPackage_Block PowerGenerateDetailPac;
+        public short PowerGenerateValue;
+        public ModifierDetailPackage_Mix PowerGenerateDetailPac;
         /// <summary>
         /// 能源负载，用于其余舱室负载分配
         /// </summary>
@@ -571,16 +1110,16 @@ namespace Sim_FrameWork
         public short EnergyLoadValueCurrent;
         public MainShipPowerAreaInfo.EnergyGenerateMode CurrentMode;
         public ModifierDetailPackage EnergyLoadDetailPac;
-        public ModifierDetailPackage_Block EnergyLoadMaxDetailPac;
+        public ModifierDetailPackage_Mix EnergyLoadMaxDetailPac;
 
         public int StoragePower_max;
-        public int StoragePower_current = 0;
-        public ModifierDetailPackage_Block StorageMaxDetailPac;
+        public int StoragePower_current;
+        public ModifierDetailPackage_Mix StorageMaxDetailPac;
 
 
-        public byte OverLoadLevel_current = 0;
-        public byte OverLoadLevel_max;
-        public ModifierDetailPackage_Block OverLoadLevelMaxDetailPac;
+        public short OverLoadLevel_current;
+        public short OverLoadLevel_max;
+        public ModifierDetailPackage_Mix OverLoadLevelMaxDetailPac;
         public bool UnLockOverLoadMode;
 
         public MainShipPowerAreaSaveData(MainShipPowerAreaInfo info)

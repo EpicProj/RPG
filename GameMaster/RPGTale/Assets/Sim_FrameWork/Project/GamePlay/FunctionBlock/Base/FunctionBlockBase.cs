@@ -283,7 +283,7 @@ namespace Sim_FrameWork
         public FunctionBlockDistrictInfo districtInfo;
 
         public FunctionBlockModifier blockModifier;
-        public ModifierDetailRootType_Block modifierRootType;
+        public ModifierDetailRootType_Mix modifierRootType;
 
         public List<Config.BlockDistrictUnlockData.DistrictUnlockData> districtUnlockDataList;
         public List<DistrictData> ActiveDistrictBuildList=new List<DistrictData> ();

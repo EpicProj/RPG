@@ -16,6 +16,8 @@ namespace Sim_FrameWork
         /// 区块作用
         /// </summary>
         FunctionBlock,
+        MainShipShield,
+        MainShipWeapon,
         MainShipPowerArea,
         MainShipWorkingArea,
         /// <summary>
@@ -94,7 +96,7 @@ namespace Sim_FrameWork
             Enum.TryParse<ModifierFunctionBlockType>(blockType, out modifierFunctionBlockType);
             if (modifierFunctionBlockType == ModifierFunctionBlockType.None)
             {
-                Debug.LogError("ModiferType Error! Type=" + blockType);
+                DebugPlus.LogError("ModiferType Error! Type=" + blockType);
             }
             return modifierFunctionBlockType;
         }
@@ -105,9 +107,20 @@ namespace Sim_FrameWork
             Enum.TryParse<ModifierMainShip_PowerArea>(typeName, out type);
             if(type== ModifierMainShip_PowerArea.None)
             {
-                Debug.LogError("ModifierType Error! Type=" + typeName);
+                DebugPlus.LogError("ModifierType Error! Type=" + typeName);
             }
             return type;  
+        }
+
+        public ModifierMainShip_Shield ParseModifierShieldType(string typeName)
+        {
+            ModifierMainShip_Shield type = ModifierMainShip_Shield.None;
+            Enum.TryParse<ModifierMainShip_Shield>(typeName, out type);
+            if(type== ModifierMainShip_Shield.None)
+            {
+                DebugPlus.LogError("ModifierType Error! Type=" + typeName);
+            }
+            return type;
         }
 
     }

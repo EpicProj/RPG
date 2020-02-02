@@ -33,8 +33,7 @@ namespace Sim_FrameWork.Config
 
         public bool DataCheck()
         {
-
-            return true;
+            return basePropertyConfig.DataCheck();
         }
     }
 
@@ -112,40 +111,77 @@ namespace Sim_FrameWork.Config
 
     public class MainShipBasePropertyConfig
     {
-        /// <summary>
-        /// 护盾基础最大值
-        /// </summary>
-        public int ShieldBase_Max;
-        /// <summary>
-        /// 护盾默认初始值
-        /// </summary>
-        public int ShieldBase_Initial;
-        /// <summary>
-        /// 每回合回盾，未受攻击
-        /// </summary>
-        public int ShieldChargeEachRound_NotAttack;
-        /// <summary>
-        /// 每回合回盾，受到攻击
-        /// </summary>
-        public int ShieldCahrgeEachRound_UnderAttack;
-        /// <summary>
-        /// 初始减伤
-        /// </summary>
-        public float DamageReduceInit;
+        public short shield_energy_total_max_base;
+        public short shield_energy_total_max_limit;
+        public short[] shield_slot_unlock_energycost_map;
+        
+        public string shield_direction_left_name;
+        public string shield_direction_right_name;
+        public string shield_direction_front_name;
+        public string shield_direction_back_name;
 
+        public bool shield_state_default_open_left;
+        public bool shield_state_default_open_right;
+        public bool shield_state_default_open_front;
+        public bool shield_state_default_open_back;
+
+        public List<MainShipShieldLevelMap> shieldLevelMap;
         public float SpeedBase;
 
-        public List<ShieldLevelMap> shieldLevelMap;
-
-        public class ShieldLevelMap
+        public bool DataCheck()
         {
-            public int Level;
-            public float DamageReduceRate;
-            public int ShieldChargeEachRound_NotAttack;
-            public int ShieldCahrgeEachRound_UnderAttack;
+            bool result = true;
+            if (shield_slot_unlock_energycost_map == null || shield_slot_unlock_energycost_map.Length == 0)
+            {
+                DebugPlus.LogError("[MainShipBasePropertyConfig] : shield_slot_unlock_energycost_map config is null");
+                return false;
+            }
+            if (shieldLevelMap == null || shieldLevelMap.Count == 0)
+            {
+                DebugPlus.LogError("[MainShipBasePropertyConfig] : shieldLevelMap config is null!");
+                return false;
+            }
+            List<int> levelMapList = new List<int>();
+            for(int i = 0; i < shieldLevelMap.Count; i++)
+            {
+                if (levelMapList.Contains(shieldLevelMap[i].Level))
+                {
+                    DebugPlus.LogError("[MainShipShieldLevelMap] : find same levelID!  levelID=" + shieldLevelMap[i].Level);
+                    result = false;
+                    continue;
+                }
+            }
+            ///Check Range
+            if(shield_slot_unlock_energycost_map[shield_slot_unlock_energycost_map.Length-1]> shield_energy_total_max_limit)
+            {
+                DebugPlus.LogError("[shield_slot_unlock_energycost_map] : Out of Range! max=" + shield_energy_total_max_limit);
+                result = false;
+            }
+            ///Check Data
+            for(int i = 0; i <= shield_energy_total_max_limit; i++)
+            {
+                if (!levelMapList.Contains(i))
+                {
+                    DebugPlus.LogError("[MainShipShieldLevelMap] : find empty config ! Level=" + i);
+                    result = false;
+                    continue;
+                }
+            }
+            return result;
         }
 
     }
+
+
+    public class MainShipShieldLevelMap
+    {
+        public int Level;
+        public int shieldMax_base;
+        public int shieldOpenInit_base;
+        public int shieldChargeSpeed_base;
+        public short shieldEnergyCost_base;
+    }
+
 
     public class MainShipAreaBaseConfig
     {
@@ -160,7 +196,7 @@ namespace Sim_FrameWork.Config
     {
         public string areaIconPath;
         public int Durability_Initial;
-        public ushort energyGenerateBase;
+        public short energyGenerateBase;
         public byte energyLoadBase;
         public int MaxStorageCountBase;
         public bool unlockOverLoad;

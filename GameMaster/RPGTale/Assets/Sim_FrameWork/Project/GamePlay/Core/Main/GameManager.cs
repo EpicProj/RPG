@@ -48,10 +48,7 @@ namespace Sim_FrameWork
             InitBaseData();
             AssetBundleManager.Instance.LoadAssetBundleConfig();
             ResourceManager.Instance.Init(this);
-            DataManager.Instance.InitData();
-            PlayerManager.Instance.InitPlayerData();
-            GlobalEventManager.Instance.InitData();
-            MainShipManager.Instance.InitData();
+         
             DontDestroyOnLoad(gameObject);
 
             currentScene = SceneState.MainMenuPage;
@@ -59,6 +56,11 @@ namespace Sim_FrameWork
 
         void Start()
         {
+            DataManager.Instance.InitData();
+            PlayerManager.Instance.InitPlayerData();
+            GlobalEventManager.Instance.InitData();
+            MainShipManager.Instance.InitData();
+
             SwitchAreaState(AreaState.OutSide);
             PlayerManager.Instance.SetGameHardLevel(GameHardLevel.easy);
             UIGuide.Instance.ShowGameMainPage();
@@ -110,7 +112,6 @@ namespace Sim_FrameWork
                     break;
                 }
             }
-
         }
 
         #region MainFunction

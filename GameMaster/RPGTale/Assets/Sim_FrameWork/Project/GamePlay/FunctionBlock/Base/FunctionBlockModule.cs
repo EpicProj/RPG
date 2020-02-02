@@ -68,10 +68,10 @@ namespace Sim_FrameWork {
             return (FunctionBlockType)Enum.Parse(typeof(FunctionBlockType), block.FunctionBlockType);
         }
 
-        public static ModifierDetailRootType_Block FetchBlockModifierRootType(FunctionBlockType type)
+        public static ModifierDetailRootType_Mix FetchBlockModifierRootType(FunctionBlockType type)
         {
-            ModifierDetailRootType_Block result = ModifierDetailRootType_Block.None;
-            if(!Enum.TryParse<ModifierDetailRootType_Block>(type.ToString(),out result))
+            ModifierDetailRootType_Mix result = ModifierDetailRootType_Mix.None;
+            if(!Enum.TryParse<ModifierDetailRootType_Mix>(type.ToString(),out result))
             {
                 DebugPlus.LogError("[ModifierDetailRootType_Block] fetchType Error! type= " + type);
             }

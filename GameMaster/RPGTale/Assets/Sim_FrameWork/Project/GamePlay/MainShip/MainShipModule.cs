@@ -23,11 +23,6 @@ namespace Sim_FrameWork
 
 
         #region Method
-        public static Config.MainShipBasePropertyConfig.ShieldLevelMap GetShieldLevelData(int levelID)
-        {
-            var configData = Config.ConfigData.MainShipConfigData.basePropertyConfig;
-            return configData.shieldLevelMap.Find(x => x.Level == levelID);
-        }
 
         public static Config.ControlTowerAreaConfig.EnergyLevelMap GetControlTowerAreaEnergyLevelMapData(int levelID)
         {
@@ -56,6 +51,33 @@ namespace Sim_FrameWork
             return config.overLoadMap.Find(x => x.Level == levelID);
         }
 
+        /// <summary>
+        /// Get MainShip Shield Level Data
+        /// </summary>
+        /// <param name="levelID"></param>
+        /// <returns></returns>
+        public static Config.MainShipShieldLevelMap GetMainShipShieldLevelData(int levelID)
+        {
+            var config = Config.ConfigData.MainShipConfigData.basePropertyConfig;
+            if (config == null)
+                DebugPlus.LogError("[MainShipShieldLevelMap] : config is null ! levelID=" + levelID);
+            return config.shieldLevelMap.Find(x => x.Level == levelID);
+        }
+        public static string GetMainShipShieldDirectionName(MainShip_ShieldDirection direction)
+        {
+            var config = Config.ConfigData.MainShipConfigData.basePropertyConfig;
+            if (direction == MainShip_ShieldDirection.back)
+                return MultiLanguage.Instance.GetTextValue(config.shield_direction_back_name);
+            else if (direction == MainShip_ShieldDirection.front)
+                return MultiLanguage.Instance.GetTextValue(config.shield_direction_front_name);
+            else if (direction == MainShip_ShieldDirection.Left)
+                return MultiLanguage.Instance.GetTextValue(config.shield_direction_left_name);
+            else if (direction == MainShip_ShieldDirection.Right)
+                return MultiLanguage.Instance.GetTextValue(config.shield_direction_right_name);
+            else
+                return string.Empty;
+        }
+        
         #endregion
     }
 

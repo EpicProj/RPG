@@ -40,6 +40,8 @@ namespace Sim_FrameWork
         public AssemblePartCustomDataInfo customDataInfo;
         public AssemblePartTypePresetData typePresetData;
 
+        public ModifierDetailRootType_Mix modifierRootType; 
+
         public AssemblePartInfo() { }
         public bool InitData(int partID)
         {
@@ -53,6 +55,7 @@ namespace Sim_FrameWork
                 partsConfig = AssembleModule.GetPartsCustomConfigData(partID);
                 partEquipType = AssembleModule.GetAssemblePartEquipType(partID);
                 typePresetData = new AssemblePartTypePresetData(_partsMeta.ModelTypeID);
+                modifierRootType = AssembleModule.FetchAssemblePartModifieRootType(typePresetData.TypeID);
                 return true;
             }
             return false;

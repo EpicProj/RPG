@@ -52,4 +52,12 @@ namespace Sim_FrameWork
         None
     }
 
+    public enum ModifierMainShip_Shield
+    {
+        None,
+        //护盾开启初始值
+        Shield_open_init,
+
+    }
+
 }

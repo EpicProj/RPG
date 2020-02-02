@@ -21,7 +21,7 @@ namespace Sim_FrameWork
 
     }
 
-    public enum ModifierDetailRootType_Block
+    public enum ModifierDetailRootType_Mix
     {
         OriginConfig,
 
@@ -38,6 +38,11 @@ namespace Sim_FrameWork
         OverloadEngine,
         /// 共振分束器
         ResonanceBeamSplitter,
+
+        #region Assemble
+        Assemble_Engine,
+        Assemble_Shield,
+        #endregion
     }
 
     /// <summary>
@@ -48,9 +53,16 @@ namespace Sim_FrameWork
         public Dictionary<ModifierDetailRootType_Simple, ModifierDetailItem_Simple> detailDic = new Dictionary<ModifierDetailRootType_Simple, ModifierDetailItem_Simple>();
         public void ValueChange(ModifierDetailRootType_Simple rootType, float num)
         {
+            if (num == 0)
+                return;
             if (detailDic.ContainsKey(rootType))
             {
                 detailDic[rootType].value += num;
+                if (detailDic[rootType].value == 0)
+                {
+                    //Remove
+                    detailDic.Remove(rootType);
+                }
             }
             else
             {
@@ -60,30 +72,65 @@ namespace Sim_FrameWork
         }
     }
 
-    public class ModifierDetailPackage_Block
+    public class ModifierDetailPackage_Mix
     {
-        public Dictionary<ModifierDetailRootType_Block, ModifierDetailItem_Block> detailDic = new Dictionary<ModifierDetailRootType_Block, ModifierDetailItem_Block>();
-        public void ValueChange(ModifierDetailRootType_Block rootType, uint instanceID, int blockID, float num)
+        public Dictionary<ModifierDetailRootType_Mix, ModifierDetailItem_Mix> detailDic = new Dictionary<ModifierDetailRootType_Mix, ModifierDetailItem_Mix>();
+        public void ValueChange_Block(ModifierDetailRootType_Mix rootType, uint instanceID, int blockID, float num)
         {
+            if (num == 0)
+                return;
             if (detailDic.ContainsKey(rootType))
             {
                 detailDic[rootType].value += num;
+                if (detailDic[rootType].value == 0)
+                {
+                    //Remove
+                    detailDic.Remove(rootType);
+                }
             }
             else
             {
-                ModifierDetailItem_Block item = new ModifierDetailItem_Block(rootType,instanceID,blockID,num);
+                ModifierDetailItem_Mix item = new ModifierDetailItem_Mix(rootType, ModifierPackType.Block,instanceID,blockID,num);
                 detailDic.Add(rootType, item);
             }
         }
-        public void ValueChange(ModifierDetailRootType_Block rootType,float num)
+
+        public void ValueChange_Assemble(ModifierDetailRootType_Mix rootType, ushort UID, int partID, float num)
         {
+            if (num == 0)
+                return;
             if (detailDic.ContainsKey(rootType))
             {
                 detailDic[rootType].value += num;
+                if (detailDic[rootType].value == 0)
+                {
+                    //Remove
+                    detailDic.Remove(rootType);
+                }
             }
             else
             {
-                ModifierDetailItem_Block item = new ModifierDetailItem_Block(rootType, num);
+                ModifierDetailItem_Mix item = new ModifierDetailItem_Mix(rootType, ModifierPackType.Assemble, UID, partID, num);
+                detailDic.Add(rootType, item);
+            }
+        }
+
+        public void ValueChange(ModifierDetailRootType_Mix rootType,float num)
+        {
+            if (num == 0)
+                return;
+            if (detailDic.ContainsKey(rootType))
+            {
+                detailDic[rootType].value += num;
+                if (detailDic[rootType].value == 0)
+                {
+                    //Remove
+                    detailDic.Remove(rootType);
+                }
+            }
+            else
+            {
+                ModifierDetailItem_Mix item = new ModifierDetailItem_Mix(rootType, ModifierPackType.Normal, num);
                 detailDic.Add(rootType, item);
             }
         }
@@ -103,23 +150,32 @@ namespace Sim_FrameWork
             this.value = value;
         }
     }
-    public class ModifierDetailItem_Block
+
+    public enum ModifierPackType
     {
-        public ModifierDetailRootType_Block blockType;
-        public uint instanceID;
-        public int blockID;
+        Block,
+        Assemble,
+        Normal
+    }
+    public class ModifierDetailItem_Mix
+    {
+        public ModifierDetailRootType_Mix blockType;
+        public ModifierPackType packType;
+        public uint uid;
+        public int typeID;
         public float value;
 
-        public ModifierDetailItem_Block(ModifierDetailRootType_Block rootType,uint instanceID,int blockID,float value)
+        public ModifierDetailItem_Mix(ModifierDetailRootType_Mix rootType, ModifierPackType packType,uint uid, int typeID,float value)
         {
             this.blockType = rootType;
-            this.instanceID = instanceID;
-            this.blockID = blockID;
+            this.uid = uid;
+            this.typeID = typeID;
             this.value = value;
         }
 
-        public ModifierDetailItem_Block(ModifierDetailRootType_Block rootType, float value)
+        public ModifierDetailItem_Mix(ModifierDetailRootType_Mix rootType, ModifierPackType packType, float value)
         {
+            this.packType = packType;
             this.blockType = rootType;
             this.value = value;
         }

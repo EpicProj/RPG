@@ -19,4 +19,18 @@ namespace Sim_FrameWork
             ModifierManager.Instance.UnRegisterShipAreaModifier(this);
         }
     }
+    /*
+     * MainShip Modifier
+     * only for mainShip
+     * Weapon & Shield
+     */
+    public class MainShipModifier : ModifierGeneral
+    {
+        public ModifierTarget target;
+        public MainShipModifier(ModifierTarget target)
+        {
+            this.target = target;
+            ModifierManager.Instance.RegisterMainShipModifier(this);
+        }
+    }
 }

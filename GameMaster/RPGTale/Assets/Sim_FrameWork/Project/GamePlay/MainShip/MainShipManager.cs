@@ -16,11 +16,6 @@ namespace Sim_FrameWork
         public bool PowerArea_Active = true;
         public bool WorkingArea_Active = true;
 
-        private void Awake()
-        {
-            
-        }
-
         public void InitData()
         {
             mainShipInfo = new MainShipInfo();
@@ -83,6 +78,20 @@ namespace Sim_FrameWork
         public void AddPowerAreaModifier(FunctionBlockBase block, ModifierBase modifier)
         {
             ModifierManager.Instance.AddMainShipPowerAreaModifier(block,mainShipInfo.powerAreaInfo, modifier);
+        }
+
+        public void AddShieldModifier(bool addAll,AssemblePartInfo partInfo,ModifierBase modifier,MainShip_ShieldDirection direction)
+        {
+            if (addAll)
+            {
+                foreach(var info in mainShipInfo.shieldInfoDic.Values)
+                    ModifierManager.Instance.AddMainShipShieldModifier(partInfo, info, modifier);
+            }
+            else
+            {
+                ModifierManager.Instance.AddMainShipShieldModifier(partInfo, mainShipInfo.shieldInfoDic[direction], modifier);
+            }
+            
         }
         #endregion
     }
