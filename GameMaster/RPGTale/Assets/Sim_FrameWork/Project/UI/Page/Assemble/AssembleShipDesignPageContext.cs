@@ -200,7 +200,7 @@ namespace Sim_FrameWork.UI
 
         bool OnPartEquip(ushort partUID,int configID)
         {
-            var partInfo = PlayerManager.Instance.GetAssemblePartInfo(partUID);
+            var partInfo = PlayerManager.Instance.GetAssemblePartDesignInfo(partUID);
             if (partInfo == null)
                 return false;
             for(int i = 0; i < _partItemList.Count; i++)
@@ -226,7 +226,7 @@ namespace Sim_FrameWork.UI
             {
                 if (_partItemList[i].partInfo != null && !partInfoDic.ContainsKey(_partItemList[i]._configData.configID))
                 {
-                    var partInfo = PlayerManager.Instance.GetAssemblePartInfo(_partItemList[i].partInfo.UID);
+                    var partInfo = PlayerManager.Instance.GetAssemblePartDesignInfo(_partItemList[i].partInfo.UID);
                     partInfoDic.Add(_partItemList[i]._configData.configID, partInfo);
                 }
             }

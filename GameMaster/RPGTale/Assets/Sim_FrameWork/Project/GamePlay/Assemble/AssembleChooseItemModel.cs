@@ -8,7 +8,7 @@ namespace Sim_FrameWork
     {
         public bool Create(int id)
         {
-            if (PlayerManager.Instance.GetAssemblePartInfo((ushort)id) == null)
+            if (PlayerManager.Instance.GetAssemblePartDesignInfo((ushort)id) == null)
                 return false;
             ID = id;
             return true;
@@ -31,7 +31,7 @@ namespace Sim_FrameWork
             get
             {
                 if (_info == null)
-                    _info = PlayerManager.Instance.GetAssemblePartInfo((ushort)_id);
+                    _info = PlayerManager.Instance.GetAssemblePartDesignInfo((ushort)_id);
                 return _info;
             }
             set { }

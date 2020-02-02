@@ -22,6 +22,23 @@ namespace Sim_FrameWork.Config
         /// </summary>
         public string assembleShip_Member_Property_Link;
 
+        /// <summary>
+        /// 母舰护盾开启初始值
+        /// </summary>
+        public string mainShip_Shield_OpenInit_Property_Link;
+        /// <summary>
+        /// 母舰护盾最大值
+        /// </summary>
+        public string mainShip_Shield_Max_Property_Link;
+        /// <summary>
+        /// 母舰护盾回复速度
+        /// </summary>
+        public string mainShip_Shield_ChargeSpeed_Property_Link;
+        /// <summary>
+        /// 母舰护盾能耗
+        /// </summary>
+        public string mainShip_Shield_EnergyCost_Property_Link;
+
         public List<AssembleMainType> assembleMainType;
         public List<AssemblePartPropertyTypeData> assemblePartPropertyType;
         public List<AssembleShipMainType> assembleShipMainType;

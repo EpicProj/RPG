@@ -6,6 +6,11 @@
 	"assembleShip_Storage_Property_Link":"ShipStorage",
 	"assembleShip_Member_Property_Link":"",
 
+	"mainShip_Shield_OpenInit_Property_Link":"MainShipShieldOpenInit",
+	"mainShip_Shield_Max_Property_Link":"MainShipShieldMax",
+	"mainShip_Shield_ChargeSpeed_Property_Link":"MainShipShieldChargeSpeed",
+	"mainShip_Shield_EnergyCost_Property_Link":"MainShipShieldEnergyCost",
+
 	"assembleMainType":[{
 		"Type":"WarShip",
 		"TypeNameText":"AssembleMainType_WarShip",
@@ -71,20 +76,27 @@
 	}],
 
 	"assemblePartMainType":[{
-		"Type":"Engine",
-		"TypeName":"AssembleParts_Name_Engine",
+		"Type":"WarShip_Engine",
+		"TypeName":"AssembleParts_Name_WarShip_Engine",
 		"IconPath":"SpriteOutput/Assemble/Type/Assemble_Part_Type_Engine",
 		"DefaultUnlock":true
 	},{
-		"Type":"Shield",
-		"TypeName":"AssembleParts_Name_Shield",
+		"Type":"WarShip_Shield",
+		"TypeName":"AssembleParts_Name_WarShip_Shield",
 		"IconPath":"SpriteOutput/Assemble/Type/Assemble_Part_Type_Engine",
 		"DefaultUnlock":true
 	},{
-		"Type":"Weapon",
+		"Type":"WarShip_Weapon",
+		"TypeName":"AssembleParts_Name_WarShip_Weapon",
+		"IconPath":"SpriteOutput/Assemble/Type/Assemble_Part_Type_Engine",
+		"DefaultUnlock":true
+	},{
+		"Type":"MainShip_Shield",
 		"TypeName":"AssembleParts_Name_Weapon",
 		"IconPath":"SpriteOutput/Assemble/Type/Assemble_Part_Type_Engine",
 		"DefaultUnlock":true
+
+
 	}]
 
 

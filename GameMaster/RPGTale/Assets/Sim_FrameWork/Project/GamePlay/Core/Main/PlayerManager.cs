@@ -35,15 +35,12 @@ namespace Sim_FrameWork
 
         void InitAssembleData()
         {
-            InitAssemblePartTypeUnlockState();
             InitAssembleShipPresetUnlockState();
-            InitUnlockAssemblePartList();
             InitUnlockAssembleShipList();
         }
 
         public void LoadGameSaveData()
         {
-            _assemblePartDesignDataDic.Clear();
             _assembleShipDesignDataDic.Clear();
             LoadAssembleShipSaveData();
             LoadAssemblePartSaveData();
@@ -244,7 +241,6 @@ namespace Sim_FrameWork
             return playerData.timeData;
         }
 
-
         /// <summary>
         /// 月底结算
         /// </summary>
@@ -256,269 +252,59 @@ namespace Sim_FrameWork
             GlobalEventManager.Instance.DoPlayerOrderMonthSettle();
         }
 
-
-        #region Assemble Part Design
-
-        /// <summary>
-        /// 部件种类解锁情况
-        /// </summary>
-        public Dictionary<string, Config.AssemblePartMainType> AssemblePartMainTypeDic = new Dictionary<string, Config.AssemblePartMainType>();
-
-        private void InitAssemblePartTypeUnlockState()
+        #region Assmeble Part Manager
+        public void AddAssemblePartDesign(AssemblePartInfo info)
         {
-            var configData = Config.ConfigData.AssembleConfig.assemblePartMainType;
-            for(int i = 0; i < configData.Count; i++)
-            {
-                if (!AssemblePartMainTypeDic.ContainsKey(configData[i].Type))
-                {
-                    AssemblePartMainTypeDic.Add(configData[i].Type, configData[i]);
-                }
-            }
+            playerData.assemblePartData.AddAssemblePartDesign(info);
         }
 
-        public Config.AssemblePartMainType GetAssemblePartMainTypeData(string type)
+        public AssemblePartInfo GetAssemblePartDesignInfo(ushort uid)
         {
-            Config.AssemblePartMainType typeData = null;
-            AssemblePartMainTypeDic.TryGetValue(type, out typeData);
-            return typeData;
-        }
-
-        public void AssemblePartTypeSetUnlock(string type, bool unlock)
-        {
-            var data = GetAssemblePartMainTypeData(type);
-            if (data != null)
-            {
-                data.DefaultUnlock = unlock;
-            }
+            return playerData.assemblePartData.GetAssemblePartDesignInfo(uid);
         }
 
         /// <summary>
-        /// 获取所有解锁的部件类型
+        /// 检测名称是否重复
         /// </summary>
+        /// <param name="partName"></param>
+        /// <param name="customName"></param>
         /// <returns></returns>
-        public List<Config.AssemblePartMainType> GetTotalUnlockAssembleTypeData()
+        public bool CheckAssemblePartCustomNameRepeat(string partName, string customName)
         {
-            List<Config.AssemblePartMainType> result = new List<Config.AssemblePartMainType>();
-            foreach (var data in AssemblePartMainTypeDic)
-            {
-                if (data.Value.DefaultUnlock == true)
-                    result.Add(data.Value);
-            }
-            return result;
+            return playerData.assemblePartData.CheckAssemblePartCustomNameRepeat(partName, customName);
+        }
+        public void AddUnlockAssemblePartID(int partID)
+        {
+            playerData.assemblePartData.AddUnlockAssemblePartID(partID);
         }
 
         public List<string> GetTotalUnlockAssemblePartTypeList()
         {
-            List<string> list = new List<string>();
-            foreach(var type in AssemblePartMainTypeDic)
-            {
-                list.Add(type.Key);
-            }
-            return list;
+            return playerData.assemblePartData.GetTotalUnlockAssemblePartTypeList();
         }
-
-        /// <summary>
-        /// 已解锁部件模板信息
-        /// </summary>
-        private List<int> _currentUnlockPartList = new List<int>();
-        public List<int> CurrentUnlockPartList
+        public List<Config.AssemblePartMainType> GetTotalUnlockAssembleTypeData()
         {
-            get { return _currentUnlockPartList; }
+            return playerData.assemblePartData.GetTotalUnlockAssembleTypeData();
         }
-
-        private void InitUnlockAssemblePartList()
+        public void GetAssemblePartMainTypeData()
         {
-            _currentUnlockPartList = AssembleModule.GetAllUnlockPartTypeID();
         }
 
-        /// <summary>
-        /// GetModelList
-        /// </summary>
-        /// <param name="typeIDList"></param>
-        /// <returns></returns>
-        public List<List<BaseDataModel>> GetAssemblePartPresetModelList(List<string> typeIDList)
-        {
-            List<List<BaseDataModel>> result = new List<List<BaseDataModel>>();
-
-            var list = GetUnlockAssemblePartTypeListByTypeIDList(typeIDList);
-            for (int i = 0; i < list.Count; i++)
-            {
-                AssembleTypePresetModel model = new AssembleTypePresetModel();
-                if (model.Create(list[i]))
-                {
-                    result.Add(new List<BaseDataModel>() { model });
-                }
-            }
-            return result;
-        }
-        public List<List<BaseDataModel>> GetAssemblePartPresetModelList(string typeID)
-        {
-            List<List<BaseDataModel>> result = new List<List<BaseDataModel>>();
-
-            var list = GetUnlockAssemblePartTypeListByTypeID(typeID);
-            for (int i = 0; i < list.Count; i++)
-            {
-                AssembleTypePresetModel model = new AssembleTypePresetModel();
-                if (model.Create(list[i]))
-                {
-                    result.Add(new List<BaseDataModel>() { model });
-                }
-            }
-            return result;
-        }
-
-        public void AddUnlockAssemblePartID(int partID)
-        {
-            if(! _currentUnlockPartList.Contains(partID))
-            {
-                if (AssembleModule.GetAssemblePartDataByKey(partID) != null)
-                    _currentUnlockPartList.Add(partID);
-            }
-        }
-
-        public bool CheckAssemblePartIDUnlock(int partID)
-        {
-            return _currentUnlockPartList.Contains(partID);
-        }
-
-        public List<int> GetUnlockAssemblePartTypeListByTypeID(string typeID)
-        {
-            List<int> result = new List<int>();
-            for(int i = 0; i < _currentUnlockPartList.Count; i++)
-            {
-                var meta = AssembleModule.GetAssemblePartDataByKey(_currentUnlockPartList[i]);
-                if (meta != null)
-                {
-                    var typeMeta = AssembleModule.GetAssemblePartTypeByKey(meta.ModelTypeID);
-                    if (typeMeta != null)
-                    {
-                        if (typeMeta.TypeID == typeID)
-                            result.Add(_currentUnlockPartList[i]);
-                    }
-                }
-            }
-            return result;
-        }
-        public List<int> GetUnlockAssemblePartTypeListByTypeIDList(List<string> typeIDList)
-        {
-            List<int> result = new List<int>();
-            for(int i = 0; i < typeIDList.Count; i++)
-            {
-                for(int j = 0; j < _currentUnlockPartList.Count; j++)
-                {
-                    var meta = AssembleModule.GetAssemblePartDataByKey(_currentUnlockPartList[j]);
-                    if (meta != null)
-                    {
-                        var TypeMeta = AssembleModule.GetAssemblePartTypeByKey(meta.ModelTypeID);
-                        if (TypeMeta != null)
-                        {
-                            if (TypeMeta.TypeID == typeIDList[i])
-                                result.Add(_currentUnlockPartList[j]);
-                        }
-                    }
-                }
-            }
-            return result;
-        }
-
-
-        private Dictionary<ushort, AssemblePartInfo> _assemblePartDesignDataDic=new Dictionary<ushort, AssemblePartInfo> ();
-        public Dictionary<ushort,AssemblePartInfo> AssemblePartDesignDataDic
-        {
-            get { return _assemblePartDesignDataDic; }
-        }
-
-        public AssemblePartInfo GetAssemblePartInfo(ushort uid)
-        {
-            AssemblePartInfo info = null;
-            _assemblePartDesignDataDic.TryGetValue(uid, out info);
-            if (info == null)
-                Debug.LogError("Get Assemble PartInfo Empty, UID=" + uid);
-            return info;
-        }
-
-
-        /// <summary>
-        /// 根据类型获取全部件[已设计部件]
-        /// </summary>
-        /// <param name="typeID"></param>
-        /// <returns></returns>
         public List<AssemblePartInfo> GetAssemblePartInfoByTypeID(string typeID)
         {
-            List<AssemblePartInfo> result = new List<AssemblePartInfo>();
-            foreach(var info in _assemblePartDesignDataDic)
-            {
-                if (info.Value.typePresetData.TypeID == typeID)
-                {
-                    result.Add(info.Value);
-                }
-            }
-            return result;
-        }
-
-        public List<AssemblePartInfo> GetAssemblePartInfoByTypeList(List<string> typeList)
-        {
-            List<AssemblePartInfo> result = new List<AssemblePartInfo>();
-            for(int i = 0; i < typeList.Count; i++)
-            {
-                result.AddRange(GetAssemblePartInfoByTypeID(typeList[i]));
-            }
-            return result;
+            return playerData.assemblePartData.GetAssemblePartInfoByTypeID(typeID);
         }
 
         public List<List<BaseDataModel>> GetAssemblePartChooseModel(string typeID)
         {
-            List<List<BaseDataModel>> result = new List<List<BaseDataModel>>();
-
-            var list = GetAssemblePartInfoByTypeID(typeID);
-            for (int i = 0; i < list.Count; i++)
-            {
-                AssembleChooseItemModel model = new AssembleChooseItemModel();
-                if (model.Create(list[i].UID))
-                {
-                    result.Add(new List<BaseDataModel>() { model });
-                }
-            }
-            return result;
+            return playerData.assemblePartData.GetAssemblePartChooseModel(typeID);
         }
-
-
-        public void AddAssemblePartDesign(AssemblePartInfo info)
+        public List<List<BaseDataModel>> GetAssemblePartPresetModelList(string typeID)
         {
-            ushort guid = getPartUnUsedInstanceID();
-            info.UID = guid;
-            _assemblePartDesignDataDic.Add(guid, info);
-            DebugPlus.LogObject<AssemblePartInfo>(info);
-        }
-
-        private ushort getPartUnUsedInstanceID()
-        {
-            ushort instanceId = (ushort)UnityEngine.Random.Range(ushort.MinValue, ushort.MaxValue);
-            if (_assemblePartDesignDataDic.ContainsKey(instanceId))
-            {
-                return getPartUnUsedInstanceID();
-            }
-            return instanceId;
-        }
-
-        /// <summary>
-        /// 检测自定义名字是否重复
-        /// </summary>
-        /// <param name="text"></param>
-        /// <returns></returns>
-        public bool CheckAssemblePartCustomNameRepeat(string partName,string customName)
-        {
-            foreach(var part in _assemblePartDesignDataDic)
-            {
-                if (part.Value.typePresetData.partName == partName && part.Value.customDataInfo.partNameCustomText == customName)
-                    return true;
-            }
-            return false;
+            return playerData.assemblePartData.GetAssemblePartPresetModelList(typeID);
         }
 
         #endregion
-
-      
 
         #region Assemble Ship Design
 
@@ -596,10 +382,10 @@ namespace Sim_FrameWork
 
         public void AddUnlockAssembleShipID(int shipID)
         {
-            if (!_currentUnlockPartList.Contains(shipID))
+            if (!_currentUnlockShipList.Contains(shipID))
             {
                 if (AssembleModule.GetWarshipDataByKey(shipID) != null)
-                    _currentUnlockPartList.Add(shipID);
+                    _currentUnlockShipList.Add(shipID);
             }
         }
 
@@ -733,7 +519,7 @@ namespace Sim_FrameWork
                     AssemblePartInfo info = new AssemblePartInfo();
                     info.LoadSaveData(saveData.partSaveData.currentSavePart[i]);
 
-                    AddAssemblePartDesign(info);
+                    //AddAssemblePartDesign(info);
                 }
             }
         }
@@ -757,27 +543,6 @@ namespace Sim_FrameWork
 
     }
     #region AssembleSaveData
-    /// <summary>
-    /// Assemble Part
-    /// </summary>
-    public class AssemblePartGeneralSaveData
-    {
-        public List<AssmeblePartSingleSaveData> currentSavePart;
-        public List<string> currentUnlockPartTypeList;
-        
-        public AssemblePartGeneralSaveData()
-        {
-            currentSavePart = new List<AssmeblePartSingleSaveData>();
-            foreach(var info in PlayerManager.Instance.AssemblePartDesignDataDic.Values)
-            {
-                var singleSave= info.CreatePartSave();
-                currentSavePart.Add(singleSave);
-            }
-
-            currentUnlockPartTypeList = PlayerManager.Instance.GetTotalUnlockAssemblePartTypeList();
-        }
-    }
-
     /// <summary>
     /// Assemble Ship
     /// </summary>

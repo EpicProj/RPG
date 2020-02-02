@@ -83,7 +83,7 @@ namespace Sim_FrameWork
             {
                 if (i > Config.GlobalConfigData.AssemblePart_Target_MaxNum)
                     break;
-                var equipData = AssembleModule.GetAssembleMainTypeData(equipType[i]);
+                var equipData = AssembleModule.GetAssembleMainTypeData(equipType[i].ToString());
                 if (equipData != null)
                 {
                     var trans = _partEquipTargetTrans.GetChild(i);

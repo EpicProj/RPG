@@ -397,7 +397,7 @@ namespace Sim_FrameWork.UI
             {
                 if (i >= Config.GlobalConfigData.AssemblePart_Target_MaxNum)
                     break;
-                var targetData = AssembleModule.GetAssembleMainTypeData(_info.partEquipType[i]);
+                var targetData = AssembleModule.GetAssembleMainTypeData(_info.partEquipType[i].ToString());
                 if (targetData != null)
                 {
                     var item = assembleTargetContentTrans.GetChild(i);

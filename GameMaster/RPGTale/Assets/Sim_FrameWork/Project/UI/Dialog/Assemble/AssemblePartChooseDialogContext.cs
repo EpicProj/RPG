@@ -106,7 +106,7 @@ namespace Sim_FrameWork.UI
 
             for (int i = 0; i < _sortTypeList.Count; i++)
             {
-                var typeData = PlayerManager.Instance.GetAssemblePartMainTypeData(_sortTypeList[i]);
+                var typeData = AssembleModule.GetAssemblePartMainType(_sortTypeList[i]);
                 if (typeData != null)
                 {
                     var obj = ObjectManager.Instance.InstantiateObject(UIPath.PrefabPath.General_ChooseTab);
@@ -122,7 +122,7 @@ namespace Sim_FrameWork.UI
 
         void InitDefaultSelectTab()
         {
-            if (PlayerManager.Instance.GetAssemblePartMainTypeData(currentSelcetTab) != null)
+            if (AssembleModule.GetAssemblePartMainType(currentSelcetTab) != null)
             {
                 RefreshContent();
             }

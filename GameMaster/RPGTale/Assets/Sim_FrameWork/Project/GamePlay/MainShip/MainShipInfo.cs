@@ -210,7 +210,6 @@ namespace Sim_FrameWork
                 return false;
             //Update ShieldMax Data & ShieldValue
             AddShieldMax( ModifierDetailRootType_Mix.OriginConfig,currentConfig.shieldMax_base - preConfig.shieldMax_base);
-            ChangeShieldCurrentValue(0);
             //Update ShieldOpenInit
             AddShieldOpenInit(ModifierDetailRootType_Mix.OriginConfig, currentConfig.shieldOpenInit_base - preConfig.shieldOpenInit_base);
             //Update ShieldChargeSpeed
@@ -285,12 +284,14 @@ namespace Sim_FrameWork
             if (shield_max < 0)
             {
                 shieldMaxDetailPac.ValueChange_Block(rootType, instanceID, blockID, value - shield_max);
+                ChangeShieldCurrentValue(0);
                 shield_max = 0;
                 return false;
             }
             else
             {
                 shieldMaxDetailPac.ValueChange_Block(rootType, instanceID, blockID, value);
+                ChangeShieldCurrentValue(0);
                 return true;
             }
         }
@@ -300,12 +301,14 @@ namespace Sim_FrameWork
             if (shield_max < 0)
             {
                 shieldMaxDetailPac.ValueChange_Assemble(rootType, UID, partID, value - shield_max);
+                ChangeShieldCurrentValue(0);
                 shield_max = 0;
                 return false;
             }
             else
             {
                 shieldMaxDetailPac.ValueChange_Assemble(rootType, UID, partID, value);
+                ChangeShieldCurrentValue(0);
                 return true;
             }
         }
@@ -315,12 +318,14 @@ namespace Sim_FrameWork
             if (shield_max < 0)
             {
                 shieldMaxDetailPac.ValueChange(rootType,value - shield_max);
+                ChangeShieldCurrentValue(0);
                 shield_max = 0;
                 return false;
             }
             else
             {
                 shieldMaxDetailPac.ValueChange(rootType,value);
+                ChangeShieldCurrentValue(0);
                 return true;
             }
         }
@@ -463,6 +468,94 @@ namespace Sim_FrameWork
             }
         }
 
+        /// <summary>
+        /// 装备护盾
+        /// </summary>
+        public List<AssemblePartInfo> equipShieldAssembleList = new List<AssemblePartInfo>();
+        public bool EquipShieldAssemble(AssemblePartInfo info)
+        {
+            ///Count out of range
+            if (equipShieldAssembleList.Count > shieldEquip_slotNum_current)
+                return false;
+            if(info.partEquipType.Contains(AssembleEquipTarget.MainShip_Shield))
+            {
+                ///Calculate PropertyChange
+                var dic = info.customDataInfo.propertyDic;
+                foreach (var property in dic)
+                {
+                    if (property.Key == Config.ConfigData.AssembleConfig.mainShip_Shield_OpenInit_Property_Link)
+                    {
+                        ///OpenInit
+                        AddShieldOpenInit_Assemble(ModifierDetailRootType_Mix.MainShip_Shield, info.UID, info.partID, 
+                            (int)property.Value.propertyValueMax);
+                    }else if(property.Key == Config.ConfigData.AssembleConfig.mainShip_Shield_EnergyCost_Property_Link)
+                    {
+                        ///EnergyCost
+                        AddEnergyCostValue_Assemble(ModifierDetailRootType_Mix.MainShip_Shield, info.UID, info.partID,
+                            (short)property.Value.propertyValueMax);
+                    }else if(property.Key == Config.ConfigData.AssembleConfig.mainShip_Shield_Max_Property_Link)
+                    {
+                        ///Shield Max
+                        AddShieldMax_Assemble(ModifierDetailRootType_Mix.MainShip_Shield, info.UID, info.partID,
+                            (int)property.Value.propertyValueMax);
+                    }else if(property.Key == Config.ConfigData.AssembleConfig.mainShip_Shield_ChargeSpeed_Property_Link)
+                    {
+                        ///Charge Speed
+                        AddShieldChargeSpeed_Assemble(ModifierDetailRootType_Mix.MainShip_Shield, info.UID, info.partID,
+                            (int)property.Value.propertyValueMax);
+                    }
+                }
+                return true;
+            }
+            return false;
+        }
+        /// <summary>
+        /// 卸载护盾
+        /// </summary>
+        /// <param name="info"></param>
+        /// <returns></returns>
+        public bool UnEquipShieldAssembe(AssemblePartInfo info)
+        {
+            if (!equipShieldAssembleList.Contains(info))
+                return false;
+            if(info.partEquipType.Contains(AssembleEquipTarget.MainShip_Shield))
+            {
+                ///Calculate PropertyChange
+                var dic = info.customDataInfo.propertyDic;
+                foreach (var property in dic)
+                {
+                    if (property.Key == Config.ConfigData.AssembleConfig.mainShip_Shield_OpenInit_Property_Link)
+                    {
+                        ///OpenInit
+                        AddShieldOpenInit_Assemble(ModifierDetailRootType_Mix.MainShip_Shield, info.UID, info.partID,
+                            (int)-property.Value.propertyValueMax);
+                    }
+                    else if (property.Key == Config.ConfigData.AssembleConfig.mainShip_Shield_EnergyCost_Property_Link)
+                    {
+                        ///EnergyCost
+                        AddEnergyCostValue_Assemble(ModifierDetailRootType_Mix.MainShip_Shield, info.UID, info.partID,
+                            (short)-property.Value.propertyValueMax);
+                    }
+                    else if (property.Key == Config.ConfigData.AssembleConfig.mainShip_Shield_Max_Property_Link)
+                    {
+                        ///Shield Max
+                        AddShieldMax_Assemble(ModifierDetailRootType_Mix.MainShip_Shield, info.UID, info.partID,
+                            (int)-property.Value.propertyValueMax);
+                    }
+                    else if (property.Key == Config.ConfigData.AssembleConfig.mainShip_Shield_ChargeSpeed_Property_Link)
+                    {
+                        ///Charge Speed
+                        AddShieldChargeSpeed_Assemble(ModifierDetailRootType_Mix.MainShip_Shield, info.UID, info.partID,
+                            (int)-property.Value.propertyValueMax);
+                    }
+                }
+                equipShieldAssembleList.Remove(info);
+                return true;
+            }
+            return false;
+        }
+
+
         public MainShipModifier shipShieldModifier;
 
         public MainShipShieldInfo() { }
@@ -495,6 +588,14 @@ namespace Sim_FrameWork
 
             energyCost_current = saveData.EnergyCost_current;
             energyCostDetailPac = saveData.EnergyCostDetailPac;
+
+            if (saveData.equipedShieldAssembleUIDList != null)
+            {
+                for(int i = 0; i < saveData.equipedShieldAssembleUIDList.Count; i++)
+                {
+                    
+                }
+            }
         }
     }
     /// <summary>
@@ -520,6 +621,8 @@ namespace Sim_FrameWork
         public short EnergyCost_current;
         public ModifierDetailPackage_Mix EnergyCostDetailPac;
 
+        public List<ushort> equipedShieldAssembleUIDList;
+
         public MainShipShieldSaveData(MainShipShieldInfo info)
         {
             CurrentState = info.currentState;
@@ -538,6 +641,12 @@ namespace Sim_FrameWork
 
             EnergyCost_current = info.EnergyCost_current;
             EnergyCostDetailPac = info.energyCostDetailPac;
+
+            equipedShieldAssembleUIDList = new List<ushort>();
+            for(int i = 0; i < info.equipShieldAssembleList.Count; i++)
+            {
+                equipedShieldAssembleUIDList.Add(info.equipShieldAssembleList[i].UID);
+            }
         }
 
     }
@@ -875,6 +984,7 @@ namespace Sim_FrameWork
                 return true;
             }
         }
+        ///!!!!!! TODO  更换最大值时，如果是减少，目前分配给其他舱室的能源需要更新
 
         /// <summary>
         /// 能源负载详细分配
@@ -925,12 +1035,14 @@ namespace Sim_FrameWork
             if (storagePower_max < 0)
             {
                 storageMaxDetailPac.ValueChange_Block(rootType, instanceID, blockID, value- storagePower_max);
+                ChangeCurrentStoragePower(0);
                 storagePower_max = 0;
                 return false;
             }
             else
             {
                 storageMaxDetailPac.ValueChange_Block(rootType, instanceID, blockID, value);
+                ChangeCurrentStoragePower(0);
                 return true;
             }
                 
@@ -941,12 +1053,14 @@ namespace Sim_FrameWork
             if (storagePower_max < 0)
             {
                 storageMaxDetailPac.ValueChange(rootType, value -storagePower_max);
+                ChangeCurrentStoragePower(0);
                 storagePower_max = 0;
                 return false;
             }
             else
             {
                 storageMaxDetailPac.ValueChange(rootType, value);
+                ChangeCurrentStoragePower(0);
                 return true;
             }
         }
@@ -976,12 +1090,14 @@ namespace Sim_FrameWork
             if (overLoadLevel_max < 0)
             {
                 overLoadLevelMaxDetailPac.ValueChange_Block(rootType, instanceID, blockID, value - overLoadLevel_max);
+                ChangeOverLoadLevel(0);
                 overLoadLevel_max = 0;
                 return false;
             }
             else
             {
                 overLoadLevelMaxDetailPac.ValueChange_Block(rootType, instanceID, blockID, value);
+                ChangeOverLoadLevel(0);
                 return true;
             } 
         }
@@ -992,12 +1108,14 @@ namespace Sim_FrameWork
             if (overLoadLevel_max < 0)
             {
                 overLoadLevelMaxDetailPac.ValueChange(rootType, value - overLoadLevel_max);
+                ChangeOverLoadLevel(0);
                 overLoadLevel_max = 0;
                 return false;
             }
             else
             {
                 overLoadLevelMaxDetailPac.ValueChange(rootType, value);
+                ChangeOverLoadLevel(0);
                 return true;
             }
         }

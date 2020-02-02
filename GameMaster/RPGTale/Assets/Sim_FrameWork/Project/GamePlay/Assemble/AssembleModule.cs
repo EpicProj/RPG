@@ -161,9 +161,9 @@ namespace Sim_FrameWork
         /// </summary>
         /// <param name="partID"></param>
         /// <returns></returns>
-        public static List<string> GetAssemblePartEquipType(int partID)
+        public static List<AssembleEquipTarget> GetAssemblePartEquipType(int partID)
         {
-            List<string> result = new List<string>();
+            List<AssembleEquipTarget> result = new List<AssembleEquipTarget>();
             var partMeta = GetAssemblePartDataByKey(partID);
             if (partMeta != null)
             {
@@ -171,12 +171,23 @@ namespace Sim_FrameWork
                 for(int i = 0; i < list.Count; i++)
                 {
                     if (GetAssembleMainTypeData(list[i]) != null)
-                        result.Add(list[i]);
+                    {
+                        AssembleEquipTarget target = AssembleEquipTarget.None;
+                        Enum.TryParse<AssembleEquipTarget>(list[i], out target);
+                        if(target== AssembleEquipTarget.None)
+                        {
+                            DebugPlus.LogError("GetAssemblePartEquipType Error! type=" + list[i]);
+                        }
+                        else
+                        {
+                            result.Add(target);
+                        }
+                    }
                 }
 
                 if(list.Count> Config.GlobalConfigData.AssemblePart_Target_MaxNum)
                 {
-                    Debug.LogError("AssemblePartTarget can not largerThan " + Config.GlobalConfigData.AssemblePart_Target_MaxNum + "  Current partID is " + partID);
+                    DebugPlus.LogError("AssemblePartTarget can not largerThan " + Config.GlobalConfigData.AssemblePart_Target_MaxNum + "  Current partID is " + partID);
                 }
             }
             return result;

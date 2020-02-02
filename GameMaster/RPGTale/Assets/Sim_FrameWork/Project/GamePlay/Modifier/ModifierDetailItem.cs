@@ -40,8 +40,10 @@ namespace Sim_FrameWork
         ResonanceBeamSplitter,
 
         #region Assemble
-        Assemble_Engine,
-        Assemble_Shield,
+        WarShip_Engine,
+        WarShip_Shield,
+        WarShip_Weapon,
+        MainShip_Shield
         #endregion
     }
 

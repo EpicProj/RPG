@@ -44,7 +44,7 @@ namespace Sim_FrameWork
                 foreach(var partInfo in customData.customPartData.Values)
                 {
                     var dic = partInfo.customDataInfo.propertyDic;
-                    foreach(KeyValuePair<string,AssemblePartCustomDataInfo.CustomData> property in dic)
+                    foreach(var property in dic)
                     {
                         if (property.Key == Config.ConfigData.AssembleConfig.assembleShip_Durability_Property_Link)
                         {
@@ -278,7 +278,7 @@ namespace Sim_FrameWork
                 Dictionary<int, AssemblePartInfo> infoDic = new Dictionary<int, AssemblePartInfo>();
                 for(int i = 0; i < saveData.customPartData.Count; i++)
                 {
-                    var partInfo = PlayerManager.Instance.GetAssemblePartInfo((ushort)saveData.customPartData[i]);
+                    var partInfo = PlayerManager.Instance.GetAssemblePartDesignInfo((ushort)saveData.customPartData[i]);
                     if (partInfo != null)
                         infoDic.Add(partInfo.UID, partInfo);
                 }

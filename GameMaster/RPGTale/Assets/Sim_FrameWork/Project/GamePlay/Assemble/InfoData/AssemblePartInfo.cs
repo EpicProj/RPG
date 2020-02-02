@@ -8,6 +8,12 @@ using UnityEngine;
 
 namespace Sim_FrameWork
 {
+    public enum AssembleEquipTarget
+    {
+        None,
+        WarShip,
+        MainShip_Shield,
+    }
 
     public class AssemblePartInfo
     {
@@ -23,7 +29,7 @@ namespace Sim_FrameWork
         }
 
         public List<MaterialCostItem> materialCostItem = new List<MaterialCostItem>();
-        public List<string> partEquipType = new List<string>();
+        public List<AssembleEquipTarget> partEquipType = new List<AssembleEquipTarget>();
 
         /// <summary>
         /// 基础时间花费
