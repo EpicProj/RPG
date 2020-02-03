@@ -5,11 +5,22 @@
 	"assembleShip_Durability_Property_Link":"ShipDurability",
 	"assembleShip_Storage_Property_Link":"ShipStorage",
 	"assembleShip_Member_Property_Link":"",
-
+	//PropertyLink  MainShip_Shield  OpenInit
 	"mainShip_Shield_OpenInit_Property_Link":"MainShipShieldOpenInit",
+	//PropertyLink  MainShip_Shield  Max
 	"mainShip_Shield_Max_Property_Link":"MainShipShieldMax",
+	//PropertyLink  MainShip_Shield  ChargeSpeed
 	"mainShip_Shield_ChargeSpeed_Property_Link":"MainShipShieldChargeSpeed",
+	//PropertyLink  MainShip_Shield  EnergyCost
 	"mainShip_Shield_EnergyCost_Property_Link":"MainShipShieldEnergyCost",
+	//PropertyLink  MainShip_Shield  DamageReduce
+	"mainShip_Shield_DamageReduce_Property_Link":"MainShipShieldDamageReduce",
+	//PropertyLink  MainShip_Shield  ShieldWeight
+	"mainShip_Shield_ShieldLevel_Property_Link":"MainShipShieldLevel",
+	//PropertyLink  MainShip_Shield  ReduceProbability
+	"mainShip_Shield_ReduceProbability_Property_Link":"MainShipShieldReduceProbability",
+	//PropertyLink  MainShip_Shield  MaxLayer
+	"mainShip_Shield_MaxLayer_Property_Link":"MainShipShieldMaxLayer",
 
 	"assembleMainType":[{
 		"Type":"WarShip",
@@ -92,7 +103,7 @@
 		"DefaultUnlock":true
 	},{
 		"Type":"MainShip_Shield",
-		"TypeName":"AssembleParts_Name_Weapon",
+		"TypeName":"AssembleParts_Name_MainShip_Shield",
 		"IconPath":"SpriteOutput/Assemble/Type/Assemble_Part_Type_Engine",
 		"DefaultUnlock":true
 

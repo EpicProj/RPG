@@ -60,13 +60,16 @@ namespace Sim_FrameWork
         /// Game Save
         /// </summary>
         /// <param name="saveData"></param>
-        public bool LoadPlayerSaveData(PlayerSaveData saveData)
+        public bool LoadPlayerSaveData(PlayerSaveData saveData,AssemblePartGeneralSaveData partSaveData)
         {
             resourceData = new PlayerResourceData();
             
             materialStorageData = new MaterialStorageData();
+            assemblePartData = new PlayerAssemblePartData();
+
             return resourceData.LoadSave(saveData.playerSaveData_Resource) &&
-                materialStorageData.LoadSaveData(saveData.materialSaveData);
+                materialStorageData.LoadSaveData(saveData.materialSaveData) &&
+                assemblePartData.LoadSaveData(partSaveData);
         }
 
         
@@ -551,16 +554,90 @@ namespace Sim_FrameWork
         {
             get { return _assemblePartStorageDic; }
         }
+        /// <summary>
+        ///  Part Exist
+        /// </summary>
+        /// <param name="uid"></param>
+        /// <returns></returns>
+        public bool isAssemblePartStorageExist(ushort uid)
+        {
+            return _assemblePartStorageDic.ContainsKey(uid);
+        }
 
         public AssemblePartInfo GetAssemblePartStorageInfo(ushort uid)
         {
             AssemblePartInfo info = null;
-            _assemblePartDesignDataDic.TryGetValue(uid, out info);
+            _assemblePartStorageDic.TryGetValue(uid, out info);
             if (info == null)
                 DebugPlus.LogError("[PlayerAssemblePartData] : Get Assemble PartInfo Storage Empty, UID=" + uid);
             return info;
         }
 
+        public bool RemoveAssemblePartStorage(ushort uid)
+        {
+            if (isAssemblePartStorageExist(uid))
+            {
+                _assemblePartStorageDic.Remove(uid);
+                return true;
+            }
+            return false;
+        }
+
+        public bool AddAssemblePartStorage(AssemblePartInfo info)
+        {
+            if (isAssemblePartStorageExist(info.UID))
+                return false;
+            _assemblePartStorageDic.Add(info.UID, info);
+            return true;
+        }
+
+        #endregion
+
+        #region Assemble Part Current Equiped
+        /// <summary>
+        /// 已装备部件存储
+        /// </summary>
+        private Dictionary<ushort, AssemblePartInfo> _assemblePartEquipedDic = new Dictionary<ushort, AssemblePartInfo>();
+        public Dictionary<ushort, AssemblePartInfo> AssemblePartEquipedDic
+        {
+            get { return _assemblePartEquipedDic; }
+        }
+        /// <summary>
+        ///  Part Exist
+        /// </summary>
+        /// <param name="uid"></param>
+        /// <returns></returns>
+        public bool isAssemblePartEquipedExist(ushort uid)
+        {
+            return _assemblePartEquipedDic.ContainsKey(uid);
+        }
+
+        public AssemblePartInfo GetAssemblePartEquipedInfo(ushort uid)
+        {
+            AssemblePartInfo info = null;
+            _assemblePartEquipedDic.TryGetValue(uid, out info);
+            if (info == null)
+                DebugPlus.LogError("[PlayerAssemblePartData] : Get Assemble PartInfo Equiped Empty, UID=" + uid);
+            return info;
+        }
+
+        public bool RemoveAssemblePartEquiped(ushort uid)
+        {
+            if (isAssemblePartEquipedExist(uid))
+            {
+                _assemblePartEquipedDic.Remove(uid);
+                return true;
+            }
+            return false;
+        }
+
+        public bool AddAssemblePartEquiped(AssemblePartInfo info)
+        {
+            if (isAssemblePartEquipedExist(info.UID))
+                return false;
+            _assemblePartEquipedDic.Add(info.UID, info);
+            return true;
+        }
         #endregion
 
         public PlayerAssemblePartData() { }
@@ -575,6 +652,38 @@ namespace Sim_FrameWork
                 }
             }
             _currentUnlockPartList = AssembleModule.GetAllUnlockPartTypeID();
+            return true;
+        }
+
+        public bool LoadSaveData(AssemblePartGeneralSaveData saveData)
+        {
+            if (saveData == null)
+            {
+                DebugPlus.LogError("[AssemblePartGeneralSaveData] saveData is null");
+                return false;
+            }
+            //Load Design
+            for (int i = 0; i < saveData.currentSaveDesignPart.Count; i++)
+            {
+                AssemblePartInfo info = new AssemblePartInfo();
+                info.LoadSaveData(saveData.currentSaveDesignPart[i]);
+
+                AddAssemblePartDesign(info);
+            }
+            //Load Storage
+            for(int i = 0; i < saveData.currentSaveStoragePart.Count; i++)
+            {
+                AssemblePartInfo info = new AssemblePartInfo();
+                info.LoadSaveData(saveData.currentSaveStoragePart[i]);
+                AddAssemblePartStorage(info);
+            }
+            //Load Equiped
+            for(int i = 0; i < saveData.currentSaveEquipedPart.Count; i++)
+            {
+                AssemblePartInfo info = new AssemblePartInfo();
+                info.LoadSaveData(saveData.currentSaveEquipedPart[i]);
+                AddAssemblePartStorage(info);
+            }
             return true;
         }
     }
@@ -643,19 +752,37 @@ namespace Sim_FrameWork
     /// </summary>
     public class AssemblePartGeneralSaveData
     {
-        public List<AssmeblePartSingleSaveData> currentSavePart;
+        public List<AssmeblePartSingleSaveData> currentSaveDesignPart;
         public List<string> currentUnlockPartTypeList;
+
+        public List<AssmeblePartSingleSaveData> currentSaveStoragePart;
+        public List<AssmeblePartSingleSaveData> currentSaveEquipedPart;
 
         public AssemblePartGeneralSaveData()
         {
-            currentSavePart = new List<AssmeblePartSingleSaveData>();
-            //foreach(var info in PlayerManager.Instance.AssemblePartDesignDataDic.Values)
-            //{
-            //    var singleSave= info.CreatePartSave();
-            //    currentSavePart.Add(singleSave);
-            //}
+            //Save Design
+            currentSaveDesignPart = new List<AssmeblePartSingleSaveData>();
+            foreach (var info in PlayerManager.Instance.playerData.assemblePartData.AssemblePartDesignDataDic.Values)
+            {
+                var singleSave = info.CreatePartSave();
+                currentSaveDesignPart.Add(singleSave);
+            }
 
-            //currentUnlockPartTypeList = PlayerManager.Instance.GetTotalUnlockAssemblePartTypeList();
+            currentUnlockPartTypeList = PlayerManager.Instance.GetTotalUnlockAssemblePartTypeList();
+            //Save Storage
+            currentSaveStoragePart = new List<AssmeblePartSingleSaveData>();
+            foreach(var info in PlayerManager.Instance.playerData.assemblePartData.AssemblePartStorageDic.Values)
+            {
+                var singleSave = info.CreatePartSave();
+                currentSaveStoragePart.Add(singleSave);
+            }
+            //Save Equiped
+            currentSaveEquipedPart = new List<AssmeblePartSingleSaveData>();
+            foreach(var info in PlayerManager.Instance.playerData.assemblePartData.AssemblePartEquipedDic.Values)
+            {
+                var singleSave = info.CreatePartSave();
+                currentSaveEquipedPart.Add(singleSave);
+            }
         }
     }
     #endregion

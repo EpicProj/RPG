@@ -39,11 +39,17 @@ namespace Sim_FrameWork
             InitUnlockAssembleShipList();
         }
 
-        public void LoadGameSaveData()
+        public bool LoadGameSaveData()
         {
-            _assembleShipDesignDataDic.Clear();
-            LoadAssembleShipSaveData();
-            LoadAssemblePartSaveData();
+            var assmebleSaveData = GameDataSaveManager.Instance.currentSaveData.assembleSaveData;
+            var playerSaveData = GameDataSaveManager.Instance.currentSaveData.playerSaveData;
+            if (assmebleSaveData == null || playerSaveData==null)
+            {
+                DebugPlus.LogError("[PlayerManager] : Load Game Save Data Error!");
+                return false;
+            }
+            playerData = new PlayerData();
+            return playerData.LoadPlayerSaveData(playerSaveData, assmebleSaveData.partSaveData);
         }
 
         public void SetGameHardLevel(GameHardLevel hardLevel)
@@ -51,15 +57,6 @@ namespace Sim_FrameWork
             playerData.SetHardLevel(hardLevel);
         }
 
-        public void LoadPlayerSaveData()
-        {
-            var saveData = GameDataSaveManager.Instance.currentSaveData.playerSaveData;
-            if (saveData != null)
-            {
-                playerData = new PlayerData();
-                playerData.LoadPlayerSaveData(saveData);
-            }
-        }
 
         #region Resource Manager
         /// <summary>
@@ -253,6 +250,7 @@ namespace Sim_FrameWork
         }
 
         #region Assmeble Part Manager
+
         public void AddAssemblePartDesign(AssemblePartInfo info)
         {
             playerData.assemblePartData.AddAssemblePartDesign(info);
@@ -303,6 +301,35 @@ namespace Sim_FrameWork
         {
             return playerData.assemblePartData.GetAssemblePartPresetModelList(typeID);
         }
+
+        /// <summary>
+        /// Add Assmeble Part Storage
+        /// </summary>
+        /// <param name="info"></param>
+        /// <returns></returns>
+        public bool AddAssmebleStorageInfo(AssemblePartInfo info)
+        {
+            info.currentState = AssmblePartState.Storage;
+            return playerData.assemblePartData.AddAssemblePartStorage(info);
+        }
+
+        /// <summary>
+        /// Add part Equiped
+        /// </summary>
+        /// <param name="info"></param>
+        /// <returns></returns>
+        public bool AddAssmebleEquipedInfo(AssemblePartInfo info)
+        {
+            if (playerData.assemblePartData.isAssemblePartStorageExist(info.UID))
+            {
+                //Remove From Storage
+                playerData.assemblePartData.RemoveAssemblePartStorage(info.UID);
+                info.currentState = AssmblePartState.Equiped;
+                playerData.assemblePartData.AddAssemblePartEquiped(info);
+            }
+            return false;
+        }
+        
 
         #endregion
 
@@ -507,22 +534,6 @@ namespace Sim_FrameWork
         #endregion
 
         #region SaveData
-
-        public void LoadAssemblePartSaveData()
-        {
-            var saveData = GameDataSaveManager.Instance.currentSaveData.assembleSaveData;
-            if (saveData != null)
-            {
-
-                for(int i = 0; i < saveData.partSaveData.currentSavePart.Count; i++)
-                {
-                    AssemblePartInfo info = new AssemblePartInfo();
-                    info.LoadSaveData(saveData.partSaveData.currentSavePart[i]);
-
-                    //AddAssemblePartDesign(info);
-                }
-            }
-        }
 
         public void LoadAssembleShipSaveData()
         {

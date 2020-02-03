@@ -125,7 +125,9 @@ namespace Sim_FrameWork.Config
         public bool shield_state_default_open_front;
         public bool shield_state_default_open_back;
 
+        public List<MainShipShieldLayerMap> shieldLayerMap;
         public List<MainShipShieldLevelMap> shieldLevelMap;
+        
         public float SpeedBase;
 
         public bool DataCheck()
@@ -180,8 +182,17 @@ namespace Sim_FrameWork.Config
         public int shieldOpenInit_base;
         public int shieldChargeSpeed_base;
         public short shieldEnergyCost_base;
+        public double shieldDamageReduce_base;
+        public double shieldDamageReduceProbability_base;
     }
 
+    public class MainShipShieldLayerMap
+    {
+        public int layerIndex;
+        public float damageReudce_ratio;
+        public float damageReduceProbability_ratio;
+        public float energyCostRatio;
+    }
 
     public class MainShipAreaBaseConfig
     {

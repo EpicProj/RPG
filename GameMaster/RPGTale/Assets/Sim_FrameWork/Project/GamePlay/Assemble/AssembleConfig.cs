@@ -38,6 +38,22 @@ namespace Sim_FrameWork.Config
         /// 母舰护盾能耗
         /// </summary>
         public string mainShip_Shield_EnergyCost_Property_Link;
+        /// <summary>
+        /// 减伤数值
+        /// </summary>
+        public string mainShip_Shield_DamageReduce_Property_Link;
+        /// <summary>
+        /// 护盾等级，用于权重计算
+        /// </summary>
+        public string mainShip_Shield_ShieldLevel_Property_Link;
+        /// <summary>
+        /// 减伤概率
+        /// </summary>
+        public string mainShip_Shield_ReduceProbability_Property_Link;
+        /// <summary>
+        /// 最大可开启护盾层数
+        /// </summary>
+        public string mainShip_Shield_MaxLayer_Property_Link;
 
         public List<AssembleMainType> assembleMainType;
         public List<AssemblePartPropertyTypeData> assemblePartPropertyType;
@@ -54,6 +70,15 @@ namespace Sim_FrameWork.Config
             assembleShip_Durability_Property_Link = settting.assembleShip_Durability_Property_Link;
             assembleShip_Member_Property_Link = settting.assembleShip_Member_Property_Link;
             assembleShip_Storage_Property_Link = settting.assembleShip_Storage_Property_Link;
+
+            mainShip_Shield_OpenInit_Property_Link = settting.mainShip_Shield_OpenInit_Property_Link;
+            mainShip_Shield_Max_Property_Link = settting.mainShip_Shield_Max_Property_Link;
+            mainShip_Shield_ChargeSpeed_Property_Link = settting.mainShip_Shield_ChargeSpeed_Property_Link;
+            mainShip_Shield_EnergyCost_Property_Link = settting.mainShip_Shield_EnergyCost_Property_Link;
+            mainShip_Shield_ReduceProbability_Property_Link = settting.mainShip_Shield_ReduceProbability_Property_Link;
+            mainShip_Shield_ShieldLevel_Property_Link = settting.mainShip_Shield_ShieldLevel_Property_Link;
+            mainShip_Shield_DamageReduce_Property_Link = settting.mainShip_Shield_DamageReduce_Property_Link;
+            mainShip_Shield_MaxLayer_Property_Link = settting.mainShip_Shield_MaxLayer_Property_Link;
 
             assembleMainType = settting.assembleMainType;
             assemblePartPropertyType = settting.assemblePartPropertyType;

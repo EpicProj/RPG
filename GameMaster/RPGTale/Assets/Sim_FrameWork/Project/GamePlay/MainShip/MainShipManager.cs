@@ -22,7 +22,14 @@ namespace Sim_FrameWork
             mainShipInfo.InitInfo();
             InitPlayerEnergyData();
         }
-      
+
+
+        /// <summary>
+        /// 更换区域电量分配
+        /// </summary>
+        /// <param name="changeValue"></param>
+        /// <param name="type"></param>
+        /// <returns></returns>
         public bool ChangeAreaPowerLevel(short changeValue,ModifierDetailRootType_Simple type)
         {
             if (type == ModifierDetailRootType_Simple.ControlTower)
@@ -68,6 +75,11 @@ namespace Sim_FrameWork
             return false;
         }
 
+        public void EquipedShield()
+        {
+
+        }
+
         void InitPlayerEnergyData()
         {
             PlayerManager.Instance.AddEnergy_PerDay( ModifierDetailRootType_Simple.PowerArea,mainShipInfo.powerAreaInfo.PowerGenerateValue);
@@ -93,6 +105,16 @@ namespace Sim_FrameWork
             }
             
         }
+        #endregion
+
+
+        #region Battle
+        public void ShipDamageTake(int damageValue)
+        {
+
+        }
+        
+
         #endregion
     }
 }

@@ -58,10 +58,10 @@ namespace Sim_FrameWork
         /// <returns></returns>
         public static Config.MainShipShieldLevelMap GetMainShipShieldLevelData(int levelID)
         {
-            var config = Config.ConfigData.MainShipConfigData.basePropertyConfig;
+            var config = Config.ConfigData.MainShipConfigData.basePropertyConfig.shieldLevelMap;
             if (config == null)
-                DebugPlus.LogError("[MainShipShieldLevelMap] : config is null ! levelID=" + levelID);
-            return config.shieldLevelMap.Find(x => x.Level == levelID);
+                DebugPlus.LogError("[MainShipShieldLevelMap] : config is null ! ");
+            return config.Find(x => x.Level == levelID);
         }
         public static string GetMainShipShieldDirectionName(MainShip_ShieldDirection direction)
         {
@@ -76,6 +76,14 @@ namespace Sim_FrameWork
                 return MultiLanguage.Instance.GetTextValue(config.shield_direction_right_name);
             else
                 return string.Empty;
+        }
+
+        public static Config.MainShipShieldLayerMap GetMainShipShieldLayerData(int layerIndex)
+        {
+            var config = Config.ConfigData.MainShipConfigData.basePropertyConfig.shieldLayerMap;
+            if(config==null)
+                DebugPlus.LogError("[MainShipShieldLayerMap] : config is null !" );
+            return config.Find(x => x.layerIndex == layerIndex);
         }
         
         #endregion

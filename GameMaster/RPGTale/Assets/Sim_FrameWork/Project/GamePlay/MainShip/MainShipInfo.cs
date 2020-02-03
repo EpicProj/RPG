@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System.Linq;
 
 /*
  * Main Ship Info
@@ -208,6 +209,7 @@ namespace Sim_FrameWork
             var currentConfig = MainShipModule.GetMainShipShieldLevelData(currentLevel);
             if (preConfig == null || currentConfig == null)
                 return false;
+
             //Update ShieldMax Data & ShieldValue
             AddShieldMax( ModifierDetailRootType_Mix.OriginConfig,currentConfig.shieldMax_base - preConfig.shieldMax_base);
             //Update ShieldOpenInit
@@ -216,6 +218,10 @@ namespace Sim_FrameWork
             AddShieldChargeSpeed(ModifierDetailRootType_Mix.OriginConfig, currentConfig.shieldChargeSpeed_base - preConfig.shieldChargeSpeed_base);
             //Update EnergyCost
             AddEnergyCostValue(ModifierDetailRootType_Mix.OriginConfig,(short)(currentConfig.shieldEnergyCost_base - preConfig.shieldEnergyCost_base));
+            //Update DamageReduce
+            AddDamageReduce(ModifierDetailRootType_Mix.OriginConfig, (float)currentConfig.shieldDamageReduce_base - (float)preConfig.shieldDamageReduce_base);
+            //Update DamageReudce Probability
+            AddDamageReudceProbability(ModifierDetailRootType_Mix.OriginConfig, (float)currentConfig.shieldDamageReduceProbability_base - (float)preConfig.shieldDamageReduceProbability_base);
 
             DebugPlus.Log("Change Shield Level Success!");
             DebugPlus.LogObject<MainShipShieldInfo>(this);
@@ -403,12 +409,6 @@ namespace Sim_FrameWork
         }
 
         /// <summary>
-        /// 护盾层数
-        /// </summary>
-        public short shieldLayer_current;
-        public short shieldLayer_max;
-
-        /// <summary>
         /// 能源消耗
         /// </summary>
         private short energyCost_current;
@@ -420,6 +420,11 @@ namespace Sim_FrameWork
                     return energyCost_current;
                 return 0;
             }
+        }
+        //最终能源消耗
+        public short EnergyCost_Rarity
+        {
+            get { return (short)(EnergyCost_current * shieldLayer_energyCost_ratio); }
         }
         public ModifierDetailPackage_Mix energyCostDetailPac = new ModifierDetailPackage_Mix();
         public bool AddEnergyCostValue_Block(ModifierDetailRootType_Mix rootType, uint instanceID, int blockID, short value)
@@ -467,6 +472,25 @@ namespace Sim_FrameWork
                 return true;
             }
         }
+        //仅在护盾装备更换时计算
+        public int CalculateShieldAssembleEnergyCost()
+        {
+            int result = 0;
+            for(int i = 0; i < equipShieldAssembleList.Count; i++)
+            {
+                var propertyKey = Config.ConfigData.AssembleConfig.mainShip_Shield_EnergyCost_Property_Link;
+                if (equipShieldAssembleList[i].customDataInfo.propertyDic.ContainsKey(propertyKey))
+                {
+                    result += (int)equipShieldAssembleList[i].customDataInfo.propertyDic[propertyKey].propertyValueMax;
+                }
+                else
+                {
+                    DebugPlus.Log("[MainShip Shield Equip] : Shield_MaxLayer_Property empty!");
+                    DebugPlus.LogArray<AssemblePartCustomDataInfo.CustomData>(equipShieldAssembleList[i].customDataInfo.propertyDic.Values.ToArray());
+                }
+            }
+            return result;
+        }
 
         /// <summary>
         /// 装备护盾
@@ -505,6 +529,10 @@ namespace Sim_FrameWork
                             (int)property.Value.propertyValueMax);
                     }
                 }
+                //Damege Reduce
+                CalculateDamageReduce();
+                //LayerMax
+                CalculateShieldLayerMax();
                 return true;
             }
             return false;
@@ -514,7 +542,7 @@ namespace Sim_FrameWork
         /// </summary>
         /// <param name="info"></param>
         /// <returns></returns>
-        public bool UnEquipShieldAssembe(AssemblePartInfo info)
+        public bool UnEquipShieldAssemble(AssemblePartInfo info)
         {
             if (!equipShieldAssembleList.Contains(info))
                 return false;
@@ -550,12 +578,247 @@ namespace Sim_FrameWork
                     }
                 }
                 equipShieldAssembleList.Remove(info);
+                ///Add To Storage
+                PlayerManager.Instance.AddAssmebleStorageInfo(info);
+                //Damage Reduce
+                CalculateDamageReduce();
+                //LayerMax
+                CalculateShieldLayerMax();
                 return true;
             }
             return false;
         }
 
+        /// <summary>
+        /// 护盾层数
+        /// </summary>
+        public short shieldLayer_current = 1;
+        public short shieldLayer_max = 1;
+        public float shieldLayer_energyCost_ratio = 1;
+        public Dictionary<int, ShieldLayerInfo> layerInfoDic = new Dictionary<int, ShieldLayerInfo>();
+        //更换护盾层数
+        public bool ChangeShieldLayer(short layer)
+        {
+            layerInfoDic.Clear();
 
+            shieldLayer_current = layer;
+            if (layer > shieldLayer_max)
+                shieldLayer_current = shieldLayer_max;
+
+            var config = MainShipModule.GetMainShipShieldLayerData(shieldLayer_current);
+            if (config == null)
+            {
+                DebugPlus.LogError("[ShieldLayerInfo] : ChangeShieldLayerError! layerNotExist! layer=" + shieldLayer_current);
+                return false;
+            }
+            float average = damageReduce_base / shieldLayer_current;
+            int layerIndex = 1;
+            for(int i = 0; i < shieldLayer_current; i++)
+            {
+                ShieldLayerInfo info = new ShieldLayerInfo(layerIndex, average, damageReduce_probability_base);
+                layerInfoDic.Add(layerIndex, info);
+                layerIndex++;
+            }
+
+            shieldLayer_energyCost_ratio = config.energyCostRatio;
+            return true;
+        }
+
+        public void CalculateShieldLayerMax()
+        {
+            List<int> layerMaxList = new List<int> ();
+            for(int i = 0; i < equipShieldAssembleList.Count; i++)
+            {
+                var propertyKey = Config.ConfigData.AssembleConfig.mainShip_Shield_MaxLayer_Property_Link;
+                if (equipShieldAssembleList[i].customDataInfo.propertyDic.ContainsKey(propertyKey))
+                {
+                    layerMaxList.Add((int)equipShieldAssembleList[i].customDataInfo.propertyDic[propertyKey].propertyValueMax);
+                }
+                else
+                {
+                    DebugPlus.Log("[MainShip Shield Equip] : Shield_MaxLayer_Property empty!");
+                    DebugPlus.LogArray<AssemblePartCustomDataInfo.CustomData>(equipShieldAssembleList[i].customDataInfo.propertyDic.Values.ToArray());
+                }
+            }
+            if (layerMaxList.Count != 0)
+            {
+                layerMaxList.Sort();
+                shieldLayer_max = (short)layerMaxList[layerMaxList.Count - 1];
+            }
+            else
+            {
+                shieldLayer_max = 1;
+            }
+        }
+
+        /// <summary>
+        /// 护盾基础减伤
+        /// </summary>
+        public float damageReduce_base;
+        public ModifierDetailPackage_Mix damageReduceDetailPac = new ModifierDetailPackage_Mix();
+        public bool AddDamageReduce_Assemble(ModifierDetailRootType_Mix rootType,float value)
+        {
+            damageReduce_base += value;
+            if (damageReduce_base < 0)
+            {
+                damageReduceDetailPac.ValueChange_Assemble(rootType, 0, 0, value - damageReduce_base);
+                damageReduce_base = 0;
+                return false;
+            }
+            else if(damageReduce_base > 1)
+            {
+                damageReduceDetailPac.ValueChange_Assemble(rootType,0,0, damageReduce_base - 1);
+                damageReduce_base = 1;
+                return false;
+            }
+            else
+            {
+                damageReduceDetailPac.ValueChange_Assemble(rootType, 0, 0, value);
+                return true;
+            }
+        }
+        public bool AddDamageReduce(ModifierDetailRootType_Mix rootType,float value)
+        {
+            damageReduce_base += value;
+            if (damageReduce_base < 0)
+            {
+                damageReduceDetailPac.ValueChange(rootType, value - damageReduce_base);
+                damageReduce_base = 0;
+                return false;
+            }
+            else if (damageReduce_base > 1)
+            {
+                damageReduceDetailPac.ValueChange(rootType, damageReduce_base - 1);
+                damageReduce_base = 1;
+                return false;
+            }
+            else
+            {
+                damageReduceDetailPac.ValueChange(rootType, value);
+                return true;
+            }
+        }
+        //仅在护盾装备更换时计算
+        public void CalculateDamageReduceProbability()
+        {
+            int totalLevel = 0;
+            float totalDamageReduceProbability = 0;
+            for (int i = 0; i < equipShieldAssembleList.Count; i++)
+            {
+                var shieldLevelPropertyKey = Config.ConfigData.AssembleConfig.mainShip_Shield_ShieldLevel_Property_Link;
+                int currentLevel = 0;
+                var dic = equipShieldAssembleList[i].customDataInfo.propertyDic;
+                if (dic.ContainsKey(shieldLevelPropertyKey))
+                {
+                    currentLevel = (int)dic[shieldLevelPropertyKey].propertyValueMax;
+                    totalLevel += currentLevel;
+                }
+                else
+                {
+                    DebugPlus.Log("[MainShip Shield Equip] : ShieldLevel_Property empty!");
+                    DebugPlus.LogArray<AssemblePartCustomDataInfo.CustomData>(dic.Values.ToArray());
+                }
+
+                var shieldDamageReudceProbabilityProperyKey = Config.ConfigData.AssembleConfig.mainShip_Shield_ReduceProbability_Property_Link;
+                if (dic.ContainsKey(shieldDamageReudceProbabilityProperyKey))
+                {
+                    totalDamageReduceProbability += currentLevel * dic[shieldDamageReudceProbabilityProperyKey].propertyValueMax;
+                }
+                else
+                {
+                    DebugPlus.Log("[MainShip Shield Equip] : Shield_ReduceProbability empty!");
+                    DebugPlus.LogArray<AssemblePartCustomDataInfo.CustomData>(dic.Values.ToArray());
+                }
+            }
+            float result = totalDamageReduceProbability / totalLevel;
+            float delta = result - damageReduce_base;
+            AddDamageReudceProbability_Assmeble(ModifierDetailRootType_Mix.MainShip_Shield, delta);
+        }
+
+        /// <summary>
+        /// 护盾基础减伤概率
+        /// </summary>
+        public float damageReduce_probability_base;
+        public ModifierDetailPackage_Mix damageReduceProbabilityDetailPac = new ModifierDetailPackage_Mix();
+        public bool AddDamageReudceProbability_Assmeble(ModifierDetailRootType_Mix rootType,float value)
+        {
+            damageReduce_probability_base += value;
+            if (damageReduce_probability_base < 0)
+            {
+                damageReduceProbabilityDetailPac.ValueChange_Assemble(rootType, 0, 0, value - damageReduce_probability_base);
+                damageReduce_probability_base = 0;
+                return false;
+            }
+            else if (damageReduce_probability_base > 1)
+            {
+                damageReduceProbabilityDetailPac.ValueChange_Assemble(rootType, 0, 0, damageReduce_probability_base - 1);
+                damageReduce_probability_base = 1;
+                return false;
+            }
+            else
+            {
+                damageReduceProbabilityDetailPac.ValueChange_Assemble(rootType, 0, 0, value);
+                return true;
+            }
+        }
+        public bool AddDamageReudceProbability(ModifierDetailRootType_Mix rootType,float value)
+        {
+            damageReduce_probability_base += value;
+            if (damageReduce_probability_base < 0)
+            {
+                damageReduceProbabilityDetailPac.ValueChange(rootType, value - damageReduce_probability_base);
+                damageReduce_probability_base = 0;
+                return false;
+            }
+            else if (damageReduce_probability_base > 1)
+            {
+                damageReduceProbabilityDetailPac.ValueChange(rootType, damageReduce_probability_base - 1);
+                damageReduce_probability_base = 1;
+                return false;
+            }
+            else
+            {
+                damageReduceProbabilityDetailPac.ValueChange(rootType, value);
+                return true;
+            }
+        }
+        //仅在护盾装备更换时计算
+        public void CalculateDamageReduce()
+        {
+            int totalLevel = 0;
+            float totalDamageReduce = 0;
+            for (int i = 0; i < equipShieldAssembleList.Count; i++)
+            {
+                var shieldLevelPropertyKey = Config.ConfigData.AssembleConfig.mainShip_Shield_ShieldLevel_Property_Link;
+                int currentLevel = 0;
+                var dic = equipShieldAssembleList[i].customDataInfo.propertyDic;
+                if (dic.ContainsKey(shieldLevelPropertyKey))
+                {
+                    currentLevel = (int)dic[shieldLevelPropertyKey].propertyValueMax;
+                    totalLevel += currentLevel;
+                }
+                else
+                {
+                    DebugPlus.Log("[MainShip Shield Equip] : ShieldLevel_Property empty!");
+                    DebugPlus.LogArray<AssemblePartCustomDataInfo.CustomData>(dic.Values.ToArray());
+                }
+
+                var shieldDamageReudceProperyKey = Config.ConfigData.AssembleConfig.mainShip_Shield_DamageReduce_Property_Link;
+                if (dic.ContainsKey(shieldDamageReudceProperyKey))
+                {
+                    totalDamageReduce += currentLevel * dic[shieldDamageReudceProperyKey].propertyValueMax;
+                }
+                else
+                {
+                    DebugPlus.Log("[MainShip Shield Equip] : DamageReduce_Property empty!");
+                    DebugPlus.LogArray<AssemblePartCustomDataInfo.CustomData>(dic.Values.ToArray());
+                }
+            }
+            float result= totalDamageReduce / totalLevel;
+            float delta = result - damageReduce_base;
+            AddDamageReduce_Assemble(ModifierDetailRootType_Mix.MainShip_Shield,delta);
+        }
+          
         public MainShipModifier shipShieldModifier;
 
         public MainShipShieldInfo() { }
@@ -585,16 +848,74 @@ namespace Sim_FrameWork
 
             shieldChargeSpeed = saveData.ShieldChargeSpeed;
             shieldChargeSpeedDetailPac = saveData.ShieldChargeSpeedDetailPac;
-
+        
             energyCost_current = saveData.EnergyCost_current;
             energyCostDetailPac = saveData.EnergyCostDetailPac;
 
-            if (saveData.equipedShieldAssembleUIDList != null)
+            damageReduce_base = saveData.DamageReduce_base;
+            damageReduceDetailPac = saveData.DamageReduceDetailPac;
+
+            damageReduce_probability_base = saveData.DamageReduce_probability_base;
+            damageReduceProbabilityDetailPac = saveData.DamageReduceProbabilityDetailPac;
+
+            shieldLayer_current = saveData.ShieldLevel_current;
+            shieldLayer_max = saveData.ShieldLayer_max;
+            ChangeShieldLayer(shieldLayer_current);
+
+            for (int i = 0; i < saveData.equipedShieldAssembleUIDList.Count; i++)
             {
-                for(int i = 0; i < saveData.equipedShieldAssembleUIDList.Count; i++)
+                ushort partUID = saveData.equipedShieldAssembleUIDList[i];
+                if (PlayerManager.Instance.playerData.assemblePartData.isAssemblePartEquipedExist(partUID))
                 {
-                    
+                    //Part Exist  直接赋值  不走装备流程
+                    var info = PlayerManager.Instance.playerData.assemblePartData.GetAssemblePartEquipedInfo(partUID);
+                    equipShieldAssembleList.Add(info);
                 }
+            }
+        }
+
+        public class ShieldLayerInfo
+        {
+            public int layerIndex;
+            public float damageReduce;
+            public float damageReduceProbability;
+
+            /// <summary>
+            /// 实际折算比率
+            /// </summary>
+            public float damageReudce_ratio;
+            public float damageReduceProbability_ratio;
+
+            ///实际最终数值
+            public float damageReduce_reality
+            {
+                get
+                {
+                    return damageReduce * damageReudce_ratio;
+                }
+            }
+            public float damageReduceProbability_reality
+            {
+                get
+                {
+                    return damageReduceProbability * damageReduceProbability_ratio;
+                }
+            }
+
+            public ShieldLayerInfo(int layerIndex,float damageReduce,float damageReduceProbability)
+            {
+                this.layerIndex = layerIndex;
+                this.damageReduce = damageReduce;
+                this.damageReduceProbability = damageReduceProbability;
+
+                var config = MainShipModule.GetMainShipShieldLayerData(layerIndex);
+                if (config == null)
+                {
+                    DebugPlus.LogError("[ShieldLayerInfo] : layerInfoConfig not find  layerIndex=" + layerIndex);
+                    return;
+                }
+                damageReudce_ratio = config.damageReudce_ratio;
+                damageReduceProbability_ratio = config.damageReduceProbability_ratio;
             }
         }
     }
@@ -621,6 +942,15 @@ namespace Sim_FrameWork
         public short EnergyCost_current;
         public ModifierDetailPackage_Mix EnergyCostDetailPac;
 
+        public float DamageReduce_base;
+        public ModifierDetailPackage_Mix DamageReduceDetailPac;
+
+        public float DamageReduce_probability_base;
+        public ModifierDetailPackage_Mix DamageReduceProbabilityDetailPac;
+
+        public short ShieldLayer_current = 1;
+        public short ShieldLayer_max = 1;
+
         public List<ushort> equipedShieldAssembleUIDList;
 
         public MainShipShieldSaveData(MainShipShieldInfo info)
@@ -641,6 +971,15 @@ namespace Sim_FrameWork
 
             EnergyCost_current = info.EnergyCost_current;
             EnergyCostDetailPac = info.energyCostDetailPac;
+
+            DamageReduce_base = info.damageReduce_base;
+            DamageReduceDetailPac = info.damageReduceDetailPac;
+
+            DamageReduce_probability_base = info.damageReduce_probability_base;
+            DamageReduceProbabilityDetailPac = info.damageReduceProbabilityDetailPac;
+
+            ShieldLayer_current = info.shieldLayer_current;
+            ShieldLayer_max = info.shieldLayer_max;
 
             equipedShieldAssembleUIDList = new List<ushort>();
             for(int i = 0; i < info.equipShieldAssembleList.Count; i++)

@@ -14,6 +14,23 @@ namespace Sim_FrameWork
         WarShip,
         MainShip_Shield,
     }
+    public enum AssmblePartState
+    {
+        /// <summary>
+        /// 设计图
+        /// </summary>
+        Design,
+        /// <summary>
+        /// 库存
+        /// </summary>
+        Storage,
+        /// <summary>
+        /// 被装备
+        /// </summary>
+        Equiped,
+        Destory
+    }
+
 
     public class AssemblePartInfo
     {
@@ -27,6 +44,7 @@ namespace Sim_FrameWork
         {
             get { return typePresetData.partName + "·" + customDataInfo.partNameCustomText; }
         }
+        public AssmblePartState currentState = AssmblePartState.Design;
 
         public List<MaterialCostItem> materialCostItem = new List<MaterialCostItem>();
         public List<AssembleEquipTarget> partEquipType = new List<AssembleEquipTarget>();
