@@ -55,6 +55,8 @@ namespace Sim_FrameWork
             public const string Assemble_Part_Choose_Dialog = "Dialog/Assemble/AssemblePartChooseDialog";
             public const string Assemble_Ship_Choose_Dialog= "Dialog/Assemble/AssembleShipChooseDialog";
 
+            public const string MainShip_Shield_Dialog = "Dialog/MainShip/MainShipShieldDialog";
+
             #endregion
 
             #region PagePath

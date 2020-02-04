@@ -58,6 +58,12 @@ namespace Sim_FrameWork
 
         #endregion
 
+        public void ShowMainShipShieldDialog()
+        {
+            UIManager.Instance.Register<UI.MainShipShieldDialogContext>(UIPath.WindowPath.MainShip_Shield_Dialog);
+            UIManager.Instance.PopUpWnd(UIPath.WindowPath.MainShip_Shield_Dialog, WindowType.Dialog);
+        }
+
         /// <summary>
         /// Tech Page
         /// </summary>
