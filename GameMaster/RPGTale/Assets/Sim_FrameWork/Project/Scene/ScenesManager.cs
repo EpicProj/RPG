@@ -6,7 +6,7 @@ using System;
 
 namespace Sim_FrameWork
 {
-    public class ScenesManager : MonoSingleton<ScenesManager>
+    public class ScenesManager : Singleton<ScenesManager>
     {
 
         public string CurrentSceneName;
@@ -25,16 +25,10 @@ namespace Sim_FrameWork
         /// </summary>
         public Action LoadSceneStartCallBack;
 
-        protected override void Awake()
-        {
-            base.Awake();
-            DontDestroyOnLoad(gameObject);
-        }
-
         public void LoadingScene(string SceneName)
         {
             LoadingProgress = 0;
-            StartCoroutine(LoadingSceneAsync(SceneName));
+            ApplicationManager.Instance.StartCoroutine(LoadingSceneAsync(SceneName));
         }
 
 
@@ -54,6 +48,7 @@ namespace Sim_FrameWork
 
             ClearCache();
             UIManager.Instance.ResetWinDic();
+            UIManager.Instance.ResetWinList();
             AlreadyLoadScene = false;
 
             /// LoadScene
@@ -66,7 +61,12 @@ namespace Sim_FrameWork
             int targetProgress = 0;
 
             AsyncOperation asyncScene = SceneManager.LoadSceneAsync(sceneName);
-            if(asyncScene!=null && !asyncScene.isDone)
+            if (asyncScene == null)
+            {
+                DebugPlus.LogError("Loading Scene Empty  Name=" + sceneName);
+                yield return new WaitForEndOfFrame();
+            }
+            if(!asyncScene.isDone)
             {
                 asyncScene.allowSceneActivation = false;
                 while (asyncScene.progress < 0.9f)
@@ -94,7 +94,6 @@ namespace Sim_FrameWork
                 AlreadyLoadScene = true;
 
                 LoadSceneOverCallBack?.Invoke();
-
             }
         }
 

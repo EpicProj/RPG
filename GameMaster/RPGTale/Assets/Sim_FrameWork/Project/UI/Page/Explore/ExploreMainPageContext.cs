@@ -36,8 +36,7 @@ namespace Sim_FrameWork.UI
 
         public override void OnShow(params object[] paralist)
         {
-            AudioManager.Instance.PlaySound(AudioClipPath.UISound.Page_Open);
-            
+            base.OnShow(paralist);
             InitAreaExploreList(ExploreAreaType.space);
             InitMissionPanelElement();
             InitMissionTeam();
@@ -202,21 +201,18 @@ namespace Sim_FrameWork.UI
                 (ushort)Utility.TryParseInt(energyInputField.text),
                 (ushort)Utility.TryParseInt(teamGoodsValue.text)
                 );
-            AudioManager.Instance.PlaySound(AudioClipPath.UISound.Button_Click);
 
             ExploreEventManager.Instance.StartExplore(currentSelectAreaID,currentSelectMissionID,teamData);
         }
 
         void OnEnergyReduceBtnClick()
         {
-            AudioManager.Instance.PlaySound(AudioClipPath.UISound.Button_General);
             if ((ushort)Utility.TryParseInt(energyInputField.text) <= 0)
                 return;
             energyInputField.text= ((ushort)Utility.TryParseInt(energyInputField.text) -1).ToString() ;
         }
         void OnEnergyAddBtnClick()
         {
-            AudioManager.Instance.PlaySound(AudioClipPath.UISound.Button_General);
             if ((ushort)Utility.TryParseInt(energyInputField.text) >= 999)
                 return;
             energyInputField.text = ((ushort)Utility.TryParseInt(energyInputField.text) +1).ToString();

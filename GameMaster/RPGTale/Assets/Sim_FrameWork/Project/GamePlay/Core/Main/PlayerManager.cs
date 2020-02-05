@@ -23,10 +23,10 @@ namespace Sim_FrameWork
         /// </summary>
         private float timer;
 
-        public void InitPlayerData()
+        public void InitPlayerData(GameHardLevel hardLevel)
         {
             playerData = new PlayerData();
-            if (playerData.InitData() == false)
+            if (playerData.InitData(hardLevel) == false)
             {
                 DebugPlus.LogError("[PlayerManager] : PlayerData Init Fail!");
             }

@@ -11,10 +11,12 @@ namespace Sim_FrameWork.UI
         {
             base.Awake(paralist);
             InitResImage();
+            AddBtnClick();
         }
 
         public override void OnShow(params object[] paralist)
         {
+            base.OnShow(paralist);
             UpdateResData(ResourceType.All);
             UpdateResMonthData(ResourceType.All);
         }
@@ -49,6 +51,7 @@ namespace Sim_FrameWork.UI
             {
                 UIGuide.Instance.ShowMenuDialog();
             });
+     
         }
 
         /// <summary>

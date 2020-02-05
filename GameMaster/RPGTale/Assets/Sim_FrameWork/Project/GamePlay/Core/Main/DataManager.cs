@@ -4,15 +4,13 @@ namespace Sim_FrameWork {
     public class DataManager : Singleton<DataManager> {
 
 
-        public void InitData() { }
-
+        public void InitManager() { }
 
         public DataManager()
         {
             RegisterModule();
             RegisterUI();
         }
-
 
         public void RegisterModule()
         {
@@ -34,13 +32,20 @@ namespace Sim_FrameWork {
 
         public void RegisterUI()
         {
-            UIManager.Instance.Register<MainMenuPageContext>(UIPath.WindowPath.MainMenu_Page);
-            UIManager.Instance.Register<GameEntryPageContext>(UIPath.WindowPath.Game_Entry_Page);
             UIManager.Instance.Register<ConsolePageContext>(UIPath.WindowPath.Console_Page);
-            UIManager.Instance.Register<GameLoadDialogContext>(UIPath.WindowPath.MainMenu_GameLoad_Dialog);
             UIManager.Instance.Register<ProductLineChangeDialogContext>(UIPath.WindowPath.ProductLine_Change_Dialog);
             UIManager.Instance.Register<BuildPanelDetailContext>(UIPath.WindowPath.BuildPanel_Detail_UI);
         }
 
+        /// <summary>
+        /// New Game
+        /// </summary>
+        public void InitGameData()
+        {
+            GlobalEventManager.Instance.InitData();
+            ModifierManager.Instance.InitData();
+            PlayerManager.Instance.InitPlayerData(GameHardLevel.easy);
+            MainShipManager.Instance.InitData();
+        }
     }
 }

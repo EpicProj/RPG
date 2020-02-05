@@ -30,7 +30,7 @@ namespace Sim_FrameWork
         public TimeData timeData;
 
         public PlayerData() { }
-        public bool InitData()
+        public bool InitData(GameHardLevel hardLevel)
         {
             var config = Config.ConfigData.PlayerConfig;
             if (config == null || config.timeConfig == null)
@@ -41,11 +41,10 @@ namespace Sim_FrameWork
 
             timeData = new TimeData(config.timeConfig);
             resourceData = new PlayerResourceData();
-            if (resourceData.InitData(currentHardLevel) == false)
-            {
-                DebugPlus.LogError("[PlayerData] ResourceData Init Fail CheckHardLevelConfig!");
+            if (!SetHardLevel(hardLevel))
                 return false;
-            }
+
+            resourceData.InitData(hardLevel);
             assemblePartData = new PlayerAssemblePartData();
             assemblePartData.InitData();
 

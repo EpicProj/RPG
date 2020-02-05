@@ -22,17 +22,20 @@ namespace Sim_FrameWork
         protected override void Awake()
         {
             base.Awake();
+            GameManager.Instance.InitBaseData();
             MainShipAreaContainer = transform.FindTransfrom("MainShipAreaContainer");
             AssembleContainer = transform.FindTransfrom("AssembleContainer");
             AssembleContainerContentTrans = AssembleContainer.FindTransfrom("Content");
 
             UIUtility.SafeSetActive(ContentObj, false);
             UIUtility.SafeSetActive(AssembleContainer, false);
+
         }
 
         private void Start()
         {
-            //InvokeRepeating("InitMap", 1, 0.5f);
+            UIGuide.Instance.ShowGameMainPage();
+            UIGuide.Instance.ShowPlayerStatePanel();
         }
 
         void Update()

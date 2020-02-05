@@ -6,7 +6,7 @@ using Newtonsoft.Json;
 
 namespace Sim_FrameWork
 {
-    public class GameDataSaveManager : MonoSingleton<GameDataSaveManager>
+    public class GameDataSaveManager : Singleton<GameDataSaveManager>
     {
         public enum SaveState
         {
@@ -45,6 +45,12 @@ namespace Sim_FrameWork
             }
         }
 
+        public void InitData()
+        {
+            AllSaveDataGeneralList = new List<GameSaveGeneralData>();
+            currentSaveNum = GetFileCount();
+        }
+
         public void InitCurrentSaveData(int saveID)
         {
             currentSaveID = saveID;
@@ -56,27 +62,6 @@ namespace Sim_FrameWork
             AllSaveDataGeneralList.Clear();
         }
 
-
-        protected override void Awake()
-        {
-            base.Awake();
-            AllSaveDataGeneralList = new List<GameSaveGeneralData>();
-        }
-
-        void Start()
-        {
-            currentSaveNum = GetFileCount();
-        }
-
-        private void Update()
-        {
-            if (Input.GetKeyDown(KeyCode.O))
-            {
-                //For Test
-                SaveGameFile();
-            }
-        }
-
         /// <summary>
         /// Load Save Data
         /// </summary>
@@ -85,8 +70,6 @@ namespace Sim_FrameWork
             PlayerManager.Instance.LoadGameSaveData();
             TechnologyDataManager.Instance.LoadTechSaveData();
         }
-
-
 
         #region Data Save
         private GameSaveGeneralData Create_gameSaveData_Nav()
@@ -127,7 +110,15 @@ namespace Sim_FrameWork
 
             data = SaveEncrypt.Decrypt(data, "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx");
             sr.Close();
-            return JsonConvert.DeserializeObject(data,type);
+            if (data != string.Empty)
+            {
+                return JsonConvert.DeserializeObject(data, type);
+            }
+            else
+            {
+                DebugPlus.LogError("[GameSaveData] : GetData Error!");
+                return null;
+            }
         }
 
         private static string SerialieObject(object obj)
@@ -162,7 +153,7 @@ namespace Sim_FrameWork
             }
 
             string savePath = SaveFilePath + "/" + gameSave.SaveID+".sav";
-            string saveNavigatorPath=SaveFilePath+"/"+gameSave.SaveID+"nav";
+            string saveNavigatorPath=SaveFilePath+"/"+gameSave.SaveID+".nav";
 
             SaveData(savePath, gameSave);
             SaveData(saveNavigatorPath, gameSaveNav);
@@ -243,7 +234,7 @@ namespace Sim_FrameWork
                 DirectoryInfo dirs = new DirectoryInfo(SaveFilePath);
                 var files = dirs.GetFiles("*.nav", SearchOption.AllDirectories);
 
-                Debug.Log("Save File Length=" + files.Length);
+                DebugPlus.Log("[GameSaveData] : Save File Length=" + files.Length);
 
                 for(int i = 0; i < files.Length; i++)
                 {

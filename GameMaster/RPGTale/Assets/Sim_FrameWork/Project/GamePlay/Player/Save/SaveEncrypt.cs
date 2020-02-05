@@ -47,9 +47,18 @@ namespace Sim_FrameWork
             rdel.Mode = CipherMode.ECB;
             rdel.Padding = PaddingMode.PKCS7;
             ICryptoTransform cTrans = rdel.CreateDecryptor();
-
-            byte[] result = cTrans.TransformFinalBlock(toEncryptArray, 0, toEncryptArray.Length);
-            return UTF8Encoding.UTF8.GetString(result);
+            try
+            {
+                byte[] result = cTrans.TransformFinalBlock(toEncryptArray, 0, toEncryptArray.Length);
+                return UTF8Encoding.UTF8.GetString(result);
+            }
+            catch(Exception e)
+            {
+                DebugPlus.LogError(e);
+                DebugPlus.LogError("[GameSaveData] : Decryptor ERROR!");
+                return string.Empty;
+            }
+            
         }
 
 

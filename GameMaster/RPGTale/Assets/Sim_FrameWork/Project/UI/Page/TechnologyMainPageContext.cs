@@ -22,7 +22,7 @@ namespace Sim_FrameWork.UI
 
         public override void OnShow(params object[] paralist)
         {
-            AudioManager.Instance.PlaySound(AudioClipPath.UISound.Page_Open);
+            base.OnShow(paralist);
             RefreshAllTechGroup();
         }
 

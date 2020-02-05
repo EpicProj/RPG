@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 namespace Sim_FrameWork {
-    public class ModifierManager : MonoSingleton<ModifierManager> {
+    public class ModifierManager : Singleton<ModifierManager> {
 
         public List<MainShipModifier> mainShipModifierList;
         public List<MainShipAreaModifier> shipAreaModifierList;
@@ -11,11 +11,6 @@ namespace Sim_FrameWork {
 
         private GeneralModifier generalModifier;
   
-        protected override void Awake()
-        {
-            base.Awake();
-            InitData();
-        }
 
         public void InitData()
         {
@@ -26,7 +21,7 @@ namespace Sim_FrameWork {
             generalModifier.LoadModifierData();
         }
 
-        private void LateUpdate()
+        public void UpdateModifier()
         {
             UpdateAreaModifier();
             UpdateBlockModifier();

@@ -51,7 +51,7 @@ namespace Sim_FrameWork.UI
 
         public override void OnShow(params object[] paralist)
         {
-            AudioManager.Instance.PlaySound(AudioClipPath.UISound.Page_Open);
+            base.OnShow(paralist);
             _info = (AssembleShipInfo)paralist[0];
 
             noDataInfoTrans.SafeSetActive(false);
@@ -86,7 +86,6 @@ namespace Sim_FrameWork.UI
         }
         void OnPresetChooseBtnClick()
         {
-            AudioManager.Instance.PlaySound(AudioClipPath.UISound.Button_Click);
             shipChooseCanvasGroup.ActiveCanvasGroup(true);
             contentCanvasGroup.ActiveCanvasGroup(false);
         }
@@ -120,7 +119,6 @@ namespace Sim_FrameWork.UI
         }
         void OnPresetTotalBtnClick()
         {
-            AudioManager.Instance.PlaySound(AudioClipPath.UISound.Button_Click);
             UIGuide.Instance.ShowAssembleShipChooseDialog(new List<string>() { currentSelectTab }, currentSelectTab);
         }
      
@@ -240,7 +238,6 @@ namespace Sim_FrameWork.UI
 
         void OnShipDesignBtnClick()
         {
-            AudioManager.Instance.PlaySound(AudioClipPath.UISound.Button_Click);
 
             if (PlayerManager.Instance.CheckAssembleShipCustomNameRepeat(_info.presetData.shipClassName, customNameInputField.text))
             {
@@ -299,7 +296,6 @@ namespace Sim_FrameWork.UI
 
         void OnPresetTotalBtnClickAll()
         {
-            AudioManager.Instance.PlaySound(AudioClipPath.UISound.Button_Click);
             var typeList = PlayerManager.Instance.GetTotalUnlockAssemblePartTypeList();
             UIGuide.Instance.ShowAssemblePartChooseDialog(typeList, currentSelectTab,1);
         }

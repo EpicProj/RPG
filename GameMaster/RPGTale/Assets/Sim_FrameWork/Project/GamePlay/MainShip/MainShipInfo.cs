@@ -53,6 +53,59 @@ namespace Sim_FrameWork
          */
 
         public Dictionary<MainShip_ShieldDirection, MainShipShieldInfo> shieldInfoDic;
+        /// <summary>
+        /// 护盾可分配能源最大值
+        /// </summary>
+        public short shieldEnergy_Max_current;
+        public ModifierDetailPackage_Mix shieldEnergyDetailPac = new ModifierDetailPackage_Mix();
+        public bool AddShieldEnergy_Max_Block(ModifierDetailRootType_Mix rootType,uint instanceID,int blockID,short value)
+        {
+            shieldEnergy_Max_current += value;
+            if (shieldEnergy_Max_current < 0)
+            {
+                shieldEnergyDetailPac.ValueChange_Block(rootType, instanceID, blockID, value - shieldEnergy_Max_current);
+                shieldEnergy_Max_current = 0;
+                return false;
+            }
+            var max = Config.ConfigData.MainShipConfigData.basePropertyConfig.shield_energy_total_max_limit;
+            if (shieldEnergy_Max_current > max)
+            {
+                shieldEnergyDetailPac.ValueChange_Block(rootType, instanceID, blockID, shieldEnergy_Max_current - max);
+                shieldEnergy_Max_current = max;
+                return false;
+            }
+            return true;
+        }
+        public bool AddShieldEnergy_Max(ModifierDetailRootType_Mix rootType,short value)
+        {
+            shieldEnergy_Max_current += value;
+            if (shieldEnergy_Max_current < 0)
+            {
+                shieldEnergyDetailPac.ValueChange(rootType, value - shieldEnergy_Max_current);
+                shieldEnergy_Max_current = 0;
+                return false;
+            }
+            var max = Config.ConfigData.MainShipConfigData.basePropertyConfig.shield_energy_total_max_limit;
+            if (shieldEnergy_Max_current > max)
+            {
+                shieldEnergyDetailPac.ValueChange(rootType, shieldEnergy_Max_current - max);
+                shieldEnergy_Max_current = max;
+                return false;
+            }
+            return true;
+
+        }
+
+        /// <summary>
+        /// 护盾当前可分配能源
+        /// </summary>
+        public short shieldEnergy_current;
+        public Dictionary<MainShip_ShieldDirection, short> shieldEnergyDetailDic = new Dictionary<MainShip_ShieldDirection, short>();
+        public bool ChangeShieldEnergy(short value)
+        {
+            return true;
+        }
+
         #endregion
 
         public MainShipPowerAreaInfo powerAreaInfo;
@@ -61,7 +114,6 @@ namespace Sim_FrameWork
         public MainShipHangarInfo hangarAreaInfo;
         public MainShipWorkingAreaInfo workingAreaInfo;
 
-        
 
         public MainShipInfo() { }
         public bool InitInfo()
@@ -72,6 +124,7 @@ namespace Sim_FrameWork
 
             ///Init Shield Data
             shieldInfoDic = new Dictionary<MainShip_ShieldDirection, MainShipShieldInfo>();
+            AddShieldEnergy_Max(ModifierDetailRootType_Mix.OriginConfig, config.shield_energy_total_max_base);
             foreach(MainShip_ShieldDirection direction in Enum.GetValues(typeof(MainShip_ShieldDirection)))
             {
                 MainShipShieldInfo info = new MainShipShieldInfo();
@@ -99,11 +152,14 @@ namespace Sim_FrameWork
             return true;
         }
 
-        public bool LoadSaveData(MainShipSaveData saveData)
+        public void LoadSaveData(MainShipSaveData saveData)
         {
             powerAreaInfo = new MainShipPowerAreaInfo();
 
-            return powerAreaInfo.LoadSaveData(saveData.powerAreaSaveData);
+            shieldEnergy_Max_current = saveData.ShieldEnergy_Max_current;
+            shieldEnergyDetailPac = saveData.ShieldEnergyDetailPac;
+
+            powerAreaInfo.LoadSaveData(saveData.powerAreaSaveData);
 
         }
     }
@@ -1799,9 +1855,15 @@ namespace Sim_FrameWork
     {
         public MainShipPowerAreaSaveData powerAreaSaveData;
 
-        public MainShipSaveData()
-        {
+        public short ShieldEnergy_Max_current;
+        public ModifierDetailPackage_Mix ShieldEnergyDetailPac;
 
+        public MainShipSaveData(MainShipInfo info)
+        {
+            ShieldEnergy_Max_current = info.shieldEnergy_Max_current;
+            ShieldEnergyDetailPac = info.shieldEnergyDetailPac;
+
+            powerAreaSaveData = new MainShipPowerAreaSaveData(info.powerAreaInfo);
         }
     }
 

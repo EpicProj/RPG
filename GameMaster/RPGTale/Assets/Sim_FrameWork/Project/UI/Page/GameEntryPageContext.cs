@@ -1,24 +1,19 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 namespace Sim_FrameWork.UI
 {
     public class GameEntryPageContext : WindowBase
     {
-        private GameEntryPage m_page;
-
-       
-
         public override void Awake(params object[] paralist)
         {
-            m_page = UIUtility.SafeGetComponent<GameEntryPage>(Transform);
             AddBtnListener();
         }
 
         public override void OnShow(params object[] paralist)
         {
-         
         }
 
         public override bool OnMessage(UIMessage msg)
@@ -34,30 +29,41 @@ namespace Sim_FrameWork.UI
 
         private void AddBtnListener()
         {
-            AddButtonClickListener(m_page.StartButton, () =>
+            AddButtonClickListener(Transform.FindTransfrom("Menu/StartBtn").SafeGetComponent<Button>(), () =>
             {
-                ScenesManager.Instance.LoadingScene(UIPath.ScenePath.Scene_Test);
+                OnGameStartBtnClick();
             });
-            AddButtonClickListener(m_page.QuitButton, () =>
+            AddButtonClickListener(Transform.FindTransfrom("Menu/QuitBtn").SafeGetComponent<Button>(), () =>
             {
                 Application.Quit();
             });
             //LoadGame
-            AddButtonClickListener(m_page.LoadButton, () =>
+            AddButtonClickListener(Transform.FindTransfrom("Menu/LoadBtn").SafeGetComponent<Button>(), () =>
             {
                 OnLoadGameBtnClick();
             });
         }
+        void OnGameStartBtnClick()
+        {
+            ScenesManager.Instance.LoadSceneStartCallBack = () =>
+            {
+                DataManager.Instance.InitGameData();
+            };
+            ScenesManager.Instance.LoadingScene(UIPath.ScenePath.Scene_Test);
+            
+        }
+
 
         void OnLoadGameBtnClick()
         {
-            UIManager.Instance.PopUpWnd(UIPath.WindowPath.MainMenu_GameLoad_Dialog, WindowType.Dialog);
-            m_page.Menu.gameObject.SetActive(false);
+            UIGuide.Instance.ShowGameLoadDialog();
+            Transform.FindTransfrom("Menu").SafeSetActive(false);
         }
         bool PlayMenuAnim()
         {
-            m_page.Menu.gameObject.SetActive(true);
-            m_page.MenuAnim.Play();
+            Transform.FindTransfrom("Menu").SafeSetActive(true);
+            var anim = Transform.FindTransfrom("Menu").SafeGetComponent<Animation>();
+            anim.SafePlayAnim();
             return true;
         }
 

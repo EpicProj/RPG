@@ -43,7 +43,10 @@ namespace Sim_FrameWork.UI
             InitUIRefrence();
         }
 
-        public virtual void OnShow(params object[] paralist) { }
+        public virtual void OnShow(params object[] paralist)
+        {
+            PlayWindowOpenSound();
+        }
 
         public virtual void OnDisable() { }
 
@@ -190,12 +193,17 @@ namespace Sim_FrameWork.UI
             }
         }
 
+        void PlayWindowOpenSound()
+        {
+            AudioManager.Instance.PlaySound(AudioClipPath.UISound.Page_Open);
+        }
+
         /// <summary>
         /// 播放button声音
         /// </summary>
         void BtnPlaySound()
         {
-
+            AudioManager.Instance.PlaySound(AudioClipPath.UISound.Button_Click);
         }
 
         /// <summary>

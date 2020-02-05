@@ -48,7 +48,7 @@ namespace Sim_FrameWork.UI
 
         public override void OnShow(params object[] paralist)
         {
-            AudioManager.Instance.PlaySound(AudioClipPath.UISound.Page_Open);
+            base.OnShow(paralist);
             _sortTypeList = (List<string>)paralist[0];
             currentSelcetTab = (string)paralist[1];
             dialogShowType = (byte)paralist[2];
@@ -71,7 +71,6 @@ namespace Sim_FrameWork.UI
             AddButtonClickListener(Transform.FindTransfrom("BG").SafeGetComponent<Button>(), () =>
             {
                 UIManager.Instance.HideWnd(this);
-                AudioManager.Instance.PlaySound(AudioClipPath.UISound.Btn_Close);
             });
         }
 

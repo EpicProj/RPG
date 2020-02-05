@@ -24,7 +24,10 @@ namespace Sim_FrameWork
             for (int i = 0; i < list.Count; i++)
             {
                 TechnologyInfo info = new TechnologyInfo(list[i]);
-                AllTechDataDic.Add(info.techID, info);
+                if (!AllTechDataDic.ContainsKey(info.techID))
+                {
+                    AllTechDataDic.Add(info.techID, info);
+                }
             }
         }
 

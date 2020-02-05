@@ -30,8 +30,8 @@ namespace Sim_FrameWork.UI
 
         public override void OnShow(params object[] paralist)
         {
+            base.OnShow(paralist);
             _info = (AssemblePartInfo)paralist[0];
-            AudioManager.Instance.PlaySound(AudioClipPath.UISound.Page_Open);
 
             noDataTrans.gameObject.SetActive(false);
             if (showPartChoosePanel)
@@ -84,7 +84,6 @@ namespace Sim_FrameWork.UI
             AddButtonClickListener(Transform.FindTransfrom("Content/RightPanel/Btn").SafeGetComponent<Button>(), OnSaveDesignBtnClick);
             AddButtonClickListener(Transform.FindTransfrom("Back").SafeGetComponent<Button>(), () =>
             {
-                AudioManager.Instance.PlaySound(AudioClipPath.UISound.Btn_Close);
                 UIManager.Instance.HideWnd(this);
                 UIGuide.Instance.ShowGameMainPage();
             });
@@ -94,7 +93,6 @@ namespace Sim_FrameWork.UI
 
         void OnPresetBtnClick()
         {
-            AudioManager.Instance.PlaySound(AudioClipPath.UISound.Button_Click);
             partChooseCanvasGroup.ActiveCanvasGroup(true);
             contentCanvasGroup.ActiveCanvasGroup(false);
 
@@ -136,7 +134,6 @@ namespace Sim_FrameWork.UI
 
         void OnPresetTotalBtnClick()
         {
-            AudioManager.Instance.PlaySound(AudioClipPath.UISound.Button_Click);
             UIGuide.Instance.ShowAssemblePartChooseDialog(new List<string>() { currentSelectTab }, currentSelectTab,1);
         }
 
@@ -310,8 +307,6 @@ namespace Sim_FrameWork.UI
 
         void OnSaveDesignBtnClick()
         {
-            AudioManager.Instance.PlaySound(AudioClipPath.UISound.Button_Click);
-
             ///Custom Name Repeat
             if (PlayerManager.Instance.CheckAssemblePartCustomNameRepeat(_info.typePresetData.partName,customNameInput.text))
             {
@@ -458,7 +453,6 @@ namespace Sim_FrameWork.UI
 
         void OnPresetTotalBtnClickAll()
         {
-            AudioManager.Instance.PlaySound(AudioClipPath.UISound.Button_Click);
             var typeList = PlayerManager.Instance.GetTotalUnlockAssemblePartTypeList();
             UIGuide.Instance.ShowAssemblePartChooseDialog(typeList, currentSelectTab,1);
         }

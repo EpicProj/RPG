@@ -20,8 +20,8 @@ namespace Sim_FrameWork.UI
 
         public override void OnShow(params object[] paralist)
         {
+            base.OnShow(paralist);
             _item = (RandomEventDialogItem)paralist[0];
-            AudioManager.Instance.PlaySound(AudioClipPath.UISound.Page_Open);
             SetUpDialog();
             if (_anim != null)
                 _anim.Play();

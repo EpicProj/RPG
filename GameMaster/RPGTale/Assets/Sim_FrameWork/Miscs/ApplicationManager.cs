@@ -9,14 +9,13 @@ namespace Sim_FrameWork
     {
 
         ///*Game Version*///
-        public static readonly string GAME_VERSION = "1.0.0";
+        public static readonly float GAME_VERSION = 1.0f;
 
         protected override void Awake()
         {
             base.Awake();
             ObjectManager.Instance.Init(GameObject.Find("RecyclePoolTrs").transform, GameObject.Find("SceneTrs").transform);
         }
-
 
         private List<Timer> m_destoryTimerList = new List<Timer>();
         private void LateUpdate()

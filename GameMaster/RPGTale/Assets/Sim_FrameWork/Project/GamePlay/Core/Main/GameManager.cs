@@ -15,7 +15,8 @@ namespace Sim_FrameWork
 
     public enum SceneState
     {
-        MainMenuPage,
+        GameEntry,
+        Loading,
         InGame
     }
 
@@ -27,64 +28,48 @@ namespace Sim_FrameWork
 
     public class GameManager : MonoSingleton<GameManager>
     {
-        public const string ITEM_UI_PATH = "ItemUIPrefab.prefab";
-
-        [HideInInspector]
-        public Canvas MainCanvas;
         [HideInInspector]
         public GraphicRaycaster raycaster;
         //游戏状态
         private GameStates _gameStates = GameStates.Start;
         public GameStates gameStates { get { return _gameStates; } }
 
-        public AreaState currentAreaState;
+        public AreaState currentAreaState= AreaState.OutSide;
 
-        public SceneState currentScene = SceneState.MainMenuPage;
+        public SceneState currentScene = SceneState.GameEntry;
         private bool ConsolePageShow = false;
+
 
         protected override void Awake()
         {
             base.Awake();
-            InitBaseData();
+            
             AssetBundleManager.Instance.LoadAssetBundleConfig();
             ResourceManager.Instance.Init(this);
-         
-            DontDestroyOnLoad(gameObject);
 
-            currentScene = SceneState.MainMenuPage;
+            currentScene = SceneState.GameEntry;
         }
 
         void Start()
         {
-            DataManager.Instance.InitData();
-            PlayerManager.Instance.InitPlayerData();
-            GlobalEventManager.Instance.InitData();
-            MainShipManager.Instance.InitData();
-
-            SwitchAreaState(AreaState.OutSide);
-            PlayerManager.Instance.SetGameHardLevel(GameHardLevel.easy);
-            UIGuide.Instance.ShowGameMainPage();
-            UIGuide.Instance.ShowPlayerStatePanel();
-            //UIManager.Instance.PopUpWnd(UIPath.WindowPath.Game_Entry_Page);
+            InitBaseData();
+            DataManager.Instance.InitManager();
+            GameDataSaveManager.Instance.InitData();
+            UIGuide.Instance.ShowGameEntryPage();
         }
 
         public void InitBaseData()
         {
             UIManager.Instance.Init(GameObject.Find("MainCanvas").transform as RectTransform, GameObject.Find("MainCanvas/Window").transform as RectTransform,
                 GameObject.Find("MainCanvas/Dialog").transform as RectTransform,GameObject.Find("MainCanvas/SPContent").transform as RectTransform, GameObject.Find("MainCanvas/UICamera").GetComponent<Camera>(), GameObject.Find("EventSystem").GetComponent<EventSystem>());
-            MainCanvas = GameObject.Find("MainCanvas").GetComponent<Canvas>();
-            raycaster = UIUtility.SafeGetComponent<GraphicRaycaster>(MainCanvas.transform);
+            raycaster = GameObject.Find("MainCanvas").transform.SafeGetComponent<GraphicRaycaster>();
         }
 
 
         public void Update()
         {
             UIManager.Instance.OnUpdate();
-            if(gameStates== GameStates.Start)
-            {
-                PlayerManager.Instance.UpdateTime();
-            }
-           
+
             if (Input.GetKeyDown(KeyCode.BackQuote))
             {
                 if (ConsolePageShow)
@@ -99,6 +84,13 @@ namespace Sim_FrameWork
                 }
             }
 
+            if (currentScene == SceneState.GameEntry)
+                return;
+            ModifierManager.Instance.UpdateModifier();
+            if (gameStates== GameStates.Start)
+            {
+                PlayerManager.Instance.UpdateTime();
+            }
             //UIClose
             if (Input.GetKeyDown(KeyCode.Escape))
             {

@@ -1,36 +1,37 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 namespace Sim_FrameWork.UI
 {
+    public enum GameSaveMode
+    {
+        None,
+        LoadGame,
+        CoverSave
+    }
     public class GameLoadDialogContext : WindowBase
     {
-        private GameLoadDialog m_dialog;
+        private GameSaveMode currentMode = GameSaveMode.None;
+
 
         public override void Awake(params object[] paralist)
         {
-            m_dialog = UIUtility.SafeGetComponent<GameLoadDialog>(Transform);
+            base.Awake(paralist);
             AddBtnListener();
         }
 
         public override void OnShow(params object[] paralist)
         {
+            base.OnShow(paralist);
             InitSaveList();
-            AudioManager.Instance.PlaySound(AudioClipPath.UISound.Page_Open);
-        }
-
-        public override void OnUpdate()
-        {
-
-
         }
 
         void AddBtnListener()
         {
-            AddButtonClickListener(m_dialog.BackBtn, () =>
+            AddButtonClickListener(Transform.FindTransfrom("Back").SafeGetComponent<Button>(), () =>
             {
-
                 UIManager.Instance.HideWnd(UIPath.WindowPath.MainMenu_GameLoad_Dialog);
                 UIManager.Instance.SendMessageToWnd(UIPath.WindowPath.Game_Entry_Page, new UIMessage(UIMsgType.PlayMenuAnim));
             });
@@ -38,7 +39,8 @@ namespace Sim_FrameWork.UI
 
         void InitSaveList()
         {
-            var loopList = UIUtility.SafeGetComponent<LoopList>(m_dialog.SaveScrollView.transform);
+            var tran = Transform.FindTransfrom("Content/Content/Scroll View");
+            var loopList = tran.SafeGetComponent<LoopList>();
             loopList.InitData(GameDataSaveManager.Instance.GetSaveModel());
         }
 

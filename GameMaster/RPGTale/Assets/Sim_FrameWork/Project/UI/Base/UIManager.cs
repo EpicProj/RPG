@@ -175,6 +175,10 @@ namespace Sim_FrameWork {
         {
             m_WindowDic.Clear();
         }
+        public void ResetWinList()
+        {
+            m_WindowList.Clear();
+        }
 
         /// <summary>
         /// 打开窗口
@@ -244,7 +248,12 @@ namespace Sim_FrameWork {
             else
             {
                 ShowWnd(wndName, bTop ,paralist);
-                _currentWindowNameList.Add(wndName);
+
+                if (!_currentWindowNameList.Contains(wndName))
+                {
+                    _currentWindowNameList.Add(wndName);
+                }
+                
             }
 
             return wnd;

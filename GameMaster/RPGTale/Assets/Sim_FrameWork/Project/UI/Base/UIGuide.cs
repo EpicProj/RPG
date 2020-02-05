@@ -25,6 +25,12 @@ namespace Sim_FrameWork
             UIManager.Instance.PopUpWnd(UIPath.WindowPath.PlayerState_Panel, WindowType.SPContent, true);
         }
 
+        public void ShowGameEntryPage()
+        {
+            UIManager.Instance.Register<GameEntryPageContext>(UIPath.WindowPath.Game_Entry_Page);
+            UIManager.Instance.PopUpWnd(UIPath.WindowPath.Game_Entry_Page);
+        }
+
         /// <summary>
         /// 菜单
         /// </summary>
@@ -32,6 +38,12 @@ namespace Sim_FrameWork
         {
             UIManager.Instance.Register<UI.MenuDialogContext>(UIPath.WindowPath.Menu_Dialog);
             UIManager.Instance.PopUpWnd(UIPath.WindowPath.Menu_Dialog, WindowType.Dialog, true);
+        }
+
+        public void ShowGameLoadDialog()
+        {
+            UIManager.Instance.Register<UI.GameLoadDialogContext>(UIPath.WindowPath.MainMenu_GameLoad_Dialog);
+            UIManager.Instance.PopUpWnd(UIPath.WindowPath.MainMenu_GameLoad_Dialog, WindowType.Dialog);
         }
 
         public void ShowGeneralHint(GeneralHintDialogItem item)

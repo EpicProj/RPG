@@ -39,8 +39,8 @@ namespace Sim_FrameWork.UI
 
         public override void OnShow(params object[] paralist)
         {
+            base.OnShow(paralist);
             _item = (ExploreRandomItem)paralist[0];
-            AudioManager.Instance.PlaySound(AudioClipPath.UISound.Page_Open);
 
             SepUpBaseInfo();
             RefreshPoint();

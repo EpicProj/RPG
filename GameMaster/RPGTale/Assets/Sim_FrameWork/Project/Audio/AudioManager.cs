@@ -12,8 +12,9 @@ namespace Sim_FrameWork {
         protected override void Awake()
         {
             base.Awake();
-            audioListener = UIUtility.SafeGetComponent<AudioListener>(transform);
-            BGMSource = UIUtility.SafeGetComponent<AudioSource>(UIUtility.FindTransfrom(transform, "BGM"));
+            audioListener = transform.SafeGetComponent<AudioListener>();
+            BGMSource = transform.FindTransfrom("BGM").SafeGetComponent<AudioSource>();
+            DontDestroyOnLoad(gameObject);
         }
 
         public void PlaySound(AudioClip clip, bool loop = false)
