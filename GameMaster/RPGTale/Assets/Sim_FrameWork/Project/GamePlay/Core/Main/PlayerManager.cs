@@ -41,15 +41,16 @@ namespace Sim_FrameWork
 
         public bool LoadGameSaveData()
         {
-            var assmebleSaveData = GameDataSaveManager.Instance.currentSaveData.assembleSaveData;
-            var playerSaveData = GameDataSaveManager.Instance.currentSaveData.playerSaveData;
-            if (assmebleSaveData == null || playerSaveData==null)
-            {
-                DebugPlus.LogError("[PlayerManager] : Load Game Save Data Error!");
-                return false;
-            }
-            playerData = new PlayerData();
-            return playerData.LoadPlayerSaveData(playerSaveData, assmebleSaveData.partSaveData);
+            //var assmebleSaveData = GameDataSaveManager.Instance.currentSaveData.assembleSaveData;
+            //var playerSaveData = GameDataSaveManager.Instance.currentSaveData.playerSaveData;
+            //if (assmebleSaveData == null || playerSaveData==null)
+            //{
+            //    DebugPlus.LogError("[PlayerManager] : Load Game Save Data Error!");
+            //    return false;
+            //}
+            //playerData = new PlayerData();
+            //return playerData.LoadPlayerSaveData(playerSaveData, assmebleSaveData.partSaveData);
+            return true;
         }
 
         public void SetGameHardLevel(GameHardLevel hardLevel)
@@ -537,17 +538,17 @@ namespace Sim_FrameWork
 
         public void LoadAssembleShipSaveData()
         {
-            var saveData = GameDataSaveManager.Instance.currentSaveData.assembleSaveData;
-            if (saveData != null)
-            {
-                for(int i = 0; i < saveData.shipSaveData.currentSaveShip.Count; i++)
-                {
-                    AssembleShipInfo shipInfo = new AssembleShipInfo();
-                    shipInfo.LoadSaveData(saveData.shipSaveData.currentSaveShip[i]);
+            //var saveData = GameDataSaveManager.Instance.currentSaveData.assembleSaveData;
+            //if (saveData != null)
+            //{
+            //    for(int i = 0; i < saveData.shipSaveData.currentSaveShip.Count; i++)
+            //    {
+            //        AssembleShipInfo shipInfo = new AssembleShipInfo();
+            //        shipInfo.LoadSaveData(saveData.shipSaveData.currentSaveShip[i]);
 
-                    AddAssembleShipDesign(shipInfo);
-                }
-            }
+            //        AddAssembleShipDesign(shipInfo);
+            //    }
+            //}
         }
 
         #endregion

@@ -190,18 +190,18 @@ namespace Sim_FrameWork
             TechOnResearchList.Clear();
             TechOnFinishIDList.Clear();
             ///Load TechStates
-            var saveData = GameDataSaveManager.Instance.currentSaveData.technologySaveData;
-            if (saveData != null)
-            {
-                for(int i = 0; i < saveData.saveList.Count;i++)
-                {
-                    TechnologyInfo info = new TechnologyInfo();
-                    info = info.LoadSaveData(saveData.saveList[i]);
-                    TechOnResearchList.Add(info);
-                }
+            //var saveData = GameDataSaveManager.Instance.currentSaveData.technologySaveData;
+            //if (saveData != null)
+            //{
+            //    for(int i = 0; i < saveData.saveList.Count;i++)
+            //    {
+            //        TechnologyInfo info = new TechnologyInfo();
+            //        info = info.LoadSaveData(saveData.saveList[i]);
+            //        TechOnResearchList.Add(info);
+            //    }
 
-                TechOnFinishIDList = saveData.finishTechList;
-            }
+            //    TechOnFinishIDList = saveData.finishTechList;
+            //}
         }
 
         #endregion

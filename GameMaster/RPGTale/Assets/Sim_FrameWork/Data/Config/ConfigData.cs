@@ -351,6 +351,9 @@ namespace Sim_FrameWork.Config
 
     public class GlobalSetting
     {
+        public int GameSaveData_MaxGroup_Num;
+        public int GameSaveData_MaxSaveNum_PerGroup;
+
         public List<RarityConfig> rarityConfig;
 
         /// <summary>
@@ -372,6 +375,9 @@ namespace Sim_FrameWork.Config
         {
             JsonReader config = new JsonReader();
             GlobalSetting settting = config.LoadJsonDataConfig<GlobalSetting>(JsonConfigPath.GlobalSettingJsonPath);
+            GameSaveData_MaxGroup_Num = settting.GameSaveData_MaxGroup_Num;
+            GameSaveData_MaxSaveNum_PerGroup = settting.GameSaveData_MaxSaveNum_PerGroup;
+
             rarityConfig = settting.rarityConfig;
        
             exploreArea_Space = settting.exploreArea_Space;

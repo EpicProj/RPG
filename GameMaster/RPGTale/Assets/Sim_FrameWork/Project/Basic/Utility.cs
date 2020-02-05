@@ -207,7 +207,37 @@ namespace Sim_FrameWork
             }
         }
 
+        /// <summary>
+        /// return  Max
+        /// </summary>
+        /// <param name="date1"></param>
+        /// <param name="date2"></param>
+        /// <param name="msg"></param>
+        public static int CompareDate(string date1,string date2)
+        {
+            DateTime t1 = Convert.ToDateTime(date1);
+            DateTime t2 = Convert.ToDateTime(date2);
 
+            int compNum = DateTime.Compare(t1, t2);
+            //t1> t2
+
+            return compNum;
+
+            //if (compNum > 0)
+            //{
+            //    return date1;
+            //}
+            ////t1= t2
+            //if (compNum == 0)
+            //{
+            //    return date1;
+            //}
+            ////t1< t2
+            //if (compNum < 0)
+            //{
+            //    return date2;
+            //}
+        }
 
         #endregion
 

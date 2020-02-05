@@ -30,6 +30,8 @@ namespace Sim_FrameWork.UI
                 UIManager.Instance.CloseWnd(this,true);
             });
 
+            AddButtonClickListener(Transform.FindTransfrom("Content/Button/Save").SafeGetComponent<Button>(), OnSaveBtnClick);
+
             AddButtonClickListener(Transform.FindTransfrom("Content/Button/Load").SafeGetComponent<Button>(), () =>
             {
                 UIGuide.Instance.ShowGameLoadDialog();
@@ -41,6 +43,9 @@ namespace Sim_FrameWork.UI
             });
         }
 
-        
+        void OnSaveBtnClick()
+        {
+            GameDataSaveManager.Instance.SaveGameFile();
+        }
     }
 }

@@ -12,7 +12,8 @@ namespace Sim_FrameWork
     /// </summary>
     public class GameSaveData
     {
-        public int SaveID;
+        public int GroupID;
+        public int SaveIndex;
         /// <summary>
         /// PlayerSave
         /// Resource
@@ -29,9 +30,10 @@ namespace Sim_FrameWork
         /// </summary>
         public TechnologySaveData technologySaveData;
 
-        public GameSaveData(int saveID)
+        public GameSaveData(int groupID,int saveIndex)
         {
-            this.SaveID = saveID;
+            this.GroupID = groupID;
+            this.SaveIndex = saveIndex;
             playerSaveData = new PlayerSaveData();
             assembleSaveData = new AssembleSaveData();
             technologySaveData = new TechnologySaveData();
@@ -41,17 +43,19 @@ namespace Sim_FrameWork
     /// <summary>
     /// GeneralData , not Link specific data
     /// </summary>
-    public class GameSaveGeneralData
+    public class GameSaveDataItem
     {
-        public int SaveID;
-        public string SaveName;
+        public int groupID;
+        public string saveName;
+        public int Index;
         public string SaveDate;
         public float GameTime;
 
-        public GameSaveGeneralData(int saveID, string saveName, string saveData, float gameTime)
+        public GameSaveDataItem(int groupID, string saveName, int index, string saveData, float gameTime)
         {
-            this.SaveID = saveID;
-            this.SaveName = saveName;
+            this.groupID = groupID;
+            this.saveName = saveName;
+            this.Index = index;
             this.SaveDate = saveData;
             this.GameTime = gameTime;
         }

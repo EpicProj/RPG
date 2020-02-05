@@ -1,4 +1,5 @@
 ﻿using System;
+using System.IO;
 using System.Security.Cryptography;
 using System.Text;
 /*
@@ -9,56 +10,64 @@ namespace Sim_FrameWork
 {
     public class SaveEncrypt
     {
+        private static string sKEY = "ZTdkNTNmNDE2NTM3MWM0NDFhNTEzNzU1";
+        private static string sIV = "4rZymEMfa/PpeJ89qY4gyA==";
+
         /// <summary>
         /// Encrypt Data
         /// </summary>
         /// <param name="str"></param>
         /// <param name="key"></param>
         /// <returns></returns>
-        public static string Encrypt(string str, string key)
+        public static string Encrypt(string str)
         {
-            ///key
-            byte[] keyArray = UTF8Encoding.UTF8.GetBytes(key);
+            RijndaelManaged rijndaelManaged = new RijndaelManaged
+            {
+                Padding = PaddingMode.Zeros,
+                Mode = CipherMode.CBC,
+                KeySize = 128,
+                BlockSize = 128
+            };
 
-            ///Data
-            byte[] toEncryptArray = UTF8Encoding.UTF8.GetBytes(str);
+            byte[] bytes = Encoding.UTF8.GetBytes(sKEY);
+            byte[] rgbIV = Convert.FromBase64String(sIV);
 
-            RijndaelManaged ri = new RijndaelManaged();
-            ri.Key = keyArray;
-            ri.Mode = CipherMode.ECB;
-            ri.Padding = PaddingMode.PKCS7;
-            ICryptoTransform cTrans = ri.CreateEncryptor();
+            ICryptoTransform transform = rijndaelManaged.CreateEncryptor(bytes, rgbIV);
 
-            byte[] result = cTrans.TransformFinalBlock(toEncryptArray, 0, toEncryptArray.Length);
-            return Convert.ToBase64String(result, 0, result.Length);
+            MemoryStream memoryStream = new MemoryStream();
+            CryptoStream cryptoStream = new CryptoStream(memoryStream, transform, CryptoStreamMode.Write);
+
+            byte[] bytes2 = Encoding.UTF8.GetBytes(str);
+            cryptoStream.Write(bytes2, 0, bytes2.Length);
+            cryptoStream.FlushFinalBlock();
+            byte[] inArray = memoryStream.ToArray();
+
+            return Convert.ToBase64String(inArray);
         }
 
 
-        public static string Decrypt(string str,string key)
+        public static string Decrypt(string str)
         {
-            ///key
-            byte[] keyArray = UTF8Encoding.UTF8.GetBytes(key);
-
-            ///Data
-            byte[] toEncryptArray = UTF8Encoding.UTF8.GetBytes(str);
-
-            RijndaelManaged rdel = new RijndaelManaged();
-            rdel.Key = keyArray;
-            rdel.Mode = CipherMode.ECB;
-            rdel.Padding = PaddingMode.PKCS7;
-            ICryptoTransform cTrans = rdel.CreateDecryptor();
-            try
+            RijndaelManaged rijndaelManaged = new RijndaelManaged
             {
-                byte[] result = cTrans.TransformFinalBlock(toEncryptArray, 0, toEncryptArray.Length);
-                return UTF8Encoding.UTF8.GetString(result);
-            }
-            catch(Exception e)
-            {
-                DebugPlus.LogError(e);
-                DebugPlus.LogError("[GameSaveData] : Decryptor ERROR!");
-                return string.Empty;
-            }
-            
+                Padding = PaddingMode.Zeros,
+                Mode = CipherMode.CBC,
+                KeySize = 128,
+                BlockSize = 128
+            };
+            byte[] bytes = Encoding.UTF8.GetBytes(sKEY);
+            byte[] rgbIV = Convert.FromBase64String(sIV);
+
+            ICryptoTransform transform = rijndaelManaged.CreateDecryptor(bytes, rgbIV);
+
+            byte[] array = Convert.FromBase64String(str);
+            byte[] array2 = new byte[array.Length];
+            MemoryStream stream = new MemoryStream(array);
+            CryptoStream cryptoStream = new CryptoStream(stream, transform, CryptoStreamMode.Read);
+            cryptoStream.Read(array2, 0, array2.Length);
+
+            return Encoding.UTF8.GetString(array2).TrimEnd(new char[1]);
+
         }
 
 

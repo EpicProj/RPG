@@ -41,7 +41,7 @@ namespace Sim_FrameWork.UI
         {
             var tran = Transform.FindTransfrom("Content/Content/Scroll View");
             var loopList = tran.SafeGetComponent<LoopList>();
-            loopList.InitData(GameDataSaveManager.Instance.GetSaveModel());
+            loopList.InitData(GameDataSaveManager.Instance.GetSaveGroupModel());
         }
 
         
