@@ -1,72 +1,535 @@
 ManifestFileVersion: 0
-CRC: 1444781997
+CRC: 1538659590
 AssetBundleManifest:
   AssetBundleInfos:
     Info_0:
-      Name: byte
+      Name: gamedataconfig
       Dependencies: {}
     Info_1:
       Name: sprite
       Dependencies: {}
     Info_2:
-      Name: block_0
+      Name: audio
       Dependencies: {}
     Info_3:
-      Name: block_1
-      Dependencies: {}
+      Name: model
+      Dependencies:
+        Dependency_0: gameentryscene
+        Dependency_1: mapmanager
     Info_4:
-      Name: block_2
+      Name: animation
       Dependencies: {}
     Info_5:
-      Name: chunk
+      Name: assetbundleconfig
       Dependencies: {}
     Info_6:
-      Name: generator
+      Name: functionblockbase
       Dependencies:
-        Dependency_0: block_0
-        Dependency_1: block_1
-        Dependency_2: block_2
-        Dependency_3: chunk
+        Dependency_0: model
     Info_7:
-      Name: simplesun
+      Name: district_smelt_large
       Dependencies: {}
     Info_8:
-      Name: blockgrid
-      Dependencies:
-        Dependency_0: sprite
+      Name: district_smelt_small
+      Dependencies: {}
     Info_9:
-      Name: costelement
+      Name: simplesun
       Dependencies: {}
     Info_10:
-      Name: district
+      Name: audiomanager
       Dependencies: {}
     Info_11:
+      Name: assemblepartcard
+      Dependencies:
+        Dependency_0: sprite
+        Dependency_1: animation
+    Info_12:
+      Name: assemblepartchooseitem
+      Dependencies:
+        Dependency_0: sprite
+        Dependency_1: assemblepartcard
+    Info_13:
+      Name: assemblepartcustomitem_left
+      Dependencies:
+        Dependency_0: sprite
+        Dependency_1: animation
+        Dependency_2: assemblepartcard
+    Info_14:
+      Name: assemblepartcustomitem_right
+      Dependencies:
+        Dependency_0: sprite
+        Dependency_1: animation
+        Dependency_2: assemblepartcard
+    Info_15:
+      Name: assemblepartmoduleitem
+      Dependencies:
+        Dependency_0: sprite
+        Dependency_1: assemblepartcard
+    Info_16:
+      Name: assemblepropertyitem
+      Dependencies:
+        Dependency_0: sprite
+        Dependency_1: assemblepartcard
+    Info_17:
+      Name: assemblepropertyitemsmall
+      Dependencies:
+        Dependency_0: sprite
+        Dependency_1: assemblepartcard
+    Info_18:
+      Name: assembleshipbuildcard
+      Dependencies:
+        Dependency_0: sprite
+        Dependency_1: animation
+        Dependency_2: assemblepartcard
+    Info_19:
+      Name: assembleshipcard
+      Dependencies:
+        Dependency_0: sprite
+        Dependency_1: animation
+        Dependency_2: assemblepartcard
+    Info_20:
+      Name: assembleshipcustompartitem_bottom
+      Dependencies:
+        Dependency_0: sprite
+        Dependency_1: animation
+        Dependency_2: assemblepartcard
+    Info_21:
+      Name: assembleshipcustompartitem_top
+      Dependencies:
+        Dependency_0: sprite
+        Dependency_1: animation
+        Dependency_2: assemblepartcard
+    Info_22:
+      Name: builddetaildistrictelement
+      Dependencies:
+        Dependency_0: sprite
+    Info_23:
+      Name: costelement
+      Dependencies:
+        Dependency_0: assemblepartcard
+    Info_24:
+      Name: district
+      Dependencies: {}
+    Info_25:
       Name: districtbuildelemet
       Dependencies:
-        Dependency_0: costelement
-    Info_12:
+        Dependency_0: sprite
+        Dependency_1: assemblepartcard
+    Info_26:
+      Name: districtgrid
+      Dependencies:
+        Dependency_0: sprite
+    Info_27:
       Name: pickeddistrict
       Dependencies: {}
-    Info_13:
-      Name: factorytagobject
+    Info_28:
+      Name: exploreareamission
       Dependencies:
         Dependency_0: sprite
-        Dependency_1: costelement
-    Info_14:
-      Name: factorytest
-      Dependencies: {}
-    Info_15:
-      Name: itemuiprefab
-      Dependencies: {}
-    Info_16:
-      Name: manufactslot
-      Dependencies: {}
-    Info_17:
-      Name: materialitem
-      Dependencies: {}
-    Info_18:
-      Name: blockinfodialog
+        Dependency_1: animation
+        Dependency_2: assemblepartcard
+    Info_29:
+      Name: exploreareaselectbtn
       Dependencies:
         Dependency_0: sprite
-        Dependency_1: costelement
-        Dependency_2: manufactslot
+        Dependency_1: animation
+        Dependency_2: assemblepartcard
+    Info_30:
+      Name: explorepoint
+      Dependencies:
+        Dependency_0: sprite
+        Dependency_1: animation
+        Dependency_2: assemblepartcard
+    Info_31:
+      Name: exploreteam
+      Dependencies:
+        Dependency_0: sprite
+        Dependency_1: assemblepartcard
+    Info_32:
+      Name: blockeffectelement
+      Dependencies:
+        Dependency_0: sprite
+        Dependency_1: assemblepartcard
+    Info_33:
+      Name: buildrequireelement
+      Dependencies:
+        Dependency_0: sprite
+        Dependency_1: assemblepartcard
+    Info_34:
+      Name: formulachooseelement
+      Dependencies:
+        Dependency_0: sprite
+        Dependency_1: animation
+        Dependency_2: assemblepartcard
+    Info_35:
+      Name: blockbuildelement
+      Dependencies:
+        Dependency_0: sprite
+        Dependency_1: animation
+        Dependency_2: assemblepartcard
+    Info_36:
+      Name: blocksubtypeelement
+      Dependencies:
+        Dependency_0: sprite
+        Dependency_1: assemblepartcard
+    Info_37:
+      Name: chooseitem
+      Dependencies:
+        Dependency_0: sprite
+        Dependency_1: assemblepartcard
+    Info_38:
+      Name: circlesortelement
+      Dependencies:
+        Dependency_0: sprite
+        Dependency_1: assemblepartcard
+    Info_39:
+      Name: constructmaintabelement
+      Dependencies:
+        Dependency_0: sprite
+        Dependency_1: animation
+    Info_40:
+      Name: saveelement
+      Dependencies:
+        Dependency_0: assemblepartcard
+    Info_41:
+      Name: savesubitem
+      Dependencies:
+        Dependency_0: sprite
+        Dependency_1: assemblepartcard
+    Info_42:
+      Name: generalchoosetab
+      Dependencies:
+        Dependency_0: sprite
+        Dependency_1: animation
+        Dependency_2: assemblepartcard
+    Info_43:
+      Name: manuslotelement
+      Dependencies:
+        Dependency_0: sprite
+        Dependency_1: assemblepartcard
+    Info_44:
+      Name: rectsortelement
+      Dependencies:
+        Dependency_0: sprite
+        Dependency_1: assemblepartcard
+    Info_45:
+      Name: rewardelement
+      Dependencies:
+        Dependency_0: assemblepartcard
+    Info_46:
+      Name: rewarditem
+      Dependencies:
+        Dependency_0: sprite
+        Dependency_1: assemblepartcard
+    Info_47:
+      Name: warehousemaintag
+      Dependencies:
+        Dependency_0: sprite
+        Dependency_1: assemblepartcard
+    Info_48:
+      Name: warehousesubtag
+      Dependencies:
+        Dependency_0: sprite
+    Info_49:
+      Name: mainshippoweritem
+      Dependencies:
+        Dependency_0: sprite
+    Info_50:
+      Name: mainshipshielddirtab
+      Dependencies:
+        Dependency_0: sprite
+        Dependency_1: assemblepartcard
+    Info_51:
+      Name: mainshipshileddetailitem
+      Dependencies:
+        Dependency_0: sprite
+        Dependency_1: assemblepartcard
+    Info_52:
+      Name: materialelement
+      Dependencies:
+        Dependency_0: sprite
+        Dependency_1: assemblepartcard
+    Info_53:
+      Name: currentorderelement
+      Dependencies:
+        Dependency_0: sprite
+    Info_54:
+      Name: orderdetailelement
+      Dependencies:
+        Dependency_0: sprite
+        Dependency_1: assemblepartcard
+    Info_55:
+      Name: orderreceiveelement
+      Dependencies:
+        Dependency_0: sprite
+        Dependency_1: assemblepartcard
+    Info_56:
+      Name: generalorganizationelement
+      Dependencies:
+        Dependency_0: sprite
+        Dependency_1: assemblepartcard
+    Info_57:
+      Name: techeffectelement
+      Dependencies:
+        Dependency_0: sprite
+        Dependency_1: assemblepartcard
+    Info_58:
+      Name: techgrouppanel_3-1-1
+      Dependencies:
+        Dependency_0: sprite
+    Info_59:
+      Name: techobject
+      Dependencies:
+        Dependency_0: sprite
+        Dependency_1: animation
+        Dependency_2: assemblepartcard
+    Info_60:
+      Name: techrequireelement
+      Dependencies:
+        Dependency_0: sprite
+        Dependency_1: animation
+        Dependency_2: assemblepartcard
+    Info_61:
+      Name: assemblecontainer
+      Dependencies:
+        Dependency_0: model
+    Info_62:
+      Name: gameentryscene
+      Dependencies:
+        Dependency_0: model
+        Dependency_1: animation
+    Info_63:
+      Name: mapmanager
+      Dependencies:
+        Dependency_0: model
+        Dependency_1: assemblecontainer
+    Info_64:
+      Name: mainship_powerarea
+      Dependencies:
+        Dependency_0: sprite
+        Dependency_1: model
+        Dependency_2: functionblockbase
+    Info_65:
+      Name: buttongeneral
+      Dependencies:
+        Dependency_0: sprite
+        Dependency_1: animation
+        Dependency_2: assemblepartcard
+    Info_66:
+      Name: assemblepartchoosedialog
+      Dependencies:
+        Dependency_0: sprite
+        Dependency_1: animation
+        Dependency_2: assemblepartcard
+    Info_67:
+      Name: assembleshipchoosedialog
+      Dependencies:
+        Dependency_0: sprite
+        Dependency_1: animation
+        Dependency_2: assemblepartcard
+        Dependency_3: assemblepartchoosedialog
+    Info_68:
+      Name: blocknormalinfodialog
+      Dependencies:
+        Dependency_0: sprite
+        Dependency_1: animation
+        Dependency_2: assemblepartcard
+        Dependency_3: assemblepartchoosedialog
+    Info_69:
+      Name: blockupgradedialog
+      Dependencies:
+        Dependency_0: sprite
+        Dependency_1: animation
+        Dependency_2: assemblepartcard
+        Dependency_3: assemblepartchoosedialog
+    Info_70:
+      Name: productlinechangedialog
+      Dependencies:
+        Dependency_0: sprite
+        Dependency_1: animation
+        Dependency_2: assemblepartcard
+        Dependency_3: assemblepartchoosedialog
+    Info_71:
+      Name: gameloaddialog
+      Dependencies:
+        Dependency_0: sprite
+        Dependency_1: animation
+        Dependency_2: assemblepartcard
+    Info_72:
+      Name: generalconfirmdialog
+      Dependencies:
+        Dependency_0: sprite
+        Dependency_1: animation
+        Dependency_2: assemblepartcard
+        Dependency_3: assemblepartchooseitem
+        Dependency_4: assemblepartchoosedialog
+    Info_73:
+      Name: generalhint
+      Dependencies:
+        Dependency_0: animation
+        Dependency_1: assemblepartcard
+        Dependency_2: assemblepartchoosedialog
+    Info_74:
+      Name: menudialog
+      Dependencies:
+        Dependency_0: sprite
+        Dependency_1: animation
+        Dependency_2: assemblepartcard
+        Dependency_3: assemblepartchoosedialog
+    Info_75:
+      Name: randomeventdialog
+      Dependencies:
+        Dependency_0: sprite
+        Dependency_1: animation
+        Dependency_2: assemblepartcard
+        Dependency_3: blocknormalinfodialog
+    Info_76:
+      Name: mainshipshielddialog
+      Dependencies:
+        Dependency_0: sprite
+        Dependency_1: model
+        Dependency_2: assemblepartcard
+        Dependency_3: assemblepartchoosedialog
+    Info_77:
+      Name: technologydetaildialog
+      Dependencies:
+        Dependency_0: sprite
+        Dependency_1: animation
+        Dependency_2: assemblepartcard
+        Dependency_3: assemblepartchoosedialog
+    Info_78:
+      Name: expslider
+      Dependencies:
+        Dependency_0: sprite
+    Info_79:
+      Name: selectionui
+      Dependencies:
+        Dependency_0: sprite
+    Info_80:
+      Name: assemblepartinfoui
+      Dependencies:
+        Dependency_0: sprite
+        Dependency_1: assemblepartcard
+    Info_81:
+      Name: blockenterinfo
+      Dependencies:
+        Dependency_0: sprite
+        Dependency_1: animation
+        Dependency_2: assemblepartcard
+    Info_82:
+      Name: buildpaneldetail
+      Dependencies:
+        Dependency_0: sprite
+        Dependency_1: animation
+        Dependency_2: assemblepartcard
+        Dependency_3: randomeventdialog
+    Info_83:
+      Name: debugdialog
+      Dependencies:
+        Dependency_0: assemblepartcard
+    Info_84:
+      Name: districtdetailui
+      Dependencies:
+        Dependency_0: sprite
+        Dependency_1: assemblepartcard
+    Info_85:
+      Name: fpscounter
+      Dependencies:
+        Dependency_0: assemblepartcard
+    Info_86:
+      Name: materialinfoui
+      Dependencies:
+        Dependency_0: sprite
+        Dependency_1: assemblepartcard
+    Info_87:
+      Name: playerstate
+      Dependencies:
+        Dependency_0: sprite
+        Dependency_1: animation
+        Dependency_2: assemblepartcard
+    Info_88:
+      Name: assemblepartdesignpage
+      Dependencies:
+        Dependency_0: sprite
+        Dependency_1: model
+        Dependency_2: animation
+        Dependency_3: assemblepartcard
+        Dependency_4: assemblepartchooseitem
+    Info_89:
+      Name: assembleshipbuildpage
+      Dependencies:
+        Dependency_0: sprite
+        Dependency_1: animation
+        Dependency_2: assemblepartcard
+    Info_90:
+      Name: assembleshipdesignpage
+      Dependencies:
+        Dependency_0: sprite
+        Dependency_1: model
+        Dependency_2: animation
+        Dependency_3: assemblepartcard
+    Info_91:
+      Name: blockmanupage
+      Dependencies:
+        Dependency_0: sprite
+        Dependency_1: animation
+        Dependency_2: assemblepartcard
+        Dependency_3: blockeffectelement
+        Dependency_4: randomeventdialog
+    Info_92:
+      Name: consolepage
+      Dependencies:
+        Dependency_0: sprite
+        Dependency_1: assemblepartcard
+    Info_93:
+      Name: exploremainpage
+      Dependencies:
+        Dependency_0: sprite
+        Dependency_1: animation
+        Dependency_2: assemblepartcard
+        Dependency_3: assemblepartchoosedialog
+    Info_94:
+      Name: explorepointpage
+      Dependencies:
+        Dependency_0: sprite
+        Dependency_1: animation
+        Dependency_2: assemblepartcard
+    Info_95:
+      Name: gameentrypage
+      Dependencies:
+        Dependency_0: sprite
+        Dependency_1: animation
+        Dependency_2: assemblepartcard
+    Info_96:
+      Name: loadingpage
+      Dependencies:
+        Dependency_0: sprite
+        Dependency_1: assemblepartcard
+    Info_97:
+      Name: mainmenupage
+      Dependencies:
+        Dependency_0: sprite
+        Dependency_1: animation
+        Dependency_2: assemblepartcard
+    Info_98:
+      Name: orderreceivemainpage
+      Dependencies:
+        Dependency_0: sprite
+        Dependency_1: animation
+        Dependency_2: assemblepartcard
+    Info_99:
+      Name: pausepage
+      Dependencies:
+        Dependency_0: assemblepartcard
+    Info_100:
+      Name: technologymainpage
+      Dependencies:
+        Dependency_0: sprite
+        Dependency_1: animation
+        Dependency_2: assemblepartcard
+    Info_101:
+      Name: warehousepage
+      Dependencies:
+        Dependency_0: sprite
+        Dependency_1: animation
+        Dependency_2: assemblepartcard
