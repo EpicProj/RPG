@@ -13,8 +13,8 @@ namespace Sim_FrameWork.Editor
 {
     public class DataEditor 
     {
-        public static string XmlPath = "Assets/Resources/Data/DataFormat/Xml/";
-        public static string BinaryPath = "Assets/Resources/Data/DataFormat/Binary/";
+        public static string XmlPath = SimConfig.XmlConfigPath;
+        public static string BinaryPath = SimConfig.BinaryConfigPath;
         public static string ScriptsPath = "";
         public static string ExcelPath = Application.dataPath + "/../Data/Data_Excel/";
         public static string RegPath = Application.dataPath + "/../Data/Data_Reg/";

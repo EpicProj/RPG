@@ -12,8 +12,8 @@ namespace Sim_FrameWork.Editor
     public class BundleEditor
     {
         private static string m_BunleTargetPath = Application.dataPath + "/../AssetBundle/" + EditorUserBuildSettings.activeBuildTarget.ToString();
-        private static string ABCONFIGPATH = "Assets/Resources/Data/Config/ABConfig.asset";
-        private static string ABBYTEPATH = SimConfig.GetSimFram().m_ABBytePath;
+        private static string ABCONFIGPATH = "Assets/Resources/Config/ABConfig.asset";
+        private static string ABBYTEPATH = SimConfig.ASBConfigPath;
         //key是ab包名，value是路径，所有文件夹ab包dic
         private static Dictionary<string, string> m_AllFileDir = new Dictionary<string, string>();
         //过滤的list
@@ -86,7 +86,7 @@ namespace Sim_FrameWork.Editor
                 SetABName(name, m_AllPrefabDir[name]);
             }
 
-            BunildAssetBundle();
+            BuildAssetBundle();
 
             string[] oldABNames = AssetDatabase.GetAllAssetBundleNames();
             for (int i = 0; i < oldABNames.Length; i++)
@@ -121,7 +121,7 @@ namespace Sim_FrameWork.Editor
             }
         }
 
-        static void BunildAssetBundle()
+        static void BuildAssetBundle()
         {
             string[] allBundles = AssetDatabase.GetAllAssetBundleNames();
             //key为全路径，value为包名

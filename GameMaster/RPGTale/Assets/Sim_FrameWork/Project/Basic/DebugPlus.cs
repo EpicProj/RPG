@@ -15,18 +15,24 @@ namespace Sim_FrameWork
             yellow
         }
 
-        public static void Log(object message, debugColor color = debugColor.black)
+        static void SendDebugMsg(string content)
+        {
+            UIManager.Instance.SendMessageToWnd(UIPath.WindowPath.DebugDialog, new UIMessage(UIMsgType.ShowDebugMsg,new List<object>() { content}));
+        }
+
+        public static void Log(object message, debugColor color = debugColor.blue)
         {
             if (!enable)
                 return;
             Debug.Log(Message(message, color));
         }
 
-        public static void LogError(object message, debugColor color = debugColor.black)
+        public static void LogError(object message, debugColor color = debugColor.red)
         {
             if (!enable)
                 return;
             Debug.LogError(Message(message, color));
+            SendDebugMsg(Message(message, color));
         }
 
         public static void LogBold(object message, debugColor color = debugColor.black)

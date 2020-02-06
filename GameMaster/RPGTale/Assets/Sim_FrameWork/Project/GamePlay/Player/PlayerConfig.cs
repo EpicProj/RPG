@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace Sim_FrameWork
+namespace Sim_FrameWork.Config
 {
     public enum GameHardLevel
     {
@@ -11,7 +11,7 @@ namespace Sim_FrameWork
         hard = 1 << 2
     }
 
-    public class PlayerConfig
+    public class PlayerConfig 
     {
         public List<HardLevelData> hardlevelData;
         public TimeDataConfig timeConfig;
@@ -33,7 +33,7 @@ namespace Sim_FrameWork
 
     }
 
-    public class TimeDataConfig
+    public class TimeDataConfig 
     {
         public int OriginalYear;
         public ushort OriginalMonth;

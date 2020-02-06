@@ -126,6 +126,7 @@ namespace Sim_FrameWork
             public const string District_Detail_UI = "Misc/DistrictDetailUI";
             public const string Assemble_PartInfo_UI = "Misc/AssemblePartInfoUI";
 
+            public const string DebugDialog = "Misc/DebugDialog";
             #endregion
 
         }

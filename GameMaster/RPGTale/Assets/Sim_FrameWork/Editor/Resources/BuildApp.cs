@@ -21,23 +21,28 @@ namespace Sim_FrameWork.Editor
             BundleEditor.Build();
             //生成可执行程序
             string abPath = Application.dataPath + "/../AssetBundle/" + EditorUserBuildSettings.activeBuildTarget.ToString() + "/";
-            Copy(abPath, Application.streamingAssetsPath);
-            string savePath = "";
-            if (EditorUserBuildSettings.activeBuildTarget == BuildTarget.Android)
-            {
-                savePath = m_AndroidPath + m_AppName + "_" + EditorUserBuildSettings.activeBuildTarget + string.Format("_{0:yyyy_MM_dd_HH_mm}", DateTime.Now) + ".apk";
-            }
-            else if (EditorUserBuildSettings.activeBuildTarget == BuildTarget.iOS)
-            {
-                savePath = m_IOSPath + m_AppName + "_" + EditorUserBuildSettings.activeBuildTarget + string.Format("_{0:yyyy_MM_dd_HH_mm}", DateTime.Now);
-            }
-            else if (EditorUserBuildSettings.activeBuildTarget == BuildTarget.StandaloneWindows || EditorUserBuildSettings.activeBuildTarget == BuildTarget.StandaloneWindows64)
-            {
-                savePath = m_WindowsPath + m_AppName + "_" + EditorUserBuildSettings.activeBuildTarget + string.Format("_{0:yyyy_MM_dd_HH_mm}/{1}.exe", DateTime.Now, m_AppName);
-            }
+            string targetPath = getTargetPath();
 
-            BuildPipeline.BuildPlayer(FindEnableEditorrScenes(), savePath, EditorUserBuildSettings.activeBuildTarget, BuildOptions.None);
+            Copy(abPath, Application.streamingAssetsPath);
+            //Copy languageConfig
+            Copy(MultiLanguage.LanguagePath, targetPath);
+
+            Copy(Application.dataPath + "/ConfigData/Game_Config", targetPath);
+
+            //Build Exe
+            BuildPipeline.BuildPlayer(FindEnableEditorrScenes(),targetPath+ "/"+m_AppName +".exe", EditorUserBuildSettings.activeBuildTarget, BuildOptions.Development);
             DeleteDir(Application.streamingAssetsPath);
+        }
+
+        public static string getTargetPath()
+        {
+            string savePath = "";
+
+            if (EditorUserBuildSettings.activeBuildTarget == BuildTarget.StandaloneWindows || EditorUserBuildSettings.activeBuildTarget == BuildTarget.StandaloneWindows64)
+            {
+                savePath = m_WindowsPath + m_AppName + "_" + EditorUserBuildSettings.activeBuildTarget + string.Format("_{0:yyyy_MM_dd_HH_mm}", DateTime.Now);
+            }
+            return savePath;
         }
 
         private static string[] FindEnableEditorrScenes()

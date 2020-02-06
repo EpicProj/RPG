@@ -23,7 +23,7 @@ namespace Sim_FrameWork
         /// </summary>
         private float timer;
 
-        public void InitPlayerData(GameHardLevel hardLevel)
+        public void InitPlayerData(Config.GameHardLevel hardLevel)
         {
             playerData = new PlayerData();
             if (playerData.InitData(hardLevel) == false)
@@ -53,7 +53,7 @@ namespace Sim_FrameWork
             return true;
         }
 
-        public void SetGameHardLevel(GameHardLevel hardLevel)
+        public void SetGameHardLevel(Config.GameHardLevel hardLevel)
         {
             playerData.SetHardLevel(hardLevel);
         }

@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace Sim_FrameWork.Config
 {
-    public class AssembleConfig
+    public class AssembleConfig 
     {
         public string assemblePartPage_DefaultSelectTab;
         public string assembleShipPage_DefaultSelectTab;

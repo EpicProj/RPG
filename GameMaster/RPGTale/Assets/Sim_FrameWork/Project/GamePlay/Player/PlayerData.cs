@@ -8,8 +8,8 @@ namespace Sim_FrameWork
     public class PlayerData 
     {
 
-        public GameHardLevel currentHardLevel { get; protected set; }
-        public bool SetHardLevel(GameHardLevel hardLevel)
+        public Config.GameHardLevel currentHardLevel { get; protected set; }
+        public bool SetHardLevel(Config.GameHardLevel hardLevel)
         {
             if (PlayerModule.GetHardlevelData(hardLevel) == null)
             {
@@ -30,7 +30,7 @@ namespace Sim_FrameWork
         public TimeData timeData;
 
         public PlayerData() { }
-        public bool InitData(GameHardLevel hardLevel)
+        public bool InitData(Config.GameHardLevel hardLevel)
         {
             var config = Config.ConfigData.PlayerConfig;
             if (config == null || config.timeConfig == null)
@@ -239,7 +239,7 @@ namespace Sim_FrameWork
 
         #endregion
         public PlayerResourceData() { }
-        public bool InitData(GameHardLevel hardLevel)
+        public bool InitData(Config.GameHardLevel hardLevel)
         {
             var data = PlayerModule.GetHardlevelData(hardLevel);
             if (data != null)

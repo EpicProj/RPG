@@ -296,7 +296,7 @@ namespace Sim_FrameWork
             if (resObj.m_ResItem.m_Obj == null)
             {
 #if UNITY_EDITOR
-                Debug.LogError("异步资源加载的资源为空：" + path);
+                DebugPlus.LogError("异步资源加载的资源为空：" + path);
 #endif
             }
             else
@@ -343,19 +343,19 @@ namespace Sim_FrameWork
             int tempID = obj.GetInstanceID();
             if (!m_ResouceObjDic.TryGetValue(tempID, out resObj))
             {
-                Debug.Log(obj.name + "对象不是ObjectManager创建的！");
+                DebugPlus.Log(obj.name + "对象不是ObjectManager创建的！");
                 return;
             }
 
             if (resObj == null)
             {
-                Debug.LogError("缓存的ResouceObj为空！");
+                DebugPlus.LogError("缓存的ResouceObj为空！");
                 return;
             }
 
             if (resObj.m_Already)
             {
-                Debug.LogError("该对象已经放回对象池了，检测自己是否情况引用!");
+                DebugPlus.LogError("该对象已经放回对象池了，检测自己是否情况引用!");
                 return;
             }
 

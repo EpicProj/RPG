@@ -14,7 +14,7 @@ namespace Sim_FrameWork
             {
                 result = trans.GetComponent<T>();
             }
-            catch (Exception e)
+            catch 
             {
                 if (result == null && trans != null)
                 {
@@ -46,7 +46,7 @@ namespace Sim_FrameWork
             var trans = transfrom.Find(name);
             if (trans == null)
             {
-                Debug.LogError("Find Transfrom is null !  name= " + name);
+                DebugPlus.LogError("Find Transfrom is null !  name= " + name);
             }
             return trans;
         }

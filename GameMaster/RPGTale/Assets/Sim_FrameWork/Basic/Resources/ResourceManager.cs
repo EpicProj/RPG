@@ -96,9 +96,8 @@ namespace Sim_FrameWork {
 
     public class ResourceManager : Singleton<ResourceManager> {
 
-
         protected long m_Guid = 0;
-        public bool m_LoadFormAssetBundle = false;
+        public static bool m_LoadFormAssetBundle = false;
         //缓存使用的资源列表
         public Dictionary<uint, ResouceItem> AssetDic { get; set; } = new Dictionary<uint, ResouceItem>();
         //缓存引用计数为零的资源列表，达到缓存最大的时候释放这个列表里面最早没用的资源
@@ -456,7 +455,7 @@ namespace Sim_FrameWork {
             ResouceItem item = null;
             if (!AssetDic.TryGetValue(resObj.m_Crc, out item) || null == item)
             {
-                Debug.LogError("AssetDic里不存在改资源：" + resObj.m_CloneObj.name + "  可能释放了多次");
+                DebugPlus.LogError("AssetDic里不存在改资源：" + resObj.m_CloneObj.name + "  可能释放了多次");
             }
 
             GameObject.Destroy(resObj.m_CloneObj);
@@ -491,7 +490,7 @@ namespace Sim_FrameWork {
 
             if (item == null)
             {
-                Debug.LogError("AssetDic里不存在改资源：" + obj.name + "  可能释放了多次");
+                DebugPlus.LogError("AssetDic里不存在改资源：" + obj.name + "  可能释放了多次");
                 return false;
             }
 
@@ -520,7 +519,7 @@ namespace Sim_FrameWork {
             ResouceItem item = null;
             if (!AssetDic.TryGetValue(crc, out item) || null == item)
             {
-                Debug.LogError("AssetDic里不存在改资源：" + path + "  可能释放了多次");
+                DebugPlus.LogError("AssetDic里不存在改资源：" + path + "  可能释放了多次");
             }
 
             item.RefCount--;
@@ -544,12 +543,12 @@ namespace Sim_FrameWork {
 
             if (item == null)
             {
-                Debug.LogError("ResouceItem is null, path: " + path);
+                DebugPlus.LogError("ResouceItem is null, path: " + path);
             }
 
             if (obj == null)
             {
-                Debug.LogError("ResouceLoad Fail :  " + path);
+                DebugPlus.LogError("ResouceLoad Fail :  " + path);
             }
 
             item.m_Obj = obj;

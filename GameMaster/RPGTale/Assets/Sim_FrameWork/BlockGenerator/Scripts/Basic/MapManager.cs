@@ -36,6 +36,7 @@ namespace Sim_FrameWork
         {
             UIGuide.Instance.ShowGameMainPage();
             UIGuide.Instance.ShowPlayerStatePanel();
+            UIGuide.Instance.ShowGameDebugDialog();
         }
 
         void Update()

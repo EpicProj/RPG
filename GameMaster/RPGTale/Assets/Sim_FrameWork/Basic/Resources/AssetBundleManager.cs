@@ -8,7 +8,7 @@ namespace Sim_FrameWork
 {
     public class AssetBundleManager : Singleton<AssetBundleManager>
     {
-        protected string m_ABConfigABName = "AssetBundleConfig.bytes";
+        protected string m_ABConfigABName = "AssetsBundleConfig.bytes";
         //资源关系依赖配表，可以根据crc来找到对应资源块
         protected Dictionary<uint, ResouceItem> m_ResouceItemDic = new Dictionary<uint, ResouceItem>();
         //储存已加载的AB包，key为crc
@@ -16,13 +16,7 @@ namespace Sim_FrameWork
         //AssetBundleItem类对象池
         protected ClassObjectPool<AssetBundleItem> m_AssetBundleItemPool = ObjectManager.Instance.GetOrCreatClassPool<AssetBundleItem>(500);
 
-        protected string ABLoadPath
-        {
-            get
-            {
-                return Application.streamingAssetsPath + "/";
-            }
-        }
+        protected string ABLoadPath= "AssetBundle/StandaloneWindows64/";
         /// <summary>
         /// 加载ab配置表
         /// </summary>
@@ -30,17 +24,21 @@ namespace Sim_FrameWork
         public bool LoadAssetBundleConfig()
         {
 #if UNITY_EDITOR
-            if (!ResourceManager.Instance.m_LoadFormAssetBundle)
+            if (!ResourceManager.m_LoadFormAssetBundle)
                 return false;
 #endif
 
             m_ResouceItemDic.Clear();
-            string configPath = ABLoadPath + m_ABConfigABName;
-            AssetBundle configAB = AssetBundle.LoadFromFile(configPath);
+            AssetBundle configAB = null;
+
+            configAB = AssetBundle.LoadFromFile(Application.streamingAssetsPath + "/assetbundleconfig");
+
+            //configAB = AssetBundle.LoadFromFile(ABLoadPath + "assetbundleconfig");
+
             TextAsset textAsset = configAB.LoadAsset<TextAsset>(m_ABConfigABName);
             if (textAsset == null)
             {
-                Debug.LogError("AssetBundleConfig is no exist!");
+                DebugPlus.LogError("AssetBundleConfig is no exist!");
                 return false;
             }
 
@@ -59,7 +57,7 @@ namespace Sim_FrameWork
                 item.m_DependAssetBundle = abBase.ABDependce;
                 if (m_ResouceItemDic.ContainsKey(item.m_Crc))
                 {
-                    Debug.LogError("重复的Crc 资源名:" + item.m_AssetName + " ab包名：" + item.m_ABName);
+                    DebugPlus.LogError("重复的Crc 资源名:" + item.m_AssetName + " ab包名：" + item.m_ABName);
                 }
                 else
                 {
@@ -80,7 +78,7 @@ namespace Sim_FrameWork
 
             if (!m_ResouceItemDic.TryGetValue(crc, out item) || item == null)
             {
-                Debug.LogError(string.Format("LoadResourceAssetBundle error: can not find crc {0} in AssetBundleConfig", crc.ToString()));
+                DebugPlus.LogError(string.Format("LoadResourceAssetBundle error: can not find crc {0} in AssetBundleConfig", crc.ToString()));
                 return item;
             }
 
@@ -115,12 +113,12 @@ namespace Sim_FrameWork
             if (!m_AssetBundleItemDic.TryGetValue(crc, out item))
             {
                 AssetBundle assetBundle = null;
-                string fullPath = ABLoadPath + name;
+                string fullPath = Application.streamingAssetsPath +"/"+ name;
                 assetBundle = AssetBundle.LoadFromFile(fullPath);
 
                 if (assetBundle == null)
                 {
-                    Debug.LogError(" Load AssetBundle Error:" + fullPath);
+                    DebugPlus.LogError(" Load AssetBundle Error:" + fullPath);
                 }
 
                 item = m_AssetBundleItemPool.Spawn(true);
@@ -229,7 +227,7 @@ namespace Sim_FrameWork
                 m_RefCount = value;
                 if (m_RefCount < 0)
                 {
-                    Debug.LogError("refcount < 0" + m_RefCount + " ," + (m_Obj != null ? m_Obj.name : "name is null"));
+                    DebugPlus.LogError("refcount < 0" + m_RefCount + " ," + (m_Obj != null ? m_Obj.name : "name is null"));
                 }
             }
         }

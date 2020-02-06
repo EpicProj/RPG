@@ -76,19 +76,19 @@ namespace Sim_FrameWork {
 
     public class ConfigPath
     {
-        public const string TABLE_FUNCTIONBLOCK_METADATA_PATH = "Assets/Resources/Data/DataFormat/Binary/FunctionBlockMetaData.bytes";
-        public const string TABLE_MATERIAL_METADATA_PATH= "Assets/Resources/Data/DataFormat/Binary/MaterialMetaData.bytes";
-        public const string TABLE_FORMULA_METADATA_PATH= "Assets/Resources/Data/DataFormat/Binary/FunctionBlockFormulaMetaData.bytes";
-        public const string TABLE_DISTRICT_METADATA_PATH= "Assets/Resources/Data/DataFormat/Binary/DistrictMetaData.bytes";
-        public const string TABLE_BUILDPANEL_METADATA_PATH= "Assets/Resources/Data/DataFormat/Binary/BuildingPanelMetaData.bytes";
-        public const string TABLE_TERRIAN_METADATA_PATH= "Assets/Resources/Data/DataFormat/Binary/TerrianMetaData.bytes";
-        public const string TABLE_CAMP_METADATA_PATH= "Assets/Resources/Data/DataFormat/Binary/CampMetaData.bytes";
-        public const string TABLE_ORGANIZATION_METADATA_PATH= "Assets/Resources/Data/DataFormat/Binary/OrganizationMetaData.bytes";
-        public const string TABLE_ORDER_METADATA_PATH= "Assets/Resources/Data/DataFormat/Binary/OrderMetaData.bytes";
-        public const string TABLE_TECHNOLOGY_METADATA_PATH= "Assets/Resources/Data/DataFormat/Binary/TechnologyMetaData.bytes";
-        public const string TABLE_EXPLORE_METADATA_PATH= "Assets/Resources/Data/DataFormat/Binary/ExploreMetaData.bytes";
+        public const string TABLE_FUNCTIONBLOCK_METADATA_PATH = "Assets/ConfigData/DataFormat/Binary/FunctionBlockMetaData.bytes";
+        public const string TABLE_MATERIAL_METADATA_PATH= "Assets/ConfigData/DataFormat/Binary/MaterialMetaData.bytes";
+        public const string TABLE_FORMULA_METADATA_PATH= "Assets/ConfigData/DataFormat/Binary/FunctionBlockFormulaMetaData.bytes";
+        public const string TABLE_DISTRICT_METADATA_PATH= "Assets/ConfigData/DataFormat/Binary/DistrictMetaData.bytes";
+        public const string TABLE_BUILDPANEL_METADATA_PATH= "Assets/ConfigData/DataFormat/Binary/BuildingPanelMetaData.bytes";
+        public const string TABLE_TERRIAN_METADATA_PATH= "Assets/ConfigData/DataFormat/Binary/TerrianMetaData.bytes";
+        public const string TABLE_CAMP_METADATA_PATH= "Assets/ConfigData/DataFormat/Binary/CampMetaData.bytes";
+        public const string TABLE_ORGANIZATION_METADATA_PATH= "Assets/ConfigData/DataFormat/Binary/OrganizationMetaData.bytes";
+        public const string TABLE_ORDER_METADATA_PATH= "Assets/ConfigData/DataFormat/Binary/OrderMetaData.bytes";
+        public const string TABLE_TECHNOLOGY_METADATA_PATH= "Assets/ConfigData/DataFormat/Binary/TechnologyMetaData.bytes";
+        public const string TABLE_EXPLORE_METADATA_PATH= "Assets/ConfigData/DataFormat/Binary/ExploreMetaData.bytes";
         
-        public const string TABLE_ASSEMBLE_METADATA_PATH= "Assets/Resources/Data/DataFormat/Binary/AssembleMetaData.bytes";
+        public const string TABLE_ASSEMBLE_METADATA_PATH= "Assets/ConfigData/DataFormat/Binary/AssembleMetaData.bytes";
 
     }
 }

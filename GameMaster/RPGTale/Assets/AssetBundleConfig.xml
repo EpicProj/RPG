@@ -1,59 +1,912 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <AssetBundleConfig xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-  <ABList Path="Assets/Prefabs/Map/Block/Block_0.prefab" Crc="1556416649" ABName="block_0" AssetName="Block_0.prefab" />
-  <ABList Path="Assets/Prefabs/Map/Block/Block_1.prefab" Crc="2423195671" ABName="block_1" AssetName="Block_1.prefab" />
-  <ABList Path="Assets/Prefabs/Map/Block/Block_2.prefab" Crc="518000628" ABName="block_2" AssetName="Block_2.prefab" />
-  <ABList Path="Assets/Prefabs/Object/BlockGrid.prefab" Crc="3381901650" ABName="blockgrid" AssetName="BlockGrid.prefab">
+  <ABList Path="Assets/Animation/Scene/GameEntry_Camera.anim" Crc="3777717092" ABName="animation" AssetName="GameEntry_Camera.anim" />
+  <ABList Path="Assets/Animation/UI/Button/Assemble/GeneralChooseTab.controller" Crc="1736670698" ABName="animation" AssetName="GeneralChooseTab.controller" />
+  <ABList Path="Assets/Animation/UI/Button/BlockBuildElement.controller" Crc="2403883311" ABName="animation" AssetName="BlockBuildElement.controller" />
+  <ABList Path="Assets/Animation/UI/Button/Button_General.controller" Crc="3314354092" ABName="animation" AssetName="Button_General.controller" />
+  <ABList Path="Assets/Animation/UI/Button/ConstructMainTabElement.controller" Crc="2092025918" ABName="animation" AssetName="ConstructMainTabElement.controller" />
+  <ABList Path="Assets/Animation/UI/Button/EventChoose_Btn.controller" Crc="240533589" ABName="animation" AssetName="EventChoose_Btn.controller" />
+  <ABList Path="Assets/Animation/UI/Button/GameEntry_Btn.controller" Crc="1853973369" ABName="animation" AssetName="GameEntry_Btn.controller" />
+  <ABList Path="Assets/Animation/UI/Button/GeneralBackBtn.controller" Crc="577138345" ABName="animation" AssetName="GeneralBackBtn.controller" />
+  <ABList Path="Assets/Animation/UI/Button/MainMenu_Btn.controller" Crc="1680614650" ABName="animation" AssetName="MainMenu_Btn.controller" />
+  <ABList Path="Assets/Animation/UI/Dialog/Assemble/AssemblePartChooseDialog.anim" Crc="613323599" ABName="animation" AssetName="AssemblePartChooseDialog.anim" />
+  <ABList Path="Assets/Animation/UI/Dialog/BlockUpgradeDialog.anim" Crc="206699785" ABName="animation" AssetName="BlockUpgradeDialog.anim" />
+  <ABList Path="Assets/Animation/UI/Dialog/BuildPanelDetail.anim" Crc="3657219178" ABName="animation" AssetName="BuildPanelDetail.anim" />
+  <ABList Path="Assets/Animation/UI/Dialog/FunctionBlock/BlockNormalDialog.anim" Crc="1579684771" ABName="animation" AssetName="BlockNormalDialog.anim" />
+  <ABList Path="Assets/Animation/UI/Dialog/GameLoadDialog.anim" Crc="4124365113" ABName="animation" AssetName="GameLoadDialog.anim" />
+  <ABList Path="Assets/Animation/UI/Dialog/GeneralConfirmDialog.anim" Crc="1380651267" ABName="animation" AssetName="GeneralConfirmDialog.anim" />
+  <ABList Path="Assets/Animation/UI/Dialog/GeneralHintDialog.anim" Crc="928349091" ABName="animation" AssetName="GeneralHintDialog.anim" />
+  <ABList Path="Assets/Animation/UI/Dialog/MenuDialog.anim" Crc="859154932" ABName="animation" AssetName="MenuDialog.anim" />
+  <ABList Path="Assets/Animation/UI/Dialog/ProductLineChangeDialog.anim" Crc="3871715197" ABName="animation" AssetName="ProductLineChangeDialog.anim" />
+  <ABList Path="Assets/Animation/UI/Dialog/RandomEventDialog.anim" Crc="2571494473" ABName="animation" AssetName="RandomEventDialog.anim" />
+  <ABList Path="Assets/Animation/UI/Dialog/RandomEventDialog_Effect.anim" Crc="363026820" ABName="animation" AssetName="RandomEventDialog_Effect.anim" />
+  <ABList Path="Assets/Animation/UI/Dialog/TechnologyDetailDialog.anim" Crc="4049984631" ABName="animation" AssetName="TechnologyDetailDialog.anim" />
+  <ABList Path="Assets/Animation/UI/Misc/Assemble/AssembleCard_ChooseEffect.anim" Crc="3756065898" ABName="animation" AssetName="AssembleCard_ChooseEffect.anim" />
+  <ABList Path="Assets/Animation/UI/Misc/BlockInfo/BlockEnterInfo.anim" Crc="3915934421" ABName="animation" AssetName="BlockEnterInfo.anim" />
+  <ABList Path="Assets/Animation/UI/Misc/BlockInfo/BlockInfo_Manu_Rotate.anim" Crc="529900349" ABName="animation" AssetName="BlockInfo_Manu_Rotate.anim" />
+  <ABList Path="Assets/Animation/UI/Misc/BlockInfo/ChooseEffect_Triangle.anim" Crc="1211228268" ABName="animation" AssetName="ChooseEffect_Triangle.anim" />
+  <ABList Path="Assets/Animation/UI/Misc/Explore/ExploreAreaMission.controller" Crc="2359219701" ABName="animation" AssetName="ExploreAreaMission.controller" />
+  <ABList Path="Assets/Animation/UI/Misc/Explore/ExploreAreaSelectBtn.controller" Crc="3120995177" ABName="animation" AssetName="ExploreAreaSelectBtn.controller" />
+  <ABList Path="Assets/Animation/UI/Misc/Explore/ExploreMission_Show.anim" Crc="688448862" ABName="animation" AssetName="ExploreMission_Show.anim" />
+  <ABList Path="Assets/Animation/UI/Misc/Explore/ExplorePoint_Info_Show.anim" Crc="4219772281" ABName="animation" AssetName="ExplorePoint_Info_Show.anim" />
+  <ABList Path="Assets/Animation/UI/Misc/General/EmptyInfo.anim" Crc="1813277163" ABName="animation" AssetName="EmptyInfo.anim" />
+  <ABList Path="Assets/Animation/UI/Misc/Technology/Tech_Object.anim" Crc="3924025879" ABName="animation" AssetName="Tech_Object.anim" />
+  <ABList Path="Assets/Animation/UI/Misc/Technology/Tech_Require_Fade.anim" Crc="3532447985" ABName="animation" AssetName="Tech_Require_Fade.anim" />
+  <ABList Path="Assets/Animation/UI/Misc/Technology/Tech_Select_Rotate.anim" Crc="1917206421" ABName="animation" AssetName="Tech_Select_Rotate.anim" />
+  <ABList Path="Assets/Animation/UI/Misc/Technology/TechDetail_Arrow.anim" Crc="249445079" ABName="animation" AssetName="TechDetail_Arrow.anim" />
+  <ABList Path="Assets/Animation/UI/Page/Assemble/Assemble_ShipDesign_Part_EnterEffect.anim" Crc="3496212101" ABName="animation" AssetName="Assemble_ShipDesign_Part_EnterEffect.anim" />
+  <ABList Path="Assets/Animation/UI/Page/Assemble/AssembleCustomItem.anim" Crc="2191592439" ABName="animation" AssetName="AssembleCustomItem.anim" />
+  <ABList Path="Assets/Animation/UI/Page/Assemble/AssemblePart_CustomItem_DetailInfo.anim" Crc="1040858334" ABName="animation" AssetName="AssemblePart_CustomItem_DetailInfo.anim" />
+  <ABList Path="Assets/Animation/UI/Page/Assemble/AssemblePartDesignPage.anim" Crc="1788242695" ABName="animation" AssetName="AssemblePartDesignPage.anim" />
+  <ABList Path="Assets/Animation/UI/Page/Assemble/AssemblePartDesignPage_Content.anim" Crc="2778560698" ABName="animation" AssetName="AssemblePartDesignPage_Content.anim" />
+  <ABList Path="Assets/Animation/UI/Page/Assemble/AssemblePartDesignPage_PartChoose.anim" Crc="3112847113" ABName="animation" AssetName="AssemblePartDesignPage_PartChoose.anim" />
+  <ABList Path="Assets/Animation/UI/Page/Assemble/AssemblePartDesignPage_ShipChoose.anim" Crc="1449783350" ABName="animation" AssetName="AssemblePartDesignPage_ShipChoose.anim" />
+  <ABList Path="Assets/Animation/UI/Page/Assemble/AssembleShipDesignPage_Content.anim" Crc="2362065543" ABName="animation" AssetName="AssembleShipDesignPage_Content.anim" />
+  <ABList Path="Assets/Animation/UI/Page/BlockManuPage.anim" Crc="2697299592" ABName="animation" AssetName="BlockManuPage.anim" />
+  <ABList Path="Assets/Animation/UI/Page/Explore/Explore_AreaDetail_Panel.anim" Crc="2469824031" ABName="animation" AssetName="Explore_AreaDetail_Panel.anim" />
+  <ABList Path="Assets/Animation/UI/Page/Explore/Explore_Mission_Panel.anim" Crc="3884519355" ABName="animation" AssetName="Explore_Mission_Panel.anim" />
+  <ABList Path="Assets/Animation/UI/Page/Explore/Explore_Point_Detail_Panel.anim" Crc="4093430056" ABName="animation" AssetName="Explore_Point_Detail_Panel.anim" />
+  <ABList Path="Assets/Animation/UI/Page/Explore/ExploreMainPage.anim" Crc="324216419" ABName="animation" AssetName="ExploreMainPage.anim" />
+  <ABList Path="Assets/Animation/UI/Page/Explore/ExplorePointPage.anim" Crc="3061270622" ABName="animation" AssetName="ExplorePointPage.anim" />
+  <ABList Path="Assets/Animation/UI/Page/GameEntry_Menu.anim" Crc="1721456339" ABName="animation" AssetName="GameEntry_Menu.anim" />
+  <ABList Path="Assets/Animation/UI/Page/GameEntryPage.anim" Crc="3522925537" ABName="animation" AssetName="GameEntryPage.anim" />
+  <ABList Path="Assets/Animation/UI/Page/Main/PlayerState.anim" Crc="1481736827" ABName="animation" AssetName="PlayerState.anim" />
+  <ABList Path="Assets/Animation/UI/Page/OrderReceiveMainPage.anim" Crc="1895987457" ABName="animation" AssetName="OrderReceiveMainPage.anim" />
+  <ABList Path="Assets/Animation/UI/Page/WareHousePage.anim" Crc="2587938122" ABName="animation" AssetName="WareHousePage.anim" />
+  <ABList Path="Assets/Prefabs/Scene/AssembleContainer.prefab" Crc="1609466769" ABName="assemblecontainer" AssetName="AssembleContainer.prefab">
+    <ABDependce>model</ABDependce>
+  </ABList>
+  <ABList Path="Assets/Prefabs/Object/Assemble/AssemblePartCard.prefab" Crc="2370375348" ABName="assemblepartcard" AssetName="AssemblePartCard.prefab">
+    <ABDependce>sprite</ABDependce>
+    <ABDependce>animation</ABDependce>
+  </ABList>
+  <ABList Path="Assets/Prefabs/Object/Material/MaterialCostElement.prefab" Crc="1971667728" ABName="assemblepartcard" AssetName="MaterialCostElement.prefab">
     <ABDependce>sprite</ABDependce>
   </ABList>
-  <ABList Path="Assets/Prefabs/UI/Dialog/FunctionBlock/BlockInfoDialog.prefab" Crc="9251435" ABName="blockinfodialog" AssetName="BlockInfoDialog.prefab">
+  <ABList Path="Assets/Prefabs/UI/Dialog/Assemble/AssemblePartChooseDialog.prefab" Crc="341193908" ABName="assemblepartchoosedialog" AssetName="AssemblePartChooseDialog.prefab">
     <ABDependce>sprite</ABDependce>
-    <ABDependce>costelement</ABDependce>
-    <ABDependce>manufactslot</ABDependce>
+    <ABDependce>assemblepartcard</ABDependce>
+    <ABDependce>animation</ABDependce>
   </ABList>
-  <ABList Path="Assets/Resources/Data/DataFormat/Binary/DistrictMetaData.bytes" Crc="2855342841" ABName="byte" AssetName="DistrictMetaData.bytes" />
-  <ABList Path="Assets/Resources/Data/DataFormat/Binary/FunctionBlockFormulaMetaData.bytes" Crc="1764439641" ABName="byte" AssetName="FunctionBlockFormulaMetaData.bytes" />
-  <ABList Path="Assets/Resources/Data/DataFormat/Binary/FunctionBlockMetaData.bytes" Crc="1928669167" ABName="byte" AssetName="FunctionBlockMetaData.bytes" />
-  <ABList Path="Assets/Resources/Data/DataFormat/Binary/MaterialMetaData.bytes" Crc="134689317" ABName="byte" AssetName="MaterialMetaData.bytes" />
-  <ABList Path="Assets/Resources/Data/DataFormat/Binary/TalentsMetaData.bytes" Crc="3589273257" ABName="byte" AssetName="TalentsMetaData.bytes" />
-  <ABList Path="Assets/Resources/Data/DataFormat/Binary/TechnologyMetaData.bytes" Crc="3118175188" ABName="byte" AssetName="TechnologyMetaData.bytes" />
-  <ABList Path="Assets/Resources/Data/DataFormat/Binary/TerrainMetaData.bytes" Crc="1110688833" ABName="byte" AssetName="TerrainMetaData.bytes" />
-  <ABList Path="Assets/Prefabs/Map/Chunk/Chunk.prefab" Crc="3827161952" ABName="chunk" AssetName="Chunk.prefab" />
-  <ABList Path="Assets/Prefabs/Map/Chunk/ChunkAdditionalMesh.prefab" Crc="2551667754" ABName="chunk" AssetName="ChunkAdditionalMesh.prefab" />
-  <ABList Path="Assets/Prefabs/Map/Chunk/ChunkCollider.prefab" Crc="1421911425" ABName="chunk" AssetName="ChunkCollider.prefab" />
-  <ABList Path="Assets/Prefabs/Object/District/CostElement.prefab" Crc="789212646" ABName="costelement" AssetName="CostElement.prefab" />
+  <ABList Path="Assets/Prefabs/Object/Assemble/AssemblePartChooseItem.prefab" Crc="1225555968" ABName="assemblepartchooseitem" AssetName="AssemblePartChooseItem.prefab">
+    <ABDependce>sprite</ABDependce>
+    <ABDependce>assemblepartcard</ABDependce>
+  </ABList>
+  <ABList Path="Assets/Prefabs/UI/Button/ButtonGeneral02.prefab" Crc="1523353438" ABName="assemblepartchooseitem" AssetName="ButtonGeneral02.prefab">
+    <ABDependce>sprite</ABDependce>
+    <ABDependce>assemblepartcard</ABDependce>
+  </ABList>
+  <ABList Path="Assets/Prefabs/Object/Assemble/AssemblePartCustomItem_Left.prefab" Crc="27916041" ABName="assemblepartcustomitem_left" AssetName="AssemblePartCustomItem_Left.prefab">
+    <ABDependce>sprite</ABDependce>
+    <ABDependce>assemblepartcard</ABDependce>
+    <ABDependce>animation</ABDependce>
+  </ABList>
+  <ABList Path="Assets/Prefabs/Object/Assemble/AssemblePartCustomItem_Right.prefab" Crc="1454765313" ABName="assemblepartcustomitem_right" AssetName="AssemblePartCustomItem_Right.prefab">
+    <ABDependce>sprite</ABDependce>
+    <ABDependce>assemblepartcard</ABDependce>
+    <ABDependce>animation</ABDependce>
+  </ABList>
+  <ABList Path="Assets/Prefabs/UI/Page/Assemble/AssemblePartDesignPage.prefab" Crc="3044508202" ABName="assemblepartdesignpage" AssetName="AssemblePartDesignPage.prefab">
+    <ABDependce>sprite</ABDependce>
+    <ABDependce>model</ABDependce>
+    <ABDependce>assemblepartcard</ABDependce>
+    <ABDependce>animation</ABDependce>
+    <ABDependce>assemblepartchooseitem</ABDependce>
+  </ABList>
+  <ABList Path="Assets/Prefabs/UI/Misc/AssemblePartInfoUI.prefab" Crc="441192721" ABName="assemblepartinfoui" AssetName="AssemblePartInfoUI.prefab">
+    <ABDependce>sprite</ABDependce>
+    <ABDependce>assemblepartcard</ABDependce>
+  </ABList>
+  <ABList Path="Assets/Prefabs/Object/Assemble/AssemblePartModuleItem.prefab" Crc="215462661" ABName="assemblepartmoduleitem" AssetName="AssemblePartModuleItem.prefab">
+    <ABDependce>sprite</ABDependce>
+    <ABDependce>assemblepartcard</ABDependce>
+  </ABList>
+  <ABList Path="Assets/Prefabs/Object/Assemble/AssemblePropertyItem.prefab" Crc="3070990291" ABName="assemblepropertyitem" AssetName="AssemblePropertyItem.prefab">
+    <ABDependce>assemblepartcard</ABDependce>
+    <ABDependce>sprite</ABDependce>
+  </ABList>
+  <ABList Path="Assets/Prefabs/Object/Assemble/AssemblePropertyItemSmall.prefab" Crc="1107008039" ABName="assemblepropertyitemsmall" AssetName="AssemblePropertyItemSmall.prefab">
+    <ABDependce>assemblepartcard</ABDependce>
+    <ABDependce>sprite</ABDependce>
+  </ABList>
+  <ABList Path="Assets/Prefabs/Object/Assemble/AssembleShipBuildCard.prefab" Crc="1036224112" ABName="assembleshipbuildcard" AssetName="AssembleShipBuildCard.prefab">
+    <ABDependce>sprite</ABDependce>
+    <ABDependce>assemblepartcard</ABDependce>
+    <ABDependce>animation</ABDependce>
+  </ABList>
+  <ABList Path="Assets/Prefabs/UI/Page/Assemble/AssembleShipBuildPage.prefab" Crc="1877751909" ABName="assembleshipbuildpage" AssetName="AssembleShipBuildPage.prefab">
+    <ABDependce>sprite</ABDependce>
+    <ABDependce>animation</ABDependce>
+    <ABDependce>assemblepartcard</ABDependce>
+  </ABList>
+  <ABList Path="Assets/Prefabs/Object/Assemble/AssembleShipCard.prefab" Crc="1655355787" ABName="assembleshipcard" AssetName="AssembleShipCard.prefab">
+    <ABDependce>sprite</ABDependce>
+    <ABDependce>assemblepartcard</ABDependce>
+    <ABDependce>animation</ABDependce>
+  </ABList>
+  <ABList Path="Assets/Prefabs/UI/Dialog/Assemble/AssembleShipChooseDialog.prefab" Crc="2537373033" ABName="assembleshipchoosedialog" AssetName="AssembleShipChooseDialog.prefab">
+    <ABDependce>sprite</ABDependce>
+    <ABDependce>assemblepartcard</ABDependce>
+    <ABDependce>assemblepartchoosedialog</ABDependce>
+    <ABDependce>animation</ABDependce>
+  </ABList>
+  <ABList Path="Assets/Prefabs/Object/Assemble/AssembleShipCustomPartItem_Bottom.prefab" Crc="3184823599" ABName="assembleshipcustompartitem_bottom" AssetName="AssembleShipCustomPartItem_Bottom.prefab">
+    <ABDependce>sprite</ABDependce>
+    <ABDependce>assemblepartcard</ABDependce>
+    <ABDependce>animation</ABDependce>
+  </ABList>
+  <ABList Path="Assets/Prefabs/Object/Assemble/AssembleShipCustomPartItem_Top.prefab" Crc="3814695535" ABName="assembleshipcustompartitem_top" AssetName="AssembleShipCustomPartItem_Top.prefab">
+    <ABDependce>sprite</ABDependce>
+    <ABDependce>assemblepartcard</ABDependce>
+    <ABDependce>animation</ABDependce>
+  </ABList>
+  <ABList Path="Assets/Prefabs/UI/Page/Assemble/AssembleShipDesignPage.prefab" Crc="2227739165" ABName="assembleshipdesignpage" AssetName="AssembleShipDesignPage.prefab">
+    <ABDependce>sprite</ABDependce>
+    <ABDependce>animation</ABDependce>
+    <ABDependce>model</ABDependce>
+    <ABDependce>assemblepartcard</ABDependce>
+  </ABList>
+  <ABList Path="Assets/ConfigData/AsbConfig/AssetsBundleConfig.bytes" Crc="3801352496" ABName="assetbundleconfig" AssetName="AssetsBundleConfig.bytes" />
+  <ABList Path="Assets/Audio/Effect/Item/Block_Move.wav" Crc="2395866776" ABName="audio" AssetName="Block_Move.wav" />
+  <ABList Path="Assets/Audio/Effect/Item/Block_Place.wav" Crc="3054534472" ABName="audio" AssetName="Block_Place.wav" />
+  <ABList Path="Assets/Audio/Effect/Item/Block_Select.wav" Crc="2739134689" ABName="audio" AssetName="Block_Select.wav" />
+  <ABList Path="Assets/Audio/Effect/UI/Btn_Close.wav" Crc="3312747067" ABName="audio" AssetName="Btn_Close.wav" />
+  <ABList Path="Assets/Audio/Effect/UI/Button_Click.mp3" Crc="1102272383" ABName="audio" AssetName="Button_Click.mp3" />
+  <ABList Path="Assets/Audio/Effect/UI/Button_General.mp3" Crc="512026107" ABName="audio" AssetName="Button_General.mp3" />
+  <ABList Path="Assets/Audio/Effect/UI/Button_Press.wav" Crc="1844907735" ABName="audio" AssetName="Button_Press.wav" />
+  <ABList Path="Assets/Audio/Effect/UI/ClickDot.mp3" Crc="4103482372" ABName="audio" AssetName="ClickDot.mp3" />
+  <ABList Path="Assets/Audio/Effect/UI/Hint_Open.mp3" Crc="2419828961" ABName="audio" AssetName="Hint_Open.mp3" />
+  <ABList Path="Assets/Audio/Effect/UI/LowHit.mp3" Crc="1451143170" ABName="audio" AssetName="LowHit.mp3" />
+  <ABList Path="Assets/Audio/Effect/UI/Page_Open.mp3" Crc="3406987259" ABName="audio" AssetName="Page_Open.mp3" />
+  <ABList Path="Assets/Audio/Effect/UI/Tech01.wav" Crc="1059701602" ABName="audio" AssetName="Tech01.wav" />
+  <ABList Path="Assets/Audio/Effect/UI/WaterHint.mp3" Crc="1256132985" ABName="audio" AssetName="WaterHint.mp3" />
+  <ABList Path="Assets/Prefabs/Misc/AudioManager.prefab" Crc="1729184766" ABName="audiomanager" AssetName="AudioManager.prefab" />
+  <ABList Path="Assets/Prefabs/Object/Main/BlockBuildElement.prefab" Crc="2667317749" ABName="blockbuildelement" AssetName="BlockBuildElement.prefab">
+    <ABDependce>sprite</ABDependce>
+    <ABDependce>animation</ABDependce>
+    <ABDependce>assemblepartcard</ABDependce>
+  </ABList>
+  <ABList Path="Assets/Prefabs/Object/FunctionBlock/BlockEffectElement.prefab" Crc="578720828" ABName="blockeffectelement" AssetName="BlockEffectElement.prefab">
+    <ABDependce>sprite</ABDependce>
+    <ABDependce>assemblepartcard</ABDependce>
+  </ABList>
+  <ABList Path="Assets/Prefabs/UI/Misc/BlockEnterInfo.prefab" Crc="3594303525" ABName="blockenterinfo" AssetName="BlockEnterInfo.prefab">
+    <ABDependce>animation</ABDependce>
+    <ABDependce>assemblepartcard</ABDependce>
+    <ABDependce>sprite</ABDependce>
+  </ABList>
+  <ABList Path="Assets/Prefabs/UI/Page/BlockManuPage.prefab" Crc="1652183546" ABName="blockmanupage" AssetName="BlockManuPage.prefab">
+    <ABDependce>sprite</ABDependce>
+    <ABDependce>blockeffectelement</ABDependce>
+    <ABDependce>assemblepartcard</ABDependce>
+    <ABDependce>randomeventdialog</ABDependce>
+    <ABDependce>animation</ABDependce>
+  </ABList>
+  <ABList Path="Assets/Prefabs/UI/Dialog/FunctionBlock/BlockNormalInfoDialog.prefab" Crc="3549316672" ABName="blocknormalinfodialog" AssetName="BlockNormalInfoDialog.prefab">
+    <ABDependce>sprite</ABDependce>
+    <ABDependce>assemblepartcard</ABDependce>
+    <ABDependce>animation</ABDependce>
+    <ABDependce>assemblepartchoosedialog</ABDependce>
+  </ABList>
+  <ABList Path="Assets/Prefabs/Object/Main/BlockSubTypeElement.prefab" Crc="3723800599" ABName="blocksubtypeelement" AssetName="BlockSubTypeElement.prefab">
+    <ABDependce>sprite</ABDependce>
+    <ABDependce>assemblepartcard</ABDependce>
+  </ABList>
+  <ABList Path="Assets/Prefabs/UI/Dialog/FunctionBlock/BlockUpgradeDialog.prefab" Crc="412862561" ABName="blockupgradedialog" AssetName="BlockUpgradeDialog.prefab">
+    <ABDependce>sprite</ABDependce>
+    <ABDependce>assemblepartcard</ABDependce>
+    <ABDependce>animation</ABDependce>
+    <ABDependce>assemblepartchoosedialog</ABDependce>
+  </ABList>
+  <ABList Path="Assets/Prefabs/Object/District/BuildDetailDistrictElement.prefab" Crc="4003146946" ABName="builddetaildistrictelement" AssetName="BuildDetailDistrictElement.prefab">
+    <ABDependce>sprite</ABDependce>
+  </ABList>
+  <ABList Path="Assets/Prefabs/UI/Misc/BuildPanelDetail.prefab" Crc="727883925" ABName="buildpaneldetail" AssetName="BuildPanelDetail.prefab">
+    <ABDependce>sprite</ABDependce>
+    <ABDependce>assemblepartcard</ABDependce>
+    <ABDependce>randomeventdialog</ABDependce>
+    <ABDependce>animation</ABDependce>
+  </ABList>
+  <ABList Path="Assets/Prefabs/Object/FunctionBlock/BuildRequireElement.prefab" Crc="192655783" ABName="buildrequireelement" AssetName="BuildRequireElement.prefab">
+    <ABDependce>sprite</ABDependce>
+    <ABDependce>assemblepartcard</ABDependce>
+  </ABList>
+  <ABList Path="Assets/Prefabs/UI/Button/ButtonGeneral.prefab" Crc="2801646431" ABName="buttongeneral" AssetName="ButtonGeneral.prefab">
+    <ABDependce>animation</ABDependce>
+    <ABDependce>sprite</ABDependce>
+    <ABDependce>assemblepartcard</ABDependce>
+  </ABList>
+  <ABList Path="Assets/Prefabs/Object/Main/ChooseItem.prefab" Crc="1167816951" ABName="chooseitem" AssetName="ChooseItem.prefab">
+    <ABDependce>sprite</ABDependce>
+    <ABDependce>assemblepartcard</ABDependce>
+  </ABList>
+  <ABList Path="Assets/Prefabs/Object/Main/CircleSortElement.prefab" Crc="620495647" ABName="circlesortelement" AssetName="CircleSortElement.prefab">
+    <ABDependce>sprite</ABDependce>
+    <ABDependce>assemblepartcard</ABDependce>
+  </ABList>
+  <ABList Path="Assets/Prefabs/UI/Page/ConsolePage.prefab" Crc="2527147640" ABName="consolepage" AssetName="ConsolePage.prefab">
+    <ABDependce>sprite</ABDependce>
+    <ABDependce>assemblepartcard</ABDependce>
+  </ABList>
+  <ABList Path="Assets/Prefabs/Object/Main/ConstructMainTabElement.prefab" Crc="477293606" ABName="constructmaintabelement" AssetName="ConstructMainTabElement.prefab">
+    <ABDependce>sprite</ABDependce>
+    <ABDependce>animation</ABDependce>
+  </ABList>
+  <ABList Path="Assets/Prefabs/Object/District/CostElement.prefab" Crc="789212646" ABName="costelement" AssetName="CostElement.prefab">
+    <ABDependce>assemblepartcard</ABDependce>
+  </ABList>
+  <ABList Path="Assets/Prefabs/Object/Order/CurrentOrderElement.prefab" Crc="1013264264" ABName="currentorderelement" AssetName="CurrentOrderElement.prefab">
+    <ABDependce>sprite</ABDependce>
+  </ABList>
+  <ABList Path="Assets/Prefabs/UI/Misc/DebugDialog.prefab" Crc="69973750" ABName="debugdialog" AssetName="DebugDialog.prefab">
+    <ABDependce>assemblepartcard</ABDependce>
+  </ABList>
   <ABList Path="Assets/Prefabs/Object/District/District.prefab" Crc="4197089091" ABName="district" AssetName="District.prefab" />
+  <ABList Path="Assets/Prefabs/FunctionBlock/Manu/District_Smelt_Large.prefab" Crc="2602747428" ABName="district_smelt_large" AssetName="District_Smelt_Large.prefab" />
+  <ABList Path="Assets/Prefabs/FunctionBlock/Manu/District_Smelt_Small.prefab" Crc="3191314803" ABName="district_smelt_small" AssetName="District_Smelt_Small.prefab" />
   <ABList Path="Assets/Prefabs/Object/District/DistrictBuildElemet.prefab" Crc="1471119687" ABName="districtbuildelemet" AssetName="DistrictBuildElemet.prefab">
-    <ABDependce>costelement</ABDependce>
+    <ABDependce>sprite</ABDependce>
+    <ABDependce>assemblepartcard</ABDependce>
   </ABList>
-  <ABList Path="Assets/Prefabs/Object/FactoryTagObject.prefab" Crc="3933100057" ABName="factorytagobject" AssetName="FactoryTagObject.prefab">
-    <ABDependce>costelement</ABDependce>
+  <ABList Path="Assets/Prefabs/UI/Misc/DistrictDetailUI.prefab" Crc="3434742681" ABName="districtdetailui" AssetName="DistrictDetailUI.prefab">
+    <ABDependce>sprite</ABDependce>
+    <ABDependce>assemblepartcard</ABDependce>
+  </ABList>
+  <ABList Path="Assets/Prefabs/Object/District/DistrictGrid.prefab" Crc="1215226793" ABName="districtgrid" AssetName="DistrictGrid.prefab">
     <ABDependce>sprite</ABDependce>
   </ABList>
-  <ABList Path="Assets/Prefabs/Object/Factorytest.prefab" Crc="2417927083" ABName="factorytest" AssetName="Factorytest.prefab" />
-  <ABList Path="Assets/Prefabs/Map/Chunk/Generator.prefab" Crc="2477043363" ABName="generator" AssetName="Generator.prefab">
-    <ABDependce>chunk</ABDependce>
-    <ABDependce>block_0</ABDependce>
-    <ABDependce>block_2</ABDependce>
-    <ABDependce>block_1</ABDependce>
+  <ABList Path="Assets/Prefabs/Object/Explore/ExploreAreaMission.prefab" Crc="2231602673" ABName="exploreareamission" AssetName="ExploreAreaMission.prefab">
+    <ABDependce>sprite</ABDependce>
+    <ABDependce>assemblepartcard</ABDependce>
+    <ABDependce>animation</ABDependce>
   </ABList>
-  <ABList Path="Assets/Prefabs/Object/ItemUIPrefab.prefab" Crc="952363211" ABName="itemuiprefab" AssetName="ItemUIPrefab.prefab" />
-  <ABList Path="Assets/Prefabs/Object/ManufactSlot.prefab" Crc="3905820402" ABName="manufactslot" AssetName="ManufactSlot.prefab" />
-  <ABList Path="Assets/Prefabs/Object/MaterialItem.prefab" Crc="845240790" ABName="materialitem" AssetName="MaterialItem.prefab" />
+  <ABList Path="Assets/Prefabs/Object/Explore/ExploreAreaSelectBtn.prefab" Crc="2970668064" ABName="exploreareaselectbtn" AssetName="ExploreAreaSelectBtn.prefab">
+    <ABDependce>sprite</ABDependce>
+    <ABDependce>animation</ABDependce>
+    <ABDependce>assemblepartcard</ABDependce>
+  </ABList>
+  <ABList Path="Assets/Prefabs/UI/Page/Explore/ExploreMainPage.prefab" Crc="1323316180" ABName="exploremainpage" AssetName="ExploreMainPage.prefab">
+    <ABDependce>sprite</ABDependce>
+    <ABDependce>assemblepartcard</ABDependce>
+    <ABDependce>animation</ABDependce>
+    <ABDependce>assemblepartchoosedialog</ABDependce>
+  </ABList>
+  <ABList Path="Assets/Prefabs/Object/Explore/ExplorePoint.prefab" Crc="174883917" ABName="explorepoint" AssetName="ExplorePoint.prefab">
+    <ABDependce>sprite</ABDependce>
+    <ABDependce>animation</ABDependce>
+    <ABDependce>assemblepartcard</ABDependce>
+  </ABList>
+  <ABList Path="Assets/Prefabs/UI/Page/Explore/ExplorePointPage.prefab" Crc="2276007247" ABName="explorepointpage" AssetName="ExplorePointPage.prefab">
+    <ABDependce>sprite</ABDependce>
+    <ABDependce>animation</ABDependce>
+    <ABDependce>assemblepartcard</ABDependce>
+  </ABList>
+  <ABList Path="Assets/Prefabs/Object/Explore/ExploreTeam.prefab" Crc="600688230" ABName="exploreteam" AssetName="ExploreTeam.prefab">
+    <ABDependce>assemblepartcard</ABDependce>
+    <ABDependce>sprite</ABDependce>
+  </ABList>
+  <ABList Path="Assets/Prefabs/UI/Element/EXPSlider.prefab" Crc="329755879" ABName="expslider" AssetName="EXPSlider.prefab">
+    <ABDependce>sprite</ABDependce>
+  </ABList>
+  <ABList Path="Assets/Prefabs/Object/FunctionBlock/FormulaChooseElement.prefab" Crc="3209282302" ABName="formulachooseelement" AssetName="FormulaChooseElement.prefab">
+    <ABDependce>sprite</ABDependce>
+    <ABDependce>assemblepartcard</ABDependce>
+    <ABDependce>animation</ABDependce>
+  </ABList>
+  <ABList Path="Assets/Prefabs/UI/Misc/FPSCounter.prefab" Crc="1962317324" ABName="fpscounter" AssetName="FPSCounter.prefab">
+    <ABDependce>assemblepartcard</ABDependce>
+  </ABList>
+  <ABList Path="Assets/Prefabs/FunctionBlock/FunctionBlockBase.prefab" Crc="81069948" ABName="functionblockbase" AssetName="FunctionBlockBase.prefab">
+    <ABDependce>model</ABDependce>
+  </ABList>
+  <ABList Path="Assets/ConfigData/DataFormat/Binary/AssembleMetaData.bytes" Crc="3446469380" ABName="gamedataconfig" AssetName="AssembleMetaData.bytes" />
+  <ABList Path="Assets/ConfigData/DataFormat/Binary/BuildingPanelMetaData.bytes" Crc="914251790" ABName="gamedataconfig" AssetName="BuildingPanelMetaData.bytes" />
+  <ABList Path="Assets/ConfigData/DataFormat/Binary/DistrictMetaData.bytes" Crc="3602016902" ABName="gamedataconfig" AssetName="DistrictMetaData.bytes" />
+  <ABList Path="Assets/ConfigData/DataFormat/Binary/ExploreMetaData.bytes" Crc="4279972702" ABName="gamedataconfig" AssetName="ExploreMetaData.bytes" />
+  <ABList Path="Assets/ConfigData/DataFormat/Binary/FunctionBlockFormulaMetaData.bytes" Crc="1622219177" ABName="gamedataconfig" AssetName="FunctionBlockFormulaMetaData.bytes" />
+  <ABList Path="Assets/ConfigData/DataFormat/Binary/FunctionBlockMetaData.bytes" Crc="3339013025" ABName="gamedataconfig" AssetName="FunctionBlockMetaData.bytes" />
+  <ABList Path="Assets/ConfigData/DataFormat/Binary/MaterialMetaData.bytes" Crc="1954826842" ABName="gamedataconfig" AssetName="MaterialMetaData.bytes" />
+  <ABList Path="Assets/ConfigData/DataFormat/Binary/OrderMetaData.bytes" Crc="2797415348" ABName="gamedataconfig" AssetName="OrderMetaData.bytes" />
+  <ABList Path="Assets/ConfigData/DataFormat/Binary/OrganizationMetaData.bytes" Crc="1677012746" ABName="gamedataconfig" AssetName="OrganizationMetaData.bytes" />
+  <ABList Path="Assets/ConfigData/DataFormat/Binary/TalentsMetaData.bytes" Crc="2323136103" ABName="gamedataconfig" AssetName="TalentsMetaData.bytes" />
+  <ABList Path="Assets/ConfigData/DataFormat/Binary/TechnologyMetaData.bytes" Crc="1336046432" ABName="gamedataconfig" AssetName="TechnologyMetaData.bytes" />
+  <ABList Path="Assets/ConfigData/DataFormat/Binary/TerrainMetaData.bytes" Crc="497290383" ABName="gamedataconfig" AssetName="TerrainMetaData.bytes" />
+  <ABList Path="Assets/Prefabs/UI/Page/GameEntryPage.prefab" Crc="3147306177" ABName="gameentrypage" AssetName="GameEntryPage.prefab">
+    <ABDependce>animation</ABDependce>
+    <ABDependce>sprite</ABDependce>
+    <ABDependce>assemblepartcard</ABDependce>
+  </ABList>
+  <ABList Path="Assets/Prefabs/Scene/GameEntryScene.prefab" Crc="1411600313" ABName="gameentryscene" AssetName="GameEntryScene.prefab">
+    <ABDependce>model</ABDependce>
+    <ABDependce>animation</ABDependce>
+  </ABList>
+  <ABList Path="Assets/Prefabs/UI/Dialog/Main/GameLoadDialog.prefab" Crc="760702490" ABName="gameloaddialog" AssetName="GameLoadDialog.prefab">
+    <ABDependce>sprite</ABDependce>
+    <ABDependce>assemblepartcard</ABDependce>
+    <ABDependce>animation</ABDependce>
+  </ABList>
+  <ABList Path="Assets/Prefabs/Object/Main/General/GeneralChooseTab.prefab" Crc="2597656687" ABName="generalchoosetab" AssetName="GeneralChooseTab.prefab">
+    <ABDependce>sprite</ABDependce>
+    <ABDependce>assemblepartcard</ABDependce>
+    <ABDependce>animation</ABDependce>
+  </ABList>
+  <ABList Path="Assets/Prefabs/UI/Dialog/Main/GeneralConfirmDialog.prefab" Crc="3347716119" ABName="generalconfirmdialog" AssetName="GeneralConfirmDialog.prefab">
+    <ABDependce>sprite</ABDependce>
+    <ABDependce>assemblepartcard</ABDependce>
+    <ABDependce>assemblepartchoosedialog</ABDependce>
+    <ABDependce>animation</ABDependce>
+    <ABDependce>assemblepartchooseitem</ABDependce>
+  </ABList>
+  <ABList Path="Assets/Prefabs/UI/Dialog/Main/GeneralHint.prefab" Crc="619031748" ABName="generalhint" AssetName="GeneralHint.prefab">
+    <ABDependce>animation</ABDependce>
+    <ABDependce>assemblepartcard</ABDependce>
+    <ABDependce>assemblepartchoosedialog</ABDependce>
+  </ABList>
+  <ABList Path="Assets/Prefabs/Object/Organization/GeneralOrganizationElement.prefab" Crc="2290198664" ABName="generalorganizationelement" AssetName="GeneralOrganizationElement.prefab">
+    <ABDependce>sprite</ABDependce>
+    <ABDependce>assemblepartcard</ABDependce>
+  </ABList>
+  <ABList Path="Assets/Prefabs/UI/Page/LoadingPage.prefab" Crc="1173488925" ABName="loadingpage" AssetName="LoadingPage.prefab">
+    <ABDependce>sprite</ABDependce>
+    <ABDependce>assemblepartcard</ABDependce>
+  </ABList>
+  <ABList Path="Assets/Prefabs/UI/Page/MainMenuPage.prefab" Crc="3940110379" ABName="mainmenupage" AssetName="MainMenuPage.prefab">
+    <ABDependce>sprite</ABDependce>
+    <ABDependce>assemblepartcard</ABDependce>
+    <ABDependce>animation</ABDependce>
+  </ABList>
+  <ABList Path="Assets/Prefabs/Scene/MainShip/MainShip_PowerArea.prefab" Crc="460774168" ABName="mainship_powerarea" AssetName="MainShip_PowerArea.prefab">
+    <ABDependce>functionblockbase</ABDependce>
+    <ABDependce>sprite</ABDependce>
+    <ABDependce>model</ABDependce>
+  </ABList>
+  <ABList Path="Assets/Prefabs/Object/MainShip/MainShipPowerItem.prefab" Crc="2927072366" ABName="mainshippoweritem" AssetName="MainShipPowerItem.prefab">
+    <ABDependce>sprite</ABDependce>
+  </ABList>
+  <ABList Path="Assets/Prefabs/UI/Dialog/MainShip/MainShipShieldDialog.prefab" Crc="664309320" ABName="mainshipshielddialog" AssetName="MainShipShieldDialog.prefab">
+    <ABDependce>sprite</ABDependce>
+    <ABDependce>assemblepartcard</ABDependce>
+    <ABDependce>assemblepartchoosedialog</ABDependce>
+    <ABDependce>model</ABDependce>
+  </ABList>
+  <ABList Path="Assets/Prefabs/Object/MainShip_Shield/MainShipShieldDirTab.prefab" Crc="740335020" ABName="mainshipshielddirtab" AssetName="MainShipShieldDirTab.prefab">
+    <ABDependce>sprite</ABDependce>
+    <ABDependce>assemblepartcard</ABDependce>
+  </ABList>
+  <ABList Path="Assets/Prefabs/Object/MainShip_Shield/MainShipShiledDetailItem.prefab" Crc="1614333861" ABName="mainshipshileddetailitem" AssetName="MainShipShiledDetailItem.prefab">
+    <ABDependce>sprite</ABDependce>
+    <ABDependce>assemblepartcard</ABDependce>
+  </ABList>
+  <ABList Path="Assets/Prefabs/Object/Main/ManuSlotElement.prefab" Crc="1097738941" ABName="manuslotelement" AssetName="ManuSlotElement.prefab">
+    <ABDependce>sprite</ABDependce>
+    <ABDependce>assemblepartcard</ABDependce>
+  </ABList>
+  <ABList Path="Assets/Prefabs/Scene/Main/MapManager.prefab" Crc="3646017772" ABName="mapmanager" AssetName="MapManager.prefab">
+    <ABDependce>model</ABDependce>
+    <ABDependce>gameentryscene</ABDependce>
+    <ABDependce>assemblecontainer</ABDependce>
+    <ABDependce>functionblockbase</ABDependce>
+  </ABList>
+  <ABList Path="Assets/Prefabs/Object/Material/MaterialElement.prefab" Crc="1867385585" ABName="materialelement" AssetName="MaterialElement.prefab">
+    <ABDependce>sprite</ABDependce>
+    <ABDependce>assemblepartcard</ABDependce>
+  </ABList>
+  <ABList Path="Assets/Prefabs/UI/Misc/MaterialInfoUI.prefab" Crc="2935860301" ABName="materialinfoui" AssetName="MaterialInfoUI.prefab">
+    <ABDependce>assemblepartcard</ABDependce>
+    <ABDependce>sprite</ABDependce>
+  </ABList>
+  <ABList Path="Assets/Prefabs/UI/Dialog/Main/MenuDialog.prefab" Crc="2554176414" ABName="menudialog" AssetName="MenuDialog.prefab">
+    <ABDependce>sprite</ABDependce>
+    <ABDependce>assemblepartcard</ABDependce>
+    <ABDependce>assemblepartchoosedialog</ABDependce>
+    <ABDependce>animation</ABDependce>
+  </ABList>
+  <ABList Path="Assets/Objects/Assemble/AssembleRenderTex.renderTexture" Crc="3110591985" ABName="model" AssetName="AssembleRenderTex.renderTexture" />
+  <ABList Path="Assets/Objects/Assemble/Parts/Parts001/_dependence/AssemblePartTest.fbx" Crc="1732828672" ABName="model" AssetName="AssemblePartTest.fbx" />
+  <ABList Path="Assets/Objects/Assemble/Parts/Parts001/AssembleParts_001.prefab" Crc="2617944534" ABName="model" AssetName="AssembleParts_001.prefab" />
+  <ABList Path="Assets/Objects/Assemble/Ship/Ship001/_dependence/Ship001.fbx" Crc="2630413061" ABName="model" AssetName="Ship001.fbx" />
+  <ABList Path="Assets/Objects/Assemble/Ship/Ship001/Ship001.prefab" Crc="2155473151" ABName="model" AssetName="Ship001.prefab" />
+  <ABList Path="Assets/Objects/FunctionBlock/PowerArea/_dependence/Material/Power_Reactant.mat" Crc="3198630088" ABName="model" AssetName="Power_Reactant.mat" />
+  <ABList Path="Assets/Objects/FunctionBlock/PowerArea/_dependence/Material/Power_Storage.mat" Crc="1360552396" ABName="model" AssetName="Power_Storage.mat" />
+  <ABList Path="Assets/Objects/FunctionBlock/PowerArea/_dependence/Model/Power_Reactant.fbx" Crc="818408474" ABName="model" AssetName="Power_Reactant.fbx" />
+  <ABList Path="Assets/Objects/FunctionBlock/PowerArea/_dependence/Model/Power_Storage.fbx" Crc="3675271717" ABName="model" AssetName="Power_Storage.fbx" />
+  <ABList Path="Assets/Objects/FunctionBlock/PowerArea/Power_Reactant.prefab" Crc="1789839942" ABName="model" AssetName="Power_Reactant.prefab" />
+  <ABList Path="Assets/Objects/FunctionBlock/PowerArea/Power_Storage.prefab" Crc="1585522437" ABName="model" AssetName="Power_Storage.prefab" />
+  <ABList Path="Assets/Objects/FunctionBlock/WorkingArea/_dependence/Material/Working_Disassemble.mat" Crc="3000122832" ABName="model" AssetName="Working_Disassemble.mat" />
+  <ABList Path="Assets/Objects/FunctionBlock/WorkingArea/_dependence/Material/Working_Lab.mat" Crc="350538382" ABName="model" AssetName="Working_Lab.mat" />
+  <ABList Path="Assets/Objects/FunctionBlock/WorkingArea/_dependence/Model/Working_Disassemble.fbx" Crc="2630714378" ABName="model" AssetName="Working_Disassemble.fbx" />
+  <ABList Path="Assets/Objects/FunctionBlock/WorkingArea/_dependence/Model/Working_Lab.fbx" Crc="400000265" ABName="model" AssetName="Working_Lab.fbx" />
+  <ABList Path="Assets/Objects/FunctionBlock/WorkingArea/Working_Disassemble.prefab" Crc="472070623" ABName="model" AssetName="Working_Disassemble.prefab" />
+  <ABList Path="Assets/Objects/FunctionBlock/WorkingArea/Working_Lab.prefab" Crc="2043650246" ABName="model" AssetName="Working_Lab.prefab" />
+  <ABList Path="Assets/Objects/MainShip/MainShipTex.renderTexture" Crc="2918765395" ABName="model" AssetName="MainShipTex.renderTexture" />
+  <ABList Path="Assets/Objects/MainShipFloor/Area/PowerArea/_dependence/Material/PowerAreaMat.mat" Crc="1383938971" ABName="model" AssetName="PowerAreaMat.mat" />
+  <ABList Path="Assets/Objects/MainShipFloor/Area/PowerArea/PowerArea_BaseFloor.prefab" Crc="3852775879" ABName="model" AssetName="PowerArea_BaseFloor.prefab" />
+  <ABList Path="Assets/Objects/MainShipFloor/Area/WorkingArea/_dependence/WorkingAreaFloor.fbx" Crc="1726915268" ABName="model" AssetName="WorkingAreaFloor.fbx" />
+  <ABList Path="Assets/Objects/MainShipFloor/Area/WorkingArea/_dependence/WorkingAreaMat.mat" Crc="1562045290" ABName="model" AssetName="WorkingAreaMat.mat" />
+  <ABList Path="Assets/Objects/Particle/SliderLight.prefab" Crc="3617716525" ABName="model" AssetName="SliderLight.prefab" />
+  <ABList Path="Assets/Objects/Particle/UI/SpotEffect.prefab" Crc="3730845113" ABName="model" AssetName="SpotEffect.prefab" />
+  <ABList Path="Assets/Objects/Space/Light/_dependence/Textrue/Flare-002.png" Crc="1790329056" ABName="model" AssetName="Flare-002.png" />
+  <ABList Path="Assets/Objects/Space/Light/Light_Yellow_Large.flare" Crc="981308329" ABName="model" AssetName="Light_Yellow_Large.flare" />
+  <ABList Path="Assets/Objects/Space/Nebula/_dependence/Mesh/NebulaSphere.FBX" Crc="2080261060" ABName="model" AssetName="NebulaSphere.FBX" />
+  <ABList Path="Assets/Objects/Space/Nebula/Nebula_Blue/_dependence/Material/NebulaBlue_Bright_2.mat" Crc="3185369970" ABName="model" AssetName="NebulaBlue_Bright_2.mat" />
+  <ABList Path="Assets/Objects/Space/Nebula/Nebula_Blue/_dependence/Material/NebulaBlue_Dark_1.mat" Crc="1339410808" ABName="model" AssetName="NebulaBlue_Dark_1.mat" />
+  <ABList Path="Assets/Objects/Space/Nebula/Nebula_Blue/_dependence/Material/NebulaBlue_Medium_1.mat" Crc="669088350" ABName="model" AssetName="NebulaBlue_Medium_1.mat" />
+  <ABList Path="Assets/Objects/Space/Nebula/Nebula_Blue/_dependence/Material/NebulaBlue_Medium_3.mat" Crc="1562454334" ABName="model" AssetName="NebulaBlue_Medium_3.mat" />
+  <ABList Path="Assets/Objects/Space/Nebula/Nebula_Blue/_dependence/Material/NebulaBlue_VeryDark_1.mat" Crc="4079504933" ABName="model" AssetName="NebulaBlue_VeryDark_1.mat" />
+  <ABList Path="Assets/Objects/Space/Nebula/Nebula_Blue/_dependence/Textrue/Nebula_Blue_Medium_1.png" Crc="1581063425" ABName="model" AssetName="Nebula_Blue_Medium_1.png" />
+  <ABList Path="Assets/Objects/Space/Nebula/Nebula_Blue/_dependence/Textrue/Nebula_Blue_Medium_3.png" Crc="620580449" ABName="model" AssetName="Nebula_Blue_Medium_3.png" />
+  <ABList Path="Assets/Objects/Space/Nebula/Nebula_Blue/_dependence/Textrue/NebulaBlue_Bright_2.png" Crc="1019520318" ABName="model" AssetName="NebulaBlue_Bright_2.png" />
+  <ABList Path="Assets/Objects/Space/Nebula/Nebula_Blue/_dependence/Textrue/NebulaBlue_Dark_1.png" Crc="3621611577" ABName="model" AssetName="NebulaBlue_Dark_1.png" />
+  <ABList Path="Assets/Objects/Space/Nebula/Nebula_Blue/_dependence/Textrue/NebulaBlue_VeryDark_1.png" Crc="4193261807" ABName="model" AssetName="NebulaBlue_VeryDark_1.png" />
+  <ABList Path="Assets/Objects/Space/Nebula/Nebula_Blue/Nebula_Blue.prefab" Crc="3534951193" ABName="model" AssetName="Nebula_Blue.prefab" />
+  <ABList Path="Assets/Objects/Space/Nebula/Nebula_Blue/Nebula_Blue_Element.prefab" Crc="2367087345" ABName="model" AssetName="Nebula_Blue_Element.prefab" />
+  <ABList Path="Assets/Objects/Space/Planet/Atmosphere/Atmosphere_Blue_Thin.mat" Crc="616303354" ABName="model" AssetName="Atmosphere_Blue_Thin.mat">
+    <ABDependce>gameentryscene</ABDependce>
+  </ABList>
+  <ABList Path="Assets/Objects/Space/Planet/Atmosphere/Atmosphere_Green_Thin.mat" Crc="2650107476" ABName="model" AssetName="Atmosphere_Green_Thin.mat">
+    <ABDependce>gameentryscene</ABDependce>
+  </ABList>
+  <ABList Path="Assets/Objects/Space/Planet/Atmosphere/Atmosphere_Pink_Thin.mat" Crc="4216986951" ABName="model" AssetName="Atmosphere_Pink_Thin.mat">
+    <ABDependce>gameentryscene</ABDependce>
+  </ABList>
+  <ABList Path="Assets/Objects/Space/Planet/Atmosphere/Atmosphere_Red_Thin.mat" Crc="1620067268" ABName="model" AssetName="Atmosphere_Red_Thin.mat">
+    <ABDependce>gameentryscene</ABDependce>
+  </ABList>
+  <ABList Path="Assets/Objects/Space/Planet/Atmosphere/Atmosphere_White_Thin.mat" Crc="3884793785" ABName="model" AssetName="Atmosphere_White_Thin.mat">
+    <ABDependce>gameentryscene</ABDependce>
+  </ABList>
+  <ABList Path="Assets/Objects/Space/Planet/BaseMesh/PlaneBig.FBX" Crc="581270132" ABName="model" AssetName="PlaneBig.FBX" />
+  <ABList Path="Assets/Objects/Space/Planet/BaseMesh/Planet_High.fbx" Crc="175371842" ABName="model" AssetName="Planet_High.fbx" />
+  <ABList Path="Assets/Objects/Space/Planet/BaseMesh/Sphere_Medium.FBX" Crc="3286294303" ABName="model" AssetName="Sphere_Medium.FBX" />
+  <ABList Path="Assets/Objects/Space/Planet/Objects/Planet_Earth/_dependences/Material/Earth_Cloud.mat" Crc="317735476" ABName="model" AssetName="Earth_Cloud.mat" />
+  <ABList Path="Assets/Objects/Space/Planet/Objects/Planet_Earth/_dependences/Material/Planet_Earth.mat" Crc="3416465694" ABName="model" AssetName="Planet_Earth.mat">
+    <ABDependce>mapmanager</ABDependce>
+  </ABList>
+  <ABList Path="Assets/Objects/Space/Planet/Objects/Planet_Earth/_dependences/Material/Planet_Moon.mat" Crc="3606152179" ABName="model" AssetName="Planet_Moon.mat">
+    <ABDependce>mapmanager</ABDependce>
+  </ABList>
+  <ABList Path="Assets/Objects/Space/Planet/Objects/Planet_Earth/_dependences/Texture/Earh4K.png" Crc="1035177832" ABName="model" AssetName="Earh4K.png" />
+  <ABList Path="Assets/Objects/Space/Planet/Objects/Planet_Earth/_dependences/Texture/Earth4K_Normal.png" Crc="3131709455" ABName="model" AssetName="Earth4K_Normal.png" />
+  <ABList Path="Assets/Objects/Space/Planet/Objects/Planet_Earth/_dependences/Texture/EarthCloud.png" Crc="4127775813" ABName="model" AssetName="EarthCloud.png" />
+  <ABList Path="Assets/Objects/Space/Planet/Objects/Planet_Earth/_dependences/Texture/Moon4K.png" Crc="1657275854" ABName="model" AssetName="Moon4K.png" />
+  <ABList Path="Assets/Objects/Space/Planet/Objects/Planet_Earth/_dependences/Texture/Moon4K_Normal.png" Crc="985680676" ABName="model" AssetName="Moon4K_Normal.png" />
+  <ABList Path="Assets/Objects/Space/Planet/Objects/Planet_Earth/_dependences/Texture/Planet_Earth_Light.jpg" Crc="1263121250" ABName="model" AssetName="Planet_Earth_Light.jpg" />
+  <ABList Path="Assets/Objects/Space/Planet/Objects/Planet_Earth/Planet_Earth.prefab" Crc="3979026477" ABName="model" AssetName="Planet_Earth.prefab">
+    <ABDependce>mapmanager</ABDependce>
+    <ABDependce>gameentryscene</ABDependce>
+  </ABList>
+  <ABList Path="Assets/Objects/Space/Planet/Objects/Planet_Earth/Planet_Moon.prefab" Crc="4201138257" ABName="model" AssetName="Planet_Moon.prefab">
+    <ABDependce>mapmanager</ABDependce>
+  </ABList>
+  <ABList Path="Assets/Objects/Space/Planet/Objects/Planet_Jupiter/_dependences/Material/Jupiter.mat" Crc="3204519279" ABName="model" AssetName="Jupiter.mat" />
+  <ABList Path="Assets/Objects/Space/Planet/Objects/Planet_Jupiter/_dependences/Texture/Jupiter.png" Crc="1489180311" ABName="model" AssetName="Jupiter.png" />
+  <ABList Path="Assets/Objects/Space/Planet/Objects/Planet_Jupiter/Planet_Jupiter.prefab" Crc="2642201222" ABName="model" AssetName="Planet_Jupiter.prefab">
+    <ABDependce>gameentryscene</ABDependce>
+  </ABList>
+  <ABList Path="Assets/Objects/Space/Planet/Objects/Planet_Mars/_dependences/Material/Mars.mat" Crc="1376616954" ABName="model" AssetName="Mars.mat">
+    <ABDependce>mapmanager</ABDependce>
+  </ABList>
+  <ABList Path="Assets/Objects/Space/Planet/Objects/Planet_Mars/_dependences/Texture/Mars4K.png" Crc="1528926376" ABName="model" AssetName="Mars4K.png" />
+  <ABList Path="Assets/Objects/Space/Planet/Objects/Planet_Mars/_dependences/Texture/Mars4K_Normal.png" Crc="938125198" ABName="model" AssetName="Mars4K_Normal.png" />
+  <ABList Path="Assets/Objects/Space/Planet/Objects/Planet_Mars/Planet_Mars.prefab" Crc="3406745456" ABName="model" AssetName="Planet_Mars.prefab">
+    <ABDependce>mapmanager</ABDependce>
+    <ABDependce>gameentryscene</ABDependce>
+  </ABList>
+  <ABList Path="Assets/Objects/Space/Planet/Objects/Planet_Mercury/_dependences/Material/Mercury.mat" Crc="1447075553" ABName="model" AssetName="Mercury.mat">
+    <ABDependce>mapmanager</ABDependce>
+  </ABList>
+  <ABList Path="Assets/Objects/Space/Planet/Objects/Planet_Mercury/_dependences/Texture/Mercury4K.png" Crc="1292592305" ABName="model" AssetName="Mercury4K.png" />
+  <ABList Path="Assets/Objects/Space/Planet/Objects/Planet_Mercury/_dependences/Texture/Mercury4K_Normal.png" Crc="3047955066" ABName="model" AssetName="Mercury4K_Normal.png" />
+  <ABList Path="Assets/Objects/Space/Planet/Objects/Planet_Mercury/Planet_Mercury.prefab" Crc="3519902260" ABName="model" AssetName="Planet_Mercury.prefab">
+    <ABDependce>mapmanager</ABDependce>
+    <ABDependce>gameentryscene</ABDependce>
+  </ABList>
+  <ABList Path="Assets/Objects/Space/Planet/Objects/Planet_Monten/_dependences/Material/Planet-Molten.mat" Crc="1637826701" ABName="model" AssetName="Planet-Molten.mat">
+    <ABDependce>gameentryscene</ABDependce>
+  </ABList>
+  <ABList Path="Assets/Objects/Space/Planet/Objects/Planet_Monten/_dependences/Textrue/Planet_Molten.jpg" Crc="507443954" ABName="model" AssetName="Planet_Molten.jpg" />
+  <ABList Path="Assets/Objects/Space/Planet/Objects/Planet_Monten/_dependences/Textrue/Planet_Molten_Illum.jpg" Crc="2780644483" ABName="model" AssetName="Planet_Molten_Illum.jpg" />
+  <ABList Path="Assets/Objects/Space/Planet/Objects/Planet_Monten/_dependences/Textrue/Planet_Molten_Normal.png" Crc="64232917" ABName="model" AssetName="Planet_Molten_Normal.png" />
+  <ABList Path="Assets/Objects/Space/Planet/Objects/Planet_Monten/Planet_Monten.prefab" Crc="574212493" ABName="model" AssetName="Planet_Monten.prefab">
+    <ABDependce>gameentryscene</ABDependce>
+  </ABList>
+  <ABList Path="Assets/Objects/Space/Planet/Objects/Planet_Sun/_dependences/Material/Sun.mat" Crc="2788012525" ABName="model" AssetName="Sun.mat">
+    <ABDependce>mapmanager</ABDependce>
+  </ABList>
+  <ABList Path="Assets/Objects/Space/Planet/Objects/Planet_Sun/_dependences/Material/SunCorona.mat" Crc="2580601018" ABName="model" AssetName="SunCorona.mat">
+    <ABDependce>mapmanager</ABDependce>
+  </ABList>
+  <ABList Path="Assets/Objects/Space/Planet/Objects/Planet_Sun/_dependences/Texture/SunCorona.png" Crc="677578283" ABName="model" AssetName="SunCorona.png" />
+  <ABList Path="Assets/Objects/Space/Planet/Objects/Planet_Sun/_dependences/Texture/SunDetail.png" Crc="743706911" ABName="model" AssetName="SunDetail.png" />
+  <ABList Path="Assets/Objects/Space/Planet/Objects/Planet_Sun/_dependences/Texture/SunGradient.png" Crc="1491446521" ABName="model" AssetName="SunGradient.png" />
+  <ABList Path="Assets/Objects/Space/Planet/Objects/Planet_Sun/_dependences/Texture/Surface.png" Crc="1821694706" ABName="model" AssetName="Surface.png" />
+  <ABList Path="Assets/Objects/Space/Planet/Objects/Planet_Sun/Planet_Sun.prefab" Crc="3111461984" ABName="model" AssetName="Planet_Sun.prefab">
+    <ABDependce>mapmanager</ABDependce>
+  </ABList>
+  <ABList Path="Assets/Objects/Space/Planet/Objects/Planet_Venus/_dependences/Material/Venus.mat" Crc="2754220269" ABName="model" AssetName="Venus.mat">
+    <ABDependce>mapmanager</ABDependce>
+  </ABList>
+  <ABList Path="Assets/Objects/Space/Planet/Objects/Planet_Venus/_dependences/Texture/Venus4K.png" Crc="1357040464" ABName="model" AssetName="Venus4K.png" />
+  <ABList Path="Assets/Objects/Space/Planet/Objects/Planet_Venus/_dependences/Texture/Venus4K_Normal.png" Crc="2139504142" ABName="model" AssetName="Venus4K_Normal.png" />
+  <ABList Path="Assets/Objects/Space/Planet/Objects/Planet_Venus/Planet_Venus.prefab" Crc="705143513" ABName="model" AssetName="Planet_Venus.prefab">
+    <ABDependce>mapmanager</ABDependce>
+    <ABDependce>gameentryscene</ABDependce>
+  </ABList>
+  <ABList Path="Assets/Objects/Space/Stars/_dependence/Texture/Stars_10.png" Crc="2273092837" ABName="model" AssetName="Stars_10.png" />
+  <ABList Path="Assets/Objects/Space/Stars/Stars-010.mat" Crc="4263674125" ABName="model" AssetName="Stars-010.mat" />
+  <ABList Path="Assets/Prefabs/Object/Order/OrderDetailElement.prefab" Crc="3260056925" ABName="orderdetailelement" AssetName="OrderDetailElement.prefab">
+    <ABDependce>sprite</ABDependce>
+    <ABDependce>assemblepartcard</ABDependce>
+  </ABList>
+  <ABList Path="Assets/Prefabs/Object/Order/OrderReceiveElement.prefab" Crc="2622426226" ABName="orderreceiveelement" AssetName="OrderReceiveElement.prefab">
+    <ABDependce>sprite</ABDependce>
+    <ABDependce>assemblepartcard</ABDependce>
+  </ABList>
+  <ABList Path="Assets/Prefabs/UI/Page/OrderReceiveMainPage.prefab" Crc="1608745818" ABName="orderreceivemainpage" AssetName="OrderReceiveMainPage.prefab">
+    <ABDependce>sprite</ABDependce>
+    <ABDependce>animation</ABDependce>
+    <ABDependce>assemblepartcard</ABDependce>
+  </ABList>
+  <ABList Path="Assets/Prefabs/UI/Page/PausePage.prefab" Crc="4175991886" ABName="pausepage" AssetName="PausePage.prefab">
+    <ABDependce>assemblepartcard</ABDependce>
+  </ABList>
   <ABList Path="Assets/Prefabs/Object/District/PickedDistrict.prefab" Crc="3890587006" ABName="pickeddistrict" AssetName="PickedDistrict.prefab" />
+  <ABList Path="Assets/Prefabs/UI/Misc/PlayerState.prefab" Crc="3534271729" ABName="playerstate" AssetName="PlayerState.prefab">
+    <ABDependce>sprite</ABDependce>
+    <ABDependce>assemblepartcard</ABDependce>
+    <ABDependce>animation</ABDependce>
+  </ABList>
+  <ABList Path="Assets/Prefabs/UI/Dialog/FunctionBlock/ProductLineChangeDialog.prefab" Crc="2762144073" ABName="productlinechangedialog" AssetName="ProductLineChangeDialog.prefab">
+    <ABDependce>sprite</ABDependce>
+    <ABDependce>animation</ABDependce>
+    <ABDependce>assemblepartcard</ABDependce>
+    <ABDependce>assemblepartchoosedialog</ABDependce>
+  </ABList>
+  <ABList Path="Assets/Prefabs/UI/Dialog/Main/RandomEventDialog.prefab" Crc="68943256" ABName="randomeventdialog" AssetName="RandomEventDialog.prefab">
+    <ABDependce>sprite</ABDependce>
+    <ABDependce>blocknormalinfodialog</ABDependce>
+    <ABDependce>assemblepartcard</ABDependce>
+    <ABDependce>animation</ABDependce>
+    <ABDependce>assemblepartchoosedialog</ABDependce>
+  </ABList>
+  <ABList Path="Assets/Prefabs/Object/Main/RectSortElement.prefab" Crc="4223589809" ABName="rectsortelement" AssetName="RectSortElement.prefab">
+    <ABDependce>sprite</ABDependce>
+    <ABDependce>assemblepartcard</ABDependce>
+  </ABList>
+  <ABList Path="Assets/Prefabs/Object/Main/RewardElement.prefab" Crc="2834052560" ABName="rewardelement" AssetName="RewardElement.prefab">
+    <ABDependce>assemblepartcard</ABDependce>
+  </ABList>
+  <ABList Path="Assets/Prefabs/Object/Main/RewardItem.prefab" Crc="3664116530" ABName="rewarditem" AssetName="RewardItem.prefab">
+    <ABDependce>sprite</ABDependce>
+    <ABDependce>assemblepartcard</ABDependce>
+  </ABList>
+  <ABList Path="Assets/Prefabs/Object/Main/GameSave/SaveElement.prefab" Crc="341347997" ABName="saveelement" AssetName="SaveElement.prefab">
+    <ABDependce>assemblepartcard</ABDependce>
+  </ABList>
+  <ABList Path="Assets/Prefabs/Object/Main/GameSave/SaveSubItem.prefab" Crc="3534364324" ABName="savesubitem" AssetName="SaveSubItem.prefab">
+    <ABDependce>sprite</ABDependce>
+    <ABDependce>assemblepartcard</ABDependce>
+  </ABList>
+  <ABList Path="Assets/Prefabs/UI/Map/SelectionUI.prefab" Crc="3549415695" ABName="selectionui" AssetName="SelectionUI.prefab">
+    <ABDependce>sprite</ABDependce>
+  </ABList>
   <ABList Path="Assets/Prefabs/Map/SimpleSun.prefab" Crc="2371428080" ABName="simplesun" AssetName="SimpleSun.prefab" />
-  <ABList Path="Assets/Resources/Sprite/UI/Facotry/BlockInfoBG.png" Crc="514406836" ABName="sprite" AssetName="BlockInfoBG.png" />
-  <ABList Path="Assets/Resources/Sprite/UI/Facotry/FactoryDesc_BG.png" Crc="2764969152" ABName="sprite" AssetName="FactoryDesc_BG.png" />
-  <ABList Path="Assets/Resources/Sprite/UI/Facotry/FBG.png" Crc="4284778372" ABName="sprite" AssetName="FBG.png" />
-  <ABList Path="Assets/Resources/Sprite/UI/Facotry/Grid.png" Crc="1283126280" ABName="sprite" AssetName="Grid.png" />
-  <ABList Path="Assets/Resources/Sprite/UI/Facotry/Icon01.png" Crc="36151240" ABName="sprite" AssetName="Icon01.png" />
-  <ABList Path="Assets/Resources/Sprite/UI/Facotry/Icon02.png" Crc="1166533912" ABName="sprite" AssetName="Icon02.png" />
-  <ABList Path="Assets/Resources/Sprite/UI/Facotry/Icon03.png" Crc="2028457128" ABName="sprite" AssetName="Icon03.png" />
-  <ABList Path="Assets/Resources/Sprite/UI/Facotry/InfoBG1.png" Crc="2836015409" ABName="sprite" AssetName="InfoBG1.png" />
-  <ABList Path="Assets/Resources/Sprite/UI/Facotry/InfoBG2.png" Crc="4004140001" ABName="sprite" AssetName="InfoBG2.png" />
-  <ABList Path="Assets/Resources/Sprite/UI/Facotry/LevelInfo.png" Crc="823484961" ABName="sprite" AssetName="LevelInfo.png" />
-  <ABList Path="Assets/Resources/Sprite/UI/Facotry/MainBG.png" Crc="3542984470" ABName="sprite" AssetName="MainBG.png" />
-  <ABList Path="Assets/Resources/Sprite/UI/Facotry/ModeInfo.png" Crc="2618280820" ABName="sprite" AssetName="ModeInfo.png" />
-  <ABList Path="Assets/Resources/Sprite/UI/Facotry/TitleBG.png" Crc="239621470" ABName="sprite" AssetName="TitleBG.png" />
-  <ABList Path="Assets/Resources/Sprite/UI/Facotry/TitleBG2.png" Crc="3299940593" ABName="sprite" AssetName="TitleBG2.png" />
+  <ABList Path="Assets/SpriteOutput/Assemble/Icon/Assemble_Part_Engine_001.png" Crc="3404787071" ABName="sprite" AssetName="Assemble_Part_Engine_001.png" />
+  <ABList Path="Assets/SpriteOutput/Assemble/Icon/Assemble_Part_Engine_002.png" Crc="2370869167" ABName="sprite" AssetName="Assemble_Part_Engine_002.png" />
+  <ABList Path="Assets/SpriteOutput/Assemble/Icon/Assemble_Part_Engine_003.png" Crc="2955984415" ABName="sprite" AssetName="Assemble_Part_Engine_003.png" />
+  <ABList Path="Assets/SpriteOutput/Assemble/Icon/Assemble_Part_Engine_004.png" Crc="34628111" ABName="sprite" AssetName="Assemble_Part_Engine_004.png" />
+  <ABList Path="Assets/SpriteOutput/Assemble/Icon/Assemble_Part_Engine_Icon_001.png" Crc="3730221480" ABName="sprite" AssetName="Assemble_Part_Engine_Icon_001.png" />
+  <ABList Path="Assets/SpriteOutput/Assemble/Icon/Assemble_Part_Engine_Icon_002.png" Crc="2583090040" ABName="sprite" AssetName="Assemble_Part_Engine_Icon_002.png" />
+  <ABList Path="Assets/SpriteOutput/Assemble/Icon/Assemble_Part_Engine_Icon_003.png" Crc="2761358024" ABName="sprite" AssetName="Assemble_Part_Engine_Icon_003.png" />
+  <ABList Path="Assets/SpriteOutput/Assemble/Property/Assemble_Part_Property_Speed_Icon.png" Crc="2727240548" ABName="sprite" AssetName="Assemble_Part_Property_Speed_Icon.png" />
+  <ABList Path="Assets/SpriteOutput/Assemble/ShipSprite/Assemble_Ship_001.png" Crc="988203274" ABName="sprite" AssetName="Assemble_Ship_001.png" />
+  <ABList Path="Assets/SpriteOutput/Assemble/ShipType/Assemble_Ship_Type_Explore.png" Crc="2380966420" ABName="sprite" AssetName="Assemble_Ship_Type_Explore.png" />
+  <ABList Path="Assets/SpriteOutput/Assemble/Target/Assemble_Target_WarShip.png" Crc="4103622878" ABName="sprite" AssetName="Assemble_Target_WarShip.png" />
+  <ABList Path="Assets/SpriteOutput/Assemble/Type/Assemble_Part_Type_Engine.png" Crc="761799714" ABName="sprite" AssetName="Assemble_Part_Type_Engine.png" />
+  <ABList Path="Assets/SpriteOutput/Assemble/Type/Assemble_Part_Type_Engine_Large.png" Crc="1144995824" ABName="sprite" AssetName="Assemble_Part_Type_Engine_Large.png" />
+  <ABList Path="Assets/SpriteOutput/BackGround/FuzzyBG/BG.png" Crc="2544798460" ABName="sprite" AssetName="BG.png" />
+  <ABList Path="Assets/SpriteOutput/BackGround/FuzzyBG/BG_M01.png" Crc="1268022058" ABName="sprite" AssetName="BG_M01.png" />
+  <ABList Path="Assets/SpriteOutput/BackGround/FuzzyBG/BG_M02.png" Crc="204734970" ABName="sprite" AssetName="BG_M02.png" />
+  <ABList Path="Assets/SpriteOutput/BackGround/FuzzyBG/BG_M03.png" Crc="827598922" ABName="sprite" AssetName="BG_M03.png" />
+  <ABList Path="Assets/SpriteOutput/BackGround/Loading/Loading_01.png" Crc="4037029436" ABName="sprite" AssetName="Loading_01.png" />
+  <ABList Path="Assets/SpriteOutput/BackGround/Loading/Loading_02.png" Crc="3070252268" ABName="sprite" AssetName="Loading_02.png" />
+  <ABList Path="Assets/SpriteOutput/District/DistriceTest01.png" Crc="3885451322" ABName="sprite" AssetName="DistriceTest01.png" />
+  <ABList Path="Assets/SpriteOutput/District/DistriceTest02.png" Crc="2687972074" ABName="sprite" AssetName="DistriceTest02.png" />
+  <ABList Path="Assets/SpriteOutput/Explore/AreaBG/ExploreArea_BG_001.png" Crc="501987631" ABName="sprite" AssetName="ExploreArea_BG_001.png" />
+  <ABList Path="Assets/SpriteOutput/Explore/AreaIcon/Explore_Icon_Jupiter.png" Crc="4134578257" ABName="sprite" AssetName="Explore_Icon_Jupiter.png" />
+  <ABList Path="Assets/SpriteOutput/Explore/AreaIcon/Explore_Icon_Mars.png" Crc="3623334016" ABName="sprite" AssetName="Explore_Icon_Mars.png" />
+  <ABList Path="Assets/SpriteOutput/Explore/Misc/ExploreTeam_Menber_Icon_01.png" Crc="2336978296" ABName="sprite" AssetName="ExploreTeam_Menber_Icon_01.png" />
+  <ABList Path="Assets/SpriteOutput/FunctionBlock/Background/FBG.png" Crc="3894238814" ABName="sprite" AssetName="FBG.png" />
+  <ABList Path="Assets/SpriteOutput/FunctionBlock/Formula/Icon/MTL_001.png" Crc="2868122300" ABName="sprite" AssetName="MTL_001.png" />
+  <ABList Path="Assets/SpriteOutput/FunctionBlock/Formula/Icon/MTL_003.png" Crc="3493085660" ABName="sprite" AssetName="MTL_003.png" />
+  <ABList Path="Assets/SpriteOutput/FunctionBlock/Formula/Icon/MTL_005.png" Crc="1601483900" ABName="sprite" AssetName="MTL_005.png" />
+  <ABList Path="Assets/SpriteOutput/FunctionBlock/Icon/Block_BG_001.png" Crc="2667426650" ABName="sprite" AssetName="Block_BG_001.png" />
+  <ABList Path="Assets/SpriteOutput/FunctionBlock/Icon/Block_BG_002.png" Crc="3646802314" ABName="sprite" AssetName="Block_BG_002.png" />
+  <ABList Path="Assets/SpriteOutput/FunctionBlock/Icon/Block_Effect_Icon_Speed.png" Crc="2397533329" ABName="sprite" AssetName="Block_Effect_Icon_Speed.png" />
+  <ABList Path="Assets/SpriteOutput/FunctionBlock/TypeIcon/BlockType_Arms.png" Crc="1247637078" ABName="sprite" AssetName="BlockType_Arms.png" />
+  <ABList Path="Assets/SpriteOutput/FunctionBlock/TypeIcon/BlockType_Energy.png" Crc="3190655486" ABName="sprite" AssetName="BlockType_Energy.png" />
+  <ABList Path="Assets/SpriteOutput/FunctionBlock/TypeIcon/BlockType_Industry.png" Crc="2491726821" ABName="sprite" AssetName="BlockType_Industry.png" />
+  <ABList Path="Assets/SpriteOutput/FunctionBlock/TypeIcon/BlockType_public.png" Crc="857480439" ABName="sprite" AssetName="BlockType_public.png" />
+  <ABList Path="Assets/SpriteOutput/FunctionBlock/TypeIcon/BlockType_Research.png" Crc="1809433043" ABName="sprite" AssetName="BlockType_Research.png" />
+  <ABList Path="Assets/SpriteOutput/Item/BuildIcon.png" Crc="2950450465" ABName="sprite" AssetName="BuildIcon.png" />
+  <ABList Path="Assets/SpriteOutput/Item/ChangeIcon.png" Crc="582297496" ABName="sprite" AssetName="ChangeIcon.png" />
+  <ABList Path="Assets/SpriteOutput/MainShip/Area/AreaBG_01.png" Crc="1103518367" ABName="sprite" AssetName="AreaBG_01.png" />
+  <ABList Path="Assets/SpriteOutput/MainShip/Shield/ShipImage_temp.png" Crc="3191500211" ABName="sprite" AssetName="ShipImage_temp.png" />
+  <ABList Path="Assets/SpriteOutput/Map/grid_green.png" Crc="2922541993" ABName="sprite" AssetName="grid_green.png" />
+  <ABList Path="Assets/SpriteOutput/Map/grid_red.png" Crc="542756087" ABName="sprite" AssetName="grid_red.png" />
+  <ABList Path="Assets/SpriteOutput/Material/BG/Matetial_BG_001.png" Crc="262012285" ABName="sprite" AssetName="Matetial_BG_001.png" />
+  <ABList Path="Assets/SpriteOutput/Material/Currency.png" Crc="1444113820" ABName="sprite" AssetName="Currency.png" />
+  <ABList Path="Assets/SpriteOutput/Material/Icon/Material_M_01.png" Crc="1359188898" ABName="sprite" AssetName="Material_M_01.png" />
+  <ABList Path="Assets/SpriteOutput/Material/Icon/MTL_001.png" Crc="2866139432" ABName="sprite" AssetName="MTL_001.png" />
+  <ABList Path="Assets/SpriteOutput/Material/Icon/MTL_002.png" Crc="3983911928" ABName="sprite" AssetName="MTL_002.png" />
+  <ABList Path="Assets/SpriteOutput/Material/Icon/MTL_003.png" Crc="3491070536" ABName="sprite" AssetName="MTL_003.png" />
+  <ABList Path="Assets/SpriteOutput/Material/Icon/MTL_004.png" Crc="1647664728" ABName="sprite" AssetName="MTL_004.png" />
+  <ABList Path="Assets/SpriteOutput/Material/Icon/MTL_005.png" Crc="1599436776" ABName="sprite" AssetName="MTL_005.png" />
+  <ABList Path="Assets/SpriteOutput/Material/Icon/MTL_006.png" Crc="418712888" ABName="sprite" AssetName="MTL_006.png" />
+  <ABList Path="Assets/SpriteOutput/Order/OrderTypeIcon/OrderType_Icon_001.png" Crc="2115346536" ABName="sprite" AssetName="OrderType_Icon_001.png" />
+  <ABList Path="Assets/SpriteOutput/Order/OrderTypeIcon/OrderType_Icon_002.png" Crc="968219320" ABName="sprite" AssetName="OrderType_Icon_002.png" />
+  <ABList Path="Assets/SpriteOutput/Order/OrderTypeIcon/OrderType_Icon_003.png" Crc="81130248" ABName="sprite" AssetName="OrderType_Icon_003.png" />
+  <ABList Path="Assets/SpriteOutput/Order/PicBG/Order_Pic_BG_M001.png" Crc="3905587527" ABName="sprite" AssetName="Order_Pic_BG_M001.png" />
+  <ABList Path="Assets/SpriteOutput/Organization/Icon/Organization_Icon_Large_M_01.png" Crc="4197958071" ABName="sprite" AssetName="Organization_Icon_Large_M_01.png" />
+  <ABList Path="Assets/SpriteOutput/Organization/Icon/Organization_Icon_Medium_M_01.png" Crc="3477969989" ABName="sprite" AssetName="Organization_Icon_Medium_M_01.png" />
+  <ABList Path="Assets/SpriteOutput/Organization/Type/Organization_Relation_Good.png" Crc="2860362930" ABName="sprite" AssetName="Organization_Relation_Good.png" />
+  <ABList Path="Assets/SpriteOutput/Organization/Type/Organization_Type_M_01.png" Crc="2141418025" ABName="sprite" AssetName="Organization_Type_M_01.png" />
+  <ABList Path="Assets/SpriteOutput/RandomEvent/BG/RandomEvent_Pic_001.png" Crc="2390655648" ABName="sprite" AssetName="RandomEvent_Pic_001.png" />
+  <ABList Path="Assets/SpriteOutput/SpriteItem/Sprite/M1.png" Crc="840734558" ABName="sprite" AssetName="M1.png" />
+  <ABList Path="Assets/SpriteOutput/Technology/Icon/Tech_Icon_100.png" Crc="3273689617" ABName="sprite" AssetName="Tech_Icon_100.png" />
+  <ABList Path="Assets/SpriteOutput/UI/Icon/Achievement_Icon.png" Crc="2158314760" ABName="sprite" AssetName="Achievement_Icon.png" />
+  <ABList Path="Assets/SpriteOutput/UI/Icon/ConstructPanle_Arrow_Left.png" Crc="3618983159" ABName="sprite" AssetName="ConstructPanle_Arrow_Left.png" />
+  <ABList Path="Assets/SpriteOutput/UI/Icon/ConstructPanle_Arrow_Right.png" Crc="1562318517" ABName="sprite" AssetName="ConstructPanle_Arrow_Right.png" />
+  <ABList Path="Assets/SpriteOutput/UI/Icon/GameLoadPage_Delete_Icon.png" Crc="4058230551" ABName="sprite" AssetName="GameLoadPage_Delete_Icon.png" />
+  <ABList Path="Assets/SpriteOutput/UI/Icon/GameLoadPage_Load_Icon.png" Crc="3398354148" ABName="sprite" AssetName="GameLoadPage_Load_Icon.png" />
+  <ABList Path="Assets/SpriteOutput/UI/Icon/GameStates_Select_BG.png" Crc="1116663389" ABName="sprite" AssetName="GameStates_Select_BG.png" />
+  <ABList Path="Assets/SpriteOutput/UI/Icon/Icon_Add_01.png" Crc="1488586959" ABName="sprite" AssetName="Icon_Add_01.png" />
+  <ABList Path="Assets/SpriteOutput/UI/Icon/Icon_Add_A.png" Crc="3663307787" ABName="sprite" AssetName="Icon_Add_A.png" />
+  <ABList Path="Assets/SpriteOutput/UI/Icon/Icon_Rare.png" Crc="10391664" ABName="sprite" AssetName="Icon_Rare.png" />
+  <ABList Path="Assets/SpriteOutput/UI/Icon/Icon_Rechoose.png" Crc="1556967449" ABName="sprite" AssetName="Icon_Rechoose.png" />
+  <ABList Path="Assets/SpriteOutput/UI/Icon/Icon_Reduce_A.png" Crc="1416546510" ABName="sprite" AssetName="Icon_Reduce_A.png" />
+  <ABList Path="Assets/SpriteOutput/UI/Icon/Icon_Refresh.png" Crc="2523030934" ABName="sprite" AssetName="Icon_Refresh.png" />
+  <ABList Path="Assets/SpriteOutput/UI/Icon/Icon_Search.png" Crc="889834626" ABName="sprite" AssetName="Icon_Search.png" />
+  <ABList Path="Assets/SpriteOutput/UI/Icon/Icon_Time02.png" Crc="1015955155" ABName="sprite" AssetName="Icon_Time02.png" />
+  <ABList Path="Assets/SpriteOutput/UI/Icon/Icon_Time03.png" Crc="32380771" ABName="sprite" AssetName="Icon_Time03.png" />
+  <ABList Path="Assets/SpriteOutput/UI/Icon/Icon_TimeCost.png" Crc="2771737073" ABName="sprite" AssetName="Icon_TimeCost.png" />
+  <ABList Path="Assets/SpriteOutput/UI/Icon/Icon_Total.png" Crc="26980037" ABName="sprite" AssetName="Icon_Total.png" />
+  <ABList Path="Assets/SpriteOutput/UI/Icon/Icon_Unlock.png" Crc="1626255383" ABName="sprite" AssetName="Icon_Unlock.png" />
+  <ABList Path="Assets/SpriteOutput/UI/Icon/Icon_Warning.png" Crc="3462312535" ABName="sprite" AssetName="Icon_Warning.png" />
+  <ABList Path="Assets/SpriteOutput/UI/Icon/Icon_Warning_Yellow.png" Crc="2894385226" ABName="sprite" AssetName="Icon_Warning_Yellow.png" />
+  <ABList Path="Assets/SpriteOutput/UI/Icon/Main_Circle_Small.png" Crc="3982759520" ABName="sprite" AssetName="Main_Circle_Small.png" />
+  <ABList Path="Assets/SpriteOutput/UI/Icon/MainMenu_Btn_Load_Icon.png" Crc="1640693839" ABName="sprite" AssetName="MainMenu_Btn_Load_Icon.png" />
+  <ABList Path="Assets/SpriteOutput/UI/Icon/MainMenu_Btn_Quit_Icon.png" Crc="3919750107" ABName="sprite" AssetName="MainMenu_Btn_Quit_Icon.png" />
+  <ABList Path="Assets/SpriteOutput/UI/Icon/MainMenu_Btn_Set_Icon.png" Crc="2504374652" ABName="sprite" AssetName="MainMenu_Btn_Set_Icon.png" />
+  <ABList Path="Assets/SpriteOutput/UI/Icon/MainMenu_Btn_Start_Icon.png" Crc="2047541860" ABName="sprite" AssetName="MainMenu_Btn_Start_Icon.png" />
+  <ABList Path="Assets/SpriteOutput/UI/Icon/MainMenu_Events.png" Crc="1186540491" ABName="sprite" AssetName="MainMenu_Events.png" />
+  <ABList Path="Assets/SpriteOutput/UI/Icon/MainMenu_Order.png" Crc="2142444515" ABName="sprite" AssetName="MainMenu_Order.png" />
+  <ABList Path="Assets/SpriteOutput/UI/Icon/MainPage_Icon_Destory.png" Crc="1349816723" ABName="sprite" AssetName="MainPage_Icon_Destory.png" />
+  <ABList Path="Assets/SpriteOutput/UI/Icon/MainPage_Icon_Menu.png" Crc="528972917" ABName="sprite" AssetName="MainPage_Icon_Menu.png" />
+  <ABList Path="Assets/SpriteOutput/UI/Icon/Menu_Back.png" Crc="987473069" ABName="sprite" AssetName="Menu_Back.png" />
+  <ABList Path="Assets/SpriteOutput/UI/Icon/Pause_Icon.png" Crc="171975518" ABName="sprite" AssetName="Pause_Icon.png" />
+  <ABList Path="Assets/SpriteOutput/UI/Icon/Res_Icon_Material.png" Crc="4052595063" ABName="sprite" AssetName="Res_Icon_Material.png" />
+  <ABList Path="Assets/SpriteOutput/UI/Icon/SavePage_Title_Icon.png" Crc="304621816" ABName="sprite" AssetName="SavePage_Title_Icon.png" />
+  <ABList Path="Assets/SpriteOutput/UI/Icon/Speed_01_Icon.png" Crc="3847410068" ABName="sprite" AssetName="Speed_01_Icon.png" />
+  <ABList Path="Assets/SpriteOutput/UI/Icon/Speed_02_Icon.png" Crc="241527447" ABName="sprite" AssetName="Speed_02_Icon.png" />
+  <ABList Path="Assets/SpriteOutput/UI/Icon/Speed_03_Icon.png" Crc="3785818537" ABName="sprite" AssetName="Speed_03_Icon.png" />
+  <ABList Path="Assets/SpriteOutput/UI/Icon/Technology_Icon.png" Crc="3691682216" ABName="sprite" AssetName="Technology_Icon.png" />
+  <ABList Path="Assets/SpriteOutput/UI/Icon/Toggle_CheckMark_01.png" Crc="2144900569" ABName="sprite" AssetName="Toggle_CheckMark_01.png" />
+  <ABList Path="Assets/SpriteOutput/UI/Icon/Toggle_CheckMark_02.png" Crc="947449609" ABName="sprite" AssetName="Toggle_CheckMark_02.png" />
+  <ABList Path="Assets/SpriteOutput/UI/Icon/Toggle_Rect.png" Crc="57360483" ABName="sprite" AssetName="Toggle_Rect.png" />
+  <ABList Path="Assets/SpriteOutput/UI/Main/Assemble/Assemble_Card_BGLine.png" Crc="3051271189" ABName="sprite" AssetName="Assemble_Card_BGLine.png" />
+  <ABList Path="Assets/SpriteOutput/UI/Main/Assemble/Assemble_CustomValue_Icon.png" Crc="1025024177" ABName="sprite" AssetName="Assemble_CustomValue_Icon.png" />
+  <ABList Path="Assets/SpriteOutput/UI/Main/Assemble/Assemble_Design_ShipParts_BG.png" Crc="2397106587" ABName="sprite" AssetName="Assemble_Design_ShipParts_BG.png" />
+  <ABList Path="Assets/SpriteOutput/UI/Main/Assemble/Assemble_Equip_BG.png" Crc="1431222716" ABName="sprite" AssetName="Assemble_Equip_BG.png" />
+  <ABList Path="Assets/SpriteOutput/UI/Main/Assemble/Assemble_Part_Cost_Icon.png" Crc="4106893613" ABName="sprite" AssetName="Assemble_Part_Cost_Icon.png" />
+  <ABList Path="Assets/SpriteOutput/UI/Main/Assemble/Assemble_Part_ModelType_Icon.png" Crc="2364002827" ABName="sprite" AssetName="Assemble_Part_ModelType_Icon.png" />
+  <ABList Path="Assets/SpriteOutput/UI/Main/Assemble/Assemble_PartChoose_Item_BGLine.png" Crc="2241142475" ABName="sprite" AssetName="Assemble_PartChoose_Item_BGLine.png" />
+  <ABList Path="Assets/SpriteOutput/UI/Main/Assemble/Assemble_PartChoose_Tab_BGLine.png" Crc="921517713" ABName="sprite" AssetName="Assemble_PartChoose_Tab_BGLine.png" />
+  <ABList Path="Assets/SpriteOutput/UI/Main/Assemble/Assemble_PartDesign_Detail_Icon.png" Crc="3411529730" ABName="sprite" AssetName="Assemble_PartDesign_Detail_Icon.png" />
+  <ABList Path="Assets/SpriteOutput/UI/Main/Assemble/Assemble_PartDesign_Icon.png" Crc="2628992970" ABName="sprite" AssetName="Assemble_PartDesign_Icon.png" />
+  <ABList Path="Assets/SpriteOutput/UI/Main/Assemble/Assemble_PartDesign_Name_Icon.png" Crc="210700272" ABName="sprite" AssetName="Assemble_PartDesign_Name_Icon.png" />
+  <ABList Path="Assets/SpriteOutput/UI/Main/Assemble/Assemble_Ship_Class_Icon.png" Crc="1194906289" ABName="sprite" AssetName="Assemble_Ship_Class_Icon.png" />
+  <ABList Path="Assets/SpriteOutput/UI/Main/Assemble/Assemble_Ship_PartsAdd.png" Crc="2101834936" ABName="sprite" AssetName="Assemble_Ship_PartsAdd.png" />
+  <ABList Path="Assets/SpriteOutput/UI/Main/Assemble/Assemble_Ship_Property_Durability_Icon.png" Crc="225734577" ABName="sprite" AssetName="Assemble_Ship_Property_Durability_Icon.png" />
+  <ABList Path="Assets/SpriteOutput/UI/Main/Assemble/Assemble_Ship_Property_Exolore_Icon.png" Crc="1311911094" ABName="sprite" AssetName="Assemble_Ship_Property_Exolore_Icon.png" />
+  <ABList Path="Assets/SpriteOutput/UI/Main/Assemble/Assemble_Ship_Property_FirePower_Icon.png" Crc="2980472017" ABName="sprite" AssetName="Assemble_Ship_Property_FirePower_Icon.png" />
+  <ABList Path="Assets/SpriteOutput/UI/Main/Assemble/Assemble_Ship_Property_Member_Icon.png" Crc="1019809223" ABName="sprite" AssetName="Assemble_Ship_Property_Member_Icon.png" />
+  <ABList Path="Assets/SpriteOutput/UI/Main/Assemble/Assemble_Ship_Property_ModuleNum_Icon.png" Crc="1346291974" ABName="sprite" AssetName="Assemble_Ship_Property_ModuleNum_Icon.png" />
+  <ABList Path="Assets/SpriteOutput/UI/Main/Assemble/Assemble_Ship_Property_Speed_Icon.png" Crc="3118013630" ABName="sprite" AssetName="Assemble_Ship_Property_Speed_Icon.png" />
+  <ABList Path="Assets/SpriteOutput/UI/Main/Assemble/Assemble_Ship_Property_Storage_Icon.png" Crc="3321938901" ABName="sprite" AssetName="Assemble_Ship_Property_Storage_Icon.png" />
+  <ABList Path="Assets/SpriteOutput/UI/Main/Assemble/Assemble_Ship_Size_Icon.png" Crc="2707539899" ABName="sprite" AssetName="Assemble_Ship_Size_Icon.png" />
+  <ABList Path="Assets/SpriteOutput/UI/Main/Assemble/Assemble_ShipDesign_Icon.png" Crc="2970378350" ABName="sprite" AssetName="Assemble_ShipDesign_Icon.png" />
+  <ABList Path="Assets/SpriteOutput/UI/Main/Assemble/Assemble_ShipPart_EnterEffect.png" Crc="1803950900" ABName="sprite" AssetName="Assemble_ShipPart_EnterEffect.png" />
+  <ABList Path="Assets/SpriteOutput/UI/Main/Assemble/AssemblePage_BG.png" Crc="2036609913" ABName="sprite" AssetName="AssemblePage_BG.png" />
+  <ABList Path="Assets/SpriteOutput/UI/Main/BlockPage/Block_District_Lock.png" Crc="2685485046" ABName="sprite" AssetName="Block_District_Lock.png" />
+  <ABList Path="Assets/SpriteOutput/UI/Main/BlockPage/Block_District_OutLine.png" Crc="3154066417" ABName="sprite" AssetName="Block_District_OutLine.png" />
+  <ABList Path="Assets/SpriteOutput/UI/Main/BlockPage/Block_Manu_Enhance_Icon.png" Crc="4082915488" ABName="sprite" AssetName="Block_Manu_Enhance_Icon.png" />
+  <ABList Path="Assets/SpriteOutput/UI/Main/BlockPage/Block_Manu_SlotBG.png" Crc="1417298219" ABName="sprite" AssetName="Block_Manu_SlotBG.png" />
+  <ABList Path="Assets/SpriteOutput/UI/Main/BlockPage/BlockManu_Formula_Change.png" Crc="3129457534" ABName="sprite" AssetName="BlockManu_Formula_Change.png" />
+  <ABList Path="Assets/SpriteOutput/UI/Main/BlockPage/BlockManu_Page_District_Build.png" Crc="3924113338" ABName="sprite" AssetName="BlockManu_Page_District_Build.png" />
+  <ABList Path="Assets/SpriteOutput/UI/Main/BlockPage/BlockManu_Page_Edge.png" Crc="2554731291" ABName="sprite" AssetName="BlockManu_Page_Edge.png" />
+  <ABList Path="Assets/SpriteOutput/UI/Main/BlockPage/BlockManu_Page_Effect_Edge.png" Crc="2472244246" ABName="sprite" AssetName="BlockManu_Page_Effect_Edge.png" />
+  <ABList Path="Assets/SpriteOutput/UI/Main/BlockPage/BlockManu_Page_Info_Energy.png" Crc="3416489672" ABName="sprite" AssetName="BlockManu_Page_Info_Energy.png" />
+  <ABList Path="Assets/SpriteOutput/UI/Main/BlockPage/BlockManu_Page_Info_InfoIcon.png" Crc="3634796369" ABName="sprite" AssetName="BlockManu_Page_Info_InfoIcon.png" />
+  <ABList Path="Assets/SpriteOutput/UI/Main/BlockPage/BlockManu_Page_Info_Maintain.png" Crc="4045841342" ABName="sprite" AssetName="BlockManu_Page_Info_Maintain.png" />
+  <ABList Path="Assets/SpriteOutput/UI/Main/BlockPage/BlockManu_Page_Info_OutLine.png" Crc="265988840" ABName="sprite" AssetName="BlockManu_Page_Info_OutLine.png" />
+  <ABList Path="Assets/SpriteOutput/UI/Main/BlockPage/BlockManu_Page_Info_Speed.png" Crc="3210401594" ABName="sprite" AssetName="BlockManu_Page_Info_Speed.png" />
+  <ABList Path="Assets/SpriteOutput/UI/Main/BlockPage/BlockManu_Page_Info_Worker.png" Crc="1101220459" ABName="sprite" AssetName="BlockManu_Page_Info_Worker.png" />
+  <ABList Path="Assets/SpriteOutput/UI/Main/BlockPage/BlockManu_Page_Manu_BG01.png" Crc="3467460431" ABName="sprite" AssetName="BlockManu_Page_Manu_BG01.png" />
+  <ABList Path="Assets/SpriteOutput/UI/Main/BlockPage/BlockManu_Page_Manu_Icon.png" Crc="4021214382" ABName="sprite" AssetName="BlockManu_Page_Manu_Icon.png" />
+  <ABList Path="Assets/SpriteOutput/UI/Main/BlockPage/BlockManu_Page_Manu_Progress.png" Crc="2076909221" ABName="sprite" AssetName="BlockManu_Page_Manu_Progress.png" />
+  <ABList Path="Assets/SpriteOutput/UI/Main/BlockPage/BlockManu_Page_Plan_Icon.png" Crc="3466368317" ABName="sprite" AssetName="BlockManu_Page_Plan_Icon.png" />
+  <ABList Path="Assets/SpriteOutput/UI/Main/BlockPage/BlockManu_Page_Progress_Ring.png" Crc="2319389529" ABName="sprite" AssetName="BlockManu_Page_Progress_Ring.png" />
+  <ABList Path="Assets/SpriteOutput/UI/Main/BlockPage/BlockNormalInfo_BG.png" Crc="2025033589" ABName="sprite" AssetName="BlockNormalInfo_BG.png" />
+  <ABList Path="Assets/SpriteOutput/UI/Main/BlockPage/District_Build_BG.png" Crc="3614372637" ABName="sprite" AssetName="District_Build_BG.png" />
+  <ABList Path="Assets/SpriteOutput/UI/Main/BlockPage/District_Build_Slot_BG.png" Crc="1556475570" ABName="sprite" AssetName="District_Build_Slot_BG.png" />
+  <ABList Path="Assets/SpriteOutput/UI/Main/BlockPage/District_Corner_Line.png" Crc="3800209366" ABName="sprite" AssetName="District_Corner_Line.png" />
+  <ABList Path="Assets/SpriteOutput/UI/Main/BlockPage/District_Icon_Build.png" Crc="3602470291" ABName="sprite" AssetName="District_Icon_Build.png" />
+  <ABList Path="Assets/SpriteOutput/UI/Main/BlockPage/DistrictBuild_BG.png" Crc="185621860" ABName="sprite" AssetName="DistrictBuild_BG.png" />
+  <ABList Path="Assets/SpriteOutput/UI/Main/BlockPage/Formula_Change_BG01.png" Crc="2436988159" ABName="sprite" AssetName="Formula_Change_BG01.png" />
+  <ABList Path="Assets/SpriteOutput/UI/Main/BlockPage/FormulaChange_InputLine.png" Crc="2201809048" ABName="sprite" AssetName="FormulaChange_InputLine.png" />
+  <ABList Path="Assets/SpriteOutput/UI/Main/BlockPage/FormulaChange_OutputLine.png" Crc="2173204083" ABName="sprite" AssetName="FormulaChange_OutputLine.png" />
+  <ABList Path="Assets/SpriteOutput/UI/Main/BlockPage/FormulaChoose_Circle.png" Crc="4145605034" ABName="sprite" AssetName="FormulaChoose_Circle.png" />
+  <ABList Path="Assets/SpriteOutput/UI/Main/BlockPage/FormulaChoose_Ring.png" Crc="3633403888" ABName="sprite" AssetName="FormulaChoose_Ring.png" />
+  <ABList Path="Assets/SpriteOutput/UI/Main/BlockPage/FormulaChoose_Ring_Blue.png" Crc="4180395542" ABName="sprite" AssetName="FormulaChoose_Ring_Blue.png" />
+  <ABList Path="Assets/SpriteOutput/UI/Main/Explore/Explore_Area_Mission_Area_Icon.png" Crc="3768516044" ABName="sprite" AssetName="Explore_Area_Mission_Area_Icon.png" />
+  <ABList Path="Assets/SpriteOutput/UI/Main/Explore/Explore_Area_Mission_BG.png" Crc="3994090763" ABName="sprite" AssetName="Explore_Area_Mission_BG.png" />
+  <ABList Path="Assets/SpriteOutput/UI/Main/Explore/Explore_Area_Mission_Level_Icon.png" Crc="2855814947" ABName="sprite" AssetName="Explore_Area_Mission_Level_Icon.png" />
+  <ABList Path="Assets/SpriteOutput/UI/Main/Explore/Explore_AreaBtn_BG.png" Crc="1884450416" ABName="sprite" AssetName="Explore_AreaBtn_BG.png" />
+  <ABList Path="Assets/SpriteOutput/UI/Main/Explore/Explore_AreaBtn_OuterRing.png" Crc="840005651" ABName="sprite" AssetName="Explore_AreaBtn_OuterRing.png" />
+  <ABList Path="Assets/SpriteOutput/UI/Main/Explore/Explore_AreaBtn_Progress.png" Crc="439078814" ABName="sprite" AssetName="Explore_AreaBtn_Progress.png" />
+  <ABList Path="Assets/SpriteOutput/UI/Main/Explore/Explore_AreaBtn_Ring.png" Crc="1352153610" ABName="sprite" AssetName="Explore_AreaBtn_Ring.png" />
+  <ABList Path="Assets/SpriteOutput/UI/Main/Explore/Explore_AreaBtn_Rotate.png" Crc="793476725" ABName="sprite" AssetName="Explore_AreaBtn_Rotate.png" />
+  <ABList Path="Assets/SpriteOutput/UI/Main/Explore/Explore_Point_Detail_BG.png" Crc="553906807" ABName="sprite" AssetName="Explore_Point_Detail_BG.png" />
+  <ABList Path="Assets/SpriteOutput/UI/Main/Explore/Explore_Point_Progress_Ring.png" Crc="4240359838" ABName="sprite" AssetName="Explore_Point_Progress_Ring.png" />
+  <ABList Path="Assets/SpriteOutput/UI/Main/Explore/Explore_Point_Ring.png" Crc="587275931" ABName="sprite" AssetName="Explore_Point_Ring.png" />
+  <ABList Path="Assets/SpriteOutput/UI/Main/Explore/Explore_Point_Warning.png" Crc="3042918601" ABName="sprite" AssetName="Explore_Point_Warning.png" />
+  <ABList Path="Assets/SpriteOutput/UI/Main/Explore/ExplorePage_Title_Icon.png" Crc="4207790207" ABName="sprite" AssetName="ExplorePage_Title_Icon.png" />
+  <ABList Path="Assets/SpriteOutput/UI/Main/Explore/ExplorePoint_Location.png" Crc="3344084807" ABName="sprite" AssetName="ExplorePoint_Location.png" />
+  <ABList Path="Assets/SpriteOutput/UI/Main/Explore/ExploreTeam_Corner.png" Crc="2559368405" ABName="sprite" AssetName="ExploreTeam_Corner.png" />
+  <ABList Path="Assets/SpriteOutput/UI/Main/Explore/ExploreTeam_Energy_Icon.png" Crc="2406818656" ABName="sprite" AssetName="ExploreTeam_Energy_Icon.png" />
+  <ABList Path="Assets/SpriteOutput/UI/Main/Explore/ExploreTeam_Equipment_Add.png" Crc="3349629415" ABName="sprite" AssetName="ExploreTeam_Equipment_Add.png" />
+  <ABList Path="Assets/SpriteOutput/UI/Main/Explore/ExploreTeam_Equipment_Icon.png" Crc="4154657783" ABName="sprite" AssetName="ExploreTeam_Equipment_Icon.png" />
+  <ABList Path="Assets/SpriteOutput/UI/Main/Explore/ExploreTeam_Goods_Icon.png" Crc="2615518638" ABName="sprite" AssetName="ExploreTeam_Goods_Icon.png" />
+  <ABList Path="Assets/SpriteOutput/UI/Main/Explore/ExploreTeam_Ship_BG.png" Crc="2358785241" ABName="sprite" AssetName="ExploreTeam_Ship_BG.png" />
+  <ABList Path="Assets/SpriteOutput/UI/Main/General/BlackBG_Large.png" Crc="2262704168" ABName="sprite" AssetName="BlackBG_Large.png" />
+  <ABList Path="Assets/SpriteOutput/UI/Main/General/BlackBG_Small.png" Crc="2481564710" ABName="sprite" AssetName="BlackBG_Small.png" />
+  <ABList Path="Assets/SpriteOutput/UI/Main/General/BlockUpgrade.png" Crc="3920255878" ABName="sprite" AssetName="BlockUpgrade.png" />
+  <ABList Path="Assets/SpriteOutput/UI/Main/General/Button_General.png" Crc="1429710917" ABName="sprite" AssetName="Button_General.png" />
+  <ABList Path="Assets/SpriteOutput/UI/Main/General/Button_General_Corner.png" Crc="849087056" ABName="sprite" AssetName="Button_General_Corner.png" />
+  <ABList Path="Assets/SpriteOutput/UI/Main/General/ChooseTab_Corner_Small.png" Crc="850707" ABName="sprite" AssetName="ChooseTab_Corner_Small.png" />
+  <ABList Path="Assets/SpriteOutput/UI/Main/General/Circle.png" Crc="1388508557" ABName="sprite" AssetName="Circle.png" />
+  <ABList Path="Assets/SpriteOutput/UI/Main/General/Circle_Small.png" Crc="1890357280" ABName="sprite" AssetName="Circle_Small.png" />
+  <ABList Path="Assets/SpriteOutput/UI/Main/General/Dialog_Corner_Line.png" Crc="311746074" ABName="sprite" AssetName="Dialog_Corner_Line.png" />
+  <ABList Path="Assets/SpriteOutput/UI/Main/General/FormulaChoose.png" Crc="4196002243" ABName="sprite" AssetName="FormulaChoose.png" />
+  <ABList Path="Assets/SpriteOutput/UI/Main/General/GeneralChoose_Item_BG.png" Crc="665638266" ABName="sprite" AssetName="GeneralChoose_Item_BG.png" />
+  <ABList Path="Assets/SpriteOutput/UI/Main/General/Material_Info_Icon.png" Crc="1295097754" ABName="sprite" AssetName="Material_Info_Icon.png" />
+  <ABList Path="Assets/SpriteOutput/UI/Main/General/MenuItem_BG.png" Crc="630721248" ABName="sprite" AssetName="MenuItem_BG.png" />
+  <ABList Path="Assets/SpriteOutput/UI/Main/General/NoData_Info_BGLine.png" Crc="2710753667" ABName="sprite" AssetName="NoData_Info_BGLine.png" />
+  <ABList Path="Assets/SpriteOutput/UI/Main/General/NoData_Info_BGLine2.png" Crc="1014787100" ABName="sprite" AssetName="NoData_Info_BGLine2.png" />
+  <ABList Path="Assets/SpriteOutput/UI/Main/General/Rect.png" Crc="1303712749" ABName="sprite" AssetName="Rect.png" />
+  <ABList Path="Assets/SpriteOutput/UI/Main/General/RoundRect.png" Crc="401557671" ABName="sprite" AssetName="RoundRect.png" />
+  <ABList Path="Assets/SpriteOutput/UI/Main/General/RoundRectBig.png" Crc="3573117570" ABName="sprite" AssetName="RoundRectBig.png" />
+  <ABList Path="Assets/SpriteOutput/UI/Main/General/RoundRectTitle.png" Crc="1070497272" ABName="sprite" AssetName="RoundRectTitle.png" />
+  <ABList Path="Assets/SpriteOutput/UI/Main/General/RoundRectTitleSmall01.png" Crc="243302204" ABName="sprite" AssetName="RoundRectTitleSmall01.png" />
+  <ABList Path="Assets/SpriteOutput/UI/Main/General/Slot_Edge_Thin.png" Crc="1737192191" ABName="sprite" AssetName="Slot_Edge_Thin.png" />
+  <ABList Path="Assets/SpriteOutput/UI/Main/General/Spot_Empty.png" Crc="1451580630" ABName="sprite" AssetName="Spot_Empty.png" />
+  <ABList Path="Assets/SpriteOutput/UI/Main/General/Toggle_OutLine.png" Crc="2330468977" ABName="sprite" AssetName="Toggle_OutLine.png" />
+  <ABList Path="Assets/SpriteOutput/UI/Main/General/Triangle_Icon.png" Crc="2094852234" ABName="sprite" AssetName="Triangle_Icon.png" />
+  <ABList Path="Assets/SpriteOutput/UI/Main/MainMenuPage/Arrow_Left.png" Crc="2275052738" ABName="sprite" AssetName="Arrow_Left.png" />
+  <ABList Path="Assets/SpriteOutput/UI/Main/MainMenuPage/BlockBuild_BG.png" Crc="2761816465" ABName="sprite" AssetName="BlockBuild_BG.png" />
+  <ABList Path="Assets/SpriteOutput/UI/Main/MainMenuPage/BlockBuild_Line_Long.png" Crc="3557327268" ABName="sprite" AssetName="BlockBuild_Line_Long.png" />
+  <ABList Path="Assets/SpriteOutput/UI/Main/MainMenuPage/BlockBuild_Line_Short.png" Crc="3261133547" ABName="sprite" AssetName="BlockBuild_Line_Short.png" />
+  <ABList Path="Assets/SpriteOutput/UI/Main/MainMenuPage/BlockBuild_Title_Line.png" Crc="2759077640" ABName="sprite" AssetName="BlockBuild_Title_Line.png" />
+  <ABList Path="Assets/SpriteOutput/UI/Main/MainMenuPage/BlockInfo_BG.png" Crc="3193170587" ABName="sprite" AssetName="BlockInfo_BG.png" />
+  <ABList Path="Assets/SpriteOutput/UI/Main/MainMenuPage/GameStates_BG.png" Crc="3119592381" ABName="sprite" AssetName="GameStates_BG.png" />
+  <ABList Path="Assets/SpriteOutput/UI/Main/MainMenuPage/Line_Curve_Left.png" Crc="3177267788" ABName="sprite" AssetName="Line_Curve_Left.png" />
+  <ABList Path="Assets/SpriteOutput/UI/Main/MainMenuPage/Line_Curve_Right.png" Crc="29796543" ABName="sprite" AssetName="Line_Curve_Right.png" />
+  <ABList Path="Assets/SpriteOutput/UI/Main/MainMenuPage/MainMenu_Base_Icon.png" Crc="3099189257" ABName="sprite" AssetName="MainMenu_Base_Icon.png" />
+  <ABList Path="Assets/SpriteOutput/UI/Main/MainMenuPage/MainMenu_Base_Level_Icon_1.png" Crc="2769265081" ABName="sprite" AssetName="MainMenu_Base_Level_Icon_1.png" />
+  <ABList Path="Assets/SpriteOutput/UI/Main/MainMenuPage/MainMenu_Build_BG.png" Crc="946662960" ABName="sprite" AssetName="MainMenu_Build_BG.png" />
+  <ABList Path="Assets/SpriteOutput/UI/Main/MainMenuPage/MainMenu_Res_Line.png" Crc="2549971603" ABName="sprite" AssetName="MainMenu_Res_Line.png" />
+  <ABList Path="Assets/SpriteOutput/UI/Main/MainMenuPage/MainMenu_Top_BG.png" Crc="160659318" ABName="sprite" AssetName="MainMenu_Top_BG.png" />
+  <ABList Path="Assets/SpriteOutput/UI/Main/MainMenuPage/MainMenu_Top_Center_BG.png" Crc="3993380182" ABName="sprite" AssetName="MainMenu_Top_Center_BG.png" />
+  <ABList Path="Assets/SpriteOutput/UI/Main/MainMenuPage/MainMenu_Top_SepLine.png" Crc="2871215731" ABName="sprite" AssetName="MainMenu_Top_SepLine.png" />
+  <ABList Path="Assets/SpriteOutput/UI/Main/MainMenuPage/MainShip_Area_BGFade.png" Crc="1817451386" ABName="sprite" AssetName="MainShip_Area_BGFade.png" />
+  <ABList Path="Assets/SpriteOutput/UI/Main/MainMenuPage/MainShip_Area_Durability_Icon.png" Crc="1489802910" ABName="sprite" AssetName="MainShip_Area_Durability_Icon.png" />
+  <ABList Path="Assets/SpriteOutput/UI/Main/MainMenuPage/MainShip_Area_Energy_Add.png" Crc="3008973054" ABName="sprite" AssetName="MainShip_Area_Energy_Add.png" />
+  <ABList Path="Assets/SpriteOutput/UI/Main/MainMenuPage/MainShip_Area_Energy_Icon.png" Crc="2478595382" ABName="sprite" AssetName="MainShip_Area_Energy_Icon.png" />
+  <ABList Path="Assets/SpriteOutput/UI/Main/MainMenuPage/MainShip_Area_Energy_Reduce.png" Crc="4176196818" ABName="sprite" AssetName="MainShip_Area_Energy_Reduce.png" />
+  <ABList Path="Assets/SpriteOutput/UI/Main/MainMenuPage/MainShip_AreaEnergy_BG.png" Crc="1823618859" ABName="sprite" AssetName="MainShip_AreaEnergy_BG.png" />
+  <ABList Path="Assets/SpriteOutput/UI/Main/MainMenuPage/MainShip_EngineArea.png" Crc="322179268" ABName="sprite" AssetName="MainShip_EngineArea.png" />
+  <ABList Path="Assets/SpriteOutput/UI/Main/MainMenuPage/MainShip_EngineArea_Durability.png" Crc="1665095920" ABName="sprite" AssetName="MainShip_EngineArea_Durability.png" />
+  <ABList Path="Assets/SpriteOutput/UI/Main/MainMenuPage/MainShip_EngineArea_EnergyValue_Icon.png" Crc="3679658064" ABName="sprite" AssetName="MainShip_EngineArea_EnergyValue_Icon.png" />
+  <ABList Path="Assets/SpriteOutput/UI/Main/MainMenuPage/MainShip_EngineArea_Ring.png" Crc="1638307438" ABName="sprite" AssetName="MainShip_EngineArea_Ring.png" />
+  <ABList Path="Assets/SpriteOutput/UI/Main/MainMenuPage/Menu_Btn_BG.png" Crc="1275019627" ABName="sprite" AssetName="Menu_Btn_BG.png" />
+  <ABList Path="Assets/SpriteOutput/UI/Main/MainMenuPage/Menu_Order_Btn_Icon.png" Crc="3902683525" ABName="sprite" AssetName="Menu_Order_Btn_Icon.png" />
+  <ABList Path="Assets/SpriteOutput/UI/Main/MainMenuPage/Menu_Res_Builder_Icon.png" Crc="1982924084" ABName="sprite" AssetName="Menu_Res_Builder_Icon.png" />
+  <ABList Path="Assets/SpriteOutput/UI/Main/MainMenuPage/Menu_Res_Currency_Icon.png" Crc="519813520" ABName="sprite" AssetName="Menu_Res_Currency_Icon.png" />
+  <ABList Path="Assets/SpriteOutput/UI/Main/MainMenuPage/Menu_Res_Energy_Icon.png" Crc="870863449" ABName="sprite" AssetName="Menu_Res_Energy_Icon.png" />
+  <ABList Path="Assets/SpriteOutput/UI/Main/MainMenuPage/Menu_Res_RoCore_Icon.png" Crc="312169135" ABName="sprite" AssetName="Menu_Res_RoCore_Icon.png" />
+  <ABList Path="Assets/SpriteOutput/UI/Main/MainMenuPage/Menu_Research_Btn_Icon.png" Crc="1396913798" ABName="sprite" AssetName="Menu_Research_Btn_Icon.png" />
+  <ABList Path="Assets/SpriteOutput/UI/Main/MainMenuPage/Toggle_Circle.png" Crc="3752131080" ABName="sprite" AssetName="Toggle_Circle.png" />
+  <ABList Path="Assets/SpriteOutput/UI/Main/MainShip/Shield/MainShip_Shield_DamageReduce_Icon.png" Crc="3868354135" ABName="sprite" AssetName="MainShip_Shield_DamageReduce_Icon.png" />
+  <ABList Path="Assets/SpriteOutput/UI/Main/MainShip/Shield/MainShip_Shield_Icon.png" Crc="564605930" ABName="sprite" AssetName="MainShip_Shield_Icon.png" />
+  <ABList Path="Assets/SpriteOutput/UI/Main/MainShip/Shield/MainShip_Shield_LayerIcon.png" Crc="3222350819" ABName="sprite" AssetName="MainShip_Shield_LayerIcon.png" />
+  <ABList Path="Assets/SpriteOutput/UI/Main/MainShip/Shield/MainShip_Shield_Probability_Icon.png" Crc="40375955" ABName="sprite" AssetName="MainShip_Shield_Probability_Icon.png" />
+  <ABList Path="Assets/SpriteOutput/UI/Main/MainShip/Shield/MainShip_Shield_SlotInfo_Empty.png" Crc="4229608557" ABName="sprite" AssetName="MainShip_Shield_SlotInfo_Empty.png" />
+  <ABList Path="Assets/SpriteOutput/UI/Main/MainShip/Shield/MainShip_Shield_Switch_Icon.png" Crc="3711648450" ABName="sprite" AssetName="MainShip_Shield_Switch_Icon.png" />
+  <ABList Path="Assets/SpriteOutput/UI/Main/Order/Oeder_Pattern_01.png" Crc="3263052741" ABName="sprite" AssetName="Oeder_Pattern_01.png" />
+  <ABList Path="Assets/SpriteOutput/UI/Main/Order/Order_Detail_Edge.png" Crc="2165926213" ABName="sprite" AssetName="Order_Detail_Edge.png" />
+  <ABList Path="Assets/SpriteOutput/UI/Main/Order/Order_Rarity_BG.png" Crc="3961535425" ABName="sprite" AssetName="Order_Rarity_BG.png" />
+  <ABList Path="Assets/SpriteOutput/UI/Main/Order/Order_Time_Limit.png" Crc="837624129" ABName="sprite" AssetName="Order_Time_Limit.png" />
+  <ABList Path="Assets/SpriteOutput/UI/Main/Order/OrderPage_News_Icon.png" Crc="1457562628" ABName="sprite" AssetName="OrderPage_News_Icon.png" />
+  <ABList Path="Assets/SpriteOutput/UI/Main/Order/OrderPage_Order_Current_BG.png" Crc="1475999380" ABName="sprite" AssetName="OrderPage_Order_Current_BG.png" />
+  <ABList Path="Assets/SpriteOutput/UI/Main/Order/OrderPage_Order_Current_Delete.png" Crc="2300634279" ABName="sprite" AssetName="OrderPage_Order_Current_Delete.png" />
+  <ABList Path="Assets/SpriteOutput/UI/Main/Order/OrderPage_Order_Current_Icon.png" Crc="3618894808" ABName="sprite" AssetName="OrderPage_Order_Current_Icon.png" />
+  <ABList Path="Assets/SpriteOutput/UI/Main/Order/OrderPage_Order_Icon.png" Crc="3661180548" ABName="sprite" AssetName="OrderPage_Order_Icon.png" />
+  <ABList Path="Assets/SpriteOutput/UI/Main/Order/OrderPage_Order_Main_BG.png" Crc="3748711676" ABName="sprite" AssetName="OrderPage_Order_Main_BG.png" />
+  <ABList Path="Assets/SpriteOutput/UI/Main/Order/OrderPage_Order_Main_Edge.png" Crc="3037780977" ABName="sprite" AssetName="OrderPage_Order_Main_Edge.png" />
+  <ABList Path="Assets/SpriteOutput/UI/Main/Order/OrderPage_Order_Main_Left_Arrow.png" Crc="896471415" ABName="sprite" AssetName="OrderPage_Order_Main_Left_Arrow.png" />
+  <ABList Path="Assets/SpriteOutput/UI/Main/Order/OrderPage_Order_Main_Line.png" Crc="3968331986" ABName="sprite" AssetName="OrderPage_Order_Main_Line.png" />
+  <ABList Path="Assets/SpriteOutput/UI/Main/Order/OrderPage_Order_Main_Right_Arrow.png" Crc="597763880" ABName="sprite" AssetName="OrderPage_Order_Main_Right_Arrow.png" />
+  <ABList Path="Assets/SpriteOutput/UI/Main/Order/OrderPage_Rank.png" Crc="2647020422" ABName="sprite" AssetName="OrderPage_Rank.png" />
+  <ABList Path="Assets/SpriteOutput/UI/Main/Order/OrderPage_Sort_BG.png" Crc="2625197895" ABName="sprite" AssetName="OrderPage_Sort_BG.png" />
+  <ABList Path="Assets/SpriteOutput/UI/Main/Order/OrderPage_Sort_Icon.png" Crc="3698802170" ABName="sprite" AssetName="OrderPage_Sort_Icon.png" />
+  <ABList Path="Assets/SpriteOutput/UI/Main/Order/OrderPage_Title_Line.png" Crc="1111935498" ABName="sprite" AssetName="OrderPage_Title_Line.png" />
+  <ABList Path="Assets/SpriteOutput/UI/Main/Organization/Organization_Detail_BG.png" Crc="2657365260" ABName="sprite" AssetName="Organization_Detail_BG.png" />
+  <ABList Path="Assets/SpriteOutput/UI/Main/Organization/Organization_Detail_NoInfo_BG.png" Crc="1032572839" ABName="sprite" AssetName="Organization_Detail_NoInfo_BG.png" />
+  <ABList Path="Assets/SpriteOutput/UI/Main/Organization/Organization_Economics_Icon.png" Crc="1135000204" ABName="sprite" AssetName="Organization_Economics_Icon.png" />
+  <ABList Path="Assets/SpriteOutput/UI/Main/Organization/Organization_Element_BG.png" Crc="827943313" ABName="sprite" AssetName="Organization_Element_BG.png" />
+  <ABList Path="Assets/SpriteOutput/UI/Main/Organization/Organization_Element_BG_Light.png" Crc="1870439224" ABName="sprite" AssetName="Organization_Element_BG_Light.png" />
+  <ABList Path="Assets/SpriteOutput/UI/Main/Organization/Organization_Scale_Icon.png" Crc="1970481479" ABName="sprite" AssetName="Organization_Scale_Icon.png" />
+  <ABList Path="Assets/SpriteOutput/UI/Main/Technology/Tech_Complete_Icon.png" Crc="2374868677" ABName="sprite" AssetName="Tech_Complete_Icon.png" />
+  <ABList Path="Assets/SpriteOutput/UI/Main/Technology/Tech_Lock_Icon.png" Crc="3652379265" ABName="sprite" AssetName="Tech_Lock_Icon.png" />
+  <ABList Path="Assets/SpriteOutput/UI/Main/Technology/Tech_Object_Select_Arrow.png" Crc="944440227" ABName="sprite" AssetName="Tech_Object_Select_Arrow.png" />
+  <ABList Path="Assets/SpriteOutput/UI/Main/Technology/Tech_Rarity_BG.png" Crc="2292616059" ABName="sprite" AssetName="Tech_Rarity_BG.png" />
+  <ABList Path="Assets/SpriteOutput/UI/Main/Technology/Tech_Rarity_Circle.png" Crc="2446769836" ABName="sprite" AssetName="Tech_Rarity_Circle.png" />
+  <ABList Path="Assets/SpriteOutput/UI/Main/Technology/Tech_TimeCost_Icon.png" Crc="2493565410" ABName="sprite" AssetName="Tech_TimeCost_Icon.png" />
+  <ABList Path="Assets/SpriteOutput/UI/Main/Technology/TechDetail_Slot_BG.png" Crc="1677080212" ABName="sprite" AssetName="TechDetail_Slot_BG.png" />
+  <ABList Path="Assets/SpriteOutput/UI/Main/Technology/TechGroup_Line_2-1.png" Crc="1607675632" ABName="sprite" AssetName="TechGroup_Line_2-1.png" />
+  <ABList Path="Assets/SpriteOutput/UI/Main/Technology/TechGroup_Line_3-1.png" Crc="4188284228" ABName="sprite" AssetName="TechGroup_Line_3-1.png" />
+  <ABList Path="Assets/SpriteOutput/UI/Main/Technology/TechPage_PointCost_Icon.png" Crc="2145244946" ABName="sprite" AssetName="TechPage_PointCost_Icon.png" />
+  <ABList Path="Assets/SpriteOutput/UI/Main/Technology/TechPage_Slot_Border.png" Crc="3158466383" ABName="sprite" AssetName="TechPage_Slot_Border.png" />
+  <ABList Path="Assets/SpriteOutput/UI/Main/Technology/TechRequire_BG.png" Crc="947631558" ABName="sprite" AssetName="TechRequire_BG.png" />
+  <ABList Path="Assets/Prefabs/Object/Technology/TechEffectElement.prefab" Crc="749198174" ABName="techeffectelement" AssetName="TechEffectElement.prefab">
+    <ABDependce>sprite</ABDependce>
+    <ABDependce>assemblepartcard</ABDependce>
+  </ABList>
+  <ABList Path="Assets/Prefabs/Object/Technology/TechGroupPanel_3-1-1.prefab" Crc="2222107173" ABName="techgrouppanel_3-1-1" AssetName="TechGroupPanel_3-1-1.prefab">
+    <ABDependce>sprite</ABDependce>
+  </ABList>
+  <ABList Path="Assets/Prefabs/UI/Dialog/Technology/TechnologyDetailDialog.prefab" Crc="2570640505" ABName="technologydetaildialog" AssetName="TechnologyDetailDialog.prefab">
+    <ABDependce>sprite</ABDependce>
+    <ABDependce>animation</ABDependce>
+    <ABDependce>assemblepartcard</ABDependce>
+    <ABDependce>assemblepartchoosedialog</ABDependce>
+  </ABList>
+  <ABList Path="Assets/Prefabs/UI/Page/Technology/TechnologyMainPage.prefab" Crc="3423385718" ABName="technologymainpage" AssetName="TechnologyMainPage.prefab">
+    <ABDependce>sprite</ABDependce>
+    <ABDependce>assemblepartcard</ABDependce>
+    <ABDependce>animation</ABDependce>
+  </ABList>
+  <ABList Path="Assets/Prefabs/Object/Technology/TechObject.prefab" Crc="2799730330" ABName="techobject" AssetName="TechObject.prefab">
+    <ABDependce>sprite</ABDependce>
+    <ABDependce>animation</ABDependce>
+    <ABDependce>assemblepartcard</ABDependce>
+  </ABList>
+  <ABList Path="Assets/Prefabs/Object/Technology/TechRequireElement.prefab" Crc="1677319635" ABName="techrequireelement" AssetName="TechRequireElement.prefab">
+    <ABDependce>sprite</ABDependce>
+    <ABDependce>animation</ABDependce>
+    <ABDependce>assemblepartcard</ABDependce>
+  </ABList>
+  <ABList Path="Assets/Prefabs/Object/Main/WareHouseMainTag.prefab" Crc="2025652287" ABName="warehousemaintag" AssetName="WareHouseMainTag.prefab">
+    <ABDependce>sprite</ABDependce>
+    <ABDependce>assemblepartcard</ABDependce>
+  </ABList>
+  <ABList Path="Assets/Prefabs/UI/Page/WareHousePage.prefab" Crc="2058897067" ABName="warehousepage" AssetName="WareHousePage.prefab">
+    <ABDependce>sprite</ABDependce>
+    <ABDependce>assemblepartcard</ABDependce>
+    <ABDependce>animation</ABDependce>
+  </ABList>
+  <ABList Path="Assets/Prefabs/Object/Main/WareHouseSubTag.prefab" Crc="2389873669" ABName="warehousesubtag" AssetName="WareHouseSubTag.prefab">
+    <ABDependce>sprite</ABDependce>
+  </ABList>
 </AssetBundleConfig>

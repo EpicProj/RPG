@@ -249,13 +249,13 @@ namespace Sim_FrameWork.Config
         public int count;
 
     }
-    public class RewardGroup
+    public class RewardGroup 
     {
         public int GroupID;
         public List<GeneralRewardItem> itemList;
     }
 
-    public class RewardData
+    public class RewardData 
     {
         public List<RewardGroup> rewardGroup;
       
@@ -296,7 +296,7 @@ namespace Sim_FrameWork.Config
     /// <summary>
     /// Explore Config
     /// </summary>
-    public class ExploreGeneralConfig
+    public class ExploreGeneralConfig 
     {
         public Dictionary<string, int> planetAreaMap;
 
@@ -313,7 +313,7 @@ namespace Sim_FrameWork.Config
     /// 随机事件生成配置
     /// </summary>
 
-    public class EventConfig
+    public class EventConfig 
     {
         public List<ExploreEventConfigData> exploreEventConfigData;
         public EventConfig LoadEventConfigData()
@@ -349,7 +349,7 @@ namespace Sim_FrameWork.Config
     }
 
 
-    public class GlobalSetting
+    public class GlobalSetting 
     {
         public int GameSaveData_MaxGroup_Num;
         public int GameSaveData_MaxSaveNum_PerGroup;

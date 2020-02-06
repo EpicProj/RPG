@@ -18,6 +18,7 @@ namespace Sim_FrameWork
 
     public enum UIMsgType
     {
+        ShowDebugMsg,
         GameAreaStateChange,
 
         /// <summary>

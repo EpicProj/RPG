@@ -10,10 +10,21 @@ namespace Sim_FrameWork.Config
 
         public T LoadJsonDataConfig<T>(string filePath) where T:new()
         {
-            T data = new T();
-            if (File.Exists(filePath))
+            string path = "";
+            
+            if (ResourceManager.m_LoadFormAssetBundle)
             {
-                StreamReader sr = new StreamReader(filePath);
+                path= JsonConfigPath.ConfigPath_Bundle + filePath;
+            }
+            else
+            {
+                path = JsonConfigPath.ConfigPath + filePath;
+            }
+
+            T data = new T();
+            if (File.Exists(path))
+            {
+                StreamReader sr = new StreamReader(path);
                 string jsonStr = sr.ReadToEnd();
                 sr.Close();
                 data = JsonMapper.ToObject<T>(jsonStr);
@@ -21,7 +32,7 @@ namespace Sim_FrameWork.Config
             }
             else
             {
-                Debug.LogError(typeof(T).ToString()+ " Read Fail");
+                DebugPlus.LogError("JsonConfig Read Fail  Path="+ path);
             }
             return default(T);
         }
@@ -30,45 +41,58 @@ namespace Sim_FrameWork.Config
 
     public class JsonConfigPath
     {
+        public static string ConfigPath = Application.dataPath + "/ConfigData/";
+        public static string ConfigPath_Bundle = System.AppDomain.CurrentDomain.BaseDirectory + "/";
+
+        public static string AssembleConfigPath = "Game_Config/Assemble/";
+        public static string ModifierConfigPath = "Game_Config/Modifier/";
+        public static string BasicConfigPath = "Game_Config/Basic/";
+        public static string MaterialConfigPath= "Game_Config/Material/";
+        public static string FunctionBlockConfigPath = "Game_Config/FunctionBlock/";
+        public static string OrderConfigPath = "Game_Config/Order/";
+        public static string TechnologyConfigPath = "Game_Config/Technology/";
+        public static string MainShipConfigPath= "Game_Config/MainShipConfig/";
+        public static string ExploreConfigPath = "Game_Config/Explore/";
+
         //ModifierData
-        public static string ModifierDataConfigJsonPath = Application.streamingAssetsPath + "/Data/JsonData/Modifier" + "/GeneralModifier.json";
+        public static string ModifierDataConfigJsonPath = ModifierConfigPath + "GeneralModifier.json";
+
         //PlayerConfig
-        public static string PlayerConfigJsonPath = Application.streamingAssetsPath + "/Data/JsonData/Basic" + "/PlayerConfig.json";
+        public static string PlayerConfigJsonPath = BasicConfigPath + "PlayerConfig.json";
         //GlobalSetting
-        public static string GlobalSettingJsonPath = Application.streamingAssetsPath + "/Data/JsonData/Basic" + "/Global_Setting.json";
+        public static string GlobalSettingJsonPath = BasicConfigPath + "Global_Setting.json";
         //Base Resource
-        public static string BaseResourceJsonPath = Application.streamingAssetsPath + "/Data/JsonData/Basic" + "/BaseResourceConfig.json";
+        public static string BaseResourceJsonPath = BasicConfigPath + "BaseResourceConfig.json";
+        //RewardData
+        public static string RewardDataJsonPath = BasicConfigPath + "RewardData.json";
+
         //Material Config
-        public static string MaterialConfigJsonPath = Application.streamingAssetsPath + "/Data/JsonData/Material" + "/MaterialBasicConfig.json";
+        public static string MaterialConfigJsonPath = MaterialConfigPath + "MaterialBasicConfig.json";
 
 
         //FunctionBlock
-        public static string ManufactoryBaseInfoJsonPath= Application.streamingAssetsPath + "/Data/JsonData/FunctionBlock/Manufactory" + "/ManufactoryBaseInfoData.json";
-        public static string BlockConfigDataJsonPath = Application.streamingAssetsPath + "/Data/JsonData/FunctionBlock/BlockConfigData.json";
-        public static string BlockLevelConfigJsonPath= Application.streamingAssetsPath + "/Data/JsonData/FunctionBlock/BlockLevelConfig.json";
+        public static string ManufactoryBaseInfoJsonPath= FunctionBlockConfigPath + "/ConfigData/JsonData/FunctionBlock/Manufactory" + "/ManufactoryBaseInfoData.json";
+        public static string BlockConfigDataJsonPath = FunctionBlockConfigPath + "BlockConfigData.json";
+        public static string BlockLevelConfigJsonPath= FunctionBlockConfigPath + "BlockLevelConfig.json";
 
-        //Camp
-        public static string CampBaseConfigJsonPath=Application.streamingAssetsPath+ "/Data/JsonData/Camp" + "/CampConfig.json";
         //Order
-        public static string OrderConfigJsonPath= Application.streamingAssetsPath + "/Data/JsonData/Order" + "/OrderConfig.json";
+        public static string OrderConfigJsonPath= OrderConfigPath +  "OrderConfig.json";
 
         //TechGroup
-        public static string TechGroupConfigJsonPath = Application.streamingAssetsPath + "/Data/JsonData/Technology/Group" + "/TechGroupConfig.json";
-        public static string TechnologyConfigCommon = Application.streamingAssetsPath + "/Data/JsonData/Technology/" + "TechnologyConfigCommon.json";
+        public static string TechGroupConfigJsonPath = TechnologyConfigPath + "Group/TechGroupConfig.json";
+        public static string TechnologyConfigCommon = TechnologyConfigPath + "TechnologyConfigCommon.json";
 
-        //RewardData
-        public static string RewardDataJsonPath = Application.streamingAssetsPath + "/Data/JsonData/Basic/RewardData.json";
+        public static string ExploreConfigDataJsonPath = ExploreConfigPath + "ExploreGeneralConfig.json";
+        public static string EventConfigDataJsonPath = ExploreConfigPath + "EventConfig.json";
 
-        public static string ExploreConfigDataJsonPath = Application.streamingAssetsPath + "/Data/JsonData/Explore/ExploreGeneralConfig.json";
-        public static string EventConfigDataJsonPath = Application.streamingAssetsPath + "/Data/JsonData/Explore/EventConfig.json";
-
-        public static string AssemblePartsConfigDataJsonPath= Application.streamingAssetsPath + "/Data/JsonData/Assemble/AssemblePartsConfigData.json";
-        public static string AssembleShipPartConfigDataJsonPath= Application.streamingAssetsPath + "/Data/JsonData/Assemble/AssembleShipPartConfigData.json";
-        public static string AssembleConfigJsonPath= Application.streamingAssetsPath + "/Data/JsonData/Assemble/AssembleConfig.json";
+        //Assemble
+        public static string AssemblePartsConfigDataJsonPath=  AssembleConfigPath+"AssemblePartsConfigData.json";
+        public static string AssembleShipPartConfigDataJsonPath=  AssembleConfigPath+"AssembleShipPartConfigData.json";
+        public static string AssembleConfigJsonPath=  AssembleConfigPath+"AssembleConfig.json";
 
         //MainShipConfig
-        public static string MainShipConfigJsonPath = Application.streamingAssetsPath + "/Data/JsonData/MainShipConfig/MainShipConfig.json";
-        public static string MainShipAreaMapConfigJsonPath= Application.streamingAssetsPath + "/Data/JsonData/MainShipConfig/MainShipMapConfig.json";
+        public static string MainShipConfigJsonPath = MainShipConfigPath + "MainShipConfig.json";
+        public static string MainShipAreaMapConfigJsonPath= MainShipConfigPath + "MainShipMapConfig.json";
 
 
 

@@ -107,7 +107,7 @@ namespace Sim_FrameWork
         /// </summary>
         /// <param name="level"></param>
         /// <returns></returns>
-        public static HardLevelData GetHardlevelData(GameHardLevel level)
+        public static Config.HardLevelData GetHardlevelData(Config.GameHardLevel level)
         {
             var hardlevelData = Config.ConfigData.PlayerConfig.hardlevelData;
             if (hardlevelData.Count == 0 || hardlevelData==null)
@@ -117,11 +117,11 @@ namespace Sim_FrameWork
             }
             switch (level)
             {
-                case GameHardLevel.easy:
+                case Config.GameHardLevel.easy:
                     return hardlevelData[0];
-                case GameHardLevel.normal:
+                case Config.GameHardLevel.normal:
                     return hardlevelData[1];
-                case GameHardLevel.hard:
+                case Config.GameHardLevel.hard:
                     return hardlevelData[2];
                 default:
                     Debug.LogError("HardLevelMode Error");
@@ -137,7 +137,7 @@ namespace Sim_FrameWork
         public float realSecondsPerDay;
 
 
-        public TimeData(TimeDataConfig timeConfig)
+        public TimeData(Config.TimeDataConfig timeConfig)
         {
             realSecondsPerDay = timeConfig.RealSecondsPerDay;
             date = new DateTime(timeConfig.OriginalYear, timeConfig.OriginalMonth, timeConfig.OriginalDay);

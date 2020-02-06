@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace Sim_FrameWork.Config
 {
-    public class MainShipConfig
+    public class MainShipConfig 
     {
         public byte areaEnergyLevelMax;
 

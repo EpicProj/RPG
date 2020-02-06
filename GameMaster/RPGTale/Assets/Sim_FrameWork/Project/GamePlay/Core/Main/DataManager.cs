@@ -44,7 +44,7 @@ namespace Sim_FrameWork {
         {
             GlobalEventManager.Instance.InitData();
             ModifierManager.Instance.InitData();
-            PlayerManager.Instance.InitPlayerData(GameHardLevel.easy);
+            PlayerManager.Instance.InitPlayerData(Config.GameHardLevel.easy);
             MainShipManager.Instance.InitData();
         }
     }

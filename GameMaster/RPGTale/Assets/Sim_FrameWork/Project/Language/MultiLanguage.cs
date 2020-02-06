@@ -11,10 +11,11 @@ namespace Sim_FrameWork
     {
         public string CurrentLanguage = "Language_CN";
 
+        public static string LanguagePath = Application.dataPath + "/ConfigData/Localization";
+        public static string LanguagePath_Bundle = System.AppDomain.CurrentDomain.BaseDirectory + "/Localization";
         private Dictionary<string, string> TextData = new Dictionary<string, string>();
         private List<string> textID;
 
-        string jsonPath= Application.streamingAssetsPath + "/Data/Language" + "/LanguageConfig.json";
         public LanguageConfig config = new LanguageConfig();
 
         public MultiLanguage()
@@ -22,7 +23,17 @@ namespace Sim_FrameWork
             LoadLanguageConfig();
             if (string.IsNullOrEmpty(GetCurLanguageFilePath(CurrentLanguage)))
                 return;
-            string filePath = Application.streamingAssetsPath + config.LanguageFilePath+ GetCurLanguageFilePath(CurrentLanguage)+"/";
+
+            string filePath = "";
+            if (ResourceManager.m_LoadFormAssetBundle)
+            {
+                filePath = LanguagePath_Bundle + "/" + GetCurLanguageFilePath(CurrentLanguage) + "/";
+            }
+            else
+            {
+                filePath= LanguagePath+"/" + GetCurLanguageFilePath(CurrentLanguage) + "/";
+            }
+           
             for (int i = 0; i < config.txtFile.Count;i++)
             {
                 string languageDataPath = filePath + config.txtFile[i]+".txt";
@@ -56,7 +67,7 @@ namespace Sim_FrameWork
                 }
                 else
                 {
-                    Debug.LogError("TextData Read Fail");
+                    DebugPlus.LogError("TextData Read Fail, path="+languageDataPath);
                 }
             }
            
@@ -64,9 +75,19 @@ namespace Sim_FrameWork
 
         public LanguageConfig LoadLanguageConfig()
         {
-            if (File.Exists(jsonPath))
+            string configPath = "";
+            if (ResourceManager.m_LoadFormAssetBundle)
             {
-                StreamReader sr = new StreamReader(jsonPath);
+                configPath = LanguagePath_Bundle + "/LanguageConfig.json";
+            }
+            else
+            {
+                configPath= LanguagePath + "/LanguageConfig.json";
+            }
+
+            if (File.Exists(configPath))
+            {
+                StreamReader sr = new StreamReader(configPath);
                 string jsonStr = sr.ReadToEnd();
                 sr.Close();
                 config = JsonMapper.ToObject<LanguageConfig>(jsonStr);
@@ -74,7 +95,7 @@ namespace Sim_FrameWork
             }
             else
             {
-                Debug.LogError("LanguageConfig Read Fail");
+                DebugPlus.LogError("LanguageConfig Read Fail,Path="+configPath);
             }
             return null;
         }
@@ -87,7 +108,7 @@ namespace Sim_FrameWork
             }
             else
             {
-                Debug.LogError("CurrentLanguage Data Error, currentLanguage=" + currentLanguage);
+                DebugPlus.LogError("CurrentLanguage Data Error, currentLanguage=" + currentLanguage);
                 return string.Empty;
             }
         }
@@ -98,7 +119,7 @@ namespace Sim_FrameWork
             TextData.TryGetValue(key, out result);
             if (string.IsNullOrEmpty(result))
             {
-                Debug.LogError("Text not Found! ID=" + key);
+                DebugPlus.LogError("Text not Found! ID=" + key);
             }       
             return result;
         }

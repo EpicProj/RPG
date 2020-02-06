@@ -56,6 +56,7 @@ namespace Sim_FrameWork
             DataManager.Instance.InitManager();
             GameDataSaveManager.Instance.InitData();
             UIGuide.Instance.ShowGameEntryPage();
+            UIGuide.Instance.ShowGameDebugDialog();
         }
 
         public void InitBaseData()
