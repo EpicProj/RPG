@@ -154,11 +154,21 @@ namespace Sim_FrameWork
 
         public void LoadSaveData(MainShipSaveData saveData)
         {
-            powerAreaInfo = new MainShipPowerAreaInfo();
-
+            if (saveData == null)
+                return;
             shieldEnergy_Max_current = saveData.ShieldEnergy_Max_current;
             shieldEnergyDetailPac = saveData.ShieldEnergyDetailPac;
 
+            shieldInfoDic = new Dictionary<MainShip_ShieldDirection, MainShipShieldInfo>();
+
+            foreach (var shieldSave in saveData.shieldSaveDataDic)
+            {
+                MainShipShieldInfo info = new MainShipShieldInfo();
+                info.LoadGameSave(shieldSave.Value);
+                shieldInfoDic.Add(shieldSave.Key, info);
+            }
+
+            powerAreaInfo = new MainShipPowerAreaInfo();
             powerAreaInfo.LoadSaveData(saveData.powerAreaSaveData);
 
         }
@@ -1009,39 +1019,41 @@ namespace Sim_FrameWork
 
         public List<ushort> equipedShieldAssembleUIDList;
 
-        public MainShipShieldSaveData(MainShipShieldInfo info)
+        public static MainShipShieldSaveData CreateSave(MainShipShieldInfo info)
         {
-            CurrentState = info.currentState;
-            Direction = info.direction;
-            ShieldLevel_current = info.shieldLevel_current;
+            MainShipShieldSaveData data = new MainShipShieldSaveData();
+            data.CurrentState = info.currentState;
+            data.Direction = info.direction;
+            data.ShieldLevel_current = info.shieldLevel_current;
 
-            Shield_open_init = info.shield_open_init;
-            ShieldOpenInitDetailPac = info.shieldOpenInitDetailPac;
+            data.Shield_open_init = info.shield_open_init;
+            data.ShieldOpenInitDetailPac = info.shieldOpenInitDetailPac;
 
-            Shield_max = info.shield_max;
-            Shield_current = info.shield_current;
-            ShieldMaxDetailPac = info.shieldMaxDetailPac;
+            data.Shield_max = info.shield_max;
+            data.Shield_current = info.shield_current;
+            data.ShieldMaxDetailPac = info.shieldMaxDetailPac;
 
-            ShieldChargeSpeed = info.shieldChargeSpeed;
-            ShieldChargeSpeedDetailPac = info.shieldChargeSpeedDetailPac;
+            data.ShieldChargeSpeed = info.shieldChargeSpeed;
+            data.ShieldChargeSpeedDetailPac = info.shieldChargeSpeedDetailPac;
 
-            EnergyCost_current = info.EnergyCost_current;
-            EnergyCostDetailPac = info.energyCostDetailPac;
+            data.EnergyCost_current = info.EnergyCost_current;
+            data.EnergyCostDetailPac = info.energyCostDetailPac;
 
-            DamageReduce_base = info.damageReduce_base;
-            DamageReduceDetailPac = info.damageReduceDetailPac;
+            data.DamageReduce_base = info.damageReduce_base;
+            data.DamageReduceDetailPac = info.damageReduceDetailPac;
 
-            DamageReduce_probability_base = info.damageReduce_probability_base;
-            DamageReduceProbabilityDetailPac = info.damageReduceProbabilityDetailPac;
+            data.DamageReduce_probability_base = info.damageReduce_probability_base;
+            data.DamageReduceProbabilityDetailPac = info.damageReduceProbabilityDetailPac;
 
-            ShieldLayer_current = info.shieldLayer_current;
-            ShieldLayer_max = info.shieldLayer_max;
+            data.ShieldLayer_current = info.shieldLayer_current;
+            data.ShieldLayer_max = info.shieldLayer_max;
 
-            equipedShieldAssembleUIDList = new List<ushort>();
+            data.equipedShieldAssembleUIDList = new List<ushort>();
             for(int i = 0; i < info.equipShieldAssembleList.Count; i++)
             {
-                equipedShieldAssembleUIDList.Add(info.equipShieldAssembleList[i].UID);
+                data.equipedShieldAssembleUIDList.Add(info.equipShieldAssembleList[i].UID);
             }
+            return data;
         }
 
     }
@@ -1240,11 +1252,13 @@ namespace Sim_FrameWork
         public int Durability_current;
         public ModifierDetailPackage_Mix DurabilityMaxDetailPac;
 
-        public MainShipAreaGeneralSaveData(MainShipAreaBaseInfo baseinfo)
+        public MainShipAreaGeneralSaveData CreateSave(MainShipAreaBaseInfo baseinfo)
         {
-            Durability_max = baseinfo.durability_max;
-            Durability_current = baseinfo.durability_current;
-            DurabilityMaxDetailPac = baseinfo.durabilityMaxDetailPac;
+            MainShipAreaGeneralSaveData data = new MainShipAreaGeneralSaveData();
+            data.Durability_max = baseinfo.durability_max;
+            data.Durability_current = baseinfo.durability_current;
+            data.DurabilityMaxDetailPac = baseinfo.durabilityMaxDetailPac;
+            return data;
         }
     }
 
@@ -1635,28 +1649,30 @@ namespace Sim_FrameWork
         public ModifierDetailPackage_Mix OverLoadLevelMaxDetailPac;
         public bool UnLockOverLoadMode;
 
-        public MainShipPowerAreaSaveData(MainShipPowerAreaInfo info)
+        public static MainShipPowerAreaSaveData CreateSave(MainShipPowerAreaInfo info)
         {
-            Durability_max = info.durability_max;
-            Durability_current = info.durability_current;
-            DurabilityMaxDetailPac = info.durabilityMaxDetailPac;
+            MainShipPowerAreaSaveData data = new MainShipPowerAreaSaveData();
+            data.Durability_max = info.durability_max;
+            data.Durability_current = info.durability_current;
+            data.DurabilityMaxDetailPac = info.durabilityMaxDetailPac;
 
-            PowerGenerateValue = info.PowerGenerateValue;
-            PowerGenerateDetailPac = info.powerGenerateDetailPac;
+            data.PowerGenerateValue = info.PowerGenerateValue;
+            data.PowerGenerateDetailPac = info.powerGenerateDetailPac;
 
-            EnergyLoadValueMax = info.energyLoadValue_max;
-            EnergyLoadValueCurrent = info.energyLoadValue_current;
-            EnergyLoadDetailPac = info.energyLoadDetailPac;
-            EnergyLoadMaxDetailPac = info.energyLoadMaxDetailPac;
-            CurrentMode = info.currentMode;
+            data.EnergyLoadValueMax = info.energyLoadValue_max;
+            data.EnergyLoadValueCurrent = info.energyLoadValue_current;
+            data.EnergyLoadDetailPac = info.energyLoadDetailPac;
+            data.EnergyLoadMaxDetailPac = info.energyLoadMaxDetailPac;
+            data.CurrentMode = info.currentMode;
 
-            StoragePower_max = info.storagePower_max;
-            StoragePower_current = info.storagePower_current;
-            StorageMaxDetailPac = info.storageMaxDetailPac;
+            data.StoragePower_max = info.storagePower_max;
+            data.StoragePower_current = info.storagePower_current;
+            data.StorageMaxDetailPac = info.storageMaxDetailPac;
 
-            OverLoadLevel_current = info.overLoadLevel_current;
-            OverLoadLevel_max = info.overLoadLevel_max;
-            OverLoadLevelMaxDetailPac = info.overLoadLevelMaxDetailPac;
+            data.OverLoadLevel_current = info.overLoadLevel_current;
+            data.OverLoadLevel_max = info.overLoadLevel_max;
+            data.OverLoadLevelMaxDetailPac = info.overLoadLevelMaxDetailPac;
+            return data;
         }
     }
 
@@ -1853,17 +1869,28 @@ namespace Sim_FrameWork
 
     public class MainShipSaveData
     {
+        public Dictionary<MainShip_ShieldDirection,MainShipShieldSaveData> shieldSaveDataDic =new Dictionary<MainShip_ShieldDirection, MainShipShieldSaveData> ();
+
         public MainShipPowerAreaSaveData powerAreaSaveData;
 
         public short ShieldEnergy_Max_current;
         public ModifierDetailPackage_Mix ShieldEnergyDetailPac;
 
-        public MainShipSaveData(MainShipInfo info)
+        public static MainShipSaveData CreateSave()
         {
-            ShieldEnergy_Max_current = info.shieldEnergy_Max_current;
-            ShieldEnergyDetailPac = info.shieldEnergyDetailPac;
+            var info = MainShipManager.Instance.mainShipInfo;
+            MainShipSaveData data = new MainShipSaveData();
+            data.ShieldEnergy_Max_current = info.shieldEnergy_Max_current;
+            data.ShieldEnergyDetailPac = info.shieldEnergyDetailPac;
 
-            powerAreaSaveData = new MainShipPowerAreaSaveData(info.powerAreaInfo);
+            foreach(var shield in info.shieldInfoDic)
+            {
+                MainShipShieldSaveData shieldSaveData = MainShipShieldSaveData.CreateSave(shield.Value);
+                data.shieldSaveDataDic.Add(shield.Key, shieldSaveData);
+            }
+            
+            data.powerAreaSaveData = MainShipPowerAreaSaveData.CreateSave(info.powerAreaInfo);
+            return data;
         }
     }
 

@@ -17,11 +17,6 @@ namespace Sim_FrameWork
     public class PlayerManager : Singleton<PlayerManager>
     {
         public PlayerData playerData;
-    
-        /// <summary>
-        /// Time Manager
-        /// </summary>
-        private float timer;
 
         public void InitPlayerData(Config.GameHardLevel hardLevel)
         {
@@ -39,18 +34,10 @@ namespace Sim_FrameWork
             InitUnlockAssembleShipList();
         }
 
-        public bool LoadGameSaveData()
+        public void LoadGameSaveData(GameSaveData saveData)
         {
-            //var assmebleSaveData = GameDataSaveManager.Instance.currentSaveData.assembleSaveData;
-            //var playerSaveData = GameDataSaveManager.Instance.currentSaveData.playerSaveData;
-            //if (assmebleSaveData == null || playerSaveData==null)
-            //{
-            //    DebugPlus.LogError("[PlayerManager] : Load Game Save Data Error!");
-            //    return false;
-            //}
-            //playerData = new PlayerData();
-            //return playerData.LoadPlayerSaveData(playerSaveData, assmebleSaveData.partSaveData);
-            return true;
+            playerData = new PlayerData();
+            playerData.LoadPlayerSaveData(saveData.playerSaveData, saveData.assembleSaveData.partSaveData);
         }
 
         public void SetGameHardLevel(Config.GameHardLevel hardLevel)
@@ -197,9 +184,9 @@ namespace Sim_FrameWork
             return result;
         }
 
-        public List<List<BaseDataModel>> GetBuildPanelModelData(FunctionBlockType type)
+        public List<BaseDataModel> GetBuildPanelModelData(FunctionBlockType type)
         {
-            List<List<BaseDataModel>> result = new List<List<BaseDataModel>>();
+            List<BaseDataModel> result = new List<BaseDataModel>();
            
             for (int i = 0; i < playerData.UnLockBuildingPanelDataList.Count; i++)
             {
@@ -208,7 +195,7 @@ namespace Sim_FrameWork
                     BuildPanelModel model = new BuildPanelModel();
                     if (model.Create(playerData.UnLockBuildingPanelDataList[i].BuildID))
                     {
-                        result.Add(new List<BaseDataModel>() { model });
+                        result.Add( model);
                     }
                 }
             }
@@ -217,8 +204,10 @@ namespace Sim_FrameWork
 
         #endregion
 
+        #region Game Time Update
         public void UpdateTime()
         {
+            var timer = playerData.timeData.timer;
             timer += Time.deltaTime;
             if (timer >= playerData.timeData.realSecondsPerDay)
             {
@@ -249,6 +238,8 @@ namespace Sim_FrameWork
             AddCurrency_Current(playerData.resourceData.CurrencyPerDay);
             GlobalEventManager.Instance.DoPlayerOrderMonthSettle();
         }
+
+        #endregion
 
         #region Assmeble Part Manager
 
@@ -294,11 +285,7 @@ namespace Sim_FrameWork
             return playerData.assemblePartData.GetAssemblePartInfoByTypeID(typeID);
         }
 
-        public List<List<BaseDataModel>> GetAssemblePartChooseModel(string typeID)
-        {
-            return playerData.assemblePartData.GetAssemblePartChooseModel(typeID);
-        }
-        public List<List<BaseDataModel>> GetAssemblePartPresetModelList(string typeID)
+        public List<BaseDataModel> GetAssemblePartPresetModelList(string typeID)
         {
             return playerData.assemblePartData.GetAssemblePartPresetModelList(typeID);
         }
@@ -486,9 +473,9 @@ namespace Sim_FrameWork
         /// </summary>
         /// <param name="typeIDList"></param>
         /// <returns></returns>
-        public List<List<BaseDataModel>> GetAssembleShipPresetModelList(List<string> typeIDList)
+        public List<BaseDataModel> GetAssembleShipPresetModelList(List<string> typeIDList)
         {
-            List<List<BaseDataModel>> result = new List<List<BaseDataModel>>();
+            List<BaseDataModel> result = new List<BaseDataModel>();
 
             var list = GetUnlockAssembleShipTypeListByTypeIDList(typeIDList);
             for (int i = 0; i < list.Count; i++)
@@ -496,14 +483,14 @@ namespace Sim_FrameWork
                 AssembleShipTypePresetModel model = new AssembleShipTypePresetModel();
                 if (model.Create(list[i]))
                 {
-                    result.Add(new List<BaseDataModel>() { model });
+                    result.Add(model);
                 }
             }
             return result;
         }
-        public List<List<BaseDataModel>> GetAssembleShipPresetModelList(string typeID)
+        public List<BaseDataModel> GetAssembleShipPresetModelList(string typeID)
         {
-            List<List<BaseDataModel>> result = new List<List<BaseDataModel>>();
+            List<BaseDataModel> result = new List<BaseDataModel>();
 
             var list = GetUnlockAssembleShipTypeListByTypeID(typeID);
             for (int i = 0; i < list.Count; i++)
@@ -511,7 +498,7 @@ namespace Sim_FrameWork
                 AssembleShipTypePresetModel model = new AssembleShipTypePresetModel();
                 if (model.Create(list[i]))
                 {
-                    result.Add(new List<BaseDataModel>() { model });
+                    result.Add(model);
                 }
             }
             return result;
@@ -563,16 +550,19 @@ namespace Sim_FrameWork
         public List<AssembleShipSingleSaveData> currentSaveShip;
         public List<string> currentUnlockShipTypeList;
 
-        public AssembleShipGeneralSaveData()
+        public static AssembleShipGeneralSaveData CreateSave()
         {
-            currentSaveShip = new List<AssembleShipSingleSaveData>();
+            AssembleShipGeneralSaveData data = new AssembleShipGeneralSaveData();
+            data.currentSaveShip = new List<AssembleShipSingleSaveData>();
             foreach(var info in PlayerManager.Instance.AssembleShipDesignDataDic.Values)
             {
                 var singleSave = info.CreateSaveData();
-                currentSaveShip.Add(singleSave);
+                data.currentSaveShip.Add(singleSave);
             }
 
-            currentUnlockShipTypeList = PlayerManager.Instance.GetTotalUnlockAssembleShipTypeList();
+            data.currentUnlockShipTypeList = PlayerManager.Instance.GetTotalUnlockAssembleShipTypeList();
+
+            return data;
         }
     }
     #endregion

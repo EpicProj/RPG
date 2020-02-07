@@ -10,28 +10,31 @@ namespace Sim_FrameWork
         public string TitleText;
         public string ContentText;
 
-        public byte ButtonNum = 1;
+        public List<GeneralConfrimBtnItem> btnList;
 
-        public Action _action1;
-        public Action _action2;
-        public Action _action3;
-
-        public string _btnText1;
-        public string _btnText2;
-        public string _btnText3;
-
-        public GeneralConfirmDialogItem(string title,string content,byte buttonNum, Action action1 = null, string btnText1=null, Action action2 = null, string btnText2=null, Action action3 = null, string btnText3=null)
+        public GeneralConfirmDialogItem(string title,string content, List<GeneralConfrimBtnItem> btnList)
         {
             TitleText = title;
             ContentText = content;
-            ButtonNum = buttonNum;
-            _btnText1 = btnText1;
-            _btnText2 = btnText2;
-            _btnText3 = btnText3;
+            this.btnList = btnList;
+        }
+    }
+    public class GeneralConfrimBtnItem
+    {
+        public enum btnColor
+        {
+            Red,
+            Blue
+        }
+        public string _btnText;
+        public UnityEngine.Events.UnityAction _action;
+        public btnColor _btnColor;
 
-            _action1 = action1;
-            _action2 = action2;
-            _action3 = action3;
+        public GeneralConfrimBtnItem(string text, UnityEngine.Events.UnityAction action,btnColor color= btnColor.Blue)
+        {
+            this._btnText = text;
+            this._action = action;
+            this._btnColor = color;
         }
     }
 

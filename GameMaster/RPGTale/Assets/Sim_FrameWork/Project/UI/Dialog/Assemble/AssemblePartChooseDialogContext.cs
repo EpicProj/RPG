@@ -93,7 +93,7 @@ namespace Sim_FrameWork.UI
             else
             {
                 noInfoTrans.SafeSetActive(false);
-                var dataModelList = PlayerManager.Instance.GetAssemblePartChooseModel(currentSelcetTab);
+                var dataModelList = PlayerManager.Instance.playerData.assemblePartData.GetAssemblePartChooseModel(currentSelcetTab);
                 _loopList.InitData(dataModelList, new List<object>() { dialogShowType,configID });
             }
             return true;

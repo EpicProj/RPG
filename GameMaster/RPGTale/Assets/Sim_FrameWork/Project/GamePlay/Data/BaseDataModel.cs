@@ -7,8 +7,6 @@ namespace Sim_FrameWork
 {
     public interface BaseDataModel
     {
-        int ID { get; set; }
-        bool Create(int id);
-        void CleanUp();
+
     }
 }

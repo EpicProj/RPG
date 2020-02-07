@@ -32,6 +32,8 @@ namespace Sim_FrameWork
         UpdateWarehouseData,//更新仓库
         ProductLine_Formula_Change,//更新生产线
 
+        GameSave_Select_Group,
+        GameSave_Select_Save,
 
         ///MaimMenu
         MenuPage_Update_BuildPanel,

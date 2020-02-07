@@ -31,7 +31,7 @@ namespace Sim_FrameWork
         /// <summary>
         /// Data
         /// </summary>
-        private List<BaseDataModel> _model;
+        private BaseDataModel _model;
         private LoopList.LayoutType _layoutType;
 
         /// <summary>
@@ -90,8 +90,8 @@ namespace Sim_FrameWork
         }
 
 
-        private Func<int, List<BaseDataModel>> _getData;
-        public void AddGetDataListener(Func<int, List<BaseDataModel>> getData)
+        private Func<int, BaseDataModel> _getData;
+        public void AddGetDataListener(Func<int, BaseDataModel> getData)
         {
             ///这里不能用多播
             _getData = getData;
@@ -158,7 +158,7 @@ namespace Sim_FrameWork
             }
         }
 
-        public virtual void ChangeAction(List<BaseDataModel> model)
+        public virtual void ChangeAction(BaseDataModel model)
         {
             
         }
@@ -174,7 +174,7 @@ namespace Sim_FrameWork
                         Rect.anchoredPosition = new Vector2(_id * (Rect.rect.width + _offset) + _sepConfig.LeftSep, 0 + _sepConfig.TopSep);
                         break;
                     case LoopList.LayoutType.Vertical:
-                        Rect.anchoredPosition = new Vector2(0 + _sepConfig.LeftSep, _id * (Rect.rect.height + _offset) + _sepConfig.TopSep);
+                        Rect.anchoredPosition = new Vector2(0 + _sepConfig.LeftSep, -_id * (Rect.rect.height + _offset) + _sepConfig.TopSep);
                         break;
                     default:
                         break;
@@ -234,7 +234,7 @@ namespace Sim_FrameWork
         }
         void PlayBtnSound()
         {
-
+            AudioManager.Instance.PlaySound(AudioClipPath.UISound.Button_Click);
         }
 
         #endregion

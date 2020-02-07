@@ -21,9 +21,9 @@ namespace Sim_FrameWork
             _btn.onClick.AddListener(OnBtnClick);
         }
 
-        public override void ChangeAction(List<BaseDataModel> model)
+        public override void ChangeAction(BaseDataModel model)
         {
-            _model = (AssembleTypePresetModel)model[0];
+            _model = (AssembleTypePresetModel)model;
             SetUpElement();
         }
 

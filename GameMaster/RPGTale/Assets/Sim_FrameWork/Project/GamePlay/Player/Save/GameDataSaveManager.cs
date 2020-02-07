@@ -48,10 +48,11 @@ namespace Sim_FrameWork
         /// <summary>
         /// Load Save Data
         /// </summary>
-        public void LoadAllSave()
+        public void LoadAllSave(GameSaveData saveData)
         {
-            PlayerManager.Instance.LoadGameSaveData();
-            TechnologyDataManager.Instance.LoadTechSaveData();
+            PlayerManager.Instance.LoadGameSaveData(saveData);
+            TechnologyDataManager.Instance.LoadTechSaveData(saveData.technologySaveData);
+            MainShipManager.Instance.LoadGameSave(saveData.mainShipSaveData);
         }
 
         #region Data Save
@@ -60,7 +61,7 @@ namespace Sim_FrameWork
             GameSaveDataItem groupData = new GameSaveDataItem(
                 groupID,
                 saveName,
-                GetGameDataCountInGroup(saveName) + 1,
+                GetGameDataIndex(saveName) + 1,
                 GetCurrentTime(),
                 1000);
             return groupData;
@@ -121,9 +122,9 @@ namespace Sim_FrameWork
 
         public void SaveGameFile()
         {
-            SaveGameFile(GetGameDataGroupCount() + 1,
+            SaveGameFile(GetGameDataGroupIndex(),
                 currentSaveName,
-                GetGameDataCountInGroup(currentSaveName) + 1);
+                GetGameDataIndex(currentSaveName) + 1);
         }
 
         /// <summary>
@@ -131,7 +132,7 @@ namespace Sim_FrameWork
         /// </summary>
         public void SaveGameFile(int groupID,string saveName, int indexID)
         {
-            GameSaveData gameSave = new GameSaveData(groupID, indexID);
+            GameSaveData gameSave = GameSaveData.CreateSave(groupID, indexID);
 
             GameSaveDataItem saveItem = Create_gameSaveData_GroupNav(groupID,saveName);
 
@@ -165,14 +166,14 @@ namespace Sim_FrameWork
         /// 获取存档数量
         /// </summary>
         /// <returns></returns>
-        int GetGameDataCountInGroup(string groupName)
+        int GetGameDataIndex(string groupName)
         {
-            string SaveFilePath = Application.persistentDataPath + "/SaveData/"+groupName;
-            if (File.Exists(SaveFilePath))
+            string SaveFilePath = Application.persistentDataPath + "/SaveData/Sav_"+groupName;
+            if (Directory.Exists(SaveFilePath))
             {
                 DirectoryInfo info = new DirectoryInfo(SaveFilePath);
-                var files = info.GetDirectories();
-                return files.Length;
+                var files = info.GetFiles();
+                return files.Length/2;
             }
             else
             {
@@ -181,10 +182,10 @@ namespace Sim_FrameWork
             return 0;
         }
 
-        int GetGameDataGroupCount()
+        int GetGameDataGroupIndex()
         {
             string saveFilePath= Application.persistentDataPath + "/SaveData";
-            if (File.Exists(saveFilePath))
+            if (Directory.Exists(saveFilePath))
             {
                 DirectoryInfo info = new DirectoryInfo(saveFilePath);
                 var file = info.GetDirectories();
@@ -194,7 +195,7 @@ namespace Sim_FrameWork
             {
                 DebugPlus.Log("Save File not Exist! path=" + saveFilePath);
             }
-            return 0;
+            return 1;
         }
 
         string GetCurrentTime()
@@ -288,6 +289,7 @@ namespace Sim_FrameWork
             }
             return null;
         }
+
         /// <summary>
         /// 获取同组所有存档引导
         /// </summary>
@@ -350,12 +352,12 @@ namespace Sim_FrameWork
                 if (Directory.Exists(SaveFilePath))
                 {
                     DirectoryInfo dirs = new DirectoryInfo(SaveFilePath);
-                    var files = dirs.GetDirectories();
-                    DebugPlus.Log("Save num=" + files.Length);
+                    var files = dirs.GetFiles();
+                    DebugPlus.Log("Save num=" + files.Length/2);
 
                     for (int i = 0; i < files.Length; i++)
                     {
-                        if (files[i].FullName == groupName + "_" + saveIndex +  ".sav")
+                        if (files[i].Name == groupName + "_" + saveIndex +  ".sav")
                         {
                             try
                             {
@@ -376,20 +378,35 @@ namespace Sim_FrameWork
             return null;
         }
 
-        private GameSaveData GetSaveData(string groupName,int groupID, int saveIndex)
+        public GameSaveData GetSaveData(int groupID,int saveIndex)
         {
-            var savedata = GetSaveDataBySaveID(groupName,groupID,saveIndex);
-            if (savedata == null)
+            GameSaveDataItem item = GetSaveNavigatorData(groupID, saveIndex);
+            if(item != null)
             {
-                Debug.LogError("Save Error!");
+                var savedata = GetSaveDataBySaveID(item.saveName, groupID, saveIndex);
+                if (savedata != null)
+                {
+                    return savedata;
+                }
             }
-            return savedata;
+            DebugPlus.LogError("GetSave Data null! ,groupID= " + groupID + "  saveIndex=" + saveIndex);
+            return null ;
+        }
+        /// <summary>
+        /// 检测存档是否完善
+        /// </summary>
+        /// <param name="groupID"></param>
+        /// <param name="saveIndex"></param>
+        /// <returns></returns>
+        public bool CheckSaveDataComplete(int groupID,int saveIndex)
+        {
+            return GetSaveData(groupID,saveIndex) == null ? false : true;
         }
 
-        public List<List<BaseDataModel>> GetSaveGroupModel()
+        public List<BaseDataModel> GetSaveGroupModel()
         {
             RefreshCurrentSaveDataList();
-            List<List<BaseDataModel>> result = new List<List<BaseDataModel>>();
+            List<BaseDataModel> result = new List<BaseDataModel>();
             List<int> groupID = new List<int>();
             for (int i = 0; i < AllSaveDataList.Count; i++)
             {
@@ -401,16 +418,12 @@ namespace Sim_FrameWork
 
             for(int i = 0; i < groupID.Count; i++)
             {
-                SaveDataModel model = new SaveDataModel();
+                SaveDataGroupModel model = new SaveDataGroupModel();
                 if (model.Create(AllSaveDataList[i].groupID))
                 {
-                    List<BaseDataModel> list = new List<BaseDataModel>();
-                    list.Add((BaseDataModel)model);
-                    result.Add(list);
+                    result.Add((BaseDataModel)model);
                 }
             }
-
-
             return result;
         }
 

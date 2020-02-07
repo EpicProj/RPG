@@ -47,9 +47,9 @@ namespace Sim_FrameWork
 
         }
 
-        public override void ChangeAction(List<BaseDataModel> model)
+        public override void ChangeAction(BaseDataModel model)
         {
-            _model = (AssembleChooseItemModel)model[0];
+            _model = (AssembleChooseItemModel)model;
             modeType = (byte)paramList[0];
             configID = (int)paramList[1];
             InitElement();

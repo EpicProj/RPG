@@ -59,9 +59,11 @@ namespace Sim_FrameWork
     {
         public Dictionary<int, int> materialStorageSaveDic = new Dictionary<int, int>();
 
-        public MaterialStorageSaveData()
+        public static MaterialStorageSaveData CreateSave()
         {
-            materialStorageSaveDic = PlayerManager.Instance.playerData.materialStorageData.materialStorageDataDic;
+            MaterialStorageSaveData data = new MaterialStorageSaveData();
+            data.materialStorageSaveDic = PlayerManager.Instance.playerData.materialStorageData.materialStorageDataDic;
+            return data;
         }
     }
 }

@@ -132,18 +132,56 @@ namespace Sim_FrameWork
     }
     public class TimeData
     {
-
         public DateTime date; 
         public float realSecondsPerDay;
-
-
-        public TimeData(Config.TimeDataConfig timeConfig)
+        /// <summary>
+        /// 当前进度
+        /// </summary>
+        public float timer;
+        
+        public TimeData() { }
+        public TimeData InitData(Config.TimeDataConfig timeConfig)
         {
-            realSecondsPerDay = timeConfig.RealSecondsPerDay;
-            date = new DateTime(timeConfig.OriginalYear, timeConfig.OriginalMonth, timeConfig.OriginalDay);
+            TimeData data = new TimeData();
+            data.realSecondsPerDay = timeConfig.RealSecondsPerDay;
+            data.date = new DateTime(timeConfig.OriginalYear, timeConfig.OriginalMonth, timeConfig.OriginalDay);
+            return data;
+        }
+
+        public TimeData LoadGameSave(TimeDataSave save)
+        {
+            TimeData data = new TimeData();
+            data.date = new DateTime(save.currentYear, save.currentMonth, save.currentDay);
+            data.timer = save.timer;
+
+            var config = Config.ConfigData.PlayerConfig.timeConfig;
+            if (config == null)
+            {
+                DebugPlus.LogError("[PlayerTimeData] : Find TimeConfig Error!");
+            }
+            data.realSecondsPerDay = config.RealSecondsPerDay;
+            return data;
         }
     }
 
+    public class TimeDataSave
+    {
+        public int currentYear;
+        public int currentMonth;
+        public int currentDay;
+        public float timer;
+
+        public static TimeDataSave CreateSave()
+        {
+            TimeDataSave data = new TimeDataSave();
+            TimeData time = PlayerManager.Instance.playerData.timeData;
+            data.currentYear = time.date.Year;
+            data.currentMonth = time.date.Month;
+            data.currentDay = time.date.Day;
+            data.timer = time.timer;
+            return data;
+        }
+    }
 
 
  

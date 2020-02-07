@@ -23,6 +23,12 @@ namespace Sim_FrameWork
             InitPlayerEnergyData();
         }
 
+        public void LoadGameSave(MainShipSaveData saveData)
+        {
+            mainShipInfo = new MainShipInfo();
+            mainShipInfo.LoadSaveData(saveData);
+        }
+
 
         /// <summary>
         /// 更换区域电量分配

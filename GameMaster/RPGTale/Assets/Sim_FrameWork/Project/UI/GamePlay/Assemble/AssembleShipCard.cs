@@ -42,9 +42,9 @@ namespace Sim_FrameWork
             transform.FindTransfrom("Btn").SafeGetComponent<Button>().onClick.AddListener(OnBtnClick);
         }
 
-        public override void ChangeAction(List<BaseDataModel> model)
+        public override void ChangeAction(BaseDataModel model)
         {
-            _model = (AssembleShipTypePresetModel)model[0];
+            _model = (AssembleShipTypePresetModel)model;
             SetUpCard();
         }
 

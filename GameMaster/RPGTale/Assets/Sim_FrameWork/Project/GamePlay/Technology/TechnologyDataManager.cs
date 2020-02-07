@@ -184,24 +184,20 @@ namespace Sim_FrameWork
         }
         #region Game Save Data
 
-        public void LoadTechSaveData()
+        public void LoadTechSaveData(TechnologySaveData saveData)
         {
             InitAllTechInfo();
             TechOnResearchList.Clear();
             TechOnFinishIDList.Clear();
-            ///Load TechStates
-            //var saveData = GameDataSaveManager.Instance.currentSaveData.technologySaveData;
-            //if (saveData != null)
-            //{
-            //    for(int i = 0; i < saveData.saveList.Count;i++)
-            //    {
-            //        TechnologyInfo info = new TechnologyInfo();
-            //        info = info.LoadSaveData(saveData.saveList[i]);
-            //        TechOnResearchList.Add(info);
-            //    }
+            // Load TechStates
+            for (int i = 0; i < saveData.saveList.Count; i++)
+            {
+                TechnologyInfo info = new TechnologyInfo();
+                info = info.LoadSaveData(saveData.saveList[i]);
+                TechOnResearchList.Add(info);
+            }
 
-            //    TechOnFinishIDList = saveData.finishTechList;
-            //}
+            TechOnFinishIDList = saveData.finishTechList;
         }
 
         #endregion
@@ -213,17 +209,19 @@ namespace Sim_FrameWork
         public List<TechnologyInfoSaveData> saveList;
         public List<int> finishTechList;
 
-        public TechnologySaveData()
+        public static TechnologySaveData CreateSave()
         {
-            saveList = new List<TechnologyInfoSaveData>();
+            TechnologySaveData data = new TechnologySaveData();
+            data.saveList = new List<TechnologyInfoSaveData>();
             for(int i = 0; i < TechnologyDataManager.Instance.TechOnResearchList.Count; i++)
             {
                 var info = TechnologyDataManager.Instance.TechOnResearchList[i];
                 TechnologyInfoSaveData saveItem = new TechnologyInfoSaveData(info.techID, info.currentState, info.researchProgress);
-                saveList.Add(saveItem);
+                data.saveList.Add(saveItem);
             }
 
-            finishTechList = TechnologyDataManager.Instance.TechOnFinishIDList;
+            data.finishTechList = TechnologyDataManager.Instance.TechOnFinishIDList;
+            return data;
         }
     }
     #endregion

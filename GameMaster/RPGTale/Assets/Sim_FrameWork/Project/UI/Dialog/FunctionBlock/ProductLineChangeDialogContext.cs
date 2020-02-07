@@ -144,14 +144,14 @@ namespace Sim_FrameWork.UI
         }
         
 
-        List<List<BaseDataModel>> GetFormulaModel()
+        List<BaseDataModel> GetFormulaModel()
         {
-            List<List<BaseDataModel>> result = new List<List<BaseDataModel>>();
+            List<BaseDataModel> result = new List<BaseDataModel>();
             for(int i = _formulaList.Count -1; i >= 0 ; i--)
             {
                 FormulaDataModel formula = new FormulaDataModel();
                 formula.Create(_formulaList[i].FormulaID);
-                result.Add(new List<BaseDataModel>(1) {formula });
+                result.Add(formula);
             }
             return result;
         }

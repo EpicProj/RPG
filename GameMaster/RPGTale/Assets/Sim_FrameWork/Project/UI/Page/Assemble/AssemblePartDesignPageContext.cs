@@ -310,18 +310,26 @@ namespace Sim_FrameWork.UI
             ///Custom Name Repeat
             if (PlayerManager.Instance.CheckAssemblePartCustomNameRepeat(_info.typePresetData.partName,customNameInput.text))
             {
+                List<GeneralConfrimBtnItem> btns = new List<GeneralConfrimBtnItem>();
+                btns.Add(new GeneralConfrimBtnItem(
+                    MultiLanguage.Instance.GetTextValue(Assemble_Design_Part_CustomName_Repeat_Cover),
+                     () =>
+                     {
+                         ConfirmSavePartDesignAction(true);
+                     },
+                     GeneralConfrimBtnItem.btnColor.Red));
+                btns.Add(new GeneralConfrimBtnItem(
+                     MultiLanguage.Instance.GetTextValue(Assemble_Design_Part_CustomName_Repeat_Cancel),
+                       () =>
+                       {
+                           UIManager.Instance.HideWnd(UIPath.WindowPath.General_Confirm_Dialog);
+                       }));
+
                 GeneralConfirmDialogItem item = new GeneralConfirmDialogItem(
                     MultiLanguage.Instance.GetTextValue(Assemble_Design_Part_CustomName_Repeat_Title),
                     MultiLanguage.Instance.GetTextValue(Assemble_Design_Part_CustomName_Repeat_Content),
-                    2,
-                    ()=> { ConfirmSavePartDesignAction(true); },
-                    MultiLanguage.Instance.GetTextValue(Assemble_Design_Part_CustomName_Repeat_Cover),
-                    () =>
-                    {
-                        UIManager.Instance.HideWnd(UIPath.WindowPath.General_Confirm_Dialog);
-                    },
-                    MultiLanguage.Instance.GetTextValue(Assemble_Design_Part_CustomName_Repeat_Cancel)
-                    );
+                    btns);
+
                 UIGuide.Instance.ShowGeneralConfirmDialog(item);
             }
             else

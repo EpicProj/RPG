@@ -145,7 +145,7 @@ namespace Sim_FrameWork
         /// </summary>
         public ModifierDetailRootType_Simple rootType;
         public float value;
-
+        public ModifierDetailItem_Simple() { }
         public ModifierDetailItem_Simple(ModifierDetailRootType_Simple rootType, float value)
         {
             this.rootType = rootType;
@@ -167,6 +167,7 @@ namespace Sim_FrameWork
         public int typeID;
         public float value;
 
+        public ModifierDetailItem_Mix() { }
         public ModifierDetailItem_Mix(ModifierDetailRootType_Mix rootType, ModifierPackType packType,uint uid, int typeID,float value)
         {
             this.blockType = rootType;

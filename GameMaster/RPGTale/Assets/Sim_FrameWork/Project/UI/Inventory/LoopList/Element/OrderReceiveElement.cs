@@ -45,9 +45,9 @@ namespace Sim_FrameWork.UI
             OrganizationName_En = UIUtility.SafeGetComponent<Text>(OrganizationContent.transform.Find("Name_EN"));
 
         }
-        public override void ChangeAction(List<BaseDataModel> model)
+        public override void ChangeAction(BaseDataModel model)
         {
-            _model = (OrderDataModel)model[0];
+            _model = (OrderDataModel)model;
             InitOrderReceiveElement();
 
         }
@@ -91,8 +91,10 @@ namespace Sim_FrameWork.UI
             };
 
             var content = Utility.ParseStringParams(Confirm_Content_Text, new string[1] { _model.Name});
-            GeneralConfirmDialogItem item = new GeneralConfirmDialogItem(Confirm_Title_Text,content, 1 ,confirmAction);
-            UIManager.Instance.PopUpWnd(UIPath.WindowPath.General_Confirm_Dialog, WindowType.Dialog, true, item);
+            List<GeneralConfrimBtnItem> btns = new List<GeneralConfrimBtnItem>();
+
+            //GeneralConfirmDialogItem item = new GeneralConfirmDialogItem(Confirm_Title_Text,content, 1 ,confirmAction);
+            //UIManager.Instance.PopUpWnd(UIPath.WindowPath.General_Confirm_Dialog, WindowType.Dialog, true, item);
         }
 
 

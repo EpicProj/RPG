@@ -39,7 +39,9 @@ namespace Sim_FrameWork
                 return false;
             }
 
-            timeData = new TimeData(config.timeConfig);
+            timeData = new TimeData();
+            timeData.InitData(config.timeConfig);
+
             resourceData = new PlayerResourceData();
             if (!SetHardLevel(hardLevel))
                 return false;
@@ -59,19 +61,19 @@ namespace Sim_FrameWork
         /// Game Save
         /// </summary>
         /// <param name="saveData"></param>
-        public bool LoadPlayerSaveData(PlayerSaveData saveData,AssemblePartGeneralSaveData partSaveData)
+        public void LoadPlayerSaveData(PlayerSaveData saveData,AssemblePartGeneralSaveData partSaveData)
         {
             resourceData = new PlayerResourceData();
-            
+            resourceData.LoadSave(saveData.playerSaveData_Resource);
+
+            timeData = new TimeData();
+            timeData.LoadGameSave(saveData.timeSave);
+
             materialStorageData = new MaterialStorageData();
+            materialStorageData.LoadSaveData(saveData.materialSaveData);
             assemblePartData = new PlayerAssemblePartData();
-
-            return resourceData.LoadSave(saveData.playerSaveData_Resource) &&
-                materialStorageData.LoadSaveData(saveData.materialSaveData) &&
-                assemblePartData.LoadSaveData(partSaveData);
+            assemblePartData.LoadSaveData(partSaveData);    
         }
-
-        
     }
 
     public class PlayerResourceData
@@ -357,9 +359,9 @@ namespace Sim_FrameWork
         /// </summary>
         /// <param name="typeIDList"></param>
         /// <returns></returns>
-        public List<List<BaseDataModel>> GetAssemblePartPresetModelList(List<string> typeIDList)
+        public List<BaseDataModel> GetAssemblePartPresetModelList(List<string> typeIDList)
         {
-            List<List<BaseDataModel>> result = new List<List<BaseDataModel>>();
+            List<BaseDataModel> result = new List<BaseDataModel>();
 
             var list = GetUnlockAssemblePartTypeListByTypeIDList(typeIDList);
             for (int i = 0; i < list.Count; i++)
@@ -367,14 +369,14 @@ namespace Sim_FrameWork
                 AssembleTypePresetModel model = new AssembleTypePresetModel();
                 if (model.Create(list[i]))
                 {
-                    result.Add(new List<BaseDataModel>() { model });
+                    result.Add(model);
                 }
             }
             return result;
         }
-        public List<List<BaseDataModel>> GetAssemblePartPresetModelList(string typeID)
+        public List<BaseDataModel> GetAssemblePartPresetModelList(string typeID)
         {
-            List<List<BaseDataModel>> result = new List<List<BaseDataModel>>();
+            List<BaseDataModel> result = new List<BaseDataModel>();
 
             var list = GetUnlockAssemblePartTypeListByTypeID(typeID);
             for (int i = 0; i < list.Count; i++)
@@ -382,7 +384,7 @@ namespace Sim_FrameWork
                 AssembleTypePresetModel model = new AssembleTypePresetModel();
                 if (model.Create(list[i]))
                 {
-                    result.Add(new List<BaseDataModel>() { model });
+                    result.Add(model);
                 }
             }
             return result;
@@ -492,9 +494,9 @@ namespace Sim_FrameWork
             return result;
         }
 
-        public List<List<BaseDataModel>> GetAssemblePartChooseModel(string typeID)
+        public List<BaseDataModel> GetAssemblePartChooseModel(string typeID)
         {
-            List<List<BaseDataModel>> result = new List<List<BaseDataModel>>();
+            List<BaseDataModel> result = new List<BaseDataModel>();
 
             var list = GetAssemblePartInfoByTypeID(typeID);
             for (int i = 0; i < list.Count; i++)
@@ -502,7 +504,7 @@ namespace Sim_FrameWork
                 AssembleChooseItemModel model = new AssembleChooseItemModel();
                 if (model.Create(list[i].UID))
                 {
-                    result.Add(new List<BaseDataModel>() { model });
+                    result.Add( model);
                 }
             }
             return result;
@@ -716,33 +718,40 @@ namespace Sim_FrameWork
         public ushort currentRoCoreMax;
         public ModifierDetailPackage roCoreMaxDetailPac;
 
-        public PlayerSaveData_Resource(PlayerData data)
+
+
+        public static PlayerSaveData_Resource CreateSaveData()
         {
-            currentCurrency = data.resourceData.Currency;
-            currentCurrencyMax = data.resourceData.CurrencyMax;
-            currencyPerDay = data.resourceData.CurrencyPerDay;
-            currencyMaxDetailPac = data.resourceData.currencyMaxDetailPac;
-            currencyPerDayDetailPac = data.resourceData.currencyPerDayDetailPac;
+            PlayerSaveData_Resource res = new PlayerSaveData_Resource();
 
-            currentResearch = data.resourceData.Research;
-            currentResearchMax = data.resourceData.ResearchMax;
-            researchPerDay = data.resourceData.ResearchPerDay;
-            researchMaxDetailPac = data.resourceData.researchMaxDetailPac;
-            researchPerDayDetailPac = data.resourceData.researchPerDayDetailPac;
+            var data = PlayerManager.Instance.playerData.resourceData;
 
-            currentEnergy = data.resourceData.Energy;
-            currentEnergyMax = data.resourceData.EnergyMax;
-            energyPerDay = data.resourceData.EnergyPerDay;
-            energyMaxDetailPac = data.resourceData.energyMaxDetailPac;
-            energyPerDayDetailPac = data.resourceData.energyPerDayDetailPac;
+            res.currentCurrency = data.Currency;
+            res.currentCurrencyMax = data.CurrencyMax;
+            res.currencyPerDay = data.CurrencyPerDay;
+            res.currencyMaxDetailPac = data.currencyMaxDetailPac;
+            res.currencyPerDayDetailPac = data.currencyPerDayDetailPac;
 
-            currentBuilder = data.resourceData.Builder;
-            currentBuilderMax = data.resourceData.BuilderMax;
-            builderMaxDetailPac = data.resourceData.builderMaxDetailPac;
+            res.currentResearch = data.Research;
+            res.currentResearchMax = data.ResearchMax;
+            res.researchPerDay = data.ResearchPerDay;
+            res.researchMaxDetailPac = data.researchMaxDetailPac;
+            res.researchPerDayDetailPac = data.researchPerDayDetailPac;
 
-            currentRoCore = data.resourceData.RoCore;
-            currentRoCoreMax = data.resourceData.RoCoreMax;
-            roCoreMaxDetailPac = data.resourceData.roCoreMaxDetailPac;
+            res.currentEnergy = data.Energy;
+            res.currentEnergyMax = data.EnergyMax;
+            res.energyPerDay = data.EnergyPerDay;
+            res.energyMaxDetailPac = data.energyMaxDetailPac;
+            res.energyPerDayDetailPac = data.energyPerDayDetailPac;
+
+            res.currentBuilder = data.Builder;
+            res.currentBuilderMax = data.BuilderMax;
+            res.builderMaxDetailPac = data.builderMaxDetailPac;
+
+            res.currentRoCore = data.RoCore;
+            res.currentRoCoreMax = data.RoCoreMax;
+            res.roCoreMaxDetailPac = data.roCoreMaxDetailPac;
+            return res;
         }
     }
 
@@ -757,31 +766,35 @@ namespace Sim_FrameWork
         public List<AssmeblePartSingleSaveData> currentSaveStoragePart;
         public List<AssmeblePartSingleSaveData> currentSaveEquipedPart;
 
-        public AssemblePartGeneralSaveData()
+        public static AssemblePartGeneralSaveData CreateSave()
         {
+            AssemblePartGeneralSaveData data = new AssemblePartGeneralSaveData();
+
             //Save Design
-            currentSaveDesignPart = new List<AssmeblePartSingleSaveData>();
+            data.currentSaveDesignPart = new List<AssmeblePartSingleSaveData>();
             foreach (var info in PlayerManager.Instance.playerData.assemblePartData.AssemblePartDesignDataDic.Values)
             {
                 var singleSave = info.CreatePartSave();
-                currentSaveDesignPart.Add(singleSave);
+                data.currentSaveDesignPart.Add(singleSave);
             }
 
-            currentUnlockPartTypeList = PlayerManager.Instance.GetTotalUnlockAssemblePartTypeList();
+            data.currentUnlockPartTypeList = PlayerManager.Instance.GetTotalUnlockAssemblePartTypeList();
             //Save Storage
-            currentSaveStoragePart = new List<AssmeblePartSingleSaveData>();
+            data.currentSaveStoragePart = new List<AssmeblePartSingleSaveData>();
             foreach(var info in PlayerManager.Instance.playerData.assemblePartData.AssemblePartStorageDic.Values)
             {
                 var singleSave = info.CreatePartSave();
-                currentSaveStoragePart.Add(singleSave);
+                data.currentSaveStoragePart.Add(singleSave);
             }
             //Save Equiped
-            currentSaveEquipedPart = new List<AssmeblePartSingleSaveData>();
+            data.currentSaveEquipedPart = new List<AssmeblePartSingleSaveData>();
             foreach(var info in PlayerManager.Instance.playerData.assemblePartData.AssemblePartEquipedDic.Values)
             {
                 var singleSave = info.CreatePartSave();
-                currentSaveEquipedPart.Add(singleSave);
+                data.currentSaveEquipedPart.Add(singleSave);
             }
+
+            return data;
         }
     }
     #endregion

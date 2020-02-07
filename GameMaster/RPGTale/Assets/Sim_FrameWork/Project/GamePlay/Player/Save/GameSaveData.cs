@@ -21,6 +21,7 @@ namespace Sim_FrameWork
         public PlayerSaveData playerSaveData;
         public GameStatisticsSaveData gameStatisticsData;
 
+        public MainShipSaveData mainShipSaveData;
         /// <summary>
         /// AssembleSave  preset & currentParts
         /// </summary>
@@ -30,13 +31,19 @@ namespace Sim_FrameWork
         /// </summary>
         public TechnologySaveData technologySaveData;
 
-        public GameSaveData(int groupID,int saveIndex)
+        public GameSaveData() { }
+        public static GameSaveData CreateSave(int groupID,int saveIndex)
         {
-            this.GroupID = groupID;
-            this.SaveIndex = saveIndex;
-            playerSaveData = new PlayerSaveData();
-            assembleSaveData = new AssembleSaveData();
-            technologySaveData = new TechnologySaveData();
+            GameSaveData saveData = new GameSaveData();
+            saveData.GroupID = groupID;
+            saveData.SaveIndex = saveIndex;
+            saveData.playerSaveData = PlayerSaveData.CreateSave();
+
+            saveData.mainShipSaveData =  MainShipSaveData.CreateSave();
+
+            saveData.assembleSaveData = AssembleSaveData.CreateSave();
+            saveData.technologySaveData = TechnologySaveData.CreateSave();
+            return saveData;
         }
     }
 
@@ -65,11 +72,17 @@ namespace Sim_FrameWork
     {
         public PlayerSaveData_Resource playerSaveData_Resource;
         public MaterialStorageSaveData materialSaveData;
+        public TimeDataSave timeSave;
 
-        public PlayerSaveData()
+        public static PlayerSaveData CreateSave()
         {
-            playerSaveData_Resource = new PlayerSaveData_Resource(PlayerManager.Instance.playerData);
-            materialSaveData = new MaterialStorageSaveData();
+            PlayerSaveData data = new PlayerSaveData();
+            data.playerSaveData_Resource = PlayerSaveData_Resource.CreateSaveData();
+
+            data.materialSaveData = MaterialStorageSaveData.CreateSave();
+            ///Save Game Time
+            data.timeSave = TimeDataSave.CreateSave();
+            return data;
         }
     }
 
@@ -78,10 +91,12 @@ namespace Sim_FrameWork
         public AssemblePartGeneralSaveData partSaveData;
         public AssembleShipGeneralSaveData shipSaveData;
 
-        public AssembleSaveData()
+        public static AssembleSaveData CreateSave()
         {
-            partSaveData = new AssemblePartGeneralSaveData();
-            shipSaveData = new AssembleShipGeneralSaveData();
+            AssembleSaveData data = new AssembleSaveData();
+            data.partSaveData = AssemblePartGeneralSaveData.CreateSave();
+            data.shipSaveData = AssembleShipGeneralSaveData.CreateSave();
+            return data;
         }
     }
 }

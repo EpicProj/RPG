@@ -24,9 +24,9 @@ namespace Sim_FrameWork
           
         }
 
-        public override void ChangeAction(List<BaseDataModel> model)
+        public override void ChangeAction(BaseDataModel model)
         {
-            _model = (OrganizationDataModel)model[0];
+            _model = (OrganizationDataModel)model;
             InitElement();
         }
 

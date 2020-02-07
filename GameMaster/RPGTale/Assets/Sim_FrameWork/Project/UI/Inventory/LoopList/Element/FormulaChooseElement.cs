@@ -19,9 +19,9 @@ namespace Sim_FrameWork
         {
             selectEffect = UIUtility.SafeGetComponent<CanvasGroup>(SelectTrans);
         }
-        public override void ChangeAction(List<BaseDataModel> model)
+        public override void ChangeAction(BaseDataModel model)
         {
-            _model = (FormulaDataModel)model[0];
+            _model = (FormulaDataModel)model;
             InitElement();
         }
 

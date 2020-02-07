@@ -14,9 +14,9 @@ namespace Sim_FrameWork
         {
         }
 
-        public override void ChangeAction(List<BaseDataModel> model)
+        public override void ChangeAction(BaseDataModel model)
         {
-            _model = (AssembleShipModel)model[0];
+            _model = (AssembleShipModel)model;
             SetUpCart();
         }
 

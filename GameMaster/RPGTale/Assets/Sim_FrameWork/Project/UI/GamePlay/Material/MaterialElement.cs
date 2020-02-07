@@ -17,9 +17,9 @@ namespace Sim_FrameWork.UI
 
         public MaterialStorageModel _model;
 
-        public override void ChangeAction(List<BaseDataModel> model)
+        public override void ChangeAction(BaseDataModel model)
         {
-            _model = (MaterialStorageModel)model[0];
+            _model = (MaterialStorageModel)model;
             InitMaterialElement();
         }
 

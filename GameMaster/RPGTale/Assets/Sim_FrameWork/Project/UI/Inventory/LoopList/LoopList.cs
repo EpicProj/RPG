@@ -48,12 +48,12 @@ namespace Sim_FrameWork
         /// <summary>
         /// Element Data
         /// </summary>
-        private List<List<BaseDataModel>> _modelList;
+        private List<BaseDataModel> _modelList;
 
         private void Awake()
         {
             _elementList = new List<BaseElement>();
-            _modelList = new List<List<BaseDataModel>>();
+            _modelList = new List<BaseDataModel>();
             if (!string.IsNullOrEmpty(ItemPrefabPath))
             {
                 _item = ResourceManager.Instance.LoadResource<GameObject>("Assets/Prefabs/" + ItemPrefabPath + ".prefab");
@@ -64,7 +64,7 @@ namespace Sim_FrameWork
             
         }
 
-        public void InitData(List<List<BaseDataModel>> modelData, List<object> paramList = null)
+        public void InitData(List<BaseDataModel> modelData, List<object> paramList = null)
         {
             _elementList.Clear();
             _modelList = modelData;
@@ -128,7 +128,7 @@ namespace Sim_FrameWork
         }
 
 
-        private List<BaseDataModel> GetData(int id)
+        private BaseDataModel GetData(int id)
         {
             if (id < 0 || id >= _modelList.Count)
                 return null;

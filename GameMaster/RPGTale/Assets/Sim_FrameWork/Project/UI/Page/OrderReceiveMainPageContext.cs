@@ -78,7 +78,6 @@ namespace Sim_FrameWork.UI
         private bool InitOrderMainContent()
         {
             var loopList = UIUtility.SafeGetComponent<LoopList>(m_page.OrderContentScroll.transform);
-            loopList.InitData(GlobalEventManager.Instance.AllOrderDataModelList);
             return true;
         }
 
@@ -86,7 +85,6 @@ namespace Sim_FrameWork.UI
         {
 
             var loopList = UIUtility.SafeGetComponent<LoopList>(m_page.OrderContentScroll.transform);
-            loopList.InitData(GlobalEventManager.Instance.AllOrderDataModelList);
             return true;
         }
 
@@ -141,7 +139,6 @@ namespace Sim_FrameWork.UI
         void InitOrganizationContent()
         {
             var loopList = UIUtility.SafeGetComponent<LoopList>(m_page.Organization_ContentScroll.transform);
-            loopList.InitData(GlobalEventManager.Instance.CurrrentOrganizationModel);
         }
 
         #endregion

@@ -50,7 +50,6 @@ namespace Sim_FrameWork.UI
                 DataManager.Instance.InitGameData();
             };
             ScenesManager.Instance.LoadingScene(UIPath.ScenePath.Scene_Test);
-            
         }
 
 

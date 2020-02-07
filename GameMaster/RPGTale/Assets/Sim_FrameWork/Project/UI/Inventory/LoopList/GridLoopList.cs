@@ -42,12 +42,12 @@ namespace Sim_FrameWork
         private GameObject _item;
         private List<BaseElement> _elementList;
 
-        private List<List<BaseDataModel>> _modelList;
+        private List<BaseDataModel> _modelList;
 
         private void Awake()
         {
             _elementList = new List<BaseElement>();
-            _modelList = new List<List<BaseDataModel>>();
+            _modelList = new List<BaseDataModel>();
 
             if (!string.IsNullOrEmpty(ItemPrefabPath))
             {
@@ -59,7 +59,7 @@ namespace Sim_FrameWork
             _content = UIUtility.SafeGetComponent<RectTransform>(transform.Find("Viewport/Content"));
         }
 
-        public void InitData(List<List<BaseDataModel>> modelData)
+        public void InitData(List<BaseDataModel> modelData)
         {
             _modelList = modelData;
             int totalNum = GetTotalItemNum();
@@ -137,7 +137,7 @@ namespace Sim_FrameWork
             return Mathf.CeilToInt(height / (_itemHeight + sepConfig.VerticalSep)) + 1;
         }
 
-        private List<BaseDataModel> GetData(int id)
+        private BaseDataModel GetData(int id)
         {
             if (id < 0 || id >= _modelList.Count)
                 return null;

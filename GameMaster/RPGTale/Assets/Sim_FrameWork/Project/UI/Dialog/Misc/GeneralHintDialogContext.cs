@@ -29,7 +29,7 @@ namespace Sim_FrameWork.UI
         IEnumerator CloseHint()
         {
             yield return new WaitForSeconds(_item.time);
-            UIManager.Instance.HideWnd(UIPath.WindowPath.General_Hint_Dialog);
+            UIManager.Instance.CloseWnd(UIPath.WindowPath.General_Hint_Dialog);
         }
 
         private void InitContent()

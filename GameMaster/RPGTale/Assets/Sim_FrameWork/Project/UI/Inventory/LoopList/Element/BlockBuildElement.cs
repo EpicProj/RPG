@@ -18,9 +18,9 @@ namespace Sim_FrameWork.UI
 
         public BuildPanelModel _model;
 
-        public override void ChangeAction(List<BaseDataModel> model)
+        public override void ChangeAction(BaseDataModel model)
         {
-            _model = (BuildPanelModel)model[0];
+            _model = (BuildPanelModel)model;
             InitBuildElement();
         }
 

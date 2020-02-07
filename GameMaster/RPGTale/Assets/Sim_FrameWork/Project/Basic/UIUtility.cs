@@ -1,7 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using System;
+using DG.Tweening;
 
 namespace Sim_FrameWork
 {
@@ -130,6 +130,11 @@ namespace Sim_FrameWork
 
         public static void ActiveCanvasGroup(this CanvasGroup group,bool active)
         {
+            if (group == null)
+            {
+                DebugPlus.LogError("CanvasGroup is Null!");
+                return;
+            }
             if (active)
             {
                 group.alpha = 1;
@@ -141,7 +146,15 @@ namespace Sim_FrameWork
             group.interactable = active;
             group.blocksRaycasts = active;
         }
-
+        public static void DoCanvasFade(this CanvasGroup group, float targetAlpha,float time)
+        {
+            if (group == null)
+            {
+                DebugPlus.LogError("CanvasGroup is Null!");
+                return;
+            }
+            group.DOFade(targetAlpha, time);
+        }
     }
 
     public class GeneralMaterial

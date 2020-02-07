@@ -25,7 +25,6 @@ namespace Sim_FrameWork {
 
             AddOrganization(1);
 
-            InitOrderModelData();
             InitOrganizationModelData();
         }
 
@@ -39,12 +38,10 @@ namespace Sim_FrameWork {
         /// 列表中订单
         /// </summary>
         public Dictionary<string, OrderItemBase> AllOrderDic = new Dictionary<string, OrderItemBase>();
-        public List<List<BaseDataModel>> AllOrderDataModelList = new List<List<BaseDataModel>>();
         /// <summary>
         /// 接取的订单
         /// </summary>
         public Dictionary<string, OrderItemBase> PlayerReceivedOrders = new Dictionary<string, OrderItemBase>();
-        public List<List<BaseDataModel>> PlayerReceivedModelList = new List<List<BaseDataModel>>();
 
         /// <summary>
         /// statistics   key  :orderID   value: count
@@ -52,7 +49,6 @@ namespace Sim_FrameWork {
         public Dictionary<int, OrderStatisticsItem> OrderStatisticsDic = new Dictionary<int, OrderStatisticsItem>();
 
         public Dictionary<int, OrganizationInfo> CurrentOrganization = new Dictionary<int, OrganizationInfo>();
-        public List<List<BaseDataModel>> CurrrentOrganizationModel = new List<List<BaseDataModel>>();
 
         /// <summary>
         /// 注册订单
@@ -74,14 +70,12 @@ namespace Sim_FrameWork {
                     if (AllOrderDic.ContainsKey(GUID))
                     {
                         AllOrderDic.Remove(GUID);
-                        RemoveOrderModel(GUID, OrderDicType.All);
                     }
                     break;
                 case OrderDicType.Received:
                     if (PlayerReceivedOrders.ContainsKey(GUID))
                     {
                         PlayerReceivedOrders.Remove(GUID);
-                        RemoveOrderModel(GUID, OrderDicType.Received);
                     }
                     break;
             }
@@ -106,156 +100,7 @@ namespace Sim_FrameWork {
             return item;
         }
 
-
-        private List<BaseDataModel> GetOrderBaseData(OrderItemBase item)
-        {
-            List<BaseDataModel> model = new List<BaseDataModel>();
-            model.Add(item.dataModel);
-            model.Add(item.belongDataModel);
-            return model;
-        }
-
-        private void InitOrderModelData()
-        {
-            Func<Dictionary<string, OrderItemBase>,List<List<BaseDataModel>>> getData = (d) =>
-            {
-                List<List<BaseDataModel>> result = new List<List<BaseDataModel>>();
-                int index = 0;
-                foreach (KeyValuePair<string, OrderItemBase> kvp in d)
-                {
-                    result.Add(GetOrderBaseData(kvp.Value));
-                    index++;
-                }
-                return result;
-            };
-            AllOrderDataModelList = getData(AllOrderDic);
-            PlayerReceivedModelList = getData(PlayerReceivedOrders);
-        }
-
-        
-
-        /// <summary>
-        /// 移除订单数据
-        /// </summary>
-        /// <param name="GUIDList"></param>
-        /// <param name="type"></param>
-        private void RemoveOrderModel(List<string> GUIDList,OrderDicType type)
-        {
-            switch (type)
-            {
-                case OrderDicType.All:
-                    for(int i = 0; i < GUIDList.Count; i++)
-                    {
-                        foreach (var item in AllOrderDataModelList)
-                        {
-                            var model = (OrderDataModel)item[0];
-                            if (model.GUID == GUIDList[i])
-                            {
-                                AllOrderDataModelList.Remove(item);
-                                break;
-                            }    
-                        }
-                    }
-                    break;
-                case OrderDicType.Received:
-                    for(int i = 0; i < GUIDList.Count; i++)
-                    {
-                        foreach (var item in PlayerReceivedModelList)
-                        {
-                            var model = (OrderDataModel)item[0];
-                            if (model.GUID == GUIDList[i])
-                            {
-                                AllOrderDataModelList.Remove(item);
-                                break;
-                            }      
-                        }
-                    }
-                    break;
-            }
-        }
-        private void RemoveOrderModel(string GUID, OrderDicType type)
-        {
-            switch (type)
-            {
-                case OrderDicType.All:
-                    foreach (var item in AllOrderDataModelList)
-                    {
-                        var model = (OrderDataModel)item[0];
-                        if (model.GUID == GUID)
-                        {
-                            AllOrderDataModelList.Remove(item);
-                            break;
-                        }
-                            
-                    }
-                    break;
-                case OrderDicType.Received:
-                    foreach (var item in PlayerReceivedModelList)
-                    {
-                        var model = (OrderDataModel)item[0];
-                        if (model.GUID == GUID)
-                        {
-                            AllOrderDataModelList.Remove(item);
-                            break;
-                        }
-                           
-                    }
-                    break;
-            }
-        }
-
-        /// <summary>
-        /// 增加订单数据
-        /// </summary>
-        /// <param name="GUIDList"></param>
-        /// <param name="type"></param>
-        private void AddOrderModel(List<string> GUIDList,OrderDicType type)
-        {
-            switch (type)
-            {
-                case OrderDicType.All:
-                    for(int i = 0; i < GUIDList.Count; i++)
-                    {
-                        var item = GetOrderItem(GUIDList[i], OrderDicType.All);
-                        if(item != null)
-                        {
-                            AllOrderDataModelList.Add(GetOrderBaseData(item));
-                        }  
-                    }
-                    break;
-                case OrderDicType.Received:
-                    for(int i = 0; i < GUIDList.Count; i++)
-                    {
-                        var item = GetOrderItem(GUIDList[i], OrderDicType.Received);
-                        if (item != null)
-                        {
-                            PlayerReceivedModelList.Add(GetOrderBaseData(item));
-                        }
-                    }
-                    break;
-            }
-        }
-        private void AddOrderModel(string GUID,OrderDicType type)
-        {
-            switch (type)
-            {
-                case OrderDicType.All:
-                    var item = GetOrderItem(GUID, OrderDicType.All);
-                    if (item != null)
-                    {
-                        AllOrderDataModelList.Add(GetOrderBaseData(item));                       
-                    }
-                    break;
-                case OrderDicType.Received:
-                    var item2 = GetOrderItem(GUID, OrderDicType.Received);
-                    if (item2 != null)
-                    {
-                        PlayerReceivedModelList.Add(GetOrderBaseData(item2));                      
-                    }
-                    break;
-            }
-        }
-
+     
         /// <summary>
         /// 接取订单
         /// </summary>
@@ -273,7 +118,6 @@ namespace Sim_FrameWork {
                     return false;
                 }
                 PlayerReceivedOrders.Add(GUID, order);
-                AddOrderModel(GUID, OrderDicType.Received);
                 UnRegisterOrder(GUID, OrderDicType.All);            
                 //UpdateUI
                 UIManager.Instance.SendMessageToWnd(UIPath.WindowPath.Order_Receive_Main_Page, new UIMessage(UIMsgType.RefreshOrder));
@@ -462,7 +306,6 @@ namespace Sim_FrameWork {
                 }
                 return result;
             };
-            CurrrentOrganizationModel = getData(CurrentOrganization);
         }
 
 
