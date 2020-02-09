@@ -45,10 +45,11 @@ namespace Sim_FrameWork
         }
 
         public MaterialStorageData() { }
-        public bool LoadSaveData(MaterialStorageSaveData saveData)
+        public static MaterialStorageData LoadSaveData(MaterialStorageSaveData saveData)
         {
-            materialStorageDataDic = saveData.materialStorageSaveDic;
-            return true;
+            MaterialStorageData data = new MaterialStorageData();
+            data.materialStorageDataDic = saveData.materialStorageSaveDic;
+            return data;
         }
     }
 

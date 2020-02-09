@@ -9,15 +9,19 @@ namespace Sim_FrameWork
     {
 
         //Build Panel Config
-        public static List<BuildingPanelData> buildPanelDataList;
         public static Dictionary<int, BuildingPanelData> buildPanelDataDic;
         public List<string> AllBuildMainTagList = new List<string>();
         public BaseResourcesData resourceData;
 
         public override void InitData()
-        {        
-            buildPanelDataList = BuildingPanelMetaDataReader.GetBuildingPanelDataList();
-            buildPanelDataDic = BuildingPanelMetaDataReader.GetBuildingPanelDataDic();
+        {
+            var config = ConfigManager.Instance.LoadData<BuildingPanelMetaData>(ConfigPath.TABLE_BUILDPANEL_METADATA_PATH);
+            if (config == null)
+            {
+                Debug.LogError("BuildingPanelMetaData Read Error");
+                return;
+            }
+            buildPanelDataDic = config.AllBuildingPanelDataDic;
         }
 
         public override void Register()
@@ -102,32 +106,24 @@ namespace Sim_FrameWork
 
         #endregion
 
-        /// <summary>
-        /// 获取Hardlevel信息
-        /// </summary>
-        /// <param name="level"></param>
-        /// <returns></returns>
-        public static Config.HardLevelData GetHardlevelData(Config.GameHardLevel level)
+        #region GamePrepare
+
+        public static Config.GamePreapre_ConfigItem GetGamePrepareConfigItem(string configID)
         {
-            var hardlevelData = Config.ConfigData.PlayerConfig.hardlevelData;
-            if (hardlevelData.Count == 0 || hardlevelData==null)
+            Config.GamePreapre_ConfigItem result = null;
+            var config = Config.ConfigData.PlayerConfig.gamePrepareConfig;
+
+            if (config != null)
             {
-                Debug.LogError("HardlevelData is null");
-                return null;
+                result = config.prepareProperty.Find(x => x.configID == configID);
+                if (result == null)
+                    DebugPlus.LogError("GetGamePrepareConfigItem null  configID=" + configID);
             }
-            switch (level)
-            {
-                case Config.GameHardLevel.easy:
-                    return hardlevelData[0];
-                case Config.GameHardLevel.normal:
-                    return hardlevelData[1];
-                case Config.GameHardLevel.hard:
-                    return hardlevelData[2];
-                default:
-                    Debug.LogError("HardLevelMode Error");
-                    return hardlevelData[0];
-            }
+            return result;
         }
+
+
+        #endregion
 
     }
     public class TimeData
@@ -140,7 +136,7 @@ namespace Sim_FrameWork
         public float timer;
         
         public TimeData() { }
-        public TimeData InitData(Config.TimeDataConfig timeConfig)
+        public static TimeData InitData(Config.TimeDataConfig timeConfig)
         {
             TimeData data = new TimeData();
             data.realSecondsPerDay = timeConfig.RealSecondsPerDay;
@@ -148,7 +144,7 @@ namespace Sim_FrameWork
             return data;
         }
 
-        public TimeData LoadGameSave(TimeDataSave save)
+        public static TimeData LoadGameSave(TimeDataSave save)
         {
             TimeData data = new TimeData();
             data.date = new DateTime(save.currentYear, save.currentMonth, save.currentDay);
@@ -183,7 +179,118 @@ namespace Sim_FrameWork
         }
     }
 
+    #region GamePrepare
+    public class GamePrepareData
+    {
+        public int hardLevelValue;
 
- 
+        public void ChangeHardLevelValue(int value)
+        {
+            hardLevelValue += value;
+            if (hardLevelValue < 0)
+                hardLevelValue = 0;
+        }
+
+        public List<GamePreparePropertyData> preparePropertyDataList = new List<GamePreparePropertyData>();
+
+
+        public int  GamePrepare_BornPosition;  //出生地
+
+
+        public float GamePrepare_ResourceRichness = 0;  //资源丰富度
+        public void GetPrepare_ResourceRichness()
+        {
+
+        }
+
+        /// <summary>
+        /// 初始资金
+        /// </summary>
+        public int GamePrepare_Currency = 0;  
+        public void GetPrepare_Currency()
+        {
+            var propertyData = preparePropertyDataList.Find(x => x.configID == Config.ConfigData.PlayerConfig.gamePrepareConfig.GamePrepareConfig_PropertyLink_Currency);
+            if (propertyData == null)
+            {
+                GetPrepare_Currency_Default();
+                return;
+            }
+            var data = PlayerModule.GetGamePrepareConfigItem(propertyData.configID);
+            if (data == null)
+            {
+                GetPrepare_Currency_Default();
+                return;
+            }
+            var levelData = data.levelMap.Find(x => x.Level == propertyData.currentSelectLevel);
+            GamePrepare_Currency = (int)levelData.numParam;
+        }
+        protected void GetPrepare_Currency_Default()
+        {
+            DebugPlus.Log("[GamePrepare_Currency] : Config not Find! Use Default Value");
+            GamePrepare_Currency = Config.ConfigData.PlayerConfig.gamePrepareConfig.GamePrepareConfig_Currency_Default;
+        }
+
+        /// <summary>
+        /// 敌人强度
+        /// </summary>
+        public float GamePrepare_EnemyHardLevel = 1;   
+        public void GetPrepare_EnermyHardLevel()
+        {
+            var propertyData = preparePropertyDataList.Find(x => x.configID == Config.ConfigData.PlayerConfig.gamePrepareConfig.GamePrepareConfig_PropertyLink_EnemyHardLevel);
+            if (propertyData == null)
+            {
+                GetPrepare_EnermyHardLevel_Default();
+                return;
+            }
+            var data = PlayerModule.GetGamePrepareConfigItem(propertyData.configID);
+            if (data == null)
+            {
+                GetPrepare_EnermyHardLevel_Default();
+                return;
+            }
+            var levelData = data.levelMap.Find(x => x.Level == propertyData.currentSelectLevel);
+            GamePrepare_EnemyHardLevel = (float)levelData.numParam;
+        }
+        protected void GetPrepare_EnermyHardLevel_Default()
+        {
+            DebugPlus.Log("[EnermyHardLevel] : Config not Find! Use Default Value");
+            GamePrepare_EnemyHardLevel = (float)Config.ConfigData.PlayerConfig.gamePrepareConfig.GamePrepareConfig_EnemyHardLevel_Default;
+        }
+
+
+        public float GamePrepare_Research_Coefficient = 1;  //研究系数
+
+
+        public static GamePrepareData InitData()
+        {
+            GamePrepareData data = new GamePrepareData();
+            var config = Config.ConfigData.PlayerConfig.gamePrepareConfig;
+            if (config == null)
+                return null;
+            for(int i = 0; i < config.prepareProperty.Count; i++)
+            {
+                GamePreparePropertyData propertyData = new GamePreparePropertyData
+                {
+                    configID = config.prepareProperty[i].configID,
+                    configType = config.prepareProperty[i].configType,
+                    currentSelectLevel=config.prepareProperty[i].defaultSelectLevel
+                };
+                data.preparePropertyDataList.Add(propertyData);
+            }
+
+            return data;
+        }
+
+    }
+
+    public class GamePreparePropertyData
+    {
+        public string configID;
+        public byte configType;
+        public byte currentSelectLevel;
+    }
+
+    #endregion
+
 
 }

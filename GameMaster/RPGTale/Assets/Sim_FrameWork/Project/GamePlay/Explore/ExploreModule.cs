@@ -13,19 +13,10 @@ namespace Sim_FrameWork
 
     public class ExploreModule : BaseModule<ExploreModule>
     {
-        public static List<ExploreArea> ExploreAreaList;
         public static Dictionary<int, ExploreArea> ExploreAreaDic;
-
-        public static List<ExploreData> ExploreDataList;
         public static Dictionary<int, ExploreData> ExploreDataDic;
-
-        public static List<ExplorePoint> ExplorePointList;
         public static Dictionary<int, ExplorePoint> ExplorePointDic;
-
-        public static List<ExploreEvent> ExploreEventList;
         public static Dictionary<int, ExploreEvent> ExploreEventDic;
-
-        public static List<ExploreChoose> ExploreChooseList;
         public static Dictionary<int, ExploreChoose> ExploreChooseDic;
 
 
@@ -34,20 +25,17 @@ namespace Sim_FrameWork
 
         public override void InitData()
         {
-            ExploreAreaList = ExploreMetaDataReader.GetExploreAreaList();
-            ExploreAreaDic = ExploreMetaDataReader.GetExploreAreaDic();
-
-            ExploreDataList = ExploreMetaDataReader.GetExploreDataList();
-            ExploreDataDic = ExploreMetaDataReader.GetExploreDataDic();
-
-            ExplorePointList = ExploreMetaDataReader.GetExplorePointList();
-            ExplorePointDic = ExploreMetaDataReader.GetExplorePointDic();
-
-            ExploreEventList = ExploreMetaDataReader.GetExploreEventList();
-            ExploreEventDic = ExploreMetaDataReader.GetExploreEventDic();
-            
-            ExploreChooseList = ExploreMetaDataReader.GetExploreChooseList();
-            ExploreChooseDic = ExploreMetaDataReader.GetExploreChooseDic();
+            var config = ConfigManager.Instance.LoadData<ExploreMetaData>(ConfigPath.TABLE_EXPLORE_METADATA_PATH);
+            if (config == null)
+            {
+                Debug.LogError("ExploreMetaData Read Error");
+                return;
+            }
+            ExploreAreaDic = config.AllExploreAreaDic;
+            ExploreDataDic = config.AllExploreDataDic;
+            ExplorePointDic = config.AllExplorePointDic;
+            ExploreEventDic = config.AllExploreEventDic;
+            ExploreChooseDic = config.AllExploreChooseDic;
 
             GenerateExploreArea();
         }

@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<data name ="CampMetaData" from="CampMetaData.xlsx" to = "CampMetaData.xml">
+	<variable  name="AllCampDataList" type="list">
+		<list name = "CampData" sheetname="CampData" mainKey = "CampID">
+			<variable  name="CampID" col = "CampID" type="int"/>
+			<variable  name="CampName" col = "CampName" type="string"/>
+			<variable  name="CampDesc" col = "CampDesc" type="string"/>
+			<variable  name="CampIcon" col = "CampIcon" type="string"/>
+			<variable  name="CampBGSmall" col = "CampBGSmall" type="string"/>
+			<variable  name="DefaultHardLevel" col = "DefaultHardLevel" type="ushort"/>
+			<variable  name="AttributeID" col = "AttributeID" type="int"/>
+		</list>
+	</variable>
+	<variable  name="AllCampCreedDataList" type="list">
+		<list name = "CampCreedData" sheetname="CampCreedData" mainKey = "CreedID">
+			<variable  name="CreedID" col = "CreedID" type="int"/>
+			<variable  name="CreedName" col = "CreedName" type="string"/>
+			<variable  name="CreedDesc" col = "CreedDesc" type="string"/>
+			<variable  name="CreedIcon" col = "CreedIcon" type="string"/>
+		</list>
+	</variable>
+
+		<variable  name="AllCampAttributeDataList" type="list">
+		<list name = "CampAttributeData" sheetname="CampAttributeData" mainKey = "AttributeID">
+			<variable  name="AttributeID" col = "AttributeID" type="int"/>
+			<variable  name="Name" col = "Name" type="string"/>
+			<variable  name="Desc" col = "Desc" type="string"/>
+			<variable  name="Icon" col = "Icon" type="string"/>
+		</list>
+	</variable>
+</data>

@@ -39,7 +39,6 @@ namespace Sim_FrameWork
         public SceneState currentScene = SceneState.GameEntry;
         private bool ConsolePageShow = false;
 
-
         protected override void Awake()
         {
             base.Awake();
@@ -54,6 +53,7 @@ namespace Sim_FrameWork
         {
             InitBaseData();
             DataManager.Instance.InitManager();
+            DataManager.Instance.InitGameBaseData();
             GameDataSaveManager.Instance.InitData();
             UIGuide.Instance.ShowGameEntryPage();
             UIGuide.Instance.ShowGameDebugDialog();

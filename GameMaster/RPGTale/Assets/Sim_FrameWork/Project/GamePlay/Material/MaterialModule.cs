@@ -7,26 +7,30 @@ using UnityEngine.UI;
 namespace Sim_FrameWork {
     public class MaterialModule : BaseModule<MaterialModule> {
 
-        public static List<Material> MaterialList;
         public static Dictionary<int, Material> MaterialDic;
-
-        public static List<MaterialType> MaterialTypeList;
         public static Dictionary<string, MaterialType> MaterialTypeDic;
+        public static Dictionary<string, MaterialSubType> MaterialSubTypeDic;
 
         public static List<MaterialSubType> MaterialSubTypeList;
-        public static Dictionary<string, MaterialSubType> MaterialSubTypeDic;
+        public static List<MaterialType> MaterialTypeList;
 
         public static MaterialConfig maConfig;
 
 
         public override void InitData()
         {
-            MaterialList = MaterialMetaDataReader.GetMaterialListData();
-            MaterialDic = MaterialMetaDataReader.GetMaterialDic();
-            MaterialTypeList = MaterialMetaDataReader.GetMaterialTypeListData();
-            MaterialTypeDic = MaterialMetaDataReader.GetMaterialTypeDic();
-            MaterialSubTypeList = MaterialMetaDataReader.GetMaterialSubTypeListData();
-            MaterialSubTypeDic = MaterialMetaDataReader.GetMaterialSubTypeDic();
+            var config = ConfigManager.Instance.LoadData<MaterialMetaData>(ConfigPath.TABLE_MATERIAL_METADATA_PATH);
+            if (config == null)
+            {
+                Debug.LogError("MaterialMetaData Read Error");
+                return;
+            }
+
+            MaterialDic = config.AllMaterialDic;
+            MaterialTypeDic = config.AllMaterialTypeDic;
+            MaterialSubTypeDic = config.AllMaterialSubTypeDic;
+            MaterialSubTypeList = config.AllMaterialSubTypeList;
+            MaterialTypeList = config.AllMaterialTypeList;
 
             maConfig = new MaterialConfig();
             maConfig.LoadConfigData();
@@ -176,6 +180,7 @@ namespace Sim_FrameWork {
         {
             List<MaterialSubType> result = new List<MaterialSubType>();
             var list= Utility.TryParseStringList(type.SubTypeList, ',');
+
             for(int i = 0; i < list.Count; i++)
             {
                 var subType = MaterialSubTypeList.Find(x => x.SubType == list[i]);

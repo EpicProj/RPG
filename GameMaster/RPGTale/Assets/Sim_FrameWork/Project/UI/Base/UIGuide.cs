@@ -31,6 +31,12 @@ namespace Sim_FrameWork
             UIManager.Instance.PopUpWnd(UIPath.WindowPath.Game_Entry_Page);
         }
 
+        public void ShowNewGamePreparePage()
+        {
+            UIManager.Instance.Register<NewGamePreparePageContext>(UIPath.WindowPath.NewGame_Prepare_Page);
+            UIManager.Instance.PopUpWnd(UIPath.WindowPath.NewGame_Prepare_Page, WindowType.Page);
+        }
+
         public void ShowGameDebugDialog()
         {
             UIManager.Instance.Register<DebugDialogContext>(UIPath.WindowPath.DebugDialog);

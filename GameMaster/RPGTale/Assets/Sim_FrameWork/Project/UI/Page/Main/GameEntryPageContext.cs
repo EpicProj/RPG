@@ -45,22 +45,18 @@ namespace Sim_FrameWork.UI
         }
         void OnGameStartBtnClick()
         {
-            ScenesManager.Instance.LoadSceneStartCallBack = () =>
-            {
-                DataManager.Instance.InitGameData();
-            };
-            ScenesManager.Instance.LoadingScene(UIPath.ScenePath.Scene_Test);
+            UIManager.Instance.HideWnd(this);
+            UIGuide.Instance.ShowNewGamePreparePage();
         }
 
 
         void OnLoadGameBtnClick()
         {
+            UIManager.Instance.HideWnd(this);
             UIGuide.Instance.ShowGameLoadDialog();
-            Transform.FindTransfrom("Menu").SafeSetActive(false);
         }
         bool PlayMenuAnim()
         {
-            Transform.FindTransfrom("Menu").SafeSetActive(true);
             var anim = Transform.FindTransfrom("Menu").SafeGetComponent<Animation>();
             anim.SafePlayAnim();
             return true;

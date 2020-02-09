@@ -3,7 +3,7 @@
 namespace Sim_FrameWork {
     public class DataManager : Singleton<DataManager> {
 
-
+        public GamePrepareData gamePrepareData;
         public void InitManager() { }
 
         public DataManager()
@@ -27,7 +27,13 @@ namespace Sim_FrameWork {
             ExploreModule.Instance.Register();
             AssembleModule.Instance.Register();
             MainShipModule.Instance.Register();
+            CampModule.Instance.Register();
         
+        }
+
+        public void InitGameBaseData()
+        {
+            gamePrepareData = GamePrepareData.InitData();
         }
 
         public void RegisterUI()
@@ -44,7 +50,7 @@ namespace Sim_FrameWork {
         {
             GlobalEventManager.Instance.InitData();
             ModifierManager.Instance.InitData();
-            PlayerManager.Instance.InitPlayerData(Config.GameHardLevel.easy);
+            PlayerManager.Instance.InitPlayerData();
             MainShipManager.Instance.InitData();
         }
     }

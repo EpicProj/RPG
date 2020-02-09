@@ -8,22 +8,24 @@ namespace Sim_FrameWork
     public class OrderModule : BaseModule<OrderModule>
     {
 
-        protected static List<OrderData> OrderDataList;
         protected static Dictionary<int, OrderData> OrderDataDic;
-        protected static List<OrderTypeData> OrderTypeDataList;
         protected static Dictionary<string, OrderTypeData> OrderTypeDataDic;
 
-        public OrderConfig config;
+        public OrderConfig orderConfig;
 
         public override void InitData()
         {
-            OrderDataList = OrderMetaDataReader.GetOrderData();
-            OrderDataDic = OrderMetaDataReader.GetOrderDataDic();
-            OrderTypeDataList = OrderMetaDataReader.GetOrderTypeData();
-            OrderTypeDataDic = OrderMetaDataReader.GetOrderTypeDataDic();
+            var config = ConfigManager.Instance.LoadData<OrderMetaData>(ConfigPath.TABLE_ORDER_METADATA_PATH);
+            if (config == null)
+            {
+                DebugPlus.LogError("MaterialMetaData Read Error");
+                return;
+            }
+            OrderDataDic = config.AllOrderDataDic;
+            OrderTypeDataDic = config.AllOrderTypeDataDic;
 
-            config = new OrderConfig();
-            config.ReadOrderConfigData();
+            orderConfig = new OrderConfig();
+            orderConfig.ReadOrderConfigData();
 
         }
 
@@ -125,7 +127,7 @@ namespace Sim_FrameWork
 
         public OrderContent.OrderReward GetOrderRewardData(OrderData data)
         {
-            return config.FindOrderContent(data.OrderJsonConfig).Reward;
+            return orderConfig.FindOrderContent(data.OrderJsonConfig).Reward;
         }
         public Dictionary<Material,ushort> GetOrderRewardMaterial(OrderContent.OrderReward reward)
         {
@@ -190,7 +192,7 @@ namespace Sim_FrameWork
         public OrderAppearData GetOrderAppearData(int orderID)
         {
             var order = GetOrderDataByID(orderID);
-            var appearConfig = config.FindOrderContent(order.OrderJsonConfig).appearConfig;
+            var appearConfig = orderConfig.FindOrderContent(order.OrderJsonConfig).appearConfig;
             if (appearConfig != null)
             {
                 OrderAppearData data = new OrderAppearData(appearConfig);
@@ -206,7 +208,7 @@ namespace Sim_FrameWork
         public OrderDisAppearData GetOrderDisAppearData(int orderID)
         {
             var order = GetOrderDataByID(orderID);
-            var disAppearConfig = config.FindOrderContent(order.OrderJsonConfig).disAppearConfig;
+            var disAppearConfig = orderConfig.FindOrderContent(order.OrderJsonConfig).disAppearConfig;
             if (disAppearConfig != null)
             {
                 OrderDisAppearData data = new OrderDisAppearData(disAppearConfig);

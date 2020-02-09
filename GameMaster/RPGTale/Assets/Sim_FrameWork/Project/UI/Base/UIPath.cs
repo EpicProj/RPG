@@ -64,6 +64,7 @@ namespace Sim_FrameWork
             /// 主界面
             /// </summary>
             public const string MainMenu_Page = "Page/MainMenuPage";
+            public const string NewGame_Prepare_Page = "Page/Main/NewGamePreparePage";
             /// <summary>
             /// 订单接收界面
             /// </summary>
@@ -162,6 +163,8 @@ namespace Sim_FrameWork
             #region ElementPath
 
             public const string General_ChooseTab = "Assets/Prefabs/Object/Main/General/GeneralChooseTab.prefab";
+            public const string General_SliderSelectItem = "Assets/Prefabs/Object/Main/General/SliderSelectItem.prefab";
+
 
             ///建造主页签
             public const string Construct_MainTab_Element_Path = "Assets/Prefabs/Object/Main/ConstructMainTabElement.prefab";

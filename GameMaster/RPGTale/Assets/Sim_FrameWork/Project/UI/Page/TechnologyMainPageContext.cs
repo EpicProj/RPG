@@ -74,7 +74,7 @@ namespace Sim_FrameWork.UI
                   }
               };
 
-            var groupList = TechnologyModule.Instance.config.InitGroupIndexList;
+            var groupList = TechnologyModule.Instance.groupConfig.InitGroupIndexList;
             for(int i = 0; i < groupList.Count; i++)
             {
                 var config = TechnologyModule.Instance.GetTechGroupConfig(groupList[i]);

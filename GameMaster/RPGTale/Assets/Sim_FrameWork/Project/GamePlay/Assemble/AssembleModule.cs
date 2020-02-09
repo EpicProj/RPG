@@ -8,14 +8,10 @@ namespace Sim_FrameWork
 
     public class AssembleModule : BaseModule<AssembleModule>
     {
-        private static List<AssembleWarship> AssembleWarshipList;
         private static Dictionary<int, AssembleWarship> AssembleWarshipDic;
-        private static List<AssembleWarshipClass> AssembleWarshipClassList;
         private static Dictionary<int, AssembleWarshipClass> AssembleWarshipClassDic;
 
-        private static List<AssembleParts> AssemblePartsList;
         private static Dictionary<int, AssembleParts> AssemblePartsDic;
-        private static List<AssemblePartsType> AssemblePartsTypeList;
         private static Dictionary<int, AssemblePartsType> AssemblePartsTypeDic;
 
         private const string Assemble_ShipSize_01_Text = "Assemble_ShipSize_01_Text";
@@ -24,15 +20,16 @@ namespace Sim_FrameWork
 
         public override void InitData()
         {
-            AssembleWarshipList = AssembleMetaDataReader.GetAssembleWarshipList();
-            AssembleWarshipDic = AssembleMetaDataReader.GetAssembleWarshipDic();
-            AssembleWarshipClassList = AssembleMetaDataReader.GetAssembleWarshipClassList();
-            AssembleWarshipClassDic = AssembleMetaDataReader.GetAssembleWarshipClassDic();
-
-            AssemblePartsList = AssembleMetaDataReader.GetAssemblePartsList();
-            AssemblePartsDic = AssembleMetaDataReader.GetAssemblePartsDic();
-            AssemblePartsTypeList = AssembleMetaDataReader.GetAssemblePartsTypeList();
-            AssemblePartsTypeDic = AssembleMetaDataReader.GetAssemblePartsTypeDic();
+            var config = ConfigManager.Instance.LoadData<AssembleMetaData>(ConfigPath.TABLE_ASSEMBLE_METADATA_PATH);
+            if (config == null)
+            {
+                Debug.LogError("BuildingPanelMetaData Read Error");
+                return;
+            }
+            AssembleWarshipDic = config.AllAssembleWarshipDic;
+            AssembleWarshipClassDic = config.AllAssembleWarshipClassDic;
+            AssemblePartsDic = config.AllAssemblePartsDic;
+            AssemblePartsTypeDic = config.AllAssemblePartsTypeDic;
         }
 
 
@@ -200,11 +197,11 @@ namespace Sim_FrameWork
         public static List<int> GetAllUnlockPartTypeID()
         {
             List<int> result = new List<int>();
-            for(int i = 0; i < AssemblePartsList.Count; i++)
+            foreach(var item in AssemblePartsDic.Values)
             {
-                if (AssemblePartsList[i].Unlock == true)
+                if (item.Unlock == true)
                 {
-                    result.Add(AssemblePartsList[i].PartID);
+                    result.Add(item.PartID);
                 }
             }
             return result;
@@ -340,11 +337,11 @@ namespace Sim_FrameWork
         public static List<int> GetAllUnlockShipPresetID()
         {
             List<int> result = new List<int>();
-            for (int i = 0; i < AssembleWarshipList.Count; i++)
+            foreach(var item in AssembleWarshipDic.Values)
             {
-                if (AssembleWarshipList[i].Unlock == true)
+                if (item.Unlock == true)
                 {
-                    result.Add(AssembleWarshipList[i].WarShipID);
+                    result.Add(item.WarShipID);
                 }
             }
             return result;

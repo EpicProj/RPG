@@ -66,7 +66,7 @@ namespace Sim_FrameWork.UI
             AddButtonClickListener(Transform.FindTransfrom("Back").SafeGetComponent<Button>(), () =>
             {
                 UIManager.Instance.HideWnd(UIPath.WindowPath.MainMenu_GameLoad_Dialog);
-                UIManager.Instance.SendMessageToWnd(UIPath.WindowPath.Game_Entry_Page, new UIMessage(UIMsgType.PlayMenuAnim));
+                UIGuide.Instance.ShowGameEntryPage();
             });
             AddButtonClickListener(Transform.FindTransfrom("Detail/Button/Load").SafeGetComponent<Button>(), OnGameLoadBtnClick);
             AddButtonClickListener(Transform.FindTransfrom("Detail/Button/Delete").SafeGetComponent<Button>(), OnSaveDeleteBtnClick);

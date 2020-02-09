@@ -19,18 +19,21 @@ namespace Sim_FrameWork
             RawMaterial
         }
 
-        public static List<FormulaData> FormulaDataList;
         public static Dictionary<int, FormulaData> FormulaDataDic;
-        public static List<FormulaInfo> FormulaInfoList;
         public static Dictionary<int, FormulaInfo> FormulaInfoDic;
 
 
         public override void InitData()
         {
-            FormulaDataList = FunctionBlockFormulaMetaDataReader.GetFormulaDataList();
-            FormulaDataDic = FunctionBlockFormulaMetaDataReader.GetFormulaDataDic();
-            FormulaInfoDic = FunctionBlockFormulaMetaDataReader.GetFormulaInfoDic();
-            FormulaInfoList = FunctionBlockFormulaMetaDataReader.GetFormulaInfoList();
+            var config = ConfigManager.Instance.LoadData<FunctionBlockFormulaMetaData>(ConfigPath.TABLE_FORMULA_METADATA_PATH);
+            if (config == null)
+            {
+                Debug.LogError("FunctionBlockFormulaMetaData Read Error");
+                return;
+            }
+
+            FormulaDataDic = config.AllFormulaDataDic;
+            FormulaInfoDic = config.AllFormulaInfoDic;
         }
 
         public override void Register()

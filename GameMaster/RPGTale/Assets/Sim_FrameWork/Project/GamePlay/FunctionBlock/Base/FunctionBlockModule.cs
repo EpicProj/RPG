@@ -16,12 +16,7 @@ namespace Sim_FrameWork {
             Output,
             Byproduct
         }
-
-
-        protected static List<FunctionBlock> FunctionBlockList;
         protected static Dictionary<int, FunctionBlock> FunctionBlockDic;
-
-        protected static List<FunctionBlockTypeData> FunctionBlockTypeDataList;
         protected static Dictionary<string, FunctionBlockTypeData> FunctionBlockTypeDataDic;
 
 
@@ -29,12 +24,14 @@ namespace Sim_FrameWork {
 
         public override void InitData()
         {
-            FunctionBlockList = FunctionBlockMetaDataReader.GetFunctionBlockData();
-            FunctionBlockDic = FunctionBlockMetaDataReader.GetFunctionBlockDataDic();
-
-            FunctionBlockTypeDataList = FunctionBlockMetaDataReader.GetFunctionBlockTypeData();
-            FunctionBlockTypeDataDic = FunctionBlockMetaDataReader.GetFunctionBlockTypeDataDic();
-
+            var config = ConfigManager.Instance.LoadData<FunctionBlockMetaData>(ConfigPath.TABLE_FUNCTIONBLOCK_METADATA_PATH);
+            if (config == null)
+            {
+                Debug.LogError("FunctionBlockMetaData Read Error");
+                return;
+            }
+            FunctionBlockDic = config.AllFunctionBlockDic;
+            FunctionBlockTypeDataDic = config.AllFunctionBlockTypeDataDic;
         }
 
         public override void Register()
@@ -109,12 +106,10 @@ namespace Sim_FrameWork {
         public static List<FunctionBlockTypeData> GetInitMainType()
         {
             List<FunctionBlockTypeData> result = new List<FunctionBlockTypeData>();
-            for(int i = 0; i < FunctionBlockTypeDataList.Count; i++)
+            foreach(var item in FunctionBlockTypeDataDic.Values)
             {
-                if (FunctionBlockTypeDataList[i].DefaultShow == true)
-                {
-                    result.Add(FunctionBlockTypeDataList[i]);
-                }
+                if (item.DefaultShow)
+                    result.Add(item);
             }
             return result;
         }

@@ -8,29 +8,16 @@ namespace Sim_FrameWork
     public class PlayerData 
     {
 
-        public Config.GameHardLevel currentHardLevel { get; protected set; }
-        public bool SetHardLevel(Config.GameHardLevel hardLevel)
-        {
-            if (PlayerModule.GetHardlevelData(hardLevel) == null)
-            {
-                DebugPlus.LogError("[PlayerData] : Change HardLevel Fail, Config is null!  hardLevel=" + hardLevel);
-                return false;
-            }
-            currentHardLevel = hardLevel;
-            return true;
-        }
-
-        public List<BuildingPanelData> AllBuildingPanelDataList = new List<BuildingPanelData>();
         public List<BuildingPanelData> UnLockBuildingPanelDataList = new List<BuildingPanelData>();
+
         public PlayerResourceData resourceData;
         public PlayerAssemblePartData assemblePartData;
-
         public MaterialStorageData materialStorageData;
 
         public TimeData timeData;
 
         public PlayerData() { }
-        public bool InitData(Config.GameHardLevel hardLevel)
+        public bool InitData()
         {
             var config = Config.ConfigData.PlayerConfig;
             if (config == null || config.timeConfig == null)
@@ -39,20 +26,14 @@ namespace Sim_FrameWork
                 return false;
             }
 
-            timeData = new TimeData();
-            timeData.InitData(config.timeConfig);
+            timeData = TimeData.InitData(config.timeConfig);
 
             resourceData = new PlayerResourceData();
-            if (!SetHardLevel(hardLevel))
-                return false;
-
-            resourceData.InitData(hardLevel);
-            assemblePartData = new PlayerAssemblePartData();
-            assemblePartData.InitData();
+            
+            assemblePartData = PlayerAssemblePartData.InitData();
 
             materialStorageData = new MaterialStorageData();
             //Init BuildPanel
-            AllBuildingPanelDataList =PlayerModule.buildPanelDataList;
             UnLockBuildingPanelDataList = PlayerModule.GetUnLockBuildData();
             return true;
         }
@@ -63,16 +44,12 @@ namespace Sim_FrameWork
         /// <param name="saveData"></param>
         public void LoadPlayerSaveData(PlayerSaveData saveData,AssemblePartGeneralSaveData partSaveData)
         {
-            resourceData = new PlayerResourceData();
-            resourceData.LoadSave(saveData.playerSaveData_Resource);
+            resourceData = PlayerResourceData.LoadSave(saveData.playerSaveData_Resource);
 
-            timeData = new TimeData();
-            timeData.LoadGameSave(saveData.timeSave);
+            timeData = TimeData.LoadGameSave(saveData.timeSave);
 
-            materialStorageData = new MaterialStorageData();
-            materialStorageData.LoadSaveData(saveData.materialSaveData);
-            assemblePartData = new PlayerAssemblePartData();
-            assemblePartData.LoadSaveData(partSaveData);    
+            materialStorageData = MaterialStorageData.LoadSaveData(saveData.materialSaveData);
+            assemblePartData = PlayerAssemblePartData.LoadSaveData(partSaveData);
         }
     }
 
@@ -241,24 +218,9 @@ namespace Sim_FrameWork
 
         #endregion
         public PlayerResourceData() { }
-        public bool InitData(Config.GameHardLevel hardLevel)
+        public bool InitData()
         {
-            var data = PlayerModule.GetHardlevelData(hardLevel);
-            if (data != null)
-            {
-                AddCurrencyMax(ModifierDetailRootType_Simple.OriginConfig, data.OriginalCurrencyMax);
-                AddCurrency(data.OriginalCurrency);
-
-                AddResearch(data.OriginalResearch);
-                AddResearchMax(ModifierDetailRootType_Simple.OriginConfig, data.OriginalResearchMax);
-
-                AddBuilder(data.OriginalBuilder);
-                AddBuilderMax(ModifierDetailRootType_Simple.OriginConfig, data.OriginalBuilderMax);
-
-                AddRoCore(data.OriginalRoCore);
-                AddRoCoreMax(ModifierDetailRootType_Simple.OriginConfig, data.OriginalRoCoreMax);
-                return true;
-            }
+            
             return false;
         }
 
@@ -266,39 +228,40 @@ namespace Sim_FrameWork
         /// Game Save
         /// </summary>
         /// <param name="saveData"></param>
-        public bool LoadSave(PlayerSaveData_Resource saveData)
+        public static PlayerResourceData LoadSave(PlayerSaveData_Resource saveData)
         {
+            PlayerResourceData data = new PlayerResourceData();
             if (saveData != null)
             {
-                _currency = saveData.currentCurrency;
-                _currencyMax = saveData.currentCurrencyMax;
-                _currencyPerDay = saveData.currencyPerDay;
-                currencyPerDayDetailPac = saveData.currencyPerDayDetailPac;
-                currencyMaxDetailPac = saveData.currencyMaxDetailPac;
+                data._currency = saveData.currentCurrency;
+                data._currencyMax = saveData.currentCurrencyMax;
+                data._currencyPerDay = saveData.currencyPerDay;
+                data.currencyPerDayDetailPac = saveData.currencyPerDayDetailPac;
+                data.currencyMaxDetailPac = saveData.currencyMaxDetailPac;
 
-                _research = saveData.currentResearch;
-                _researchMax = saveData.currentResearchMax;
-                _researchPerDay = saveData.researchPerDay;
-                researchMaxDetailPac = saveData.researchMaxDetailPac;
-                researchPerDayDetailPac = saveData.researchPerDayDetailPac;
+                data._research = saveData.currentResearch;
+                data._researchMax = saveData.currentResearchMax;
+                data._researchPerDay = saveData.researchPerDay;
+                data.researchMaxDetailPac = saveData.researchMaxDetailPac;
+                data.researchPerDayDetailPac = saveData.researchPerDayDetailPac;
 
-                _energy = saveData.currentEnergy;
-                _energyMax = saveData.currentEnergyMax;
-                _energyPerDay = saveData.energyPerDay;
-                energyMaxDetailPac = saveData.energyMaxDetailPac;
-                energyPerDayDetailPac = saveData.energyPerDayDetailPac;
+                data._energy = saveData.currentEnergy;
+                data._energyMax = saveData.currentEnergyMax;
+                data._energyPerDay = saveData.energyPerDay;
+                data.energyMaxDetailPac = saveData.energyMaxDetailPac;
+                data.energyPerDayDetailPac = saveData.energyPerDayDetailPac;
 
-                _roCore = saveData.currentRoCore;
-                _roCoreMax = saveData.currentRoCoreMax;
-                roCoreMaxDetailPac = saveData.roCoreMaxDetailPac;
+                data._roCore = saveData.currentRoCore;
+                data._roCoreMax = saveData.currentRoCoreMax;
+                data.roCoreMaxDetailPac = saveData.roCoreMaxDetailPac;
 
-                _builder = saveData.currentBuilder;
-                _builderMax = saveData.currentBuilderMax;
-                builderMaxDetailPac = saveData.builderMaxDetailPac;
-                return true;
+                data._builder = saveData.currentBuilder;
+                data._builderMax = saveData.currentBuilderMax;
+                data.builderMaxDetailPac = saveData.builderMaxDetailPac;
+                return data;
             }
             DebugPlus.LogError("[PlayerSaveData_Resource] : Save is null!");
-            return false;
+            return null;
         }
     }
 
@@ -642,26 +605,28 @@ namespace Sim_FrameWork
         #endregion
 
         public PlayerAssemblePartData() { }
-        public bool InitData()
+        public static PlayerAssemblePartData InitData()
         {
+            PlayerAssemblePartData data = new PlayerAssemblePartData();
             var configData = Config.ConfigData.AssembleConfig.assemblePartMainType;
             for (int i = 0; i < configData.Count; i++)
             {
-                if (!AssemblePartMainTypeDic.ContainsKey(configData[i].Type))
+                if (!data.AssemblePartMainTypeDic.ContainsKey(configData[i].Type))
                 {
-                    AssemblePartMainTypeDic.Add(configData[i].Type, configData[i]);
+                    data.AssemblePartMainTypeDic.Add(configData[i].Type, configData[i]);
                 }
             }
-            _currentUnlockPartList = AssembleModule.GetAllUnlockPartTypeID();
-            return true;
+            data._currentUnlockPartList = AssembleModule.GetAllUnlockPartTypeID();
+            return data;
         }
 
-        public bool LoadSaveData(AssemblePartGeneralSaveData saveData)
+        public static PlayerAssemblePartData LoadSaveData(AssemblePartGeneralSaveData saveData)
         {
+            PlayerAssemblePartData data = new PlayerAssemblePartData();
             if (saveData == null)
             {
                 DebugPlus.LogError("[AssemblePartGeneralSaveData] saveData is null");
-                return false;
+                return null;
             }
             //Load Design
             for (int i = 0; i < saveData.currentSaveDesignPart.Count; i++)
@@ -669,23 +634,23 @@ namespace Sim_FrameWork
                 AssemblePartInfo info = new AssemblePartInfo();
                 info.LoadSaveData(saveData.currentSaveDesignPart[i]);
 
-                AddAssemblePartDesign(info);
+                data.AddAssemblePartDesign(info);
             }
             //Load Storage
             for(int i = 0; i < saveData.currentSaveStoragePart.Count; i++)
             {
                 AssemblePartInfo info = new AssemblePartInfo();
                 info.LoadSaveData(saveData.currentSaveStoragePart[i]);
-                AddAssemblePartStorage(info);
+                data.AddAssemblePartStorage(info);
             }
             //Load Equiped
             for(int i = 0; i < saveData.currentSaveEquipedPart.Count; i++)
             {
                 AssemblePartInfo info = new AssemblePartInfo();
                 info.LoadSaveData(saveData.currentSaveEquipedPart[i]);
-                AddAssemblePartStorage(info);
+                data.AddAssemblePartStorage(info);
             }
-            return true;
+            return data;
         }
     }
 

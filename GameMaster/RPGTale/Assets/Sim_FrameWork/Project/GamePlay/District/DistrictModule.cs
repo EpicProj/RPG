@@ -6,19 +6,21 @@ namespace Sim_FrameWork {
     public class DistrictModule : BaseModule<DistrictModule>{
 
         #region Row Data
-        public static List<DistrictData> DistrictDataList;
         public static Dictionary<int, DistrictData> DistrictDataDic;
-        public static List<DistrictType> DistrictTypeList;
         public static Dictionary<int, DistrictType> DistrictTypeDic;
 
 
 
         public override void InitData()
         {
-            DistrictDataList = DistrictMetaDataReader.GetDistrictData();
-            DistrictDataDic = DistrictMetaDataReader.GetDistrictDic();
-            DistrictTypeList = DistrictMetaDataReader.GetDistrictType();
-            DistrictTypeDic = DistrictMetaDataReader.GetDistrictTypeDic();
+            var config = ConfigManager.Instance.LoadData<DistrictMetaData>(ConfigPath.TABLE_DISTRICT_METADATA_PATH);
+            if (config == null)
+            {
+                Debug.LogError("DistrictMetaData Read Error");
+                return;
+            }
+            DistrictDataDic = config.AllDistrictDataDic;
+            DistrictTypeDic = config.AllDistrictTypeDic;
         }
 
         public override void Register()

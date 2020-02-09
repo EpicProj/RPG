@@ -13,6 +13,12 @@ namespace Sim_FrameWork
             localPos.x = x;
             trans.localPosition = localPos;
         }
+        public static void SetAnchoredPosX(this Transform trans,float x)
+        {
+            var localPos = trans.SafeGetComponent<RectTransform>().anchoredPosition;
+            localPos.x = x;
+            trans.SafeGetComponent<RectTransform>().anchoredPosition = localPos;
+        }
 
         public static void SetLocalPosY(this Transform trans,float y)
         {

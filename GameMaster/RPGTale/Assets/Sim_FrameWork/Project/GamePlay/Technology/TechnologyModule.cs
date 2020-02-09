@@ -6,17 +6,22 @@ namespace Sim_FrameWork
 {
     public class TechnologyModule : BaseModule<TechnologyModule>
     {
-        public static List<Technology> TechnologyList;
         public static Dictionary<int, Technology> TechnologyDic;
 
-        public TechGroupConfig config = new TechGroupConfig();
+        public TechGroupConfig groupConfig = new TechGroupConfig();
         public TechnologyConfigCommon configCommon = new TechnologyConfigCommon();
 
         public override void InitData()
         {
-            TechnologyList = TechnologyMetaDataReader.GetTechnologyList();
-            TechnologyDic = TechnologyMetaDataReader.GetTechnologyDic();
-            config.LoadData();
+            var config = ConfigManager.Instance.LoadData<TechnologyMetaData>(ConfigPath.TABLE_TECHNOLOGY_METADATA_PATH);
+            if (config == null)
+            {
+                Debug.LogError("TechnologyMetaData Read Error");
+                return;
+            }
+            TechnologyDic = config.AllTechnologyDic;
+
+            groupConfig.LoadData();
             configCommon.LoadData();
         }
         public override void Register()
@@ -30,9 +35,9 @@ namespace Sim_FrameWork
 
         public TechGroupConfig.GroupConfig GetTechGroupConfig(int index)
         {
-            if (config.configList.Count != 0)
+            if (groupConfig.configList.Count != 0)
             {
-                var result = config.configList.Find(x => x.groupIndex == index);
+                var result = groupConfig.configList.Find(x => x.groupIndex == index);
                 if (result != null)
                     return result;
             }
@@ -103,9 +108,9 @@ namespace Sim_FrameWork
         public List<int> GetAllTech()
         {
             List<int> result = new List<int>();
-            for(int i = 0; i < config.InitGroupIndexList.Count; i++)
+            for(int i = 0; i < groupConfig.InitGroupIndexList.Count; i++)
             {
-                var group = GetTechGroupConfig(config.InitGroupIndexList[i]);
+                var group = GetTechGroupConfig(groupConfig.InitGroupIndexList[i]);
                 for(int j = 0; j < group.techElementList.Count; j++)
                 {
                     if (!result.Contains(group.techElementList[j].TechID))
@@ -124,9 +129,9 @@ namespace Sim_FrameWork
         /// <returns></returns>
         public int GetTechGroupIndex(int techID)
         {
-            for(int i = 0; i < config.InitGroupIndexList.Count; i++)
+            for(int i = 0; i < groupConfig.InitGroupIndexList.Count; i++)
             {
-                var group = GetTechGroupConfig(config.InitGroupIndexList[i]);
+                var group = GetTechGroupConfig(groupConfig.InitGroupIndexList[i]);
                 for(int j = 0; j < group.techElementList.Count; j++)
                 {
                     if (group.techElementList[j].TechID == techID)
@@ -138,7 +143,7 @@ namespace Sim_FrameWork
 
         public TechnologyGroup.GroupType GetTechGroupType(int index)
         {
-            var groupData = config.configList.Find(x => x.groupIndex == index);
+            var groupData = groupConfig.configList.Find(x => x.groupIndex == index);
             if (groupData != null)
             {
                 switch (groupData.groupType)

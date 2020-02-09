@@ -1013,6 +1013,7 @@ GameObject:
   - component: {fileID: 610498706356498298}
   - component: {fileID: 610498706356498296}
   - component: {fileID: 610498706356498297}
+  - component: {fileID: 6851856098374267659}
   m_Layer: 5
   m_Name: Title
   m_TagString: Untagged
@@ -1081,6 +1082,19 @@ MonoBehaviour:
     m_VerticalOverflow: 0
     m_LineSpacing: 1
   m_Text: "\u96BE\u5EA6\u8BBE\u7F6E\r"
+--- !u!114 &6851856098374267659
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 610498706356498299}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 13a2f455c30ad324696562dc37c6c658, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Textid: GamePrepare_Page_HardLevelSet_Title
 --- !u!1 &610498706372872682
 GameObject:
   m_ObjectHideFlags: 0
@@ -1092,6 +1106,7 @@ GameObject:
   - component: {fileID: 610498706372872681}
   - component: {fileID: 610498706372872695}
   - component: {fileID: 610498706372872680}
+  - component: {fileID: 5063812007745823692}
   m_Layer: 5
   m_Name: Title
   m_TagString: Untagged
@@ -1160,6 +1175,19 @@ MonoBehaviour:
     m_VerticalOverflow: 0
     m_LineSpacing: 1
   m_Text: "\u9635\u8425\r"
+--- !u!114 &5063812007745823692
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 610498706372872682}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 13a2f455c30ad324696562dc37c6c658, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Textid: GamePrepare_Page_CampChoose_Title
 --- !u!1 &610498706655993270
 GameObject:
   m_ObjectHideFlags: 0
@@ -2133,8 +2161,8 @@ CanvasGroup:
   m_GameObject: {fileID: 3870011997635078278}
   m_Enabled: 1
   m_Alpha: 1
-  m_Interactable: 0
-  m_BlocksRaycasts: 0
+  m_Interactable: 1
+  m_BlocksRaycasts: 1
   m_IgnoreParentGroups: 0
 --- !u!1 &3870109376859224726
 GameObject:
@@ -2383,7 +2411,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 13a2f455c30ad324696562dc37c6c658, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Textid: AssemblePartDesignPage_Title
+  Textid: GamePrepare_Page_Title
 --- !u!1 &3870552116656785180
 GameObject:
   m_ObjectHideFlags: 0

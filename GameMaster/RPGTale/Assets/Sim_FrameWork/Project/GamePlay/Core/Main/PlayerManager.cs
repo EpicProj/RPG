@@ -18,10 +18,10 @@ namespace Sim_FrameWork
     {
         public PlayerData playerData;
 
-        public void InitPlayerData(Config.GameHardLevel hardLevel)
+        public void InitPlayerData()
         {
             playerData = new PlayerData();
-            if (playerData.InitData(hardLevel) == false)
+            if (playerData.InitData() == false)
             {
                 DebugPlus.LogError("[PlayerManager] : PlayerData Init Fail!");
             }
@@ -38,11 +38,6 @@ namespace Sim_FrameWork
         {
             playerData = new PlayerData();
             playerData.LoadPlayerSaveData(saveData.playerSaveData, saveData.assembleSaveData.partSaveData);
-        }
-
-        public void SetGameHardLevel(Config.GameHardLevel hardLevel)
-        {
-            playerData.SetHardLevel(hardLevel);
         }
 
 
