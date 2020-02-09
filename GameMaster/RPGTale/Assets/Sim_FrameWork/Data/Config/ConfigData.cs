@@ -12,8 +12,7 @@ namespace Sim_FrameWork.Config
             get
             {
                 if (_globalSetting == null)
-                    _globalSetting = new GlobalSetting();
-                    _globalSetting.LoadGlobalSettting();
+                    _globalSetting = GlobalSetting.LoadGlobalSettting();
                 return _globalSetting;
             }
         }
@@ -25,8 +24,7 @@ namespace Sim_FrameWork.Config
             {
                 if (_playerConfig == null)
                 {
-                    _playerConfig = new PlayerConfig();
-                    _playerConfig.LoadPlayerConfigData();
+                    _playerConfig = PlayerConfig.LoadPlayerConfigData();
                 }
                 return _playerConfig;
             }
@@ -38,8 +36,7 @@ namespace Sim_FrameWork.Config
             get
             {
                 if (_rewardData == null)
-                    _rewardData = new RewardData();
-                    _rewardData.LoadRewardData();
+                    _rewardData = RewardData.LoadRewardData();
                 return _rewardData;
             }
         }
@@ -51,8 +48,7 @@ namespace Sim_FrameWork.Config
             {
                 if (_exploreConfigData == null)
                 {
-                    _exploreConfigData = new ExploreGeneralConfig();
-                    _exploreConfigData.LoadExploreConfigData();
+                    _exploreConfigData = ExploreGeneralConfig.LoadExploreConfigData();
                 }
                 return _exploreConfigData;
             }
@@ -65,8 +61,7 @@ namespace Sim_FrameWork.Config
             {
                 if (_eventConfigData == null)
                 {
-                    _eventConfigData = new EventConfig();
-                    _eventConfigData.LoadEventConfigData();
+                    _eventConfigData = EventConfig.LoadEventConfigData();
                 }
                 return _eventConfigData;
             }
@@ -79,8 +74,7 @@ namespace Sim_FrameWork.Config
             {
                 if (_assembleConfig == null)
                 {
-                    _assembleConfig = new AssembleConfig();
-                    _assembleConfig.LoadAssembleConfigData();
+                    _assembleConfig = AssembleConfig.LoadAssembleConfigData();
                 }
                 return _assembleConfig;
             }
@@ -93,8 +87,7 @@ namespace Sim_FrameWork.Config
             {
                 if (_assemblePartsConfigData == null)
                 {
-                    _assemblePartsConfigData = new AssemblePartsConfigData();
-                    _assemblePartsConfigData.LoadPartsCustomConfig();
+                    _assemblePartsConfigData = AssemblePartsConfigData.LoadPartsCustomConfig();
                 }
                 return _assemblePartsConfigData;
             }
@@ -107,8 +100,7 @@ namespace Sim_FrameWork.Config
             {
                 if (_assembleShipPartConfigData == null)
                 {
-                    _assembleShipPartConfigData = new AssembleShipPartConfigData();
-                    _assembleShipPartConfigData.LoadAssembleShipPartConfigData();
+                    _assembleShipPartConfigData = AssembleShipPartConfigData.LoadAssembleShipPartConfigData();
                 }
                 return _assembleShipPartConfigData;
             }
@@ -121,8 +113,7 @@ namespace Sim_FrameWork.Config
             {
                 if (_mainShipConfigData == null)
                 {
-                    _mainShipConfigData = new MainShipConfig();
-                    _mainShipConfigData.LoadMainShipConfig();
+                    _mainShipConfigData = MainShipConfig.LoadMainShipConfig();
                 }
                 return _mainShipConfigData;
             }
@@ -135,8 +126,7 @@ namespace Sim_FrameWork.Config
             {
                 if (_mainShipMapConfig == null)
                 {
-                    _mainShipMapConfig = new  MainShipMapConfig();
-                    _mainShipMapConfig.LoadMainShipMapConfig();
+                    _mainShipMapConfig =  MainShipMapConfig.LoadMainShipMapConfig();
                 }
                 return _mainShipMapConfig;
             }
@@ -149,27 +139,41 @@ namespace Sim_FrameWork.Config
             {
                 if (_blockConfigData == null)
                 {
-                    _blockConfigData = new BlockConfigData();
-                    _blockConfigData.LoadBlockConfigData();
+                    _blockConfigData = BlockConfigData.LoadBlockConfigData();
                 }
                 return _blockConfigData;
+            }
+        }
+
+        private static LeaderPortraitConfig _leaderPortraitConfig;
+        public static LeaderPortraitConfig LeaderPortraitConfig
+        {
+            get
+            {
+                if (_leaderPortraitConfig == null)
+                {
+                    _leaderPortraitConfig = LeaderPortraitConfig.LoadData();
+                }
+                return _leaderPortraitConfig;
             }
         }
 
 
         public void InitData()
         {
-            _globalSetting.LoadGlobalSettting();
-            _playerConfig.LoadPlayerConfigData();
-            _rewardData.LoadRewardData();
-            _exploreConfigData.LoadExploreConfigData();
-            _eventConfigData.LoadEventConfigData();
-            _assembleConfig.LoadAssembleConfigData();
-            _assemblePartsConfigData.LoadPartsCustomConfig();
-            _assembleShipPartConfigData.LoadAssembleShipPartConfigData();
-            _mainShipConfigData.LoadMainShipConfig();
-            _mainShipMapConfig.LoadMainShipMapConfig();
-            _blockConfigData.LoadBlockConfigData();
+            _globalSetting = GlobalSetting.LoadGlobalSettting();
+            _playerConfig = PlayerConfig.LoadPlayerConfigData();
+            _rewardData = RewardData.LoadRewardData();
+            _exploreConfigData = ExploreGeneralConfig.LoadExploreConfigData();
+            _eventConfigData = EventConfig.LoadEventConfigData();
+            _assembleConfig =AssembleConfig.LoadAssembleConfigData();
+            _assemblePartsConfigData=AssemblePartsConfigData.LoadPartsCustomConfig();
+            _assembleShipPartConfigData=AssembleShipPartConfigData.LoadAssembleShipPartConfigData();
+            _mainShipConfigData=MainShipConfig.LoadMainShipConfig();
+            _mainShipMapConfig=MainShipMapConfig.LoadMainShipMapConfig();
+            _blockConfigData=BlockConfigData.LoadBlockConfigData();
+            _leaderPortraitConfig = LeaderPortraitConfig.LoadData();
+
         }
         public bool MapCheck()
         {
@@ -185,25 +189,27 @@ namespace Sim_FrameWork.Config
     {
         public static Vector3 InfinityVector = new Vector3(float.PositiveInfinity, float.PositiveInfinity, float.PositiveInfinity);
 
+        public static readonly byte GamePrepare_Crew_Leader_Max = 5;
+
         /// <summary>
         /// 最大效果数量
         /// </summary>
-        public static readonly int TechDetail_Dialog_MaxEffect_Count = 4;
+        public static readonly byte TechDetail_Dialog_MaxEffect_Count = 4;
         /// <summary>
         /// 科技最大要求数量
         /// </summary>
-        public static readonly int TechDetail_Dialog_MaxRequire_Count = 4;
+        public static readonly byte TechDetail_Dialog_MaxRequire_Count = 4;
 
-        public static readonly int BuildDetail_Cost_MaxInit_Count = 4;
+        public static readonly byte BuildDetail_Cost_MaxInit_Count = 4;
 
-        public static readonly int BuildDetail_District_Area_Max = 25;
+        public static readonly byte BuildDetail_District_Area_Max = 25;
 
-        public static readonly int RandomEvent_Dialog_Reward_Max = 4;
+        public static readonly byte RandomEvent_Dialog_Reward_Max = 4;
 
         /// <summary>
         /// 探索界面最大任务数量
         /// </summary>
-        public static readonly int ExplorePage_Mission_Max_Count = 5;
+        public static readonly byte ExplorePage_Mission_Max_Count = 5;
         public static readonly ushort Explore_Mission_Max_Team_Count = 3;
         public static readonly ushort Explore_Point_Max_HardLevel = 5;
 
@@ -260,11 +266,10 @@ namespace Sim_FrameWork.Config
         public List<RewardGroup> rewardGroup;
       
 
-        public RewardData LoadRewardData()
+        public static RewardData LoadRewardData()
         {
             JsonReader reader = new JsonReader();
             var data = reader.LoadJsonDataConfig<RewardData>(JsonConfigPath.RewardDataJsonPath);
-            rewardGroup = data.rewardGroup;
            
             return data;
         }
@@ -300,11 +305,10 @@ namespace Sim_FrameWork.Config
     {
         public Dictionary<string, int> planetAreaMap;
 
-        public ExploreGeneralConfig LoadExploreConfigData()
+        public static ExploreGeneralConfig LoadExploreConfigData()
         {
             JsonReader reader = new JsonReader();
             var data = reader.LoadJsonDataConfig<ExploreGeneralConfig>(JsonConfigPath.ExploreConfigDataJsonPath);
-            planetAreaMap = data.planetAreaMap;
             return data;
         }
     }
@@ -316,11 +320,10 @@ namespace Sim_FrameWork.Config
     public class EventConfig 
     {
         public List<ExploreEventConfigData> exploreEventConfigData;
-        public EventConfig LoadEventConfigData()
+        public static EventConfig LoadEventConfigData()
         {
             JsonReader reader = new JsonReader();
             var data = reader.LoadJsonDataConfig<EventConfig>(JsonConfigPath.EventConfigDataJsonPath);
-            exploreEventConfigData = data.exploreEventConfigData;
             return data;
         }
 
@@ -371,25 +374,10 @@ namespace Sim_FrameWork.Config
         public string General_Time_Icon;
         public string General_Time_Cost_TextID;
 
-        public GlobalSetting LoadGlobalSettting()
+        public static GlobalSetting LoadGlobalSettting()
         {
             JsonReader config = new JsonReader();
             GlobalSetting settting = config.LoadJsonDataConfig<GlobalSetting>(JsonConfigPath.GlobalSettingJsonPath);
-            GameSaveData_MaxGroup_Num = settting.GameSaveData_MaxGroup_Num;
-            GameSaveData_MaxSaveNum_PerGroup = settting.GameSaveData_MaxSaveNum_PerGroup;
-
-            rarityConfig = settting.rarityConfig;
-       
-            exploreArea_Space = settting.exploreArea_Space;
-            exploreArea_Earth = settting.exploreArea_Earth;
-            Resource_Research_Icon_Path = settting.Resource_Research_Icon_Path;
-            Resource_Currency_Icon_Path = settting.Resource_Currency_Icon_Path;
-            Resource_Energy_Icon_Path = settting.Resource_Energy_Icon_Path;
-            Resource_Builder_Icon_Path = settting.Resource_Builder_Icon_Path;
-            Resource_Rocore_Icon_Path = settting.Resource_Rocore_Icon_Path;
-
-            General_Time_Icon = settting.General_Time_Icon;
-            General_Time_Cost_TextID = settting.General_Time_Cost_TextID;
             return settting;
         }
 

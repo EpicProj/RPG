@@ -82,7 +82,7 @@ namespace Sim_FrameWork
             var typeData = AssembleModule.GetAssemblePartPropertyTypeData(config.Name);
             if (typeData != null)
             {
-                transform.FindTransfrom("Icon").SafeGetComponent<Image>().sprite = Utility.LoadSprite(typeData.PropertyIcon, Utility.SpriteType.png);
+                transform.FindTransfrom("Icon").SafeGetComponent<Image>().sprite = Utility.LoadSprite(typeData.PropertyIcon);
                 transform.FindTransfrom("Name").SafeGetComponent<Text>().text = MultiLanguage.Instance.GetTextValue(typeData.PropertyName);
             }
         }

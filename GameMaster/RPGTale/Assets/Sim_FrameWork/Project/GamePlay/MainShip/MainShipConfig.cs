@@ -17,17 +17,10 @@ namespace Sim_FrameWork.Config
         public HangarAreaConfig hangarAreaConfig;
         public WorkingAreaConfig workingAreaConfig;
 
-        public MainShipConfig LoadMainShipConfig()
+        public static MainShipConfig LoadMainShipConfig()
         {
             JsonReader reader = new JsonReader();
             var data = reader.LoadJsonDataConfig<MainShipConfig>(JsonConfigPath.MainShipConfigJsonPath);
-            areaEnergyLevelMax = data.areaEnergyLevelMax;
-            basePropertyConfig = data.basePropertyConfig;
-            powerAreaConfig = data.powerAreaConfig;
-            controlTowerAreaConfig = data.controlTowerAreaConfig;
-            livingAreaConfig = data.livingAreaConfig;
-            hangarAreaConfig = data.hangarAreaConfig;
-            workingAreaConfig = data.workingAreaConfig;
             return data;
         }
 
@@ -42,11 +35,10 @@ namespace Sim_FrameWork.Config
         public MainShipAreaMapConfigData powerAreaConfig;
 
 
-        public MainShipMapConfig LoadMainShipMapConfig()
+        public static MainShipMapConfig LoadMainShipMapConfig()
         {
             JsonReader reader = new JsonReader();
             var data = reader.LoadJsonDataConfig<MainShipMapConfig>(JsonConfigPath.MainShipAreaMapConfigJsonPath);
-            powerAreaConfig = data.powerAreaConfig;
             return data;
         }
 

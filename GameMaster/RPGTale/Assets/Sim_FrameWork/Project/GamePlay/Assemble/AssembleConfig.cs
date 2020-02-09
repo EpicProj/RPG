@@ -60,33 +60,16 @@ namespace Sim_FrameWork.Config
         public List<AssembleShipMainType> assembleShipMainType;
         public List<AssemblePartMainType> assemblePartMainType;
 
-        public AssembleConfig LoadAssembleConfigData()
+        public static AssembleConfig LoadAssembleConfigData()
         {
             JsonReader config = new JsonReader();
             AssembleConfig settting = config.LoadJsonDataConfig<AssembleConfig>(JsonConfigPath.AssembleConfigJsonPath);
-            assemblePartPage_DefaultSelectTab = settting.assemblePartPage_DefaultSelectTab;
-            assembleShipPage_DefaultSelectTab = settting.assembleShipPage_DefaultSelectTab;
+            return settting;
+        }
 
-            assembleShip_Durability_Property_Link = settting.assembleShip_Durability_Property_Link;
-            assembleShip_Member_Property_Link = settting.assembleShip_Member_Property_Link;
-            assembleShip_Storage_Property_Link = settting.assembleShip_Storage_Property_Link;
-
-            mainShip_Shield_OpenInit_Property_Link = settting.mainShip_Shield_OpenInit_Property_Link;
-            mainShip_Shield_Max_Property_Link = settting.mainShip_Shield_Max_Property_Link;
-            mainShip_Shield_ChargeSpeed_Property_Link = settting.mainShip_Shield_ChargeSpeed_Property_Link;
-            mainShip_Shield_EnergyCost_Property_Link = settting.mainShip_Shield_EnergyCost_Property_Link;
-            mainShip_Shield_ReduceProbability_Property_Link = settting.mainShip_Shield_ReduceProbability_Property_Link;
-            mainShip_Shield_ShieldLevel_Property_Link = settting.mainShip_Shield_ShieldLevel_Property_Link;
-            mainShip_Shield_DamageReduce_Property_Link = settting.mainShip_Shield_DamageReduce_Property_Link;
-            mainShip_Shield_MaxLayer_Property_Link = settting.mainShip_Shield_MaxLayer_Property_Link;
-
-            assembleMainType = settting.assembleMainType;
-            assemblePartPropertyType = settting.assemblePartPropertyType;
-            assembleShipMainType = settting.assembleShipMainType;
-            assemblePartMainType = settting.assemblePartMainType;
-
-            ///DataCheck
-
+        public bool DataCheck()
+        {
+            bool result = true;
             List<string> assembleTypeList = new List<string>();
             for (int i = 0; i < assembleMainType.Count; i++)
             {
@@ -97,6 +80,8 @@ namespace Sim_FrameWork.Config
                 else
                 {
                     Debug.LogError("AssembleConfig: Find Same AssembleMainType  Type=" + assembleMainType[i].Type);
+                    result = false;
+                    continue;
                 }
             }
 
@@ -110,11 +95,13 @@ namespace Sim_FrameWork.Config
                 else
                 {
                     Debug.LogError("AssembleConfig: Find Same assembleShipMainType  Type=" + assembleShipMainType[i].Type);
+                    result = false;
+                    continue;
                 }
             }
 
             List<string> assembleShipTypeList = new List<string>();
-            for(int i = 0; i < assembleShipMainType.Count; i++)
+            for (int i = 0; i < assembleShipMainType.Count; i++)
             {
                 if (!assembleShipTypeList.Contains(assembleShipMainType[i].Type))
                 {
@@ -123,6 +110,8 @@ namespace Sim_FrameWork.Config
                 else
                 {
                     Debug.LogError("AssembleConfig: Find Same assembleShipMainType  Type=" + assembleShipMainType[i].Type);
+                    result = false;
+                    continue;
                 }
             }
 
@@ -136,9 +125,11 @@ namespace Sim_FrameWork.Config
                 else
                 {
                     Debug.LogError("AssembleConfig: Find Same assemblePartMainType  Type=" + assemblePartMainType[i].Type);
+                    result = false;
+                    continue;
                 }
             }
-            return settting;
+            return result;
         }
 
     }
@@ -175,13 +166,16 @@ namespace Sim_FrameWork.Config
         public List<PartsPropertyConfig> partsPropertyConfig;
         public List<PartsCustomConfig> partsCustomConfig;
 
-        public AssemblePartsConfigData LoadPartsCustomConfig()
+        public static AssemblePartsConfigData LoadPartsCustomConfig()
         {
             JsonReader reader = new JsonReader();
             var data = reader.LoadJsonDataConfig<AssemblePartsConfigData>(JsonConfigPath.AssemblePartsConfigDataJsonPath);
-            partsPropertyConfig = data.partsPropertyConfig;
-            partsCustomConfig = data.partsCustomConfig;
+            return data;
+        }
 
+        public bool DataCheck()
+        {
+            bool result = true;
             List<string> partsPropertyNameList = new List<string>();
             for (int i = 0; i < partsPropertyConfig.Count; i++)
             {
@@ -192,13 +186,16 @@ namespace Sim_FrameWork.Config
                 else
                 {
                     Debug.LogError("Find Same partsPropertyName , name=" + partsPropertyConfig[i].configName);
+                    result = false;
+                    continue;
                 }
 
                 if (partsPropertyConfig[i].configData.Count > GlobalConfigData.AssemblePart_Max_PropertyNum)
                 {
                     Debug.LogError("AssemblePart_Max_PropertyNum is 4!   configName=" + partsPropertyConfig[i].configName);
+                    result = false;
+                    continue;
                 }
-
             }
             List<string> partsCustomNameList = new List<string>();
             for (int i = 0; i < partsCustomConfig.Count; i++)
@@ -210,12 +207,12 @@ namespace Sim_FrameWork.Config
                 else
                 {
                     Debug.LogError("Find Same partsCustomName , name=" + partsCustomConfig[i].customName);
+                    result = false;
+                    continue;
                 }
             }
 
-
-
-            return data;
+            return result;
         }
     }
 
@@ -225,12 +222,16 @@ namespace Sim_FrameWork.Config
 
         public List<AssembleShipPartConfig> shipPartConfig;
 
-        public AssembleShipPartConfigData LoadAssembleShipPartConfigData()
+        public static AssembleShipPartConfigData LoadAssembleShipPartConfigData()
         {
             JsonReader reader = new JsonReader();
             var data = reader.LoadJsonDataConfig<AssembleShipPartConfigData>(Config.JsonConfigPath.AssembleShipPartConfigDataJsonPath);
-            shipPartConfig = data.shipPartConfig;
+            return data;
+        }
 
+        public bool DataCheck()
+        {
+            bool result = true;
             List<string> shipPartConfigList = new List<string>();
             for (int i = 0; i < shipPartConfig.Count; i++)
             {
@@ -241,9 +242,11 @@ namespace Sim_FrameWork.Config
                 else
                 {
                     Debug.LogError("Find Same shipPartConfig , name=" + shipPartConfig[i].configName);
+                    result = false;
+                    continue;
                 }
             }
-            return data;
+            return result;
         }
     }
 

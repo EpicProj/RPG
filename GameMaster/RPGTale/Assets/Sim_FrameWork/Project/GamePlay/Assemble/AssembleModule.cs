@@ -137,7 +137,7 @@ namespace Sim_FrameWork
             {
                 var typeData = GetAssemblePartMainType(meta.TypeID);
                 if (typeData != null)
-                    return Utility.LoadSprite(typeData.IconPath, Utility.SpriteType.png);
+                    return Utility.LoadSprite(typeData.IconPath);
             }
             return null;
         }
@@ -313,7 +313,7 @@ namespace Sim_FrameWork
             {
                 var mainType = GetShipPresetMainTypeData(meta.MainType);
                 if (mainType != null)
-                    return Utility.LoadSprite(mainType.IconPath, Utility.SpriteType.png);
+                    return Utility.LoadSprite(mainType.IconPath);
             }
             return null;
         }

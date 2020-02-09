@@ -128,7 +128,7 @@ namespace Sim_FrameWork
         }
         public static Sprite GetExploreAreaIcon(int areaID)
         {
-            return Utility.LoadSprite(GetExploreAreaDataByKey(areaID).IconPath, Utility.SpriteType.png);
+            return Utility.LoadSprite(GetExploreAreaDataByKey(areaID).IconPath);
         }
       
 
@@ -157,7 +157,7 @@ namespace Sim_FrameWork
         }
         public static Sprite GetExploreMissionBG(int exploreID)
         {
-            return Utility.LoadSprite(GetExploreDataByKey(exploreID).BGPath, Utility.SpriteType.png);
+            return Utility.LoadSprite(GetExploreDataByKey(exploreID).BGPath);
         }
 
         /// <summary>
@@ -339,7 +339,7 @@ namespace Sim_FrameWork
         }
         public static Sprite GetEventBG(int eventID)
         {
-            return Utility.LoadSprite(GetExploreEventDataByKey(eventID).EventBG, Utility.SpriteType.png);
+            return Utility.LoadSprite(GetExploreEventDataByKey(eventID).EventBG);
         }
 
         #endregion

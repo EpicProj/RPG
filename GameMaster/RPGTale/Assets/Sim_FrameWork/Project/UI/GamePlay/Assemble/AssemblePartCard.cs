@@ -54,7 +54,7 @@ namespace Sim_FrameWork
                 var typeData = AssembleModule.GetAssemblePartPropertyTypeData(data.Name);
                 if (typeData != null)
                 {
-                    trans.FindTransfrom("Icon").SafeGetComponent<Image>().sprite = Utility.LoadSprite(typeData.PropertyIcon, Utility.SpriteType.png);
+                    trans.FindTransfrom("Icon").SafeGetComponent<Image>().sprite = Utility.LoadSprite(typeData.PropertyIcon);
                     trans.FindTransfrom("Name").SafeGetComponent<Text>().text = MultiLanguage.Instance.GetTextValue(typeData.PropertyName);
                 }
                 if (data.PropertyType == 1)
@@ -87,7 +87,7 @@ namespace Sim_FrameWork
                 if (equipData != null)
                 {
                     var trans = _partEquipTargetTrans.GetChild(i);
-                    trans.FindTransfrom("Icon").SafeGetComponent<Image>().sprite = Utility.LoadSprite(equipData.IconPath, Utility.SpriteType.png);
+                    trans.FindTransfrom("Icon").SafeGetComponent<Image>().sprite = Utility.LoadSprite(equipData.IconPath);
                     trans.FindTransfrom("Name").SafeGetComponent<Text>().text = MultiLanguage.Instance.GetTextValue(equipData.TypeNameText);
                     trans.gameObject.SetActive(true);
                 }

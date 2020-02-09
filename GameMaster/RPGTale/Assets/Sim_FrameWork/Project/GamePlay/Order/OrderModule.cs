@@ -71,12 +71,12 @@ namespace Sim_FrameWork
 
         public static Sprite GetOrderBGPath(OrderData order)
         {
-            return Utility.LoadSprite(order.BGPath, Utility.SpriteType.png);
+            return Utility.LoadSprite(order.BGPath);
         }
         public static Sprite GetOrderBGPath(int orderID)
         {
             var order = GetOrderDataByID(orderID);
-            return Utility.LoadSprite(order.BGPath, Utility.SpriteType.png);
+            return Utility.LoadSprite(order.BGPath);
         }
 
         public static OrganizationDataModel GetOrganizationBelong(int orderID)
@@ -156,7 +156,7 @@ namespace Sim_FrameWork
         }
         public static Sprite GetOrderIconPath(OrderTypeData data)
         {
-            return Utility.LoadSprite(data.IconPath, Utility.SpriteType.png);
+            return Utility.LoadSprite(data.IconPath);
         }
 
         /// <summary>

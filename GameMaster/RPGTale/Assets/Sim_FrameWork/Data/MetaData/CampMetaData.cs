@@ -101,6 +101,8 @@ public class CampData
     [XmlAttribute]
     public int CampID { get; set; }
     [XmlAttribute]
+    public ushort CampType { get; set; }
+    [XmlAttribute]
     public string CampName { get; set; }
     [XmlAttribute]
     public string CampDesc { get; set; }
@@ -111,7 +113,11 @@ public class CampData
     [XmlAttribute]
     public ushort DefaultHardLevel { get; set; }
     [XmlAttribute]
-    public int AttributeID { get; set; }
+    public string AttributeIDList { get; set; }
+    [XmlAttribute]
+    public int CreedID { get; set; }
+    [XmlAttribute]
+    public string LeaderPresetList { get; set; }
 }
 
 [System.Serializable]

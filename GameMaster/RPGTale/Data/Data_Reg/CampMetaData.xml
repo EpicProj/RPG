@@ -3,12 +3,15 @@
 	<variable  name="AllCampDataList" type="list">
 		<list name = "CampData" sheetname="CampData" mainKey = "CampID">
 			<variable  name="CampID" col = "CampID" type="int"/>
+			<variable  name="CampType" col = "CampType" type="ushort"/>
 			<variable  name="CampName" col = "CampName" type="string"/>
 			<variable  name="CampDesc" col = "CampDesc" type="string"/>
 			<variable  name="CampIcon" col = "CampIcon" type="string"/>
 			<variable  name="CampBGSmall" col = "CampBGSmall" type="string"/>
 			<variable  name="DefaultHardLevel" col = "DefaultHardLevel" type="ushort"/>
-			<variable  name="AttributeID" col = "AttributeID" type="int"/>
+			<variable  name="AttributeIDList" col = "AttributeIDList" type="string"/>
+			<variable  name="CreedID" col = "CreedID" type="int"/>
+			<variable  name="LeaderPresetList" col = "LeaderPresetList" type="string"/>
 		</list>
 	</variable>
 	<variable  name="AllCampCreedDataList" type="list">

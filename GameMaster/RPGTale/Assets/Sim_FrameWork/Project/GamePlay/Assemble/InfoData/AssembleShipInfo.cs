@@ -208,7 +208,7 @@ namespace Sim_FrameWork
 
         public Sprite ShipSprite
         {
-            get { return Utility.LoadSprite(_metaData.ShipSpritePath, Utility.SpriteType.png); }
+            get { return Utility.LoadSprite(_metaData.ShipSpritePath); }
         }
 
         public string shipClassDesc

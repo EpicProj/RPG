@@ -28,7 +28,7 @@ namespace Sim_FrameWork {
             AssembleModule.Instance.Register();
             MainShipModule.Instance.Register();
             CampModule.Instance.Register();
-        
+            LeaderModule.Instance.Register();
         }
 
         public void InitGameBaseData()

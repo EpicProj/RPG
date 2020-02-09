@@ -33,7 +33,7 @@ namespace Sim_FrameWork
             this.elementList = elementList;
             slider.onValueChanged.RemoveAllListeners();
 
-            transform.FindTransfrom("Icon").SafeGetComponent<Image>().sprite = Utility.LoadSprite(iconPath, Utility.SpriteType.png);
+            transform.FindTransfrom("Icon").SafeGetComponent<Image>().sprite = Utility.LoadSprite(iconPath);
             transform.FindTransfrom("Text").SafeGetComponent<Text>().text = MultiLanguage.Instance.GetTextValue(nameTextID);
 
             if (elementList==null || elementList.Count == 0)

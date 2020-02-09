@@ -10,12 +10,10 @@ namespace Sim_FrameWork.Config
         public GamePrepareConfig gamePrepareConfig;
         public TimeDataConfig timeConfig;
         
-        public PlayerConfig LoadPlayerConfigData()
+        public static PlayerConfig LoadPlayerConfigData()
         {
             Config.JsonReader reader = new Config.JsonReader();
             var config = reader.LoadJsonDataConfig<PlayerConfig>(Config.JsonConfigPath.PlayerConfigJsonPath);
-            gamePrepareConfig = config.gamePrepareConfig;
-            timeConfig = config.timeConfig;
             return config;
         }
 

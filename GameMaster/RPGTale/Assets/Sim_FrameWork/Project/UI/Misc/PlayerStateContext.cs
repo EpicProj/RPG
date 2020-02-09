@@ -155,11 +155,11 @@ namespace Sim_FrameWork.UI
 
         void InitResImage()
         {
-            Transform.FindTransfrom("Resource/ResourceLeft/Currency/Icon").SafeGetComponent<Image>().sprite = Utility.LoadSprite(Config.ConfigData.GlobalSetting.Resource_Currency_Icon_Path, Utility.SpriteType.png);
-            Transform.FindTransfrom("Resource/ResourceLeft/Energy/Icon").SafeGetComponent<Image>().sprite = Utility.LoadSprite(Config.ConfigData.GlobalSetting.Resource_Energy_Icon_Path, Utility.SpriteType.png);
-            Transform.FindTransfrom("Resource/ResourceLeft/Research/Icon").SafeGetComponent<Image>().sprite = Utility.LoadSprite(Config.ConfigData.GlobalSetting.Resource_Research_Icon_Path, Utility.SpriteType.png);
-            Transform.FindTransfrom("Resource/ResourceRight/Builder/Icon").SafeGetComponent<Image>().sprite = Utility.LoadSprite(Config.ConfigData.GlobalSetting.Resource_Builder_Icon_Path, Utility.SpriteType.png);
-            Transform.FindTransfrom("Resource/ResourceRight/RoCore/Icon").SafeGetComponent<Image>().sprite = Utility.LoadSprite(Config.ConfigData.GlobalSetting.Resource_Rocore_Icon_Path, Utility.SpriteType.png);
+            Transform.FindTransfrom("Resource/ResourceLeft/Currency/Icon").SafeGetComponent<Image>().sprite = Utility.LoadSprite(Config.ConfigData.GlobalSetting.Resource_Currency_Icon_Path);
+            Transform.FindTransfrom("Resource/ResourceLeft/Energy/Icon").SafeGetComponent<Image>().sprite = Utility.LoadSprite(Config.ConfigData.GlobalSetting.Resource_Energy_Icon_Path);
+            Transform.FindTransfrom("Resource/ResourceLeft/Research/Icon").SafeGetComponent<Image>().sprite = Utility.LoadSprite(Config.ConfigData.GlobalSetting.Resource_Research_Icon_Path);
+            Transform.FindTransfrom("Resource/ResourceRight/Builder/Icon").SafeGetComponent<Image>().sprite = Utility.LoadSprite(Config.ConfigData.GlobalSetting.Resource_Builder_Icon_Path);
+            Transform.FindTransfrom("Resource/ResourceRight/RoCore/Icon").SafeGetComponent<Image>().sprite = Utility.LoadSprite(Config.ConfigData.GlobalSetting.Resource_Rocore_Icon_Path);
         }
 
     }

@@ -33,8 +33,8 @@ namespace Sim_FrameWork
             ArrowBottom = UIUtility.FindTransfrom(transform, "ArrowObj/Bottom");
 
             Grid = UIUtility.SafeGetComponent<SpriteRenderer>(UIUtility.FindTransfrom(transform, "Grid"));
-            CanPlaceSprite = Utility.LoadSprite("SpriteOutput/Map/grid_green", Utility.SpriteType.png);
-            CannotPlaceSprite= Utility.LoadSprite("SpriteOutput/Map/grid_red", Utility.SpriteType.png);
+            CanPlaceSprite = Utility.LoadSprite("SpriteOutput/Map/grid_green");
+            CannotPlaceSprite= Utility.LoadSprite("SpriteOutput/Map/grid_red");
 
             ArrowRight.localPosition =new Vector3(ArrowRight.localPosition.x-( maxSize.y / 2), 0,ArrowRight.localPosition.z);
             ArrowLeft.localPosition = new Vector3(ArrowLeft.localPosition.x + (maxSize.y / 2), 0, ArrowLeft.localPosition.z);

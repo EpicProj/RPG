@@ -95,12 +95,12 @@ namespace Sim_FrameWork {
         public static Sprite GetMaterialSprite(int materialID)
         {
             string path = GetMaterialByMaterialID(materialID).MaterialIcon;
-            return Utility.LoadSprite(path, Utility.SpriteType.png);
+            return Utility.LoadSprite(path);
         }
         public static Sprite GetMaterialBG(int materialID)
         {
             string path = GetMaterialByMaterialID(materialID).BG;
-            return Utility.LoadSprite(path, Utility.SpriteType.png);
+            return Utility.LoadSprite(path);
         }
 
 
@@ -152,12 +152,12 @@ namespace Sim_FrameWork {
 
         public static Sprite GetMaterialTypeSprite(MaterialType type)
         {
-            return Utility.LoadSprite(type.TypeIcon, Utility.SpriteType.png);
+            return Utility.LoadSprite(type.TypeIcon);
         }
 
         public static Sprite GetMaterialTypeSprite(Material ma)
         {
-            return Utility.LoadSprite(GetMaterialType(ma.MaterialID).TypeIcon, Utility.SpriteType.png);
+            return Utility.LoadSprite(GetMaterialType(ma.MaterialID).TypeIcon);
         }
 
         /// <summary>
@@ -218,11 +218,11 @@ namespace Sim_FrameWork {
 
         public static Sprite GetMaterialSubTypeIcon(MaterialSubType subtype)
         {
-            return Utility.LoadSprite(subtype.TypeIcon, Utility.SpriteType.png);
+            return Utility.LoadSprite(subtype.TypeIcon);
         }
         public static Sprite GetMaterialSubTypeIcon(Material ma)
         {
-            return Utility.LoadSprite(GetMaterialSubType(ma.MaterialID).TypeIcon, Utility.SpriteType.png);
+            return Utility.LoadSprite(GetMaterialSubType(ma.MaterialID).TypeIcon);
         }
         #endregion
 

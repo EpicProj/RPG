@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<data name ="LeaderMetaData" from="LeaderMetaData.xlsx" to = "LeaderMetaData.xml">
+	<variable  name="AllLeaderPresetDataList" type="list">
+		<list name = "LeaderPresetData" sheetname="LeaderPresetData" mainKey = "LeaderID">
+			<variable  name="LeaderID" col = "LeaderID" type="int"/>
+			<variable  name="LeaderName" col = "LeaderName" type="string"/>
+			<variable  name="LeaderDesc" col = "LeaderDesc" type="string"/>
+			<variable  name="SpeciesID" col = "SpeciesID" type="int"/>
+			<variable  name="Gender" col = "Gender" type="ushort"/>
+			<variable  name="Portrait_BG" col = "Portrait_BG" type="int"/>
+			<variable  name="Portrait_Cloth" col = "Portrait_Cloth" type="int"/>
+			<variable  name="Portrait_Ear" col = "Portrait_Ear" type="int"/>
+			<variable  name="Portrait_Hair" col = "Portrait_Hair" type="int"/>
+			<variable  name="Portrait_Eyes" col = "Portrait_Eyes" type="int"/>
+			<variable  name="Portrait_Face" col = "Portrait_Face" type="int"/>
+			<variable  name="Portrait_Mouth" col = "Portrait_Mouth" type="int"/>
+			<variable  name="Portrait_Nose" col = "Portrait_Nose" type="int"/>
+		</list>
+	</variable>
+
+	<variable  name="AllLeaderSpeciesDataList" type="list">
+		<list name = "LeaderSpeciesData" sheetname="LeaderSpeciesData" mainKey = "SpeciesID">
+			<variable  name="SpeciesID" col = "SpeciesID" type="int"/>
+			<variable  name="SpeciesName" col = "SpeciesName" type="string"/>
+			<variable  name="SpeciesDesc" col = "SpeciesDesc" type="string"/>
+			<variable  name="Portrait_MaleGroup" col = "Portrait_MaleGroup" type="int"/>
+			<variable  name="Portrait_FemaleGroup" col = "Portrait_FemaleGroup" type="int"/>
+		</list>
+	</variable>
+
+	<variable  name="AllLeaderSkillDataList" type="list">
+		<list name = "LeaderSkillData" sheetname="LeaderSkillData" mainKey = "SkillID">
+			<variable  name="SkillID" col = "SkillID" type="int"/>
+			<variable  name="MaxLevel" col = "MaxLevel" type="ushort"/>
+			<variable  name="SkillName" col = "SkillName" type="string"/>
+			<variable  name="SkillDesc" col = "SkillDesc" type="string"/>
+			<variable  name="SkillIcon" col = "SkillIcon" type="string"/>
+			<variable  name="SkillEffect" col = "SkillEffect" type="string"/>
+			<variable  name="SkillGrowth" col = "SkillGrowth" type="float"/>
+		</list>
+	</variable>
+
+		<variable  name="AllLeaderDutyDataList" type="list">
+		<list name = "LeaderDutyData" sheetname="LeaderDutyData" mainKey = "DutyID">
+			<variable  name="DutyID" col = "DutyID" type="int"/>
+			<variable  name="DutyName" col = "DutyName" type="string"/>
+			<variable  name="DutyDesc" col = "DutyDesc" type="string"/>
+			<variable  name="DutyIcon" col = "DutyIcon" type="string"/>
+		</list>
+	</variable>
+</data>

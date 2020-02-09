@@ -244,16 +244,11 @@ namespace Sim_FrameWork
         #region Collection_Extend
 
         #endregion
-        public enum SpriteType
-        {
-            png,
-            jpg
-        }
 
 
-        public static Sprite LoadSprite(string SpritePath,SpriteType type)
+        public static Sprite LoadSprite(string SpritePath)
         {
-            string TargetPath = "Assets/" + SpritePath +"."+type.ToString();
+            string TargetPath = "Assets/" + SpritePath + ".png";
             Sprite sprite = null;
             try
             {

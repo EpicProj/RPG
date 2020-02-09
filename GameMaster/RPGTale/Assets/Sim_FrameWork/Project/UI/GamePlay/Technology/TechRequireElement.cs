@@ -75,7 +75,7 @@ namespace Sim_FrameWork
             else if(type == RequireType.ResearchPoint)
             {
                 ushort count = (ushort)param[0];
-                var techPointImage = Utility.LoadSprite("SpriteOutput/UI/Main/Technology/TechPage_PointCost_Icon", Utility.SpriteType.png);
+                var techPointImage = Utility.LoadSprite("SpriteOutput/UI/Main/Technology/TechPage_PointCost_Icon");
                 string text = MultiLanguage.Instance.GetTextValue(Research_Require_TechPoint_Text) + ":" + count.ToString();
                 SetElementInfo(techPointImage, text, Color.white);
                 ShowLockWaring(showWarning);

@@ -116,7 +116,7 @@ namespace Sim_FrameWork {
 
         public static Sprite GetMainTypeSprite(FunctionBlockTypeData data)
         {
-            return Utility.LoadSprite(data.TypeIcon, Utility.SpriteType.png);
+            return Utility.LoadSprite(data.TypeIcon);
         }
         public static string GetMainTypeName(FunctionBlockTypeData data)
         {
@@ -131,13 +131,13 @@ namespace Sim_FrameWork {
         public static Sprite GetFunctionBlockIcon(int functionBlockID)
         {
             string path = GetFunctionBlockByBlockID(functionBlockID).BlockIcon;
-            return Utility.LoadSprite(path,Utility.SpriteType.png);
+            return Utility.LoadSprite(path);
          
         }
         public static Sprite GetFunctionBlockBG(int functionBlockID)
         {
             string path = GetFunctionBlockByBlockID(functionBlockID).BlockBG;
-            return Utility.LoadSprite(path, Utility.SpriteType.png);
+            return Utility.LoadSprite(path);
         }
 
         public static Sprite GetFunctionBlockTypeIcon(int functionBlockID)
@@ -147,7 +147,7 @@ namespace Sim_FrameWork {
             {
                 var typedata = GetFacotryTypeData(type);
                 if (typedata != null)
-                    return Utility.LoadSprite(typedata.TypeIcon, Utility.SpriteType.png);
+                    return Utility.LoadSprite(typedata.TypeIcon);
             }
             return null;
         }

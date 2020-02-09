@@ -66,7 +66,7 @@ namespace Sim_FrameWork
         }
         public static Sprite GetFormulaIcon(FormulaData data)
         {
-            return Utility.LoadSprite(data.IconPath, Utility.SpriteType.png);
+            return Utility.LoadSprite(data.IconPath);
         }
         public static Sprite GetFormulaIcon(int formulaID)
         {

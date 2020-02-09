@@ -53,6 +53,7 @@ namespace Sim_FrameWork.Config
         public static string TechnologyConfigPath = "Game_Config/Technology/";
         public static string MainShipConfigPath= "Game_Config/MainShipConfig/";
         public static string ExploreConfigPath = "Game_Config/Explore/";
+        public static string LeaderConfigPath = "Game_Config/Leader/";
 
         //ModifierData
         public static string ModifierDataConfigJsonPath = ModifierConfigPath + "GeneralModifier.json";
@@ -94,7 +95,7 @@ namespace Sim_FrameWork.Config
         public static string MainShipConfigJsonPath = MainShipConfigPath + "MainShipConfig.json";
         public static string MainShipAreaMapConfigJsonPath= MainShipConfigPath + "MainShipMapConfig.json";
 
-
+        public static string LeaderPortraitConfigJsonPath = LeaderConfigPath + "LeaderPortraitConfig.json";
 
     }
 }

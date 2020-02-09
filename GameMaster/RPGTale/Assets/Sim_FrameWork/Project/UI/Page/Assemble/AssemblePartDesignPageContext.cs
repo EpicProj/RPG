@@ -404,7 +404,7 @@ namespace Sim_FrameWork.UI
                 if (targetData != null)
                 {
                     var item = assembleTargetContentTrans.GetChild(i);
-                    item.FindTransfrom("Icon").SafeGetComponent<Image>().sprite = Utility.LoadSprite(targetData.IconPath, Utility.SpriteType.png);
+                    item.FindTransfrom("Icon").SafeGetComponent<Image>().sprite = Utility.LoadSprite(targetData.IconPath);
                     item.FindTransfrom("Name").SafeGetComponent<Text>().text = MultiLanguage.Instance.GetTextValue(targetData.TypeNameText);
                     item.SafeSetActive(true);
                 }

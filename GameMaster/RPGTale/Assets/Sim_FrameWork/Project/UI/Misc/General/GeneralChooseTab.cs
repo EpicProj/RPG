@@ -28,7 +28,7 @@ namespace Sim_FrameWork
             if (partTypeData != null)
             {
                 Type = partTypeData.Type;
-                _icon.sprite = Utility.LoadSprite(partTypeData.IconPath, Utility.SpriteType.png);
+                _icon.sprite = Utility.LoadSprite(partTypeData.IconPath);
                 _text.text = MultiLanguage.Instance.GetTextValue(partTypeData.TypeName);
                 _btn.onClick.AddListener(()=> OnPartBtnClick(isDesignPage));
             }
@@ -58,7 +58,7 @@ namespace Sim_FrameWork
             if (shipTypeData != null)
             {
                 Type = shipTypeData.Type;
-                _icon.sprite = Utility.LoadSprite(shipTypeData.IconPath, Utility.SpriteType.png);
+                _icon.sprite = Utility.LoadSprite(shipTypeData.IconPath);
                 _text.text = MultiLanguage.Instance.GetTextValue(shipTypeData.TypeName);
                 _btn.onClick.AddListener(OnShipBtnClick);
             }

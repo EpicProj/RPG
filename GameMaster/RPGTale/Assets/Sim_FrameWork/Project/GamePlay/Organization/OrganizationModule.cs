@@ -70,11 +70,11 @@ namespace Sim_FrameWork
 
         public static Sprite GetOrganizationSprite(int id)
         {
-            return Utility.LoadSprite(GetOrganizationDataByID(id).Icon, Utility.SpriteType.png);
+            return Utility.LoadSprite(GetOrganizationDataByID(id).Icon);
         }
         public static Sprite GetOrganizationSpriteBig(int id)
         {
-            return Utility.LoadSprite(GetOrganizationDataByID(id).IconBig, Utility.SpriteType.png);
+            return Utility.LoadSprite(GetOrganizationDataByID(id).IconBig);
         }
 
         public static OrganizationTypeData GetOrganizaitonTypeDataByID(string id)
@@ -108,11 +108,11 @@ namespace Sim_FrameWork
         }
         public static Sprite GetTypeIcon(string id)
         {
-            return Utility.LoadSprite(GetOrganizaitonTypeDataByID(id).IconPath, Utility.SpriteType.png);
+            return Utility.LoadSprite(GetOrganizaitonTypeDataByID(id).IconPath);
         }
         public static Sprite GetTypeIcon(int orID)
         {
-            return Utility.LoadSprite(GetOrganizaitonTypeDataByID(GetOrganizationDataByID(orID).AreaType).IconPath, Utility.SpriteType.png);
+            return Utility.LoadSprite(GetOrganizaitonTypeDataByID(GetOrganizationDataByID(orID).AreaType).IconPath);
         }
 
     }

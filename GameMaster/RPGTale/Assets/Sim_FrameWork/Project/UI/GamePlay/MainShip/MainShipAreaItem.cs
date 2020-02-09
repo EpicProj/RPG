@@ -69,7 +69,7 @@ namespace Sim_FrameWork
                 _durabilityText.text = data.durability_current.ToString();
                 _durabilitySlider.value = (data.durability_current / data.durability_max)*100;
                 _energyCostText.text = data.powerConsumeCurrent.ToString();
-                transform.FindTransfrom("Left/Icon").SafeGetComponent<Image>().sprite = Utility.LoadSprite(data.areaIconPath, Utility.SpriteType.png);
+                transform.FindTransfrom("Left/Icon").SafeGetComponent<Image>().sprite = Utility.LoadSprite(data.areaIconPath);
                 InitPower(data.powerLevel_max, data.powerLevel_current);
 
                 AddBtnClick(
@@ -83,7 +83,7 @@ namespace Sim_FrameWork
                 _durabilityText.text = data.durability_current.ToString();
                 _durabilitySlider.value = (data.durability_current / data.durability_max) * 100;
                 _energyCostText.text = data.powerConsumeCurrent.ToString();
-                transform.FindTransfrom("Left/Icon").SafeGetComponent<Image>().sprite = Utility.LoadSprite(data.areaIconPath, Utility.SpriteType.png);
+                transform.FindTransfrom("Left/Icon").SafeGetComponent<Image>().sprite = Utility.LoadSprite(data.areaIconPath);
                 InitPower(data.powerLevel_max, data.powerLevel_current);
 
                 AddBtnClick(
@@ -96,7 +96,7 @@ namespace Sim_FrameWork
                 _durabilityText.text = data.durability_current.ToString();
                 _durabilitySlider.value = (data.durability_current / data.durability_max) * 100;
                 _energyCostText.text = data.powerConsumeCurrent.ToString();
-                transform.FindTransfrom("Left/Icon").SafeGetComponent<Image>().sprite = Utility.LoadSprite(data.areaIconPath, Utility.SpriteType.png);
+                transform.FindTransfrom("Left/Icon").SafeGetComponent<Image>().sprite = Utility.LoadSprite(data.areaIconPath);
                 InitPower(data.powerLevel_max, data.powerLevel_current);
 
                 AddBtnClick(
@@ -109,7 +109,7 @@ namespace Sim_FrameWork
                 _durabilityText.text = data.durability_current.ToString();
                 _durabilitySlider.value = (data.durability_current / data.durability_max) * 100;
                 _energyCostText.text = data.powerConsumeCurrent.ToString();
-                transform.FindTransfrom("Left/Icon").SafeGetComponent<Image>().sprite = Utility.LoadSprite(data.areaIconPath, Utility.SpriteType.png);
+                transform.FindTransfrom("Left/Icon").SafeGetComponent<Image>().sprite = Utility.LoadSprite(data.areaIconPath);
                 InitPower(data.powerLevel_max, data.powerLevel_current);
 
                 AddBtnClick(

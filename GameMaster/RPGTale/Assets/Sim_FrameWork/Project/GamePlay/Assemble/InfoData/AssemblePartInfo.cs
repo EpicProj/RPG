@@ -143,11 +143,11 @@ namespace Sim_FrameWork
 
         public Sprite partSprite
         {
-            get { return Utility.LoadSprite(_partsTypeMeta.PartSprite, Utility.SpriteType.png); }
+            get { return Utility.LoadSprite(_partsTypeMeta.PartSprite); }
         }
         public Sprite partIconSmall
         {
-            get { return Utility.LoadSprite(_partsTypeMeta.PartIconSmall, Utility.SpriteType.png); }
+            get { return Utility.LoadSprite(_partsTypeMeta.PartIconSmall); }
         }
 
         public string partDesc
@@ -274,7 +274,7 @@ namespace Sim_FrameWork
                 if (propertyTypeData != null)
                 {
                     propertyNameText = MultiLanguage.Instance.GetTextValue(propertyTypeData.PropertyName);
-                    propertyIcon = Utility.LoadSprite(propertyTypeData.PropertyIcon, Utility.SpriteType.png);
+                    propertyIcon = Utility.LoadSprite(propertyTypeData.PropertyIcon);
                 }
                 return data;
             }

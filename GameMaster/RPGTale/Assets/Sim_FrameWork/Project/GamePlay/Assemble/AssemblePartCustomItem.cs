@@ -84,7 +84,7 @@ namespace Sim_FrameWork
                     if (data.PropertyChangePerUnitValue != 0)
                     {
                         SetUpPropertyItemSmall(
-                            Utility.LoadSprite(typeData.PropertyIcon, Utility.SpriteType.png),
+                            Utility.LoadSprite(typeData.PropertyIcon),
                             MultiLanguage.Instance.GetTextValue(typeData.PropertyName),
                             (float)(diffValue*data.PropertyChangePerUnitValue),
                             data.Name);
@@ -97,7 +97,7 @@ namespace Sim_FrameWork
                     {
                         ///Init Min
                         SetUpPropertyItemSmall(
-                            Utility.LoadSprite(typeData.PropertyIcon, Utility.SpriteType.png),
+                            Utility.LoadSprite(typeData.PropertyIcon),
                             Utility.ParseStringParams(MultiLanguage.Instance.GetTextValue(AssemblePartPropertyItem_Value_Min_Text),
                             new string[] { MultiLanguage.Instance.GetTextValue(typeData.PropertyName)}),
                             (float)(diffValue*data.PropertyChangePerUnitMin),
@@ -108,7 +108,7 @@ namespace Sim_FrameWork
                     {
                         ///Init Max
                         SetUpPropertyItemSmall(
-                           Utility.LoadSprite(typeData.PropertyIcon, Utility.SpriteType.png),
+                           Utility.LoadSprite(typeData.PropertyIcon),
                            Utility.ParseStringParams(MultiLanguage.Instance.GetTextValue(AssemblePartPropertyItem_Value_Max_Text),
                            new string[] { MultiLanguage.Instance.GetTextValue(typeData.PropertyName) }),
                            (float)(diffValue*data.PropertyChangePerUnitMax),
@@ -121,7 +121,7 @@ namespace Sim_FrameWork
             if (_config.TimeCostPerUnit != 0)
             {
                 SetUpPropertyItemSmall(
-                    Utility.LoadSprite(Config.ConfigData.GlobalSetting.General_Time_Icon, Utility.SpriteType.png),
+                    Utility.LoadSprite(Config.ConfigData.GlobalSetting.General_Time_Icon),
                     MultiLanguage.Instance.GetTextValue(Config.ConfigData.GlobalSetting.General_Time_Cost_TextID),
                     (float)(diffValue*_config.TimeCostPerUnit),
                     "Time");

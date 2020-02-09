@@ -76,7 +76,7 @@ namespace Sim_FrameWork
         
         public static Sprite GetTechIcon(int techID)
         {
-            return Utility.LoadSprite(GetTechDataByID(techID).TechIcon, Utility.SpriteType.png);
+            return Utility.LoadSprite(GetTechDataByID(techID).TechIcon);
         }
 
         public static GeneralRarity GetTechRarity(int techID)

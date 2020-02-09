@@ -164,7 +164,7 @@ namespace Sim_FrameWork
 
             public const string General_ChooseTab = "Assets/Prefabs/Object/Main/General/GeneralChooseTab.prefab";
             public const string General_SliderSelectItem = "Assets/Prefabs/Object/Main/General/SliderSelectItem.prefab";
-
+            public const string General_InfoItem = "Assets/Prefabs/Object/Main/General/GeneralInfoItem.prefab";
 
             ///建造主页签
             public const string Construct_MainTab_Element_Path = "Assets/Prefabs/Object/Main/ConstructMainTabElement.prefab";
@@ -197,6 +197,10 @@ namespace Sim_FrameWork
 
             public const string Assemble_Ship_Part_Top = "Assets/Prefabs/Object/Assemble/AssembleShipCustomPartItem_Top.prefab";
             public const string Assemble_Ship_Part_Bottom= "Assets/Prefabs/Object/Assemble/AssembleShipCustomPartItem_Bottom.prefab";
+
+            ///Leader
+            public const string Leader_Prepare_Card = "Assets/Prefabs/Object/Leader/LeaderCard_Prepare.prefab";
+
             #endregion
 
         }

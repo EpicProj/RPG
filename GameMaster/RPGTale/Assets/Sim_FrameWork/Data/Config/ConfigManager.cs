@@ -89,6 +89,7 @@ namespace Sim_FrameWork {
         
         public const string TABLE_ASSEMBLE_METADATA_PATH= "Assets/ConfigData/DataFormat/Binary/AssembleMetaData.bytes";
         public const string TABLE_CAMP_METADATA_PATH = "Assets/ConfigData/DataFormat/Binary/CampMetaData.bytes";
+        public const string TABLE_LEADER_METADATA_PATH = "Assets/ConfigData/DataFormat/Binary/LeaderMetaData.bytes";
 
     }
 }

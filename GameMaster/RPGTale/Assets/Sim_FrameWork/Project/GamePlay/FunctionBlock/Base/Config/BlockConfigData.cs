@@ -7,11 +7,10 @@ namespace Sim_FrameWork.Config
     public class BlockConfigData 
     {
         public List<Block_GeneralConfig> configData;
-        public BlockConfigData LoadBlockConfigData()
+        public static BlockConfigData LoadBlockConfigData()
         {
             Config.JsonReader reader = new Config.JsonReader();
             BlockConfigData info = reader.LoadJsonDataConfig<BlockConfigData>(Config.JsonConfigPath.BlockConfigDataJsonPath);
-            configData = info.configData;
             return info;
         }
 
