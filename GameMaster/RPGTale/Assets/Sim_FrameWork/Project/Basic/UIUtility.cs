@@ -73,7 +73,10 @@ namespace Sim_FrameWork
         {
             if (trans != null)
             {
-                trans.gameObject.SetActive(active);
+                if (trans.gameObject.activeSelf != active)
+                {
+                    trans.gameObject.SetActive(active);
+                }
                 return true;
             }
             return false;

@@ -53,5 +53,25 @@ namespace Sim_FrameWork {
             PlayerManager.Instance.InitPlayerData();
             MainShipManager.Instance.InitData();
         }
+
+
+        #region GamePrepare Data
+        public void ChangeGamePrepareValue(string configID,byte selectLevel)
+        {
+            for(int i = 0; i < gamePrepareData.preparePropertyDataList.Count; i++)
+            {
+                if (gamePrepareData.preparePropertyDataList[i].configID == configID)
+                {
+                    gamePrepareData.preparePropertyDataList[i].currentSelectLevel = selectLevel;
+                }
+            }
+        }
+
+        public void RefreshGamePrepareData()
+        {
+            gamePrepareData.RefreshData();
+        }
+
+        #endregion
     }
 }

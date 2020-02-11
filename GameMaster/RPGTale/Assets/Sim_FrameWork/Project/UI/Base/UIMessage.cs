@@ -52,6 +52,10 @@ namespace Sim_FrameWork
         Res_Builder,
         Res_RoCore,
 
+        ///Camp
+        CampSelectPage_SelectCamp,
+        NewGamePage_UpdateCamp,
+
         ///Order
         RefreshOrder,
         OrderPage_Select_Organization,

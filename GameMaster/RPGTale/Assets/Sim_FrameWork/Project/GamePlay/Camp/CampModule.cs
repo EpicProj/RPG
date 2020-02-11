@@ -89,6 +89,21 @@ namespace Sim_FrameWork
             return result;
         }
 
+        public static List<BaseDataModel> GetCampInfoModel()
+        {
+            List<BaseDataModel> result = new List<BaseDataModel>();
+            var list = GetAllCampInfo();
+            for(int i = 0; i < list.Count; i++)
+            {
+                CampBaseModel model = new CampBaseModel();
+                if (model.Create(list[i].CampID))
+                {
+                    result.Add((BaseDataModel)model);
+                }
+            }
+            return result;
+        }
+
         /// <summary>
         /// 获取阵营初始领袖
         /// </summary>

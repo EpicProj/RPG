@@ -359,6 +359,7 @@ namespace Sim_FrameWork.Config
 
         public List<RarityConfig> rarityConfig;
 
+        public int CampChoosePage_DefaultSelect_CampID;
         /// <summary>
         /// Default Area Explore
         /// </summary>

@@ -102,7 +102,7 @@ namespace Sim_FrameWork
         {
             var ScrollRect = transform.SafeGetComponent<RectTransform>().rect;
             switch (layoutType)
-            {
+            {   
                 case LayoutType.Horizontal:
                     var width = ScrollRect.width;
                     return Mathf.CeilToInt(width / (itemWidth + offset)) + 1;

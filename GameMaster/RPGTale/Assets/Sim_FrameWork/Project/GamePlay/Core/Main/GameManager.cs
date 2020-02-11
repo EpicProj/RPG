@@ -55,6 +55,9 @@ namespace Sim_FrameWork
             DataManager.Instance.InitManager();
             DataManager.Instance.InitGameBaseData();
             GameDataSaveManager.Instance.InitData();
+
+            InitCampPrepareData();
+
             UIGuide.Instance.ShowGameEntryPage();
             UIGuide.Instance.ShowGameDebugDialog();
         }
@@ -132,11 +135,27 @@ namespace Sim_FrameWork
 
         #endregion
 
-        #region PlayerData
+        #region GamePrepare Data
+        public List<CampInfo> campPrepareInfoList = new List<CampInfo>();
+
+
+        private void InitCampPrepareData()
+        {
+            campPrepareInfoList = CampModule.GetAllCampInfo();
+        }
+
+        public CampInfo GetCampInfoData(int campID)
+        {
+            CampInfo result = null;
+            result = campPrepareInfoList.Find(x => x.CampID == campID);
+            if (result == null)
+                DebugPlus.LogError("GetCampData Info Null!  campID=" + campID);
+            return result;
+        }
 
 
         #endregion
 
- 
+
     }
 }

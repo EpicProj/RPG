@@ -197,17 +197,30 @@ namespace Sim_FrameWork
         public int  GamePrepare_BornPosition;  //出生地
 
 
-        public float GamePrepare_ResourceRichness = 0;  //资源丰富度
-        public void GetPrepare_ResourceRichness()
+        public int GamePrepare_ResourceRichness = 0;  //资源丰富度
+        public void GetPrepare_ResourceRichness(int level)
         {
-
+            var propertyData = preparePropertyDataList.Find(x => x.configID == Config.ConfigData.PlayerConfig.gamePrepareConfig.GamePrepareConfig_PropertyLink_Resource_Richness);
+            if (propertyData == null)
+            {
+                GetPrepare_ResourceRichness_Default();
+                return;
+            }
+            var data = PlayerModule.GetGamePrepareConfigItem(propertyData.configID);
+            var levelData = data.levelMap.Find(x => x.Level == level);
+            GamePrepare_ResourceRichness = levelData.Level;
+        }
+        protected void GetPrepare_ResourceRichness_Default()
+        {
+            DebugPlus.Log("[GamePrepare_ResourceRichness] : Config not Find! Use Default Value");
+            GamePrepare_Currency = Config.ConfigData.PlayerConfig.gamePrepareConfig.GamePrepareConfig_Resource_Richness_Default;
         }
 
         /// <summary>
         /// 初始资金
         /// </summary>
         public int GamePrepare_Currency = 0;  
-        public void GetPrepare_Currency()
+        public void GetPrepare_Currency(int level)
         {
             var propertyData = preparePropertyDataList.Find(x => x.configID == Config.ConfigData.PlayerConfig.gamePrepareConfig.GamePrepareConfig_PropertyLink_Currency);
             if (propertyData == null)
@@ -216,12 +229,7 @@ namespace Sim_FrameWork
                 return;
             }
             var data = PlayerModule.GetGamePrepareConfigItem(propertyData.configID);
-            if (data == null)
-            {
-                GetPrepare_Currency_Default();
-                return;
-            }
-            var levelData = data.levelMap.Find(x => x.Level == propertyData.currentSelectLevel);
+            var levelData = data.levelMap.Find(x => x.Level == level);
             GamePrepare_Currency = (int)levelData.numParam;
         }
         protected void GetPrepare_Currency_Default()
@@ -234,7 +242,7 @@ namespace Sim_FrameWork
         /// 敌人强度
         /// </summary>
         public float GamePrepare_EnemyHardLevel = 1;   
-        public void GetPrepare_EnermyHardLevel()
+        public void GetPrepare_EnermyHardLevel(int level)
         {
             var propertyData = preparePropertyDataList.Find(x => x.configID == Config.ConfigData.PlayerConfig.gamePrepareConfig.GamePrepareConfig_PropertyLink_EnemyHardLevel);
             if (propertyData == null)
@@ -243,12 +251,7 @@ namespace Sim_FrameWork
                 return;
             }
             var data = PlayerModule.GetGamePrepareConfigItem(propertyData.configID);
-            if (data == null)
-            {
-                GetPrepare_EnermyHardLevel_Default();
-                return;
-            }
-            var levelData = data.levelMap.Find(x => x.Level == propertyData.currentSelectLevel);
+            var levelData = data.levelMap.Find(x => x.Level == level);
             GamePrepare_EnemyHardLevel = (float)levelData.numParam;
         }
         protected void GetPrepare_EnermyHardLevel_Default()
@@ -259,7 +262,23 @@ namespace Sim_FrameWork
 
 
         public float GamePrepare_Research_Coefficient = 1;  //研究系数
-
+        public void GetPrepare_Research_Coefficient(int level)
+        {
+            var propertyData = preparePropertyDataList.Find(x => x.configID == Config.ConfigData.PlayerConfig.gamePrepareConfig.GamePrepareConfig_PropertyLink_Research_Coefficient);
+            if (propertyData == null)
+            {
+                GetPrepare_Research_Coefficient_Default();
+                return;
+            }
+            var data = PlayerModule.GetGamePrepareConfigItem(propertyData.configID);
+            var levelData = data.levelMap.Find(x => x.Level == level);
+            GamePrepare_Research_Coefficient = (float)levelData.numParam;
+        }
+        protected void GetPrepare_Research_Coefficient_Default()
+        {
+            DebugPlus.Log("[Research_Coefficient] : Config not Find! Use Default Value");
+            GamePrepare_EnemyHardLevel = (float)Config.ConfigData.PlayerConfig.gamePrepareConfig.GamePrepareConfig_Research_Coefficient_Default;
+        }
 
         public static GamePrepareData InitData()
         {
@@ -279,6 +298,29 @@ namespace Sim_FrameWork
             }
 
             return data;
+        }
+
+        public void RefreshData()
+        {
+            var config = Config.ConfigData.PlayerConfig.gamePrepareConfig;
+            for(int i = 0; i < preparePropertyDataList.Count; i++)
+            {
+                ///Currency
+                if (preparePropertyDataList[i].configID == config.GamePrepareConfig_PropertyLink_Currency)
+                {
+                    GetPrepare_Currency(preparePropertyDataList[i].currentSelectLevel);
+                }
+                ///Research Richness
+                else if (preparePropertyDataList[i].configID == config.GamePrepareConfig_PropertyLink_Resource_Richness)
+                {
+                    GetPrepare_ResourceRichness(preparePropertyDataList[i].currentSelectLevel);
+                }
+                ///Enemy HardLevel
+                else if (preparePropertyDataList[i].configID == config.GamePrepareConfig_PropertyLink_EnemyHardLevel)
+                {
+                    GetPrepare_EnermyHardLevel(preparePropertyDataList[i].currentSelectLevel);
+                }
+            }
         }
 
     }

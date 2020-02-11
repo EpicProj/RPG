@@ -33,7 +33,7 @@ namespace Sim_FrameWork.Config
     public class LeaderPortraitItemConfig
     {
         public int configID;
-        public int[] configGroupIDList;
+        public List<int> configGroupIDList;
         public string spritePath;
     }
 

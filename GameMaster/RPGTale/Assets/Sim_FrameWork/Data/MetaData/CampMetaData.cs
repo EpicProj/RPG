@@ -111,6 +111,8 @@ public class CampData
     [XmlAttribute]
     public string CampBGSmall { get; set; }
     [XmlAttribute]
+    public ushort HardLevel { get; set; }
+    [XmlAttribute]
     public ushort DefaultHardLevel { get; set; }
     [XmlAttribute]
     public string AttributeIDList { get; set; }

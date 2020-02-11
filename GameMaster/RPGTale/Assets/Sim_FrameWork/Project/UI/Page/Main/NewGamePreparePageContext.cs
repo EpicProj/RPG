@@ -7,29 +7,37 @@ namespace Sim_FrameWork.UI
 {
     public partial class NewGamePreparePageContext : WindowBase
     {
-        private List<CampInfo> totalInfoList = new List<CampInfo>();
-
         private List<LeaderPrepareCard> leaderCardList = new List<LeaderPrepareCard>();
+
+        private int currentCampID =-1;
+
         #region Override Method
 
         public override void Awake(params object[] paralist)
         {
             base.Awake(paralist);
-            totalInfoList = CampModule.GetAllCampInfo();
             AddBtnClick();
             SetUpGamePreparePanel();
         }
 
         public override bool OnMessage(UIMessage msg)
         {
-            return base.OnMessage(msg);
+            if(msg.type== UIMsgType.NewGamePage_UpdateCamp)
+            {
+                int campID = (int)msg.content[0];
+                CampInfo campInfo = GameManager.Instance.GetCampInfoData(campID);
+                if (campInfo == null)
+                    return false;
+                return UpdateCampPanel(campInfo) && RefreshLeaderPanel(campInfo);
+            }
+
+            return true;
         }
 
         public override void OnShow(params object[] paralist)
         {
             base.OnShow(paralist);
             SetUpCampPanel();
-            SetUpCrewPanel();
         }
 
 
@@ -42,6 +50,7 @@ namespace Sim_FrameWork.UI
                 UIManager.Instance.HideWnd(this);
                 UIGuide.Instance.ShowGameEntryPage();
             });
+            AddButtonClickListener(campContentTrans.FindTransfrom("Icon").SafeGetComponent<Button>(), OnCampSelectBtnClick);
         }
 
         void OnGameStartBtnClick()
@@ -56,12 +65,21 @@ namespace Sim_FrameWork.UI
 
         void SetUpCampPanel()
         {
-            if (totalInfoList == null && totalInfoList.Count < 1)
-                return;
-            var info = totalInfoList[0];
+            var info = GameManager.Instance.GetCampInfoData(Config.ConfigData.GlobalSetting.CampChoosePage_DefaultSelect_CampID);
+            if (info != null)
+            {
+                currentCampID = info.CampID;
+                UpdateCampPanel(info);
+                RefreshLeaderPanel(info);
+            }
+        }
 
+        bool UpdateCampPanel(CampInfo info)
+        {
+            if (info == null)
+                return false;
             //Base Info
-            campContentTrans.FindTransfrom("Icon").SafeGetComponent<Image>().sprite = Utility.LoadSprite(info.campBGSmallPath );
+            campContentTrans.FindTransfrom("Icon").SafeGetComponent<Image>().sprite = Utility.LoadSprite(info.campBGSmallPath);
             campContentTrans.FindTransfrom("Detail/Title/Icon").SafeGetComponent<Image>().sprite = Utility.LoadSprite(info.campIconPath);
             campContentTrans.FindTransfrom("Detail/Title/Name").SafeGetComponent<Text>().text = info.campName;
             campContentTrans.FindTransfrom("Detail/Desc").SafeGetComponent<Text>().text = info.campDesc;
@@ -72,48 +90,85 @@ namespace Sim_FrameWork.UI
 
             //Attribute
             if (info.attributeInfo == null)
-                return;
+                return false;
             var attributeTrans = campContentTrans.FindTransfrom("Detail/Property/Attribute/Content");
             attributeTrans.InitObj(UIPath.PrefabPath.General_InfoItem, info.attributeInfo.Count);
-            for(int i = 0; i < info.attributeInfo.Count; i++)
+            for (int i = 0; i < info.attributeInfo.Count; i++)
             {
                 attributeTrans.GetChild(i).SafeGetComponent<GeneralInfoItem>().SetUpItem(GeneralInfoItemType.Camp_Attribute, info.attributeInfo[i]);
             }
+
+            return true;
         }
 
-        void SetUpCrewPanel()
+        void OnCampSelectBtnClick()
+        {
+            UIManager.Instance.HideWnd(this);
+            UIGuide.Instance.ShowCampSelectMainPage();
+        }
+
+        bool RefreshLeaderPanel(CampInfo info)
         {
             leaderCardList.Clear();
-            var crewList = totalInfoList[0].campLeaderList;
-            var trans = Transform.FindTransfrom("Content/CrewPanel/CrewContent");
-            trans.InitObj(UIPath.PrefabPath.Leader_Prepare_Card, crewList.Count);
-            for(int i=0;i<crewList.Count; i++)
+            if (info != null)
             {
-                var item = trans.GetChild(i).SafeGetComponent<LeaderPrepareCard>();
-                item.SetUpItem(crewList[i]);
-                leaderCardList.Add(item);
+                var crewList = info.campLeaderList;
+                var trans = Transform.FindTransfrom("Content/CrewPanel/CrewContent");
+                trans.InitObj(UIPath.PrefabPath.Leader_Prepare_Card, crewList.Count);
+                for (int i = 0; i < crewList.Count; i++)
+                {
+                    var item = trans.GetChild(i).SafeGetComponent<LeaderPrepareCard>();
+                    item.SetUpItem(crewList[i]);
+                    leaderCardList.Add(item);
+                }
+                return true;
             }
+            return false;
         }
 
         void SetUpGamePreparePanel()
         {
-            InitDropDownPrepareItem();
-            InitSliderPrepareItem();
+            InitPrepareItem();
         }
 
-        void InitDropDownPrepareItem()
-        {
 
-        }
-
-        void InitSliderPrepareItem()
+        void InitPrepareItem()
         {
             var list = DataManager.Instance.gamePrepareData.preparePropertyDataList;
+
+            var trans = Transform.FindTransfrom("Content/HardSetPanel/Content");
+
             for (int i = 0; i < list.Count; i++)
             {
-                if (list[i].configType == 2)
+                if (list[i].configType == 1)
                 {
-                    var trans = Transform.FindTransfrom("Content/HardSetPanel/Content");
+                    var item = ObjectManager.Instance.InstantiateObject(UIPath.PrefabPath.General_DropDownChooseItem);
+                    if (item != null)
+                    {
+                        item.transform.SetParent(trans, false);
+                        var itemTrans = item.transform.SafeGetComponent<DropDownChooseItem>();
+                        var config = PlayerModule.GetGamePrepareConfigItem(list[i].configID);
+                        if (config != null)
+                        {
+                            List<GeneralDropDownChooseElement> elementList = new List<GeneralDropDownChooseElement>();
+                            for(int j = 0; j < config.levelMap.Count; j++)
+                            {
+                                GeneralDropDownChooseElement element = new GeneralDropDownChooseElement
+                                {
+                                    index = config.levelMap[j].Level,
+                                    desc = config.levelMap[j].strParam,
+                                    linkParam = config.levelMap[j].hardLevelChange
+                                };
+                                elementList.Add(element);
+                            }
+                            itemTrans.SetUpItem(config.configID,
+                                config.configIconPath, config.configNameText,config.defaultSelectLevel,
+                                elementList);
+                        }
+                    }
+                }
+                else if (list[i].configType == 2)
+                {
                     var item = ObjectManager.Instance.InstantiateObject(UIPath.PrefabPath.General_SliderSelectItem);
                     if (item != null)
                     {
@@ -135,12 +190,15 @@ namespace Sim_FrameWork.UI
                                 };
                                 elementList.Add(element);
                             }
-                            itemTrans.SetUpItem(config.configIconPath, config.configNameText,config.defaultSelectLevel,elementList);   
+                            itemTrans.SetUpItem(config.configID,
+                                config.configIconPath, config.configNameText,
+                                config.defaultSelectLevel,elementList);   
                         }
                     }
                 }
             }
         }
+
     }
 
 

@@ -12,6 +12,9 @@ namespace Sim_FrameWork
         public string campIconPath;
         public string campBGSmallPath;
 
+        public ushort hardLevel;
+        public ushort defualtHardLevelValue;
+
         public List<CampAttributeInfo> attributeInfo;
         public CampCreedInfo creedInfo;
 
@@ -32,6 +35,9 @@ namespace Sim_FrameWork
 
                 info.campIconPath = _meta.CampIcon;
                 info.campBGSmallPath = _meta.CampBGSmall;
+
+                info.hardLevel = _meta.HardLevel;
+                info.defualtHardLevelValue = _meta.DefaultHardLevel;
 
                 info.creedInfo = CampCreedInfo.InitInfo(_meta.CreedID);
                 info.attributeInfo = CampModule.GetCampAttribueInfoList(_meta.CampID);
@@ -92,6 +98,37 @@ namespace Sim_FrameWork
             DebugPlus.LogError("[CampCreedInfo] : Init Fail! creedID=" + creedID);
             return null;
         }
+    }
+
+
+    public struct CampBaseModel : BaseDataModel
+    {
+        private int _id;
+        public int ID
+        {
+            get { return _id; }
+            set { _id = value; }
+        }
+
+        public bool Create(int campID)
+        {
+            if (CampModule.GetCampDataByKey(campID) == null)
+                return false;
+            _id = campID;
+            return true;
+        }
+
+        private CampInfo _campInfo;
+        public CampInfo CampInfo
+        {
+            get
+            {
+                if (_campInfo == null)
+                    _campInfo = GameManager.Instance.GetCampInfoData(_id);
+                return _campInfo;
+            }
+        }
+
     }
 
 }

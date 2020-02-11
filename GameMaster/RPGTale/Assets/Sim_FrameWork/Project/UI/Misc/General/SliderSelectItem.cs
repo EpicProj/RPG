@@ -19,6 +19,7 @@ namespace Sim_FrameWork
         private List<GeneralSliderSelectElement> elementList;
         private Slider slider;
         private Text valueText;
+        private string configID;
 
         private const string SliderDot_PrefabPath = "Assets/Prefabs/Object/Main/General/SliderDot.prefab";
 
@@ -28,7 +29,7 @@ namespace Sim_FrameWork
             valueText = transform.FindTransfrom("Value").SafeGetComponent<Text>();
         }
 
-        public void SetUpItem(string iconPath, string nameTextID,int currentLevel, List<GeneralSliderSelectElement> elementList)
+        public void SetUpItem(string configID, string iconPath, string nameTextID,int currentLevel, List<GeneralSliderSelectElement> elementList)
         {
             this.elementList = elementList;
             slider.onValueChanged.RemoveAllListeners();
@@ -79,7 +80,8 @@ namespace Sim_FrameWork
             {
                 valueText.text = element.value.ToString();
             }
-            
+            ///UpdateValue
+            DataManager.Instance.ChangeGamePrepareValue(configID, (byte)value);
         }
 
     }

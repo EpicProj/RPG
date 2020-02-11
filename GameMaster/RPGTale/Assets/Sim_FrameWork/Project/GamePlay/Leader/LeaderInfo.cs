@@ -51,10 +51,21 @@ namespace Sim_FrameWork
             return info;
         }
 
+        /// <summary>
+        /// Create Random
+        /// </summary>
+        /// <param name="speciesID"></param>
+        /// <param name="sexID"></param>
+        /// <returns></returns>
+        public static LeaderInfo CreateRandomInfo(int speciesID,int sexID)
+        {
+            LeaderInfo info = new LeaderInfo();
+
+            return info;
+        }
+        
+
     }
-
- 
-
     /// <summary>
     /// 角色头像信息
     /// </summary>
@@ -70,17 +81,17 @@ namespace Sim_FrameWork
         public Config.LeaderPortraitItemConfig portrait_mouth;   //嘴
         public Config.LeaderPortraitItemConfig portrait_nose;    //鼻
 
-        public static LeaderPortraitInfo GenerateRandomInfo()
+        public static LeaderPortraitInfo GenerateRandomInfo(int speciesID,int sexID)
         {
             LeaderPortraitInfo info = new LeaderPortraitInfo();
-            info.portrait_bg = LeaderModule.GetRandomPortraitItem(LeaderPortraitType.BG);
-            info.portrait_cloth = LeaderModule.GetRandomPortraitItem(LeaderPortraitType.Cloth);
-            info.portrait_ear = LeaderModule.GetRandomPortraitItem(LeaderPortraitType.Ear);
-            info.portrait_hair = LeaderModule.GetRandomPortraitItem(LeaderPortraitType.Hair);
-            info.portrait_eyes = LeaderModule.GetRandomPortraitItem(LeaderPortraitType.Eyes);
-            info.portrait_face = LeaderModule.GetRandomPortraitItem(LeaderPortraitType.Face);
-            info.portrait_mouth = LeaderModule.GetRandomPortraitItem(LeaderPortraitType.Mouth);
-            info.portrait_nose = LeaderModule.GetRandomPortraitItem(LeaderPortraitType.Nose);
+            info.portrait_bg = LeaderModule.GetRandomPortraitItem(LeaderPortraitType.BG,speciesID,sexID);
+            info.portrait_cloth = LeaderModule.GetRandomPortraitItem(LeaderPortraitType.Cloth,speciesID,sexID);
+            info.portrait_ear = LeaderModule.GetRandomPortraitItem(LeaderPortraitType.Ear,speciesID,sexID);
+            info.portrait_hair = LeaderModule.GetRandomPortraitItem(LeaderPortraitType.Hair,speciesID,sexID);
+            info.portrait_eyes = LeaderModule.GetRandomPortraitItem(LeaderPortraitType.Eyes,speciesID,sexID);
+            info.portrait_face = LeaderModule.GetRandomPortraitItem(LeaderPortraitType.Face,speciesID,sexID);
+            info.portrait_mouth = LeaderModule.GetRandomPortraitItem(LeaderPortraitType.Mouth,speciesID,sexID);
+            info.portrait_nose = LeaderModule.GetRandomPortraitItem(LeaderPortraitType.Nose,speciesID,sexID);
             return info;
         }
 

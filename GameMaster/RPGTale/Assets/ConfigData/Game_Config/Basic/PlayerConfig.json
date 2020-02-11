@@ -9,6 +9,8 @@
 		"OriginalRoCore":5,
 		"OriginalRoCoreMax":10,
 
+		"GamePrepareConfig_PropertyLink_Resource_Richness":"Setting_Resource_Richness",
+		"GamePrepareConfig_Resource_Richness_Default":1,
 		"GamePrepareConfig_PropertyLink_Currency":"Setting_Currency",
 		"GamePrepareConfig_Currency_Default":20000,
 		"GamePrepareConfig_PropertyLink_EnemyHardLevel":"Setting_EnemyHardLevel",
@@ -17,6 +19,30 @@
 		"GamePrepareConfig_Research_Coefficient_Default":1.0,
 
 		"prepareProperty":[
+			{
+				"configID":"Setting_Resource_Richness",
+				"configNameText":"GamePrepareSet_Resource_Richness",
+				"configIconPath":"SpriteOutput/UI/Main/NewGamePage/NewGame_Choose_Currency",
+				"showScaleSymbol":false,
+				"configType":1,
+				"levelMax":3,
+				"defaultSelectLevel":1,
+				"levelMap":[
+					{
+						"Level":1,
+						"strParam":"GamePrepareSet_Resource_Richness_Low",
+						"hardLevelChange":10
+					},{
+						"Level":2,
+						"strParam":"GamePrepareSet_Resource_Richness_Medium",
+						"hardLevelChange":5
+					},{
+						"Level":3,
+						"strParam":"GamePrepareSet_Resource_Richness_High",
+						"hardLevelChange":0
+					}
+				]
+			},
 			{
 				"configID":"Setting_Currency",
 				"configNameText":"GamePrepareSet_Currency",

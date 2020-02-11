@@ -1,6 +1,8 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+
 namespace Sim_FrameWork
 {
     public class LeaderModule : BaseModule<LeaderModule>
@@ -53,61 +55,65 @@ namespace Sim_FrameWork
         }
 
 
-        public static Config.LeaderPortraitItemConfig GetRandomPortraitItem(LeaderPortraitType type)
+        public static Config.LeaderPortraitItemConfig GetRandomPortraitItem(LeaderPortraitType type,int speciesID,int sexID)
         {
             var config = Config.ConfigData.LeaderPortraitConfig;
 
-            int maxNum = 0;
+            Func<List<Config.LeaderPortraitItemConfig>, Config.LeaderPortraitItemConfig> GetRandom = (o) =>
+            {
+                LeaderPortraitListFilter(speciesID, sexID, ref o);
+                int index = UnityEngine.Random.Range(0, o.Count);
+                return o[index];
+            };
+
             if (type == LeaderPortraitType.Cloth)
             {
-                maxNum = config.portrait_cloth.Count;
-                int index = UnityEngine.Random.Range(0, maxNum);
-                return config.portrait_cloth[index];
+                return GetRandom(config.portrait_cloth);
             }
             else if (type == LeaderPortraitType.Ear)
             {
-                maxNum = config.portrait_Ear.Count;
-                int index = UnityEngine.Random.Range(0, maxNum);
-                return config.portrait_Ear[index];
+                return GetRandom(config.portrait_Ear);
             }
             else if (type == LeaderPortraitType.Eyes)
             {
-                maxNum = config.portrait_eyes.Count;
-                int index = UnityEngine.Random.Range(0, maxNum);
-                return config.portrait_eyes[index];
+                return GetRandom(config.portrait_eyes);
             }
             else if (type == LeaderPortraitType.Face)
             {
-                maxNum = config.portrait_face.Count;
-                int index = UnityEngine.Random.Range(0, maxNum);
-                return config.portrait_face[index];
+                return GetRandom(config.portrait_face);
             }
             else if (type == LeaderPortraitType.Hair)
             {
-                maxNum = config.portrait_hair.Count;
-                int index = UnityEngine.Random.Range(0, maxNum);
-                return config.portrait_hair[index];
+                return GetRandom(config.portrait_hair);
             }
             else if (type == LeaderPortraitType.Mouth)
             {
-                maxNum = config.portrait_Mouth.Count;
-                int index = UnityEngine.Random.Range(0, maxNum);
-                return config.portrait_Mouth[index];
+                return GetRandom(config.portrait_Mouth);
             }
             else if (type == LeaderPortraitType.Nose)
             {
-                maxNum = config.portrait_Nose.Count;
-                int index = UnityEngine.Random.Range(0, maxNum);
-                return config.portrait_Nose[index];
+                return GetRandom(config.portrait_Nose);
             }
             else if(type == LeaderPortraitType.BG)
             {
-                maxNum = config.portrait_bg.Count;
-                int index = UnityEngine.Random.Range(0, maxNum);
-                return config.portrait_bg[index];
+                return GetRandom(config.portrait_bg);
             }
             DebugPlus.LogError("[GetRandomPortraitItem] : RandomError! ");
             return null;
         }
+
+        private static void LeaderPortraitListFilter(int speciesID, int sexID, ref List<Config.LeaderPortraitItemConfig> list)
+        {
+            var meta = GetLeaderSpeciesDataByKey(speciesID);
+            if (meta != null && sexID==1)
+            {
+                list = list.FindAll(x => x.configGroupIDList.Contains(meta.Portrait_MaleGroup));
+            }
+            else if(meta !=null && sexID == 2)
+            {
+                list = list.FindAll(x => x.configGroupIDList.Contains(meta.Portrait_FemaleGroup));
+            }
+        }
+
     }
 }

@@ -82,7 +82,9 @@ namespace Sim_FrameWork.Config
         /// 设置参数关联
         /// </summary>
         public string GamePrepareConfig_PropertyLink_BornPosition;  //出生地
-        public string GamePrepareConfig_PropertyLink_ResourceRichness;  //资源丰富度
+
+        public string GamePrepareConfig_PropertyLink_Resource_Richness;  //资源丰富度
+        public int GamePrepareConfig_Resource_Richness_Default;
 
         public string GamePrepareConfig_PropertyLink_Currency;  //初始资金
         public int GamePrepareConfig_Currency_Default;

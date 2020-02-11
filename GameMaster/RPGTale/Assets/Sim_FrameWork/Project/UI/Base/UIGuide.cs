@@ -216,5 +216,12 @@ namespace Sim_FrameWork
         }
 
         #endregion
+
+
+        public void ShowCampSelectMainPage()
+        {
+            UIManager.Instance.Register<UI.CampSelectMainPageContext>(UIPath.WindowPath.Camp_SelectMainPage);
+            UIManager.Instance.PopUpWnd(UIPath.WindowPath.Camp_SelectMainPage, WindowType.Page);
+        }
     }
 }

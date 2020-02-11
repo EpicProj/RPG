@@ -107,6 +107,8 @@ namespace Sim_FrameWork
             public const string Assemble_Part_Design_Page = "Page/Assemble/AssemblePartDesignPage";
             public const string Assemble_Ship_Design_Page= "Page/Assemble/AssembleShipDesignPage";
             public const string Assemble_Ship_Build_Page= "Page/Assemble/AssembleShipBuildPage";
+
+            public const string Camp_SelectMainPage = "Page/Camp/CampSelectMainPage";
             #endregion
 
 
@@ -128,6 +130,7 @@ namespace Sim_FrameWork
             public const string Assemble_PartInfo_UI = "Misc/AssemblePartInfoUI";
 
             public const string DebugDialog = "Misc/DebugDialog";
+
             #endregion
 
         }
@@ -164,6 +167,7 @@ namespace Sim_FrameWork
 
             public const string General_ChooseTab = "Assets/Prefabs/Object/Main/General/GeneralChooseTab.prefab";
             public const string General_SliderSelectItem = "Assets/Prefabs/Object/Main/General/SliderSelectItem.prefab";
+            public const string General_DropDownChooseItem = "Assets/Prefabs/Object/Main/General/DropDownChooseItem.prefab";
             public const string General_InfoItem = "Assets/Prefabs/Object/Main/General/GeneralInfoItem.prefab";
 
             ///建造主页签

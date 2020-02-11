@@ -28,15 +28,6 @@ namespace Sim_FrameWork
             _nose = transform.FindTransfrom("Nose").SafeGetComponent<Image>();
         }
 
-        public void Update()
-        {
-            if (Input.GetKeyDown(KeyCode.J))
-            {
-                LeaderPortraitInfo info = LeaderPortraitInfo.GenerateRandomInfo();
-                SetUpItem(info);
-            }
-        }
-
         public void SetUpItem(LeaderPortraitInfo info)
         {
             _bg.sprite = Utility.LoadSprite(info.portrait_bg.spritePath);
