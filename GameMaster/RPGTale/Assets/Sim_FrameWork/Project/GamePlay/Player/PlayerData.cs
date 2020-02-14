@@ -220,8 +220,18 @@ namespace Sim_FrameWork
         public PlayerResourceData() { }
         public bool InitData()
         {
+            var config = Config.ConfigData.PlayerConfig.gamePrepareConfig;
+            if (config == null)
+                return false;
+
+            AddCurrencyMax(ModifierDetailRootType_Simple.OriginConfig, config.OriginalCurrencyMax);
+            AddResearchMax(ModifierDetailRootType_Simple.OriginConfig, config.OriginalResearchMax);
+
+            var prepareData = DataManager.Instance.gamePrepareData;
+            AddCurrency(prepareData.GamePrepare_Currency);
+
+            return true;
             
-            return false;
         }
 
         /// <summary>

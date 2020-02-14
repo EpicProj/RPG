@@ -98,6 +98,9 @@ namespace Sim_FrameWork.UI
                 attributeTrans.GetChild(i).SafeGetComponent<GeneralInfoItem>().SetUpItem(GeneralInfoItemType.Camp_Attribute, info.attributeInfo[i]);
             }
 
+            ///Select Camp
+            DataManager.Instance.ChangeSelectCamp(info);
+
             return true;
         }
 
@@ -114,11 +117,18 @@ namespace Sim_FrameWork.UI
             {
                 var crewList = info.campLeaderList;
                 var trans = Transform.FindTransfrom("Content/CrewPanel/CrewContent");
-                trans.InitObj(UIPath.PrefabPath.Leader_Prepare_Card, crewList.Count);
+                trans.InitObj(UIPath.PrefabPath.Leader_Prepare_Card, Config.GlobalConfigData.GamePrepare_Crew_Leader_Max);
                 for (int i = 0; i < crewList.Count; i++)
                 {
                     var item = trans.GetChild(i).SafeGetComponent<LeaderPrepareCard>();
-                    item.SetUpItem(crewList[i]);
+                    item.SetUpItem( LeaderPrepareCard.State.Added,crewList[i]);
+                    leaderCardList.Add(item);
+                }
+                ///Init Empty
+                for(int j = crewList.Count; j< Config.GlobalConfigData.GamePrepare_Crew_Leader_Max; j++)
+                {
+                    var item = trans.GetChild(j).SafeGetComponent<LeaderPrepareCard>();
+                    item.SetUpItem(LeaderPrepareCard.State.Empty);
                     leaderCardList.Add(item);
                 }
                 return true;

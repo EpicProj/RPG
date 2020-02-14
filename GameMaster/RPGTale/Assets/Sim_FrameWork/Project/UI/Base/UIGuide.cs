@@ -223,5 +223,11 @@ namespace Sim_FrameWork
             UIManager.Instance.Register<UI.CampSelectMainPageContext>(UIPath.WindowPath.Camp_SelectMainPage);
             UIManager.Instance.PopUpWnd(UIPath.WindowPath.Camp_SelectMainPage, WindowType.Page);
         }
+
+        public void ShowLeaderDetailDialog(LeaderInfo info)
+        {
+            UIManager.Instance.Register<UI.LeaderDetailDialog>(UIPath.WindowPath.Leader_Detail_Dialog);
+            UIManager.Instance.PopUpWnd(UIPath.WindowPath.Leader_Detail_Dialog, WindowType.Dialog,true,info);
+        }
     }
 }

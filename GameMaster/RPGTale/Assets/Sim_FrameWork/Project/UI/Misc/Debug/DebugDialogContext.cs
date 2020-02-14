@@ -31,7 +31,7 @@ namespace Sim_FrameWork.UI
         void UpdateMsg(string content)
         {
             string currentText = contentText.text;
-            contentText.text = currentText + "/n" + content;
+            contentText.text = currentText + "\n" + content;
         }
     }
 }

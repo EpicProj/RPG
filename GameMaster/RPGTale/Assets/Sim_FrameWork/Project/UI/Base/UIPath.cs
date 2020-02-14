@@ -37,6 +37,8 @@ namespace Sim_FrameWork
             /// 载入存档
             /// </summary>
             public const string MainMenu_GameLoad_Dialog = "Dialog/Main/GameLoadDialog";
+
+            public const string Leader_Detail_Dialog = "Dialog/Leader/LeaderDetailDialog";
             /// <summary>
             /// 生产线选择
             /// </summary>
@@ -204,6 +206,8 @@ namespace Sim_FrameWork
 
             ///Leader
             public const string Leader_Prepare_Card = "Assets/Prefabs/Object/Leader/LeaderCard_Prepare.prefab";
+            public const string Leader_Skill_Item = "Assets/Prefabs/Object/Leader/LeaderSkillItem.prefab";
+            public const string Leader_StoryRoot_Item= "Assets/Prefabs/Object/Leader/LeaderStoryRootItem.prefab";
 
             #endregion
 

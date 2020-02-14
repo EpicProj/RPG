@@ -24,12 +24,23 @@ namespace Sim_FrameWork
     public class LeaderInfo
     {
         public int leaderID;
+        public ushort leaderUID;
+
         public string leaderName;
         public string leaderDesc;
 
+        public ushort currentAge;
+        public byte Gender;
+
+
         public LeaderSpeciesInfo speciesInfo;
         public LeaderPortraitInfo portraitInfo;
+        public LeaderCreedInfo creedInfo;
+        public LeaderBirthlandInfo birthlandInfo;
 
+        public List<LeaderSkillInfo> skillInfoList;
+        public List<LeaderAttributeInfo> attributeInfoList;
+        public List<LeaderStoryInfo> storyInfoList;
 
         public static LeaderInfo CreateLeaderInfo_Preset(int leaderID)
         {
@@ -43,8 +54,14 @@ namespace Sim_FrameWork
             info.leaderID = meta.LeaderID;
             info.leaderName = MultiLanguage.Instance.GetTextValue(meta.LeaderName);
             info.leaderDesc = MultiLanguage.Instance.GetTextValue(meta.LeaderDesc);
+            info.currentAge = meta.Age;
 
             info.speciesInfo = LeaderSpeciesInfo.InitSpeciesInfo(meta.SpeciesID);
+            info.creedInfo = LeaderCreedInfo.InitCreedInfo(meta.CreedID);
+            info.skillInfoList = LeaderModule.GetLeaderSkillInfoDefault(leaderID);
+            info.attributeInfoList = LeaderModule.GetLeaderAttributePreset(leaderID);
+            info.birthlandInfo = LeaderBirthlandInfo.InitBirthlandInfo(meta.BirthlandID);
+            info.storyInfoList = LeaderModule.GetLeaderPresetStory(leaderID);
 
             info.portraitInfo = LeaderPortraitInfo.Generate_PresetInfo(meta.Portrait_BG, meta.Portrait_Cloth, meta.Portrait_Ear,meta.Portrait_Hair,meta.Portrait_Eyes, meta.Portrait_Face, meta.Portrait_Mouth, meta.Portrait_Nose);
 
@@ -123,6 +140,42 @@ namespace Sim_FrameWork
         }
     }
 
+    public class LeaderSkillInfo
+    {
+        public int skillID;
+        public string skillName;
+        public string skillDesc;
+        public string skillIconPath;
+
+        public int currentLevel;
+        public int maxLevel;
+
+        public static LeaderSkillInfo InitSkillInfo(int skillID,int defaultLevel)
+        {
+            LeaderSkillInfo info = new LeaderSkillInfo();
+            var meta = LeaderModule.GetLeaderSkillDataByKey(skillID);
+            if (meta == null)
+            {
+                DebugPlus.LogError("Init LeaderSkill Info Error! skillID=" + skillID);
+                return null;
+            }
+            info.skillID = meta.SkillID;
+            info.skillName = MultiLanguage.Instance.GetTextValue(meta.SkillName);
+            info.skillDesc = MultiLanguage.Instance.GetTextValue(meta.SkillDesc);
+            info.skillIconPath = meta.SkillIcon;
+            info.currentLevel = defaultLevel;
+            info.maxLevel = meta.MaxLevel;
+
+            if (info.currentLevel > meta.MaxLevel)
+            {
+                DebugPlus.Log("LeaderSkill Info SkillLevelDefault larger than MaxLevel, skillID=" + skillID);
+                info.currentLevel = meta.MaxLevel;
+            }
+            return info;
+        }
+    }
+
+
     /// <summary>
     /// Leader Species
     /// </summary>
@@ -132,8 +185,8 @@ namespace Sim_FrameWork
         public string speciesName;
         public string speciesDesc;
 
-        public int Portrait_MaleGroup;
-        public int Portrait_FemaleGroup;
+        public string Portrait_MaleGroup;
+        public string Portrait_FemaleGroup;
 
         public static LeaderSpeciesInfo InitSpeciesInfo(int speciesID)
         {
@@ -151,5 +204,117 @@ namespace Sim_FrameWork
             info.Portrait_FemaleGroup = meta.Portrait_FemaleGroup;
             return info;
         }
+    }
+
+    /// <summary>
+    /// 领袖信仰
+    /// </summary>
+    public class LeaderCreedInfo
+    {
+        public int creedID;
+        public string creedName;
+        public string creedDesc;
+        public string creedIconPath;
+
+        public static LeaderCreedInfo InitCreedInfo(int creedID)
+        {
+            LeaderCreedInfo info = new LeaderCreedInfo();
+            var meta = LeaderModule.GetLeaderCreedDataByKey(creedID);
+            if (meta == null)
+            {
+                DebugPlus.LogError("Init LeaderCreedInfo Error! creedID=" + creedID);
+                return null;
+            }
+            info.creedID = meta.CreedID;
+            info.creedName = MultiLanguage.Instance.GetTextValue(meta.CreedName);
+            info.creedDesc = MultiLanguage.Instance.GetTextValue(meta.CreedDesc);
+            info.creedIconPath = meta.IconPath;
+            return info;
+        }
+    }
+
+    public class LeaderBirthlandInfo
+    {
+        public int birthlandID;
+        public string landName;
+        public string landDesc;
+        public string landIconPath;
+        public string landBGPath;
+
+        public static LeaderBirthlandInfo InitBirthlandInfo(int landID)
+        {
+            LeaderBirthlandInfo info = new LeaderBirthlandInfo();
+            var meta = LeaderModule.GetLeaderBirthlandDataByKey(landID);
+            if (meta == null)
+            {
+                DebugPlus.LogError("Init LeaderBirthlandInfo Fail ! landID=" + landID);
+                return null;
+            }
+            info.birthlandID = meta.LandID;
+            info.landName = MultiLanguage.Instance.GetTextValue(meta.LandName);
+            info.landDesc = MultiLanguage.Instance.GetTextValue(meta.LandDesc);
+            info.landIconPath = meta.LandIconPath;
+            info.landBGPath = meta.LandBGPath;
+
+            return info;
+        }
+    }
+
+    /// <summary>
+    /// Leader Attribute
+    /// </summary>
+    public class LeaderAttributeInfo
+    {
+        public int attributeID;
+        public string attributeName;
+        public string attributeDesc;
+        public string attributeIconPath;
+
+        public static LeaderAttributeInfo InitAttributeInfo(int attributeID)
+        {
+            LeaderAttributeInfo info = new LeaderAttributeInfo();
+            var meta = LeaderModule.GetLeaderAttributeDataByKey(attributeID);
+            if (meta == null)
+            {
+                DebugPlus.LogError("Init LeaderAttribute Error! attributeID=" + attributeID);
+                return null;
+            }
+            info.attributeID = meta.AttributeID;
+            info.attributeName = MultiLanguage.Instance.GetTextValue(meta.Name);
+            info.attributeDesc = MultiLanguage.Instance.GetTextValue(meta.Desc);
+            info.attributeIconPath = meta.IconPath;
+
+            return info;
+        }
+    }
+
+    /// <summary>
+    /// Leader Story
+    /// </summary>
+    public class LeaderStoryInfo
+    {
+        public int storyID;
+        public string storyContent;
+        public int year;
+        public int poolLevel;
+
+        public static LeaderStoryInfo InitStoryInfo(int storyID)
+        {
+            LeaderStoryInfo info = new LeaderStoryInfo();
+            var meta = LeaderModule.GetLeaderStoryDataByKey(storyID);
+            if (meta == null)
+            {
+                DebugPlus.LogError("Init LeaderStoryInfo Error! storyID=" + storyID);
+                return null;
+            }
+            info.storyID = meta.StoryID;
+            info.storyContent = MultiLanguage.Instance.GetTextValue(meta.Content);
+            info.year = meta.StoryYearStart;
+            info.poolLevel = meta.PoolLevel;
+
+            return info;
+        }
+
+
     }
 }

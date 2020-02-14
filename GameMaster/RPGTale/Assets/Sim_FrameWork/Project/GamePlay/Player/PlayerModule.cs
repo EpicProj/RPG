@@ -182,6 +182,8 @@ namespace Sim_FrameWork
     #region GamePrepare
     public class GamePrepareData
     {
+        public CampInfo currentCampInfo;
+
         public int hardLevelValue;
 
         public void ChangeHardLevelValue(int value)

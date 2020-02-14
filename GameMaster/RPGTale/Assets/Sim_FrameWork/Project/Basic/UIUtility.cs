@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using DG.Tweening;
+using UnityEngine.UI;
 
 namespace Sim_FrameWork
 {
@@ -130,6 +131,24 @@ namespace Sim_FrameWork
             }
         }
 
+        public static Vector2 GetContentSizeFitterPreferredSize(this RectTransform rect,ContentSizeFitter fitter)
+        {
+            LayoutRebuilder.ForceRebuildLayoutImmediate(rect);
+            return new Vector2(HandleSelfFittingAlongAxis(0, rect, fitter), HandleSelfFittingAlongAxis(1, rect, fitter));
+        }
+
+        private static float HandleSelfFittingAlongAxis(int axis,RectTransform rect,ContentSizeFitter fitter)
+        {
+            ContentSizeFitter.FitMode fitting = (axis == 0 ? fitter.horizontalFit : fitter.verticalFit);
+            if (fitting == ContentSizeFitter.FitMode.MinSize)
+            {
+                return LayoutUtility.GetMinSize(rect, axis);
+            }
+            else
+            {
+                return LayoutUtility.GetPreferredSize(rect, axis);
+            }
+        }
 
         public static void ActiveCanvasGroup(this CanvasGroup group,bool active)
         {

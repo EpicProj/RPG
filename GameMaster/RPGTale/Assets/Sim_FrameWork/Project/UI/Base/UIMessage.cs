@@ -90,6 +90,9 @@ namespace Sim_FrameWork
         ///MainShip
         MainShip_Area_PowerLevel_Change,
         MainShip_Area_EnergyLoad_Change,
+
+        ///Leader
+        LeaderDetail_Story_Select,
         
     }
 }

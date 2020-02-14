@@ -96,6 +96,7 @@ namespace Sim_FrameWork.Config
         public static string MainShipAreaMapConfigJsonPath= MainShipConfigPath + "MainShipMapConfig.json";
 
         public static string LeaderPortraitConfigJsonPath = LeaderConfigPath + "LeaderPortraitConfig.json";
+        public static string LeaderNameConfigJsonPath = LeaderConfigPath + "LeaderNameConfig.json";
 
     }
 }

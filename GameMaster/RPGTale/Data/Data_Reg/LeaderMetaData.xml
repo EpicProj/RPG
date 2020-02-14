@@ -7,6 +7,12 @@
 			<variable  name="LeaderDesc" col = "LeaderDesc" type="string"/>
 			<variable  name="SpeciesID" col = "SpeciesID" type="int"/>
 			<variable  name="Gender" col = "Gender" type="ushort"/>
+			<variable  name="Age" col = "Age" type="ushort"/>
+			<variable  name="CreedID" col = "CreedID" type="int"/>
+			<variable  name="LeaderSkillIDList" col = "LeaderSkillIDList" type="string"/>
+			<variable  name="BirthlandID" col = "BirthlandID" type="int"/>
+			<variable  name="AttributeIDList" col = "AttributeIDList" type="string"/>
+			<variable  name="StoryList" col = "StoryList" type="string"/>
 			<variable  name="Portrait_BG" col = "Portrait_BG" type="int"/>
 			<variable  name="Portrait_Cloth" col = "Portrait_Cloth" type="int"/>
 			<variable  name="Portrait_Ear" col = "Portrait_Ear" type="int"/>
@@ -23,8 +29,10 @@
 			<variable  name="SpeciesID" col = "SpeciesID" type="int"/>
 			<variable  name="SpeciesName" col = "SpeciesName" type="string"/>
 			<variable  name="SpeciesDesc" col = "SpeciesDesc" type="string"/>
-			<variable  name="Portrait_MaleGroup" col = "Portrait_MaleGroup" type="int"/>
-			<variable  name="Portrait_FemaleGroup" col = "Portrait_FemaleGroup" type="int"/>
+			<variable  name="Portrait_MaleGroup" col = "Portrait_MaleGroup" type="string"/>
+			<variable  name="Portrait_FemaleGroup" col = "Portrait_FemaleGroup" type="string"/>
+			<variable  name="Name_MaleGroup" col = "Name_MaleGroup" type="string"/>
+			<variable  name="Name_FemaleGroup" col = "Name_FemaleGroup" type="string"/>
 		</list>
 	</variable>
 
@@ -46,6 +54,47 @@
 			<variable  name="DutyName" col = "DutyName" type="string"/>
 			<variable  name="DutyDesc" col = "DutyDesc" type="string"/>
 			<variable  name="DutyIcon" col = "DutyIcon" type="string"/>
+		</list>
+	</variable>
+
+	<variable  name="AllLeaderCreedDataList" type="list">
+		<list name = "LeaderCreedData" sheetname="LeaderCreedData" mainKey = "CreedID">
+			<variable  name="CreedID" col = "CreedID" type="int"/>
+			<variable  name="CreedName" col = "CreedName" type="string"/>
+			<variable  name="CreedDesc" col = "CreedDesc" type="string"/>
+			<variable  name="IconPath" col = "IconPath" type="string"/>
+			<variable  name="CampCreedID" col = "CampCreedID" type="int"/>
+		</list>
+	</variable>
+
+	<variable  name="AllLeaderAttributeDataList" type="list">
+		<list name = "LeaderAttributeData" sheetname="LeaderAttributeData" mainKey = "AttributeID">
+			<variable  name="AttributeID" col = "AttributeID" type="int"/>
+			<variable  name="Name" col = "Name" type="string"/>
+			<variable  name="Desc" col = "Desc" type="string"/>
+			<variable  name="IconPath" col = "IconPath" type="string"/>
+		</list>
+	</variable>
+
+	<variable  name="AllLeaderBirthlandDataList" type="list">
+		<list name = "LeaderBirthlandData" sheetname="LeaderBirthlandData" mainKey = "LandID">
+			<variable  name="LandID" col = "LandID" type="int"/>
+			<variable  name="LandName" col = "LandName" type="string"/>
+			<variable  name="LandDesc" col = "LandDesc" type="string"/>
+			<variable  name="LandIconPath" col = "LandIconPath" type="string"/>
+			<variable  name="LandBGPath" col = "LandBGPath" type="string"/>
+		</list>
+	</variable>
+
+	<variable  name="AllLeaderStoryDataList" type="list">
+		<list name = "LeaderStoryData" sheetname="LeaderStoryData" mainKey = "StoryID">
+			<variable  name="StoryID" col = "StoryID" type="int"/>
+			<variable  name="Content" col = "Content" type="string"/>
+			<variable  name="PoolLevel" col = "PoolLevel" type="ushort"/>
+			<variable  name="StoryYearStart" col = "StoryYearStart" type="ushort"/>
+			<variable  name="StoryYearEnd" col = "StoryYearEnd" type="ushort"/>
+			<variable  name="LinkAttributeParam" col = "LinkAttributeParam" type="string"/>
+			<variable  name="BirthlandLimitList" col = "BirthlandLimitList" type="string"/>
 		</list>
 	</variable>
 </data>

@@ -309,6 +309,10 @@ namespace Sim_FrameWork {
         }
 
 
+
+
+
+
         #endregion
 
 
@@ -403,6 +407,17 @@ namespace Sim_FrameWork {
 
         #endregion
 
+
+        #region Leader Manager
+
+        public Dictionary<ushort, LeaderInfo> LeaderInfoDic = new Dictionary<ushort, LeaderInfo>();
+
+
+
+
+        #endregion
+
+
     }
 
 
@@ -417,11 +432,12 @@ namespace Sim_FrameWork {
         }
     }
 
+
     public class OrderStatisticsItem
     {
         public int orderID;
-        
-        public List<OrderCompleteItem> orderCompleteData =new List<OrderCompleteItem> ();
+
+        public List<OrderCompleteItem> orderCompleteData = new List<OrderCompleteItem>();
 
         public int OrderCompleteCount { get { return orderCompleteData.Count; } }
 
@@ -437,10 +453,10 @@ namespace Sim_FrameWork {
             public int completeMonth;
         }
 
-        public OrderStatisticsItem(int orderID,TimeData data=null,int overTime=0)
+        public OrderStatisticsItem(int orderID, TimeData data = null, int overTime = 0)
         {
             this.orderID = orderID;
-            if(data != null)
+            if (data != null)
             {
                 OrderCompleteItem item = new OrderCompleteItem
                 {
@@ -449,7 +465,7 @@ namespace Sim_FrameWork {
                     completeMonth = data.date.Month
                 };
                 orderCompleteData.Add(item);
-            }       
+            }
             OverTimeCount = overTime;
         }
 

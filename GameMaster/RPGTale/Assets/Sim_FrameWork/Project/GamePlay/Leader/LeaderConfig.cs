@@ -33,8 +33,29 @@ namespace Sim_FrameWork.Config
     public class LeaderPortraitItemConfig
     {
         public int configID;
-        public List<int> configGroupIDList;
+        public List<string> configGroupIDList;
         public string spritePath;
+    }
+
+    /// <summary>
+    /// Name Config
+    /// </summary>
+    public class LeaderNameConfig
+    {
+        public List<LeaderNameConfigItem> config;
+
+        public static LeaderNameConfig LoadData()
+        {
+            JsonReader config = new JsonReader();
+            LeaderNameConfig setting = config.LoadJsonDataConfig<LeaderNameConfig>(JsonConfigPath.LeaderNameConfigJsonPath);
+            return setting;
+        }
+
+    }
+    public class LeaderNameConfigItem
+    {
+        public string configGroupID;
+        public List<string> nameTextID;
     }
 
 }

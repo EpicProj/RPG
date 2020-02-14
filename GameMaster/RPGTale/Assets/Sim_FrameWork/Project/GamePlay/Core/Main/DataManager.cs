@@ -67,6 +67,11 @@ namespace Sim_FrameWork {
             }
         }
 
+        public void ChangeSelectCamp(CampInfo info)
+        {
+            gamePrepareData.currentCampInfo = info;
+        }
+
         public void RefreshGamePrepareData()
         {
             gamePrepareData.RefreshData();
