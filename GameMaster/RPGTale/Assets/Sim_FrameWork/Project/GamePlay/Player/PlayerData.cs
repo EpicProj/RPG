@@ -5,6 +5,14 @@ using System;
 
 namespace Sim_FrameWork
 {
+    public enum ShipAIRobotType
+    {
+        None,
+        Builder,
+        Operator,
+        Maintenance
+    }
+
     public class PlayerData 
     {
 
@@ -28,8 +36,8 @@ namespace Sim_FrameWork
 
             timeData = TimeData.InitData(config.timeConfig);
 
-            resourceData = new PlayerResourceData();
-            
+            resourceData = PlayerResourceData.InitData();
+
             assemblePartData = PlayerAssemblePartData.InitData();
 
             materialStorageData = new MaterialStorageData();
@@ -156,40 +164,117 @@ namespace Sim_FrameWork
                 _energyMax = 0;
         }
 
-        //结算
-        private float _energyPerDay;
-        public float EnergyPerDay { get { return _energyPerDay; } }
+        /// <summary>
+        /// Daily Settle
+        /// </summary>
+        public float EnergyDailySettlePool;
+        public void ResetEnergyDailySettlePool()
+        {
+            EnergyDailySettlePool = 0;
+        }
+        public void UpdateEnergyDailySettlePool(float totalFrequency)
+        {
+            float result = 0;
+            foreach (var item in energyPerDayDetailPac.detailDic.Values)
+                result += item.value / totalFrequency;
+            EnergyDailySettlePool += result;
+        }
+
+        public int EnergyDailySettleDisplay
+        {
+            get
+            {
+                int result = 0;
+                foreach (var item in energyPerDayDetailPac.detailDic.Values)
+                    result += (int)item.value;
+                return result;
+            }
+        }
 
         public ModifierDetailPackage energyPerDayDetailPac = new ModifierDetailPackage();
 
-        public void AddEnergyPerDay(ModifierDetailRootType_Simple rootType, float num)
+        public void AddEnergyPerDay(ModifierDetailRootType_Simple rootType, float num,bool CoverData)
         {
-            energyPerDayDetailPac.ValueChange(rootType, num);
-            _energyPerDay += num;
+            energyPerDayDetailPac.ValueChange(rootType, num,CoverData);
         }
 
         #endregion
 
-        #region Builder
-        private ushort _builder;
-        public ushort Builder { get { return _builder; } protected set { } }
-        public void AddBuilder(ushort num)
+        #region AIRobot
+        public Dictionary<ShipAIRobotType, ushort> AIRobotInfo = new Dictionary<ShipAIRobotType, ushort>();
+        public int AIRobotTotalNum
         {
-            _builder += num;
-            if (_builder >= _builderMax)
-                _builder = _builderMax;
+            get
+            {
+                int num = 0;
+                foreach (var item in AIRobotInfo.Values)
+                    num += item;
+                return num;
+            }
         }
 
-        private ushort _builderMax;
-        public ushort BuilderMax { get { return _builderMax; } protected set { } }
-
-        public ModifierDetailPackage builderMaxDetailPac = new ModifierDetailPackage();
-        public void AddBuilderMax(ModifierDetailRootType_Simple rootType, ushort num)
+        public void AddAIRobot(ShipAIRobotType type,ushort num)
         {
-            builderMaxDetailPac.ValueChange(rootType, num);
-            _builderMax += num;
-            if (_builderMax < 0)
-                _builderMax = 0;
+            if (!AIRobotInfo.ContainsKey(type))
+                return;
+            AIRobotInfo[type] += num;
+            if (type== ShipAIRobotType.Builder)
+            {
+                if (AIRobotInfo[type] > AIRobot_Builder_Max)
+                    AIRobotInfo[type] = AIRobot_Builder_Max;
+            }
+            else if(type== ShipAIRobotType.Maintenance)
+            {
+                if (AIRobotInfo[type] > AIRobot_Maintenance_Max)
+                    AIRobotInfo[type] = AIRobot_Maintenance_Max;
+            }
+            else if(type == ShipAIRobotType.Operator)
+            {
+                if (AIRobotInfo[type] > AIRobot_Operator_Max)
+                    AIRobotInfo[type] = AIRobot_Operator_Max;
+            }
+        }
+
+        /// <summary>
+        /// Maintenance_Max
+        /// </summary>
+        private ushort _AIRobot_Maintenance_Max;
+        public ushort AIRobot_Maintenance_Max { get { return _AIRobot_Maintenance_Max; } protected set { } }
+
+        public ModifierDetailPackage AIRobot_MaintenanceMax_DetailPac = new ModifierDetailPackage();
+        public void AddAIRobot_Maintenance_Max(ModifierDetailRootType_Simple rootType, ushort num)
+        {
+            AIRobot_MaintenanceMax_DetailPac.ValueChange(rootType, num);
+            _AIRobot_Maintenance_Max += num;
+            if (_AIRobot_Maintenance_Max < 0)
+                _AIRobot_Maintenance_Max = 0;
+        }
+
+        /// <summary>
+        /// Builder_Max
+        /// </summary>
+        private ushort _AIRobot_Builder_Max;
+        public ushort AIRobot_Builder_Max { get { return _AIRobot_Builder_Max; } protected set { } }
+
+        public ModifierDetailPackage AIRobot_Builder_Max_DetailPac = new ModifierDetailPackage();
+        public void AddAIRobot_Builder_Max(ModifierDetailRootType_Simple rootType,ushort num)
+        {
+            AIRobot_Builder_Max_DetailPac.ValueChange(rootType, num);
+            _AIRobot_Builder_Max += num;
+            if (_AIRobot_Builder_Max < 0)
+                _AIRobot_Builder_Max = 0;
+        }
+
+        private ushort _AIRobot_Operator_Max;
+        public ushort AIRobot_Operator_Max { get { return _AIRobot_Operator_Max; }protected set { } }
+
+        public ModifierDetailPackage AIRobot_Operator_Max_DetailPac = new ModifierDetailPackage();
+        public void AddAIRobot_Operator_Max(ModifierDetailRootType_Simple rootType,ushort num)
+        {
+            AIRobot_Operator_Max_DetailPac.ValueChange(rootType, num);
+            _AIRobot_Operator_Max += num;
+            if (_AIRobot_Operator_Max < 0)
+                _AIRobot_Operator_Max = 0;
         }
 
         #endregion
@@ -218,20 +303,37 @@ namespace Sim_FrameWork
 
         #endregion
         public PlayerResourceData() { }
-        public bool InitData()
+        public static PlayerResourceData InitData()
         {
+            PlayerResourceData data = new PlayerResourceData();
             var config = Config.ConfigData.PlayerConfig.gamePrepareConfig;
             if (config == null)
-                return false;
+            {
+                DebugPlus.LogError("GamePrepareConfig null! PlayerResourceData InitFail!");
+                return null;
+            }
 
-            AddCurrencyMax(ModifierDetailRootType_Simple.OriginConfig, config.OriginalCurrencyMax);
-            AddResearchMax(ModifierDetailRootType_Simple.OriginConfig, config.OriginalResearchMax);
+            data.AddCurrencyMax(ModifierDetailRootType_Simple.OriginConfig, config.OriginalCurrencyMax);
+            data.AddResearchMax(ModifierDetailRootType_Simple.OriginConfig, config.OriginalResearchMax);
+            data.AddEnergyMax(ModifierDetailRootType_Simple.OriginConfig, config.OriginalEnergyMax);
+            data.AddRoCoreMax(ModifierDetailRootType_Simple.OriginConfig, config.OriginalRoCoreMax);
+            data.AddAIRobot_Maintenance_Max(ModifierDetailRootType_Simple.OriginConfig, config.OriginalAIRobot_Maintenance_Max);
+            data.AddAIRobot_Builder_Max(ModifierDetailRootType_Simple.OriginConfig, config.OriginalAIRobot_Builder_Max);
+            data.AddAIRobot_Operator_Max(ModifierDetailRootType_Simple.OriginConfig, config.OriginalAIRobot_Operator_Max);
 
             var prepareData = DataManager.Instance.gamePrepareData;
-            AddCurrency(prepareData.GamePrepare_Currency);
-
-            return true;
+            data.AddCurrency(prepareData.GamePrepare_Currency);
+            data.AddRoCore(prepareData.GamePrepare_RoCore);
+            data.AddResearch(config.OriginalResearch);
+            data.AddEnergy(config.OriginalEnergy);
             
+
+            ///Init AIInfo
+            data.AIRobotInfo.Add(ShipAIRobotType.Maintenance, prepareData.GamePrepare_AI_Maintenance);
+            data.AIRobotInfo.Add(ShipAIRobotType.Builder, prepareData.GamePrepare_AI_Builder);
+            data.AIRobotInfo.Add(ShipAIRobotType.Operator, prepareData.GamePrepare_AI_Operator);
+
+            return data;      
         }
 
         /// <summary>
@@ -257,7 +359,6 @@ namespace Sim_FrameWork
 
                 data._energy = saveData.currentEnergy;
                 data._energyMax = saveData.currentEnergyMax;
-                data._energyPerDay = saveData.energyPerDay;
                 data.energyMaxDetailPac = saveData.energyMaxDetailPac;
                 data.energyPerDayDetailPac = saveData.energyPerDayDetailPac;
 
@@ -265,15 +366,21 @@ namespace Sim_FrameWork
                 data._roCoreMax = saveData.currentRoCoreMax;
                 data.roCoreMaxDetailPac = saveData.roCoreMaxDetailPac;
 
-                data._builder = saveData.currentBuilder;
-                data._builderMax = saveData.currentBuilderMax;
-                data.builderMaxDetailPac = saveData.builderMaxDetailPac;
+                data.AIRobotInfo = saveData.currentAIRobotInfo;
+                data._AIRobot_Builder_Max = saveData.AIRobot_Builder_Max;
+                data.AIRobot_Builder_Max_DetailPac = saveData.AIRobot_Builder_Max_DetailPac;
+                data._AIRobot_Maintenance_Max = saveData.AIRobot_Maintenance_Max;
+                data.AIRobot_MaintenanceMax_DetailPac = saveData.AIRobot_Maintenance_Max_DetailPac;
+                data._AIRobot_Operator_Max = saveData.AIRobot_Operator_Max;
+                data.AIRobot_Operator_Max_DetailPac = saveData.AIRobot_Operator_Max_DetailPac;
+
                 return data;
             }
             DebugPlus.LogError("[PlayerSaveData_Resource] : Save is null!");
             return null;
         }
     }
+   
 
     public class PlayerAssemblePartData
     {
@@ -682,12 +789,16 @@ namespace Sim_FrameWork
         public float currentEnergy;
         public float currentEnergyMax;
         public ModifierDetailPackage energyMaxDetailPac;
-        public float energyPerDay;
         public ModifierDetailPackage energyPerDayDetailPac;
 
-        public ushort currentBuilder;
-        public ushort currentBuilderMax;
-        public ModifierDetailPackage builderMaxDetailPac;
+        public Dictionary<ShipAIRobotType,ushort> currentAIRobotInfo;
+
+        public ushort AIRobot_Builder_Max;
+        public ModifierDetailPackage AIRobot_Builder_Max_DetailPac;
+        public ushort AIRobot_Maintenance_Max;
+        public ModifierDetailPackage AIRobot_Maintenance_Max_DetailPac;
+        public ushort AIRobot_Operator_Max;
+        public ModifierDetailPackage AIRobot_Operator_Max_DetailPac;
 
         public ushort currentRoCore;
         public ushort currentRoCoreMax;
@@ -715,13 +826,16 @@ namespace Sim_FrameWork
 
             res.currentEnergy = data.Energy;
             res.currentEnergyMax = data.EnergyMax;
-            res.energyPerDay = data.EnergyPerDay;
             res.energyMaxDetailPac = data.energyMaxDetailPac;
             res.energyPerDayDetailPac = data.energyPerDayDetailPac;
 
-            res.currentBuilder = data.Builder;
-            res.currentBuilderMax = data.BuilderMax;
-            res.builderMaxDetailPac = data.builderMaxDetailPac;
+            res.currentAIRobotInfo = data.AIRobotInfo;
+            res.AIRobot_Builder_Max = data.AIRobot_Builder_Max;
+            res.AIRobot_Builder_Max_DetailPac = data.AIRobot_Builder_Max_DetailPac;
+            res.AIRobot_Maintenance_Max = data.AIRobot_Maintenance_Max;
+            res.AIRobot_Maintenance_Max_DetailPac = data.AIRobot_MaintenanceMax_DetailPac;
+            res.AIRobot_Operator_Max = data.AIRobot_Operator_Max;
+            res.AIRobot_Operator_Max_DetailPac = data.AIRobot_Operator_Max_DetailPac;
 
             res.currentRoCore = data.RoCore;
             res.currentRoCoreMax = data.RoCoreMax;
@@ -772,6 +886,284 @@ namespace Sim_FrameWork
             return data;
         }
     }
+    #endregion
+
+    #region GamePrepare
+    public class GamePrepareData
+    {
+        public CampInfo currentCampInfo;
+
+        public int hardLevelValue;
+
+        public void ChangeHardLevelValue(int value)
+        {
+            hardLevelValue += value;
+            if (hardLevelValue < 0)
+                hardLevelValue = 0;
+        }
+
+        public List<GamePreparePropertyData> preparePropertyDataList = new List<GamePreparePropertyData>();
+
+        public List<GamePreparePropertyData> prepareAIDataList = new List<GamePreparePropertyData>();
+
+        /// <summary>
+        /// 维修员
+        /// </summary>
+        public ushort GamePrepare_AI_Maintenance;
+        public void GetGamePrepare_AI_Maintenance(int level)
+        {
+            var propertyData = prepareAIDataList.Find(x => x.configID == Config.ConfigData.PlayerConfig.gamePrepareConfig.GamePrepareConfig_PropertyLink_AI_Maintenance);
+            if (propertyData == null)
+            {
+                GetPrepare_AI_Maintenance_Default();
+                return;
+            }
+            var data = PlayerModule.GetAIPrepareConfigItem(propertyData.configID);
+            var levelData = data.levelMap.Find(x => x.Level == level);
+            GamePrepare_AI_Maintenance = (ushort)levelData.numParam;
+        }
+
+        protected void GetPrepare_AI_Maintenance_Default()
+        {
+            DebugPlus.Log("[GamePrepare_AI_Maintenance] : Config not Find! Use Default Value");
+            GamePrepare_AI_Maintenance = Config.ConfigData.PlayerConfig.gamePrepareConfig.GamePrepareConfig_AI_Operator_Default;
+        }
+
+        /// <summary>
+        /// 建筑员
+        /// </summary>
+        public ushort GamePrepare_AI_Builder;
+        public void GetGamePrepare_AI_Builder(int level)
+        {
+            var propertyData = prepareAIDataList.Find(x => x.configID == Config.ConfigData.PlayerConfig.gamePrepareConfig.GamePrepareConfig_PropertyLink_AI_Builder);
+            if (propertyData == null)
+            {
+                GetGamePrepare_AI_Builder_Default();
+                return;
+            }
+            var data = PlayerModule.GetAIPrepareConfigItem(propertyData.configID);
+            var levelData = data.levelMap.Find(x => x.Level == level);
+            GamePrepare_AI_Builder = (ushort)levelData.numParam;
+        }
+        protected void GetGamePrepare_AI_Builder_Default()
+        {
+            DebugPlus.Log("[GamePrepare_AI_Builder] : Config not Find! Use Default Value");
+            GamePrepare_AI_Builder = Config.ConfigData.PlayerConfig.gamePrepareConfig.GamePrepareConfig_AI_Builder_Default;
+        }
+
+        /// <summary>
+        /// 操作员
+        /// </summary>
+        public ushort GamePrepare_AI_Operator;
+        public void GetGamePrepare_AI_Operator(int level)
+        {
+            var propertyData = prepareAIDataList.Find(x => x.configID == Config.ConfigData.PlayerConfig.gamePrepareConfig.GamePrepareConfig_PropertyLink_AI_Operator);
+            if (propertyData == null)
+            {
+                GetGamePrepare_AI_Operator_Default();
+                return;
+            }
+            var data = PlayerModule.GetAIPrepareConfigItem(propertyData.configID);
+            var levelData = data.levelMap.Find(x => x.Level == level);
+            GamePrepare_AI_Operator = (ushort)levelData.numParam;
+        }
+        protected void GetGamePrepare_AI_Operator_Default()
+        {
+            DebugPlus.Log("[GamePrepare_AI_Operator] : Config not Find! Use Default Value");
+            GamePrepare_AI_Builder = Config.ConfigData.PlayerConfig.gamePrepareConfig.GamePrepareConfig_AI_Operator_Default;
+        }
+
+
+        public int GamePrepare_BornPosition;  //出生地
+
+
+        public int GamePrepare_ResourceRichness = 0;  //资源丰富度
+        public void GetPrepare_ResourceRichness(int level)
+        {
+            var propertyData = preparePropertyDataList.Find(x => x.configID == Config.ConfigData.PlayerConfig.gamePrepareConfig.GamePrepareConfig_PropertyLink_Resource_Richness);
+            if (propertyData == null)
+            {
+                GetPrepare_ResourceRichness_Default();
+                return;
+            }
+            var data = PlayerModule.GetGamePrepareConfigItem(propertyData.configID);
+            var levelData = data.levelMap.Find(x => x.Level == level);
+            GamePrepare_ResourceRichness = levelData.Level;
+        }
+        protected void GetPrepare_ResourceRichness_Default()
+        {
+            DebugPlus.Log("[GamePrepare_ResourceRichness] : Config not Find! Use Default Value");
+            GamePrepare_Currency = Config.ConfigData.PlayerConfig.gamePrepareConfig.GamePrepareConfig_Resource_Richness_Default;
+        }
+
+        /// <summary>
+        /// 初始资金
+        /// </summary>
+        public int GamePrepare_Currency = 0;
+        public void GetPrepare_Currency(int level)
+        {
+            var propertyData = preparePropertyDataList.Find(x => x.configID == Config.ConfigData.PlayerConfig.gamePrepareConfig.GamePrepareConfig_PropertyLink_Currency);
+            if (propertyData == null)
+            {
+                GetPrepare_Currency_Default();
+                return;
+            }
+            var data = PlayerModule.GetGamePrepareConfigItem(propertyData.configID);
+            var levelData = data.levelMap.Find(x => x.Level == level);
+            GamePrepare_Currency = (int)levelData.numParam;
+        }
+        protected void GetPrepare_Currency_Default()
+        {
+            DebugPlus.Log("[GamePrepare_Currency] : Config not Find! Use Default Value");
+            GamePrepare_Currency = Config.ConfigData.PlayerConfig.gamePrepareConfig.GamePrepareConfig_Currency_Default;
+        }
+
+        /// <summary>
+        /// Ro Core
+        /// </summary>
+        public ushort GamePrepare_RoCore = 0;
+        public void GetPrepare_RoCore(int level)
+        {
+            var propertyData = preparePropertyDataList.Find(x => x.configID == Config.ConfigData.PlayerConfig.gamePrepareConfig.GamePrepareConfig_PropertyLink_RoCore);
+            if (propertyData == null)
+            {
+                GetPrepare_RoCore_Default();
+                return;
+            }
+            var data = PlayerModule.GetGamePrepareConfigItem(propertyData.configID);
+            var levelData = data.levelMap.Find(x => x.Level == level);
+            GamePrepare_RoCore = (ushort)levelData.numParam;
+        }
+        protected void GetPrepare_RoCore_Default()
+        {
+            DebugPlus.Log("[GamePrepare_RoCore] : Config not Find! Use Default Value");
+            GamePrepare_RoCore = Config.ConfigData.PlayerConfig.gamePrepareConfig.GamePrepareConfig_RoCore_Default;
+        }
+
+        /// <summary>
+        /// 敌人强度
+        /// </summary>
+        public float GamePrepare_EnemyHardLevel = 1;
+        public void GetPrepare_EnermyHardLevel(int level)
+        {
+            var propertyData = preparePropertyDataList.Find(x => x.configID == Config.ConfigData.PlayerConfig.gamePrepareConfig.GamePrepareConfig_PropertyLink_EnemyHardLevel);
+            if (propertyData == null)
+            {
+                GetPrepare_EnermyHardLevel_Default();
+                return;
+            }
+            var data = PlayerModule.GetGamePrepareConfigItem(propertyData.configID);
+            var levelData = data.levelMap.Find(x => x.Level == level);
+            GamePrepare_EnemyHardLevel = (float)levelData.numParam;
+        }
+        protected void GetPrepare_EnermyHardLevel_Default()
+        {
+            DebugPlus.Log("[EnermyHardLevel] : Config not Find! Use Default Value");
+            GamePrepare_EnemyHardLevel = (float)Config.ConfigData.PlayerConfig.gamePrepareConfig.GamePrepareConfig_EnemyHardLevel_Default;
+        }
+
+
+        public float GamePrepare_Research_Coefficient = 1;  //研究系数
+        public void GetPrepare_Research_Coefficient(int level)
+        {
+            var propertyData = preparePropertyDataList.Find(x => x.configID == Config.ConfigData.PlayerConfig.gamePrepareConfig.GamePrepareConfig_PropertyLink_Research_Coefficient);
+            if (propertyData == null)
+            {
+                GetPrepare_Research_Coefficient_Default();
+                return;
+            }
+            var data = PlayerModule.GetGamePrepareConfigItem(propertyData.configID);
+            var levelData = data.levelMap.Find(x => x.Level == level);
+            GamePrepare_Research_Coefficient = (float)levelData.numParam;
+        }
+        protected void GetPrepare_Research_Coefficient_Default()
+        {
+            DebugPlus.Log("[Research_Coefficient] : Config not Find! Use Default Value");
+            GamePrepare_EnemyHardLevel = (float)Config.ConfigData.PlayerConfig.gamePrepareConfig.GamePrepareConfig_Research_Coefficient_Default;
+        }
+
+        public static GamePrepareData InitData()
+        {
+            GamePrepareData data = new GamePrepareData();
+            var config = Config.ConfigData.PlayerConfig.gamePrepareConfig;
+            if (config == null)
+                return null;
+            for (int i = 0; i < config.prepareProperty.Count; i++)
+            {
+                GamePreparePropertyData propertyData = new GamePreparePropertyData
+                {
+                    configID = config.prepareProperty[i].configID,
+                    configType = config.prepareProperty[i].configType,
+                    currentSelectLevel = config.prepareProperty[i].defaultSelectLevel
+                };
+                data.preparePropertyDataList.Add(propertyData);
+            }
+
+            for (int i=0; i < config.AIPrepareConfig.Count; i++)
+            {
+                GamePreparePropertyData propertyData = new GamePreparePropertyData
+                {
+                    configID = config.AIPrepareConfig[i].configID,
+                    currentSelectLevel = config.AIPrepareConfig[i].defaultSelectLevel
+                };
+                data.prepareAIDataList.Add(propertyData);
+            }
+
+            return data;
+        }
+
+        public void RefreshData()
+        {
+            var config = Config.ConfigData.PlayerConfig.gamePrepareConfig;
+            for (int i = 0; i < preparePropertyDataList.Count; i++)
+            {
+                ///Currency
+                if (preparePropertyDataList[i].configID == config.GamePrepareConfig_PropertyLink_Currency)
+                {
+                    GetPrepare_Currency(preparePropertyDataList[i].currentSelectLevel);
+                }
+                ///Research Richness
+                else if (preparePropertyDataList[i].configID == config.GamePrepareConfig_PropertyLink_Resource_Richness)
+                {
+                    GetPrepare_ResourceRichness(preparePropertyDataList[i].currentSelectLevel);
+                }
+                ///Enemy HardLevel
+                else if (preparePropertyDataList[i].configID == config.GamePrepareConfig_PropertyLink_EnemyHardLevel)
+                {
+                    GetPrepare_EnermyHardLevel(preparePropertyDataList[i].currentSelectLevel);
+                }
+                else if (preparePropertyDataList[i].configID == config.GamePrepareConfig_PropertyLink_RoCore)
+                {
+                    GetPrepare_RoCore(preparePropertyDataList[i].currentSelectLevel);
+                }
+            }
+
+            for(int i = 0; i < prepareAIDataList.Count; i++)
+            {
+                if (prepareAIDataList[i].configID == config.GamePrepareConfig_PropertyLink_AI_Maintenance)
+                {
+                    GetGamePrepare_AI_Maintenance(prepareAIDataList[i].currentSelectLevel);
+                }
+                else if (prepareAIDataList[i].configID == config.GamePrepareConfig_PropertyLink_AI_Builder)
+                {
+                    GetGamePrepare_AI_Builder(prepareAIDataList[i].currentSelectLevel);
+                }
+                else if (prepareAIDataList[i].configID == config.GamePrepareConfig_PropertyLink_AI_Operator)
+                {
+                    GetGamePrepare_AI_Operator(prepareAIDataList[i].currentSelectLevel);
+                }
+            }
+        }
+
+    }
+
+    public class GamePreparePropertyData
+    {
+        public string configID;
+        public byte configType;
+        public byte currentSelectLevel;
+    }
+
     #endregion
 
 }

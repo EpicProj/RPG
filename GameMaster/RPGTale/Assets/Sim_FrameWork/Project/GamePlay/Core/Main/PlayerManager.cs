@@ -11,12 +11,17 @@ namespace Sim_FrameWork
         Currency,
         Research,
         Energy,
-        Builder,
+        AIRobot_Maintenance,
+        AIRobot_Builder,
+        AIRobot_Operator,
         RoCore,
     }
     public class PlayerManager : Singleton<PlayerManager>
     {
         public PlayerData playerData;
+
+        private float updateFrequency = 1.0f;
+        private int currentSettleIndex = 0;
 
         public void InitPlayerData()
         {
@@ -26,6 +31,10 @@ namespace Sim_FrameWork
                 DebugPlus.LogError("[PlayerManager] : PlayerData Init Fail!");
             }
             InitAssembleData();
+
+            updateFrequency = playerData.timeData.realSecondsPerDay / Config.GlobalConfigData.StateUpdateTimeUnit;
+            if (updateFrequency < Config.GlobalConfigData.StateUpdateTimeUnit)
+                updateFrequency = Config.GlobalConfigData.StateUpdateTimeUnit;
         }
 
         void InitAssembleData()
@@ -58,7 +67,7 @@ namespace Sim_FrameWork
         public void AddCurrency_PerDay(ModifierDetailRootType_Simple rootType,int num)
         {
             playerData.resourceData.AddCurrencyPerDay(rootType,num);
-            UIManager.Instance.SendMessage(new UIMessage(UIMsgType.Res_MonthCurrency));
+            UIManager.Instance.SendMessage(new UIMessage(UIMsgType.Res_DailyCurrency));
         }
 
         /// <summary>
@@ -74,10 +83,10 @@ namespace Sim_FrameWork
         {
             playerData.resourceData.AddEnergyMax(rootType, num);
         }
-        public void AddEnergy_PerDay(ModifierDetailRootType_Simple rootType,float num)
+        public void AddEnergy_PerDay(ModifierDetailRootType_Simple rootType,float num,bool CoverData)
         {
-            playerData.resourceData.AddEnergyPerDay(rootType,num);
-            UIManager.Instance.SendMessage(new UIMessage(UIMsgType.Res_MonthEnergy));
+            playerData.resourceData.AddEnergyPerDay(rootType,num,CoverData);
+            UIManager.Instance.SendMessage(new UIMessage(UIMsgType.Res_DailyEnergy));
         }
 
         /// <summary>
@@ -96,21 +105,40 @@ namespace Sim_FrameWork
         public void AddResearch_PerDay(ModifierDetailRootType_Simple rootType,float num)
         {
             playerData.resourceData.AddResearchPerMonth(rootType,num);
-            UIManager.Instance.SendMessage(new UIMessage(UIMsgType.Res_MonthResearch));
+            UIManager.Instance.SendMessage(new UIMessage(UIMsgType.Res_DailyResearch));
         }
 
         /// <summary>
         /// Builder
         /// </summary>
         /// <param name="num"></param>
-        public void AddBuilder_Current(ushort num)
+        public void AddAIRobot_Maintenance(ushort num)
         {
-            playerData.resourceData.AddBuilder(num);
-            UIManager.Instance.SendMessage(new UIMessage(UIMsgType.Res_Builder));
+            playerData.resourceData.AddAIRobot(ShipAIRobotType.Maintenance, num);
+            UIManager.Instance.SendMessage(new UIMessage(UIMsgType.Res_AIRobot_Maintenance));
         }
-        public void AddBuilder_Max(ModifierDetailRootType_Simple rootType, ushort num)
+        public void AddAIRobot_Builder(ushort num)
         {
-            playerData.resourceData.AddBuilderMax(rootType,num);
+            playerData.resourceData.AddAIRobot(ShipAIRobotType.Builder, num);
+            UIManager.Instance.SendMessage(new UIMessage(UIMsgType.Res_AIRobot_Builder));
+        }
+        public void AddAIRobot_Operator(ushort num)
+        {
+            playerData.resourceData.AddAIRobot(ShipAIRobotType.Operator, num);
+            UIManager.Instance.SendMessage(new UIMessage(UIMsgType.Res_AIRobot_Operator));
+        }
+
+        public void AddAIRobot_Maintenance_Max(ModifierDetailRootType_Simple rootType, ushort num)
+        {
+            playerData.resourceData.AddAIRobot_Maintenance_Max(rootType,num);
+        }
+        public void AddAIRobot_Builder_Max(ModifierDetailRootType_Simple rootType,ushort num)
+        {
+            playerData.resourceData.AddAIRobot_Builder_Max(rootType, num);
+        }
+        public void AddAIRobot_Operator_Max(ModifierDetailRootType_Simple rootType,ushort num)
+        {
+            playerData.resourceData.AddAIRobot_Operator_Max(rootType, num);
         }
 
         /// <summary>
@@ -202,17 +230,62 @@ namespace Sim_FrameWork
         #region Game Time Update
         public void UpdateTime()
         {
-            var timer = playerData.timeData.timer;
-            timer += Time.deltaTime;
-            if (timer >= playerData.timeData.realSecondsPerDay)
+            playerData.timeData.timer += Time.deltaTime;
+
+            if (playerData.timeData.timer > Config.GlobalConfigData.StateUpdateTimeUnit)
             {
-                timer = 0;
-                DateTime newTime= playerData.timeData.date.AddDays(1);
-                playerData.timeData.date = newTime;
-                DoDailySettle();
-                UIManager.Instance.SendMessageToWnd(UIPath.WindowPath.MainMenu_Page, new UIMessage(UIMsgType.UpdateTime));
+                ///Do Settle Pool
+                ApplicationManager.Instance.EnqueueTask(DoDailySettlePool_Resource());
+
+                playerData.timeData.timer = 0;
+                currentSettleIndex++;
+                if (currentSettleIndex >= updateFrequency)
+                {
+                    
+                    DateTime newTime = playerData.timeData.date.AddDays(1);
+                    playerData.timeData.date = newTime;
+                    currentSettleIndex = 0;
+                    ///Daily Settle Queue
+                    ApplicationManager.Instance.EnqueueTask(DoDailySettle_Resource());
+                    ApplicationManager.Instance.EnqueueTask(DoDailySettle_Order());
+   
+                    UIManager.Instance.SendMessageToWnd(UIPath.WindowPath.MainMenu_Page, new UIMessage(UIMsgType.UpdateTime));
+                    
+                }
             }
+
+           
         }
+
+        IEnumerator DoDailySettlePool_Resource()
+        {
+            playerData.resourceData.UpdateEnergyDailySettlePool(updateFrequency);
+            UIManager.Instance.SendMessage(new UIMessage(UIMsgType.Res_Daily_Total));
+            yield return null;
+        }
+
+        void ResetDailySettlePool()
+        {
+            playerData.resourceData.ResetEnergyDailySettlePool();
+        }
+
+        /// <summary>
+        /// 月底结算
+        /// </summary>
+        IEnumerator DoDailySettle_Resource()
+        {
+            AddEnergy_Current(playerData.resourceData.EnergyDailySettlePool);
+            ResetDailySettlePool();
+            UIManager.Instance.SendMessage(new UIMessage(UIMsgType.Res_Daily_Total));
+            yield return null;
+        }
+
+        IEnumerator DoDailySettle_Order()
+        {
+            GlobalEventManager.Instance.DoPlayerOrderMonthSettle();
+            yield return null;
+        }
+
 
         /// <summary>
         /// 获取当前时间
@@ -223,16 +296,9 @@ namespace Sim_FrameWork
             return playerData.timeData;
         }
 
-        /// <summary>
-        /// 月底结算
-        /// </summary>
-        private void DoDailySettle()
-        {
-            AddEnergy_Current(playerData.resourceData.EnergyPerDay);
-            AddResearch_Current(playerData.resourceData.ResearchPerDay);
-            AddCurrency_Current(playerData.resourceData.CurrencyPerDay);
-            GlobalEventManager.Instance.DoPlayerOrderMonthSettle();
-        }
+
+
+
 
         #endregion
 

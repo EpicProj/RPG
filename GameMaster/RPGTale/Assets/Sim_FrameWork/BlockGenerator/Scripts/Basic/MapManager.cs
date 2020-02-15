@@ -29,7 +29,7 @@ namespace Sim_FrameWork
 
             UIUtility.SafeSetActive(ContentObj, false);
             UIUtility.SafeSetActive(AssembleContainer, false);
-
+           
         }
 
         private void Start()
@@ -37,6 +37,7 @@ namespace Sim_FrameWork
             UIGuide.Instance.ShowGameMainPage();
             UIGuide.Instance.ShowPlayerStatePanel();
             UIGuide.Instance.ShowGameDebugDialog();
+            GameManager.Instance.SetGameStates(GameStates.Start);
         }
 
         void Update()

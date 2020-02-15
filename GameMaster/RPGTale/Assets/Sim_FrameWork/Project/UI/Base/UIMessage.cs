@@ -43,13 +43,16 @@ namespace Sim_FrameWork
         /// <summary>
         /// Update Resource
         /// </summary>
+        Res_Daily_Total,
         Res_Currency,
-        Res_MonthCurrency,
+        Res_DailyCurrency,
         Res_Energy,
-        Res_MonthEnergy,
+        Res_DailyEnergy,
         Res_Research,
-        Res_MonthResearch,
-        Res_Builder,
+        Res_DailyResearch,
+        Res_AIRobot_Maintenance,
+        Res_AIRobot_Builder,
+        Res_AIRobot_Operator,
         Res_RoCore,
 
         ///Camp

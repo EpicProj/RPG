@@ -187,6 +187,12 @@ namespace Sim_FrameWork.Config
 
     public static class GlobalConfigData
     {
+        /// <summary>
+        /// 状态更新时间频率
+        /// </summary>
+        public static float StateUpdateTimeUnit = 1.0f;
+
+
         public static Vector3 InfinityVector = new Vector3(float.PositiveInfinity, float.PositiveInfinity, float.PositiveInfinity);
 
         public static readonly byte GamePrepare_Crew_Leader_Max = 5;

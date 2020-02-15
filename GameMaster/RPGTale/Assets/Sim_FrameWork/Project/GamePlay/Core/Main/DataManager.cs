@@ -48,6 +48,7 @@ namespace Sim_FrameWork {
         /// </summary>
         public void InitGameData()
         {
+            RefreshGamePrepareData();
             GlobalEventManager.Instance.InitData();
             ModifierManager.Instance.InitData();
             PlayerManager.Instance.InitPlayerData();
@@ -63,6 +64,17 @@ namespace Sim_FrameWork {
                 if (gamePrepareData.preparePropertyDataList[i].configID == configID)
                 {
                     gamePrepareData.preparePropertyDataList[i].currentSelectLevel = selectLevel;
+                }
+            }
+        }
+
+        public void ChangeAIPrepareValue(string configID,byte selectLevel)
+        {
+            for(int i = 0; i < gamePrepareData.prepareAIDataList.Count; i++)
+            {
+                if (gamePrepareData.prepareAIDataList[i].configID == configID)
+                {
+                    gamePrepareData.prepareAIDataList[i].currentSelectLevel = selectLevel;
                 }
             }
         }

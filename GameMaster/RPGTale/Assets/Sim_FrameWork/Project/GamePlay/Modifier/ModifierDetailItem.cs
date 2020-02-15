@@ -53,13 +53,23 @@ namespace Sim_FrameWork
     public class ModifierDetailPackage
     {
         public Dictionary<ModifierDetailRootType_Simple, ModifierDetailItem_Simple> detailDic = new Dictionary<ModifierDetailRootType_Simple, ModifierDetailItem_Simple>();
-        public void ValueChange(ModifierDetailRootType_Simple rootType, float num)
+        /// <summary>
+        /// 覆盖数据会用新值覆盖旧值
+        /// </summary>
+        /// <param name="rootType"></param>
+        /// <param name="num"></param>
+        /// <param name="coverData"></param>
+        public void ValueChange(ModifierDetailRootType_Simple rootType, float num,bool coverData=false)
         {
-            if (num == 0)
+            if (num == 0 && !coverData)
                 return;
             if (detailDic.ContainsKey(rootType))
             {
-                detailDic[rootType].value += num;
+                if (coverData)
+                    detailDic[rootType].value = num;
+                else
+                    detailDic[rootType].value += num;
+
                 if (detailDic[rootType].value == 0)
                 {
                     //Remove
@@ -77,13 +87,17 @@ namespace Sim_FrameWork
     public class ModifierDetailPackage_Mix
     {
         public Dictionary<ModifierDetailRootType_Mix, ModifierDetailItem_Mix> detailDic = new Dictionary<ModifierDetailRootType_Mix, ModifierDetailItem_Mix>();
-        public void ValueChange_Block(ModifierDetailRootType_Mix rootType, uint instanceID, int blockID, float num)
+        public void ValueChange_Block(ModifierDetailRootType_Mix rootType, uint instanceID, int blockID, float num ,bool CoverData=false)
         {
-            if (num == 0)
+            if (num == 0 && !CoverData)
                 return;
             if (detailDic.ContainsKey(rootType))
             {
-                detailDic[rootType].value += num;
+                if (CoverData)
+                    detailDic[rootType].value = num;
+                else
+                    detailDic[rootType].value += num;
+
                 if (detailDic[rootType].value == 0)
                 {
                     //Remove
@@ -97,13 +111,17 @@ namespace Sim_FrameWork
             }
         }
 
-        public void ValueChange_Assemble(ModifierDetailRootType_Mix rootType, ushort UID, int partID, float num)
+        public void ValueChange_Assemble(ModifierDetailRootType_Mix rootType, ushort UID, int partID, float num,bool CoverData=false)
         {
-            if (num == 0)
+            if (num == 0 && !CoverData)
                 return;
             if (detailDic.ContainsKey(rootType))
             {
-                detailDic[rootType].value += num;
+                if (CoverData)
+                    detailDic[rootType].value = num;
+                else
+                    detailDic[rootType].value += num;
+
                 if (detailDic[rootType].value == 0)
                 {
                     //Remove
@@ -117,13 +135,17 @@ namespace Sim_FrameWork
             }
         }
 
-        public void ValueChange(ModifierDetailRootType_Mix rootType,float num)
+        public void ValueChange(ModifierDetailRootType_Mix rootType,float num,bool CoverData=false)
         {
-            if (num == 0)
+            if (num == 0 && !CoverData)
                 return;
             if (detailDic.ContainsKey(rootType))
             {
-                detailDic[rootType].value += num;
+                if (CoverData)
+                    detailDic[rootType].value = num;
+                else
+                    detailDic[rootType].value += num;
+
                 if (detailDic[rootType].value == 0)
                 {
                     //Remove

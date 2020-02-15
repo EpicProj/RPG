@@ -88,7 +88,7 @@ namespace Sim_FrameWork
 
         void InitPlayerEnergyData()
         {
-            PlayerManager.Instance.AddEnergy_PerDay( ModifierDetailRootType_Simple.PowerArea,mainShipInfo.powerAreaInfo.PowerGenerateValue);
+            PlayerManager.Instance.AddEnergy_PerDay( ModifierDetailRootType_Simple.PowerArea,mainShipInfo.powerAreaInfo.PowerGenerateValue,false);
             PlayerManager.Instance.AddEnergy_Max( ModifierDetailRootType_Simple.PowerArea,mainShipInfo.powerAreaInfo.storagePower_max);
         }
 

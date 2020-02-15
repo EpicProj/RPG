@@ -16,6 +16,8 @@ namespace Sim_FrameWork
         public LeaderInfo _info;
         public State currentState = State.Empty;
 
+        private const string LeaderPrepareCard_ForceSelcet_Info = "LeaderPrepareCard_ForceSelcet_Info";
+
         public void SetUpItem(State cardState, LeaderInfo info =null)
         {
             var contentCanvas = transform.FindTransfrom("Content").SafeGetComponent<CanvasGroup>();
@@ -40,6 +42,7 @@ namespace Sim_FrameWork
                 SetUpCreed(info.creedInfo);
                 SetUpSkill(info.skillInfoList);
 
+                ShowInfo(info.forceSelcet, MultiLanguage.Instance.GetTextValue(LeaderPrepareCard_ForceSelcet_Info));
                 //DoAnim
                 contentCanvas.alpha = 0;
                 contentCanvas.DoCanvasFade(1, 0.8f);
@@ -49,7 +52,6 @@ namespace Sim_FrameWork
                 btn.onClick.RemoveAllListeners();
                 btn.onClick.AddListener(OnCardClick);
             }
-            
         }
 
         void SetUpCreed(LeaderCreedInfo creedInfo)
@@ -70,7 +72,14 @@ namespace Sim_FrameWork
                 var item = trans.GetChild(i).SafeGetComponent<GeneralInfoItem>();
                 item.SetUpItem(GeneralInfoItemType.Leader_Skill, infoList[i],false);
             }
+        }
 
+        void ShowInfo(bool show,string content = "")
+        {
+            var trans = transform.FindTransfrom("Content/InfoText");
+            trans.SafeSetActive(show);
+            if (show)
+                trans.SafeGetComponent<Text>().text = content;
         }
 
         void OnEmptyCardClick()

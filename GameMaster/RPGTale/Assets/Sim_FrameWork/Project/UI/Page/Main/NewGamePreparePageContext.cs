@@ -51,6 +51,9 @@ namespace Sim_FrameWork.UI
                 UIGuide.Instance.ShowGameEntryPage();
             });
             AddButtonClickListener(campContentTrans.FindTransfrom("Icon").SafeGetComponent<Button>(), OnCampSelectBtnClick);
+
+            AddButtonClickListener(Transform.FindTransfrom("BtnPanel/StartBtn").SafeGetComponent<Button>(), OnGameStartBtnClick);
+
         }
 
         void OnGameStartBtnClick()
@@ -139,6 +142,7 @@ namespace Sim_FrameWork.UI
         void SetUpGamePreparePanel()
         {
             InitPrepareItem();
+            SetUpAIPanel();
         }
 
 
@@ -179,13 +183,18 @@ namespace Sim_FrameWork.UI
                 }
                 else if (list[i].configType == 2)
                 {
-                    var item = ObjectManager.Instance.InstantiateObject(UIPath.PrefabPath.General_SliderSelectItem);
+                    var item = ObjectManager.Instance.InstantiateObject(UIPath.PrefabPath.SliderSelectItem_Prepare);
                     if (item != null)
                     {
                         item.transform.SetParent(trans,false);
-                        var itemTrans= item.transform.SafeGetComponent<SliderSelectItem>();
-                        ///Init List
+
                         var config = PlayerModule.GetGamePrepareConfigItem(list[i].configID);
+                        var iconTrans = item.transform.FindTransfrom("Icon").SafeGetComponent<Image>().sprite = Utility.LoadSprite(config.configIconPath);
+                        var nameTrans = item.transform.FindTransfrom("Text").SafeGetComponent<Text>().text = MultiLanguage.Instance.GetTextValue(config.configNameText);
+
+                        var itemTrans= item.transform.FindTransfrom("GeneralSliderSelectItem").SafeGetComponent<SliderSelectItem>();
+                        ///Init List
+                        
                         if (config != null)
                         {
                             List<GeneralSliderSelectElement> elementList = new List<GeneralSliderSelectElement>();
@@ -200,15 +209,74 @@ namespace Sim_FrameWork.UI
                                 };
                                 elementList.Add(element);
                             }
-                            itemTrans.SetUpItem(config.configID,
-                                config.configIconPath, config.configNameText,
-                                config.defaultSelectLevel,elementList);   
+
+                            itemTrans.SetUpItem_GamePrepare(config.defaultSelectLevel,elementList,config.configID);
                         }
                     }
                 }
             }
         }
 
+
+        void SetUpAIPanel()
+        {
+            var maintainSlider = Transform.FindTransfrom("Content/AIPanel/CrewContent/Maintenance/GeneralSliderSelectItem").SafeGetComponent<SliderSelectItem>();
+            var maintainConfig = PlayerModule.GetAIPrepareConfigItem(Config.ConfigData.PlayerConfig.gamePrepareConfig.GamePrepareConfig_PropertyLink_AI_Maintenance);
+            if (maintainConfig != null)
+            {
+                List<GeneralSliderSelectElement> elementList = new List<GeneralSliderSelectElement>();
+                for (int i = 0; i < maintainConfig.levelMap.Count; i++)
+                {
+                    GeneralSliderSelectElement element = new GeneralSliderSelectElement
+                    {
+                        showScaleSymbol = maintainConfig.showScaleSymbol,
+                        index = maintainConfig.levelMap[i].Level,
+                        linkParam = maintainConfig.levelMap[i].hardLevelChange,
+                        value = (float)maintainConfig.levelMap[i].numParam
+                    };
+                    elementList.Add(element);
+                }
+                maintainSlider.SetUpItem_AIPrepare(maintainConfig.defaultSelectLevel, elementList, maintainConfig.configID);
+            }
+
+            var builderSlider= Transform.FindTransfrom("Content/AIPanel/CrewContent/Builder/GeneralSliderSelectItem").SafeGetComponent<SliderSelectItem>();
+            var builderConfig= PlayerModule.GetAIPrepareConfigItem(Config.ConfigData.PlayerConfig.gamePrepareConfig.GamePrepareConfig_PropertyLink_AI_Builder);
+            if (builderConfig != null)
+            {
+                List<GeneralSliderSelectElement> elementList = new List<GeneralSliderSelectElement>();
+                for (int i = 0; i < builderConfig.levelMap.Count; i++)
+                {
+                    GeneralSliderSelectElement element = new GeneralSliderSelectElement
+                    {
+                        showScaleSymbol = builderConfig.showScaleSymbol,
+                        index = builderConfig.levelMap[i].Level,
+                        linkParam = builderConfig.levelMap[i].hardLevelChange,
+                        value = (float)builderConfig.levelMap[i].numParam
+                    };
+                    elementList.Add(element);
+                }
+                builderSlider.SetUpItem_AIPrepare(builderConfig.defaultSelectLevel, elementList, builderConfig.configID);
+            }
+
+            var operatorSlider= Transform.FindTransfrom("Content/AIPanel/CrewContent/Operator/GeneralSliderSelectItem").SafeGetComponent<SliderSelectItem>();
+            var operatorConfig= PlayerModule.GetAIPrepareConfigItem(Config.ConfigData.PlayerConfig.gamePrepareConfig.GamePrepareConfig_PropertyLink_AI_Operator);
+            if (operatorConfig != null)
+            {
+                List<GeneralSliderSelectElement> elementList = new List<GeneralSliderSelectElement>();
+                for (int i = 0; i < operatorConfig.levelMap.Count; i++)
+                {
+                    GeneralSliderSelectElement element = new GeneralSliderSelectElement
+                    {
+                        showScaleSymbol = operatorConfig.showScaleSymbol,
+                        index = operatorConfig.levelMap[i].Level,
+                        linkParam = operatorConfig.levelMap[i].hardLevelChange,
+                        value = (float)operatorConfig.levelMap[i].numParam
+                    };
+                    elementList.Add(element);
+                }
+                operatorSlider.SetUpItem_AIPrepare(operatorConfig.defaultSelectLevel, elementList, operatorConfig.configID);
+            }
+        }
     }
 
 

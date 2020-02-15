@@ -19,6 +19,7 @@ namespace Sim_FrameWork
         private List<GeneralSliderSelectElement> elementList;
         private Slider slider;
         private Text valueText;
+
         private string configID;
 
         private const string SliderDot_PrefabPath = "Assets/Prefabs/Object/Main/General/SliderDot.prefab";
@@ -29,13 +30,10 @@ namespace Sim_FrameWork
             valueText = transform.FindTransfrom("Value").SafeGetComponent<Text>();
         }
 
-        public void SetUpItem(string configID, string iconPath, string nameTextID,int currentLevel, List<GeneralSliderSelectElement> elementList)
+        public void SetUpItem_General(int currentLevel, List<GeneralSliderSelectElement> elementList)
         {
             this.elementList = elementList;
             slider.onValueChanged.RemoveAllListeners();
-
-            transform.FindTransfrom("Icon").SafeGetComponent<Image>().sprite = Utility.LoadSprite(iconPath);
-            transform.FindTransfrom("Text").SafeGetComponent<Text>().text = MultiLanguage.Instance.GetTextValue(nameTextID);
 
             if (elementList==null || elementList.Count == 0)
             {
@@ -45,11 +43,10 @@ namespace Sim_FrameWork
             InitSliderNood();
             slider.minValue = 1;
             slider.maxValue = elementList.Count;
-            slider.onValueChanged.AddListener((float value) => OnSliderValueChange(value));
+           
             //Init Update
             slider.value = currentLevel;
         }
-
         void InitSliderNood()
         {
             if (elementList == null || elementList.Count<=1)
@@ -65,14 +62,13 @@ namespace Sim_FrameWork
                 item.SetAnchoredPosX(i * delta);
             }
         }
-
-        void OnSliderValueChange(float value)
+        void OnSliderValueChange_General(float value)
         {
             int currentValue = (int)value;
             if (currentValue > elementList.Count)
                 return;
-            var element = elementList[currentValue-1];
-            if(element.showScaleSymbol)
+            var element = elementList[currentValue - 1];
+            if (element.showScaleSymbol)
             {
                 valueText.text = "X " + element.value.ToString();
             }
@@ -80,9 +76,40 @@ namespace Sim_FrameWork
             {
                 valueText.text = element.value.ToString();
             }
+        }
+
+        /// <summary>
+        /// Game Prepare Data
+        /// </summary>
+        /// <param name="currentLevel"></param>
+        /// <param name="elementList"></param>
+        /// <param name="configID"></param>
+        public void SetUpItem_GamePrepare(int currentLevel, List<GeneralSliderSelectElement> elementList, string configID)
+        {
+            SetUpItem_General(currentLevel, elementList);
+            this.configID = configID;
+            slider.onValueChanged.AddListener((float value) => OnSliderValueChange_GamePrepare(value));
+            OnSliderValueChange_GamePrepare(currentLevel);
+        }
+
+        void OnSliderValueChange_GamePrepare(float value)
+        {
+            OnSliderValueChange_General(value);
             ///UpdateValue
             DataManager.Instance.ChangeGamePrepareValue(configID, (byte)value);
         }
 
+        public void SetUpItem_AIPrepare(int currentLevel, List<GeneralSliderSelectElement> elementList, string configID)
+        {
+            SetUpItem_General(currentLevel, elementList);
+            this.configID = configID;
+            slider.onValueChanged.AddListener((float value) => OnSliderValueChange_AIPrepare(value));
+            OnSliderValueChange_AIPrepare(currentLevel);
+        }
+        void OnSliderValueChange_AIPrepare(float value)
+        {
+            OnSliderValueChange_General(value);
+            DataManager.Instance.ChangeAIPrepareValue(configID, (byte)value);
+        }
     }
 }

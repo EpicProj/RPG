@@ -20,12 +20,20 @@ namespace Sim_FrameWork
         private List<Timer> m_destoryTimerList = new List<Timer>();
         private void LateUpdate()
         {
-            foreach(var timer in m_timerList)
+            UpdateTaskQueue();
+            UpdateTimer();
+
+        }
+
+        void UpdateTimer()
+        {
+            foreach (var timer in m_timerList)
             {
-                if(timer.timeState == TimerState.Complete || timer.timeState == TimerState.Destory)
+                if (timer.timeState == TimerState.Complete || timer.timeState == TimerState.Destory)
                 {
                     m_destoryTimerList.Add(timer);
-                }else if(timer.timeState != TimerState.Start)
+                }
+                else if (timer.timeState != TimerState.Start)
                 {
                     continue;
                 }
@@ -35,11 +43,23 @@ namespace Sim_FrameWork
 
             if (m_destoryTimerList.Count == 0)
                 return;
-            foreach(var timer in m_destoryTimerList)
+            foreach (var timer in m_destoryTimerList)
             {
                 DeleteTimer(timer);
             }
             m_destoryTimerList.Clear();
+        }
+
+        void UpdateTaskQueue()
+        {
+            ///Task
+            while (m_CoroutineQueue.Count > 30)
+                DoTask();
+            if (m_CoroutineQueue.Count > 20)
+                DoTask();
+            if (m_CoroutineQueue.Count > 10)
+                DoTask();
+            DoTask();
         }
 
 
@@ -184,6 +204,31 @@ namespace Sim_FrameWork
 
         #endregion
 
+        #region Queue Task
+        private Queue m_CoroutineQueue = new Queue();
+        private IEnumerator currentTask = null;
+
+        public void EnqueueTask(IEnumerator task)
+        {
+            m_CoroutineQueue.Enqueue(task);
+        }
+        void DoTask()
+        {
+            if (currentTask == null && m_CoroutineQueue.Count == 0)
+                return;
+            if (currentTask == null)
+            {
+                currentTask =(IEnumerator)m_CoroutineQueue.Dequeue();
+            }
+            bool finish = !currentTask.MoveNext();
+            if (finish)
+                currentTask = null;
+            else if (currentTask.Current is IEnumerator)
+                currentTask = currentTask.Current as IEnumerator;
+        }
+
+
+        #endregion
     }
 
 

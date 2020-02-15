@@ -6,17 +6,122 @@
 		"OriginalEnergyMax":2000,
 		"OriginalResearch":300,
 		"OriginalResearchMax":5000,
-		"OriginalRoCore":5,
+		"OriginalAIRobot_Maintenance_Max":50,
+		"OriginalAIRobot_Builder_Max":50,
+		"OriginalAIRobot_Operator_Max":50,
 		"OriginalRoCoreMax":10,
+
+		"GamePrepareConfig_PropertyLink_AI_Maintenance":"Setting_AI_Maintenance",
+		"GamePrepareConfig_AI_Maintenance_Default":20,
+		"GamePrepareConfig_PropertyLink_AI_Builder":"Setting_AI_Builder",
+		"GamePrepareConfig_AI_Builder_Default":25,
+		"GamePrepareConfig_PropertyLink_AI_Operator":"Setting_AI_Operator",
+		"GamePrepareConfig_AI_Operator_Default":15,
 
 		"GamePrepareConfig_PropertyLink_Resource_Richness":"Setting_Resource_Richness",
 		"GamePrepareConfig_Resource_Richness_Default":1,
 		"GamePrepareConfig_PropertyLink_Currency":"Setting_Currency",
 		"GamePrepareConfig_Currency_Default":20000,
+		"GamePrepareConfig_PropertyLink_RoCore":"Setting_RoCore",
+		"GamePrepareConfig_RoCore_Default":5,
 		"GamePrepareConfig_PropertyLink_EnemyHardLevel":"Setting_EnemyHardLevel",
 		"GamePrepareConfig_EnemyHardLevel_Default":1.0,
 		"GamePrepareConfig_PropertyLink_Research_Coefficient":"Setting_Research_Coefficient",
 		"GamePrepareConfig_Research_Coefficient_Default":1.0,
+		
+		"AIPrepareConfig":[
+			{
+				"configID":"Setting_AI_Maintenance",
+				"showScaleSymbol":false,
+				"configType":2,
+				"levelMax":5,
+				"defaultSelectLevel":1,
+				"levelMap":[
+					{
+						"Level":1,
+						"numParam":10,
+						"hardLevelChange":10
+					},{
+						"Level":2,
+						"numParam":20,
+						"hardLevelChange":5
+					},{
+						"Level":3,
+						"numParam":30,
+						"hardLevelChange":0
+					},{
+						"Level":4,
+						"numParam":40,
+						"hardLevelChange":-10
+					},{
+						"Level":5,
+						"numParam":50,
+						"hardLevelChange":-20
+					}
+				]
+			},	
+			{
+				"configID":"Setting_AI_Builder",
+				"showScaleSymbol":false,
+				"configType":2,
+				"levelMax":5,
+				"defaultSelectLevel":1,
+				"levelMap":[
+					{
+						"Level":1,
+						"numParam":5,
+						"hardLevelChange":10
+					},{
+						"Level":2,
+						"numParam":15,
+						"hardLevelChange":5
+					},{
+						"Level":3,
+						"numParam":25,
+						"hardLevelChange":0
+					},{
+						"Level":4,
+						"numParam":35,
+						"hardLevelChange":-10
+					},{
+						"Level":5,
+						"numParam":45,
+						"hardLevelChange":-20
+					}
+				]
+			}	
+			,	
+			{
+				"configID":"Setting_AI_Operator",
+				"showScaleSymbol":false,
+				"configType":2,
+				"levelMax":5,
+				"defaultSelectLevel":1,
+				"levelMap":[
+					{
+						"Level":1,
+						"numParam":5,
+						"hardLevelChange":10
+					},{
+						"Level":2,
+						"numParam":15,
+						"hardLevelChange":5
+					},{
+						"Level":3,
+						"numParam":25,
+						"hardLevelChange":0
+					},{
+						"Level":4,
+						"numParam":35,
+						"hardLevelChange":-10
+					},{
+						"Level":5,
+						"numParam":45,
+						"hardLevelChange":-20
+					}
+				]
+			}	
+		],
 
 		"prepareProperty":[
 			{
@@ -71,6 +176,38 @@
 					},{
 						"Level":5,
 						"numParam":50000,
+						"hardLevelChange":-20
+					}
+				]
+			},
+			{
+				"configID":"Setting_RoCore",
+				"configNameText":"GamePrepareSet_RoCore",
+				"configIconPath":"SpriteOutput/UI/Main/MainMenuPage/Menu_Res_RoCore_Icon",
+				"showScaleSymbol":false,
+				"configType":2,
+				"levelMax":5,
+				"defaultSelectLevel":3,
+				"levelMap":[
+					{
+						"Level":1,
+						"numParam":5,
+						"hardLevelChange":10
+					},{
+						"Level":2,
+						"numParam":10,
+						"hardLevelChange":5
+					},{
+						"Level":3,
+						"numParam":15,
+						"hardLevelChange":0
+					},{
+						"Level":4,
+						"numParam":20,
+						"hardLevelChange":-10
+					},{
+						"Level":5,
+						"numParam":25,
 						"hardLevelChange":-20
 					}
 				]
@@ -131,7 +268,7 @@
 		"OriginalYear":1000,
 		"OriginalMonth":1,
 		"OriginalDay":1,
-		"RealSecondsPerDay":3
+		"RealSecondsPerDay":5
 	}
 }
 			

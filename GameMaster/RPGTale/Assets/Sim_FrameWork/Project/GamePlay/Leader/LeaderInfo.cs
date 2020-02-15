@@ -32,6 +32,10 @@ namespace Sim_FrameWork
         public ushort currentAge;
         public byte Gender;
 
+        /// <summary>
+        /// 初始角色强制选择
+        /// </summary>
+        public bool forceSelcet =false;
 
         public LeaderSpeciesInfo speciesInfo;
         public LeaderPortraitInfo portraitInfo;

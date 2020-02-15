@@ -178,6 +178,7 @@ namespace Sim_FrameWork {
         public void ResetWinList()
         {
             m_WindowList.Clear();
+            _currentWindowNameList.Clear();
         }
 
         /// <summary>

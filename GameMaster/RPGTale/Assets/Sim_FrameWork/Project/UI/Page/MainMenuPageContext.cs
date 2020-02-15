@@ -98,7 +98,7 @@ namespace Sim_FrameWork.UI
         }
         private void UpdateTimeProgress()
         {
-            if (GameManager.Instance.gameStates == GameStates.Pause)
+            if (GameManager.Instance.GameStates == GameStates.Pause)
                 return;
             currentTimeProgress+=Time.deltaTime;
             if (currentTimeProgress >= PlayerManager.Instance.playerData.timeData.realSecondsPerDay)
@@ -147,11 +147,11 @@ namespace Sim_FrameWork.UI
 
         private void OnPauseBtnClick()
         {
-            if (GameManager.Instance.gameStates == GameStates.Start)
+            if (GameManager.Instance.GameStates == GameStates.Start)
             {
                 GameManager.Instance.SetGameStates(GameStates.Pause);
             }
-            else if (GameManager.Instance.gameStates == GameStates.Pause)
+            else if (GameManager.Instance.GameStates == GameStates.Pause)
             {
                 GameManager.Instance.SetGameStates(GameStates.Start);
             }

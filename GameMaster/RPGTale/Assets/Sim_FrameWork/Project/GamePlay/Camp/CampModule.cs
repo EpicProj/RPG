@@ -125,7 +125,10 @@ namespace Sim_FrameWork
                 {
                     LeaderInfo info = LeaderInfo.CreateLeaderInfo_Preset(leaderIDList[i]);
                     if (info != null)
+                    {
+                        info.forceSelcet = true;
                         result.Add(info);
+                    }
                 }
             }
             return result;

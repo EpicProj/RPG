@@ -1724,6 +1724,7 @@ namespace Sim_FrameWork
                 }
             }
             UIManager.Instance.SendMessage(new UIMessage(UIMsgType.MainShip_Area_PowerLevel_Change, new List<object>() { MainShipAreaType.ControlTower }));
+            PlayerManager.Instance.AddEnergy_PerDay(ModifierDetailRootType_Simple.ControlTower, -powerConsumeCurrent, true);
         }
 
     }
@@ -1769,6 +1770,7 @@ namespace Sim_FrameWork
                 }
             }
             UIManager.Instance.SendMessage(new UIMessage(UIMsgType.MainShip_Area_PowerLevel_Change, new List<object>() { MainShipAreaType.LivingArea }));
+            PlayerManager.Instance.AddEnergy_PerDay(ModifierDetailRootType_Simple.LivingArea, -powerConsumeCurrent , true);
         }
 
     }
@@ -1815,6 +1817,7 @@ namespace Sim_FrameWork
                 }
             }
             UIManager.Instance.SendMessage(new UIMessage(UIMsgType.MainShip_Area_PowerLevel_Change, new List<object>() { MainShipAreaType.hangar }));
+            PlayerManager.Instance.AddEnergy_PerDay(ModifierDetailRootType_Simple.Hangar, -powerConsumeCurrent, true);
         }
     }
 
@@ -1862,6 +1865,7 @@ namespace Sim_FrameWork
                 }
             }
             UIManager.Instance.SendMessage(new UIMessage(UIMsgType.MainShip_Area_PowerLevel_Change, new List<object>() { MainShipAreaType.WorkingArea }));
+            PlayerManager.Instance.AddEnergy_PerDay(ModifierDetailRootType_Simple.WorkingArea, -powerConsumeCurrent,true);
         }
     }
 

@@ -168,7 +168,7 @@ namespace Sim_FrameWork
             #region ElementPath
 
             public const string General_ChooseTab = "Assets/Prefabs/Object/Main/General/GeneralChooseTab.prefab";
-            public const string General_SliderSelectItem = "Assets/Prefabs/Object/Main/General/SliderSelectItem.prefab";
+            public const string SliderSelectItem_Prepare = "Assets/Prefabs/Object/Main/GamePrepare/SliderSelectItem_Prepare.prefab";
             public const string General_DropDownChooseItem = "Assets/Prefabs/Object/Main/General/DropDownChooseItem.prefab";
             public const string General_InfoItem = "Assets/Prefabs/Object/Main/General/GeneralInfoItem.prefab";
 

@@ -10,15 +10,10 @@ namespace Sim_FrameWork
     public enum GameStates
     {
         Start = 1,
-        Pause = 2
+        Pause = 2,
+        None=3,
     }
 
-    public enum SceneState
-    {
-        GameEntry,
-        Loading,
-        InGame
-    }
 
     public enum AreaState
     {
@@ -31,12 +26,11 @@ namespace Sim_FrameWork
         [HideInInspector]
         public GraphicRaycaster raycaster;
         //游戏状态
-        private GameStates _gameStates = GameStates.Start;
-        public GameStates gameStates { get { return _gameStates; } }
+        private GameStates _gameStates = GameStates.None;
+        public GameStates GameStates { get { return _gameStates; } }
 
         public AreaState currentAreaState= AreaState.OutSide;
 
-        public SceneState currentScene = SceneState.GameEntry;
         private bool ConsolePageShow = false;
 
         protected override void Awake()
@@ -45,17 +39,15 @@ namespace Sim_FrameWork
             
             AssetBundleManager.Instance.LoadAssetBundleConfig();
             ResourceManager.Instance.Init(this);
-
-            currentScene = SceneState.GameEntry;
         }
 
         void Start()
         {
             InitBaseData();
+           
             DataManager.Instance.InitManager();
             DataManager.Instance.InitGameBaseData();
             GameDataSaveManager.Instance.InitData();
-
             InitCampPrepareData();
 
             UIGuide.Instance.ShowGameEntryPage();
@@ -66,7 +58,7 @@ namespace Sim_FrameWork
         {
             UIManager.Instance.Init(GameObject.Find("MainCanvas").transform as RectTransform, GameObject.Find("MainCanvas/Window").transform as RectTransform,
                 GameObject.Find("MainCanvas/Dialog").transform as RectTransform,GameObject.Find("MainCanvas/SPContent").transform as RectTransform, GameObject.Find("MainCanvas/UICamera").GetComponent<Camera>(), GameObject.Find("EventSystem").GetComponent<EventSystem>());
-            raycaster = GameObject.Find("MainCanvas").transform.SafeGetComponent<GraphicRaycaster>();
+            raycaster = GameObject.Find("MainCanvas").transform.SafeGetComponent<GraphicRaycaster>();  
         }
 
 
@@ -88,12 +80,11 @@ namespace Sim_FrameWork
                 }
             }
 
-            if (currentScene == SceneState.GameEntry)
-                return;
-            ModifierManager.Instance.UpdateModifier();
-            if (gameStates== GameStates.Start)
+           
+            if (GameStates== GameStates.Start)
             {
                 PlayerManager.Instance.UpdateTime();
+                ModifierManager.Instance.UpdateModifier();
             }
             //UIClose
             if (Input.GetKeyDown(KeyCode.Escape))

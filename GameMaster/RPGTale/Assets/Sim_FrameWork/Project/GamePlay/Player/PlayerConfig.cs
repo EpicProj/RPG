@@ -47,6 +47,27 @@ namespace Sim_FrameWork.Config
                 }
             }
 
+            for(int i = 0; i < gamePrepareConfig.AIPrepareConfig.Count; i++)
+            {
+                var item = gamePrepareConfig.AIPrepareConfig[i];
+                 for(int j = 0; j < item.levelMax; j++)
+                {
+                    GamePreapre_ConfigItem.ConfigLevelMap mapData = null;
+                    mapData=item.levelMap.Find(x => x.Level == j + 1);
+                    if (mapData == null)
+                    {
+                        DebugPlus.LogError("[GamePrepareConfig] : levelMap Empty!  configName=" + item.configID + " levelID=" + (j + 1).ToString());
+                        result = false;
+                        continue;
+                    }
+                }
+
+                if (item.defaultSelectLevel <= 0 || item.defaultSelectLevel > item.levelMax)
+                {
+                    DebugPlus.LogError("[GamePrepareConfig] : DefaultSelect Error!  configName=" + item.configID);
+                }
+            }
+
             return result;
         }
 
@@ -74,9 +95,20 @@ namespace Sim_FrameWork.Config
         public int OriginalResearch;
         public int OriginalResearchMax;
 
+        public ushort OriginalAIRobot_Maintenance_Max;
+        public ushort OriginalAIRobot_Builder_Max;
+        public ushort OriginalAIRobot_Operator_Max;
         ///初始智核数量
-        public ushort OriginalRoCore;
         public ushort OriginalRoCoreMax;
+
+        public string GamePrepareConfig_PropertyLink_AI_Maintenance;
+        public ushort GamePrepareConfig_AI_Maintenance_Default;
+
+        public string GamePrepareConfig_PropertyLink_AI_Builder;
+        public ushort GamePrepareConfig_AI_Builder_Default;
+
+        public string GamePrepareConfig_PropertyLink_AI_Operator;
+        public ushort GamePrepareConfig_AI_Operator_Default;
 
         /// <summary>
         /// 设置参数关联
@@ -89,12 +121,16 @@ namespace Sim_FrameWork.Config
         public string GamePrepareConfig_PropertyLink_Currency;  //初始资金
         public int GamePrepareConfig_Currency_Default;
 
+        public string GamePrepareConfig_PropertyLink_RoCore;    //初始智核
+        public ushort GamePrepareConfig_RoCore_Default;
+
         public string GamePrepareConfig_PropertyLink_EnemyHardLevel;    //敌人强度
         public double GamePrepareConfig_EnemyHardLevel_Default;
 
         public string GamePrepareConfig_PropertyLink_Research_Coefficient;  //研究系数
         public double GamePrepareConfig_Research_Coefficient_Default;
 
+        public List<GamePreapre_ConfigItem> AIPrepareConfig;
         public List<GamePreapre_ConfigItem> prepareProperty;
     }
 
