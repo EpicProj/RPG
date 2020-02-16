@@ -39,6 +39,7 @@ namespace Sim_FrameWork
             public const string MainMenu_GameLoad_Dialog = "Dialog/Main/GameLoadDialog";
 
             public const string Leader_Detail_Dialog = "Dialog/Leader/LeaderDetailDialog";
+            public const string Leader_Select_Dialog= "Dialog/Leader/LeaderSelectDialog";
             /// <summary>
             /// 生产线选择
             /// </summary>

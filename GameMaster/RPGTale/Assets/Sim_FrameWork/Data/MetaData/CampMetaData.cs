@@ -120,6 +120,8 @@ public class CampData
     public int CreedID { get; set; }
     [XmlAttribute]
     public string LeaderPresetList { get; set; }
+    [XmlAttribute]
+    public string LeaderSelectPresetList { get; set; }
 }
 
 [System.Serializable]

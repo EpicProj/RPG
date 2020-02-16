@@ -134,5 +134,24 @@ namespace Sim_FrameWork
             return result;
         }
 
+        public static List<LeaderInfo> GetCampLeaderSelectPresetList(int campID)
+        {
+            List<LeaderInfo> result = new List<LeaderInfo>();
+            var campData = GetCampDataByKey(campID);
+            if (campData != null)
+            {
+                var leaderIDList = Utility.TryParseIntList(campData.LeaderSelectPresetList, ',');
+                for(int i = 0; i < leaderIDList.Count; i++)
+                {
+                    LeaderInfo info = LeaderInfo.CreateLeaderInfo_Preset(leaderIDList[i]);
+                    if (info != null)
+                    {
+                        result.Add(info);
+                    }
+                }
+            }
+            return result;
+        }
+
     }
 }

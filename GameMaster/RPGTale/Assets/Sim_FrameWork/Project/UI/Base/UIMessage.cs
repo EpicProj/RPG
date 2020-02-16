@@ -58,6 +58,7 @@ namespace Sim_FrameWork
         ///Camp
         CampSelectPage_SelectCamp,
         NewGamePage_UpdateCamp,
+        NewGamePage_RemoveLeader,
 
         ///Order
         RefreshOrder,
@@ -96,6 +97,7 @@ namespace Sim_FrameWork
 
         ///Leader
         LeaderDetail_Story_Select,
-        
+        LeaderSelectPage_RefreshSelect,
+        LeaderPrepare_SelectLeader,
     }
 }

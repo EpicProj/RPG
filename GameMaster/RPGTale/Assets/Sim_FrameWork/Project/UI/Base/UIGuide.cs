@@ -229,5 +229,11 @@ namespace Sim_FrameWork
             UIManager.Instance.Register<UI.LeaderDetailDialog>(UIPath.WindowPath.Leader_Detail_Dialog);
             UIManager.Instance.PopUpWnd(UIPath.WindowPath.Leader_Detail_Dialog, WindowType.Dialog,true,info);
         }
+
+        public void ShowLeaderSelectDialog(int selectCampID)
+        {
+            UIManager.Instance.Register<UI.LeaderSelectDialog>(UIPath.WindowPath.Leader_Select_Dialog);
+            UIManager.Instance.PopUpWnd(UIPath.WindowPath.Leader_Select_Dialog, WindowType.Dialog, true, selectCampID);
+        }
     }
 }

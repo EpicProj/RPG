@@ -177,6 +177,18 @@ namespace Sim_FrameWork
             }
             group.DOFade(targetAlpha, time);
         }
+
+        public static void RemoveListenerAndAddBtnClick(this Button btn,UnityEngine.Events.UnityAction action)
+        {
+            btn.onClick.RemoveAllListeners();
+            btn.onClick.AddListener(action);
+            btn.onClick.AddListener(PlayBtnSound);
+        }
+
+        static void PlayBtnSound()
+        {
+            AudioManager.Instance.PlaySound(AudioClipPath.UISound.Button_Click);
+        }
     }
 
     public class GeneralMaterial

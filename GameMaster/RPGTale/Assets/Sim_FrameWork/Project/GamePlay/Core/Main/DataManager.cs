@@ -1,4 +1,5 @@
 ﻿using Sim_FrameWork.UI;
+using System.Collections.Generic;
 
 namespace Sim_FrameWork {
     public class DataManager : Singleton<DataManager> {
@@ -87,6 +88,36 @@ namespace Sim_FrameWork {
         public void RefreshGamePrepareData()
         {
             gamePrepareData.RefreshData();
+        }
+
+        public List<BaseDataModel> GetCampLeaderSelectModelList(int campID)
+        {
+            List<BaseDataModel> result = new List<BaseDataModel>();
+            var list = CampModule.GetCampLeaderSelectPresetList(campID);
+
+            for(int i = 0; i < gamePrepareData.currentLeaderInfoList.Count; i++)
+            {
+                ///Remove AlreadySelect
+                if (gamePrepareData.currentLeaderInfoList[i].forceSelcet)
+                    continue;
+                for(int j = 0; j < list.Count; j++)
+                {
+                    if(list[j].leaderID== gamePrepareData.currentLeaderInfoList[i].leaderID)
+                    {
+                        list.RemoveAt(j);
+                    }
+                }
+            }
+
+            for (int i = 0; i < list.Count; i++)
+            {
+                LeaderDataModel model = new LeaderDataModel();
+                if (model.CreateLeaderModel(list[i].leaderID))
+                {
+                    result.Add(model);
+                }
+            }
+            return result;
         }
 
         #endregion

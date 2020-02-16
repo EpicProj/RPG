@@ -59,6 +59,7 @@ namespace Sim_FrameWork
             info.leaderName = MultiLanguage.Instance.GetTextValue(meta.LeaderName);
             info.leaderDesc = MultiLanguage.Instance.GetTextValue(meta.LeaderDesc);
             info.currentAge = meta.Age;
+            info.Gender = (byte)meta.Gender;
 
             info.speciesInfo = LeaderSpeciesInfo.InitSpeciesInfo(meta.SpeciesID);
             info.creedInfo = LeaderCreedInfo.InitCreedInfo(meta.CreedID);

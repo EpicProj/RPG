@@ -893,6 +893,8 @@ namespace Sim_FrameWork
     {
         public CampInfo currentCampInfo;
 
+        public List<LeaderInfo> currentLeaderInfoList;
+
         public int hardLevelValue;
 
         public void ChangeHardLevelValue(int value)
@@ -1108,9 +1110,40 @@ namespace Sim_FrameWork
                 };
                 data.prepareAIDataList.Add(propertyData);
             }
-
+            data.currentLeaderInfoList = new List<LeaderInfo>();
             return data;
         }
+
+        /// <summary>
+        /// SelectLeaderInfo
+        /// </summary>
+        /// <param name="selectCampID"></param>
+        public void RefreshSelectLeaderInfo(int selectCampID)
+        {
+            currentLeaderInfoList.Clear();
+            currentLeaderInfoList = CampModule.GetCampDefaultLeaderList(selectCampID);
+        }
+
+        public bool AddSelectLeaderInfo(LeaderInfo info)
+        {
+            if(!currentLeaderInfoList.Contains(info)&& !info.forceSelcet)
+            {
+                currentLeaderInfoList.Add(info);
+                return true;
+            }
+            return false;
+        }
+        public bool RemoveSelectLeaderInfo(LeaderInfo info)
+        {
+            if (currentLeaderInfoList.Contains(info) && !info.forceSelcet)
+            {
+                currentLeaderInfoList.Remove(info);
+                return true;
+            }
+            return false;
+        }
+
+
 
         public void RefreshData()
         {

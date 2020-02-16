@@ -10,6 +10,7 @@ namespace Sim_FrameWork.UI
         private List<LeaderPrepareCard> leaderCardList = new List<LeaderPrepareCard>();
 
         private int currentCampID =-1;
+        bool hasInit = false;
 
         #region Override Method
 
@@ -29,6 +30,16 @@ namespace Sim_FrameWork.UI
                 if (campInfo == null)
                     return false;
                 return UpdateCampPanel(campInfo) && RefreshLeaderPanel(campInfo);
+            }
+            else if(msg.type== UIMsgType.LeaderPrepare_SelectLeader)
+            {
+                LeaderInfo info = (LeaderInfo)msg.content[0];
+                return AddLeader(info);
+            }
+            else if(msg.type== UIMsgType.NewGamePage_RemoveLeader)
+            {
+                LeaderInfo info = (LeaderInfo)msg.content[0];
+                return RemoveLeader(info);
             }
 
             return true;
@@ -68,13 +79,17 @@ namespace Sim_FrameWork.UI
 
         void SetUpCampPanel()
         {
-            var info = GameManager.Instance.GetCampInfoData(Config.ConfigData.GlobalSetting.CampChoosePage_DefaultSelect_CampID);
-            if (info != null)
+            if(!hasInit)
             {
-                currentCampID = info.CampID;
-                UpdateCampPanel(info);
-                RefreshLeaderPanel(info);
+                var info = GameManager.Instance.GetCampInfoData(Config.ConfigData.GlobalSetting.CampChoosePage_DefaultSelect_CampID);
+                if (info != null)
+                {
+                    currentCampID = info.CampID;
+                    UpdateCampPanel(info);
+                    RefreshLeaderPanel(info);
+                }
             }
+            hasInit = true;
         }
 
         bool UpdateCampPanel(CampInfo info)
@@ -100,7 +115,7 @@ namespace Sim_FrameWork.UI
             {
                 attributeTrans.GetChild(i).SafeGetComponent<GeneralInfoItem>().SetUpItem(GeneralInfoItemType.Camp_Attribute, info.attributeInfo[i]);
             }
-
+            currentCampID = info.CampID;
             ///Select Camp
             DataManager.Instance.ChangeSelectCamp(info);
 
@@ -115,6 +130,8 @@ namespace Sim_FrameWork.UI
 
         bool RefreshLeaderPanel(CampInfo info)
         {
+            //UpdateLeaderSelect
+            DataManager.Instance.gamePrepareData.RefreshSelectLeaderInfo(info.CampID);
             leaderCardList.Clear();
             if (info != null)
             {
@@ -124,19 +141,51 @@ namespace Sim_FrameWork.UI
                 for (int i = 0; i < crewList.Count; i++)
                 {
                     var item = trans.GetChild(i).SafeGetComponent<LeaderPrepareCard>();
-                    item.SetUpItem( LeaderPrepareCard.State.Added,crewList[i]);
+                    item.SetUpItem( LeaderPrepareCard.State.ForceSelect, crewList[i]);
                     leaderCardList.Add(item);
                 }
                 ///Init Empty
                 for(int j = crewList.Count; j< Config.GlobalConfigData.GamePrepare_Crew_Leader_Max; j++)
                 {
                     var item = trans.GetChild(j).SafeGetComponent<LeaderPrepareCard>();
-                    item.SetUpItem(LeaderPrepareCard.State.Empty);
+                    item.SetUpItem(LeaderPrepareCard.State.Empty,null,currentCampID);
                     leaderCardList.Add(item);
                 }
                 return true;
             }
             return false;
+        }
+
+        bool AddLeader(LeaderInfo info)
+        {
+            ///Add First
+            bool isFull = true;
+            for(int i = 0; i < leaderCardList.Count; i++)
+            {
+                if(leaderCardList[i].currentState== LeaderPrepareCard.State.Empty)
+                {
+                    leaderCardList[i].SetUpItem(LeaderPrepareCard.State.Select_Prepare, info);
+                    leaderCardList[i].ShowRemoveBtn();
+                    DataManager.Instance.gamePrepareData.AddSelectLeaderInfo(info);
+                    isFull = false;
+                    break;
+                }
+            }
+            return !isFull;
+        }
+
+        bool RemoveLeader(LeaderInfo info)
+        {
+            for(int i = 0; i < leaderCardList.Count; i++)
+            {
+                if(leaderCardList[i].currentState== LeaderPrepareCard.State.Select_Prepare && leaderCardList[i]._info==info)
+                {
+                    leaderCardList[i].SetUpItem(LeaderPrepareCard.State.Empty, null, currentCampID);
+                    DataManager.Instance.gamePrepareData.RemoveSelectLeaderInfo(info);
+                    break;
+                }
+            }
+            return true;
         }
 
         void SetUpGamePreparePanel()
