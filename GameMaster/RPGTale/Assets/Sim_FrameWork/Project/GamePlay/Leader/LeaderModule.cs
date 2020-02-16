@@ -21,6 +21,15 @@ namespace Sim_FrameWork
         private const string Leader_Gender_Female_Text = "Leader_Gender_Female_Text";
         private const string Leader_Gender_None_Text = "Leader_Gender_None_Text";
 
+        private const string Leader_Portrait_BG_Name = "Leader_Portrait_BG_Name";
+        private const string Leader_Portrait_Cloth_Name = "Leader_Portrait_Cloth_Name";
+        private const string Leader_Portrait_Hair_Name = "Leader_Portrait_Hair_Name";
+        private const string Leader_Portrait_Mouth_Name = "Leader_Portrait_Mouth_Name";
+        private const string Leader_Portrait_Ear_Name = "Leader_Portrait_Ear_Name";
+        private const string Leader_Portrait_Eyes_Name = "Leader_Portrait_Eyes_Name";
+        private const string Leader_Portrait_Face_Name = "Leader_Portrait_Face_Name";
+        private const string Leader_Portrait_Nose_Name = "Leader_Portrait_Nose_Name";
+
         public override void InitData()
         {
             var config = ConfigManager.Instance.LoadData<LeaderMetaData>(ConfigPath.TABLE_LEADER_METADATA_PATH);
@@ -146,6 +155,24 @@ namespace Sim_FrameWork
 
         #endregion
 
+        #region Species
+        public static List<LeaderSpeciesInfo> GetAllSpecies()
+        {
+            List<LeaderSpeciesInfo> result = new List<LeaderSpeciesInfo>();
+            foreach (var item in leaderSpeciesDataDic.Keys)
+            {
+                LeaderSpeciesInfo info = LeaderSpeciesInfo.InitSpeciesInfo(item);
+                if (info != null)
+                {
+                    result.Add(info);
+                }
+            }
+            return result;
+        }
+
+
+        #endregion
+
 
         public static List<LeaderSkillInfo> GetLeaderSkillInfoDefault(int leaderID)
         {
@@ -175,6 +202,92 @@ namespace Sim_FrameWork
         }
 
         #region Portrait
+        public static string GetPortraitName(LeaderPortraitType type)
+        {
+            switch (type)
+            {
+                case LeaderPortraitType.Nose:
+                    return MultiLanguage.Instance.GetTextValue(Leader_Portrait_Nose_Name);
+                case LeaderPortraitType.Mouth:
+                    return MultiLanguage.Instance.GetTextValue(Leader_Portrait_Mouth_Name);
+                case LeaderPortraitType.Hair:
+                    return MultiLanguage.Instance.GetTextValue(Leader_Portrait_Hair_Name);
+                case LeaderPortraitType.Face:
+                    return MultiLanguage.Instance.GetTextValue(Leader_Portrait_Face_Name);
+                case LeaderPortraitType.Eyes:
+                    return MultiLanguage.Instance.GetTextValue(Leader_Portrait_Eyes_Name);
+                case LeaderPortraitType.Ear:
+                    return MultiLanguage.Instance.GetTextValue(Leader_Portrait_Ear_Name);
+                case LeaderPortraitType.Cloth:
+                    return MultiLanguage.Instance.GetTextValue(Leader_Portrait_Cloth_Name);
+                case LeaderPortraitType.BG:
+                    return MultiLanguage.Instance.GetTextValue(Leader_Portrait_BG_Name);
+                default:
+                    return string.Empty;
+            }
+        }
+
+        /// <summary>
+        /// 获取符合要求的自定义列表
+        /// </summary>
+        /// <param name="type"></param>
+        /// <param name="speciesID"></param>
+        /// <param name="sexID"></param>
+        /// <returns></returns>
+        public static List<Config.LeaderPortraitItemConfig> GetLeagalPortraitImte(LeaderPortraitType type,int speciesID,int sexID)
+        {
+            var config = Config.ConfigData.LeaderPortraitConfig;
+            if(type == LeaderPortraitType.BG)
+            {
+                var list = config.portrait_bg;
+                LeaderPortraitListFilter(speciesID, sexID, ref list);
+                return list;
+            }
+            else if( type == LeaderPortraitType.Cloth)
+            {
+                var list = config.portrait_cloth;
+                  LeaderPortraitListFilter(speciesID, sexID, ref list);
+                return list;
+            }
+            else if(type == LeaderPortraitType.Ear)
+            {
+                var list = config.portrait_Ear;
+                LeaderPortraitListFilter(speciesID, sexID, ref list);
+                return list;
+            }
+            else if (type == LeaderPortraitType.Eyes)
+            {
+                var list = config.portrait_eyes;
+                LeaderPortraitListFilter(speciesID, sexID, ref list);
+                return list;
+            }
+            else if (type == LeaderPortraitType.Face)
+            {
+                var list = config.portrait_face;
+                LeaderPortraitListFilter(speciesID, sexID, ref list);
+                return list;
+            }
+            else if (type == LeaderPortraitType.Hair)
+            {
+                var list = config.portrait_hair;
+                LeaderPortraitListFilter(speciesID, sexID, ref list);
+                return list;
+            }
+            else if (type == LeaderPortraitType.Mouth)
+            {
+                var list = config.portrait_Mouth;
+                LeaderPortraitListFilter(speciesID, sexID, ref list);
+                return list;
+            }
+            else if (type == LeaderPortraitType.Nose)
+            {
+                var list = config.portrait_Nose;
+                LeaderPortraitListFilter(speciesID, sexID, ref list);
+                return list;
+            }
+
+            return null;
+        }
 
         public static Config.LeaderPortraitItemConfig GetRandomPortraitItem(LeaderPortraitType type,int speciesID,int sexID)
         {

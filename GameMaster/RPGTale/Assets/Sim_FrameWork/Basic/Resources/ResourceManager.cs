@@ -114,7 +114,7 @@ namespace Sim_FrameWork {
         //正在异步加载的Dic
         protected Dictionary<uint, AsyncLoadResParam> m_LoadingAssetDic = new Dictionary<uint, AsyncLoadResParam>();
 
-        //最长连续卡着加载资源的时间，单位微妙
+        //最长连续卡着加载资源的时间，单位微秒
         private const long MAXLOADRESTIME = 200000;
 
         //最大缓存个数
@@ -776,7 +776,7 @@ namespace Sim_FrameWork {
                             obj = LoadAssetByEditor<Object>(loadingItem.m_Path);
                         }
                         //模拟异步加载
-                        yield return new WaitForSeconds(0.5f);
+                        yield return new WaitForEndOfFrame();
 
                         item = AssetBundleManager.Instance.FindResourceItme(loadingItem.m_Crc);
                         if (item == null)

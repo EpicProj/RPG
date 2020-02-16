@@ -99,5 +99,6 @@ namespace Sim_FrameWork
         LeaderDetail_Story_Select,
         LeaderSelectPage_RefreshSelect,
         LeaderPrepare_SelectLeader,
+        LeaderCustom_Refresh_Portrait,
     }
 }

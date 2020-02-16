@@ -157,7 +157,7 @@ namespace Sim_FrameWork
         {
             if (_currentSelectCampID != -1)
             {
-                UIGuide.Instance.ShowLeaderSelectDialog(_currentSelectCampID);
+                UIGuide.Instance.ShowLeaderSelectDialog();
             }
         }
 

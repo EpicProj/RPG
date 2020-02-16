@@ -5,7 +5,7 @@ using UnityEngine.UI;
 
 namespace Sim_FrameWork.UI
 {
-    public partial class LeaderDetailDialog : WindowBase
+    public partial class LeaderDetailDialogContext : WindowBase
     {
         private LeaderInfo _info;
 
@@ -124,7 +124,7 @@ namespace Sim_FrameWork.UI
 
     }
 
-    public partial class LeaderDetailDialog : WindowBase
+    public partial class LeaderDetailDialogContext : WindowBase
     {
         private Text _nameText;
         private Text _speciesText;

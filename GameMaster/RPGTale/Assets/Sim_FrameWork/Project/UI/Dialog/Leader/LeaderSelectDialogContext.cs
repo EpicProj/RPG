@@ -5,23 +5,20 @@ using UnityEngine.UI;
 
 namespace Sim_FrameWork.UI
 {
-    public partial class LeaderSelectDialog : WindowBase
+    public partial class LeaderSelectDialogContext : WindowBase
     {
-        private int currentSelectCampID = -1;
         private LeaderInfo currentSelectLeaderInfo = null;
 
         #region OverrideMethod
         public override void Awake(params object[] paralist)
         {
             base.Awake(paralist);
-            currentSelectCampID = (int)paralist[0];
             AddBtnClick();
         }
 
         public override void OnShow(params object[] paralist)
         {
             base.OnShow(paralist);
-            currentSelectCampID = (int)paralist[0];
             SetUpDialog();
         }
 
@@ -62,7 +59,7 @@ namespace Sim_FrameWork.UI
 
         void SetUpDialog()
         {
-            var list = CampModule.GetCampLeaderSelectPresetList(currentSelectCampID);
+            var list = CampModule.GetCampLeaderSelectPresetList(CampManager.Instance.PreparePage_CurrentSelect_CampID);
             if (list.Count == 0)
                 return;
             ///DefaultSelect
@@ -85,6 +82,7 @@ namespace Sim_FrameWork.UI
 
             SetUpAttribute(info.attributeInfoList);
             SetUpSkill(info.skillInfoList);
+            SetUpStory(info.storyInfoList);
             return true;
         }
 
@@ -114,9 +112,27 @@ namespace Sim_FrameWork.UI
             }
         }
 
+        void SetUpStory(List<LeaderStoryInfo> info)
+        {
+            if (info == null || info.Count == 0)
+                return;
+            var content = Transform.FindTransfrom("Content/Context/Story/Line/Content");
+            content.InitObj(UIPath.PrefabPath.Leader_Select_SotryItem, info.Count);
+            for(int i = 0; i < info.Count; i++)
+            {
+                var trans = content.GetChild(i);
+                trans.FindTransfrom("Year").SafeGetComponent<Text>().text = info[i].year.ToString();
+                trans.FindTransfrom("Content").SafeGetComponent<Text>().text = info[i].storyContent;
+                //Do Anim
+                var canvasGroup = trans.SafeGetComponent<CanvasGroup>();
+                canvasGroup.alpha = 0;
+                canvasGroup.DoCanvasFade(1, 0.8f);
+            }
+        }
+
         void RefreshSelectContent()
         {
-            var modelList = DataManager.Instance.GetCampLeaderSelectModelList(currentSelectCampID);
+            var modelList = DataManager.Instance.GetCampLeaderSelectModelList(CampManager.Instance.PreparePage_CurrentSelect_CampID);
             ///RemoveAlreadySelect
             for(int i = 0; i < DataManager.Instance.gamePrepareData.currentLeaderInfoList.Count;i++)
             {
@@ -129,7 +145,7 @@ namespace Sim_FrameWork.UI
 
     }
 
-    public partial class LeaderSelectDialog : WindowBase
+    public partial class LeaderSelectDialogContext : WindowBase
     {
         private Text _nameText;
         private Text _speciesText;

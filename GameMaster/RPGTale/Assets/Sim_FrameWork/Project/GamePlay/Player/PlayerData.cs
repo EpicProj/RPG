@@ -891,6 +891,7 @@ namespace Sim_FrameWork
     #region GamePrepare
     public class GamePrepareData
     {
+
         public CampInfo currentCampInfo;
 
         public List<LeaderInfo> currentLeaderInfoList;
@@ -1144,7 +1145,6 @@ namespace Sim_FrameWork
         }
 
 
-
         public void RefreshData()
         {
             var config = Config.ConfigData.PlayerConfig.gamePrepareConfig;
@@ -1188,6 +1188,22 @@ namespace Sim_FrameWork
             }
         }
 
+        public void ClearData()
+        {
+            currentCampInfo = null;
+            currentLeaderInfoList = null;
+            hardLevelValue = 0;
+            prepareAIDataList.Clear();
+            prepareAIDataList.Clear();
+            GamePrepare_AI_Maintenance = 0;
+            GamePrepare_AI_Builder = 0;
+            GamePrepare_AI_Operator = 0;
+            GamePrepare_ResourceRichness = 0;
+            GamePrepare_Currency = 0;
+            GamePrepare_EnemyHardLevel = 0;
+            GamePrepare_Research_Coefficient = 0;
+            GamePrepare_RoCore = 0;
+        }
     }
 
     public class GamePreparePropertyData

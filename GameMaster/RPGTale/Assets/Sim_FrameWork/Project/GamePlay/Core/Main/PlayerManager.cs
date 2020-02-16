@@ -2,7 +2,11 @@
 using System.Collections.Generic;
 using UnityEngine;
 using System;
-
+/*
+ * PlayerManager
+ * SOMA
+ * 
+ */
 namespace Sim_FrameWork
 {
     public enum ResourceType

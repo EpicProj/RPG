@@ -112,6 +112,8 @@ namespace Sim_FrameWork
             public const string Assemble_Ship_Build_Page= "Page/Assemble/AssembleShipBuildPage";
 
             public const string Camp_SelectMainPage = "Page/Camp/CampSelectMainPage";
+
+            public const string Leader_Custom_Page = "Page/Leader/LeaderCustomPage";
             #endregion
 
 
@@ -209,7 +211,7 @@ namespace Sim_FrameWork
             public const string Leader_Prepare_Card = "Assets/Prefabs/Object/Leader/LeaderCard_Prepare.prefab";
             public const string Leader_Skill_Item = "Assets/Prefabs/Object/Leader/LeaderSkillItem.prefab";
             public const string Leader_StoryRoot_Item= "Assets/Prefabs/Object/Leader/LeaderStoryRootItem.prefab";
-
+            public const string Leader_Select_SotryItem = "Assets/Prefabs/Object/Leader/LeaderSelect_StoryItem.prefab";
             #endregion
 
         }

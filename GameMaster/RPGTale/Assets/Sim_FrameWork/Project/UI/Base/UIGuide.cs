@@ -226,14 +226,20 @@ namespace Sim_FrameWork
 
         public void ShowLeaderDetailDialog(LeaderInfo info)
         {
-            UIManager.Instance.Register<UI.LeaderDetailDialog>(UIPath.WindowPath.Leader_Detail_Dialog);
+            UIManager.Instance.Register<UI.LeaderDetailDialogContext>(UIPath.WindowPath.Leader_Detail_Dialog);
             UIManager.Instance.PopUpWnd(UIPath.WindowPath.Leader_Detail_Dialog, WindowType.Dialog,true,info);
         }
 
-        public void ShowLeaderSelectDialog(int selectCampID)
+        public void ShowLeaderSelectDialog()
         {
-            UIManager.Instance.Register<UI.LeaderSelectDialog>(UIPath.WindowPath.Leader_Select_Dialog);
-            UIManager.Instance.PopUpWnd(UIPath.WindowPath.Leader_Select_Dialog, WindowType.Dialog, true, selectCampID);
+            UIManager.Instance.Register<UI.LeaderSelectDialogContext>(UIPath.WindowPath.Leader_Select_Dialog);
+            UIManager.Instance.PopUpWnd(UIPath.WindowPath.Leader_Select_Dialog, WindowType.Dialog, true);
+        }
+
+        public void ShowLeaderCustomPage()
+        {
+            UIManager.Instance.Register<UI.LeaderCustomPageContext>(UIPath.WindowPath.Leader_Custom_Page);
+            UIManager.Instance.PopUpWnd(UIPath.WindowPath.Leader_Custom_Page, WindowType.Page);
         }
     }
 }

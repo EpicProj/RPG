@@ -9,7 +9,6 @@ namespace Sim_FrameWork.UI
     {
         private List<LeaderPrepareCard> leaderCardList = new List<LeaderPrepareCard>();
 
-        private int currentCampID =-1;
         bool hasInit = false;
 
         #region Override Method
@@ -84,7 +83,7 @@ namespace Sim_FrameWork.UI
                 var info = GameManager.Instance.GetCampInfoData(Config.ConfigData.GlobalSetting.CampChoosePage_DefaultSelect_CampID);
                 if (info != null)
                 {
-                    currentCampID = info.CampID;
+                    CampManager.Instance.PreparePage_CurrentSelect_CampID = info.CampID;
                     UpdateCampPanel(info);
                     RefreshLeaderPanel(info);
                 }
@@ -115,7 +114,7 @@ namespace Sim_FrameWork.UI
             {
                 attributeTrans.GetChild(i).SafeGetComponent<GeneralInfoItem>().SetUpItem(GeneralInfoItemType.Camp_Attribute, info.attributeInfo[i]);
             }
-            currentCampID = info.CampID;
+            CampManager.Instance.PreparePage_CurrentSelect_CampID = info.CampID;
             ///Select Camp
             DataManager.Instance.ChangeSelectCamp(info);
 
@@ -148,7 +147,7 @@ namespace Sim_FrameWork.UI
                 for(int j = crewList.Count; j< Config.GlobalConfigData.GamePrepare_Crew_Leader_Max; j++)
                 {
                     var item = trans.GetChild(j).SafeGetComponent<LeaderPrepareCard>();
-                    item.SetUpItem(LeaderPrepareCard.State.Empty,null,currentCampID);
+                    item.SetUpItem(LeaderPrepareCard.State.Empty,null, CampManager.Instance.PreparePage_CurrentSelect_CampID);
                     leaderCardList.Add(item);
                 }
                 return true;
@@ -180,7 +179,7 @@ namespace Sim_FrameWork.UI
             {
                 if(leaderCardList[i].currentState== LeaderPrepareCard.State.Select_Prepare && leaderCardList[i]._info==info)
                 {
-                    leaderCardList[i].SetUpItem(LeaderPrepareCard.State.Empty, null, currentCampID);
+                    leaderCardList[i].SetUpItem(LeaderPrepareCard.State.Empty, null, CampManager.Instance.PreparePage_CurrentSelect_CampID);
                     DataManager.Instance.gamePrepareData.RemoveSelectLeaderInfo(info);
                     break;
                 }
